@@ -1,0 +1,43 @@
+'use server';
+
+import { db } from '@/lib/firebase-admin';
+
+export async function fetchMoreNews(lastCreatedAt: string) {
+    // 5 days window, though simpler is just to rely on ordering and limit
+    const timeLimit = new Date();
+    timeLimit.setDate(timeLimit.getDate() - 5);
+
+    try {
+        let query = db.collection('news')
+            .where('created_at', '>=', timeLimit)
+            .orderBy('created_at', 'desc')
+            .startAfter(new Date(lastCreatedAt)) // Firestore admin needs Date object or Timestamp for cursors if the field is a Timestamp
+            .limit(2);
+
+        // Important: When passing a string date from client, we need to convert it back to what Firestore expects.
+        // However, if we stored it as Timestamp, passing a Date object usually works for startAfter if using the Admin SDK.
+        // If not, we might need the actual document snapshot, but startAfter(value) works if we sort by that value.
+
+        // Wait, startAfter takes the field values of the orderBy fields.
+
+        const snapshot = await query.get();
+
+        const news = snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                title: data.title,
+                image: data.image,
+                source: data.source,
+                is_premium: data.is_premium,
+                summary: data.summary,
+                created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+            };
+        }).filter(item => !item.is_premium);
+
+        return news;
+    } catch (error) {
+        console.error("Error fetching more news:", error);
+        return [];
+    }
+}
