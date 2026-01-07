@@ -5,11 +5,7 @@ import { Quote } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const QUOTES = [
-    {
-        text: "O Botafogo vive um momento único em sua história, unindo tradição e modernidade.",
-        author: "John Textor",
-        image: "https://fcflorida.org/assets/0_johntextor.jpg"
-    },
+
     { text: "Foi uma vitória de superação. Esse grupo mostrou mais uma vez que tem garra.", author: "Artur Jorge" },
     { text: "Botafogo, Botafogo, campeão desde 1910.", author: "Hino Oficial" },
     { text: "Não escolhi o Botafogo, fui escolhido.", author: "Torcedor Alvinegro" },
