@@ -14,7 +14,7 @@ const POPUP_MESSAGES = [
     { title: "HOJE TEM", highlight: "FOGÃO!", text: null },
     { title: "DIA DE", highlight: "GLORIOSO", text: "A estrela solitária brilha mais forte hoje." },
     { title: "PRA CIMA", highlight: "DELES!", text: "Honrem a camisa. Joguem por nós." },
-    { title: "A HISTÓRIA", highlight: "CONTINUA", text: "“O Botafogo vive um momento único em sua história, unindo tradição e modernidade.” — John Textor" },
+
     { title: "JUNTOS PELO", highlight: "BOTAFOGO", text: "Ninguém cala esse nosso amor." },
     { title: "LUTAREMOS", highlight: "ATÉ O FIM", text: "O gigante acordou. Hoje é dia de vitória." },
     { title: "SINTA A", highlight: "ENERGIA", text: "Vamos transformar o estádio em um caldeirão!" },

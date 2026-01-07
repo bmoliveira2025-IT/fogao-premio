@@ -60,12 +60,7 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                     })}
 
                     {/* Footer Insert */}
-                    <div className="my-8 p-6 bg-card border-l-2 border-premium-gold rounded-r-xl shadow-lg">
-                        <p className="text-lg font-display font-medium text-foreground italic mb-2">
-                            "O Botafogo vive um momento único em sua história, unindo tradição e modernidade."
-                        </p>
-                        <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">— John Textor</span>
-                    </div>
+
                 </>
             )}
         </div>
