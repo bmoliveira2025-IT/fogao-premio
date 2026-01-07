@@ -31,7 +31,7 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
             <div className="relative p-3 pb-1 lg:p-5 lg:pb-2 flex items-center justify-between z-10">
                 <div className="flex items-center space-x-2 lg:space-x-2.5">
                     <div className="p-1 lg:p-1.5 rounded-full bg-gradient-to-br from-premium-gold to-yellow-600 shadow-lg shadow-premium-gold/20">
-                        <Star className="text-white fill-white" size={10} className="lg:w-3 lg:h-3" />
+                        <Star className="text-white fill-white lg:w-3 lg:h-3" size={10} />
                     </div>
                     <span className="text-[10px] lg:text-xs font-black text-foreground uppercase tracking-[0.2em] drop-shadow-sm">
                         Conteúdo <span className="text-premium-gold">Premium</span>
@@ -84,7 +84,7 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
                 ) : (
                     <div className="text-center py-6 lg:py-8">
                         <div className="inline-block p-2 lg:p-3 rounded-full bg-premium-gold/10 mb-2 animate-pulse">
-                            <Star className="text-premium-gold/50" size={16} className="lg:w-5 lg:h-5" />
+                            <Star className="text-premium-gold/50 lg:w-5 lg:h-5" size={16} />
                         </div>
                         <p className="text-[10px] lg:text-xs text-foreground/50 font-medium">Carregando exclusividades...</p>
                     </div>
