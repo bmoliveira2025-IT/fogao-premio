@@ -209,6 +209,8 @@ def monitor_sources():
             # Strategy for Gazeta Botafogo
             elif "gazetabotafogo.com" in source:
                 links = [a['href'] for a in soup.find_all('a', href=True) if '.html' in a['href'] and '/20' in a['href']][:5]
+                # Fix relative URLs
+                links = [f"https://www.gazetabotafogo.com{l}" if l.startswith('/') else l for l in links]
 
             # Strategy for Bolavip
             elif "bolavip.com" in source:
@@ -222,7 +224,11 @@ def monitor_sources():
 
             # Strategy for Fogo na Rede
             elif "fogonarede.com.br" in source:
-                links = [a['href'] for a in soup.find_all('a', href=True) if '/noticias-do-botafogo/' in a['href'] or '/coluna-do-editor/' in a['href']][:5]
+                links = [a['href'] for a in soup.find_all('a', href=True) 
+                        if ('/noticias-do-botafogo/' in a['href'] or '/coluna-do-editor/' in a['href'])
+                        and '/category/' not in a['href']][:5]
+                # Fix relative URLs
+                links = [f"https://fogonarede.com.br{l}" if l.startswith('/') else l for l in links]
 
         except Exception as e:
             print(f"Error fetching {source}: {e}")
