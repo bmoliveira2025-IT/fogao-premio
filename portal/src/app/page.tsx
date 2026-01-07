@@ -54,7 +54,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
   // Fetch next match
   const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
   // Fetch videos
-  const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(6);
+  const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
   // Fetch premium news
   const premiumRef = db.collection('news').where('is_premium', '==', true).limit(3);
 

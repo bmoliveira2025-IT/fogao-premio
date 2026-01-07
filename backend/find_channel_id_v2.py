@@ -28,7 +28,7 @@ video_url = "https://www.youtube.com/watch?v=k_lGz-7Q5wQ" # Example recent video
 # I will try to fetch the channel page directly using the handle if possible. 
 # Handle: @BotafogoTV
 
-url = "https://www.youtube.com/@BotafogoTV"
+url = "https://www.youtube.com/@getv"
 print(f"Checking {url}...")
 try:
     response = requests.get(url)
@@ -44,7 +44,7 @@ try:
         import re
         match = re.search(r'"channelId":"(UC[\w-]+)"', response.text)
         if match:
-            print(f"Found Channel ID via regex: {match.group(1)}")
+            print(f"FOUND_CHANNEL_ID: {match.group(1)}")
             
 except Exception as e:
     print(f"Error: {e}")

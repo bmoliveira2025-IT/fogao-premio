@@ -279,44 +279,64 @@ def monitor_sources():
                 print(f"Saved: {ai_data['title']}")
 
 def fetch_youtube_videos():
-    # Use Channel ID for reliability
-    url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCFxjZDrLCOCHkUCu632AmMQ"
-    print(f"Fetching YouTube Feed: {url}")
-    
-    try:
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.content, 'xml')
-            entries = soup.find_all('entry')
-            
-            for entry in entries:
-                video_id = entry.find('videoId').text
-                title = entry.find('title').text
-                published = entry.find('published').text
-                link = f"https://www.youtube.com/watch?v={video_id}"
-                thumbnail = f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg"
+    # Channel Configurations
+    channels = [
+        {
+            "id": "UCFxjZDrLCOCHkUCu632AmMQ",
+            "name": "Botafogo TV",
+            "filter": None # No filter, get all videos
+        },
+        {
+            "id": "UCgCKagVhzGnZcuP9bSMgMCg", # ge TV / Globo Esporte
+            "name": "ge TV",
+            "filter": "botafogo" # Only videos with "Botafogo" in title (case-insensitive)
+        }
+    ]
+
+    for channel in channels:
+        url = f"https://www.youtube.com/feeds/videos.xml?channel_id={channel['id']}"
+        print(f"Fetching YouTube Feed for {channel['name']}: {url}")
+        
+        try:
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.content, 'xml')
+                entries = soup.find_all('entry')
                 
-                # Check if exists
-                docs = db.collection('videos').where('video_id', '==', video_id).get()
-                if len(docs) > 0:
-                    continue
-                
-                video_doc = {
-                    "title": title,
-                    "url": link,
-                    "video_id": video_id,
-                    "thumbnail": thumbnail,
-                    "published_at": published,
-                    "source": "Botafogo TV",
-                    "created_at": firestore.SERVER_TIMESTAMP
-                }
-                
-                db.collection('videos').add(video_doc)
-                print(f"Saved Video: {title}")
-                
-    except Exception as e:
-        print(f"Error fetching videos: {e}")
+                for entry in entries:
+                    video_id = entry.find('videoId').text
+                    title = entry.find('title').text
+                    published = entry.find('published').text
+                    link = f"https://www.youtube.com/watch?v={video_id}"
+                    thumbnail = f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg"
+                    
+                    # Apply Filter if exists
+                    if channel['filter']:
+                        if channel['filter'].lower() not in title.lower():
+                            print(f"Skipping video (filter mismatch): {title}")
+                            continue
+
+                    # Check if exists
+                    docs = db.collection('videos').where('video_id', '==', video_id).get()
+                    if len(docs) > 0:
+                        continue
+                    
+                    video_doc = {
+                        "title": title,
+                        "url": link,
+                        "video_id": video_id,
+                        "thumbnail": thumbnail,
+                        "published_at": published,
+                        "source": channel['name'],
+                        "created_at": firestore.SERVER_TIMESTAMP
+                    }
+                    
+                    db.collection('videos').add(video_doc)
+                    print(f"Saved Video ({channel['name']}): {title}")
+                    
+        except Exception as e:
+            print(f"Error fetching videos for {channel['name']}: {e}")
 
 def update_next_match():
     # In a real scenario, this would scrape 'https://api.globoesporte.globo.com/tabela/d1/...'
