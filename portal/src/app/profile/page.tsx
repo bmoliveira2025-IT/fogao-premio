@@ -121,7 +121,31 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        {/* Appearance */}
+                        {/* Audio Preferences */}
+                        <div className="space-y-2">
+                            <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Áudio</h4>
+                            <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg p-4 space-y-4">
+
+                                {/* Speed Control */}
+                                <div className="space-y-2">
+                                    <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Velocidade de Leitura</span>
+                                    <div className="flex bg-black rounded-lg p-1 border border-white/5">
+                                        {[0.5, 1, 1.5, 2].map((s) => (
+                                            <AudioSpeedButton key={s} speed={s} />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Voice Control */}
+                                <div className="space-y-2">
+                                    <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Voz (PT-BR)</span>
+                                    <VoiceSelector />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {/* Appearance (Existing) */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Aparência</h4>
                             <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg h-full">
@@ -197,6 +221,7 @@ export default function ProfilePage() {
     );
 }
 
+
 function ToggleItem({ icon: Icon, label, checked }: { icon: any, label: string, checked: boolean }) {
     const [isOn, setIsOn] = useState(checked);
     return (
@@ -211,3 +236,65 @@ function ToggleItem({ icon: Icon, label, checked }: { icon: any, label: string, 
         </div>
     );
 }
+
+function AudioSpeedButton({ speed }: { speed: number }) {
+    const [currentSpeed, setCurrentSpeed] = useState(1);
+
+    useEffect(() => {
+        const saved = localStorage.getItem('voiceSpeed');
+        if (saved) setCurrentSpeed(parseFloat(saved));
+    }, []);
+
+    const setSpeed = (s: number) => {
+        localStorage.setItem('voiceSpeed', s.toString());
+        setCurrentSpeed(s);
+    };
+
+    return (
+        <button
+            onClick={() => setSpeed(speed)}
+            className={`flex-1 py-1.5 rounded-md text-[10px] font-bold transition-all ${currentSpeed === speed ? 'bg-premium-gold text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
+        >
+            {speed}x
+        </button>
+    );
+}
+
+function VoiceSelector() {
+    const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+    const [selectedVoice, setSelectedVoice] = useState<string>('');
+
+    useEffect(() => {
+        const loadVoices = () => {
+            const available = window.speechSynthesis.getVoices();
+            const ptVoices = available.filter(v => v.lang.includes('pt') || v.lang.includes('PT'));
+            setVoices(ptVoices.length > 0 ? ptVoices : available);
+
+            const saved = localStorage.getItem('voiceName');
+            if (saved) setSelectedVoice(saved);
+        };
+
+        loadVoices();
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }, []);
+
+    const handleSelect = (voiceName: string) => {
+        localStorage.setItem('voiceName', voiceName);
+        setSelectedVoice(voiceName);
+    };
+
+    return (
+        <div className="flex flex-col space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
+            {voices.length > 0 ? voices.map((voice) => (
+                <button
+                    key={voice.name}
+                    onClick={() => handleSelect(voice.name)}
+                    className={`text-left px-3 py-2 rounded-lg text-[10px] font-medium transition-colors border ${selectedVoice === voice.name ? 'bg-white/10 text-premium-gold border-premium-gold/30' : 'border-transparent text-white/50 hover:bg-white/5'}`}
+                >
+                    {voice.name}
+                </button>
+            )) : <p className="text-[10px] text-white/20 italic">Carregando vozes...</p>}
+        </div>
+    );
+}
+

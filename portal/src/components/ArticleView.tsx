@@ -138,14 +138,13 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         <main className="min-h-screen bg-background text-foreground font-sans selection:bg-premium-gold selection:text-black pb-32 transition-colors duration-300">
 
             {/* 1. EDITORIAL HEADER (MOBILE ONLY) */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black border-b border-premium-gold/10 h-14 flex items-center justify-between px-4 transition-all duration-300 shadow-sm">
+            <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 h-14 flex items-center justify-between px-4 transition-all duration-300 shadow-sm">
                 <Link href="/" className="p-2 -ml-2 text-white/70 hover:text-white transition-colors">
                     <ChevronLeft size={24} />
                 </Link>
 
-                <div className="flex flex-col items-center">
-                    <span className="text-sm font-display font-bold text-white tracking-widest uppercase">Notícia</span>
-                    <div className="w-8 h-[2px] bg-premium-gold mt-0.5 rounded-full"></div>
+                <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+                    <span className="text-[10px] font-black text-premium-gold tracking-[0.2em] uppercase drop-shadow-md">Fogão Prêmio</span>
                 </div>
 
                 <div className="flex items-center space-x-1">
