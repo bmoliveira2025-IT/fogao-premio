@@ -4,8 +4,13 @@ import { useEffect, useState } from 'react';
 import { Quote } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const QUOTES = [
+interface QuoteItem {
+    text: string;
+    author: string | null;
+    image?: string;
+}
 
+const QUOTES: QuoteItem[] = [
     { text: "Foi uma vitória de superação. Esse grupo mostrou mais uma vez que tem garra.", author: "Artur Jorge" },
     { text: "Botafogo, Botafogo, campeão desde 1910.", author: "Hino Oficial" },
     { text: "Não escolhi o Botafogo, fui escolhido.", author: "Torcedor Alvinegro" },
