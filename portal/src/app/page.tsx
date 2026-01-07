@@ -1,6 +1,7 @@
 // ... imports ...
 import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
+import PremiumWidget from '@/components/PremiumWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BrandingHeader from '@/components/BrandingHeader';
 import TabBar from '@/components/TabBar';
@@ -255,34 +256,7 @@ export default async function Home() {
             </section>
 
             {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
-            <section className="relative overflow-hidden rounded-xl border border-premium-gold/30 dark:border-premium-gold/10 bg-card shadow-lg lg:hidden">
-              {/* ... Premium content duplicated for Desktop Sidebar below ... */}
-              {/* To avoid huge duplication in this response, I'm keeping the logic here but cleaner */}
-              {/* Ideally we refactor to component, but for now I will render it. */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-premium-gold/10 blur-[50px] rounded-full" />
-              <div className="p-5">
-                <div className="flex items-center space-x-2 mb-3">
-                  <Star className="text-premium-gold fill-premium-gold" size={14} />
-                  <span className="text-[10px] font-black text-foreground uppercase tracking-widest">Conteúdo Premium</span>
-                </div>
-                <div className="space-y-3">
-                  {premiumNews.length > 0 ? premiumNews.map((item) => (
-                    <Link key={item.id} href={`/news/${item.id}`}>
-                      <div className="flex justify-between items-start group cursor-pointer border-b border-foreground/5 dark:border-premium-gold/10 pb-6 mb-4 last:border-0 last:pb-0 last:mb-0">
-                        <div className="flex items-start space-x-4 w-full">
-                          <div className="w-20 h-14 rounded-md bg-premium-gold/5 border border-premium-gold/20 relative overflow-hidden shrink-0 shadow-sm group-hover:shadow-md transition-all group-hover:border-premium-gold/40">
-                            {item.image ? (<Image src={item.image} alt="" fill className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />) : (<div className="w-full h-full flex items-center justify-center"><Star size={16} className="text-premium-gold/50" /></div>)}
-                          </div>
-                          <div className="flex-1 min-w-0 py-0.5">
-                            <h4 className="text-sm font-display font-medium leading-tight text-foreground/90 group-hover:text-premium-gold transition-colors line-clamp-2">{item.title}</h4>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  )) : <div className="text-center py-4 text-xs text-foreground/50">Carregando conteúdos exclusivos...</div>}
-                </div>
-              </div>
-            </section>
+            <PremiumWidget news={premiumNews} className="lg:hidden" />
 
             {/* MOBILE ONLY: News Continuation (4 more) */}
             <section className="mt-4 mb-6 lg:hidden">
@@ -313,39 +287,8 @@ export default async function Home() {
             {/* Desktop: Next Match */}
             <PremiumNextMatch match={nextMatch} />
 
-            {/* Desktop: Premium Block (Re-implementation for sidebar) */}
-            <section className="relative overflow-hidden rounded-xl border border-premium-gold/30 dark:border-premium-gold/10 bg-card shadow-lg">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-premium-gold/10 blur-[50px] rounded-full" />
-              <div className="p-5">
-                <div className="flex items-center space-x-2 mb-3">
-                  <Star className="text-premium-gold fill-premium-gold" size={14} />
-                  <span className="text-[10px] font-black text-foreground uppercase tracking-widest">Conteúdo Premium</span>
-                </div>
-                <div className="space-y-3">
-                  {premiumNews.length > 0 ? premiumNews.map((item) => (
-                    <Link key={item.id} href={`/news/${item.id}`}>
-                      <div className="flex justify-between items-start group cursor-pointer border-b border-foreground/5 dark:border-premium-gold/10 pb-4 mb-3 last:border-0 last:pb-0 last:mb-0">
-                        <div className="flex items-start space-x-3 w-full">
-                          <div className="w-16 h-12 rounded-md bg-premium-gold/5 border border-premium-gold/20 relative overflow-hidden shrink-0 shadow-sm">
-                            {item.image && <Image src={item.image} alt="" fill className="object-cover" />}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-xs font-display font-medium leading-tight text-foreground/90 group-hover:text-premium-gold transition-colors line-clamp-2">{item.title}</h4>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  )) : null}
-                </div>
-                <div className="mt-4 pt-3 border-t border-foreground/10 dark:border-premium-gold/10 text-center">
-                  <Link href="/premium">
-                    <button className="text-[9px] font-bold text-premium-gold uppercase tracking-widest hover:text-foreground transition-colors">
-                      Acessar Área Exclusiva
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </section>
+            {/* Desktop: Premium Block */}
+            <PremiumWidget news={premiumNews} />
 
             <QuoteBanner />
 
