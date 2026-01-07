@@ -44,62 +44,62 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
                 {news.length > 0 ? (
                     news.map((item, index) => (
                         <Link key={item.id} href={`/news/${item.id}`} className="block">
-                            <div @ts-ignore
-                            className="group relative overflow-hidden rounded-xl border border-white/5 dark:border-white/5 bg-white/50 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 hover:border-premium-gold/30 transition-all duration-500 ease-out"
-              >
-                            <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/0 via-premium-gold/0 to-premium-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div
+                                className="group relative overflow-hidden rounded-xl border border-white/5 dark:border-white/5 bg-white/50 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 hover:border-premium-gold/30 transition-all duration-500 ease-out"
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/0 via-premium-gold/0 to-premium-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                            <div className="flex p-3 gap-3">
-                                {/* Image */}
-                                <div className="w-24 h-16 shrink-0 relative rounded-lg overflow-hidden shadow-sm border border-black/5 dark:border-white/5 group-hover:border-premium-gold/30 transition-colors">
-                                    {item.image ? (
-                                        <Image
-                                            src={item.image}
-                                            alt={item.title}
-                                            fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                            sizes="100px"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full bg-premium-gold/10 flex items-center justify-center">
-                                            <Star size={16} className="text-premium-gold/40" />
+                                <div className="flex p-3 gap-3">
+                                    {/* Image */}
+                                    <div className="w-24 h-16 shrink-0 relative rounded-lg overflow-hidden shadow-sm border border-black/5 dark:border-white/5 group-hover:border-premium-gold/30 transition-colors">
+                                        {item.image ? (
+                                            <Image
+                                                src={item.image}
+                                                alt={item.title}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                sizes="100px"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-premium-gold/10 flex items-center justify-center">
+                                                <Star size={16} className="text-premium-gold/40" />
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Text */}
+                                    <div className="flex-1 flex flex-col justify-center min-w-0">
+                                        <h4 className="text-[13px] font-bold leading-tight text-foreground/90 group-hover:text-premium-gold transition-colors line-clamp-2 font-display">
+                                            {item.title}
+                                        </h4>
+                                        <div className="flex items-center mt-2 space-x-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 delay-75">
+                                            <span className="text-[9px] font-bold text-premium-gold uppercase tracking-wider">Ler Agora</span>
+                                            <ChevronRight size={10} className="text-premium-gold" />
                                         </div>
-                                    )}
-                                </div>
-
-                                {/* Text */}
-                                <div className="flex-1 flex flex-col justify-center min-w-0">
-                                    <h4 className="text-[13px] font-bold leading-tight text-foreground/90 group-hover:text-premium-gold transition-colors line-clamp-2 font-display">
-                                        {item.title}
-                                    </h4>
-                                    <div className="flex items-center mt-2 space-x-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 delay-75">
-                                        <span className="text-[9px] font-bold text-premium-gold uppercase tracking-wider">Ler Agora</span>
-                                        <ChevronRight size={10} className="text-premium-gold" />
                                     </div>
                                 </div>
                             </div>
+                        </Link>
+                    ))
+                ) : (
+                    <div className="text-center py-8">
+                        <div className="inline-block p-3 rounded-full bg-premium-gold/10 mb-2 animate-pulse">
+                            <Star className="text-premium-gold/50" size={20} />
                         </div>
-            </Link>
-            ))
-            ) : (
-            <div className="text-center py-8">
-                <div className="inline-block p-3 rounded-full bg-premium-gold/10 mb-2 animate-pulse">
-                    <Star className="text-premium-gold/50" size={20} />
-                </div>
-                <p className="text-xs text-foreground/50 font-medium">Carregando exclusividades...</p>
+                        <p className="text-xs text-foreground/50 font-medium">Carregando exclusividades...</p>
+                    </div>
+                )}
             </div>
-        )}
-        </div>
 
-      {/* Footer / CTA */ }
-    <div className="relative p-4 border-t border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5 backdrop-blur-sm">
-        <Link href="/premium" className="group block">
-            <button className="w-full py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
-                <Lock size={10} className="text-white/80" />
-                <span>Desbloquear Acesso</span>
-            </button>
-        </Link>
-    </div>
-    </section >
-  );
+            {/* Footer / CTA */}
+            <div className="relative p-4 border-t border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5 backdrop-blur-sm">
+                <Link href="/premium" className="group block">
+                    <button className="w-full py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-white text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
+                        <Lock size={10} className="text-white/80" />
+                        <span>Desbloquear Acesso</span>
+                    </button>
+                </Link>
+            </div>
+        </section >
+    );
 }
