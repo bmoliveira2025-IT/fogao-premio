@@ -33,14 +33,28 @@ else:
         sys.exit(1)
 
     # Local Execution: Load from file
+    # Local Execution: Load from file
     cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
-    if not cred_path:
-        # Default to checking local file if env var not set
-        local_cred_path = os.path.join(os.path.dirname(__file__), "service-account.json")
-        if os.path.exists(local_cred_path):
-            cred_path = local_cred_path
-        else:
-             print("Error: SERVICE_ACCOUNT_PATH not set and service-account.json not found.")
+    
+    # Verify if provided path exists, if not, try to find it
+    if not cred_path or not os.path.exists(cred_path):
+        # Common locations to check
+        possible_paths = [
+            os.path.join(os.path.dirname(__file__), "service-account.json"), # Same dir as script
+            os.path.join(os.getcwd(), "backend", "service-account.json"),    # backend subdir
+            os.path.join(os.getcwd(), "service-account.json"),               # root dir
+            "service-account.json"
+        ]
+        
+        found = False
+        for p in possible_paths:
+            if os.path.exists(p):
+                cred_path = p
+                found = True
+                break
+        
+        if not found:
+             print(f"Error: Credentials not found. Checked: {possible_paths}")
              sys.exit(1)
              
     cred = credentials.Certificate(cred_path)
