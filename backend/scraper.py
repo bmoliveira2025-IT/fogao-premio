@@ -461,18 +461,20 @@ def deploy_to_vercel():
         print(f"Error during deployment: {e}")
 
 if __name__ == "__main__":
-    update_next_match()
-    fetch_youtube_videos()
     
     # Check if running in GitHub Actions (or any cloud "single run" environment)
     if os.getenv("GITHUB_ACTIONS") == "true":
         print("Running in Cloud Mode (Single Execution)...")
+        update_next_match()
+        fetch_youtube_videos()
         monitor_sources()
         print("Scraping finished. Exiting.")
     else:
         # Local Loop Mode
         print("Starting continuous monitoring... (Interval: 10 minutes)")
+        update_next_match() # Initial run
         while True:
+            fetch_youtube_videos() # Fetch videos every cycle
             monitor_sources()
             print("Cycle finished. Sleeping for 10 minutes...")
             time.sleep(900)
