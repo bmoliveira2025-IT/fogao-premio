@@ -63,20 +63,33 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         let shareText = article.title;
         if (article.summary) {
             const summaryStr = Array.isArray(article.summary) ? article.summary.join('. ') : article.summary;
-            shareText = summaryStr;
+            // Truncate if too long (some apps fail with long text)
+            shareText = summaryStr.length > 500 ? summaryStr.substring(0, 497) + '...' : summaryStr;
         }
+
+        const shareData = {
+            title: article.title,
+            text: shareText,
+            url: window.location.href,
+        };
 
         // On mobile, try native share first
         if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+            // Check if we can share this data (if API supported)
+            if (navigator.canShare && !navigator.canShare(shareData)) {
+                // If native validation fails, fallback to modal
+                setShowShare(true);
+                return;
+            }
+
             try {
-                await navigator.share({
-                    title: article.title,
-                    text: shareText,
-                    url: window.location.href,
-                });
+                await navigator.share(shareData);
                 return;
             } catch (err) {
-                // If user cancels or error, fall through to modal
+                // If user cancels or error (including AbortError), fall through to modal
+                // Ideally we shouldn't show an error toast here if it's just a cancel,
+                // but if it's a "processing error" from the browser, we interpret it as a failure.
+                console.error("Share failed:", err);
             }
         }
 
