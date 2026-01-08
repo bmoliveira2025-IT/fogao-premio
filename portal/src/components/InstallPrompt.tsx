@@ -58,8 +58,8 @@ export default function InstallPrompt() {
     if (!showPrompt) return null;
 
     return (
-        <div className="fixed inset-x-0 bottom-0 z-50 p-4 md:bottom-auto md:top-0">
-            <div className="bg-zinc-900/95 backdrop-blur-md border border-premium-gold/30 rounded-xl shadow-2xl p-4 md:max-w-md md:mx-auto animate-in slide-in-from-bottom-10 fade-in duration-500">
+        <div className="fixed inset-x-0 top-0 z-[99999] p-4 flex justify-center">
+            <div className="bg-zinc-950/95 backdrop-blur-xl border border-premium-gold/50 rounded-2xl shadow-2xl p-4 w-full max-w-md animate-in slide-in-from-top-full duration-700 shadow-premium-gold/20">
 
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
