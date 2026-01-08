@@ -13,9 +13,9 @@ const config: Config = {
                 foreground: "var(--foreground)",
                 "card-bg": "var(--card-bg)",
                 graphite: "var(--graphite)",
-                "premium-gold": "var(--premium-gold)",
+                "premium-gold": "rgb(var(--premium-gold) / <alpha-value>)",
                 premium: {
-                    gold: "var(--premium-gold)",
+                    gold: "rgb(var(--premium-gold) / <alpha-value>)",
                     dark: "#050505",
                     gray: "#121212",
                     light: "#E5E5E5"

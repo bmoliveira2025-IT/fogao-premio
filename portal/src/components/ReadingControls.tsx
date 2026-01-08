@@ -22,7 +22,7 @@ export default function ReadingControls() {
             <button onClick={toggleContrast} className="p-2 text-white/60 hover:text-premium-gold transition-colors">
                 {isHighContrast ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <div className="w-full h-px bg-white/10" />
+            <div className="w-full h-px bg-premium-gold/20" />
             <button onClick={() => adjustFont(10)} className="p-2 text-white/60 hover:text-white transition-colors">
                 <Plus size={18} />
             </button>

@@ -49,7 +49,7 @@ export default async function ElencoPage() {
     return (
         <main className="min-h-screen bg-background pb-20">
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-foreground/5 shadow-2xl">
+            <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-premium-gold/15 shadow-2xl">
                 <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto">
                     <Link href="/" className="p-2 -ml-2 hover:bg-foreground/5 rounded-full transition-colors group">
                         <ChevronLeft className="text-foreground/70 group-hover:text-premium-gold transition-colors" />
@@ -82,7 +82,7 @@ export default async function ElencoPage() {
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
-                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-card-bg border border-foreground/5 hover:border-premium-gold/40 transition-all duration-300 hover:z-50 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-card-bg border border-premium-gold/15 hover:border-premium-gold/40 transition-all duration-300 hover:z-50 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
                                     >
                                         {/* Image Background */}
                                         <div className="absolute inset-0 bg-graphite">
@@ -121,7 +121,7 @@ export default async function ElencoPage() {
                                             </h3>
 
                                             {/* Full Name Hover */}
-                                            <div className="hidden group-hover:block absolute bottom-6 left-[-10px] right-[-10px] bg-background/95 p-1 text-[9px] text-foreground text-center z-50 rounded border border-foreground/10 shadow-xl whitespace-nowrap">
+                                            <div className="hidden group-hover:block absolute bottom-6 left-[-10px] right-[-10px] bg-background/95 p-1 text-[9px] text-foreground text-center z-50 rounded border border-premium-gold/15 shadow-xl whitespace-nowrap">
                                                 {player.name}
                                             </div>
                                         </div>

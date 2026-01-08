@@ -223,7 +223,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         </div>
 
                         {/* Divider */}
-                        <div className="w-full h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent mb-8"></div>
+                        <div className="w-full h-px bg-gradient-to-r from-transparent via-premium-gold/20 to-transparent mb-8"></div>
 
                         {/* Body Text (Protected by PremiumGuard if needed) */}
                         {article.is_premium ? (

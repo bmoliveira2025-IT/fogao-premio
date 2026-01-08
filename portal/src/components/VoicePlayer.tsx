@@ -129,7 +129,7 @@ export default function VoicePlayer({ text, onClose, onProgress }: VoicePlayerPr
                         {isPlaying ? <Pause size={14} className="fill-white" /> : <Play size={14} className="fill-white ml-0.5" />}
                     </button>
 
-                    <div className="w-px h-6 bg-white/10 mx-1"></div>
+                    <div className="w-px h-6 bg-premium-gold/20 mx-1"></div>
 
                     <button
                         onClick={() => { window.speechSynthesis.cancel(); onClose(); }}
