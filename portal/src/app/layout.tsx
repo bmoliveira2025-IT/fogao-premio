@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import AutoRefresh from "@/components/AutoRefresh";
+import NotificationManager from "@/components/NotificationManager";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://info-sphere-pro.vercel.app'),
@@ -48,6 +49,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <AutoRefresh />
+            <NotificationManager />
             {children}
           </AuthProvider>
         </ThemeProvider>

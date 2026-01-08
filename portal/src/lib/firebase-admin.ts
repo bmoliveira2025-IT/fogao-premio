@@ -1,6 +1,7 @@
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getDatabase } from 'firebase-admin/database';
+import { getMessaging } from 'firebase-admin/messaging';
 import path from 'path';
 
 if (!getApps().length) {
@@ -58,5 +59,6 @@ if (!getApps().length) {
 
 const db = getFirestore();
 const rtdb = getDatabase();
+const messaging = getMessaging();
 
-export { db, rtdb };
+export { db, rtdb, messaging };

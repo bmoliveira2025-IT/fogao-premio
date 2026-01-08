@@ -2,7 +2,7 @@ import os
 import json
 import sys
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, messaging
 from newspaper import Article
 from groq import Groq
 from dotenv import load_dotenv
@@ -293,10 +293,27 @@ def monitor_sources():
                     "created_at": firestore.SERVER_TIMESTAMP
                 }
                 
-                db.collection('news').add(news_doc)
+                update_time, doc_ref = db.collection('news').add(news_doc)
                 print(f"Saved: {ai_data['title']}")
 
-                print(f"Saved: {ai_data['title']}")
+                # Send Push Notification
+                try:
+                    message = messaging.Message(
+                        notification=messaging.Notification(
+                            title="Fogão Prêmio - Nova Notícia",
+                            body=ai_data['title'],
+                            image=raw_data['image'] if raw_data['image'] else None,
+                        ),
+                        data={
+                            'url': f"https://info-sphere-pro.vercel.app/news/{doc_ref.id}",
+                            'click_action': f"https://info-sphere-pro.vercel.app/news/{doc_ref.id}"
+                        },
+                        topic='news'
+                    )
+                    response = messaging.send(message)
+                    print('Successfully sent message:', response)
+                except Exception as e:
+                    print('Error sending message:', e)
 
 def fetch_youtube_videos():
     # Channel Configurations
