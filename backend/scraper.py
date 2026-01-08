@@ -96,13 +96,13 @@ def process_with_ai(original_title, original_content):
     }}
     """
     
-    chat_completion = client.chat.completions.create(
-        messages=[{"role": "user", "content": prompt}],
-        model="llama-3.1-8b-instant",
-        response_format={"type": "json_object"}
-    )
-    
     try:
+        chat_completion = client.chat.completions.create(
+            messages=[{"role": "user", "content": prompt}],
+            model="llama-3.1-8b-instant",
+            response_format={"type": "json_object"}
+        )
+    
         content = chat_completion.choices[0].message.content
         # Basic cleanup to attempt to fix common json issues from LLMs
         content = content.strip()
