@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star, Lock, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useRef } from 'react';
 
 interface NewsItem {
     id: string;
