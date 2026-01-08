@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'www.fogonarede.com.br' },
       { protocol: 'https', hostname: 'a.espncdn.com' },
       { protocol: 'https', hostname: 'secure.espncdn.com' },
+      { protocol: 'https', hostname: 'img.a.transfermarkt.technology' },
     ],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",

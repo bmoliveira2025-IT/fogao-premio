@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Funções auxiliares
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Coleção users: Usuário só acessa seu próprio perfil
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Coleção discover_cache: Usuário só acessa seu próprio cache
+    match /discover_cache/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Coleção news_cache: Leitura pública, Escrita por usuários logados (incluindo anônimos)
+    match /news_cache/{newsId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+
+    // --- NOVAS REGRAS ADICIONADAS ---
+
+    // Notícias (Feed Principal): Leitura pública para todos
+    match /news/{document=**} {
+      allow read: if true;
+    }
+
+    // Elenco: Leitura pública para todos
+    match /squad/{document=**} {
+      allow read: if true;
+    }
+  }
+}

@@ -37,9 +37,23 @@ if not firebase_admin._apps:
 
 db = firestore.client()
 
+def map_position(pos_text):
+    pos_text = pos_text.lower()
+    if 'goleiro' in pos_text:
+        return 'Goleiros', 'G'
+    elif 'zagueiro' in pos_text or 'lateral' in pos_text or 'defensor' in pos_text:
+        return 'Defensores', 'D'
+    elif 'meia' in pos_text or 'volante' in pos_text or 'medio' in pos_text:
+        return 'Meio-Campistas', 'M'
+    elif 'atacante' in pos_text or 'ponta' in pos_text or 'avançado' in pos_text:
+        return 'Atacantes', 'A'
+    return 'Desconhecido', '?'
+
 def scrape_squad():
-    url = "https://www.espn.com.br/futebol/time/elenco/_/id/6086/bra.botafogo"
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+    url = "https://www.transfermarkt.com.br/botafogo-fr-rio-de-janeiro/startseite/verein/537"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
     
     print(f"Fetching squad from {url}...")
     try:
@@ -50,10 +64,10 @@ def scrape_squad():
 
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        sections = soup.find_all('div', class_='Table__Title')
+        table = soup.find('table', class_='items')
         
-        if not sections:
-            print("No sections found.")
+        if not table:
+            print("No table with class 'items' found.")
             return
 
         batch = db.batch()
@@ -64,81 +78,75 @@ def scrape_squad():
         for doc in docs:
             doc.reference.delete()
 
-        for section in sections:
-            position_group = section.get_text().strip()
-            # print(f"Processing '{position_group}'...")
-            
-            table = section.find_next('table')
-            if not table:
-                continue
-            
-            rows = table.find_all('tr')
-            
-            for row in rows:
-                classes = row.get('class', [])
-                
-                # Filter out actual sub-headers or header rows if any
-                if 'Table__sub-header' in classes:
-                     continue
-                
-                # Check directly if it looks like a header (th)
-                if row.find('th'):
-                    continue
+        rows = table.find_all('tr', class_=['odd', 'even'])
+        print(f"Found {len(rows)} player rows. Processing...")
 
-                # Check if it's a data row
-                cols = row.find_all('td')
-                if not cols or len(cols) < 2:
-                    continue
-                        
-                # 1. Name and Image
-                name_col = cols[0]
-                img_tag = name_col.find('img')
-                name_link = name_col.find('a')
+        for row in rows:
+            cols = row.find_all('td')
+            if not cols: continue
+            
+            # Number
+            number_div = row.find('div', class_='rn_nummer')
+            number = number_div.get_text().strip() if number_div else None
+            if number == "-": number = None
+            
+            # Name & Image & Position
+            pos_cell = cols[1]
+            inline_table = pos_cell.find('table', class_='inline-table')
+            
+            name = "Unknown"
+            specific_pos = "Unknown"
+            image_url = None
+            
+            if inline_table:
+                # Image
+                img_tag = inline_table.find('img')
+                if img_tag:
+                    image_url = img_tag.get('data-src') or img_tag.get('src')
+                    name = img_tag.get('title') or img_tag.get('alt')
                 
-                if not name_link:
-                    continue
-                
-                name = name_link.get_text().strip()
-                detail_url = name_link['href']
-                
-                # Image URL
-                image_url = None
-                if img_tag and 'src' in img_tag.attrs:
-                    image_url = img_tag['src']
-                    if "nophoto" in image_url:
-                        image_url = None 
-                
-                # 3. Position (Specific)
-                specific_pos = cols[1].get_text().strip() if len(cols) > 1 else position_group
-                
-                # 4. Age
-                age = cols[2].get_text().strip() if len(cols) > 2 else ""
-                
-                # 5. Nationality
-                country = ""
-                if len(cols) > 5:
-                    country_col = cols[5]
-                    stat_value = country_col.get_text().strip()
-                    country = stat_value
-                
-                # Construct ID
-                player_id = name.lower().replace(' ', '-')
-                
-                player_doc = {
-                    "name": name,
-                    "group": position_group, # Goleiros, Defensores...
-                    "position": specific_pos, # G, Z, LE, LD, M...
-                    "number": None,
-                    "age": age,
-                    "country": country,
-                    "image": image_url,
-                    "espn_url": detail_url
-                }
-                
-                doc_ref = db.collection('squad').document(player_id)
-                batch.set(doc_ref, player_doc)
-                count += 1
-                print(f"  Found: {name} ({specific_pos})")
+                # Position
+                trs = inline_table.find_all('tr')
+                if len(trs) > 1:
+                    specific_pos = trs[1].get_text().strip()
+            
+            if name == "Unknown":
+                continue
+
+            # Grouping
+            group, pos_code = map_position(specific_pos)
+            
+            # Age (col 2 usually)
+            age = cols[2].get_text().strip() if len(cols) > 2 else ""
+            # Some cleaning if age has extra text
+            if "(" in age: age = age.split("(")[0].strip()
+
+            # Nationality
+            country = "Brasil" # Default
+            if len(cols) > 3:
+                flags = cols[3].find_all('img', class_='flaggenrahmen')
+                if flags:
+                    country = flags[0].get('title', 'Brasil')
+
+            # Construct ID
+            player_id = name.lower().replace(' ', '-')
+            
+            player_doc = {
+                "name": name,
+                "group": group, 
+                "position": pos_code, 
+                "specific_position": specific_pos,
+                "number": number,
+                "age": age,
+                "country": country,
+                "image": image_url,
+                "source": "transfermarkt"
+            }
+            
+            doc_ref = db.collection('squad').document(player_id)
+            batch.set(doc_ref, player_doc)
+            count += 1
+            print(f"  Found: {name} ({specific_pos})")
 
         batch.commit()
         print(f"Successfully updated {count} players.")
