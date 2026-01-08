@@ -18,7 +18,7 @@ export default function ReadingControls() {
     };
 
     return (
-        <div className="fixed top-24 right-4 z-50 flex flex-col gap-2 bg-[#121212]/90 backdrop-blur p-2 rounded-full border border-white/10 dark:border-premium-gold/20">
+        <div className="fixed top-24 right-4 z-50 flex flex-col gap-2 bg-[#121212]/90 backdrop-blur p-2 rounded-full border border-premium-gold/15">
             <button onClick={toggleContrast} className="p-2 text-white/60 hover:text-premium-gold transition-colors">
                 {isHighContrast ? <Sun size={18} /> : <Moon size={18} />}
             </button>

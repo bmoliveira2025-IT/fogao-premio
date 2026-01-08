@@ -82,7 +82,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full max-w-sm bg-[#0a0a0a] border border-premium-gold/20 rounded-2xl shadow-2xl overflow-hidden relative"
+                            className="w-full max-w-sm bg-[#0a0a0a] border border-premium-gold/15 rounded-2xl shadow-2xl overflow-hidden relative"
                         >
                             {/* Header */}
                             <div className="p-6 pb-2 flex items-center justify-between">
@@ -110,7 +110,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                                         rel="noopener noreferrer"
                                         className="flex flex-col items-center gap-2 group"
                                     >
-                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${link.name === 'WhatsApp' ? 'bg-[#25D366]' : ''} ${link.name === 'Telegram' ? 'bg-[#0088cc]' : ''} ${link.name === 'Facebook' ? 'bg-[#1877F2]' : ''} ${link.name === 'Twitter' ? 'bg-black border border-white/10' : ''}`}>
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 ${link.name === 'WhatsApp' ? 'bg-[#25D366]' : ''} ${link.name === 'Telegram' ? 'bg-[#0088cc]' : ''} ${link.name === 'Facebook' ? 'bg-[#1877F2]' : ''} ${link.name === 'Twitter' ? 'bg-black border border-premium-gold/15' : ''}`}>
                                             {link.name === 'WhatsApp' ? (
                                                 <WhatsAppIcon />
                                             ) : (
@@ -129,7 +129,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
                                 <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 block">
                                     Link da Notícia
                                 </label>
-                                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2 pr-2">
+                                <div className="flex items-center gap-2 bg-white/5 border border-premium-gold/15 rounded-xl p-2 pr-2">
                                     <div className="flex-1 px-3 text-xs text-white/70 truncate font-mono select-all">
                                         {url}
                                     </div>

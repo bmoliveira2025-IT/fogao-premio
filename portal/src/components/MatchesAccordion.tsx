@@ -45,7 +45,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                 return (
                     <div
                         key={match.id}
-                        className={`rounded-xl border transition-all duration-300 overflow-hidden ${isOpen ? 'bg-[#1A1A1A] border-premium-gold/30 shadow-2xl scale-[1.02]' : 'bg-[#111] border-white/5 dark:border-premium-gold/10'}`}
+                        className={`rounded-xl border transition-all duration-300 overflow-hidden ${isOpen ? 'bg-[#1A1A1A] border-premium-gold/30 shadow-2xl scale-[1.02]' : 'bg-[#111] border-premium-gold/15'}`}
                     >
                         {/* Header (Always Visible) */}
                         <button
@@ -54,7 +54,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                         >
                             <div className="flex items-center space-x-3">
                                 {/* Date Badge */}
-                                <div className={`flex flex-col items-center justify-center w-10 h-10 rounded-lg border ${isOpen ? 'bg-premium-gold text-black border-premium-gold' : 'bg-white/5 border-white/10 text-white/50'}`}>
+                                <div className={`flex flex-col items-center justify-center w-10 h-10 rounded-lg border ${isOpen ? 'bg-premium-gold text-black border-premium-gold' : 'bg-white/5 border-premium-gold/15 text-white/50'}`}>
                                     <span className="text-[9px] font-black uppercase leading-none">{dateString.split(' ')[0]}</span>
                                     <span className="text-[12px] font-black leading-none">{dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()}</span>
                                 </div>
@@ -85,7 +85,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                                 >
-                                    <div className="px-4 pb-5 pt-0 border-t border-white/5 mt-2">
+                                    <div className="px-4 pb-5 pt-0 border-t border-premium-gold/15 mt-2">
                                         <div className="flex justify-between items-center py-4">
                                             {/* Home Logo */}
                                             <div className="flex flex-col items-center w-1/3">

@@ -35,7 +35,7 @@ export default function BotafogoTVCarousel({ videos }: { videos: VideoItem[] }) 
                         <div
                             key={video.id}
                             onClick={() => setSelectedVideo(video)}
-                            className="shrink-0 w-48 aspect-video relative rounded-lg overflow-hidden bg-foreground/5 border border-foreground/10 dark:border-premium-gold/10 group cursor-pointer"
+                            className="shrink-0 w-48 aspect-video relative rounded-lg overflow-hidden bg-foreground/5 border border-premium-gold/15 group cursor-pointer"
                         >
                             <Image
                                 src={video.thumbnail}
@@ -57,7 +57,7 @@ export default function BotafogoTVCarousel({ videos }: { videos: VideoItem[] }) 
                     ))
                 ) : (
                     [1, 2, 3].map((_, i) => (
-                        <div key={i} className="shrink-0 w-48 aspect-video relative rounded-lg overflow-hidden bg-foreground/5 border border-foreground/10 dark:border-premium-gold/10 group">
+                        <div key={i} className="shrink-0 w-48 aspect-video relative rounded-lg overflow-hidden bg-foreground/5 border border-premium-gold/15 group">
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <p className="text-[9px] text-foreground/30">Carregando vídeos...</p>
                             </div>
@@ -69,7 +69,7 @@ export default function BotafogoTVCarousel({ videos }: { videos: VideoItem[] }) 
             {/* Video Modal */}
             {selectedVideo && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-                    <div className="relative w-full max-w-4xl bg-black rounded-xl overflow-hidden shadow-2xl border border-white/10">
+                    <div className="relative w-full max-w-4xl bg-black rounded-xl overflow-hidden shadow-2xl border border-premium-gold/15">
                         {/* Close Button */}
                         <button
                             onClick={() => setSelectedVideo(null)}

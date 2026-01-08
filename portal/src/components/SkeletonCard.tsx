@@ -4,7 +4,7 @@ import { Calendar, ChevronRight, Clock } from 'lucide-react';
 
 export default function SkeletonCard() {
     return (
-        <div className="bg-[#121212] rounded-2xl overflow-hidden mb-6 border border-white/5 dark:border-premium-gold/10 h-[320px] md:h-52 md:flex">
+        <div className="bg-[#121212] rounded-2xl overflow-hidden mb-6 border border-premium-gold/15 h-[320px] md:h-52 md:flex">
             {/* Image Skeleton */}
             <div className="h-48 md:h-full md:w-1/3 shimmer relative" />
 

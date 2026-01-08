@@ -86,7 +86,7 @@ export default function InstallPrompt() {
 
                 <div className="mt-4">
                     {isIOS ? (
-                        <div className="bg-zinc-800/50 rounded-lg p-3 text-xs text-zinc-300 space-y-2 border border-white/5">
+                        <div className="bg-zinc-800/50 rounded-lg p-3 text-xs text-zinc-300 space-y-2 border border-premium-gold/15">
                             <p className="flex items-center gap-2">
                                 1. Toque no botão <Share size={14} className="text-blue-400" /> <strong>Compartilhar</strong> abaixo.
                             </p>

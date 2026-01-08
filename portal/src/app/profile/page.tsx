@@ -47,11 +47,11 @@ export default function ProfilePage() {
 
                 {/* Header Area - Wrapped for Mobile Hiding/Desktop Styling */}
                 <div className="lg:col-span-4">
-                    <div className="pt-8 pb-6 px-6 bg-gradient-to-b from-card to-background border-b border-foreground/5 dark:border-premium-gold/10 lg:rounded-2xl lg:border lg:shadow-lg lg:bg-card">
+                    <div className="pt-8 pb-6 px-6 bg-gradient-to-b from-card to-background border-b border-premium-gold/15 lg:rounded-2xl lg:border lg:shadow-lg lg:bg-card">
                         <h1 className="text-2xl font-display font-black text-foreground mb-6 text-center lg:hidden">Perfil</h1>
 
                         <div className="flex items-center lg:flex-col lg:text-center space-x-4 lg:space-x-0 lg:space-y-4">
-                            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-foreground/10 to-transparent border border-foreground/10 dark:border-premium-gold/10 flex items-center justify-center relative">
+                            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-foreground/10 to-transparent border border-premium-gold/15 flex items-center justify-center relative">
                                 {user?.photoURL ? (
                                     <img src={user.photoURL} alt="Avatar" className="w-full h-full rounded-full object-cover" />
                                 ) : (
@@ -81,7 +81,7 @@ export default function ProfilePage() {
                 <div className="px-5 space-y-6 lg:col-span-8 lg:px-0 lg:space-y-8">
 
                     {/* Subscription Card */}
-                    <div className="relative group overflow-hidden rounded-xl border border-premium-gold/30 bg-card p-5 shadow-lg">
+                    <div className="relative group overflow-hidden rounded-xl border border-premium-gold/15 bg-card p-5 shadow-lg">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/5 blur-[60px] rounded-full pointer-events-none" />
 
                         <div className="relative z-10">
@@ -101,7 +101,7 @@ export default function ProfilePage() {
 
                             <button
                                 onClick={() => isPremium ? setShowSubscriptionModal(true) : null}
-                                className="w-full py-2.5 bg-transparent border border-premium-gold/30 rounded-lg text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all"
+                                className="w-full py-2.5 bg-transparent border border-premium-gold/15 rounded-lg text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all"
                             >
                                 {isPremium ? 'Gerenciar Assinatura' : 'Assinar Agora'}
                             </button>
@@ -114,7 +114,7 @@ export default function ProfilePage() {
                         {/* Preferences */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Conteúdo</h4>
-                            <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg">
+                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
                                 <ToggleItem icon={Smartphone} label="Notícias" checked={true} />
                                 <ToggleItem icon={Volume2} label="Podcasts" checked={false} />
                                 <ToggleItem icon={CreditCard} label="Vídeos Exclusivos" checked={true} />
@@ -124,12 +124,12 @@ export default function ProfilePage() {
                         {/* Audio Preferences */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Áudio</h4>
-                            <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg p-4 space-y-4">
+                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg p-4 space-y-4">
 
                                 {/* Speed Control */}
                                 <div className="space-y-2">
                                     <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Velocidade de Leitura</span>
-                                    <div className="flex bg-black rounded-lg p-1 border border-white/5">
+                                    <div className="flex bg-black rounded-lg p-1 border border-premium-gold/15">
                                         {[0.5, 1, 1.5, 2].map((s) => (
                                             <AudioSpeedButton key={s} speed={s} />
                                         ))}
@@ -148,13 +148,13 @@ export default function ProfilePage() {
                         {/* Appearance (Existing) */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Aparência</h4>
-                            <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg h-full">
-                                <div className="flex items-center justify-between p-4 border-b border-white/10 dark:border-premium-gold/10 last:border-0 h-full">
+                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg h-full">
+                                <div className="flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 h-full">
                                     <div className="flex items-center space-x-3">
                                         <Moon size={18} className="text-white/70" />
                                         <span className="text-sm font-medium text-white/90">Tema</span>
                                     </div>
-                                    <div className="flex bg-black rounded-lg p-0.5 border border-premium-gold/10">
+                                    <div className="flex bg-black rounded-lg p-0.5 border border-premium-gold/15">
                                         <button
                                             onClick={() => theme === 'dark' && toggleTheme()}
                                             className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'light' ? 'bg-white text-black shadow-sm' : 'text-white/40'}`}
@@ -175,7 +175,7 @@ export default function ProfilePage() {
                         {/* Notifications */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Notificações</h4>
-                            <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg">
+                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
                                 <ToggleItem icon={Bell} label="Última Hora" checked={true} />
                                 <ToggleItem icon={Shield} label="Dia de Jogo" checked={true} />
                             </div>
@@ -183,7 +183,7 @@ export default function ProfilePage() {
 
                         {/* Account */}
                         <div className="space-y-2 lg:col-span-2 lg:mt-16">
-                            <div className="bg-[#121212] border border-white/10 rounded-xl overflow-hidden shadow-lg">
+                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
                                 <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left">
                                     <div className="flex items-center space-x-3">
                                         <Settings size={18} className="text-white/70" />
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                 onClose={() => setShowSubscriptionModal(false)}
                 user={user}
             />
-        </main>
+        </main >
     );
 }
 
@@ -225,7 +225,7 @@ export default function ProfilePage() {
 function ToggleItem({ icon: Icon, label, checked }: { icon: any, label: string, checked: boolean }) {
     const [isOn, setIsOn] = useState(checked);
     return (
-        <div className="flex items-center justify-between p-4 border-b border-premium-gold/10 dark:border-premium-gold/10 last:border-0 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setIsOn(!isOn)}>
+        <div className="flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setIsOn(!isOn)}>
             <div className="flex items-center space-x-3">
                 <Icon size={18} className="text-white/70" />
                 <span className="text-sm font-medium text-white/90">{label}</span>

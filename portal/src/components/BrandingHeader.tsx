@@ -88,7 +88,7 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-premium-gold/10 h-16 transition-all duration-300 shadow-2xl">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-premium-gold/15 h-16 transition-all duration-300 shadow-2xl">
             <div className="md:max-w-2xl lg:max-w-4xl max-w-md mx-auto h-full flex items-center justify-between px-5">
 
                 {/* Left: Branding (Logo + Text) */}
@@ -123,9 +123,9 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
                                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    className="absolute top-10 right-0 w-80 bg-zinc-900 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden"
+                                    className="absolute top-10 right-0 w-80 bg-zinc-900 border border-premium-gold/15 rounded-xl shadow-2xl z-50 overflow-hidden"
                                 >
-                                    <div className="p-3 border-b border-white/5 flex justify-between items-center bg-zinc-950/50">
+                                    <div className="p-3 border-b border-premium-gold/15 flex justify-between items-center bg-zinc-950/50">
                                         <span className="text-xs font-bold text-white uppercase tracking-wider">Notificações</span>
                                         <button onClick={() => setShowNotifications(false)} className="text-white/50 hover:text-white"><X size={14} /></button>
                                     </div>
@@ -137,7 +137,7 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
                                                     href={notif.link || '#'}
                                                     key={notif.id}
                                                     onClick={() => notif.link && setShowNotifications(false)}
-                                                    className={`block p-4 border-b border-white/5 hover:bg-white/5 transition-colors ${!notif.link ? 'cursor-default' : ''}`}
+                                                    className={`block p-4 border-b border-premium-gold/15 hover:bg-white/5 transition-colors ${!notif.link ? 'cursor-default' : ''}`}
                                                 >
                                                     <div className="flex items-start space-x-3">
                                                         <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${notif.type === 'MATCH' ? 'bg-green-600/20 text-green-500' : 'bg-premium-gold/20 text-premium-gold'}`}>
@@ -163,7 +163,7 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
                     </AnimatePresence>
 
                     <Link href="/profile">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/10 to-transparent border border-white/10 flex items-center justify-center cursor-pointer hover:border-premium-gold/50 transition-colors group">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/10 to-transparent border border-premium-gold/15 flex items-center justify-center cursor-pointer hover:border-premium-gold/50 transition-colors group">
                             <Settings size={18} className="text-white/80 group-hover:rotate-90 transition-transform duration-500" />
                         </div>
                     </Link>

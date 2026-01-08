@@ -48,13 +48,13 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
 
     return (
         <motion.div
-            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isCompact ? 'bg-[#050505]/90 backdrop-blur-md border-b border-white/5 py-2' : 'relative bg-transparent py-0'}`}
+            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isCompact ? 'bg-[#050505]/90 backdrop-blur-md border-b border-premium-gold/15 py-2' : 'relative bg-transparent py-0'}`}
         >
             <div className={`max-w-2xl mx-auto ${isCompact ? 'px-4 flex items-center justify-between' : 'mb-8'}`}>
 
                 {/* Full Widget Mode */}
                 {!isCompact && (
-                    <div className="bg-[#121212] rounded-[2rem] p-6 relative overflow-hidden border border-white/5 dark:border-premium-gold/15 shadow-2xl group mx-auto">
+                    <div className="bg-[#121212] rounded-[2rem] p-6 relative overflow-hidden border border-premium-gold/15 shadow-2xl group mx-auto">
                         {/* Ambient Glow */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-premium-gold/5 rounded-full blur-[80px]" />
 
@@ -78,7 +78,7 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
                                         {data.home_team_logo ? (
                                             <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain drop-shadow-lg" />
                                         ) : (
-                                            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border border-white/10 shadow-lg">
+                                            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border border-premium-gold/15 shadow-lg">
                                                 <Shield size={32} className="text-white" />
                                             </div>
                                         )}
@@ -96,7 +96,7 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
                                         <span className="text-2xl font-black italic text-premium-gold/20 mb-2 font-display">VS</span>
                                     )}
 
-                                    <div className="px-3 py-1 bg-white/5 rounded-lg border border-white/5">
+                                    <div className="px-3 py-1 bg-white/5 rounded-lg border border-premium-gold/15">
                                         <span className="text-xs font-mono font-bold text-premium-gold">
                                             {data.status === 'live' ? 'AO VIVO' : timeString}
                                         </span>
@@ -109,7 +109,7 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
                                         {data.away_team_logo ? (
                                             <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain drop-shadow-lg" />
                                         ) : (
-                                            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border border-white/10 shadow-lg opacity-60">
+                                            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border border-premium-gold/15 shadow-lg opacity-60">
                                                 <Shield size={32} className="text-white/50" />
                                             </div>
                                         )}
@@ -119,7 +119,7 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
                             </div>
 
                             {/* Location */}
-                            <div className="mt-6 text-center border-t border-white/5 pt-4">
+                            <div className="mt-6 text-center border-t border-premium-gold/15 pt-4">
                                 <p className="text-[10px] uppercase tracking-[0.2em] text-white/40">{data.location}</p>
                             </div>
                         </div>

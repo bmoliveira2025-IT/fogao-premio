@@ -98,7 +98,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     };
 
     const NextMatchWidget = () => nextMatch ? (
-        <div className="mt-8 mb-4 border border-foreground/10 dark:border-premium-gold/10 rounded-xl bg-card overflow-hidden relative shadow-lg">
+        <div className="mt-8 mb-4 border border-premium-gold/15 rounded-xl bg-card overflow-hidden relative shadow-lg">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold/50 to-transparent"></div>
 
             <div className="p-4">
@@ -135,7 +135,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     ) : null;
 
     const RelatedNewsWidget = ({ sidebar = false }: { sidebar?: boolean }) => (relatedNews && relatedNews.length > 0) ? (
-        <section className={`mt-8 ${sidebar ? '' : 'pt-8 border-t border-foreground/10 mb-8'} px-0`}>
+        <section className={`mt-8 ${sidebar ? '' : 'pt-8 border-t border-premium-gold/15 mb-8'} px-0`}>
             <h3 className="text-sm font-black text-premium-gold uppercase tracking-widest mb-6 border-l-4 border-premium-gold pl-3">
                 {sidebar ? 'Mais Notícias' : 'Veja Também'}
             </h3>
@@ -151,7 +151,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         <main className="min-h-screen bg-background text-foreground font-sans selection:bg-premium-gold selection:text-black pb-32 transition-colors duration-300">
 
             {/* 1. EDITORIAL HEADER (MOBILE ONLY) */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 h-14 flex items-center justify-between px-4 transition-all duration-300 shadow-sm">
+            <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-premium-gold/15 h-14 flex items-center justify-between px-4 transition-all duration-300 shadow-sm">
                 <Link href="/" className="p-2 -ml-2 text-white/70 hover:text-white transition-colors">
                     <ChevronLeft size={24} />
                 </Link>

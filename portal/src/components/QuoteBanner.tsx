@@ -43,7 +43,7 @@ export default function QuoteBanner() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
         >
-            <div className="bg-white dark:bg-zinc-900/40 border border-foreground/10 dark:border-white/5 rounded-full pl-1 pr-4 py-1 flex items-center gap-3 w-fit mx-auto shadow-md backdrop-blur-sm transition-colors">
+            <div className="bg-white dark:bg-zinc-900/40 border border-premium-gold/15 rounded-full pl-1 pr-4 py-1 flex items-center gap-3 w-fit mx-auto shadow-md backdrop-blur-sm transition-colors">
 
                 {/* Image or Icon */}
                 {quote.image ? (

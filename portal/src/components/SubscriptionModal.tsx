@@ -41,7 +41,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-zinc-950 border border-premium-gold/20 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]"
+                            className="bg-zinc-950 border border-premium-gold/15 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]"
                         >
                             {/* Close Button */}
                             <button
@@ -57,7 +57,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                                     <span className="text-premium-gold">Membro</span> Confirmado
                                 </h2>
 
-                                <div className="flex bg-black/40 p-1 rounded-xl border border-white/5">
+                                <div className="flex bg-black/40 p-1 rounded-xl border border-premium-gold/15">
                                     <button
                                         onClick={() => setActiveTab('card')}
                                         className={`flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all ${activeTab === 'card' ? 'bg-premium-gold text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
@@ -127,7 +127,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                                     <div className="space-y-6 animate-in slide-in-from-right-4 fade-in duration-300">
 
                                         {/* Plan Status */}
-                                        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-center justify-between">
+                                        <div className="bg-white/5 border border-premium-gold/15 rounded-xl p-4 flex items-center justify-between">
                                             <div>
                                                 <p className="text-xs text-white/40 uppercase tracking-widest font-bold">Plano Atual</p>
                                                 <h3 className="text-lg font-bold text-white mt-0.5">Anual Premium</h3>
@@ -153,9 +153,9 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                                         </div>
 
                                         {/* Payment Method */}
-                                        <div className="border-t border-white/5 pt-4">
+                                        <div className="border-t border-premium-gold/15 pt-4">
                                             <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-3 px-1">Método de Pagamento</h4>
-                                            <div className="flex items-center justify-between bg-black rounded-lg p-3 border border-white/10">
+                                            <div className="flex items-center justify-between bg-black rounded-lg p-3 border border-premium-gold/15">
                                                 <div className="flex items-center gap-3">
                                                     <div className="bg-white/10 p-2 rounded">
                                                         <CreditCard size={16} className="text-white" />
@@ -171,10 +171,10 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
 
                                         {/* Actions */}
                                         <div className="flex gap-3 pt-2">
-                                            <button className="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold text-white transition-colors">
+                                            <button className="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-premium-gold/15 rounded-xl text-xs font-bold text-white transition-colors">
                                                 Histórico
                                             </button>
-                                            <button className="flex-1 py-3 bg-white/5 hover:bg-red-500/10 border border-white/10 hover:border-red-500/30 rounded-xl text-xs font-bold text-white/60 hover:text-red-500 transition-colors">
+                                            <button className="flex-1 py-3 bg-white/5 hover:bg-red-500/10 border border-premium-gold/15 hover:border-red-500/30 rounded-xl text-xs font-bold text-white/60 hover:text-red-500 transition-colors">
                                                 Cancelar
                                             </button>
                                         </div>
@@ -184,7 +184,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                             </div>
 
                             {/* Footer */}
-                            <div className="p-4 border-t border-white/5 bg-zinc-950/50">
+                            <div className="p-4 border-t border-premium-gold/15 bg-zinc-950/50">
                                 <button onClick={onClose} className="w-full py-3 bg-premium-gold hover:bg-premium-gold/90 text-black font-bold uppercase tracking-widest text-xs rounded-xl transition-colors shadow-lg shadow-premium-gold/20">
                                     Fechar
                                 </button>
@@ -200,7 +200,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
 
 function BenefitItem({ text }: { text: string }) {
     return (
-        <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-premium-gold/20 transition-colors">
+        <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-premium-gold/15 hover:border-premium-gold/20 transition-colors">
             <div className="bg-green-500/20 p-1 rounded-full">
                 <Check size={10} className="text-green-500" />
             </div>

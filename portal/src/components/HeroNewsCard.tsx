@@ -37,7 +37,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
 
                 {/* Source & Time */}
                 <div className="flex items-center space-x-3 mb-3">
-                    <div className="flex items-center space-x-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md border border-white/10 dark:border-premium-gold/10">
+                    <div className="flex items-center space-x-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md border border-premium-gold/15">
                         <SourceIcon source={article.source} className="w-4 h-4 rounded-full text-[6px]" />
                         <span className="text-[9px] font-bold text-white uppercase tracking-wider">{article.source || 'FOGÃONET'}</span>
                     </div>
@@ -55,10 +55,10 @@ export default function HeroNewsCard({ article }: { article: any }) {
 
                 {/* Footer Tags */}
                 <div className="flex items-center space-x-2">
-                    <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-white/5 dark:border-premium-gold/10 rounded-md text-[9px] font-bold text-white/50 uppercase tracking-wider">
+                    <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[9px] font-bold text-white/50 uppercase tracking-wider">
                         #BOTAFOGO
                     </span>
-                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm border border-white/5 dark:border-premium-gold/10 rounded-md text-[9px] font-bold text-white/70 uppercase tracking-wider">
+                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[9px] font-bold text-white/70 uppercase tracking-wider">
                         NEUTRO
                     </span>
                 </div>

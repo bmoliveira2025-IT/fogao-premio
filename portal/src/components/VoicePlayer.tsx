@@ -109,7 +109,7 @@ export default function VoicePlayer({ text, onClose, onProgress }: VoicePlayerPr
             exit={{ y: -100, opacity: 0 }}
             className="fixed top-14 left-4 right-4 z-[49] lg:left-1/2 lg:-translate-x-1/2 lg:max-w-md lg:top-24"
         >
-            <div className="bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-xl p-3 shadow-2xl flex items-center justify-between">
+            <div className="bg-zinc-900/90 backdrop-blur-xl border border-premium-gold/15 rounded-xl p-3 shadow-2xl flex items-center justify-between">
 
                 <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full bg-premium-gold flex items-center justify-center shadow-lg shadow-premium-gold/20 animate-pulse-slow">
