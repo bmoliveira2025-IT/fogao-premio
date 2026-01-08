@@ -177,7 +177,8 @@ def monitor_sources():
         "https://www.gazetabotafogo.com/",
         "https://br.bolavip.com/botafogo",
         "https://odia.ig.com.br/esporte/botafogo",
-        "https://fogonarede.com.br/"
+        "https://fogonarede.com.br/",
+        "https://www.espn.com.br/futebol/"
     ]
     
     for source in sources:
@@ -250,6 +251,21 @@ def monitor_sources():
                 # Fix relative URLs
                 links = [f"https://fogonarede.com.br{l}" if l.startswith('/') else l for l in links]
 
+            # Strategy for ESPN
+            elif "espn.com.br" in source:
+                # Find links that contain 'botafogo' in href OR text, and look like articles
+                links = []
+                for a in soup.find_all('a', href=True):
+                    href = a['href']
+                    text = a.get_text().lower()
+                    if '/artigo/' in href or '/futebol/time/' in href: # broad check first
+                        if 'botafogo' in href.lower() or 'botafogo' in text:
+                            links.append(href)
+                
+                links = links[:5]
+                # Fix relative URLs
+                links = [f"https://www.espn.com.br{l}" if l.startswith('/') else l for l in links]
+
         except Exception as e:
             print(f"Error fetching {source}: {e}")
             continue
@@ -280,6 +296,7 @@ def monitor_sources():
                 elif "bolavip.com" in link: source_name = "Bolavip"
                 elif "odia.ig.com.br" in link: source_name = "O Dia"
                 elif "fogonarede.com.br" in link: source_name = "Fogo na Rede"
+                elif "espn.com.br" in link: source_name = "ESPN"
 
                 news_doc = {
                     "title": ai_data['title'],
@@ -435,8 +452,8 @@ if __name__ == "__main__":
         print("Scraping finished. Exiting.")
     else:
         # Local Loop Mode
-        print("Starting continuous monitoring... (Interval: 15 minutes)")
+        print("Starting continuous monitoring... (Interval: 10 minutes)")
         while True:
             monitor_sources()
-            print("Cycle finished. Sleeping for 15 minutes...")
+            print("Cycle finished. Sleeping for 10 minutes...")
             time.sleep(900)
