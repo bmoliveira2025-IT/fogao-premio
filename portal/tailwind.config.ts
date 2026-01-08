@@ -11,8 +11,11 @@ const config: Config = {
             colors: {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
+                "card-bg": "var(--card-bg)",
+                graphite: "var(--graphite)",
+                "premium-gold": "var(--premium-gold)",
                 premium: {
-                    gold: "#D4AF37",
+                    gold: "var(--premium-gold)",
                     dark: "#050505",
                     gray: "#121212",
                     light: "#E5E5E5"

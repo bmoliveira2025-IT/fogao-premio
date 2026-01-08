@@ -47,14 +47,14 @@ export default async function ElencoPage() {
     }, {} as Record<string, Player[]>);
 
     return (
-        <main className="min-h-screen bg-neutral-950 pb-20">
+        <main className="min-h-screen bg-background pb-20">
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-neutral-950/90 backdrop-blur-md border-b border-white/5 shadow-2xl">
+            <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-foreground/5 shadow-2xl">
                 <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto">
-                    <Link href="/" className="p-2 -ml-2 hover:bg-white/5 rounded-full transition-colors group">
-                        <ChevronLeft className="text-white/70 group-hover:text-premium-gold transition-colors" />
+                    <Link href="/" className="p-2 -ml-2 hover:bg-foreground/5 rounded-full transition-colors group">
+                        <ChevronLeft className="text-foreground/70 group-hover:text-premium-gold transition-colors" />
                     </Link>
-                    <h1 className="text-lg font-black uppercase tracking-wider text-white">
+                    <h1 className="text-lg font-black uppercase tracking-wider text-foreground">
                         Elenco <span className="text-premium-gold">2026</span>
                     </h1>
                     <div className="w-10" /> {/* Spacer */}
@@ -72,7 +72,7 @@ export default async function ElencoPage() {
                         <section key={posCode} className="space-y-3">
                             <div className="flex items-center gap-3 mb-4 px-1">
                                 <div className="h-5 w-1 bg-premium-gold rounded-full shadow-[0_0_15px_rgba(255,215,0,0.6)]" />
-                                <h2 className="text-base sm:text-lg font-black text-white uppercase tracking-widest">
+                                <h2 className="text-base sm:text-lg font-black text-foreground uppercase tracking-widest">
                                     {groupTitle}
                                 </h2>
                             </div>
@@ -82,10 +82,10 @@ export default async function ElencoPage() {
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
-                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-neutral-900 border border-white/5 hover:border-premium-gold/40 transition-all duration-300 hover:z-50 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-card-bg border border-foreground/5 hover:border-premium-gold/40 transition-all duration-300 hover:z-50 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
                                     >
                                         {/* Image Background */}
-                                        <div className="absolute inset-0 bg-neutral-800">
+                                        <div className="absolute inset-0 bg-graphite">
                                             {player.image ? (
                                                 <Image
                                                     src={player.image}
@@ -96,7 +96,7 @@ export default async function ElencoPage() {
                                                     priority={false}
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center text-white/5">
+                                                <div className="absolute inset-0 flex items-center justify-center text-foreground/5">
                                                     <Shield size={24} strokeWidth={1} />
                                                 </div>
                                             )}
@@ -121,7 +121,7 @@ export default async function ElencoPage() {
                                             </h3>
 
                                             {/* Full Name Hover */}
-                                            <div className="hidden group-hover:block absolute bottom-6 left-[-10px] right-[-10px] bg-black/95 p-1 text-[9px] text-white text-center z-50 rounded border border-white/10 shadow-xl whitespace-nowrap">
+                                            <div className="hidden group-hover:block absolute bottom-6 left-[-10px] right-[-10px] bg-background/95 p-1 text-[9px] text-foreground text-center z-50 rounded border border-foreground/10 shadow-xl whitespace-nowrap">
                                                 {player.name}
                                             </div>
                                         </div>
