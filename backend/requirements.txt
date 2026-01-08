@@ -6,5 +6,5 @@ groq
 beautifulsoup4
 python-dotenv
 requests
-lxml
+lxml<5.2.0
 lxml_html_clean
