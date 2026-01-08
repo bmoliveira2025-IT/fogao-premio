@@ -6,7 +6,7 @@ import CompactNewsRow from '@/components/CompactNewsRow';
 import BrandingHeader from '@/components/BrandingHeader';
 import TabBar from '@/components/TabBar';
 import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
-import { Star, ChevronRight, Play } from 'lucide-react';
+import { Star, ChevronRight, Play, Users } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import MatchDayPopup from '@/components/MatchDayPopup';
@@ -258,6 +258,26 @@ export default async function Home() {
             {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
             <PremiumWidget news={premiumNews} className="lg:hidden" />
 
+            {/* SQUAD LINK - MOBILE */}
+            <Link href="/elenco" className="block mt-4 -mb-2 lg:hidden group">
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-neutral-900 to-black border border-white/10 hover:border-premium-gold/50 transition-all p-4 flex items-center justify-between shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
+                    <Users size={18} />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
+                      Elenco 2026
+                    </h4>
+                    <p className="text-[9px] text-white/50 font-medium tracking-wide">
+                      Conheça os jogadores atualizados
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="text-white/30 group-hover:text-premium-gold transition-colors" size={16} />
+              </div>
+            </Link>
+
             {/* MOBILE ONLY: News Continuation (4 more) */}
             <section className="mt-4 mb-6 lg:hidden">
               <div className="space-y-1">
@@ -289,6 +309,26 @@ export default async function Home() {
 
             {/* Desktop: Premium Block */}
             <PremiumWidget news={premiumNews} />
+
+            {/* Desktop: Squad Link */}
+            <Link href="/elenco" className="block group">
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-neutral-900 to-black border border-white/10 hover:border-premium-gold/50 transition-all p-5 flex items-center justify-between shadow-lg group-hover:shadow-premium-gold/5">
+                <div className="flex items-center gap-4">
+                  <div className="p-2.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
+                    <Users size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
+                      Elenco 2026
+                    </h4>
+                    <p className="text-[10px] text-white/50 font-medium tracking-wide">
+                      Confira o plantel completo
+                    </p>
+                  </div>
+                </div>
+                <ChevronRight className="text-white/30 group-hover:text-premium-gold transition-colors" size={18} />
+              </div>
+            </Link>
 
             <QuoteBanner />
 
