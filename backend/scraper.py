@@ -178,7 +178,7 @@ def monitor_sources():
         "https://br.bolavip.com/botafogo",
         "https://odia.ig.com.br/esporte/botafogo",
         "https://fogonarede.com.br/",
-        "https://www.espn.com.br/futebol/"
+        "https://www.espn.com.br/futebol/time/_/id/6086/botafogo"
     ]
     
     for source in sources:
