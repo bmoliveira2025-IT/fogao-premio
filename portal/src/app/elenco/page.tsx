@@ -125,12 +125,7 @@ export default async function ElencoPage() {
                                                 {player.name}
                                             </div>
 
-                                            {/* Metadata Row */}
-                                            <div className="flex items-center gap-1 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                                                <span className="text-[8px] text-white/80 font-medium">
-                                                    {player.age} anos
-                                                </span>
-                                            </div>
+
                                         </div>
                                     </div>
                                 ))}
