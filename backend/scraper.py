@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
 import time
+from datetime import datetime, timezone, timedelta
 
 # Load environment variables
 load_dotenv()
@@ -431,6 +432,128 @@ def update_next_match():
     # Update or create the 'next_match' document
     db.collection('matches').document('next_match').set(match_data)
     print("Match data updated in Firestore.")
+
+def map_position(pos_text):
+    pos_text = pos_text.lower()
+    if 'goleiro' in pos_text:
+        return 'Goleiros', 'G'
+    elif 'zagueiro' in pos_text or 'lateral' in pos_text or 'defensor' in pos_text:
+        return 'Defensores', 'D'
+    elif 'meia' in pos_text or 'volante' in pos_text or 'medio' in pos_text:
+        return 'Meio-Campistas', 'M'
+    elif 'atacante' in pos_text or 'ponta' in pos_text or 'avançado' in pos_text:
+        return 'Atacantes', 'A'
+    return 'Desconhecido', '?'
+
+def scrape_squad():
+    url = "https://www.transfermarkt.com.br/botafogo-fr-rio-de-janeiro/startseite/verein/537"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    
+    print(f"Fetching squad from {url}...")
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            print(f"Failed to fetch content: {response.status_code}")
+            return
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+        table = soup.find('table', class_='items')
+        
+        if not table:
+            print("No table with class 'items' found.")
+            return
+
+        batch = db.batch()
+        count = 0
+        
+        # We don't clear the whole collection to avoid flicker, 
+        # but in this specific script's original logic it did. 
+        # I'll keep the "update" logic but using batch for efficiency.
+        
+        rows = table.find_all('tr', class_=['odd', 'even'])
+        print(f"Found {len(rows)} player rows. Processing...")
+
+        for row in rows:
+            cols = row.find_all('td')
+            if not cols: continue
+            
+            number_div = row.find('div', class_='rn_nummer')
+            number = number_div.get_text().strip() if number_div else None
+            if number == "-": number = None
+            
+            pos_cell = cols[1]
+            inline_table = pos_cell.find('table', class_='inline-table')
+            
+            name = "Unknown"
+            specific_pos = "Unknown"
+            image_url = None
+            
+            if inline_table:
+                img_tag = inline_table.find('img')
+                if img_tag:
+                    image_url = img_tag.get('data-src') or img_tag.get('src')
+                    name = img_tag.get('title') or img_tag.get('alt')
+                
+                trs = inline_table.find_all('tr')
+                if len(trs) > 1:
+                    specific_pos = trs[1].get_text().strip()
+            
+            if name == "Unknown": continue
+
+            group, pos_code = map_position(specific_pos)
+            age = cols[2].get_text().strip() if len(cols) > 2 else ""
+            if "(" in age: age = age.split("(")[0].strip()
+
+            country = "Brasil"
+            if len(cols) > 3:
+                flags = cols[3].find_all('img', class_='flaggenrahmen')
+                if flags:
+                    country = flags[0].get('title', 'Brasil')
+
+            player_id = name.lower().replace(' ', '-')
+            
+            player_doc = {
+                "name": name,
+                "group": group, 
+                "position": pos_code, 
+                "specific_position": specific_pos,
+                "number": number,
+                "age": age,
+                "country": country,
+                "image": image_url,
+                "source": "transfermarkt",
+                "updated_at": firestore.SERVER_TIMESTAMP
+            }
+            
+            doc_ref = db.collection('squad').document(player_id)
+            batch.set(doc_ref, player_doc)
+            count += 1
+
+        batch.commit()
+        
+        # Update metadata for next run
+        db.collection('config').document('scraper_state').set({
+            "last_squad_update": firestore.SERVER_TIMESTAMP
+        }, merge=True)
+        
+        print(f"Successfully updated {count} players.")
+
+    except Exception as e:
+        print(f"Error scraping squad: {e}")
+
+def should_update_squad():
+    doc = db.collection('config').document('scraper_state').get()
+    if not doc.exists: return True
+    
+    last_update = doc.to_dict().get('last_squad_update')
+    if not last_update: return True
+    
+    # last_update is a datetime object
+    now = datetime.now(timezone.utc)
+    delta = now - last_update
+    return delta.total_seconds() > 82800 # 23 hours (giving a 1h buffer)
     
 import subprocess
 
@@ -468,6 +591,13 @@ if __name__ == "__main__":
         update_next_match()
         fetch_youtube_videos()
         monitor_sources()
+        
+        if should_update_squad():
+            print("Updating Squad (24h period reached)...")
+            scrape_squad()
+        else:
+            print("Skipping Squad update (already updated today).")
+            
         print("Scraping finished. Exiting.")
     else:
         # Local Loop Mode
@@ -476,5 +606,10 @@ if __name__ == "__main__":
         while True:
             fetch_youtube_videos() # Fetch videos every cycle
             monitor_sources()
+            
+            if should_update_squad():
+                print("Updating Squad (24h period reached)...")
+                scrape_squad()
+                
             print("Cycle finished. Sleeping for 10 minutes...")
-            time.sleep(900)
+            time.sleep(600)
