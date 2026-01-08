@@ -61,7 +61,7 @@ export default async function ElencoPage() {
                 </div>
             </header>
 
-            <div className="max-w-7xl mx-auto px-2 sm:px-4 py-6 space-y-10">
+            <div className="max-w-7xl mx-auto px-2 sm:px-4 py-6 space-y-8">
                 {ORDER.map(posCode => {
                     const groupTitle = POSITION_MAP[posCode];
                     const groupPlayers = groupedPlayers[posCode];
@@ -77,12 +77,12 @@ export default async function ElencoPage() {
                                 </h2>
                             </div>
 
-                            {/* ULTRA COMPACT GRID: 4 cols mobile, 5 sm, 7 lg, 8 xl */}
-                            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-2">
+                            {/* EXTREME COMPACT GRID: 5 cols mobile, 6 sm, 7 md, 8 lg, 9 xl */}
+                            <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-9 gap-1.5">
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
-                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-neutral-900 border border-white/5 hover:border-premium-gold/40 transition-all duration-300 hover:z-10 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-neutral-900 border border-white/5 hover:border-premium-gold/40 transition-all duration-300 hover:z-50 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,0,0,0.8)]"
                                     >
                                         {/* Image Background */}
                                         <div className="absolute inset-0 bg-neutral-800">
@@ -92,40 +92,38 @@ export default async function ElencoPage() {
                                                     alt={player.name}
                                                     fill
                                                     className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
-                                                    sizes="(max-width: 768px) 25vw, 15vw"
+                                                    sizes="(max-width: 768px) 20vw, 10vw"
                                                     priority={false}
                                                 />
                                             ) : (
                                                 <div className="absolute inset-0 flex items-center justify-center text-white/5">
-                                                    <Shield size={32} strokeWidth={1} />
+                                                    <Shield size={24} strokeWidth={1} />
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Gradient Overlay */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
 
-                                        {/* Number Badge (Very Small) */}
+                                        {/* Number Badge (Micro) */}
                                         {player.number && (
-                                            <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-premium-gold/90 flex items-center justify-center text-black font-black text-[8px] shadow-sm backdrop-blur-sm">
+                                            <div className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-premium-gold/90 flex items-center justify-center text-black font-black text-[7px] shadow-sm backdrop-blur-sm">
                                                 {player.number}
                                             </div>
                                         )}
 
                                         {/* Content Overlay (Bottom) */}
-                                        <div className="absolute bottom-0 inset-x-0 p-2 pt-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col justify-end">
+                                        <div className="absolute bottom-0 inset-x-0 p-1.5 pt-4 bg-gradient-to-t from-black via-black/60 to-transparent flex flex-col justify-end">
 
                                             {/* Name */}
-                                            <h3 className="text-white text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-tight mb-0 group-hover:text-premium-gold transition-colors truncate">
-                                                {player.name.split(' ')[0]} {player.name.split(' ').length > 1 ? player.name.split(' ')[1][0] + '.' : ''}
+                                            <h3 className="text-white text-[9px] sm:text-[10px] font-bold leading-none uppercase tracking-tight mb-0 group-hover:text-premium-gold transition-colors truncate text-center">
+                                                {player.name.split(' ')[0]}
                                             </h3>
 
-                                            {/* Full Name on Hover Tooltip (Simulated) */}
-                                            <div className="hidden group-hover:block absolute bottom-8 left-0 right-0 bg-black/90 p-1 text-[9px] text-white text-center z-20 rounded border border-white/10 mx-1 shadow-xl">
+                                            {/* Full Name Hover */}
+                                            <div className="hidden group-hover:block absolute bottom-6 left-[-10px] right-[-10px] bg-black/95 p-1 text-[9px] text-white text-center z-50 rounded border border-white/10 shadow-xl whitespace-nowrap">
                                                 {player.name}
                                             </div>
-
-
                                         </div>
                                     </div>
                                 ))}
