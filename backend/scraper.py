@@ -7,6 +7,7 @@ from newspaper import Article
 from groq import Groq
 from dotenv import load_dotenv
 import requests
+import re
 from bs4 import BeautifulSoup
 import time
 from datetime import datetime, timezone, timedelta
@@ -67,6 +68,29 @@ db = firestore.client()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 # ... (rest of imports/functions unchanged until main) ...
+
+def clean_text(text):
+    if not text:
+        return ""
+    
+    # Remove common ad noise patterns (case insensitive)
+    noise_patterns = [
+        r'continua após a publicidade',
+        r'continua depois da publicidade',
+        r'leia mais:.*',
+        r'confira também:.*',
+        r'veja também:.*',
+        r'publicidade',
+        r'anúncio',
+    ]
+    
+    cleaned = text
+    for pattern in noise_patterns:
+        cleaned = re.sub(pattern, '', cleaned, flags=re.IGNORECASE)
+    
+    # Remove multiple spaces/newlines
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
 
 # NOTE: The rest of the file content (functions) remains the same until main block. 
 # Since this tool requires replacing contiguous blocks, and I need to update imports AND main, 
@@ -143,7 +167,7 @@ def scrape_news(url):
 
         return {
             "title": article.title,
-            "content": article.text,
+            "content": clean_text(article.text),
             "image": image,
             "url": url,
             "publish_date": article.publish_date.isoformat() if article.publish_date else None
@@ -175,7 +199,7 @@ def scrape_news(url):
                 if title and text:
                      return {
                         "title": title,
-                        "content": text,
+                        "content": clean_text(text),
                         "image": image,
                         "url": url,
                         "publish_date": None
