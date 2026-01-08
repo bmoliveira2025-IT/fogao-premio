@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Star, Lock, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useRef } from 'react';
 
 interface NewsItem {
     id: string;
@@ -25,7 +26,6 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
         )}>
             {/* Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-premium-gold/5 dark:from-black/40 dark:to-premium-gold/10" />
-            <div className="absolute top-0 right-0 w-48 h-48 bg-premium-gold/10 blur-[60px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
 
             {/* Header */}
             <div className="relative p-3 pb-1 lg:p-5 lg:pb-2 flex items-center justify-between z-10">
@@ -37,69 +37,84 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
                         Conteúdo <span className="text-premium-gold">Premium</span>
                     </span>
                 </div>
+
+                {/* Visual Indicator of swipe (mobile) */}
+                <div className="lg:hidden flex gap-1">
+                    {[0, 1, 2].map(i => (
+                        <div key={i} className="w-1 h-1 rounded-full bg-premium-gold/30 first:bg-premium-gold" />
+                    ))}
+                </div>
             </div>
 
-            {/* Content */}
-            <div className="relative p-3 pt-1 lg:p-5 lg:pt-3 space-y-2 lg:space-y-4 z-10">
+            {/* Content - Carousel */}
+            <div className="relative z-10">
                 {news.length > 0 ? (
-                    news.map((item, index) => (
-                        <Link key={item.id} href={`/news/${item.id}`} className="block">
-                            <div
-                                className="group relative overflow-hidden rounded-lg lg:rounded-xl border border-white/5 dark:border-white/5 bg-white/50 dark:bg-black/20 hover:bg-white dark:hover:bg-black/40 hover:border-premium-gold/30 transition-all duration-500 ease-out"
+                    <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide py-3 px-3 lg:px-5 gap-3 lg:grid lg:grid-cols-1 lg:gap-4 lg:overflow-visible">
+                        {news.map((item, index) => (
+                            <Link
+                                key={item.id}
+                                href={`/news/${item.id}`}
+                                className="block min-w-[85%] lg:min-w-0 flex-shrink-0 snap-center"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/0 via-premium-gold/0 to-premium-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="group relative h-40 lg:h-20 overflow-hidden rounded-xl border border-white/5 bg-black/40 hover:border-premium-gold/50 transition-all duration-500">
+                                    {/* Background Image (Full for mobile carousel feel) */}
+                                    {item.image ? (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.title}
+                                            fill
+                                            className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
+                                        />
+                                    ) : (
+                                        <div className="absolute inset-0 bg-zinc-900" />
+                                    )}
 
-                                <div className="flex p-2 gap-2 lg:p-3 lg:gap-3">
-                                    {/* Image */}
-                                    <div className="w-16 h-12 lg:w-24 lg:h-16 shrink-0 relative rounded-md lg:rounded-lg overflow-hidden shadow-sm border border-black/5 dark:border-white/5 group-hover:border-premium-gold/30 transition-colors">
-                                        {item.image ? (
-                                            <Image
-                                                src={item.image}
-                                                alt={item.title}
-                                                fill
-                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                                sizes="(max-width: 768px) 64px, 96px"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full bg-premium-gold/10 flex items-center justify-center">
-                                                <Star size={12} className="text-premium-gold/40 lg:w-4 lg:h-4" />
-                                            </div>
-                                        )}
-                                    </div>
+                                    {/* Gradient Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent lg:bg-gradient-to-r lg:from-black/80 lg:via-black/40 lg:to-transparent" />
 
-                                    {/* Text */}
-                                    <div className="flex-1 flex flex-col justify-center min-w-0">
-                                        <h4 className="text-xs lg:text-[13px] font-bold leading-tight text-foreground/90 group-hover:text-premium-gold transition-colors line-clamp-2 font-display">
-                                            {item.title}
-                                        </h4>
-                                        <div className="hidden lg:flex items-center mt-2 space-x-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 delay-75">
-                                            <span className="text-[9px] font-bold text-premium-gold uppercase tracking-wider">Ler Agora</span>
-                                            <ChevronRight size={10} className="text-premium-gold" />
+                                    {/* Content Overlay */}
+                                    <div className="absolute inset-0 p-4 flex flex-col justify-end lg:flex-row lg:items-center lg:justify-between">
+                                        <div className="max-w-[90%]">
+                                            <span className="inline-block px-1.5 py-0.5 mb-2 rounded bg-premium-gold/20 backdrop-blur-md border border-premium-gold/30 text-[8px] font-bold text-premium-gold uppercase tracking-wider">
+                                                Exclusivo
+                                            </span>
+                                            <h4 className="text-sm font-bold leading-tight text-white group-hover:text-premium-gold transition-colors line-clamp-2 drop-shadow-lg">
+                                                {item.title}
+                                            </h4>
+                                        </div>
+
+                                        <div className="hidden lg:flex shrink-0 w-8 h-8 rounded-full bg-white/5 border border-white/10 items-center justify-center group-hover:bg-premium-gold group-hover:text-black transition-all">
+                                            <ChevronRight size={14} />
                                         </div>
                                     </div>
+
+                                    {/* Mobile Lock Icon watermark */}
+                                    <div className="absolute top-2 right-2 text-white/10 lg:hidden">
+                                        <Lock size={16} />
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                    ))
+                            </Link>
+                        ))}
+                    </div>
                 ) : (
-                    <div className="text-center py-6 lg:py-8">
-                        <div className="inline-block p-2 lg:p-3 rounded-full bg-premium-gold/10 mb-2 animate-pulse">
-                            <Star className="text-premium-gold/50 lg:w-5 lg:h-5" size={16} />
+                    <div className="text-center py-10">
+                        <div className="inline-block p-2 rounded-full bg-premium-gold/10 mb-2 animate-pulse">
+                            <Star className="text-premium-gold/50" size={16} />
                         </div>
-                        <p className="text-[10px] lg:text-xs text-foreground/50 font-medium">Carregando exclusividades...</p>
+                        <p className="text-[10px] text-foreground/50">Carregando...</p>
                     </div>
                 )}
             </div>
 
             {/* Footer / CTA */}
-            <div className="relative p-3 lg:p-4 border-t border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5 backdrop-blur-sm">
+            <div className="relative p-3 lg:p-4 border-t border-white/5 bg-white/5 backdrop-blur-sm">
                 <Link href="/premium" className="group block">
-                    <button className="w-full py-2 lg:py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-white text-[9px] lg:text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
-                        <Lock size={10} className="text-white/80" />
+                    <button className="w-full py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-black text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
+                        <Lock size={12} className="text-black/70" />
                         <span>Desbloquear Acesso</span>
                     </button>
                 </Link>
             </div>
-        </section >
+        </section>
     );
 }
