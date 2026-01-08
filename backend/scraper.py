@@ -121,10 +121,15 @@ def scrape_news(url):
         article.download()
         article.parse()
         
+        # Custom extraction for better image accuracy (prioritize og:image)
+        soup = BeautifulSoup(article.html, 'html.parser')
+        og_image = soup.find('meta', property='og:image')
+        image = og_image['content'] if og_image else article.top_image
+
         return {
             "title": article.title,
             "content": article.text,
-            "image": article.top_image,
+            "image": image,
             "url": url,
             "publish_date": article.publish_date.isoformat() if article.publish_date else None
         }
