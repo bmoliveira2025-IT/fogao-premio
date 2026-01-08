@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase-admin';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, Shield, User } from 'lucide-react';
+import { ChevronLeft, Shield } from 'lucide-react';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -49,10 +49,10 @@ export default async function ElencoPage() {
     return (
         <main className="min-h-screen bg-neutral-950 pb-20">
             {/* Header */}
-            <header className="sticky top-0 z-40 bg-neutral-950/80 backdrop-blur-md border-b border-white/5">
-                <div className="flex items-center justify-between px-4 py-4 max-w-lg mx-auto">
-                    <Link href="/" className="p-2 -ml-2 hover:bg-white/5 rounded-full transition-colors">
-                        <ChevronLeft className="text-white" />
+            <header className="sticky top-0 z-40 bg-neutral-950/90 backdrop-blur-md border-b border-white/5 shadow-2xl">
+                <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto">
+                    <Link href="/" className="p-2 -ml-2 hover:bg-white/5 rounded-full transition-colors group">
+                        <ChevronLeft className="text-white/70 group-hover:text-premium-gold transition-colors" />
                     </Link>
                     <h1 className="text-lg font-black uppercase tracking-wider text-white">
                         Elenco <span className="text-premium-gold">2026</span>
@@ -61,7 +61,7 @@ export default async function ElencoPage() {
                 </div>
             </header>
 
-            <div className="max-w-4xl mx-auto px-4 py-6 space-y-12">
+            <div className="max-w-7xl mx-auto px-2 sm:px-4 py-6 space-y-10">
                 {ORDER.map(posCode => {
                     const groupTitle = POSITION_MAP[posCode];
                     const groupPlayers = groupedPlayers[posCode];
@@ -69,57 +69,68 @@ export default async function ElencoPage() {
                     if (!groupPlayers || groupPlayers.length === 0) return null;
 
                     return (
-                        <section key={posCode} className="space-y-4">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="h-8 w-1 bg-premium-gold rounded-full shadow-[0_0_10px_rgba(255,215,0,0.5)]" />
-                                <h2 className="text-xl font-bold text-white uppercase tracking-wide">
+                        <section key={posCode} className="space-y-3">
+                            <div className="flex items-center gap-3 mb-4 px-1">
+                                <div className="h-5 w-1 bg-premium-gold rounded-full shadow-[0_0_15px_rgba(255,215,0,0.6)]" />
+                                <h2 className="text-base sm:text-lg font-black text-white uppercase tracking-widest">
                                     {groupTitle}
                                 </h2>
                             </div>
 
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {/* ULTRA COMPACT GRID: 4 cols mobile, 5 sm, 7 lg, 8 xl */}
+                            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-2">
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
-                                        className="group relative overflow-hidden rounded-xl bg-neutral-900 border border-white/5 hover:border-premium-gold/30 transition-all duration-300 hover:-translate-y-1"
+                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-neutral-900 border border-white/5 hover:border-premium-gold/40 transition-all duration-300 hover:z-10 hover:scale-105 hover:shadow-[0_0_20px_rgba(0,0,0,0.8)]"
                                     >
-                                        <div className="aspect-[3/4] relative overflow-hidden bg-gradient-to-b from-neutral-800 to-neutral-950">
+                                        {/* Image Background */}
+                                        <div className="absolute inset-0 bg-neutral-800">
                                             {player.image ? (
                                                 <Image
                                                     src={player.image}
                                                     alt={player.name}
                                                     fill
-                                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                                    sizes="(max-width: 768px) 50vw, 33vw"
+                                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                                                    sizes="(max-width: 768px) 25vw, 15vw"
+                                                    priority={false}
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center text-white/10">
-                                                    <Shield size={64} strokeWidth={1} />
+                                                <div className="absolute inset-0 flex items-center justify-center text-white/5">
+                                                    <Shield size={32} strokeWidth={1} />
                                                 </div>
                                             )}
-
-                                            {/* Overlay Gradient */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
-
-                                            {/* Number Badge (Hypothetical if we had it) */}
-                                            {/* <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-premium-gold/90 flex items-center justify-center text-black font-black text-xs shadow-lg">
-                                                {player.number}
-                                            </div> */}
                                         </div>
 
-                                        <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black via-black/80 to-transparent">
-                                            <div className="flex items-center gap-2 mb-1">
-                                                {/* Country Flag could go here if we had a mapping */}
-                                                <span className="text-[10px] font-bold text-premium-gold/80 px-1.5 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/20 uppercase">
-                                                    {player.country || 'BRA'}
-                                                </span>
-                                                <span className="text-[10px] text-white/60 font-medium">
+                                        {/* Gradient Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+
+                                        {/* Number Badge (Very Small) */}
+                                        {player.number && (
+                                            <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-premium-gold/90 flex items-center justify-center text-black font-black text-[8px] shadow-sm backdrop-blur-sm">
+                                                {player.number}
+                                            </div>
+                                        )}
+
+                                        {/* Content Overlay (Bottom) */}
+                                        <div className="absolute bottom-0 inset-x-0 p-2 pt-6 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col justify-end">
+
+                                            {/* Name */}
+                                            <h3 className="text-white text-[10px] sm:text-xs font-bold leading-tight uppercase tracking-tight mb-0 group-hover:text-premium-gold transition-colors truncate">
+                                                {player.name.split(' ')[0]} {player.name.split(' ').length > 1 ? player.name.split(' ')[1][0] + '.' : ''}
+                                            </h3>
+
+                                            {/* Full Name on Hover Tooltip (Simulated) */}
+                                            <div className="hidden group-hover:block absolute bottom-8 left-0 right-0 bg-black/90 p-1 text-[9px] text-white text-center z-20 rounded border border-white/10 mx-1 shadow-xl">
+                                                {player.name}
+                                            </div>
+
+                                            {/* Metadata Row */}
+                                            <div className="flex items-center gap-1 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                <span className="text-[8px] text-white/80 font-medium">
                                                     {player.age} anos
                                                 </span>
                                             </div>
-                                            <h3 className="text-white font-bold leading-tight group-hover:text-premium-gold transition-colors">
-                                                {player.name}
-                                            </h3>
                                         </div>
                                     </div>
                                 ))}
