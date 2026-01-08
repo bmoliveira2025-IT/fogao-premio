@@ -29,6 +29,11 @@ export const metadata: Metadata = {
     site: '@FogaoPremio',
     creator: '@FogaoPremio',
   },
+  icons: {
+    icon: '/icon.png',
+    apple: '/apple-icon.png',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
