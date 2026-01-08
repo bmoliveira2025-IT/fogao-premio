@@ -57,25 +57,29 @@ export default function NotificationManager() {
             // I will assume the default one or user needs to add it later.
             // Actually, for it to work reliably, we usually need a VAPID key. 
             // I'll leave it empty. Cloud Messaging often works with just messagingSenderId.
+            // NOTE: Para funcionar, você PRECISA da VAPID KEY do Firebase Console:
+            // Configurações do Projeto -> Cloud Messaging -> Web Push certificates
             const currentToken = await getToken(messaging, {
-                vapidKey: 'BMD3_d2Xj80aQy-I2f6c0q3_W2f7v2_d0Xj2_f2Xj80aQy-I2f6c0q3_W2f7v2' // Placeholder or remove if not needed? 
-                // Better: Use the one from project settings. I don't have it.
-                // Let's rely on standard "no vapid key" fallback which uses the default project one if configured, 
-                // OR warn user. A VAPID key is public, so I can put one if I had it.
-                // I will try to fetch without vapidKey first.
+                vapidKey: 'L8WId3EFmoOAZVaGAA2XtYlE1HOgX11x2Lbj8gb4fPQ'
             });
 
             if (currentToken) {
-                console.log('FCM Token:', currentToken);
+                console.log('✅ FCM Token Gerado:', currentToken);
                 // Send to our backend to subscribe to 'news' topic
-                await fetch('/api/notifications/subscribe', {
+                const response = await fetch('/api/notifications/subscribe', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token: currentToken }),
                 });
-                alert("Notificações ativadas com sucesso! Você receberá alertas das principais notícias.");
+
+                if (response.ok) {
+                    alert("✅ Notificações ativadas com sucesso! Você receberá alertas das principais notícias.");
+                    setPermission('granted');
+                } else {
+                    console.error('Falha ao enviar token para o servidor');
+                }
             } else {
-                console.log('No registration token available. Request permission to generate one.');
+                console.warn('Nenhum token FCM disponível. Verifique as permissões.');
             }
         } catch (err) {
             console.log('An error occurred while retrieving token. ', err);
