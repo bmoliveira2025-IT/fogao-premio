@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 import firebase_admin
 from firebase_admin import credentials, firestore
 from newspaper import Article
@@ -18,11 +19,30 @@ cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
 firebase_creds_json = os.getenv("FIREBASE_CREDENTIALS_JSON")
 
 if firebase_creds_json:
-    cred_dict = json.loads(firebase_creds_json)
-    cred = credentials.Certificate(cred_dict)
+    try:
+        cred_dict = json.loads(firebase_creds_json)
+        cred = credentials.Certificate(cred_dict)
+    except json.JSONDecodeError as e:
+        print(f"Error parsing FIREBASE_CREDENTIALS_JSON: {e}")
+        sys.exit(1)
 else:
+    # Check if running in GitHub Actions without credentials
+    if os.getenv("GITHUB_ACTIONS") == "true":
+        print("CRITICAL ERROR: FIREBASE_CREDENTIALS_JSON secret is missing in GitHub Actions.")
+        print("Please add the 'FIREBASE_CREDENTIALS_JSON' secret to your repository.")
+        sys.exit(1)
+
     # Local Execution: Load from file
     cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
+    if not cred_path:
+        # Default to checking local file if env var not set
+        local_cred_path = os.path.join(os.path.dirname(__file__), "service-account.json")
+        if os.path.exists(local_cred_path):
+            cred_path = local_cred_path
+        else:
+             print("Error: SERVICE_ACCOUNT_PATH not set and service-account.json not found.")
+             sys.exit(1)
+             
     cred = credentials.Certificate(cred_path)
 
 firebase_admin.initialize_app(cred)
