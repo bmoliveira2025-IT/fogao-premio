@@ -30,7 +30,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 
     return (
         <section className={cn(
-            "relative overflow-hidden rounded-none md:rounded-2xl border-y md:border border-white/5 bg-zinc-950/80 shadow-2xl w-[calc(100%+2rem)] -ml-4 md:w-auto md:ml-0 md:mx-0",
+            "relative overflow-hidden rounded-none md:rounded-2xl border-b md:border border-white/5 bg-zinc-950/80 shadow-2xl w-[calc(100%+2rem)] -ml-4 md:w-auto md:ml-0 md:mx-0",
             className
         )}>
             {/* Ambient Background */}
