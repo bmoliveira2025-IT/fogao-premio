@@ -674,7 +674,7 @@ def generate_daily_briefing():
     Atue como Editor-Chefe do Fogão Prêmio.
     Analise as notícias abaixo (do dia anterior) e crie um "Resumo do Dia" (Daily Briefing) altamente curado.
     
-    Sua missão é selecionar as TOP 3 histórias mais importantes e gerar um resumo executivo.
+    Sua missão é selecionar as TOP 5 histórias mais importantes e gerar um resumo executivo.
 
     Notícias Disponíveis (Use o ID para referência):
     {articles_text[:12000]} 
@@ -682,7 +682,7 @@ def generate_daily_briefing():
     Retorne APENAS um JSON válido com esta estrutura:
     {{
         "date": "{today_str}",
-        "general_summary": "Um parágrafo curto e direto resumindo o clima geral do dia no Botafogo.",
+        "general_summary": "A rich, engaging editorial summary of the day's events (max 400 chars). Use **double asterisks** to bold key players or entities.",
         "top_stories": [
             {{
                 "rank": 1,

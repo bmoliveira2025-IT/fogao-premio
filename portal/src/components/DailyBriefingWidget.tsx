@@ -155,10 +155,12 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
                 </div>
 
                 {/* General Summary Footer */}
-                <div className="p-5 bg-black/40 border-t border-white/5">
-                    <p className="text-xs text-white/70 leading-relaxed italic text-center">
-                        {formatPremiumText(briefing.general_summary)}
-                    </p>
+                <div className="bg-black/40 border-t border-white/5 p-6">
+                    <div className="border-l-2 border-premium-gold pl-4 py-1">
+                        <p className="text-sm md:text-base text-white/90 leading-relaxed font-medium">
+                            {formatPremiumText(briefing.general_summary)}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

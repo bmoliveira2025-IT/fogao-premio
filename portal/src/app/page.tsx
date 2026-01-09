@@ -190,7 +190,7 @@ export default async function Home() {
       {/* The user said "above the highlight". In mobile, highlight is usually top. */}
       {/* Let's put it inside the container but at the very top */}
 
-      <div className="container mx-auto pt-20 px-4 lg:pt-28 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-12 lg:gap-12">
+      <div className="container mx-auto pt-14 px-4 lg:pt-28 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-12 lg:gap-12">
 
         {/* --- DAILY BRIEFING WIDGET (MOBILE ONLY - Top of Feed) --- */}
         <div className="lg:hidden">
@@ -203,7 +203,7 @@ export default async function Home() {
 
             {/* 2. HERO SECTION */}
             {heroNews && (
-              <div className="relative h-[60vh] lg:h-[500px] w-full overflow-hidden mb-6 group cursor-pointer lg:rounded-2xl lg:shadow-2xl">
+              <div className="relative h-[60vh] lg:h-[500px] w-auto lg:w-full overflow-hidden mb-6 group cursor-pointer lg:rounded-2xl lg:shadow-2xl -mx-4 lg:mx-0">
                 <Link href={`/news/${heroNews.id}`}>
                   <img
                     src={heroNews.image || 'https://via.placeholder.com/800x1200'}
