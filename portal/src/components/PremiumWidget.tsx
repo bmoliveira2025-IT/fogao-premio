@@ -105,12 +105,49 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                                         <div className="min-w-0">
                                             <h4 className="text-xs font-bold text-zinc-300 group-hover:text-white transition-colors line-clamp-2 leading-snug">
                                                 {item.title}
+                        </div>
+                    </div>
+                    <h2 className="text-xl font-extrabold text-white drop-shadow-lg leading-tight mb-2">
+                        {featured.title}
+                    </h2>
+                    <p className="text-xs text-zinc-300 drop-shadow-md line-clamp-2">
+                        {featured.summary}
+                    </p>
+                </div>
+                        </Link>
+
+                        {/* Other Premium Articles */}
+                        <div className="p-4 pt-0">
+                            <h3 className="text-xs font-bold text-premium-gold uppercase tracking-widest mb-6 flex items-center gap-2 relative z-10">
+                                <div className="w-1 h-4 bg-premium-gold rounded-full shadow-[0_0_10px_#D4AF37]" />
+                                Conteúdo Premium
+                            </h3>
+
+                            <div className="space-y-4 relative z-10">
+                                {others.map(item => (
+                                    <Link
+                                        key={item.id}
+                                        href={`/news/${item.id}`}
+                                        className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border hover:bg-white/10 hover:border-premium-gold/30 transition-all group/item"
+                                        style={{ borderColor: 'var(--border-color)' }}
+                                    >
+                                        <div className="relative w-16 h-12 rounded bg-zinc-900 overflow-hidden shrink-0 border border-white/10 group-hover:border-premium-gold/30 transition-colors">
+                                            <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                            {/* Mini Lock for List Items too? */}
+                                            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                                <Lock size={10} className="text-premium-gold/80" />
+                                            </div>
+                                        </div>
+                                        <div className="min-w-0">
+                                            <h4 className="text-xs font-bold text-zinc-300 group-hover:text-white transition-colors line-clamp-2 leading-snug">
+                                                {item.title}
                                             </h4>
                                         </div>
                                     </Link>
                                 ))}
                             </div>
+                        </div>
 
-                        </section>
-                        );
+                    </section>
+                    );
 }
