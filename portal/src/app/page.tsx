@@ -209,23 +209,34 @@ export default async function Home() {
                 {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
                 <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
 
-                {/* Elenco Link */}
-                <Link href="/elenco" className="block mb-0 group">
-                  <div className="relative overflow-hidden rounded-none bg-gradient-to-r from-card-bg to-background border-y border-premium-gold/15 hover:border-premium-gold/50 transition-all p-4 flex items-center justify-between shadow-lg -mx-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
-                        <Users size={18} />
+                {/* SQUAD LINK - MOBILE */}
+                <Link href="/elenco" className="block mt-8 -mb-2 lg:hidden group relative">
+                  <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 border-y md:border border-premium-gold/15 hover:border-premium-gold/50 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
+
+                    {/* Background Image - Players */}
+                    <div className="absolute inset-0 z-0 opacity-20">
+                      <img
+                        src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1000&auto=format&fit=crop"
+                        alt="Background"
+                        className="w-full h-full object-cover grayscale"
+                      />
+                      <div className="absolute inset-0 bg-zinc-900/80 mix-blend-multiply" />
+                    </div>
+
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div className="p-2.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20 backdrop-blur-sm">
+                        <Users size={20} />
                       </div>
                       <div>
-                        <h4 className="text-xs font-black text-foreground uppercase tracking-widest group-hover:text-premium-gold transition-colors">
+                        <h4 className="text-sm font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors drop-shadow-md">
                           Elenco 2026
                         </h4>
-                        <p className="text-[9px] text-foreground/50 font-medium tracking-wide">
+                        <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
                           Conheça os jogadores atualizados
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="text-foreground/30 group-hover:text-premium-gold transition-colors" size={16} />
+                    <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={18} />
                   </div>
                 </Link>
               </div>
