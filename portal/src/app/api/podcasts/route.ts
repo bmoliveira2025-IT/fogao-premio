@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const limitParam = searchParams.get('limit');
-        const limit = limitParam ? parseInt(limitParam) : 5;
+        const limit = limitParam ? parseInt(limitParam) : 8;
 
         const response = await fetch(FEED_URL, { next: { revalidate: 3600 } }); // Cache for 1 hour
         const xmlText = await response.text();
