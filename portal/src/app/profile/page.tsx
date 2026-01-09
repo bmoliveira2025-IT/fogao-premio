@@ -11,26 +11,19 @@ import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useTheme } from '@/components/ThemeProvider';
-import SubscriptionModal from '@/components/SubscriptionModal';
+import { useAuth } from '@/context/AuthContext';
 
 export default function ProfilePage() {
     const router = useRouter();
-    const [user, setUser] = useState<any>(null);
-    const [isPremium, setIsPremium] = useState(true); // Mock status
+    const { user, isPremium } = useAuth(); // Use real auth context
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const { theme, toggleTheme } = useTheme();
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((u) => {
-            if (u) {
-                setUser(u);
-            } else {
-                // Redirect if not logged in (optional, or show guest view)
-                // router.push('/login');
-            }
-        });
-        return () => unsubscribe();
-    }, [router]);
+        if (!user) {
+            // Optional: Handle redirect if needed, but AuthContext handles initial load
+        }
+    }, [user, router]);
 
     const handleLogout = async () => {
         await signOut(auth);
@@ -67,12 +60,22 @@ export default function ProfilePage() {
                             <div>
                                 <h2 className="text-lg lg:text-xl font-bold text-foreground">{user?.displayName || 'Torcedor Alvinegro'}</h2>
                                 <p className="text-xs text-foreground/40">{user?.email || 'Convidado'}</p>
-                                <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/20">
-                                    <Star size={10} className="text-premium-gold fill-premium-gold" />
-                                    <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider">
-                                        {isPremium ? 'Membro Premium' : 'Conta Gratuita'}
-                                    </span>
-                                </div>
+
+                                {isPremium ? (
+                                    <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/20">
+                                        <Star size={10} className="text-premium-gold fill-premium-gold" />
+                                        <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider">
+                                            Membro Premium
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-zinc-800 border border-zinc-700">
+                                        <User size={10} className="text-zinc-400" />
+                                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                            Torcedor Comum
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
