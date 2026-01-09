@@ -148,7 +148,7 @@ def process_with_ai(original_title, original_content):
         print(f"Error in AI processing: {e}")
         return {
             "title": original_title,
-            "summary": ["Erro no processamento."],
+            "summary": [original_content[:200] + "..."],
             "content": original_content[:500] + "...",
             "tags": ["Botafogo"],
             "sentiment": "Neutro"

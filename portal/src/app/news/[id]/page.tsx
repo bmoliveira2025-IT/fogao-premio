@@ -26,6 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         }
     }
 
+    // Fallback if summary is an error message
+    if (description.includes("Erro no processamento") && data?.content) {
+        description = data.content;
+    }
+
     // Truncate to avoid cut-off (WhatsApp limit ~150-200)
     // We try to make it cleaner
     if (description.length > 160) {
