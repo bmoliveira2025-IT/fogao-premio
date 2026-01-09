@@ -9,6 +9,7 @@ interface TopStory {
     title: string;
     category: string;
     image?: string;
+    id?: string;
 }
 
 interface DailyBriefing {
@@ -32,9 +33,8 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
             if (part.startsWith('**') && part.endsWith('**')) {
                 const content = part.slice(2, -2);
                 return (
-                    <span key={index} className="relative inline-block font-bold text-white mx-1">
+                    <span key={index} className="font-bold text-premium-gold mx-0.5">
                         {content}
-                        <span className="absolute -bottom-0.5 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80"></span>
                     </span>
                 );
             }
@@ -105,7 +105,10 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
 
                 {/* Rank 01 - Hero */}
                 {topStory && (
-                    <div className="relative h-64 w-full group overflow-hidden">
+                    <Link
+                        href={topStory.id ? `/news/${topStory.id}` : '#'}
+                        className="relative h-64 w-full group overflow-hidden block"
+                    >
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
                         {topStory.image && (
                             <img
@@ -131,13 +134,17 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
                                 </h3>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 )}
 
                 {/* Rank 02 & 03 - List */}
                 <div className="divide-y divide-white/5 bg-zinc-900/80 backdrop-blur-sm">
                     {otherStories.map((story) => (
-                        <div key={story.rank} className="p-4 flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer group">
+                        <Link
+                            key={story.rank}
+                            href={story.id ? `/news/${story.id}` : '#'}
+                            className="p-4 flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer group block"
+                        >
                             <span className="text-3xl font-display font-black text-white/20 group-hover:text-premium-gold/40 transition-colors">
                                 0{story.rank}
                             </span>
@@ -150,7 +157,7 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
                                 </span>
                             </div>
                             <ChevronRight size={16} className="text-white/20 group-hover:text-premium-gold transition-colors" />
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

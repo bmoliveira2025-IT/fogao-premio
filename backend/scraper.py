@@ -664,6 +664,7 @@ def generate_daily_briefing():
     
     for i, d in enumerate(docs):
         data = d.to_dict()
+        data['_firestore_id'] = d.id # Store real ID
         # Use simple integer index as ID for the prompt context
         article_id = i 
         articles_map[article_id] = data
@@ -722,11 +723,13 @@ def generate_daily_briefing():
                 src_id = story.get('source_id')
                 if src_id is not None and int(src_id) in articles_map:
                     # Assign the real image from the original article
-                    original_img = articles_map[int(src_id)].get('image')
-                    story['image'] = original_img
+                    source_data = articles_map[int(src_id)]
+                    story['image'] = source_data.get('image')
+                    story['id'] = source_data.get('_firestore_id') # Assign Real Firestore ID
                 else:
                     # Fallback if AI hallucinates an ID or leaves it null
                     story['image'] = None # Frontend handles placeholder
+                    story['id'] = None
 
         
         # Validate structure
