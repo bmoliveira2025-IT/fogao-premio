@@ -53,7 +53,7 @@ interface VideoItem {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[] }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 36);
+    timeLimit.setDate(timeLimit.getDate() - 7); // Widen to 7 days temporarily to debug missing news
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)

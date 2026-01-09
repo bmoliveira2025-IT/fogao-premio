@@ -12,9 +12,9 @@ import Loading from '../loading';
 
 async function getNews() {
     try {
-        // Calculate the date 36 hours ago
+        // Calculate the date 7 days ago
         const timeLimit = new Date();
-        timeLimit.setHours(timeLimit.getHours() - 36);
+        timeLimit.setDate(timeLimit.getDate() - 7);
 
         const snapshot = await db.collection('news')
             .where('created_at', '>=', timeLimit)
