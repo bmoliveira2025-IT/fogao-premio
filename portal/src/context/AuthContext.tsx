@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
@@ -9,18 +9,26 @@ interface AuthContextType {
     user: User | null;
     isPremium: boolean;
     loading: boolean;
+    logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
     user: null,
     isPremium: false,
     loading: true,
+    logout: async () => { },
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isPremium, setIsPremium] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const logout = async () => {
+        await signOut(auth);
+        setUser(null);
+        setIsPremium(false);
+    };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -55,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, isPremium, loading }}>
+        <AuthContext.Provider value={{ user, isPremium, loading, logout }}>
             {children}
         </AuthContext.Provider>
     );
