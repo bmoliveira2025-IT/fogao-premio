@@ -1,4 +1,5 @@
 import { Shield, MapPin, Calendar } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface MatchData {
     home_team: string;
@@ -13,7 +14,7 @@ interface MatchData {
     away_team_logo?: string;
 }
 
-export default function PremiumNextMatch({ match }: { match?: MatchData | null }) {
+export default function PremiumNextMatch({ match, className }: { match?: MatchData | null, className?: string }) {
     // Default Fallback
     const data = match || {
         home_team: "BOT",
@@ -31,8 +32,8 @@ export default function PremiumNextMatch({ match }: { match?: MatchData | null }
     const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className="w-full">
-            {/* Label */}
+        <div className={cn("w-full transition-all duration-300", className)}>
+            {/* Label - Hide on mobile if desired, or keep centered */}
             <div className="flex items-center justify-center space-x-2 mb-3">
                 <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold">Próximo Confronto</span>
@@ -40,7 +41,7 @@ export default function PremiumNextMatch({ match }: { match?: MatchData | null }
             </div>
 
             {/* Card */}
-            <div className="bg-card backdrop-blur-sm rounded-lg border border-foreground/10 dark:border-premium-gold/20 p-5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl border-y md:border border-foreground/10 dark:border-premium-gold/20 p-5 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -56,7 +57,7 @@ export default function PremiumNextMatch({ match }: { match?: MatchData | null }
                                     <Shield size={40} className="text-foreground/20" />
                                 )}
                             </div>
-                            <span className="text-sm font-black text-foreground font-display tracking-wide">{data.home_team}</span>
+                            <span className="text-sm font-black text-foreground font-display tracking-wide text-center leading-tight">{data.home_team}</span>
                         </div>
 
                         {/* VS */}
@@ -73,7 +74,7 @@ export default function PremiumNextMatch({ match }: { match?: MatchData | null }
                                     <Shield size={40} className="text-foreground/20" />
                                 )}
                             </div>
-                            <span className="text-sm font-black text-foreground font-display tracking-wide">{data.away_team}</span>
+                            <span className="text-sm font-black text-foreground font-display tracking-wide text-center leading-tight">{data.away_team}</span>
                         </div>
                     </div>
 
