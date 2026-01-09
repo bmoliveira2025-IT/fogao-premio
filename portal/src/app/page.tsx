@@ -1,8 +1,9 @@
-// ... imports ...
 import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
-import DailyBriefingWidget from '@/components/DailyBriefingWidget';
+import HeadlinesWidget from '@/components/HeadlinesWidget'; // NEW
+import MorningBriefingPopup from '@/components/MorningBriefingPopup'; // NEW
+// import CompactNewsRow from '@/components/CompactNewsRow'; // Maybe still needed for Sidebar extras? yes.
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BrandingHeader from '@/components/BrandingHeader';
 import TabBar from '@/components/TabBar';
@@ -127,11 +128,11 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
 
 export default async function Home() {
   const { news, matches, videos, premiumNews } = await getData();
-  // Hero is the first news item
+
   const nextMatch = matches.length > 0 ? matches[0] : null;
-  const heroNews = news.length > 0 ? news[0] : null;
-  // List starts from second item
-  const latestNews = news.slice(1);
+
+  // We now use the main 'news' array for the HeadlinesWidget (Top 10)
+  // Extra news for sidebar or load more could use news.slice(10, ...)
 
   // CHECK FOR NOTIFICATIONS
   const notifications = [];
@@ -178,6 +179,9 @@ export default async function Home() {
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
 
+      {/* MORNING BRIEFING POPUP (Yesterday's Highlights) */}
+      <MorningBriefingPopup />
+
       {/* 1. HEADER (Fixed Premium Masthead) - MOBILE ONLY */}
       <div className="lg:hidden">
         <BrandingHeader notifications={notifications} />
@@ -186,82 +190,23 @@ export default async function Home() {
       {/* DESKTOP HEADER */}
       <DesktopHeader />
 
-      {/* --- DAILY BRIEFING WIDGET (TOP - MOBILE & DESKTOP if desired, but user said 'page initial' which implies top of feed) --- */}
-      {/* The user said "above the highlight". In mobile, highlight is usually top. */}
-      {/* Let's put it inside the container but at the very top */}
-
       <div className="container mx-auto pt-14 px-4 lg:pt-28 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-12 lg:gap-12">
 
-        {/* --- DAILY BRIEFING WIDGET (MOBILE ONLY - Top of Feed) --- */}
-        <div className="lg:hidden">
-          <DailyBriefingWidget className="mb-6 -mx-4" />
+        {/* --- MAIN HEADLINES WIDGET (Hero + Top 10 List) --- */}
+        {/* Replaces the old DailyBriefingWidget and Hero/News Sections */}
+        <div className="lg:col-span-12 mb-8 -mx-4 lg:mx-0">
+          <HeadlinesWidget news={news} />
         </div>
 
         <div className="grid grid-cols-1 lg:col-span-8 space-y-8">
           {/* LEFT COLUMN (Content) */}
           <div className="space-y-8">
 
-            {/* 2. HERO SECTION */}
-            {heroNews && (
-              <div className="relative h-[60vh] lg:h-[500px] w-auto lg:w-full overflow-hidden mb-6 group cursor-pointer lg:rounded-2xl lg:shadow-2xl -mx-4 lg:mx-0">
-                <Link href={`/news/${heroNews.id}`}>
-                  <img
-                    src={heroNews.image || 'https://via.placeholder.com/800x1200'}
-                    alt={heroNews.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent lg:via-background/20" />
-
-                  <div className="absolute bottom-0 left-0 w-full p-5 pb-8 lg:p-10">
-                    <span className="inline-block px-2 py-0.5 bg-red-600 text-white text-[9px] font-bold uppercase tracking-widest mb-2 shadow-lg rounded-sm">
-                      Última Hora
-                    </span>
-                    <h2 className="text-2xl md:text-4xl font-display font-black leading-[0.95] text-foreground italic uppercase drop-shadow-lg mb-1 lg:mb-3">
-                      {heroNews.title}
-                    </h2>
-                    <span className="text-[10px] font-bold text-foreground/50 uppercase tracking-widest flex items-center">
-                      Há instantes
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            )}
-
             <div className="px-5 space-y-6 lg:px-0">
 
               {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY */}
-              <section className="-mt-12 relative z-10 lg:hidden">
+              <section className="-mt-0 relative z-10 lg:hidden">
                 <PremiumNextMatch match={nextMatch} />
-              </section>
-
-
-              {/* 4. LATEST NEWS */}
-              <section>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-xs font-bold text-premium-gold uppercase tracking-widest border-l-2 border-premium-gold pl-2">
-                    Últimas Notícias
-                  </h3>
-                  <Link href="/news" className="text-[9px] font-bold text-foreground/40 uppercase flex items-center hover:text-foreground transition-colors">
-                    Ver Tudo <ChevronRight size={10} />
-                  </Link>
-                </div>
-                <div className="space-y-1">
-                  {/* First 6 (Common) */}
-                  {latestNews.slice(0, 6).map((article) => (
-                    <div key={article.id}>
-                      <CompactNewsRow article={article} />
-                    </div>
-                  ))}
-
-                  {/* Next 2 (Desktop Only - Completes the 8) */}
-                  <div className="hidden lg:block space-y-1">
-                    {latestNews.slice(6, 8).map((article) => (
-                      <div key={article.id}>
-                        <CompactNewsRow article={article} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
               </section>
 
               {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
@@ -287,17 +232,6 @@ export default async function Home() {
                 </div>
               </Link>
 
-              {/* MOBILE ONLY: News Continuation (4 more) */}
-              <section className="mt-4 mb-6 lg:hidden">
-                <div className="space-y-1">
-                  {latestNews.slice(6, 10).map((article) => (
-                    <div key={article.id}>
-                      <CompactNewsRow article={article} />
-                    </div>
-                  ))}
-                </div>
-              </section>
-
               {/* QUOTE BANNER - MOBILE ONLY */}
               <div className="py-2 lg:hidden">
                 <QuoteBanner />
@@ -313,9 +247,6 @@ export default async function Home() {
         {/* RIGHT COLUMN (Sidebar - Desktop Only) */}
         <div className="hidden lg:block lg:col-span-4 space-y-8">
           <div className="sticky top-28 space-y-8">
-
-            {/* Desktop: Daily Briefing (Top of Sidebar) */}
-            <DailyBriefingWidget className="mb-8" />
 
             {/* Desktop: Next Match */}
             <PremiumNextMatch match={nextMatch} />
@@ -345,13 +276,14 @@ export default async function Home() {
 
             <QuoteBanner />
 
-            {/* Sidebar Extra News (Continuation) */}
+            {/* Sidebar Extra News (Giro pelo Mundo / Continuation) */}
+            {/* Show items 11-15 approx */}
             <div className="pt-4 border-t border-foreground/10 dark:border-premium-gold/10">
               <h4 className="text-[10px] text-premium-gold/70 font-bold uppercase tracking-widest mb-4">
-                Giro pelo Mundo
+                Mais Notícias
               </h4>
               <div className="space-y-4">
-                {latestNews.slice(8, 12).map((article) => (
+                {news.slice(10, 15).map((article) => (
                   <CompactNewsRow key={article.id} article={article} />
                 ))}
               </div>
