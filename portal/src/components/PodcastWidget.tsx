@@ -50,7 +50,19 @@ export default function PodcastWidget() {
         }
 
         const newAudio = new Audio(url);
-        newAudio.play();
+        const playPromise = newAudio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                // Auto-play was prevented or interrupted (AbortError)
+                // We can ignore this error as it usually means the user 
+                // paused/switched tracks quickly.
+                if (error.name !== 'AbortError') {
+                    console.error("Audio playback error:", error);
+                }
+            });
+        }
+
         setCurrentAudio(newAudio);
         setIsPlaying(url);
 
