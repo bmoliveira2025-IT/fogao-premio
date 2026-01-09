@@ -29,6 +29,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
         )}>
             {/* Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-premium-gold/5 dark:from-black/40 dark:to-premium-gold/5" />
+
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-premium-gold/5 bg-gradient-to-r from-premium-gold/5 to-transparent">
                 <div className="flex items-center gap-2">
