@@ -61,7 +61,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
         const shareData = {
             title: article.title,
-            text: article.title, // Use title instead of summary to avoid clutter
+            text: "", // Empty text so only URL is shared (WhatsApp yields better preview)
             url: window.location.href,
         };
 
