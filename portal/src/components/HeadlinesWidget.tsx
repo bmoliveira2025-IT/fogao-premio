@@ -56,7 +56,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
     const otherStories = topBriefing.slice(1);
 
     return (
-        <div className={`w-full flex flex-col gap-0 bg-card border border-white/5 md:rounded-3xl overflow-hidden shadow-2xl ${className}`}>
+        <div className={`w-full flex flex-col gap-0 bg-card border resize-none md:rounded-3xl overflow-hidden shadow-2xl ${className}`} style={{ borderColor: 'var(--border-color)' }}>
 
             {/* Rank 01 - Hero Section (Immersive) */}
             {topStory && (
@@ -122,12 +122,13 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
 
             {/* Rank 02-08 - List Section */}
-            <div className="grid grid-cols-1 divide-y divide-white/5 bg-card">
+            <div className="grid grid-cols-1 divide-y bg-card" style={{ divideColor: 'var(--border-color)' }}>
                 {otherStories.map((story, index) => (
                     <Link
                         key={story.id}
                         href={`/news/${story.id}`}
-                        className="group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300 overflow-hidden"
+                        className="group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300 overflow-hidden border-b last:border-0"
+                        style={{ borderColor: 'var(--border-color)' }}
                     >
                         {/* Subtle Background Image */}
                         {story.image && (

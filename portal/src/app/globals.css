@@ -28,6 +28,8 @@
   /* Lighter Purple for Cards */
   --graphite: #3B1E48;
   /* Purple Graphite */
+  --border-color: rgba(255, 32, 176, 0.4);
+  /* Neon Pink Borders */
 }
 
 /* Force Dark Mode Class (Default) */
@@ -39,6 +41,7 @@
   /* #D4AF37 */
   --card-bg: #121212;
   --graphite: #1A1A1A;
+  --border-color: rgba(255, 255, 255, 0.1);
 }
 
 body {
