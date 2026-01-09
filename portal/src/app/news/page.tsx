@@ -11,28 +11,34 @@ import { Suspense } from 'react';
 import Loading from '../loading';
 
 async function getNews() {
-    // Calculate the date 5 days ago (120 hours)
-    const timeLimit = new Date();
-    timeLimit.setDate(timeLimit.getDate() - 5);
+    try {
+        // Calculate the date 5 days ago (120 hours)
+        const timeLimit = new Date();
+        timeLimit.setDate(timeLimit.getDate() - 5);
 
-    const snapshot = await db.collection('news')
-        .where('created_at', '>=', timeLimit)
-        .orderBy('created_at', 'desc')
-        .get();
+        const snapshot = await db.collection('news')
+            .where('created_at', '>=', timeLimit)
+            .orderBy('created_at', 'desc')
+            .limit(24) // ENFORCE LIMIT
+            .get();
 
-    return snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-            id: doc.id,
-            title: data.title || '',
-            image: data.image,
-            source: data.source,
-            is_premium: data.is_premium,
-            summary: data.summary,
-            content: data.content,
-            created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
-        };
-    }).filter(item => !item.is_premium);
+        return snapshot.docs.map(doc => {
+            const data = doc.data();
+            return {
+                id: doc.id,
+                title: data.title || '',
+                image: data.image,
+                source: data.source,
+                is_premium: data.is_premium,
+                summary: data.summary,
+                content: data.content,
+                created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+            };
+        }).filter(item => !item.is_premium);
+    } catch (error) {
+        console.warn("Failed to fetch news (likely quota exceeded):", error);
+        return [];
+    }
 }
 
 export default async function NewsPage() {
