@@ -8,6 +8,7 @@ import { auth, db } from "@/lib/firebase";
 interface AuthContextType {
     user: User | null;
     isPremium: boolean;
+    preferences: { news: boolean; podcasts: boolean; videos: boolean };
     loading: boolean;
     logout: () => Promise<void>;
 }
@@ -15,6 +16,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
     user: null,
     isPremium: false,
+    preferences: { news: true, podcasts: true, videos: true },
     loading: true,
     logout: async () => { },
 });
@@ -22,6 +24,7 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isPremium, setIsPremium] = useState(false);
+    const [preferences, setPreferences] = useState({ news: true, podcasts: true, videos: true });
     const [loading, setLoading] = useState(true);
 
     const logout = async () => {
@@ -41,20 +44,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const userSnap = await getDoc(userRef);
 
                 if (userSnap.exists()) {
-                    // Get 'isPremium' field
-                    setIsPremium(userSnap.data()?.is_premium === true);
+                    const data = userSnap.data();
+                    setIsPremium(data?.is_premium === true);
+                    if (data?.preferences) setPreferences(data.preferences);
                 } else {
-                    // Create Profile if doesn't exist (Default: NOT premium)
+                    // Create Profile if doesn't exist
+                    const defaultPrefs = { news: true, podcasts: true, videos: true }; // Default Podcasts to TRUE for new users
                     await setDoc(userRef, {
                         email: currentUser.email,
                         is_premium: false,
+                        preferences: defaultPrefs,
                         created_at: new Date().toISOString()
                     });
                     setIsPremium(false);
+                    setPreferences(defaultPrefs);
                 }
             } else {
                 setUser(null);
                 setIsPremium(false);
+                setPreferences({ news: true, podcasts: true, videos: true }); // Guest defaults
             }
             setLoading(false);
         });
@@ -63,9 +71,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, isPremium, loading, logout }}>
+    return (
+        <AuthContext.Provider value={{ user, isPremium, preferences, loading, logout }}>
             {children}
         </AuthContext.Provider>
+    );
+    { children }
+        </AuthContext.Provider >
     );
 }
 
