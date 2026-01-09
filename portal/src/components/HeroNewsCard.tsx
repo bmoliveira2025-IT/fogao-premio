@@ -54,7 +54,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
                 </div>
 
                 <h2 className="text-2xl md:text-5xl font-black text-white leading-tight drop-shadow-xl group-hover:text-premium-gold transition-colors mb-4 line-clamp-3">
-                    {article.title}
+                    {article.title?.replace(/\*\*/g, '')}
                 </h2>
                 {/* Footer Tags */}
                 <div className="flex items-center space-x-2">

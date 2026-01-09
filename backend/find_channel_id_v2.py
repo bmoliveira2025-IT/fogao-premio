@@ -28,7 +28,7 @@ video_url = "https://www.youtube.com/watch?v=k_lGz-7Q5wQ" # Example recent video
 # I will try to fetch the channel page directly using the handle if possible. 
 # Handle: @BotafogoTV
 
-url = "https://www.youtube.com/@getv"
+url = "https://www.youtube.com/@BotafogoTV"
 print(f"Checking {url}...")
 try:
     response = requests.get(url)

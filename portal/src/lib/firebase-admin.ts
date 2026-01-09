@@ -21,38 +21,39 @@ if (!getApps().length) {
     // 2. Fallback to local file (Development)
     if (!credential) {
         try {
-            // We use 'fs' to check existence to avoid crashing 'cert' if missing
             const fs = require('fs');
+            // FORCE NEW JSON
             const serviceAccountPath = path.join(process.cwd(), 'service-account-new.json');
 
             if (fs.existsSync(serviceAccountPath)) {
                 credential = cert(serviceAccountPath);
-                console.log("Firebase Admin initialized with local service-account.json");
+                console.log("Firebase Admin FORCE-LOADED: service-account-new.json");
             } else {
-                console.warn("No 'FIREBASE_SERVICE_ACCOUNT' env var and no 'service-account.json' found.");
+                // Try old one as backup but warn
+                const oldPath = path.join(process.cwd(), 'service-account.json');
+                if (fs.existsSync(oldPath)) {
+                    credential = cert(oldPath);
+                    console.log("Firebase Admin LOADED OLD: service-account.json (WARNING: Might use old project)");
+                }
             }
         } catch (e) {
-            console.error("Error looading local credential:", e);
+            console.error("Error loading local credential:", e);
         }
     }
 
-    // 3. Initialize (or fail gracefully/throw if strict)
-    // Note: If credential is null, initializeApp will fail or try Google Application Default Credentials.
-    // For Vercel, we ideally want to fail if we can't connect, but let's allow Default Creds as last resort.
-
     if (credential) {
-        initializeApp({
+        const config = {
             credential,
-            projectId: "coastal-epigram-392314",
-            databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://coastal-epigram-392314-default-rtdb.firebaseio.com",
-        });
+            projectId: "strive-bra",
+            databaseURL: "https://strive-bra-default-rtdb.firebaseio.com"
+        };
+        console.log("Initializing Firebase with config:", config.projectId);
+        initializeApp(config);
     } else {
-        // Attempt default (e.g. if Vercel has other Google Cloud integration, though unlikely for Firebase Admin without config)
-        // Or just let it crash with a better message if accessed
-        console.warn("Running Firebase Admin without explicit credentials. Access might fail.");
+        console.warn("Running Firebase Admin without explicit credentials.");
         initializeApp({
-            projectId: "coastal-epigram-392314",
-            databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://coastal-epigram-392314-default-rtdb.firebaseio.com",
+            projectId: "strive-bra",
+            databaseURL: "https://strive-bra-default-rtdb.firebaseio.com"
         });
     }
 }

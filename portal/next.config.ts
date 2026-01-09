@@ -25,9 +25,23 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'a.espncdn.com' },
       { protocol: 'https', hostname: 'secure.espncdn.com' },
       { protocol: 'https', hostname: 'img.a.transfermarkt.technology' },
+      { protocol: 'https', hostname: 's.sde.globo.com' },
     ],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups',
+          },
+        ],
+      },
+    ];
   },
 };
 

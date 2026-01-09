@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
 interface AuthContextType {
@@ -34,41 +34,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            if (!currentUser) {
+                setLoading(false);
+            }
+        });
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        let unsubscribeProfile = () => { };
+
+        if (user) {
             setLoading(true);
-            if (currentUser) {
-                setUser(currentUser);
+            const userRef = doc(db, "users", user.uid);
 
-                // Check User Profile in Firestore
-                const userRef = doc(db, "users", currentUser.uid);
-                const userSnap = await getDoc(userRef);
-
+            unsubscribeProfile = onSnapshot(userRef, (userSnap) => {
+                console.log(`[AuthDebug] Profile Snapshot for ${user.uid}: Exists? ${userSnap.exists()}`);
                 if (userSnap.exists()) {
                     const data = userSnap.data();
+                    console.log("[AuthDebug] Data:", data);
                     setIsPremium(data?.is_premium === true);
                     if (data?.preferences) setPreferences(data.preferences);
+
+                    // Sync Photo from Auth if missing in Firestore or if it updated
+                    if (user.photoURL && data.photoURL !== user.photoURL) {
+                        console.log("[AuthDebug] Syncing PhotoURL from Auth to Firestore...");
+                        setDoc(userRef, { photoURL: user.photoURL }, { merge: true });
+                    }
+                    if (user.displayName && data.displayName !== user.displayName) {
+                        setDoc(userRef, { displayName: user.displayName }, { merge: true });
+                    }
+
                 } else {
+                    console.log("[AuthDebug] Creating new profile...");
                     // Create Profile if doesn't exist
-                    const defaultPrefs = { news: true, podcasts: true, videos: true }; // Default Podcasts to TRUE for new users
-                    await setDoc(userRef, {
-                        email: currentUser.email,
+                    const defaultPrefs = { news: true, podcasts: true, videos: true };
+                    setDoc(userRef, {
+                        email: user.email,
+                        displayName: user.displayName,
+                        photoURL: user.photoURL,
                         is_premium: false,
-                        preferences: defaultPrefs,
-                        created_at: new Date().toISOString()
+                        created_at: new Date().toISOString(),
+                        preferences: defaultPrefs
                     });
                     setIsPremium(false);
                     setPreferences(defaultPrefs);
                 }
-            } else {
-                setUser(null);
-                setIsPremium(false);
-                setPreferences({ news: true, podcasts: true, videos: true }); // Guest defaults
-            }
-            setLoading(false);
-        });
+                setLoading(false);
+            }, (error) => {
+                // Ignore permission errors during logout transitions
+                if (error.code !== 'permission-denied') {
+                    console.error("Error fetching profile:", error);
+                }
+                setLoading(false);
+            });
+        } else {
+            setIsPremium(false);
+            setPreferences({ news: true, podcasts: true, videos: true });
+            // Loading is set to false in the auth listener for null user
+        }
 
-        return () => unsubscribe();
-    }, []);
+        return () => unsubscribeProfile();
+    }, [user]);
 
     return (
         <AuthContext.Provider value={{ user, isPremium, preferences, loading, logout }}>

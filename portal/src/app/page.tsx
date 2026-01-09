@@ -53,7 +53,7 @@ interface VideoItem {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[] }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 36);
+    timeLimit.setHours(timeLimit.getHours() - 24); // 24h window
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
@@ -124,14 +124,17 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         title: data.title || '',
         url: data.url || '',
         thumbnail: data.thumbnail || '',
-        published_at: data.published_at?.toDate().toISOString() || new Date().toISOString(),
+        published_at: data.published_at && typeof data.published_at.toDate === 'function'
+          ? data.published_at.toDate().toISOString()
+          : (data.published_at || new Date().toISOString()),
       } as VideoItem;
     });
 
     return { news, matches, videos, premiumNews };
 
-  } catch (error) {
-    console.warn("Failed to Fetch Data (likely Quota Exceeded), returning empty.");
+  } catch (error: any) {
+    console.error("DATA FETCH ERROR DETAILS:", error);
+    // console.warn("Failed to Fetch Data (likely Quota Exceeded), returning empty.");
     return { news: [], matches: [], videos: [], premiumNews: [] };
   }
 }

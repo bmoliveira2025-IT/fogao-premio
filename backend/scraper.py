@@ -11,6 +11,7 @@ import re
 from bs4 import BeautifulSoup
 import time
 from datetime import datetime, timezone, timedelta
+from cleanup import cleanup_old_news # Import cleanup logic
 
 # Load environment variables
 load_dotenv()
@@ -42,6 +43,7 @@ else:
     if not cred_path or not os.path.exists(cred_path):
         # Common locations to check
         possible_paths = [
+            os.path.join(os.path.dirname(__file__), "service-account-new.json"), # New Creds
             os.path.join(os.path.dirname(__file__), "service-account.json"), # Same dir as script
             os.path.join(os.getcwd(), "backend", "service-account.json"),    # backend subdir
             os.path.join(os.getcwd(), "service-account.json"),               # root dir
@@ -59,10 +61,27 @@ else:
              print(f"Error: Credentials not found. Checked: {possible_paths}")
              sys.exit(1)
              
+    print(f"DEBUG: Loading credentials from: {cred_path}")
     cred = credentials.Certificate(cred_path)
 
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+if not firebase_admin._apps:
+    try:
+        firebase_admin.initialize_app(cred, {
+            'projectId': 'strive-bra', # Explicitly set project ID
+            'databaseURL': 'https://strive-bra-default-rtdb.firebaseio.com' 
+        })
+        print("Firebase initialized successfully.")
+    except ValueError as e:
+        print(f"Warning: Firebase init skipped (already initialized?): {e}")
+
+try:
+    db = firestore.client()
+except Exception as e: # Fallback if client creation fails
+     print(f"Error getting Firestore client: {e}")
+     # Try to get existing app
+     app = firebase_admin.get_app()
+     db = firestore.client(app=app)
+
 
 # Initialize Groq
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -87,6 +106,12 @@ def clean_text(text):
     cleaned = text
     for pattern in noise_patterns:
         cleaned = re.sub(pattern, '', cleaned, flags=re.IGNORECASE)
+    
+    # Remove markdown bold/italic
+    cleaned = cleaned.replace('**', '').replace('*', '')
+    
+    return cleaned.strip()
+    cleaned = re.sub(r'\*\*|__', '', cleaned) # Remove bold
     
     # Remove multiple spaces/newlines
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
@@ -246,7 +271,6 @@ def monitor_sources():
         "https://www.cnnbrasil.com.br/esportes/futebol/botafogo/",
         "https://www.terra.com.br/esportes/botafogo",
         "https://www.lance.com.br/botafogo",
-        "https://www.gazetabotafogo.com/",
         "https://br.bolavip.com/botafogo",
         "https://odia.ig.com.br/esporte/botafogo",
         "https://fogonarede.com.br/",
@@ -684,7 +708,7 @@ def generate_daily_briefing():
     Retorne APENAS um JSON válido com esta estrutura:
     {{
         "date": "{today_str}",
-        "general_summary": "A rich, engaging editorial summary of the day's events (max 400 chars). Use **double asterisks** to bold key players or entities.",
+        "general_summary": "A rich, engaging editorial summary of the day's events (max 400 chars). Do NOT use markdown bold or asterisks.",
         "top_stories": [
             {{
                 "rank": 1,
@@ -776,6 +800,9 @@ else:
         if should_update_squad():
             print("Updating Squad (24h period reached)...")
             scrape_squad()
+        
+        # Run cleanup
+        cleanup_old_news(db)
             
         print("Cycle finished. Sleeping for 10 minutes...")
         time.sleep(600)

@@ -8,8 +8,8 @@
   /* Default Dark Mode (Premium) */
   --background: #050505;
   --foreground: #FFFFFF;
-  --premium-gold: 255 32 176;
-  /* #FF20B0 - Neon Pink (Was Gold) */
+  --premium-gold: 255 215 0;
+  /* #FFD700 - Gold */
   --card-bg: #121212;
   --graphite: #1A1A1A;
   /* For special blocks */
@@ -17,7 +17,7 @@
 
 /* Light Mode Class (Toggled by ThemeProvider) */
 .light {
-  /* Premium Gloriosa Theme (Deep Pink/Purple) */
+  /* Premium Gloriosa Theme (Deep Purple with Gold Accents) */
   --background: #180826;
   /* Deep Purple */
   --foreground: #FFFFFF;
@@ -37,8 +37,8 @@
   --background: #0a0a0a;
   /* Matte Black */
   --foreground: #FFFFFF;
-  --premium-gold: 255 32 176;
-  /* #FF20B0 - Neon Pink (Was Gold) */
+  --premium-gold: 255 215 0;
+  /* #FFD700 - Gold */
   --card-bg: #121212;
   --graphite: #1A1A1A;
   --border-color: rgba(255, 255, 255, 0.1);

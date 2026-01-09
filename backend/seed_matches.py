@@ -8,13 +8,20 @@ load_dotenv()
 
 # Initialize Firebase
 if not firebase_admin._apps:
-    cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
+    cred_path = "service-account-new.json"
+             
     try:
         cred = credentials.Certificate(cred_path)
         firebase_admin.initialize_app(cred)
     except Exception as e:
-        print(f"Error initializing Firebase: {e}")
-        exit(1)
+        print(f"Error initializing Firebase with {cred_path}: {e}")
+        # Try fallback
+        try:
+             cred = credentials.Certificate("service-account.json")
+             firebase_admin.initialize_app(cred)
+        except Exception as e2:
+             print(f"Fallback failed: {e2}")
+             exit(1)
 
 db = firestore.client()
 

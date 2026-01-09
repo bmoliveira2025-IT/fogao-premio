@@ -85,19 +85,19 @@ export default function ProfilePage() {
 
                 {/* Header Area - Wrapped for Mobile Hiding/Desktop Styling */}
                 <div className="lg:col-span-4">
-                    <div className="pt-8 pb-6 px-6 bg-gradient-to-b from-card to-background border-b border-premium-gold/15 lg:rounded-2xl lg:border lg:shadow-lg lg:bg-card">
-                        <h1 className="text-2xl font-display font-black text-foreground mb-6 text-center lg:hidden">Perfil</h1>
+                    <div className="mb-6 pt-4 pb-4 px-5 bg-gradient-to-b from-card to-background border-b border-premium-gold/15 lg:rounded-2xl lg:border lg:shadow-lg lg:bg-card lg:mb-0">
+                        <h1 className="text-xl font-display font-black text-foreground mb-3 text-center lg:hidden">Perfil</h1>
 
-                        <div className="flex items-center lg:flex-col lg:text-center space-x-4 lg:space-x-0 lg:space-y-4">
-                            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-foreground/10 to-transparent border border-premium-gold/15 flex items-center justify-center relative">
+                        <div className="flex items-center lg:flex-col lg:text-center space-x-3 lg:space-x-0 lg:space-y-4">
+                            <div className="w-14 h-14 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-foreground/10 to-transparent border border-premium-gold/15 flex items-center justify-center relative">
                                 {user?.photoURL ? (
                                     <img src={user.photoURL} alt="Avatar" className="w-full h-full rounded-full object-cover" />
                                 ) : (
-                                    <User size={32} className="text-foreground/50" />
+                                    <User size={28} className="text-foreground/50" />
                                 )}
                                 {isPremium && (
-                                    <div className="absolute -bottom-1 -right-1 w-6 h-6 lg:w-8 lg:h-8 bg-premium-gold rounded-full flex items-center justify-center border-2 border-background">
-                                        <Star size={12} className="text-black fill-black lg:w-4 lg:h-4" />
+                                    <div className="absolute -bottom-1 -right-1 w-5 h-5 lg:w-8 lg:h-8 bg-premium-gold rounded-full flex items-center justify-center border-2 border-background">
+                                        <Star size={10} className="text-black fill-black lg:w-4 lg:h-4" />
                                     </div>
                                 )}
                             </div>
