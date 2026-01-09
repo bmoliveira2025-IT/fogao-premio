@@ -18,26 +18,7 @@ interface HeadlinesWidgetProps {
     className?: string;
 }
 
-"use client";
 
-import { ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-import SourceIcon from './SourceIcon';
-
-interface NewsItem {
-    id: string;
-    title: string;
-    category?: string;
-    image?: string;
-    source?: string;
-    summary?: string;
-    created_at?: string;
-}
-
-interface HeadlinesWidgetProps {
-    news: NewsItem[];
-    className?: string;
-}
 
 export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidgetProps) {
     if (!news || news.length === 0) return null;
