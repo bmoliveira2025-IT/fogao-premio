@@ -63,7 +63,7 @@ export default function MorningBriefingPopup() {
     if (!isOpen || !briefing) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] flex items-start md:items-center justify-center p-4 pt-24 md:pt-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
             <div className="bg-zinc-900 border border-premium-gold/30 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 relative">
                 {/* Header */}
                 <div className="bg-gradient-to-r from-zinc-900 to-black p-6 border-b border-white/5 flex items-center justify-between">

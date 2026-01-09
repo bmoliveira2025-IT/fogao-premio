@@ -20,7 +20,7 @@ interface PremiumWidgetProps {
 export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
     return (
         <section className={cn(
-            "relative overflow-hidden rounded-2xl border border-premium-gold/30 dark:border-premium-gold/20 bg-card shadow-2xl group/widget",
+            "relative overflow-hidden rounded-none md:rounded-2xl border-y md:border border-premium-gold/30 dark:border-premium-gold/20 bg-card shadow-2xl group/widget -mx-4 md:mx-0",
             className
         )}>
             {/* Background Effects */}
