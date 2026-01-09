@@ -37,16 +37,16 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
             <div className="absolute inset-0 bg-gradient-to-r from-black via-zinc-900/50 to-black pointer-events-none" />
 
             {/* Header */}
-            <div className="relative z-10 flex items-center justify-between px-5 pt-5 pb-2">
-                <div className="flex items-center gap-3">
+            <div className="relative z-10 flex items-center justify-between px-4 pt-4 pb-1">
+                <div className="flex items-center gap-2">
                     {/* Live Dot/Icon */}
-                    <div className="w-8 h-8 rounded-full bg-red-900/20 border border-red-500/20 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)] animate-pulse" />
+                    <div className="w-6 h-6 rounded-full bg-red-900/20 border border-red-500/20 flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)] animate-pulse" />
                     </div>
 
-                    {/* Title Badge matching reference */}
-                    <div className="bg-premium-gold px-2 py-0.5 rounded-sm">
-                        <span className="text-[10px] md:text-xs font-black text-black uppercase tracking-[0.15em]">
+                    {/* Title Badge matching reference - Compact */}
+                    <div className="bg-premium-gold px-1.5 py-[1px] rounded-[2px]">
+                        <span className="text-[9px] md:text-[10px] font-black text-black uppercase tracking-wider block translate-y-[0.5px]">
                             Botafogo TV
                         </span>
                     </div>
