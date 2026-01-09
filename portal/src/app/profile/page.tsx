@@ -12,6 +12,7 @@ import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useTheme } from '@/components/ThemeProvider';
 import { useAuth } from '@/context/AuthContext';
+import SubscriptionModal from '@/components/SubscriptionModal';
 
 export default function ProfilePage() {
     const router = useRouter();
