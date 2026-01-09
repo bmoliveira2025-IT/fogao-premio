@@ -34,7 +34,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     return (
         <div className={cn("w-full transition-all duration-300", className)}>
             {/* Card - Ultra Compact for Mobile, Premium for Desktop */}
-            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 p-3 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 p-2 md:p-3 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -90,50 +90,46 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     </div>
 
 
-                    {/* MOBILE LAYOUT - ULTRA COMPACT HORIZONTAL */}
-                    <div className="md:hidden flex flex-col gap-2">
-                        {/* Top Bar: Meta Info (Championship | Date | Location) */}
-                        <div className="flex items-center justify-between text-[9px] font-bold text-foreground/50 uppercase tracking-wider border-b border-white/5 pb-2 mb-1">
-                            <div className="flex items-center gap-2">
-                                <span className="text-premium-gold">{data.championship}</span>
-                                <span className="w-px h-2 bg-white/10"></span>
-                                <span>{data.location}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
+                    {/* MOBILE LAYOUT - CLIPPING FIXED */}
+                    <div className="md:hidden flex flex-col gap-1.5 px-3 pt-1 pb-1">
+                        {/* Top Bar: Meta Info (Championship | Date) */}
+                        <div className="flex items-center justify-between text-[9px] font-bold text-foreground/50 uppercase tracking-wider border-b border-white/5 pb-1.5 mb-0.5 w-full">
+                            <span className="text-premium-gold truncate max-w-[65%] leading-none">{data.championship}</span>
+                            <div className="flex items-center gap-1 shrink-0 ml-2">
                                 <Calendar size={10} className="text-foreground/30" />
-                                <span>{dateString}</span>
+                                <span className="leading-none">{dateString}</span>
                             </div>
                         </div>
 
                         {/* Main Row: Team VS Team */}
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between py-1 w-full relative">
                             {/* Home */}
-                            <div className="flex items-center gap-3 flex-1">
-                                <div className="w-10 h-10 relative drop-shadow-lg shrink-0">
+                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                                <div className="w-8 h-8 relative drop-shadow-lg shrink-0">
                                     {data.home_team_logo ? (
                                         <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain" />
                                     ) : (
                                         <Shield size={32} className="text-foreground/20" />
                                     )}
                                 </div>
-                                <span className="text-xs font-black text-foreground font-display tracking-wide leading-tight line-clamp-2">
+                                <span className="text-[10px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-right w-full">
                                     {data.home_team}
                                 </span>
                             </div>
 
                             {/* Center: Time/VS */}
-                            <div className="flex flex-col items-center justify-center px-2 shrink-0">
-                                <div className="bg-zinc-900/50 border border-white/5 rounded px-2 py-1">
-                                    <span className="text-xs font-bold text-white">{timeString}</span>
+                            <div className="flex flex-col items-center justify-center px-1 shrink-0 mx-2">
+                                <div className="bg-zinc-900/80 border border-white/10 rounded px-1.5 py-0.5 shadow-sm">
+                                    <span className="text-[10px] font-bold text-white whitespace-nowrap">{timeString}</span>
                                 </div>
                             </div>
 
                             {/* Away */}
-                            <div className="flex items-center gap-3 flex-1 justify-end text-right">
-                                <span className="text-xs font-black text-foreground font-display tracking-wide leading-tight line-clamp-2">
+                            <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
+                                <span className="text-[10px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-left w-full">
                                     {data.away_team}
                                 </span>
-                                <div className="w-10 h-10 relative drop-shadow-lg shrink-0">
+                                <div className="w-8 h-8 relative drop-shadow-lg shrink-0">
                                     {data.away_team_logo ? (
                                         <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain" />
                                     ) : (
@@ -141,6 +137,12 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                     )}
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Bottom: Location */}
+                        <div className="flex items-center justify-center gap-1 opacity-50 pt-0.5 border-t border-white/5 mt-0.5">
+                            <MapPin size={8} />
+                            <p className="text-[9px] font-medium uppercase tracking-wide truncate max-w-full leading-none">{data.location}</p>
                         </div>
                     </div>
 
