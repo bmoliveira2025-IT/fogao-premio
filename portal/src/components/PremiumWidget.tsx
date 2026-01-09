@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, Lock, ChevronRight } from 'lucide-react';
+import { Star, Lock, ChevronRight, Unlock } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 interface NewsItem {
     id: string;
@@ -18,6 +19,8 @@ interface PremiumWidgetProps {
 }
 
 export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
+    const { isPremium } = useAuth();
+
     return (
         <section className={cn(
             "relative overflow-hidden rounded-none md:rounded-2xl border-y md:border border-premium-gold/30 dark:border-premium-gold/20 bg-card shadow-2xl group/widget -mx-4 md:mx-0",
@@ -88,10 +91,12 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
                                         </div>
                                     </div>
 
-                                    {/* Mobile Lock Icon watermark */}
-                                    <div className="absolute top-2 right-2 text-white/10 lg:hidden">
-                                        <Lock size={16} />
-                                    </div>
+                                    {/* Mobile Lock Icon watermark - Show only if NOT premium */}
+                                    {!isPremium && (
+                                        <div className="absolute top-2 right-2 text-white/10 lg:hidden">
+                                            <Lock size={16} />
+                                        </div>
+                                    )}
                                 </div>
                             </Link>
                         ))}
@@ -108,11 +113,18 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
 
             {/* Footer / CTA */}
             <div className="relative p-3 lg:p-4 border-t border-white/5 bg-white/5 backdrop-blur-sm">
-                <Link href="/premium" className="group block">
-                    <button className="w-full py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-black text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
-                        <Lock size={12} className="text-black/70" />
-                        <span>Desbloquear Acesso</span>
-                    </button>
+                <Link href={isPremium ? "/premium" : "/premium"} className="group block">
+                    {isPremium ? (
+                        <button className="w-full py-2.5 rounded-lg bg-green-900/40 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-[0.15em] hover:bg-green-900/60 transition-all duration-300 flex items-center justify-center gap-2">
+                            <Unlock size={12} />
+                            <span>Acesso Liberado</span>
+                        </button>
+                    ) : (
+                        <button className="w-full py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-black text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
+                            <Lock size={12} className="text-black/70" />
+                            <span>Desbloquear Acesso</span>
+                        </button>
+                    )}
                 </Link>
             </div>
         </section>
