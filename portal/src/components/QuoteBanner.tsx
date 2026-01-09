@@ -45,23 +45,33 @@ export default function QuoteBanner() {
             className="w-full"
         >
             {/* Mobile: Full Width Strip */}
-            <div className="lg:hidden -mx-4 border-y border-premium-gold/20 bg-zinc-900/50 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                    <Quote size={40} className="text-premium-gold" />
+            <div className="lg:hidden -mx-4 border-y border-premium-gold/20 bg-zinc-900 relative overflow-hidden h-32 flex items-center justify-center">
+                {/* Background Image - Arquibancada */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop"
+                        alt="Arquibancada"
+                        className="w-full h-full object-cover opacity-10 grayscale"
+                    />
+                    <div className="absolute inset-0 bg-black/60" /> {/* Darker overlay */}
                 </div>
 
-                <div className="relative z-10 flex flex-col items-center gap-2">
-                    <Quote size={16} className="text-premium-gold mb-1" />
-                    <p className="text-sm text-zinc-200 font-medium italic leading-relaxed max-w-[85%]">
+                {/* Big Quote Icon Background */}
+                <div className="absolute top-2 right-4 opacity-5">
+                    <Quote size={60} className="text-premium-gold" />
+                </div>
+
+                <div className="relative z-10 flex flex-col items-center gap-1 px-8 text-center">
+                    <p className="text-xs text-zinc-200 font-medium italic leading-tight">
                         "{quote.text}"
                     </p>
                     {quote.author && (
-                        <div className="flex items-center gap-2 mt-1">
-                            <div className="w-4 h-[1px] bg-premium-gold/50"></div>
-                            <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest">
+                        <div className="flex items-center gap-2 mt-1.5 opacity-80">
+                            <div className="w-6 h-[1px] bg-premium-gold/40"></div>
+                            <span className="text-[9px] font-bold text-premium-gold uppercase tracking-widest">
                                 {quote.author}
                             </span>
-                            <div className="w-4 h-[1px] bg-premium-gold/50"></div>
+                            <div className="w-6 h-[1px] bg-premium-gold/40"></div>
                         </div>
                     )}
                 </div>
