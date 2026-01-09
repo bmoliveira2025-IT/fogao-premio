@@ -12,6 +12,7 @@ const config: Config = {
                 background: "var(--background)",
                 foreground: "var(--foreground)",
                 "card-bg": "var(--card-bg)",
+                card: "var(--card-bg)",
                 graphite: "var(--graphite)",
                 "premium-gold": "rgb(var(--premium-gold) / <alpha-value>)",
                 premium: {
