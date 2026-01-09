@@ -33,20 +33,19 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
     return (
         <div className={cn("w-full transition-all duration-300", className)}>
-            {/* Label - Hide on mobile if desired, or keep centered */}
-            <div className="flex items-center justify-center space-x-2 mb-3">
-                <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold">Próximo Confronto</span>
-                <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
-            </div>
-
             {/* Card */}
-            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl border-y md:border border-foreground/10 dark:border-premium-gold/20 p-5 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl border-y md:border border-foreground/10 dark:border-premium-gold/20 p-5 pt-6 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative z-10">
+                    {/* Label (Moved Inside) */}
+                    <div className="flex items-center justify-center space-x-2 mb-6">
+                        <div className="h-[1px] w-8 md:w-12 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">Próximo Confronto</span>
+                        <div className="h-[1px] w-8 md:w-12 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
+                    </div>
                     <div className="flex justify-between items-center mb-6 px-2">
                         {/* Home */}
                         <div className="flex flex-col items-center w-1/3">
