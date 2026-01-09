@@ -7,15 +7,20 @@ import DesktopHeader from '@/components/DesktopHeader';
 export const revalidate = 60;
 
 async function getMatches() {
-    const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(20);
-    const snapshot = await matchesRef.get();
+    try {
+        const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(20);
+        const snapshot = await matchesRef.get();
 
-    return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        // Serialize dates for Client Component
-        date: doc.data().date instanceof Date ? doc.data().date.toISOString() : doc.data().date
-    }));
+        return snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            // Serialize dates for Client Component
+            date: doc.data().date instanceof Date ? doc.data().date.toISOString() : doc.data().date
+        }));
+    } catch (error) {
+        console.error("Error fetching matches (likely quota exceeded):", error);
+        return [];
+    }
 }
 
 export default async function MatchesPage() {
