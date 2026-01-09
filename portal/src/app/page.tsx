@@ -52,10 +52,18 @@ interface VideoItem {
 
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[] }> {
   try {
-    const newsRef = db.collection('news').orderBy('created_at', 'desc').limit(20);
+    const timeLimit = new Date();
+    timeLimit.setHours(timeLimit.getHours() - 36);
+
+    const newsRef = db.collection('news')
+      .where('created_at', '>=', timeLimit)
+      .orderBy('created_at', 'desc')
+      .limit(20);
+
+    // Matches, Videos, Premium (keep existing logic but with safety limits if needed)
     const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
-    const premiumRef = db.collection('news').where('is_premium', '==', true).limit(3);
+    const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
 
     const [newsSnap, matchesSnap, videosSnap, premiumSnap] = await Promise.all([
       newsRef.get(),
