@@ -53,11 +53,9 @@ export default function HeroNewsCard({ article }: { article: any }) {
                     </span>
                 </div>
 
-                <Link href={`/news/${article.id}`} className="group/title">
-                    <h2 className="text-2xl md:text-5xl font-black text-white leading-tight drop-shadow-xl group-hover/title:text-premium-gold transition-colors mb-4 line-clamp-3">
-                        {article.title}
-                    </h2>
-                </Link>
+                <h2 className="text-2xl md:text-5xl font-black text-white leading-tight drop-shadow-xl group-hover:text-premium-gold transition-colors mb-4 line-clamp-3">
+                    {article.title}
+                </h2>
                 {/* Footer Tags */}
                 <div className="flex items-center space-x-2">
                     <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[9px] font-bold text-white/50 uppercase tracking-wider">
