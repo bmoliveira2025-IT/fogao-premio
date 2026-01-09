@@ -192,9 +192,9 @@ export default async function Home() {
 
       <div className="container mx-auto pt-20 px-4 lg:pt-28 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-12 lg:gap-12">
 
-        {/* --- DAILY BRIEFING WIDGET (GLOBAL) --- */}
-        <div className="lg:col-span-12 mb-6 -mx-4 lg:mx-0">
-          <DailyBriefingWidget />
+        {/* --- DAILY BRIEFING WIDGET (MOBILE ONLY - Top of Feed) --- */}
+        <div className="lg:hidden">
+          <DailyBriefingWidget className="mb-6 -mx-4" />
         </div>
 
         <div className="grid grid-cols-1 lg:col-span-8 space-y-8">
@@ -313,6 +313,9 @@ export default async function Home() {
         {/* RIGHT COLUMN (Sidebar - Desktop Only) */}
         <div className="hidden lg:block lg:col-span-4 space-y-8">
           <div className="sticky top-28 space-y-8">
+
+            {/* Desktop: Daily Briefing (Top of Sidebar) */}
+            <DailyBriefingWidget className="mb-8" />
 
             {/* Desktop: Next Match */}
             <PremiumNextMatch match={nextMatch} />

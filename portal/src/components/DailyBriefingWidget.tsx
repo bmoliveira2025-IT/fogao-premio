@@ -17,7 +17,11 @@ interface DailyBriefing {
     top_stories: TopStory[];
 }
 
-export default function DailyBriefingWidget() {
+interface DailyBriefingWidgetProps {
+    className?: string;
+}
+
+export default function DailyBriefingWidget({ className = "" }: DailyBriefingWidgetProps) {
     const [isOpen, setIsOpen] = useState(true);
     const [briefing, setBriefing] = useState<DailyBriefing | null>(null);
     const [loading, setLoading] = useState(true);
@@ -79,7 +83,7 @@ export default function DailyBriefingWidget() {
     const otherStories = briefing.top_stories.filter(s => s.rank !== 1).sort((a, b) => a.rank - b.rank);
 
     return (
-        <div className="mb-6 w-full animate-in slide-in-from-top-4 fade-in duration-500">
+        <div className={`w-full animate-in slide-in-from-top-4 fade-in duration-500 ${className}`}>
             <div className="flex items-center justify-between mb-4 px-4 md:px-1">
                 <h2 className="text-xl font-display font-bold text-white flex items-center gap-2">
                     <FileText className="text-premium-gold" size={20} />
