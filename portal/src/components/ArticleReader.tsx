@@ -34,21 +34,14 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
 
             {/* Intro */}
             {introParams.map((p, i) => (
-                <p
-                    key={i}
-                    className={`transition-all duration-500 ease-in-out px-4 py-2 -mx-4 rounded-xl ${activeParagraphIndex === i ? 'bg-premium-gold/10 text-foreground border-l-4 border-premium-gold shadow-md translate-x-1' : ''}`}
-                    dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} // Simple markdown parser fallback if content comes raw, though usually paragraphs are plain text.
-                // Wait, the content is likely "raw text" but might contain markdown **bold**.
-                // If the backend cleans it, it might still have **.
-                // Let's assume the scraper AI returns Markdown.
-                // If 'paragraphs' is an array of strings split by newline, they might contain **text**.
-                // React renders string as text. I need to parse it or use a markdown renderer.
-                // For this simple case, I'll stick to rendering text, but IF I want to color BOLD, I need to parse.
-                // The prompt says: "use Markdown basic (paragraphs, bold)".
-                // The current ArticleReader takes `paragraphs: string[]`.
-                // I will add a simple parser: p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                // and use dangerouslySetInnerHTML safely since I trust my backend AI.
-                />
+                <div key={i} className="mb-6">
+                    <p
+                        className={`transition-all duration-500 ease-in-out text-[17px] leading-[1.8] text-zinc-100/90 font-sans tracking-wide
+                        ${i === 0 ? 'first-letter:text-5xl first-letter:font-black first-letter:text-premium-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]' : ''}
+                        ${activeParagraphIndex === i ? 'bg-premium-gold/10 text-white border-l-4 border-premium-gold shadow-md pl-4 py-2 -ml-4 rounded-r-xl' : ''}`}
+                        dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>') }}
+                    />
+                </div>
             ))}
 
             {/* Lock or Content */}
@@ -59,11 +52,13 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                     {remainingParams.map((p, i) => {
                         const actualIndex = i + 3;
                         return (
-                            <p
-                                key={`rem-${i}`}
-                                className={`transition-all duration-500 ease-in-out px-4 py-2 -mx-4 rounded-xl ${activeParagraphIndex === actualIndex ? 'bg-premium-gold/10 text-foreground border-l-4 border-premium-gold shadow-md translate-x-1' : ''}`}
-                                dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
-                            />
+                            <div key={`rem-${i}`} className="mb-6">
+                                <p
+                                    className={`transition-all duration-500 ease-in-out text-[17px] leading-[1.8] text-zinc-300/90 font-sans tracking-wide
+                                    ${activeParagraphIndex === actualIndex ? 'bg-premium-gold/10 text-white border-l-4 border-premium-gold shadow-md pl-4 py-2 -ml-4 rounded-r-xl' : ''}`}
+                                    dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>') }}
+                                />
+                            </div>
                         );
                     })}
 
