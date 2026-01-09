@@ -25,10 +25,12 @@ export default function PodcastsPage() {
     useEffect(() => {
         async function fetchPodcasts() {
             try {
-                // Limit to 12 items as requested
-                const res = await fetch('/api/podcasts?limit=12');
+                // Force no-store and manual slice to ensure exactly 12 items
+                const res = await fetch('/api/podcasts?limit=12', { cache: 'no-store' });
                 const data = await res.json();
-                if (data.items) setPodcasts(data.items);
+                if (data.items) {
+                    setPodcasts(data.items.slice(0, 12));
+                }
             } catch (err) {
                 console.error("Failed to load podcasts", err);
             } finally {
