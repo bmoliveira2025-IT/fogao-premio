@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, ChevronRight, Clock } from 'lucide-react';
+import { FileText, ChevronRight, Clock, Flame } from 'lucide-react';
 import Link from 'next/link';
 import SourceIcon from './SourceIcon';
 import PremiumNextMatch from './PremiumNextMatch';
