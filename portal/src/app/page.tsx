@@ -51,75 +51,104 @@ interface VideoItem {
 }
 
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[] }> {
-  const newsRef = db.collection('news').orderBy('created_at', 'desc').limit(20);
-  const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
-  const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
-  const premiumRef = db.collection('news').where('is_premium', '==', true).limit(3);
+  try {
+    const newsRef = db.collection('news').orderBy('created_at', 'desc').limit(20);
+    const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
+    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
+    const premiumRef = db.collection('news').where('is_premium', '==', true).limit(3);
 
-  const [newsSnap, matchesSnap, videosSnap, premiumSnap] = await Promise.all([
-    newsRef.get(),
-    matchesRef.get(),
-    videosRef.get(),
-    premiumRef.get()
-  ]);
+    const [newsSnap, matchesSnap, videosSnap, premiumSnap] = await Promise.all([
+      newsRef.get(),
+      matchesRef.get(),
+      videosRef.get(),
+      premiumRef.get()
+    ]);
 
-  const news = newsSnap.docs.map(doc => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title || '',
-      image: data.image,
-      source: data.source,
-      is_premium: data.is_premium,
-      summary: data.summary,
-      content: data.content,
-      created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
-    } as NewsItem;
-  }).filter(item => !item.is_premium);
+    const news = newsSnap.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title || '',
+        image: data.image,
+        source: data.source,
+        is_premium: data.is_premium,
+        summary: data.summary,
+        content: data.content,
+        created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+      } as NewsItem;
+    }).filter(item => !item.is_premium);
 
-  const premiumNews = premiumSnap.docs.map(doc => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title || '',
-      image: data.image,
-      source: data.source,
-      is_premium: data.is_premium,
-      summary: data.summary,
-      created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
-    } as NewsItem;
-  });
+    const premiumNews = premiumSnap.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title || '',
+        image: data.image,
+        source: data.source,
+        is_premium: data.is_premium,
+        summary: data.summary,
+        created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+      } as NewsItem;
+    });
 
-  const matches = matchesSnap.docs.map(doc => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      home_team: data.home_team || '',
-      away_team: data.away_team || '',
-      home_score: data.home_score || 0,
-      away_score: data.away_score || 0,
-      date: data.date || new Date().toISOString(),
-      location: data.location || '',
-      championship: data.championship || '',
+    const matches = matchesSnap.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        home_team: data.home_team || '',
+        away_team: data.away_team || '',
+        home_score: data.home_score || 0,
+        away_score: data.away_score || 0,
+        date: data.date instanceof Date ? data.date.toISOString() : data.date,
+        location: data.location || 'Estádio Nilton Santos',
+        championship: data.championship || '',
+        status: data.status || 'Agendado',
+        home_team_logo: data.home_team_logo,
+        away_team_logo: data.away_team_logo,
+        stadium: data.stadium,
+      } as MatchData;
+    });
+
+    const videos = videosSnap.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title || '',
+        url: data.url || '',
+        thumbnail: data.thumbnail || '',
+        published_at: data.published_at?.toDate().toISOString() || new Date().toISOString(),
+      } as VideoItem;
+    });
+
+    return { news, matches, videos, premiumNews };
+
+  } catch (error) {
+    console.warn("Failed to Fetch Data (likely Quota Exceeded), returning empty.");
+    return { news: [], matches: [], videos: [], premiumNews: [] };
+  }
+}
+date: data.date || new Date().toISOString(),
+  location: data.location || '',
+    championship: data.championship || '',
       status: data.status || '',
-      home_team_logo: data.home_team_logo,
-      away_team_logo: data.away_team_logo,
-      stadium: data.location
+        home_team_logo: data.home_team_logo,
+          away_team_logo: data.away_team_logo,
+            stadium: data.location
     } as MatchData;
   });
 
-  const videos = videosSnap.docs.map(doc => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title || '',
-      url: data.url || '',
-      thumbnail: data.thumbnail || '',
-      published_at: data.published_at || ''
-    } as VideoItem;
-  });
+const videos = videosSnap.docs.map(doc => {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    title: data.title || '',
+    url: data.url || '',
+    thumbnail: data.thumbnail || '',
+    published_at: data.published_at || ''
+  } as VideoItem;
+});
 
-  return { news, matches, videos, premiumNews };
+return { news, matches, videos, premiumNews };
 }
 
 export default async function Home() {
