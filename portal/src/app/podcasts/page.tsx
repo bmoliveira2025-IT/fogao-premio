@@ -80,7 +80,7 @@ export default function PodcastsPage() {
             </div>
 
             <div className="w-full lg:pl-64">
-                <div className="container mx-auto px-4 py-8 lg:p-12 max-w-5xl">
+                <div className="container mx-auto px-4 pt-24 pb-8 lg:p-12 max-w-5xl">
 
                     {/* Header */}
                     <div className="flex items-center gap-4 mb-8">
