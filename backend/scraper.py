@@ -746,35 +746,35 @@ def generate_daily_briefing():
         print(f"Error generating daily briefing: {e}")
 
     
-    # Check if running in GitHub Actions (or any cloud "single run" environment)
-    if os.getenv("GITHUB_ACTIONS") == "true":
-        print("Running in Cloud Mode (Single Execution)...")
-        update_next_match()
-        fetch_youtube_videos()
+# Check if running in GitHub Actions (or any cloud "single run" environment)
+if os.getenv("GITHUB_ACTIONS") == "true":
+    print("Running in Cloud Mode (Single Execution)...")
+    update_next_match()
+    fetch_youtube_videos()
+    monitor_sources()
+    generate_daily_briefing() # Check/Gen Briefing
+    
+    if should_update_squad():
+        print("Updating Squad (24h period reached)...")
+        scrape_squad()
+    else:
+        print("Skipping Squad update (already updated today).")
+        
+    print("Scraping finished. Exiting.")
+else:
+    # Local Loop Mode
+    print("Starting continuous monitoring... (Interval: 10 minutes)")
+    update_next_match() # Initial run
+    generate_daily_briefing() # Initial check
+    
+    while True:
+        fetch_youtube_videos() # Fetch videos every cycle
         monitor_sources()
-        generate_daily_briefing() # Check/Gen Briefing
+        generate_daily_briefing() # Check every cycle (it has internal "once per day" check)
         
         if should_update_squad():
             print("Updating Squad (24h period reached)...")
             scrape_squad()
-        else:
-            print("Skipping Squad update (already updated today).")
             
-        print("Scraping finished. Exiting.")
-    else:
-        # Local Loop Mode
-        print("Starting continuous monitoring... (Interval: 10 minutes)")
-        update_next_match() # Initial run
-        generate_daily_briefing() # Initial check
-        
-        while True:
-            fetch_youtube_videos() # Fetch videos every cycle
-            monitor_sources()
-            generate_daily_briefing() # Check every cycle (it has internal "once per day" check)
-            
-            if should_update_squad():
-                print("Updating Squad (24h period reached)...")
-                scrape_squad()
-                
-            print("Cycle finished. Sleeping for 10 minutes...")
-            time.sleep(600)
+        print("Cycle finished. Sleeping for 10 minutes...")
+        time.sleep(600)
