@@ -13,8 +13,11 @@ export default function HeroNewsCard({ article }: { article: any }) {
     };
 
     return (
-        <Link href={`/news/${article.id}`} className="group relative block w-full aspect-[4/3] md:aspect-[2/1] rounded-2xl overflow-hidden shadow-2xl mb-8">
-            {/* Background Image */}
+        <Link
+            href={`/news/${article.id}`}
+            className="group relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-3xl border shadow-2xl block"
+            style={{ borderColor: 'var(--border-color)' }}
+        >    {/* Background Image */}
             <Image
                 src={article.image || 'https://via.placeholder.com/800x600'}
                 alt={article.title}

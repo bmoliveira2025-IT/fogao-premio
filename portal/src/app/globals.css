@@ -28,8 +28,8 @@
   /* Lighter Purple for Cards */
   --graphite: #3B1E48;
   /* Purple Graphite */
-  --border-color: rgba(255, 32, 176, 0.4);
-  /* Neon Pink Borders */
+  --border-color: #3E1C55;
+  /* Dark Purple/Black Border */
 }
 
 /* Force Dark Mode Class (Default) */

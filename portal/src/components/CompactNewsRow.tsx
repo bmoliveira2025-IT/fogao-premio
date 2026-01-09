@@ -16,8 +16,12 @@ export default function CompactNewsRow({ article }: any) {
     };
 
     return (
-        <Link href={`/news/${article.id}`} className="group block w-full active:scale-[0.99] transition-transform duration-200">
-            <div className="flex items-start space-x-3 py-3 border-b border-foreground/10 dark:border-premium-gold/10 group-last:border-0 relative overflow-hidden">
+        <Link
+            href={`/news/${article.id}`}
+            className="group flex gap-4 items-center p-3 rounded-xl hover:bg-white/5 border transition-all"
+            style={{ borderColor: 'var(--border-color)' }}
+        >
+            <div className="flex items-start space-x-3 py-3 relative overflow-hidden">
                 {/* Highlight Line (Hover) */}
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-premium-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
