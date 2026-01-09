@@ -143,12 +143,13 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
                         {/* Always visible very faint bg optimized for legibility - "imagem real transparente" */}
                         {story.image && (
-                            <div className="absolute inset-0 z-0 opacity-[0.65] pointer-events-none mix-blend-overlay">
+                            <div className="absolute inset-0 z-0 opacity-[0.2] pointer-events-none">
                                 <img
                                     src={story.image}
                                     alt=""
-                                    className="w-full h-full object-cover brightness-150"
+                                    className="w-full h-full object-cover brightness-125"
                                 />
+                                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-transparent" />
                             </div>
                         )}
 
