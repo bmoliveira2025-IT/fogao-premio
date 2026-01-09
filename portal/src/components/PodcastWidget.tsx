@@ -79,7 +79,7 @@ export default function PodcastWidget() {
             <div className="flex items-center justify-between mb-6 px-4 lg:px-0">
                 <h3 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
                     <Mic className="text-premium-gold" size={20} />
-                    Podcast Glorioso GE
+                    Podcast 360
                 </h3>
                 <a href="https://interativos.ge.globo.com/podcasts/programa/ge-botafogo/" target="_blank" className="text-xs font-bold text-zinc-500 hover:text-white flex items-center gap-1 transition-colors">
                     VER TODOS <ChevronRight size={14} />
@@ -93,25 +93,25 @@ export default function PodcastWidget() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.1 }}
                         key={pod.audioUrl}
-                        className="flex-shrink-0 w-72 bg-zinc-900/50 border border-white/5 rounded-2xl p-4 snap-start hover:border-premium-gold/30 transition-all group"
+                        className="flex-shrink-0 w-60 lg:w-72 bg-zinc-900/50 border border-white/5 rounded-2xl p-3 lg:p-4 snap-start hover:border-premium-gold/30 transition-all group"
                     >
-                        <div className="relative aspect-square rounded-xl overflow-hidden mb-4 bg-zinc-800">
+                        <div className="relative aspect-square rounded-xl overflow-hidden mb-3 lg:mb-4 bg-zinc-800">
                             <img src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"} alt={pod.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
 
                             <button
                                 onClick={() => togglePlay(pod.audioUrl)}
                                 className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm"
                             >
-                                <div className="w-12 h-12 rounded-full bg-premium-gold text-black flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
-                                    {isPlaying === pod.audioUrl ? <Pause size={20} fill="black" /> : <Play size={20} fill="black" className="ml-1" />}
+                                <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-premium-gold text-black flex items-center justify-center shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
+                                    {isPlaying === pod.audioUrl ? <Pause size={18} fill="black" /> : <Play size={18} fill="black" className="ml-1" />}
                                 </div>
                             </button>
                         </div>
 
-                        <div className="space-y-2">
-                            <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider">{new Date(pod.pubDate).toLocaleDateString()}</span>
-                            <h4 className="text-sm font-bold text-white leading-tight line-clamp-2 min-h-[2.5rem]">{pod.title}</h4>
-                            <p className="text-[11px] text-zinc-400 line-clamp-2 md:hidden">{pod.description}</p>
+                        <div className="space-y-1 lg:space-y-2">
+                            <span className="text-[9px] lg:text-[10px] font-bold text-premium-gold uppercase tracking-wider">{new Date(pod.pubDate).toLocaleDateString()}</span>
+                            <h4 className="text-xs lg:text-sm font-bold text-white leading-tight line-clamp-2 min-h-[2rem] lg:min-h-[2.5rem]">{pod.title}</h4>
+                            <p className="text-[10px] lg:text-[11px] text-zinc-400 line-clamp-2 md:hidden">{pod.description}</p>
                         </div>
                     </motion.div>
                 ))}
