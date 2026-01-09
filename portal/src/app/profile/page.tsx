@@ -157,15 +157,15 @@ export default function ProfilePage() {
                                     <div className="flex bg-black rounded-lg p-0.5 border border-premium-gold/15">
                                         <button
                                             onClick={() => theme === 'dark' && toggleTheme()}
-                                            className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'light' ? 'bg-white text-black shadow-sm' : 'text-white/40'}`}
+                                            className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'light' ? 'bg-pink-500 text-white shadow-sm ring-1 ring-pink-400' : 'text-white/40 hover:text-pink-400'}`}
                                         >
-                                            Claro
+                                            Gloriosa
                                         </button>
                                         <button
                                             onClick={() => theme === 'light' && toggleTheme()}
-                                            className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'dark' ? 'bg-[#1A1A1A] text-premium-gold shadow-sm' : 'text-white/40'}`}
+                                            className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'dark' ? 'bg-[#1A1A1A] text-[#D4AF37] shadow-sm ring-1 ring-[#D4AF37]/50' : 'text-white/40 hover:text-[#D4AF37]'}`}
                                         >
-                                            Escuro
+                                            Glorioso
                                         </button>
                                     </div>
                                 </div>
