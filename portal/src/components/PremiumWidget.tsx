@@ -24,13 +24,13 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
 
     return (
         <section className={cn(
-            "relative overflow-hidden rounded-none md:rounded-2xl border-y md:border border-premium-gold/30 dark:border-premium-gold/20 bg-card shadow-2xl group/widget w-[calc(100%+2rem)] -ml-4 md:w-auto md:ml-0 md:mx-0",
+            "relative overflow-hidden rounded-none md:rounded-2xl border-y md:border border-premium-gold/10 bg-card shadow-2xl group/widget w-[calc(100%+2rem)] -ml-4 md:w-auto md:ml-0 md:mx-0",
             className
         )}>
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-premium-gold/5 dark:from-black/40 dark:to-premium-gold/10" />
+            <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-premium-gold/5 dark:from-black/40 dark:to-premium-gold/5" />
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-premium-gold/10 bg-gradient-to-r from-premium-gold/10 to-transparent">
+            <div className="flex items-center justify-between p-4 border-b border-premium-gold/5 bg-gradient-to-r from-premium-gold/5 to-transparent">
                 <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-full bg-premium-gold text-black shadow-lg shadow-premium-gold/20">
                         <Crown size={14} fill="currentColor" />
