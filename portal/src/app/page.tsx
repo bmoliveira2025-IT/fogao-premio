@@ -191,15 +191,15 @@ export default async function Home() {
 
               {/* Headlines Widget */}
               <div className="-mx-4 lg:mx-0">
-                <HeadlinesWidget news={news} />
+                <HeadlinesWidget news={news} nextMatch={nextMatch} />
               </div>
 
               {/* MOBILE INTERSTITIALS (Visible only on Mobile) */}
               <div className="lg:hidden space-y-0">
-                {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY */}
-                <section className="-mt-0 relative z-10 lg:hidden">
+                {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY (REMOVED - INTEGRATED IN WIDGET) */}
+                {/* <section className="-mt-0 relative z-10 lg:hidden">
                   <PremiumNextMatch match={nextMatch} />
-                </section>
+                </section> */}
 
                 {/* QUOTE BANNER - MOBILE ONLY */}
                 <div className="lg:hidden mb-4">

@@ -1,26 +1,52 @@
 "use client";
 
-import { FileText, ChevronRight } from 'lucide-react';
+import { FileText, ChevronRight, Clock } from 'lucide-react';
 import Link from 'next/link';
 import SourceIcon from './SourceIcon';
+import PremiumNextMatch from './PremiumNextMatch';
 
 interface NewsItem {
     id: string;
     title: string;
-    category?: string; // We might not have category in standard NewsItem, so optional or derived
+    category?: string;
     image?: string;
     source?: string;
     summary?: string;
+    created_at?: string;
+}
+
+interface MatchData {
+    home_team: string;
+    away_team: string;
+    home_score: number;
+    away_score: number;
+    date: string;
+    location: string;
+    championship: string;
+    status: string;
+    home_team_logo?: string;
+    away_team_logo?: string;
 }
 
 interface HeadlinesWidgetProps {
     news: NewsItem[];
+    nextMatch?: MatchData | null;
     className?: string;
 }
 
+function getRelativeTime(dateString?: string) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
+    if (diffInSeconds < 60) return 'Agora';
+    if (diffInSeconds < 3600) return `Há ${Math.floor(diffInSeconds / 60)} min`;
+    if (diffInSeconds < 86400) return `Há ${Math.floor(diffInSeconds / 3600)} h`;
+    return `Há ${Math.floor(diffInSeconds / 86400)} d`;
+}
 
-export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidgetProps) {
+export default function HeadlinesWidget({ news, nextMatch, className = "" }: HeadlinesWidgetProps) {
     if (!news || news.length === 0) return null;
 
     // Take top 8 for a balanced view
@@ -61,6 +87,13 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
                             <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
                                 Última Hora
                             </span>
+                            {/* Hero Time */}
+                            <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
+                                <Clock size={12} className="text-zinc-400" />
+                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">
+                                    {getRelativeTime(topStory.created_at)}
+                                </span>
+                            </div>
                         </div>
 
                         {/* Title */}
@@ -79,6 +112,20 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
                 </Link>
             )}
 
+            {/* INTERSTITIAL: NEXT MATCH (Desktop/Tablet integrated) */}
+            {/* On Mobile this is usually hidden if we stick to the original plan, but here we integrate it into the list flow 
+                The user asked to place it after news 1. 
+                In the page.tsx we have a separate mobile block for it. 
+                If we render it here, we should hide it on mobile OR remove the external one. 
+                Let's make it visible everywhere here as part of the list flow for "embedded" feel.
+            */}
+            {nextMatch && (
+                <div className="border-t border-b border-white/5 bg-zinc-900/30">
+                    <PremiumNextMatch match={nextMatch} className="md:rounded-none md:border-0 shadow-none !bg-transparent" />
+                </div>
+            )}
+
+
             {/* Rank 02-08 - List Section */}
             <div className="grid grid-cols-1 divide-y divide-white/5 bg-zinc-950">
                 {otherStories.map((story, index) => (
@@ -94,11 +141,17 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
 
                         {/* Content */}
                         <div className="flex-1 min-w-0">
-                            {/* Source Highlight */}
-                            <div className="flex items-center gap-2 mb-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                                <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
-                                <span className="text-[10px] font-bold text-zinc-500 group-hover:text-premium-gold uppercase tracking-wider">
-                                    {story.source}
+                            {/* Source Highlight & Time */}
+                            <div className="flex items-center gap-3 mb-1.5">
+                                <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                    <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
+                                    <span className="text-[10px] font-bold text-zinc-500 group-hover:text-premium-gold uppercase tracking-wider">
+                                        {story.source}
+                                    </span>
+                                </div>
+                                <div className="w-0.5 h-0.5 rounded-full bg-zinc-700" />
+                                <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider">
+                                    {getRelativeTime(story.created_at)}
                                 </span>
                             </div>
 

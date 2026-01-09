@@ -102,15 +102,16 @@ def clean_text(text):
 
 def process_with_ai(original_title, original_content):
     prompt = f"""
-    Você é um Editor-Chefe de um portal de notícias profissional (Fogão Prêmio), com foco em clareza, escaneabilidade e experiência do leitor em desktop, tablet e mobile.
+    Atue como Editor-Chefe de um portal de notícias profissional (Fogão Prêmio), com foco em clareza, escaneabilidade e experiência do leitor em desktop, tablet e mobile.
     Receberá um texto bruto de notícia sobre o Botafogo.
 
     Sua tarefa é reorganizar, revisar e formatar o conteúdo, sem alterar os fatos, seguindo rigorosamente estas diretrizes:
 
     1. Estrutura editorial
-    - Criar um título jornalístico objetivo e impactante.
+    - Criar um **Título Jornalístico Objetivo** (sem clickbait).
+    - Criar um **Subtítulo Explicativo** (curto).
     - Organizar o texto em parágrafos curtos.
-    - Inserir intertítulos (h3 ou negrito) para separar os temas.
+    - Inserir **Intertítulos** (use **negrito** nos títulos de seção, ex: **O que aconteceu**) para separar os temas.
 
     2. Qualidade jornalística
     - Manter tom informativo, imparcial e profissional.
@@ -119,14 +120,14 @@ def process_with_ai(original_title, original_content):
     - Usar aspas corretamente para falas diretas.
 
     3. Escaneabilidade e UX
-    - Destacar números e valores relevantes.
+    - Destaque números e valores relevantes com **negrito** (ex: **R$ 50 milhões**, **3 gols**).
     - Utilizar listas quando fizer sentido.
-    - O campo 'summary' será o seu "Box de Resumo da situação".
+    - O campo 'summary' será usado como um "Box de Resumo da situação".
 
     4. Público e plataforma
     - Texto otimizado para leitura digital.
     - Adequado para sites de notícias premium.
-    - Linguagem clara e objetiva, sem sensacionalismo.
+    - Linguagem clara e objetiva.
 
     5. Restrições
     - Não adicionar opinião.
@@ -142,8 +143,8 @@ def process_with_ai(original_title, original_content):
     {{
         "title": "Seu Título Jornalístico Objetivo",
         "summary": ["Ponto chave 1 do resumo", "Ponto chave 2 do resumo", "Ponto chave 3 do resumo"],
-        "content": "Seu texto reescrito completo, usando Markdown básico (parágrafos, negrito para destaque). Use 'O Botafogo' em vez de 'o time'. NÃO use tags HTML, apenas quebras de linha e markdown.",
-        "tags": ["Tag1", "Tag2", "Tag3"],
+        "content": "Seu texto completo formatado. Use quebras de linha duplas para parágrafos. Use **asteriscos duplos** para negrito. NÃO use # Markdown Headers, use **negrito** para intertítulos.",
+        "tags": ["Tag1", "Tag2"],
         "sentiment": "Positivo/Neutro/Negativo"
     }}
     """
