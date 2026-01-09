@@ -34,14 +34,14 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     return (
         <div className={cn("w-full transition-all duration-300", className)}>
             {/* Card */}
-            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl border-y md:border border-foreground/10 dark:border-premium-gold/20 p-5 pt-6 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl border-y md:border border-foreground/10 dark:border-premium-gold/20 p-5 pt-2 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative z-10">
                     {/* Label (Moved Inside) */}
-                    <div className="flex items-center justify-center space-x-2 mb-6">
+                    <div className="flex items-center justify-center space-x-2 mb-4">
                         <div className="h-[1px] w-8 md:w-12 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
                         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">Próximo Confronto</span>
                         <div className="h-[1px] w-8 md:w-12 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
@@ -84,10 +84,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         <p className="text-[11px] text-foreground/40">{data.location}</p>
                     </div>
 
-                    {/* Button */}
-                    <button className="w-full py-3 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] rounded-lg text-black font-bold uppercase tracking-widest text-[10px] hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_0_15px_rgba(212,175,55,0.3)]">
-                        Pré-Jogo
-                    </button>
+
                 </div>
             </div>
         </div>
