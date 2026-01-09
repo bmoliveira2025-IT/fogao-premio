@@ -55,7 +55,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     >
                         <div className="h-[1px] w-4 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
                         <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">
-                            Próximo Confronto
+                            PRÓXIMO JOGO
                         </span>
                         <div className="h-[1px] w-4 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
                         <ChevronRight
