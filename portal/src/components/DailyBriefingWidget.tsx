@@ -80,21 +80,21 @@ export default function DailyBriefingWidget() {
 
     return (
         <div className="mb-6 w-full animate-in slide-in-from-top-4 fade-in duration-500">
-            <div className="flex items-center justify-between mb-4 px-1">
+            <div className="flex items-center justify-between mb-4 px-4 md:px-1">
                 <h2 className="text-xl font-display font-bold text-white flex items-center gap-2">
                     <FileText className="text-premium-gold" size={20} />
                     Resumo do Dia
                 </h2>
                 <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 -mr-2 text-white/40 hover:text-white transition-colors"
+                    className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all backdrop-blur-sm"
                 >
                     <span className="sr-only">Fechar</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                 </button>
             </div>
 
-            <div className="bg-zinc-900 border border-premium-gold/20 rounded-2xl overflow-hidden shadow-2xl relative">
+            <div className="bg-zinc-900 border-y border-white/5 md:border md:border-premium-gold/20 md:rounded-2xl overflow-hidden shadow-2xl relative">
                 {/* Decorative gradients */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-premium-gold/5 blur-3xl rounded-full pointer-events-none" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-premium-gold/5 blur-3xl rounded-full pointer-events-none" />

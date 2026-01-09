@@ -190,10 +190,10 @@ export default async function Home() {
       {/* The user said "above the highlight". In mobile, highlight is usually top. */}
       {/* Let's put it inside the container but at the very top */}
 
-      <div className="container mx-auto px-4 pt-4 lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-12 lg:gap-12 lg:px-8">
+      <div className="container mx-auto pt-20 px-4 lg:pt-28 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-12 lg:gap-12">
 
         {/* --- DAILY BRIEFING WIDGET (GLOBAL) --- */}
-        <div className="lg:col-span-12 mb-6">
+        <div className="lg:col-span-12 mb-6 -mx-4 lg:mx-0">
           <DailyBriefingWidget />
         </div>
 
