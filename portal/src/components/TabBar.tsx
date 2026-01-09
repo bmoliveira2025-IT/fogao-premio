@@ -43,28 +43,29 @@ const IconNews = ({ active, className }: { active: boolean, className?: string }
     </svg>
 );
 
-// 3. Soccer Ball (Games) - Geometric precision
+// 3. Soccer Ball (Games) - Ultra Modern Minimalist
 const IconSoccer = ({ active, className }: { active: boolean, className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
         <circle
             cx="12" cy="12" r="10"
-            fill={active ? "currentColor" : "none"}
             stroke="currentColor"
-            strokeWidth={active ? "0" : "1.5"}
+            strokeWidth={active ? "2" : "1.5"}
+            fill={active ? "currentColor" : "none"}
         />
-        {/* Pattern inside - if active (filled), lines need to be inverted (transparent or black) */}
         <path
-            d="M12 16L8.5 13.5L9 9.5H15L15.5 13.5L12 16Z"
+            d="M12 2C12 2 13 7 17 9.5M12 22C12 22 13 17 17 14.5M2 12C2 12 7 11 9.5 7M22 12C22 12 17 13 14.5 17"
             stroke={active ? "black" : "currentColor"}
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
         />
-        <path d="M12 16V22" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M8.5 13.5L4 17" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M9 9.5L5.5 6" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M15 9.5L18.5 6" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M15.5 13.5L20 17" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
+        <path
+            d="M8.5 7.5L15.5 16.5"
+            stroke={active ? "black" : "currentColor"}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
     </svg>
 );
 
