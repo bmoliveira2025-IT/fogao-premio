@@ -222,7 +222,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                             <PremiumGuard>
                                 <ArticleReader
                                     paragraphs={paragraphs}
-                                    isPremium={article.is_premium || article.title.includes('Análise') || paragraphs.length > 5}
+                                    isPremium={article.is_premium || article.title.includes('Análise')} // Removed length check
                                     activeParagraphIndex={activeParagraphIndex}
                                 />
                                 <QuoteBanner />

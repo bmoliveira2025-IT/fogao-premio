@@ -149,7 +149,7 @@ def process_with_ai(original_title, original_content):
         return {
             "title": original_title,
             "summary": [original_content[:200] + "..."],
-            "content": original_content[:500] + "...",
+            "content": original_content, # Fallback to FULL content, no truncation
             "tags": ["Botafogo"],
             "sentiment": "Neutro"
         }
