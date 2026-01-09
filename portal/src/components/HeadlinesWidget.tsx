@@ -2,6 +2,7 @@
 
 import { FileText, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import SourceIcon from './SourceIcon';
 
 interface NewsItem {
     id: string;
@@ -27,14 +28,6 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
 
     return (
         <div className={`w-full animate-in slide-in-from-top-4 fade-in duration-500 ${className}`}>
-            <div className="flex items-center justify-between mb-4 px-4 md:px-0">
-                <h2 className="text-xl font-display font-bold text-white flex items-center gap-2">
-                    <div className="w-1.5 h-6 bg-premium-gold rounded-full mr-1"></div>
-                    Últimas do Botafogo
-                </h2>
-                {/* No close button as requested */}
-            </div>
-
             <div className="bg-zinc-900 border-y border-white/5 md:border md:border-premium-gold/20 md:rounded-2xl overflow-hidden shadow-2xl relative">
                 {/* Decorative gradients */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-premium-gold/5 blur-3xl rounded-full pointer-events-none" />
@@ -68,14 +61,17 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
                                 </span>
                             </div>
 
-                            <div>
-                                <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest mb-1 block drop-shadow-md">
+                            <div className="flex items-center gap-2 mb-1">
+                                <div className="p-1 bg-black/50 rounded-full backdrop-blur-md">
+                                    <SourceIcon source={topStory.source} className="w-4 h-4" />
+                                </div>
+                                <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest drop-shadow-md">
                                     {topStory.source || 'FOGÃO PRÊMIO'}
                                 </span>
-                                <h3 className="text-lg md:text-2xl font-bold text-white leading-tight drop-shadow-2xl max-w-2xl">
-                                    {topStory.title}
-                                </h3>
                             </div>
+                            <h3 className="text-lg md:text-2xl font-bold text-white leading-tight drop-shadow-2xl max-w-2xl">
+                                {topStory.title}
+                            </h3>
                         </div>
                     </Link>
                 )}
@@ -96,9 +92,12 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
                                     {story.title}
                                 </h4>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-[9px] text-premium-gold/80 font-bold uppercase tracking-wide">
-                                        {story.source}
-                                    </span>
+                                    <div className="flex items-center gap-1.5">
+                                        <SourceIcon source={story.source} className="w-3 h-3" />
+                                        <span className="text-[9px] text-premium-gold/80 font-bold uppercase tracking-wide">
+                                            {story.source}
+                                        </span>
+                                    </div>
                                     {/* Optional: Add time ago if available */}
                                 </div>
                             </div>
