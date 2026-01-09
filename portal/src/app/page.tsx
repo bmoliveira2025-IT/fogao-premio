@@ -202,7 +202,7 @@ export default async function Home() {
           {/* LEFT COLUMN (Content) */}
           <div className="space-y-8">
 
-            <div className="px-5 space-y-6 lg:px-0">
+            <div className="space-y-6 lg:px-0">
 
               {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY */}
               <section className="-mt-0 relative z-10 lg:hidden">
@@ -214,7 +214,7 @@ export default async function Home() {
 
               {/* SQUAD LINK - MOBILE */}
               <Link href="/elenco" className="block mt-4 -mb-2 lg:hidden group">
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-card-bg to-background border border-premium-gold/15 hover:border-premium-gold/50 transition-all p-4 flex items-center justify-between shadow-lg">
+                <div className="relative overflow-hidden rounded-none md:rounded-xl bg-gradient-to-r from-card-bg to-background border-y md:border border-premium-gold/15 hover:border-premium-gold/50 transition-all p-4 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
                       <Users size={18} />
