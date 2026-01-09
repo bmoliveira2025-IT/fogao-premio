@@ -194,15 +194,15 @@ export default async function Home() {
 
         {/* --- MAIN HEADLINES WIDGET (Hero + Top 10 List) --- */}
         {/* Replaces the old DailyBriefingWidget and Hero/News Sections */}
-        <div className="lg:col-span-12 mb-8 -mx-4 lg:mx-0">
+        <div className="lg:col-span-12 mb-0 lg:mb-8 -mx-4 lg:mx-0">
           <HeadlinesWidget news={news} />
         </div>
 
-        <div className="grid grid-cols-1 lg:col-span-8 space-y-8">
+        <div className="grid grid-cols-1 lg:col-span-8 lg:space-y-8">
           {/* LEFT COLUMN (Content) */}
-          <div className="space-y-8">
+          <div className="space-y-0 lg:space-y-8">
 
-            <div className="space-y-6 lg:px-0">
+            <div className="space-y-0 lg:space-y-6 lg:px-0">
 
               {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY */}
               <section className="-mt-0 relative z-10 lg:hidden">
