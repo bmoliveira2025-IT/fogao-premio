@@ -128,11 +128,13 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         </h3>
 
                         {/* Source */}
-                        <div className="flex items-center gap-2 mt-4 opacity-80">
-                            <SourceIcon source={topStory.source || ''} className="w-5 h-5 rounded-full bg-black p-0.5" />
-                            <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">
-                                {topStory.source || 'Fogão Prêmio'}
-                            </span>
+                        <div className="flex items-center gap-2 mt-4 opacity-100">
+                            <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-premium-gold/30 shadow-[0_0_15px_rgba(255,32,176,0.3)]">
+                                <Flame className="w-4 h-4 text-premium-gold animate-pulse fill-premium-gold/20" />
+                                <span className="text-[10px] font-black text-premium-gold uppercase tracking-widest">
+                                    DESTAQUE • {topStory.source || 'Fogão Prêmio'}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </Link>
