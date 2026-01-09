@@ -14,6 +14,8 @@ interface NewsItem {
     source?: string;
     summary?: string;
     created_at?: string;
+    is_live?: boolean;
+    is_breaking?: boolean;
 }
 
 interface MatchData {
@@ -80,9 +82,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
-                        {/* Content */}
-                        <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
-                            {/* Badge - Adjusted top position for mobile to prevent header overlap if necessary, though it is usually inside. 
+                        {/* Badge - Adjusted top position for mobile to prevent header overlap if necessary, though it is usually inside. 
                             If user says "sem visão", maybe it's too high up? 
                             I'll move the badges container to be absolutely positioned safely or rely on the flex layout.
                             Wait, the badges were `absolute top-4 left-4`. 
@@ -91,51 +91,50 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             I will add `mt-14` to the first card on mobile? No, the page has padding.
                             Let's push the badges down on mobile.
                         */}
-                            <div className="absolute top-4 md:top-6 left-4 md:left-6 z-30 flex flex-col items-start gap-2">
-                                {/* Live Badge */}
-                                {topStory.is_live && (
-                                    <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
-                                        AO VIVO
-                                    </span>
-                                )}
-                                {/* Breaking News Badge */}
-                                {topStory.is_breaking && (
-                                    <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
-                                        URGENTE
-                                    </span>
-                                )}
-                            </div>
-
-                            {/* Meta */}
-                            <div className="flex items-center gap-3 mb-4">
-                                <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
-                                    01
-                                </span>
+                        <div className="absolute top-4 md:top-6 left-4 md:left-6 z-30 flex flex-col items-start gap-2">
+                            {/* Live Badge */}
+                            {topStory.is_live && (
                                 <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
-                                    Última Hora
+                                    AO VIVO
                                 </span>
-                                {/* Hero Time */}
-                                <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
-                                    <Clock size={12} className="text-zinc-400" />
-                                    <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
-                                        {getRelativeTime(topStory.created_at)}
-                                    </span>
-                                </div>
-                            </div>
+                            )}
+                            {/* Breaking News Badge */}
+                            {topStory.is_breaking && (
+                                <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
+                                    URGENTE
+                                </span>
+                            )}
+                        </div>
 
-                            {/* Title */}
-                            <h3 className="text-xl md:text-4xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
-                                {topStory.title}
-                            </h3>
+                        {/* Meta */}
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
+                                01
+                            </span>
+                            {/* Removed duplicate badges from here as they are now top-left */}
 
-                            {/* Source */}
-                            <div className="flex items-center gap-2 mt-4 opacity-80">
-                                <SourceIcon source={topStory.source || ''} className="w-5 h-5 rounded-full bg-black p-0.5" />
-                                <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">
-                                    {topStory.source || 'Fogão Prêmio'}
+                            {/* Hero Time */}
+                            <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
+                                <Clock size={12} className="text-zinc-400" />
+                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                    {getRelativeTime(topStory.created_at)}
                                 </span>
                             </div>
                         </div>
+
+                        {/* Title */}
+                        <h3 className="text-xl md:text-4xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
+                            {topStory.title}
+                        </h3>
+
+                        {/* Source */}
+                        <div className="flex items-center gap-2 mt-4 opacity-80">
+                            <SourceIcon source={topStory.source || ''} className="w-5 h-5 rounded-full bg-black p-0.5" />
+                            <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">
+                                {topStory.source || 'Fogão Prêmio'}
+                            </span>
+                        </div>
+                    </div>
                 </Link>
             )}
 
@@ -148,12 +147,12 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
 
             {/* Rank 02-08 - List Section */}
-            <div className="grid grid-cols-1 divide-y bg-card" style={{ divideColor: 'var(--border-color)' }}>
+            <div className={`grid grid-cols-1 divide-y bg-card`} style={{ borderColor: 'var(--border-color)' }}>
                 {otherStories.map((story, index) => (
                     <Link
                         key={story.id}
                         href={`/news/${story.id}`}
-                        className="group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300 overflow-hidden border-b last:border-0"
+                        className={`group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300 overflow-hidden border-b last:border-0`}
                         style={{ borderColor: 'var(--border-color)' }}
                     >
                         {/* Subtle Background Image */}
