@@ -44,10 +44,10 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                         <div className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)] animate-pulse" />
                     </div>
 
-                    {/* Title Badge matching reference - Compact */}
-                    <div className="bg-premium-gold px-2 py-0.5 rounded-[3px]">
-                        <span className="text-[10px] md:text-xs font-black text-black uppercase tracking-widest block translate-y-[0.5px]">
-                            Botafogo TV
+                    {/* Title - Typographic Premium Style */}
+                    <div>
+                        <span className="text-xs md:text-sm font-black text-white italic tracking-widest uppercase shadow-black drop-shadow-md">
+                            BOTAFOGO <span className="text-premium-gold">TV</span>
                         </span>
                     </div>
                 </div>
