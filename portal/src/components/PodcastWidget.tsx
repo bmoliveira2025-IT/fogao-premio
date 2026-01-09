@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Play, Pause, Mic, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 interface PodcastItem {
     title: string;
@@ -81,9 +82,9 @@ export default function PodcastWidget() {
                     <Mic className="text-premium-gold" size={20} />
                     Podcast 360
                 </h3>
-                <a href="https://interativos.ge.globo.com/podcasts/programa/ge-botafogo/" target="_blank" className="text-xs font-bold text-zinc-500 hover:text-white flex items-center gap-1 transition-colors">
+                <Link href="/podcasts" className="text-xs font-bold text-zinc-500 hover:text-white flex items-center gap-1 transition-colors">
                     VER TODOS <ChevronRight size={14} />
-                </a>
+                </Link>
             </div>
 
             <div className="flex gap-4 overflow-x-auto pb-6 px-4 lg:px-0 snap-x hide-scrollbar">
