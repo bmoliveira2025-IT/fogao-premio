@@ -28,13 +28,19 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     };
 
     const matchDate = new Date(data.date);
-    const dateString = matchDate.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'numeric' }).replace('.', '');
+    const dateString = matchDate.toLocaleDateString('pt-BR', { weekday: 'original', day: 'numeric', month: 'numeric' }).replace('.', '');
+    // Upper case text formatting
+    const champName = data.championship.toUpperCase();
+    const weekday = matchDate.toLocaleDateString('pt-BR', { weekday: 'short' }).toUpperCase().replace('.', '');
+    const dayAndMonth = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+    const formattedDate = `${weekday}, ${dayAndMonth}`;
+
     const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     return (
         <div className={cn("w-full transition-all duration-300", className)}>
             {/* Card - Ultra Compact for Mobile, Premium for Desktop */}
-            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 p-2 md:p-3 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 p-0 md:p-3 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -90,21 +96,30 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     </div>
 
 
-                    {/* MOBILE LAYOUT - CLIPPING FIXED */}
-                    <div className="md:hidden flex flex-col gap-1.5 px-3 pt-1 pb-1">
-                        {/* Top Bar: Meta Info (Championship | Date) */}
-                        <div className="flex items-center justify-between text-[9px] font-bold text-foreground/50 uppercase tracking-wider border-b border-white/5 pb-1.5 mb-0.5 w-full">
-                            <span className="text-premium-gold truncate max-w-[65%] leading-none">{data.championship}</span>
-                            <div className="flex items-center gap-1 shrink-0 ml-2">
-                                <Calendar size={10} className="text-foreground/30" />
-                                <span className="leading-none">{dateString}</span>
+                    {/* MOBILE LAYOUT - REFINED & SPACED */}
+                    <div className="md:hidden flex flex-col pt-3 pb-2 px-4 bg-zinc-950/50">
+                        {/* 1. Header: Próximo Confronto */}
+                        <div className="flex items-center justify-center space-x-2 mb-2">
+                            <div className="h-[1px] w-4 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
+                            <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">
+                                Próximo Confronto
+                            </span>
+                            <div className="h-[1px] w-4 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
+                        </div>
+
+                        {/* 2. Meta Info Bar (Championship | Date) */}
+                        <div className="flex items-center justify-between text-[9px] font-bold text-foreground/40 uppercase tracking-wider border-b border-white/5 pb-1 mb-2">
+                            <span className="text-premium-gold/80 truncate max-w-[60%]">{champName}</span>
+                            <div className="flex items-center gap-1 shrink-0">
+                                <Calendar size={9} />
+                                <span>{formattedDate}</span>
                             </div>
                         </div>
 
-                        {/* Main Row: Team VS Team */}
-                        <div className="flex items-center justify-between py-1 w-full relative">
+                        {/* 3. Main Row: Team VS Team */}
+                        <div className="flex items-center justify-between w-full relative mb-2">
                             {/* Home */}
-                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <div className="flex items-center gap-2.5 flex-1 min-w-0">
                                 <div className="w-8 h-8 relative drop-shadow-lg shrink-0">
                                     {data.home_team_logo ? (
                                         <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain" />
@@ -119,13 +134,13 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                             {/* Center: Time/VS */}
                             <div className="flex flex-col items-center justify-center px-1 shrink-0 mx-2">
-                                <div className="bg-zinc-900/80 border border-white/10 rounded px-1.5 py-0.5 shadow-sm">
+                                <div className="bg-zinc-900 border border-white/10 rounded px-1.5 py-0.5 shadow-sm">
                                     <span className="text-[10px] font-bold text-white whitespace-nowrap">{timeString}</span>
                                 </div>
                             </div>
 
                             {/* Away */}
-                            <div className="flex items-center gap-2 flex-1 justify-end min-w-0">
+                            <div className="flex items-center gap-2.5 flex-1 justify-end min-w-0">
                                 <span className="text-[10px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-left w-full">
                                     {data.away_team}
                                 </span>
@@ -139,10 +154,10 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                             </div>
                         </div>
 
-                        {/* Bottom: Location */}
-                        <div className="flex items-center justify-center gap-1 opacity-50 pt-0.5 border-t border-white/5 mt-0.5">
+                        {/* 4. Bottom: Location */}
+                        <div className="flex items-center justify-center gap-1 opacity-40">
                             <MapPin size={8} />
-                            <p className="text-[9px] font-medium uppercase tracking-wide truncate max-w-full leading-none">{data.location}</p>
+                            <p className="text-[8px] font-bold uppercase tracking-widest truncate max-w-full">{data.location}</p>
                         </div>
                     </div>
 
