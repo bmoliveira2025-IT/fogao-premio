@@ -79,7 +79,7 @@ export default function PodcastWidget() {
             <div className="flex items-center justify-between mb-6 px-4 lg:px-0">
                 <h3 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
                     <Mic className="text-premium-gold" size={20} />
-                    GE Botafogo
+                    Podcast Glorioso GE
                 </h3>
                 <a href="https://interativos.ge.globo.com/podcasts/programa/ge-botafogo/" target="_blank" className="text-xs font-bold text-zinc-500 hover:text-white flex items-center gap-1 transition-colors">
                     VER TODOS <ChevronRight size={14} />
