@@ -63,7 +63,7 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
 
                             <div className="flex items-center gap-2 mb-1">
                                 <div className="p-1 bg-black/50 rounded-full backdrop-blur-md">
-                                    <SourceIcon source={topStory.source} className="w-4 h-4" />
+                                    <SourceIcon source={topStory.source || ''} className="w-4 h-4" />
                                 </div>
                                 <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest drop-shadow-md">
                                     {topStory.source || 'FOGÃO PRÊMIO'}
@@ -93,7 +93,7 @@ export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidge
                                 </h4>
                                 <div className="flex items-center gap-2 mt-1">
                                     <div className="flex items-center gap-1.5">
-                                        <SourceIcon source={story.source} className="w-3 h-3" />
+                                        <SourceIcon source={story.source || ''} className="w-3 h-3" />
                                         <span className="text-[9px] text-premium-gold/80 font-bold uppercase tracking-wide">
                                             {story.source}
                                         </span>
