@@ -196,13 +196,18 @@ export default async function Home() {
 
               {/* MOBILE INTERSTITIALS (Visible only on Mobile) */}
               <div className="lg:hidden space-y-0">
-                {/* Next Match */}
-                <div className="mb-0">
+                {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY */}
+                <section className="-mt-0 relative z-10 lg:hidden">
                   <PremiumNextMatch match={nextMatch} />
+                </section>
+
+                {/* QUOTE BANNER - MOBILE ONLY */}
+                <div className="lg:hidden mb-4">
+                  <QuoteBanner />
                 </div>
 
-                {/* Premium Widget */}
-                <PremiumWidget news={premiumNews} className="mb-4" />
+                {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
+                <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
 
                 {/* Elenco Link */}
                 <Link href="/elenco" className="block mb-0 group">
@@ -223,11 +228,6 @@ export default async function Home() {
                     <ChevronRight className="text-foreground/30 group-hover:text-premium-gold transition-colors" size={16} />
                   </div>
                 </Link>
-
-                {/* Quote Banner */}
-                <div className="mb-4">
-                  <QuoteBanner />
-                </div>
               </div>
 
               {/* Botafogo TV (Visible Both) */}
