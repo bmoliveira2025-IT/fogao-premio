@@ -86,18 +86,20 @@ export default function PodcastsPage() {
                 <div className="container mx-auto px-4 pt-24 pb-8 lg:p-12 max-w-7xl">
 
                     {/* Header */}
-                    <div className="flex items-center gap-4 mb-8 lg:mb-12">
-                        <Link href="/" className="lg:hidden p-2 -ml-2 text-zinc-400 hover:text-white transition-colors">
+                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-4 mb-8 lg:mb-12 relative">
+                        <Link href="/" className="absolute left-0 top-1 lg:static lg:block p-2 -ml-2 text-zinc-400 hover:text-white transition-colors">
                             <ArrowLeft size={24} />
                         </Link>
-                        <div>
-                            <h1 className="text-2xl lg:text-4xl font-black uppercase tracking-tighter flex items-center gap-3">
-                                <span className="p-2 lg:p-3 bg-premium-gold/10 rounded-xl border border-premium-gold/20 text-premium-gold">
+
+                        <div className="w-full flex flex-col items-center lg:items-start text-center lg:text-left">
+                            <h1 className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-premium-gold/20 bg-premium-gold/5 text-xl lg:text-4xl lg:p-0 lg:bg-transparent lg:border-0 font-black uppercase tracking-widest lg:tracking-tighter text-premium-gold lg:text-white">
+                                <Mic size={18} className="lg:hidden" />
+                                <span className="hidden lg:inline-flex p-3 bg-premium-gold/10 rounded-xl border border-premium-gold/20 text-premium-gold mr-3">
                                     <Mic size={24} className="lg:w-8 lg:h-8" />
                                 </span>
                                 Podcast 360
                             </h1>
-                            <p className="text-zinc-500 font-medium text-sm lg:text-base mt-2 ml-1">
+                            <p className="text-zinc-500 font-medium text-xs lg:text-base mt-2 lg:ml-1">
                                 Últimos 12 episódios do GE Botafogo
                             </p>
                         </div>
