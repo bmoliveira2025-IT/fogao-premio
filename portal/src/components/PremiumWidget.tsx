@@ -114,6 +114,6 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                 ))}
             </div>
 
-        </div>
+        </section>
     );
 }
