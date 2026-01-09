@@ -80,42 +80,68 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
-                        {/* Meta */}
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
-                                01
-                            </span>
-                            <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
-                                Última Hora
-                            </span>
-                            {/* Hero Time */}
-                            <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
-                                <Clock size={12} className="text-zinc-400" />
-                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
-                                    {getRelativeTime(topStory.created_at)}
+                        {/* Content */}
+                        <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
+                            {/* Badge - Adjusted top position for mobile to prevent header overlap if necessary, though it is usually inside. 
+                            If user says "sem visão", maybe it's too high up? 
+                            I'll move the badges container to be absolutely positioned safely or rely on the flex layout.
+                            Wait, the badges were `absolute top-4 left-4`. 
+                            I'll move them down a bit on mobile: `top-20`? No, that's too much.
+                            The user image shows it cut off by the header. 
+                            I will add `mt-14` to the first card on mobile? No, the page has padding.
+                            Let's push the badges down on mobile.
+                        */}
+                            <div className="absolute top-4 md:top-6 left-4 md:left-6 z-30 flex flex-col items-start gap-2">
+                                {/* Live Badge */}
+                                {topStory.is_live && (
+                                    <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
+                                        AO VIVO
+                                    </span>
+                                )}
+                                {/* Breaking News Badge */}
+                                {topStory.is_breaking && (
+                                    <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
+                                        URGENTE
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Meta */}
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
+                                    01
+                                </span>
+                                <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
+                                    Última Hora
+                                </span>
+                                {/* Hero Time */}
+                                <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
+                                    <Clock size={12} className="text-zinc-400" />
+                                    <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                        {getRelativeTime(topStory.created_at)}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Title */}
+                            <h3 className="text-xl md:text-4xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
+                                {topStory.title}
+                            </h3>
+
+                            {/* Source */}
+                            <div className="flex items-center gap-2 mt-4 opacity-80">
+                                <SourceIcon source={topStory.source || ''} className="w-5 h-5 rounded-full bg-black p-0.5" />
+                                <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">
+                                    {topStory.source || 'Fogão Prêmio'}
                                 </span>
                             </div>
                         </div>
-
-                        {/* Title */}
-                        <h3 className="text-xl md:text-4xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
-                            {topStory.title}
-                        </h3>
-
-                        {/* Source */}
-                        <div className="flex items-center gap-2 mt-4 opacity-80">
-                            <SourceIcon source={topStory.source || ''} className="w-5 h-5 rounded-full bg-black p-0.5" />
-                            <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">
-                                {topStory.source || 'Fogão Prêmio'}
-                            </span>
-                        </div>
-                    </div>
                 </Link>
             )}
 
             {/* INTERSTITIAL: NEXT MATCH (Desktop/Tablet integrated) */}
             {nextMatch && (
-                <div className="lg:hidden border-t border-b border-white/5 bg-background dark:bg-zinc-900/30">
+                <div className="lg:hidden border-t border-b bg-background dark:bg-zinc-900/30" style={{ borderColor: 'var(--border-color)' }}>
                     <PremiumNextMatch match={nextMatch} className="md:rounded-none md:border-0 shadow-none !bg-transparent" />
                 </div>
             )}
@@ -192,7 +218,8 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
             {/* Footer */}
             <Link
                 href="/news"
-                className="block p-4 text-center bg-card hover:bg-white/5 border-t border-white/5 text-xs font-bold text-foreground/40 hover:text-white uppercase tracking-widest transition-colors relative z-10"
+                className="block p-4 text-center bg-card hover:bg-white/5 border-t text-xs font-bold text-foreground/40 hover:text-white uppercase tracking-widest transition-colors relative z-10"
+                style={{ borderColor: 'var(--border-color)' }}
             >
                 Ver Todas as Notícias
             </Link>
