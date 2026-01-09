@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { X, Sunrise } from 'lucide-react';
+import { X, Sunrise, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface DailyBriefing {
     date: string;
@@ -9,7 +9,8 @@ interface DailyBriefing {
 }
 
 export default function MorningBriefingPopup() {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(true);
     const [briefing, setBriefing] = useState<DailyBriefing | null>(null);
 
     const formatPremiumText = (text: string) => {
@@ -29,12 +30,11 @@ export default function MorningBriefingPopup() {
 
     useEffect(() => {
         const checkAndFetch = async () => {
-            // 1. Check LocalStorage
-            const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+            const today = new Date().toLocaleDateString('en-CA');
             const lastSeen = localStorage.getItem('seenMorningBriefing');
 
             if (lastSeen === today) {
-                return; // Already seen today
+                return;
             }
 
             try {
@@ -43,7 +43,7 @@ export default function MorningBriefingPopup() {
                     const data = await response.json();
                     if (data && data.general_summary) {
                         setBriefing(data);
-                        setIsOpen(true);
+                        setIsVisible(true);
                     }
                 }
             } catch (error) {
@@ -54,52 +54,63 @@ export default function MorningBriefingPopup() {
         checkAndFetch();
     }, []);
 
-    const handleClose = () => {
-        setIsOpen(false);
+    const handleDismiss = () => {
+        setIsVisible(false);
         const today = new Date().toLocaleDateString('en-CA');
         localStorage.setItem('seenMorningBriefing', today);
     };
 
-    if (!isOpen || !briefing) return null;
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    if (!isVisible || !briefing) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-start md:items-center justify-center p-4 pt-24 md:pt-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="bg-zinc-900 border border-premium-gold/30 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300 relative">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-zinc-900 to-black p-6 border-b border-white/5 flex items-center justify-between">
+        <div className="fixed top-20 lg:top-24 left-0 right-0 z-40 px-2 md:px-0 flex justify-center pointer-events-none">
+            <div className="w-full max-w-4xl bg-zinc-900/95 backdrop-blur-md border border-premium-gold/30 shadow-2xl rounded-xl overflow-hidden pointer-events-auto animate-in slide-in-from-top-2 duration-500">
+                {/* Header - Always Visible */}
+                <div
+                    className="flex items-center justify-between p-3 cursor-pointer bg-gradient-to-r from-zinc-900 to-black hover:bg-white/5 transition-colors"
+                    onClick={toggleExpand}
+                >
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-premium-gold/10 rounded-full">
-                            <Sunrise className="text-premium-gold" size={24} />
+                        <div className="p-1.5 bg-premium-gold/10 rounded-full">
+                            <Sunrise className="text-premium-gold" size={18} />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-white leading-none">Destaques de Ontem</h3>
-                            <p className="text-xs text-white/50 mt-1">Resumo diário do Fogão Prêmio</p>
+                            <h3 className="text-sm font-bold text-white leading-none">Destaques de Ontem</h3>
+                            <p className="text-[10px] text-white/50 mt-0.5">
+                                {isExpanded ? 'Resumo diário do Fogão Prêmio' : 'Toque para expandir'}
+                            </p>
                         </div>
                     </div>
-                    <button
-                        onClick={handleClose}
-                        className="p-2 text-white/40 hover:text-white hover:bg-white/10 rounded-full transition-colors"
-                    >
-                        <X size={20} />
-                    </button>
+
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={(e) => { e.stopPropagation(); toggleExpand(); }}
+                            className="p-1.5 text-white/40 hover:text-premium-gold transition-colors"
+                        >
+                            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                        </button>
+                        <div className="w-px h-6 bg-white/10" />
+                        <button
+                            onClick={(e) => { e.stopPropagation(); handleDismiss(); }}
+                            className="p-1.5 text-white/40 hover:text-red-400 transition-colors"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-8">
-                    <p className="text-base text-white/90 leading-relaxed font-medium border-l-2 border-premium-gold pl-4">
-                        {formatPremiumText(briefing.general_summary)}
-                    </p>
-                </div>
-
-                {/* Footer */}
-                <div className="bg-black/40 p-4 border-t border-white/5 flex justify-end">
-                    <button
-                        onClick={handleClose}
-                        className="px-6 py-2 bg-premium-gold text-black font-bold rounded-lg hover:bg-premium-gold/90 transition-colors text-sm"
-                    >
-                        Entendi
-                    </button>
-                </div>
+                {/* Content - Collapsible */}
+                {isExpanded && (
+                    <div className="p-4 pt-0 border-t border-white/5 bg-black/20 animate-in slide-in-from-top-1 duration-300">
+                        <p className="text-sm text-white/90 leading-relaxed font-medium mt-3 border-l-2 border-premium-gold pl-3">
+                            {formatPremiumText(briefing.general_summary)}
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );
