@@ -45,8 +45,8 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                     </div>
 
                     {/* Title Badge matching reference - Compact */}
-                    <div className="bg-premium-gold px-1.5 py-[1px] rounded-[2px]">
-                        <span className="text-[9px] md:text-[10px] font-black text-black uppercase tracking-wider block translate-y-[0.5px]">
+                    <div className="bg-premium-gold px-2 py-0.5 rounded-[3px]">
+                        <span className="text-[10px] md:text-xs font-black text-black uppercase tracking-widest block translate-y-[0.5px]">
                             Botafogo TV
                         </span>
                     </div>
