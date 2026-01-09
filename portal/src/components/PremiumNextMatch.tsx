@@ -1,3 +1,5 @@
+'use client';
+
 import { Shield, MapPin, Calendar, Clock, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';

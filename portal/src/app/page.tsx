@@ -187,7 +187,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
 
             {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-8 lg:space-y-12">
+            <div className="lg:col-span-8 space-y-2 lg:space-y-12">
 
               {/* Headlines Widget */}
               <div className="-mx-4 lg:mx-0">
