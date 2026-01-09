@@ -4,6 +4,7 @@ import { FileText, ChevronRight, Clock } from 'lucide-react';
 import Link from 'next/link';
 import SourceIcon from './SourceIcon';
 import PremiumNextMatch from './PremiumNextMatch';
+import { cn } from '@/lib/utils';
 
 interface NewsItem {
     id: string;
@@ -113,12 +114,6 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
             )}
 
             {/* INTERSTITIAL: NEXT MATCH (Desktop/Tablet integrated) */}
-            {/* On Mobile this is usually hidden if we stick to the original plan, but here we integrate it into the list flow 
-                The user asked to place it after news 1. 
-                In the page.tsx we have a separate mobile block for it. 
-                If we render it here, we should hide it on mobile OR remove the external one. 
-                Let's make it visible everywhere here as part of the list flow for "embedded" feel.
-            */}
             {nextMatch && (
                 <div className="border-t border-b border-white/5 bg-zinc-900/30">
                     <PremiumNextMatch match={nextMatch} className="md:rounded-none md:border-0 shadow-none !bg-transparent" />
@@ -132,36 +127,62 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     <Link
                         key={story.id}
                         href={`/news/${story.id}`}
-                        className="group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300"
+                        className="group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300 overflow-hidden"
                     >
-                        {/* Number */}
-                        <span className="text-3xl md:text-4xl font-black text-zinc-800 group-hover:text-premium-gold/30 transition-colors w-12 text-center leading-none">
-                            {String(index + 2).padStart(2, '0')}
-                        </span>
+                        {/* Subtle Background Image */}
+                        {story.image && (
+                            <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
+                                <img
+                                    src={story.image}
+                                    alt=""
+                                    className="w-full h-full object-cover grayscale"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/90 to-transparent" />
+                            </div>
+                        )}
 
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                            {/* Source Highlight & Time */}
-                            <div className="flex items-center gap-3 mb-1.5">
-                                <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                                    <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
-                                    <span className="text-[10px] font-bold text-zinc-500 group-hover:text-premium-gold uppercase tracking-wider">
-                                        {story.source}
+                        {/* Always visible very faint bg optimized for legibility - "imagem real transparente" */}
+                        {story.image && (
+                            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none mix-blend-overlay">
+                                <img
+                                    src={story.image}
+                                    alt=""
+                                    className="w-full h-full object-cover grayscale brightness-150"
+                                />
+                            </div>
+                        )}
+
+                        {/* Z-Index Wrapper to stay above bg */}
+                        <div className="relative z-10 flex flex-1 items-center gap-5 min-w-0">
+                            {/* Number */}
+                            <span className="text-3xl md:text-4xl font-black text-zinc-800 group-hover:text-premium-gold/30 transition-colors w-12 text-center leading-none">
+                                {String(index + 2).padStart(2, '0')}
+                            </span>
+
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                                {/* Source Highlight & Time */}
+                                <div className="flex items-center gap-3 mb-1.5">
+                                    <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                        <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
+                                        <span className="text-[10px] font-bold text-zinc-500 group-hover:text-premium-gold uppercase tracking-wider">
+                                            {story.source}
+                                        </span>
+                                    </div>
+                                    <div className="w-0.5 h-0.5 rounded-full bg-zinc-700" />
+                                    <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider" suppressHydrationWarning>
+                                        {getRelativeTime(story.created_at)}
                                     </span>
                                 </div>
-                                <div className="w-0.5 h-0.5 rounded-full bg-zinc-700" />
-                                <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider" suppressHydrationWarning>
-                                    {getRelativeTime(story.created_at)}
-                                </span>
+
+                                <h4 className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white transition-colors leading-snug line-clamp-2">
+                                    {story.title}
+                                </h4>
                             </div>
 
-                            <h4 className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white transition-colors leading-snug line-clamp-2">
-                                {story.title}
-                            </h4>
+                            {/* Arrow */}
+                            <ChevronRight className="text-zinc-700 group-hover:text-premium-gold transition-colors transform group-hover:translate-x-1" size={20} />
                         </div>
-
-                        {/* Arrow */}
-                        <ChevronRight className="text-zinc-700 group-hover:text-premium-gold transition-colors transform group-hover:translate-x-1" size={20} />
                     </Link>
                 ))}
             </div>
@@ -169,7 +190,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
             {/* Footer */}
             <Link
                 href="/news"
-                className="block p-4 text-center bg-zinc-900/50 hover:bg-zinc-900 border-t border-white/5 text-xs font-bold text-zinc-500 hover:text-white uppercase tracking-widest transition-colors"
+                className="block p-4 text-center bg-zinc-900/50 hover:bg-zinc-900 border-t border-white/5 text-xs font-bold text-zinc-500 hover:text-white uppercase tracking-widest transition-colors relative z-10"
             >
                 Ver Todas as Notícias
             </Link>
