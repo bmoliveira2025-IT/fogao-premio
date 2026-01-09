@@ -27,6 +27,7 @@ export default function CompactNewsRow({ article }: any) {
                         src={article.image || 'https://via.placeholder.com/150'}
                         alt={article.title}
                         fill
+                        sizes="64px"
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                 </div>

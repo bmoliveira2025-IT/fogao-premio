@@ -41,6 +41,7 @@ export default function BotafogoTVCarousel({ videos }: { videos: VideoItem[] }) 
                                 src={video.thumbnail}
                                 alt={video.title}
                                 fill
+                                sizes="(max-width: 768px) 192px, 250px"
                                 className="object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/20 transition-colors">

@@ -62,6 +62,7 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
                                             src={item.image}
                                             alt={item.title}
                                             fill
+                                            sizes="(max-width: 1024px) 85vw, 33vw"
                                             className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
                                         />
                                     ) : (
