@@ -111,15 +111,6 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
                                 01
                             </span>
-                            {/* Removed duplicate badges from here as they are now top-left */}
-
-                            {/* Hero Time */}
-                            <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
-                                <Clock size={12} className="text-zinc-400" />
-                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
-                                    {getRelativeTime(topStory.created_at)}
-                                </span>
-                            </div>
                         </div>
 
                         {/* Title */}
@@ -127,12 +118,20 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             {topStory.title}
                         </h3>
 
-                        {/* Source */}
+                        {/* Source & Time */}
                         <div className="flex items-center gap-2 mt-4 opacity-100">
                             <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-premium-gold/30 shadow-[0_0_15px_rgba(255,32,176,0.3)]">
                                 <Flame className="w-4 h-4 text-premium-gold animate-pulse fill-premium-gold/20" />
                                 <span className="text-[10px] font-black text-premium-gold uppercase tracking-widest">
                                     DESTAQUE • {topStory.source || 'Fogão Prêmio'}
+                                </span>
+                            </div>
+
+                            {/* Time Tag Moved Here */}
+                            <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                                <Clock size={12} className="text-zinc-400" />
+                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                    {getRelativeTime(topStory.created_at)}
                                 </span>
                             </div>
                         </div>
