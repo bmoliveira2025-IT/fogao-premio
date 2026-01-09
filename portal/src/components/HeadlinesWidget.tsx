@@ -115,7 +115,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
             {/* INTERSTITIAL: NEXT MATCH (Desktop/Tablet integrated) */}
             {nextMatch && (
-                <div className="border-t border-b border-white/5 bg-zinc-900/30">
+                <div className="lg:hidden border-t border-b border-white/5 bg-zinc-900/30">
                     <PremiumNextMatch match={nextMatch} className="md:rounded-none md:border-0 shadow-none !bg-transparent" />
                 </div>
             )}
