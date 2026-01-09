@@ -11,7 +11,8 @@ import { ChevronRight, Users } from 'lucide-react';
 import Link from 'next/link';
 import MatchDayPopup from '@/components/MatchDayPopup';
 import QuoteBanner from '@/components/QuoteBanner';
-import DesktopSidebar from '@/components/DesktopSidebar'; // NEW
+import DesktopSidebar from '@/components/DesktopSidebar';
+import PodcastWidget from '@/components/PodcastWidget';
 
 export const revalidate = 60;
 
@@ -193,6 +194,9 @@ export default async function Home() {
               <div className="-mx-4 lg:mx-0">
                 <HeadlinesWidget news={news} nextMatch={nextMatch} />
               </div>
+
+              {/* PODCAST WIDGET */}
+              <PodcastWidget />
 
               {/* MOBILE INTERSTITIALS (Visible only on Mobile) */}
               <div className="lg:hidden space-y-0">
