@@ -115,7 +115,10 @@ export default function PodcastsPage() {
                                             className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/50 transition-colors backdrop-blur-[2px]"
                                         >
                                             <div className={`w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center shadow-lg transform transition-all duration-300 ${isPlaying === pod.audioUrl ? 'bg-premium-gold scale-100' : 'bg-white/90 scale-90 group-hover:scale-100 group-hover:bg-premium-gold'}`}>
-                                                {isPlaying === pod.audioUrl ? <Pause size={16} lg:size={20} fill="black" className="text-black" /> : <Play size={16} lg:size={20} fill="black" className="ml-1 text-black" />}
+                                                {isPlaying === pod.audioUrl ?
+                                                    <Pause fill="black" className="w-4 h-4 lg:w-5 lg:h-5 text-black" /> :
+                                                    <Play fill="black" className="w-4 h-4 lg:w-5 lg:h-5 ml-1 text-black" />
+                                                }
                                             </div>
                                         </button>
                                     </div>
