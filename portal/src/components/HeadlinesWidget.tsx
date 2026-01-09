@@ -90,7 +90,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             {/* Hero Time */}
                             <div className="flex items-center gap-1.5 opacity-80 pl-2 border-l border-white/20">
                                 <Clock size={12} className="text-zinc-400" />
-                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">
+                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
                                     {getRelativeTime(topStory.created_at)}
                                 </span>
                             </div>
@@ -150,7 +150,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                     </span>
                                 </div>
                                 <div className="w-0.5 h-0.5 rounded-full bg-zinc-700" />
-                                <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider">
+                                <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider" suppressHydrationWarning>
                                     {getRelativeTime(story.created_at)}
                                 </span>
                             </div>
