@@ -2,8 +2,12 @@ import { NextResponse } from 'next/server';
 
 const FEED_URL = 'https://audio.globoradio.globo.com/podcast/feed/690/ge-botafogo';
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const limitParam = searchParams.get('limit');
+        const limit = limitParam ? parseInt(limitParam) : 5;
+
         const response = await fetch(FEED_URL, { next: { revalidate: 3600 } }); // Cache for 1 hour
         const xmlText = await response.text();
 
@@ -50,7 +54,7 @@ export async function GET() {
                 });
             }
 
-            if (items.length >= 5) break; // Limit to 5 latest items
+            if (items.length >= limit) break;
         }
 
         return NextResponse.json({ items });
