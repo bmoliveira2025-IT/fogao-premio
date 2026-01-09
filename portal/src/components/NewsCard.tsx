@@ -16,46 +16,47 @@ export default function NewsCard({ article }: any) {
     };
 
     return (
-        fill
-                        className = "object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-                </div >
+        <div
+            className="bg-card rounded-3xl overflow-hidden shadow-2xl border flex flex-col h-full group transition-all duration-300 hover:scale-[1.02]"
+            style={{ borderColor: 'var(--border-color)' }}
+        >
+            <Link href={`/news/${article.id}`} className="block relative aspect-[16/10] overflow-hidden">
+                <Image
+                    src={article.image || 'https://via.placeholder.com/800x600'}
+                    alt={article.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80" />
 
-        {/* Content - Right */ }
-        < div className = "flex flex-col justify-between flex-grow py-1" >
-            <div>
-                {/* Tag */}
-                <div className="mb-1.5">
-                    <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest">
-                        GERAL
+                <div className="absolute bottom-0 left-0 p-4">
+                    <div className="mb-2">
+                        <span className="px-2 py-1 bg-premium-gold text-black text-[10px] font-black uppercase tracking-widest rounded-md">
+                            GERAL
+                        </span>
+                    </div>
+                </div>
+            </Link>
+
+            <div className="p-5 flex flex-col flex-grow">
+                <div className="flex items-center space-x-2 mb-3">
+                    <SourceIcon source={article.source} className="w-4 h-4" />
+                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                        {article.source || 'FOGÃONET'}
                     </span>
+                    <span className="text-zinc-600">•</span>
+                    <div className="flex items-center text-zinc-500 text-[10px] font-bold">
+                        <Clock size={10} className="mr-1" />
+                        <span>{timeAgo(article.created_at)}</span>
+                    </div>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-sm font-bold text-foreground leading-snug font-display line-clamp-3 group-hover:text-premium-gold/90 transition-colors uppercase italic">
-                    {article.title}
-                </h3>
-            </div>
-
-    {/* Metadata */ }
-    <div className="flex items-center justify-between mt-2">
-        <div className="flex items-center space-x-2">
-            <SourceIcon source={article.source} className="w-4 h-4" />
-            <span className="text-[9px] font-bold text-foreground/30 uppercase tracking-wider">
-                {article.source || 'FOGÃONET'}
-            </span>
-        </div>
-
-        <div className="flex items-center text-foreground/20 text-[9px] font-bold">
-            <Clock size={8} className="mr-1" />
-            <span className="mr-3">{timeAgo(article.created_at)}</span>
-            <div className="flex items-center space-x-1 border-l border-foreground/10 pl-3">
-                <span className="uppercase tracking-widest">{new Date(article.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '')}</span>
+                <Link href={`/news/${article.id}`} className="group-hover:text-premium-gold transition-colors block flex-grow">
+                    <h3 className="text-lg font-bold text-white leading-tight font-display uppercase italic mb-2 line-clamp-3">
+                        {article.title}
+                    </h3>
+                </Link>
             </div>
         </div>
-    </div>
-                </div >
-            </div >
-        </Link >
     );
 }
