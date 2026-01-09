@@ -18,101 +18,127 @@ interface HeadlinesWidgetProps {
     className?: string;
 }
 
+"use client";
+
+import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import SourceIcon from './SourceIcon';
+
+interface NewsItem {
+    id: string;
+    title: string;
+    category?: string;
+    image?: string;
+    source?: string;
+    summary?: string;
+    created_at?: string;
+}
+
+interface HeadlinesWidgetProps {
+    news: NewsItem[];
+    className?: string;
+}
+
 export default function HeadlinesWidget({ news, className = "" }: HeadlinesWidgetProps) {
     if (!news || news.length === 0) return null;
 
-    // Take top 10
-    const topBriefing = news.slice(0, 10);
+    // Take top 8 for a balanced view
+    const topBriefing = news.slice(0, 8);
     const topStory = topBriefing[0];
     const otherStories = topBriefing.slice(1);
 
     return (
-        <div className={`w-full animate-in slide-in-from-top-4 fade-in duration-500 ${className}`}>
-            <div className="bg-zinc-900 border-y border-white/5 md:border md:border-premium-gold/20 md:rounded-2xl overflow-hidden shadow-2xl relative">
-                {/* Decorative gradients */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-premium-gold/5 blur-3xl rounded-full pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-premium-gold/5 blur-3xl rounded-full pointer-events-none" />
+        <div className={`w-full flex flex-col gap-0 bg-zinc-950 border border-white/5 md:rounded-3xl overflow-hidden shadow-2xl ${className}`}>
 
-                {/* Rank 01 - Hero (Latest News) */}
-                {topStory && (
-                    <Link
-                        href={`/news/${topStory.id}`}
-                        className="relative h-64 md:h-80 w-full group overflow-hidden block"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
-                        {topStory.image && (
-                            <img
-                                src={topStory.image}
-                                alt={topStory.title}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80"
-                                onError={(e) => {
-                                    (e.target as HTMLImageElement).style.display = 'none';
-                                }}
-                            />
-                        )}
+            {/* Rank 01 - Hero Section (Immersive) */}
+            {topStory && (
+                <Link
+                    href={`/news/${topStory.id}`}
+                    className="relative w-full aspect-[16/9] md:aspect-[21/9] group overflow-hidden block"
+                >
+                    {/* Image */}
+                    {topStory.image ? (
+                        <img
+                            src={topStory.image}
+                            alt={topStory.title}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                    ) : (
+                        <div className="absolute inset-0 bg-zinc-900" />
+                    )}
 
-                        <div className="relative z-20 h-full flex flex-col justify-end p-6 md:p-8">
-                            <div className="flex items-center gap-3 mb-3">
-                                <span className="text-4xl md:text-5xl font-display font-black text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] opacity-90">
-                                    01
-                                </span>
-                                <span className="px-2 py-0.5 bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg rounded-sm">
-                                    Última Hora
-                                </span>
-                            </div>
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent opacity-90 transition-opacity group-hover:opacity-80" />
 
-                            <div className="flex items-center gap-2 mb-1">
-                                <div className="p-1 bg-black/50 rounded-full backdrop-blur-md">
-                                    <SourceIcon source={topStory.source || ''} className="w-4 h-4" />
-                                </div>
-                                <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest drop-shadow-md">
-                                    {topStory.source || 'FOGÃO PRÊMIO'}
-                                </span>
-                            </div>
-                            <h3 className="text-lg md:text-2xl font-bold text-white leading-tight drop-shadow-2xl max-w-2xl">
-                                {topStory.title}
-                            </h3>
-                        </div>
-                    </Link>
-                )}
-
-                {/* Rank 02-10 - List */}
-                <div className="divide-y divide-white/5 bg-zinc-900/80 backdrop-blur-sm">
-                    {otherStories.map((story, index) => (
-                        <Link
-                            key={story.id}
-                            href={`/news/${story.id}`}
-                            className="p-4 flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer group block"
-                        >
-                            <span className="text-2xl font-display font-black text-white/20 group-hover:text-premium-gold/40 transition-colors w-8 text-center">
-                                {String(index + 2).padStart(2, '0')}
+                    {/* Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
+                        {/* Meta */}
+                        <div className="flex items-center gap-3 mb-4">
+                            <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
+                                01
                             </span>
-                            <div className="flex-1">
-                                <h4 className="text-sm font-medium text-white/90 group-hover:text-white transition-colors line-clamp-2 leading-snug">
-                                    {story.title}
-                                </h4>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <div className="flex items-center gap-1.5">
-                                        <SourceIcon source={story.source || ''} className="w-3 h-3" />
-                                        <span className="text-[9px] text-premium-gold/80 font-bold uppercase tracking-wide">
-                                            {story.source}
-                                        </span>
-                                    </div>
-                                    {/* Optional: Add time ago if available */}
-                                </div>
-                            </div>
-                            <ChevronRight size={16} className="text-white/20 group-hover:text-premium-gold transition-colors" />
-                        </Link>
-                    ))}
-                </div>
+                            <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
+                                Última Hora
+                            </span>
+                        </div>
 
-                {/* Optional Footer Link to all news */}
-                <div className="bg-black/40 border-t border-white/5 p-3 text-center">
-                    <Link href="/news" className="text-xs font-bold text-white/40 hover:text-white uppercase tracking-widest transition-colors flex items-center justify-center gap-1">
-                        Ver Todas as Notícias <ChevronRight size={10} />
+                        {/* Title */}
+                        <h3 className="text-xl md:text-4xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
+                            {topStory.title}
+                        </h3>
+
+                        {/* Source */}
+                        <div className="flex items-center gap-2 mt-4 opacity-80">
+                            <SourceIcon source={topStory.source || ''} className="w-5 h-5 rounded-full bg-black p-0.5" />
+                            <span className="text-xs font-bold text-premium-gold uppercase tracking-widest">
+                                {topStory.source || 'Fogão Prêmio'}
+                            </span>
+                        </div>
+                    </div>
+                </Link>
+            )}
+
+            {/* Rank 02-08 - List Section */}
+            <div className="grid grid-cols-1 divide-y divide-white/5 bg-zinc-950">
+                {otherStories.map((story, index) => (
+                    <Link
+                        key={story.id}
+                        href={`/news/${story.id}`}
+                        className="group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300"
+                    >
+                        {/* Number */}
+                        <span className="text-3xl md:text-4xl font-black text-zinc-800 group-hover:text-premium-gold/30 transition-colors w-12 text-center leading-none">
+                            {String(index + 2).padStart(2, '0')}
+                        </span>
+
+                        {/* Content */}
+                        <div className="flex-1 min-w-0">
+                            {/* Source Highlight */}
+                            <div className="flex items-center gap-2 mb-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
+                                <span className="text-[10px] font-bold text-zinc-500 group-hover:text-premium-gold uppercase tracking-wider">
+                                    {story.source}
+                                </span>
+                            </div>
+
+                            <h4 className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white transition-colors leading-snug line-clamp-2">
+                                {story.title}
+                            </h4>
+                        </div>
+
+                        {/* Arrow */}
+                        <ChevronRight className="text-zinc-700 group-hover:text-premium-gold transition-colors transform group-hover:translate-x-1" size={20} />
                     </Link>
-                </div>
+                ))}
             </div>
+
+            {/* Footer */}
+            <Link
+                href="/news"
+                className="block p-4 text-center bg-zinc-900/50 hover:bg-zinc-900 border-t border-white/5 text-xs font-bold text-zinc-500 hover:text-white uppercase tracking-widest transition-colors"
+            >
+                Ver Todas as Notícias
+            </Link>
         </div>
     );
 }

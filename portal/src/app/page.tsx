@@ -210,7 +210,7 @@ export default async function Home() {
                 <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
 
                 {/* SQUAD LINK - MOBILE */}
-                <Link href="/elenco" className="block mt-4 -mb-2 lg:hidden group relative">
+                <Link href="/elenco" className="block mt-8 -mb-2 lg:hidden group relative">
                   <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 border-y md:border border-premium-gold/15 hover:border-premium-gold/50 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
 
                     {/* Background Image - Players */}
