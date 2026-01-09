@@ -45,7 +45,7 @@ export default function QuoteBanner() {
             className="w-full"
         >
             {/* Mobile: Full Width Strip */}
-            <div className="lg:hidden -mx-4 border-y border-premium-gold/20 bg-zinc-900 relative overflow-hidden h-32 flex items-center justify-center">
+            <div className="lg:hidden -mx-4 border-b border-premium-gold/20 bg-zinc-900 relative overflow-hidden h-32 flex items-center justify-center">
                 {/* Background Image - Arquibancada */}
                 <div className="absolute inset-0 z-0">
                     <img

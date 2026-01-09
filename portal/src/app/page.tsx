@@ -233,7 +233,7 @@ export default async function Home() {
               </Link>
 
               {/* QUOTE BANNER - MOBILE ONLY */}
-              <div className="py-2 lg:hidden">
+              <div className="lg:hidden">
                 <QuoteBanner />
               </div>
 
