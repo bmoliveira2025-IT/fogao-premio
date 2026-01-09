@@ -102,21 +102,48 @@ def clean_text(text):
 
 def process_with_ai(original_title, original_content):
     prompt = f"""
-    Atue como um Jornalista Esportivo Sênior do portal "Fogão Prêmio".
-    Sua tarefa é REESCREVER a notícia abaixo com suas próprias palavras para criar um conteúdo original e premium.
-    NÃO copie o texto. Use parafraseamento inteligente para evitar plágio (Copyright).
-    Mantenha todos os fatos, números e nomes corretos.
-    O tom deve ser profissional, apaixonado (mas imparcial) e analítico.
+    Você é um Editor-Chefe de um portal de notícias profissional (Fogão Prêmio), com foco em clareza, escaneabilidade e experiência do leitor em desktop, tablet e mobile.
+    Receberá um texto bruto de notícia sobre o Botafogo.
+
+    Sua tarefa é reorganizar, revisar e formatar o conteúdo, sem alterar os fatos, seguindo rigorosamente estas diretrizes:
+
+    1. Estrutura editorial
+    - Criar um título jornalístico objetivo e impactante.
+    - Organizar o texto em parágrafos curtos.
+    - Inserir intertítulos (h3 ou negrito) para separar os temas.
+
+    2. Qualidade jornalística
+    - Manter tom informativo, imparcial e profissional.
+    - Preservar datas, valores, nomes e declarações.
+    - Corrigir fluidez, coesão e redundâncias.
+    - Usar aspas corretamente para falas diretas.
+
+    3. Escaneabilidade e UX
+    - Destacar números e valores relevantes.
+    - Utilizar listas quando fizer sentido.
+    - O campo 'summary' será o seu "Box de Resumo da situação".
+
+    4. Público e plataforma
+    - Texto otimizado para leitura digital.
+    - Adequado para sites de notícias premium.
+    - Linguagem clara e objetiva, sem sensacionalismo.
+
+    5. Restrições
+    - Não adicionar opinião.
+    - Não inventar informações.
+    - Não remover fatos relevantes.
+
+    Notícia Original para processar:
+    {original_content}
     
-    Notícia Original: {original_content}
     Título Original: {original_title}
-    
-    Retorne APENAS um JSON válido:
+
+    Retorne APENAS um JSON válido seguindo esta estrutura exata:
     {{
-        "title": "Título Impactante (Manchete Editorial)",
-        "summary": ["Destaque 1", "Destaque 2", "Destaque 3"],
-        "content": "Texto completo reescrito (Mínimo 3 parágrafos bem estruturados). Use 'O Botafogo' em vez de 'o time'.",
-        "tags": ["Tag1", "Tag2"],
+        "title": "Seu Título Jornalístico Objetivo",
+        "summary": ["Ponto chave 1 do resumo", "Ponto chave 2 do resumo", "Ponto chave 3 do resumo"],
+        "content": "Seu texto reescrito completo, usando Markdown básico (parágrafos, negrito para destaque). Use 'O Botafogo' em vez de 'o time'. NÃO use tags HTML, apenas quebras de linha e markdown.",
+        "tags": ["Tag1", "Tag2", "Tag3"],
         "sentiment": "Positivo/Neutro/Negativo"
     }}
     """
