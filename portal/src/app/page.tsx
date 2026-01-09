@@ -127,29 +127,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     return { news: [], matches: [], videos: [], premiumNews: [] };
   }
 }
-date: data.date || new Date().toISOString(),
-  location: data.location || '',
-    championship: data.championship || '',
-      status: data.status || '',
-        home_team_logo: data.home_team_logo,
-          away_team_logo: data.away_team_logo,
-            stadium: data.location
-    } as MatchData;
-  });
 
-const videos = videosSnap.docs.map(doc => {
-  const data = doc.data();
-  return {
-    id: doc.id,
-    title: data.title || '',
-    url: data.url || '',
-    thumbnail: data.thumbnail || '',
-    published_at: data.published_at || ''
-  } as VideoItem;
-});
-
-return { news, matches, videos, premiumNews };
-}
 
 export default async function Home() {
   const { news, matches, videos, premiumNews } = await getData();
