@@ -1,4 +1,4 @@
-import { Shield, MapPin, Calendar } from 'lucide-react';
+import { Shield, MapPin, Calendar, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MatchData {
@@ -28,81 +28,119 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     };
 
     const matchDate = new Date(data.date);
-    const dateString = matchDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' });
+    const dateString = matchDate.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'numeric' }).replace('.', '');
     const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     return (
         <div className={cn("w-full transition-all duration-300", className)}>
-            {/* Card */}
-            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 p-4 md:p-5 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
+            {/* Card - Ultra Compact for Mobile, Premium for Desktop */}
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 p-3 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 <div className="relative z-10">
-                    {/* Header Label - Premium & Centered */}
-                    <div className="flex items-center justify-center space-x-3 mb-4">
-                        <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">
-                            Próximo Confronto
-                        </span>
-                        <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
-                    </div>
 
-                    {/* Content Container */}
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 px-2 lg:px-4">
-
-                        {/* Home Team */}
-                        <div className="flex flex-col items-center w-full md:w-1/3 order-1 md:order-1">
-                            <div className="w-16 h-16 md:w-16 md:h-16 relative mb-3 drop-shadow-2xl hover:scale-110 transition-transform duration-300">
-                                {data.home_team_logo ? (
-                                    <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain" />
-                                ) : (
-                                    <Shield size={48} className="text-foreground/20" />
-                                )}
-                            </div>
-                            <span className="text-base md:text-lg font-black text-foreground font-display tracking-wide text-center leading-tight">
-                                {data.home_team}
+                    {/* DESKTOP LAYOUT (Unchanged - Premium Vertical) */}
+                    <div className="hidden md:block">
+                        <div className="flex items-center justify-center space-x-3 mb-4">
+                            <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">
+                                Próximo Confronto
                             </span>
+                            <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
                         </div>
 
-                        {/* VS / Info Center */}
-                        <div className="flex flex-col items-center justify-center w-full md:w-1/3 order-2 md:order-2 space-y-2 my-2 md:my-0">
-                            <span className="text-4xl md:text-5xl font-black italic text-foreground/10 font-display select-none">VS</span>
-                            {/* Mobile Date/Time nested here for tighter feel */}
-                            <div className="flex flex-col items-center md:hidden space-y-0.5">
-                                <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest">{data.championship}</span>
-                                <span className="text-[11px] font-medium text-foreground/60">{dateString} • {timeString}</span>
+                        <div className="flex items-center justify-between px-4">
+                            <div className="flex flex-col items-center w-1/3">
+                                <div className="w-16 h-16 relative mb-3 drop-shadow-2xl hover:scale-110 transition-transform duration-300">
+                                    {data.home_team_logo ? (
+                                        <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain" />
+                                    ) : (
+                                        <Shield size={48} className="text-foreground/20" />
+                                    )}
+                                </div>
+                                <span className="text-lg font-black text-foreground font-display tracking-wide text-center leading-tight">
+                                    {data.home_team}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-col items-center justify-center w-1/3 space-y-2">
+                                <span className="text-5xl font-black italic text-foreground/10 font-display select-none">VS</span>
+                            </div>
+
+                            <div className="flex flex-col items-center w-1/3">
+                                <div className="w-16 h-16 relative mb-3 drop-shadow-2xl hover:scale-110 transition-transform duration-300">
+                                    {data.away_team_logo ? (
+                                        <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain" />
+                                    ) : (
+                                        <Shield size={48} className="text-foreground/20" />
+                                    )}
+                                </div>
+                                <span className="text-lg font-black text-foreground font-display tracking-wide text-center leading-tight">
+                                    {data.away_team}
+                                </span>
                             </div>
                         </div>
-
-                        {/* Away Team */}
-                        <div className="flex flex-col items-center w-full md:w-1/3 order-3 md:order-3">
-                            <div className="w-16 h-16 md:w-16 md:h-16 relative mb-3 drop-shadow-2xl hover:scale-110 transition-transform duration-300">
-                                {data.away_team_logo ? (
-                                    <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain" />
-                                ) : (
-                                    <Shield size={48} className="text-foreground/20" />
-                                )}
-                            </div>
-                            <span className="text-base md:text-lg font-black text-foreground font-display tracking-wide text-center leading-tight">
-                                {data.away_team}
-                            </span>
+                        <div className="text-center space-y-1 mt-6">
+                            <p className="text-xs font-bold text-foreground/80 uppercase tracking-widest">{data.championship}</p>
+                            <p className="text-[11px] text-foreground/40 capitalize">{dateString} • {timeString}</p>
+                            <p className="text-[11px] text-foreground/40">{data.location}</p>
                         </div>
                     </div>
 
-                    {/* Desktop Info Footer */}
-                    <div className="hidden md:block text-center space-y-1 mt-6">
-                        <p className="text-xs font-bold text-foreground/80 uppercase tracking-widest">{data.championship}</p>
-                        <p className="text-[11px] text-foreground/40 capitalize">{dateString} • {timeString}</p>
-                        <p className="text-[11px] text-foreground/40">{data.location}</p>
-                    </div>
 
-                    {/* Mobile Location Footer */}
-                    <div className="md:hidden text-center mt-4 border-t border-white/5 pt-3">
-                        <div className="flex items-center justify-center gap-1.5 text-foreground/40">
-                            <MapPin size={10} />
-                            <p className="text-[10px]">{data.location}</p>
+                    {/* MOBILE LAYOUT - ULTRA COMPACT HORIZONTAL */}
+                    <div className="md:hidden flex flex-col gap-2">
+                        {/* Top Bar: Meta Info (Championship | Date | Location) */}
+                        <div className="flex items-center justify-between text-[9px] font-bold text-foreground/50 uppercase tracking-wider border-b border-white/5 pb-2 mb-1">
+                            <div className="flex items-center gap-2">
+                                <span className="text-premium-gold">{data.championship}</span>
+                                <span className="w-px h-2 bg-white/10"></span>
+                                <span>{data.location}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <Calendar size={10} className="text-foreground/30" />
+                                <span>{dateString}</span>
+                            </div>
+                        </div>
+
+                        {/* Main Row: Team VS Team */}
+                        <div className="flex items-center justify-between">
+                            {/* Home */}
+                            <div className="flex items-center gap-3 flex-1">
+                                <div className="w-10 h-10 relative drop-shadow-lg shrink-0">
+                                    {data.home_team_logo ? (
+                                        <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain" />
+                                    ) : (
+                                        <Shield size={32} className="text-foreground/20" />
+                                    )}
+                                </div>
+                                <span className="text-xs font-black text-foreground font-display tracking-wide leading-tight line-clamp-2">
+                                    {data.home_team}
+                                </span>
+                            </div>
+
+                            {/* Center: Time/VS */}
+                            <div className="flex flex-col items-center justify-center px-2 shrink-0">
+                                <div className="bg-zinc-900/50 border border-white/5 rounded px-2 py-1">
+                                    <span className="text-xs font-bold text-white">{timeString}</span>
+                                </div>
+                            </div>
+
+                            {/* Away */}
+                            <div className="flex items-center gap-3 flex-1 justify-end text-right">
+                                <span className="text-xs font-black text-foreground font-display tracking-wide leading-tight line-clamp-2">
+                                    {data.away_team}
+                                </span>
+                                <div className="w-10 h-10 relative drop-shadow-lg shrink-0">
+                                    {data.away_team_logo ? (
+                                        <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain" />
+                                    ) : (
+                                        <Shield size={32} className="text-foreground/20" />
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
