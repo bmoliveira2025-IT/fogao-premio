@@ -59,17 +59,9 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     const handleShare = async () => {
         if (typeof window === 'undefined') return;
 
-        // Clean summary for sharing
-        let shareText = article.title;
-        if (article.summary) {
-            const summaryStr = Array.isArray(article.summary) ? article.summary.join('. ') : article.summary;
-            // Truncate if too long (some apps fail with long text)
-            shareText = summaryStr.length > 500 ? summaryStr.substring(0, 497) + '...' : summaryStr;
-        }
-
         const shareData = {
             title: article.title,
-            text: shareText,
+            text: article.title, // Use title instead of summary to avoid clutter
             url: window.location.href,
         };
 

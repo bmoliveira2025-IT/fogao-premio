@@ -37,7 +37,7 @@ export default function ShareModal({ isOpen, onClose, title, url }: ShareModalPr
             // Wait, usually people use react-icons for brands, but I'll stick to Lucide for consistency with the codebase.
             // I'll create custom SVGs for brands to look premium.
             color: "bg-[#25D366]",
-            href: `https://wa.me/?text=${encodeURIComponent(title + " " + url)}`
+            href: `https://wa.me/?text=${encodeURIComponent(url)}` // Just URL to let WhatsApp generate the preview card cleanly
         },
         {
             name: "Twitter",
