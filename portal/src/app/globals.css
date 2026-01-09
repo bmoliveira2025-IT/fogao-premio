@@ -18,8 +18,8 @@
 /* Light Mode Class (Toggled by ThemeProvider) */
 .light {
   /* Premium Light Theme */
-  --background: #F6F7F8;
-  /* Ice White */
+  --background: #FFF5F9;
+  /* Light Pink */
   --foreground: #0F0F0F;
   /* Deep Black */
   --premium-gold: 236 72 153;

@@ -162,7 +162,7 @@ export default async function Home() {
   notifications.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
+    <main className="min-h-screen bg-background dark:bg-zinc-950 text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
 
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
