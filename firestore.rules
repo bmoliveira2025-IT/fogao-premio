@@ -30,6 +30,10 @@ service cloud.firestore {
     // --- NOVAS REGRAS ADICIONADAS ---
 
     // Notícias (Feed Principal): Leitura pública para todos
+    match /daily_briefings/{document=**} {
+      allow read, write: if true;
+    }
+    
     match /news/{document=**} {
       allow read: if true;
     }
