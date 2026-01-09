@@ -1,3 +1,4 @@
+"use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { LayoutList, User, Star, Zap } from "lucide-react"; // Modern Icons
