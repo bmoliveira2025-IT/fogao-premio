@@ -634,7 +634,114 @@ def deploy_to_vercel():
     except Exception as e:
         print(f"Error during deployment: {e}")
 
-if __name__ == "__main__":
+def generate_daily_briefing():
+    print("Checking Daily Briefing status...")
+    
+    # 1. Check if briefing for today already exists
+    today_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    doc_ref = db.collection('daily_briefings').document(today_str)
+    
+    if doc_ref.get().exists:
+        print(f"Daily Briefing for {today_str} already exists. Skipping.")
+        return
+
+    # 2. Fetch news from the last 24 hours (Yesterday's cycle)
+    # Actually, let's take everything from yesterday 00:00 to 23:59 local time roughly, or just last 24h
+    dashboard_time = datetime.now(timezone.utc) - timedelta(days=1)
+    
+    docs = db.collection('news').where('created_at', '>=', dashboard_time).get()
+    
+    if len(docs) < 3:
+        print("Not enough news to generate a briefing (need at least 3).")
+        return
+
+    print(f"Generating Briefing from {len(docs)} articles...")
+    
+    # 3. Prepare input for AI
+    articles_text = ""
+    # Create a lookup map for easy access later
+    articles_map = {}
+    
+    for i, d in enumerate(docs):
+        data = d.to_dict()
+        # Use simple integer index as ID for the prompt context
+        article_id = i 
+        articles_map[article_id] = data
+        articles_text += f"[ID {article_id}] {data.get('title')}: {data.get('summary', [''])[0]}\n"
+
+    # 4. Prompt AI
+    prompt = f"""
+    Atue como Editor-Chefe do Fogão Prêmio.
+    Analise as notícias abaixo (do dia anterior) e crie um "Resumo do Dia" (Daily Briefing) altamente curado.
+    
+    Sua missão é selecionar as TOP 3 histórias mais importantes e gerar um resumo executivo.
+
+    Notícias Disponíveis (Use o ID para referência):
+    {articles_text[:12000]} 
+
+    Retorne APENAS um JSON válido com esta estrutura:
+    {{
+        "date": "{today_str}",
+        "general_summary": "Um parágrafo curto e direto resumindo o clima geral do dia no Botafogo.",
+        "top_stories": [
+            {{
+                "rank": 1,
+                "source_id": 0, // O ID da notícia original usada (inteiro)
+                "title": "Manchete Curta e Impactante",
+                "category": "Mercado/Jogo/Bastidores" 
+            }},
+            {{
+                "rank": 2,
+                "source_id": 1, // O ID da notícia original
+                "title": "Manchete",
+                "category": "Categoria"
+            }},
+            {{
+                "rank": 3,
+                "source_id": 2, // O ID da notícia original
+                "title": "Manchete",
+                "category": "Categoria"
+            }}
+        ]
+    }}
+    """
+    
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[{"role": "user", "content": prompt}],
+            model="llama-3.1-8b-instant",
+            response_format={"type": "json_object"}
+        )
+        
+        content = chat_completion.choices[0].message.content
+        briefing_data = json.loads(content)
+        
+        # 5. Enrich with REAL images from source
+        if 'top_stories' in briefing_data:
+            for story in briefing_data['top_stories']:
+                src_id = story.get('source_id')
+                if src_id is not None and int(src_id) in articles_map:
+                    # Assign the real image from the original article
+                    original_img = articles_map[int(src_id)].get('image')
+                    story['image'] = original_img
+                else:
+                    # Fallback if AI hallucinates an ID or leaves it null
+                    story['image'] = None # Frontend handles placeholder
+
+        
+        # Validate structure
+        if 'top_stories' in briefing_data and len(briefing_data['top_stories']) >= 3:
+             # Save to Firestore
+             briefing_data['created_at'] = firestore.SERVER_TIMESTAMP
+             doc_ref.set(briefing_data)
+             print(f"Daily Briefing for {today_str} saved successfully!")
+             
+             # Notify? existing logic handles per-news, this is a daily aggregate.
+             # Maybe send a special push? "Resumo do Dia disponível!" (Future)
+        
+    except Exception as e:
+        print(f"Error generating daily briefing: {e}")
+
     
     # Check if running in GitHub Actions (or any cloud "single run" environment)
     if os.getenv("GITHUB_ACTIONS") == "true":
@@ -642,6 +749,7 @@ if __name__ == "__main__":
         update_next_match()
         fetch_youtube_videos()
         monitor_sources()
+        generate_daily_briefing() # Check/Gen Briefing
         
         if should_update_squad():
             print("Updating Squad (24h period reached)...")
@@ -654,9 +762,12 @@ if __name__ == "__main__":
         # Local Loop Mode
         print("Starting continuous monitoring... (Interval: 10 minutes)")
         update_next_match() # Initial run
+        generate_daily_briefing() # Initial check
+        
         while True:
             fetch_youtube_videos() # Fetch videos every cycle
             monitor_sources()
+            generate_daily_briefing() # Check every cycle (it has internal "once per day" check)
             
             if should_update_squad():
                 print("Updating Squad (24h period reached)...")

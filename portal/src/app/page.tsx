@@ -2,6 +2,7 @@
 import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
+import DailyBriefingWidget from '@/components/DailyBriefingWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BrandingHeader from '@/components/BrandingHeader';
 import TabBar from '@/components/TabBar';
@@ -226,6 +227,11 @@ export default async function Home() {
               <PremiumNextMatch match={nextMatch} />
             </section>
 
+            {/* DAILY BRIEFING - MOBILE ONLY */}
+            <div className="lg:hidden">
+              <DailyBriefingWidget />
+            </div>
+
             {/* 4. LATEST NEWS */}
             <section>
               <div className="flex items-center justify-between mb-3">
@@ -303,6 +309,9 @@ export default async function Home() {
         {/* RIGHT COLUMN (Sidebar - Desktop Only) */}
         <div className="hidden lg:block lg:col-span-4 space-y-8">
           <div className="sticky top-28 space-y-8">
+
+            {/* Desktop: Daily Briefing (Top of Sidebar) */}
+            <DailyBriefingWidget />
 
             {/* Desktop: Next Match */}
             <PremiumNextMatch match={nextMatch} />
