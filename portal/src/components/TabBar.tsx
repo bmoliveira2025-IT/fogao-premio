@@ -5,19 +5,17 @@ import { Home, Newspaper, Trophy, User } from "lucide-react";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { motion } from "framer-motion";
+
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-const navItems = [
-    { icon: Home, label: "INÍCIO", path: "/" },
-    { icon: Newspaper, label: "NOTÍCIAS", path: "/news" },
-    { icon: Trophy, label: "JOGOS", path: "/matches" },
-const tabs = [ // Renamed navItems to tabs and path to href
+const tabs = [
     { icon: Home, label: "INÍCIO", href: "/" },
     { icon: Newspaper, label: "NOTÍCIAS", href: "/news" },
     { icon: Trophy, label: "JOGOS", href: "/matches" },
-    { icon: User, label: "PERFIL", href: "/profile" },
+    { icon: User, label: "PERFIL", href: "/profile" }, // Fixed path
 ];
 
 export default function TabBar() {
