@@ -242,7 +242,7 @@ export default async function Home() {
               </div>
 
               {/* Botafogo TV (Visible Both) */}
-              <BotafogoTVCarousel videos={videos} className="-mt-6 lg:mt-0" />
+              <BotafogoTVCarousel videos={videos} className="-mt-8 lg:mt-0" />
 
               {/* Extra News Section (Desktop - Center Column Extension?) 
                            Or maybe keep Extra News in Sidebar? 
