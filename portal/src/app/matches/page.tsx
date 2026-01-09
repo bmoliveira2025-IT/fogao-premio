@@ -18,7 +18,7 @@ async function getMatches() {
             date: doc.data().date instanceof Date ? doc.data().date.toISOString() : doc.data().date
         }));
     } catch (error) {
-        console.error("Error fetching matches (likely quota exceeded):", error);
+        // Quota exceeded or other Firestore error - fail gracefully
         return [];
     }
 }
