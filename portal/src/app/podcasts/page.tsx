@@ -113,12 +113,12 @@ export default function PodcastsPage() {
                             ))}
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                        <div className="flex flex-col gap-2 lg:grid lg:grid-cols-3 lg:gap-6">
                             {podcasts.map((pod) => (
-                                <div key={pod.audioUrl} className="group relative bg-zinc-900/40 border border-white/5 hover:border-premium-gold/30 rounded-2xl p-4 transition-all hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-black/50 flex flex-row lg:flex-col gap-4 lg:gap-0 items-center lg:items-start h-auto lg:h-full">
+                                <div key={pod.audioUrl} className="group relative bg-zinc-900/40 border border-white/5 hover:border-premium-gold/30 rounded-xl p-2 lg:p-4 transition-all hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-black/50 flex flex-row lg:flex-col gap-3 lg:gap-0 items-center lg:items-start h-auto lg:h-full">
 
                                     {/* Image Container */}
-                                    <div className="relative flex-shrink-0 w-24 h-24 lg:w-full lg:h-64 rounded-xl overflow-hidden bg-zinc-800 shadow-lg lg:mb-5">
+                                    <div className="relative flex-shrink-0 w-16 h-16 lg:w-full lg:h-64 rounded-lg lg:rounded-xl overflow-hidden bg-zinc-800 shadow-md lg:shadow-lg lg:mb-5">
                                         <img
                                             src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"}
                                             alt={pod.title}
@@ -132,28 +132,29 @@ export default function PodcastsPage() {
                                         <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors backdrop-blur-[0px] group-hover:backdrop-blur-[2px]">
                                             <button
                                                 onClick={() => togglePlay(pod.audioUrl)}
-                                                className={`w-10 h-10 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 ${isPlaying === pod.audioUrl ? 'bg-premium-gold scale-100 ring-4 ring-premium-gold/30' : 'bg-white/90 scale-90 group-hover:scale-100 group-hover:bg-premium-gold'}`}
+                                                className={`w-8 h-8 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 ${isPlaying === pod.audioUrl ? 'bg-premium-gold scale-100 ring-2 lg:ring-4 ring-premium-gold/30' : 'bg-white/90 scale-90 group-hover:scale-100 group-hover:bg-premium-gold'}`}
                                             >
                                                 {isPlaying === pod.audioUrl ?
-                                                    <Pause fill="black" className="w-4 h-4 lg:w-6 lg:h-6 text-black" /> :
-                                                    <Play fill="black" className="w-4 h-4 lg:w-6 lg:h-6 ml-1 text-black" />
+                                                    <Pause fill="black" className="w-3 h-3 lg:w-6 lg:h-6 text-black" /> :
+                                                    <Play fill="black" className="w-3 h-3 lg:w-6 lg:h-6 ml-0.5 lg:ml-1 text-black" />
                                                 }
                                             </button>
                                         </div>
                                     </div>
 
                                     {/* Content */}
-                                    <div className="flex-1 min-w-0 flex flex-col h-full">
+                                    <div className="flex-1 min-w-0 flex flex-col h-full justify-center">
                                         {/* Date Badge */}
-                                        <div className="flex items-center gap-2 mb-2 lg:mb-3">
-                                            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-800/80 border border-white/5 text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
-                                                <Calendar size={10} />
+                                        <div className="flex items-center gap-2 mb-1 lg:mb-3">
+                                            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-zinc-800/80 border border-white/5 text-[9px] lg:text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                                <Calendar size={9} className="lg:hidden" />
+                                                <Calendar size={10} className="hidden lg:block" />
                                                 {new Date(pod.pubDate).toLocaleDateString()}
                                             </div>
                                         </div>
 
                                         {/* Title */}
-                                        <h2 className="text-sm lg:text-lg font-bold text-white mb-1 lg:mb-3 leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
+                                        <h2 className="text-xs lg:text-lg font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
                                             {pod.title}
                                         </h2>
 
