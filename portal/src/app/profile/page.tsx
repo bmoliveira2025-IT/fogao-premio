@@ -8,7 +8,8 @@ import {
 import TabBar from '@/components/TabBar';
 import DesktopHeader from '@/components/DesktopHeader';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useTheme } from '@/components/ThemeProvider';
 import { useAuth } from '@/context/AuthContext';
@@ -19,6 +20,49 @@ export default function ProfilePage() {
     const { user, isPremium } = useAuth(); // Use real auth context
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const { theme, toggleTheme } = useTheme();
+
+    // Preferences State
+    const [preferences, setPreferences] = useState({
+        news: true,
+        podcasts: false,
+        videos: true
+    });
+    const [loadingPreferences, setLoadingPreferences] = useState(true);
+
+    // Load Preferences
+    useEffect(() => {
+        async function loadPreferences() {
+            if (!user) return;
+            try {
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists() && userSnap.data().preferences) {
+                    setPreferences(userSnap.data().preferences);
+                }
+            } catch (error) {
+                console.error("Error loading preferences:", error);
+            } finally {
+                setLoadingPreferences(false);
+            }
+        }
+        loadPreferences();
+    }, [user]);
+
+    // Save Preference
+    const handleToggle = async (key: keyof typeof preferences) => {
+        if (!user) return;
+
+        const newPreferences = { ...preferences, [key]: !preferences[key] };
+        setPreferences(newPreferences); // Optimistic update
+
+        try {
+            const userRef = doc(db, 'users', user.uid);
+            await setDoc(userRef, { preferences: newPreferences }, { merge: true });
+        } catch (error) {
+            console.error("Error saving preference:", error);
+            setPreferences(preferences); // Revert on error
+        }
+    };
 
     useEffect(() => {
         if (!user) {
@@ -119,9 +163,27 @@ export default function ProfilePage() {
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Conteúdo</h4>
                             <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
-                                <ToggleItem icon={Smartphone} label="Notícias" checked={true} />
-                                <ToggleItem icon={Volume2} label="Podcasts" checked={false} />
-                                <ToggleItem icon={CreditCard} label="Vídeos Exclusivos" checked={true} />
+                                <ToggleItem
+                                    icon={Smartphone}
+                                    label="Notícias"
+                                    checked={preferences.news}
+                                    onChange={() => handleToggle('news')}
+                                    disabled={loadingPreferences}
+                                />
+                                <ToggleItem
+                                    icon={Volume2}
+                                    label="Podcasts"
+                                    checked={preferences.podcasts}
+                                    onChange={() => handleToggle('podcasts')}
+                                    disabled={loadingPreferences}
+                                />
+                                <ToggleItem
+                                    icon={CreditCard}
+                                    label="Vídeos Exclusivos"
+                                    checked={preferences.videos}
+                                    onChange={() => handleToggle('videos')}
+                                    disabled={loadingPreferences}
+                                />
                             </div>
                         </div>
 
@@ -226,10 +288,29 @@ export default function ProfilePage() {
 }
 
 
-function ToggleItem({ icon: Icon, label, checked }: { icon: any, label: string, checked: boolean }) {
-    const [isOn, setIsOn] = useState(checked);
+function ToggleItem({ icon: Icon, label, checked, onChange, disabled }: { icon: any, label: string, checked: boolean, onChange?: () => void, disabled?: boolean }) {
+    const [internalChecked, setInternalChecked] = useState(checked);
+
+    useEffect(() => {
+        setInternalChecked(checked);
+    }, [checked]);
+
+    const handleClick = () => {
+        if (disabled) return;
+        if (onChange) {
+            onChange();
+        } else {
+            setInternalChecked(!internalChecked);
+        }
+    };
+
+    const isOn = onChange ? checked : internalChecked;
+
     return (
-        <div className="flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 hover:bg-white/5 transition-colors cursor-pointer" onClick={() => setIsOn(!isOn)}>
+        <div
+            className={`flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 hover:bg-white/5 transition-colors cursor-pointer ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
+            onClick={handleClick}
+        >
             <div className="flex items-center space-x-3">
                 <Icon size={18} className="text-white/70" />
                 <span className="text-sm font-medium text-white/90">{label}</span>
