@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Home, Newspaper, Calendar, Star, ShoppingBag, Settings, LogOut, Shield } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import GloriosoLogo from '@/components/GloriosoLogo';
 
 export default function DesktopSidebar() {
     const pathname = usePathname();
@@ -19,13 +20,15 @@ export default function DesktopSidebar() {
     return (
         <aside className="fixed left-0 top-0 bottom-0 w-64 bg-zinc-950 border-r border-white/5 flex flex-col z-50">
             {/* Logo Area */}
-            <div className="p-8 pb-8 flex justify-center border-b border-white/5">
-                <div className="relative w-16 h-16">
-                    <img
-                        src="/logo-glorioso.png"
-                        alt="Fogão Premium"
-                        className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]"
-                    />
+            <div className="p-8 pb-8 flex flex-col items-center justify-center border-b border-white/5 gap-3">
+                <div className="relative group cursor-pointer">
+                    <div className="absolute inset-0 bg-premium-gold/20 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
+                    <GloriosoLogo size={56} className="relative z-10 drop-shadow-2xl" />
+                </div>
+                <div className="flex flex-col leading-none text-center">
+                    <h1 className="text-xl font-display font-black tracking-tight text-white leading-none">
+                        GLORIOSO <span className="font-light italic text-premium-gold">360</span>
+                    </h1>
                 </div>
             </div>
 
