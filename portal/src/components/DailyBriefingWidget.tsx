@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { db } from '@/lib/firebase';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
 import { Lock, FileText, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -28,16 +26,13 @@ export default function DailyBriefingWidget() {
     useEffect(() => {
         const fetchBriefing = async () => {
             try {
-                // Modular SDK Syntax
-                const q = query(
-                    collection(db, 'daily_briefings'),
-                    orderBy('created_at', 'desc'),
-                    limit(1)
-                );
-                const snapshot = await getDocs(q);
-
-                if (!snapshot.empty) {
-                    setBriefing(snapshot.docs[0].data() as DailyBriefing);
+                // Fetch from our server-side API proxy to avoid client-side permission issues
+                const response = await fetch('/api/daily-briefing');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data) {
+                        setBriefing(data as DailyBriefing);
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching daily briefing:", error);
