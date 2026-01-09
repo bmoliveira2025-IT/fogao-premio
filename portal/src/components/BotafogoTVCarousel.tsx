@@ -37,7 +37,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
             <div className="absolute inset-0 bg-gradient-to-r from-black via-zinc-900/50 to-black pointer-events-none" />
 
             {/* Header */}
-            <div className="relative z-10 flex items-center justify-between px-4 pt-1 pb-1">
+            <div className="relative z-10 flex items-center justify-between px-4 pt-0 pb-1">
                 <div className="flex items-center gap-2">
                     {/* Live Dot/Icon */}
                     <div className="w-6 h-6 rounded-full bg-red-900/20 border border-red-500/20 flex items-center justify-center">
