@@ -27,8 +27,8 @@ export default function QuoteBanner() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        // 40% chance to show
-        const shouldShow = Math.random() < 0.4;
+        // Higher chance to show for testing/engagement
+        const shouldShow = Math.random() < 0.6;
         if (shouldShow) {
             const random = QUOTES[Math.floor(Math.random() * QUOTES.length)];
             setQuote(random);
@@ -40,11 +40,35 @@ export default function QuoteBanner() {
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full"
         >
-            <div className="bg-white dark:bg-zinc-900/40 border border-premium-gold/15 rounded-full pl-1 pr-4 py-1 flex items-center gap-3 w-fit mx-auto shadow-md backdrop-blur-sm transition-colors">
+            {/* Mobile: Full Width Strip */}
+            <div className="lg:hidden -mx-4 border-y border-premium-gold/20 bg-zinc-900/50 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <Quote size={40} className="text-premium-gold" />
+                </div>
 
+                <div className="relative z-10 flex flex-col items-center gap-2">
+                    <Quote size={16} className="text-premium-gold mb-1" />
+                    <p className="text-sm text-zinc-200 font-medium italic leading-relaxed max-w-[85%]">
+                        "{quote.text}"
+                    </p>
+                    {quote.author && (
+                        <div className="flex items-center gap-2 mt-1">
+                            <div className="w-4 h-[1px] bg-premium-gold/50"></div>
+                            <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest">
+                                {quote.author}
+                            </span>
+                            <div className="w-4 h-[1px] bg-premium-gold/50"></div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Desktop: Pill (Original) */}
+            <div className="hidden lg:flex bg-white dark:bg-zinc-900/40 border border-premium-gold/15 rounded-full pl-1 pr-4 py-1 items-center gap-3 w-fit mx-auto shadow-md backdrop-blur-sm transition-colors">
                 {/* Image or Icon */}
                 {quote.image ? (
                     <div className="w-8 h-8 rounded-full overflow-hidden border border-premium-gold/50 relative shrink-0">
