@@ -117,8 +117,8 @@ export default function PremiumWidget({ news, className }: PremiumWidgetProps) {
             <div className="relative p-3 lg:p-4 border-t border-white/5 bg-white/5 backdrop-blur-sm">
                 <Link href={isPremium ? "/premium" : "/premium"} className="group block">
                     {isPremium ? (
-                        <button className="w-full py-2.5 rounded-lg bg-green-900/40 border border-green-500/30 text-green-400 text-[10px] font-black uppercase tracking-[0.15em] hover:bg-green-900/60 transition-all duration-300 flex items-center justify-center gap-2">
-                            <Unlock size={12} />
+                        <button className="w-full py-2.5 rounded-lg bg-gradient-to-r from-premium-gold to-yellow-600 text-black text-[10px] font-black uppercase tracking-[0.15em] shadow-lg shadow-premium-gold/20 hover:shadow-premium-gold/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2">
+                            <Unlock size={12} className="text-black/70" />
                             <span>Acesso Liberado</span>
                         </button>
                     ) : (
