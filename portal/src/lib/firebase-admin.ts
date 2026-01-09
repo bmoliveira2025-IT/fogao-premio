@@ -23,7 +23,7 @@ if (!getApps().length) {
         try {
             // We use 'fs' to check existence to avoid crashing 'cert' if missing
             const fs = require('fs');
-            const serviceAccountPath = path.join(process.cwd(), 'service-account.json');
+            const serviceAccountPath = path.join(process.cwd(), 'service-account-new.json');
 
             if (fs.existsSync(serviceAccountPath)) {
                 credential = cert(serviceAccountPath);

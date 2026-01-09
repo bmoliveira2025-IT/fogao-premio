@@ -62,7 +62,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
 
     // Matches, Videos, Premium (keep existing logic but with safety limits if needed)
     const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
-    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
+    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(5);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
 
     const [newsSnap, matchesSnap, videosSnap, premiumSnap] = await Promise.all([
