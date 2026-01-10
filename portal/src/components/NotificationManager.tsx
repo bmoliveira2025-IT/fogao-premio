@@ -8,13 +8,12 @@ import { Bell, BellOff } from 'lucide-react';
 // Firebase Client Config (Public)
 // We need to re-initialize explicitly here because we need the messaging instance on the client
 const firebaseConfig = {
-    apiKey: "AIzaSyDARXxRCxKoAU_SeEyxRp1uXPR0roOVm7Y",
-    authDomain: "coastal-epigram-392314.firebaseapp.com",
-    projectId: "coastal-epigram-392314",
-    storageBucket: "coastal-epigram-392314.firebasestorage.app",
-    messagingSenderId: "526525338401",
-    appId: "1:526525338401:web:626a18b11f492d9294e460",
-    measurementId: "G-33MNNN57SE"
+    apiKey: "AIzaSyAmWOTIPqRaP-YWwhPElY6fPh9DAeFcp-c",
+    authDomain: "strive-bra.firebaseapp.com",
+    projectId: "strive-bra",
+    storageBucket: "strive-bra.firebasestorage.app",
+    messagingSenderId: "112700432380",
+    appId: "1:112700432380:web:90f802159ddf7ad4bc1c79"
 };
 
 export default function NotificationManager() {
