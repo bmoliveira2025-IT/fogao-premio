@@ -50,9 +50,13 @@ export default function CompactNewsRow({ article }: any) {
                         </span>
                     </div>
 
-                    <h4 className="text-[13px] font-bold text-foreground leading-tight font-sans line-clamp-2 group-hover:text-premium-gold transition-colors">
-                        {article.title}
-                    </h4>
+                    <div className="flex-1 min-w-0">
+                        <h4 className="text-xs font-bold text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-snug">
+                            {article.title?.replace(/\*\*/g, '')}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                        </div>
+                    </div>
                 </div>
             </div>
         </Link>

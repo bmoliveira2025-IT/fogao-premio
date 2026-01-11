@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Settings, X, Calendar, Star } from 'lucide-react';
+import { Bell, Settings, X, Calendar, Star, FileText } from 'lucide-react';
 import Link from 'next/link';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { useState, useEffect } from 'react';
@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 export interface NotificationItem {
     id: string;
-    type: 'MATCH' | 'PREMIUM';
+    type: 'MATCH' | 'PREMIUM' | 'BRIEFING';
     title: string;
     message: string;
     timestamp: string;
@@ -140,8 +140,13 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
                                                     className={`block p-4 border-b border-premium-gold/15 hover:bg-white/5 transition-colors ${!notif.link ? 'cursor-default' : ''}`}
                                                 >
                                                     <div className="flex items-start space-x-3">
-                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${notif.type === 'MATCH' ? 'bg-green-600/20 text-green-500' : 'bg-premium-gold/20 text-premium-gold'}`}>
-                                                            {notif.type === 'MATCH' ? <Calendar size={14} /> : <Star size={14} />}
+                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${notif.type === 'MATCH' ? 'bg-green-600/20 text-green-500' :
+                                                            notif.type === 'BRIEFING' ? 'bg-blue-600/20 text-blue-500' :
+                                                                'bg-premium-gold/20 text-premium-gold'
+                                                            }`}>
+                                                            {notif.type === 'MATCH' ? <Calendar size={14} /> :
+                                                                notif.type === 'BRIEFING' ? <FileText size={14} /> :
+                                                                    <Star size={14} />}
                                                         </div>
                                                         <div>
                                                             <h4 className="text-xs font-bold text-white mb-1 leading-tight">{notif.title}</h4>

@@ -107,16 +107,10 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             )}
                         </div>
 
-                        {/* Meta */}
-                        <div className="flex items-center gap-3 mb-4">
-                            <span className="text-6xl md:text-8xl font-black text-white/10 tracking-tighter leading-none select-none">
-                                01
-                            </span>
-                        </div>
 
-                        {/* Title */}
+
                         <h3 className="text-lg md:text-3xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
-                            {topStory.title}
+                            {topStory.title?.replace(/\*\*/g, '')}
                         </h3>
 
                         {/* Source & Time */}
@@ -203,7 +197,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                 </div>
 
                                 <h4 className="text-xs md:text-sm font-bold text-foreground/90 group-hover:text-white transition-colors leading-relaxed line-clamp-2">
-                                    {story.title}
+                                    {story.title?.replace(/\*\*/g, '')}
                                 </h4>
                             </div>
 

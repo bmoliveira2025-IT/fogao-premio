@@ -37,11 +37,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         description = description.substring(0, 157) + '...';
     }
 
+    const cleanTitle = data?.title?.replace(/\*\*/g, '');
+
     return {
-        title: data?.title,
+        title: cleanTitle,
         description: description,
         openGraph: {
-            title: data?.title,
+            title: cleanTitle,
             description: description,
             url: `https://info-sphere-pro.vercel.app/news/${id}`,
             siteName: 'Fogão Prêmio',
@@ -86,6 +88,7 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
     const article = {
         id: articleDoc.id,
         ...articleData,
+        title: articleData?.title?.replace(/\*\*/g, ''), // Clean title
         // Serialize Date objects to strings for Client Component
         created_at: articleData?.created_at?.toDate ? articleData.created_at.toDate().toISOString() : new Date().toISOString()
     };

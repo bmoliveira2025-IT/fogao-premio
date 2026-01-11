@@ -1,17 +1,32 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { X, Sunrise, ChevronDown, ChevronUp } from 'lucide-react';
+import { X, Sunrise, ChevronDown, ChevronUp, FileText } from 'lucide-react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import Image from 'next/image';
+
+interface TopStory {
+    rank: number;
+    title: string;
+    image?: string | null;
+    category?: string;
+    id?: string;
+}
 
 interface DailyBriefing {
     date: string;
     general_summary: string;
+    top_stories?: TopStory[];
 }
 
 export default function MorningBriefingPopup() {
     const [isVisible, setIsVisible] = useState(false);
     const [isExpanded, setIsExpanded] = useState(true);
     const [briefing, setBriefing] = useState<DailyBriefing | null>(null);
+
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const formatPremiumText = (text: string) => {
         const parts = text.split(/(\*\*.*?\*\*)/g);
@@ -32,18 +47,30 @@ export default function MorningBriefingPopup() {
         const checkAndFetch = async () => {
             const today = new Date().toLocaleDateString('en-CA');
             const lastSeen = localStorage.getItem('seenMorningBriefing');
+            const forceOpen = searchParams.get('briefing') === 'true';
 
-            if (lastSeen === today) {
-                return;
-            }
+            // Fetch if needed (force open OR not seen today)
+            // Ideally we fetch anyway to check if available, but let's optimize
+            // Actually, we need to fetch to know if we SHOULD show it.
 
             try {
+                // Determine if we should show based on local logic BEFORE fetch? 
+                // No, we need data first.
+                // But we can skip fetch if not forceOpen AND saw today.
+                if (!forceOpen && lastSeen === today) {
+                    return;
+                }
+
                 const response = await fetch('/api/daily-briefing');
                 if (response.ok) {
                     const data = await response.json();
                     if (data && data.general_summary) {
                         setBriefing(data);
-                        setIsVisible(true);
+
+                        if (forceOpen || lastSeen !== today) {
+                            setIsVisible(true);
+                            if (forceOpen) setIsExpanded(true);
+                        }
                     }
                 }
             } catch (error) {
@@ -52,12 +79,17 @@ export default function MorningBriefingPopup() {
         };
 
         checkAndFetch();
-    }, []);
+    }, [searchParams]); // Re-run if params change
 
     const handleDismiss = () => {
         setIsVisible(false);
         const today = new Date().toLocaleDateString('en-CA');
         localStorage.setItem('seenMorningBriefing', today);
+
+        // Remove query param if present
+        if (searchParams.get('briefing') === 'true') {
+            router.replace(pathname, { scroll: false });
+        }
     };
 
     const toggleExpand = () => {
@@ -79,9 +111,9 @@ export default function MorningBriefingPopup() {
                             <Sunrise className="text-premium-gold" size={18} />
                         </div>
                         <div>
-                            <h3 className="text-sm font-bold text-white leading-none">Destaques de Ontem</h3>
+                            <h3 className="text-sm font-bold text-white leading-none">Resumo do Dia</h3>
                             <p className="text-[10px] text-white/50 mt-0.5">
-                                {isExpanded ? 'Resumo diário do Fogão Prêmio' : 'Toque para expandir'}
+                                {isExpanded ? 'Destaques diários do Fogão Prêmio' : 'Toque para expandir'}
                             </p>
                         </div>
                     </div>
@@ -106,9 +138,48 @@ export default function MorningBriefingPopup() {
                 {/* Content - Collapsible */}
                 {isExpanded && (
                     <div className="p-4 pt-0 border-t border-white/5 bg-black/20 animate-in slide-in-from-top-1 duration-300">
-                        <p className="text-sm text-white/90 leading-relaxed font-medium mt-3 border-l-2 border-premium-gold pl-3">
+                        <p className="text-sm text-white/90 leading-relaxed font-medium mt-3 border-l-2 border-premium-gold pl-3 mb-4">
                             {formatPremiumText(briefing.general_summary)}
                         </p>
+
+                        {/* Top Stories Grid */}
+                        {briefing.top_stories && briefing.top_stories.length > 0 && (
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4">
+                                {briefing.top_stories.map((story, idx) => (
+                                    <div key={idx} className="relative group aspect-[4/3] rounded-lg overflow-hidden border border-white/10 bg-black">
+                                        {/* Image */}
+                                        {story.image ? (
+                                            <img
+                                                src={story.image}
+                                                alt={story.title}
+                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-50"
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 bg-zinc-800 flex items-center justify-center">
+                                                <FileText className="text-white/20" size={24} />
+                                            </div>
+                                        )}
+
+                                        {/* Gradient */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+
+
+
+                                        {/* Title */}
+                                        <div className="absolute bottom-0 inset-x-0 p-2">
+                                            {story.category && (
+                                                <span className="text-[8px] font-bold text-premium-gold uppercase tracking-wider block mb-1">
+                                                    {story.category}
+                                                </span>
+                                            )}
+                                            <h4 className="text-[10px] font-bold text-white leading-tight line-clamp-3">
+                                                {story.title}
+                                            </h4>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

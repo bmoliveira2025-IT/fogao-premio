@@ -50,7 +50,7 @@ interface VideoItem {
   published_at: string;
 }
 
-async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[] }> {
+async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: any }> {
   try {
     const timeLimit = new Date();
     timeLimit.setHours(timeLimit.getHours() - 24); // 24h window
@@ -64,12 +64,14 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(5);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
+    const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);
 
-    const [newsSnap, matchesSnap, videosSnap, premiumSnap] = await Promise.all([
+    const [newsSnap, matchesSnap, videosSnap, premiumSnap, briefingSnap] = await Promise.all([
       newsRef.get(),
       matchesRef.get(),
       videosRef.get(),
-      premiumRef.get()
+      premiumRef.get(),
+      briefingRef.get()
     ]);
 
     const news = newsSnap.docs.map(doc => {
@@ -130,18 +132,24 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       } as VideoItem;
     });
 
-    return { news, matches, videos, premiumNews };
+    const briefing = !briefingSnap.empty ? {
+      id: briefingSnap.docs[0].id,
+      created_at: briefingSnap.docs[0].data().created_at?.toDate().toISOString() || new Date().toISOString(),
+      ...briefingSnap.docs[0].data()
+    } : null;
+
+    return { news, matches, videos, premiumNews, briefing };
 
   } catch (error: any) {
     console.error("DATA FETCH ERROR DETAILS:", error);
     // console.warn("Failed to Fetch Data (likely Quota Exceeded), returning empty.");
-    return { news: [], matches: [], videos: [], premiumNews: [] };
+    return { news: [], matches: [], videos: [], premiumNews: [], briefing: null };
   }
 }
 
 
 export default async function Home() {
-  const { news, matches, videos, premiumNews } = await getData();
+  const { news, matches, videos, premiumNews, briefing } = await getData();
 
   const nextMatch = matches.length > 0 ? matches[0] : null;
 
@@ -177,6 +185,23 @@ export default async function Home() {
       link: `/news/${item.id}`
     });
   });
+
+  // DAILY BRIEFING NOTIFICATION
+  if (briefing) {
+    const briefingDate = new Date(briefing.created_at).toLocaleDateString('pt-BR');
+    const today = new Date().toLocaleDateString('pt-BR');
+
+    if (briefingDate === today) {
+      notifications.push({
+        id: `briefing-${briefing.id}`,
+        type: 'BRIEFING' as const,
+        title: 'Resumo do Dia',
+        message: 'Confira os destaques de hoje no Fogão Prêmio',
+        timestamp: briefing.created_at,
+        link: '?briefing=true' // Open popup via query param or just simple link
+      });
+    }
+  }
 
   notifications.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
