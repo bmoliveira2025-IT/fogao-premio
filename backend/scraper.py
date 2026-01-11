@@ -427,7 +427,6 @@ def monitor_sources():
                     response = messaging.send(message)
                     print('Successfully sent message:', response)
                 except Exception as e:
-                except Exception as e:
                     print('Error sending message:', e)
             else:
                 print(f"Skipped {link}: ", end="")
