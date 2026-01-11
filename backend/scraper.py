@@ -427,7 +427,13 @@ def monitor_sources():
                     response = messaging.send(message)
                     print('Successfully sent message:', response)
                 except Exception as e:
+                except Exception as e:
                     print('Error sending message:', e)
+            else:
+                print(f"Skipped {link}: ", end="")
+                if not raw_data: print("Failed to scrape.")
+                elif not raw_data.get('content'): print("No content found.")
+                else: print(f"Content too short ({len(raw_data['content'])} chars).")
 
 def fetch_youtube_videos():
     # Channel Configurations
