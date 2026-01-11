@@ -217,7 +217,7 @@ def scrape_news(url):
         # Custom extraction for better image accuracy (prioritize og:image)
         soup = BeautifulSoup(article.html, 'html.parser')
         og_image = soup.find('meta', property='og:image')
-        image = og_image['content'] if og_image else article.top_image
+        image = og_image['content'] if og_image and 'content' in og_image.attrs else article.top_image
 
         return {
             "title": article.title,
