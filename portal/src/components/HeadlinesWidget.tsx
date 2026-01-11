@@ -43,10 +43,10 @@ function getRelativeTime(dateString?: string) {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora';
-    if (diffInSeconds < 3600) return `Há ${Math.floor(diffInSeconds / 60)} min`;
-    if (diffInSeconds < 86400) return `Há ${Math.floor(diffInSeconds / 3600)} h`;
-    return `Há ${Math.floor(diffInSeconds / 86400)} d`;
+    if (diffInSeconds < 60) return 'Agora mesmo';
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutos atrás`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} horas atrás`;
+    return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
 }
 
 export default function HeadlinesWidget({ news, nextMatch, className = "" }: HeadlinesWidgetProps) {
@@ -91,18 +91,19 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             I will add `mt-14` to the first card on mobile? No, the page has padding.
                             Let's push the badges down on mobile.
                         */}
-                        <div className="absolute top-4 md:top-6 left-4 md:left-6 z-30 flex flex-col items-start gap-2">
+                        {/* Badge - Iconic Only */}
+                        <div className="absolute top-4 md:top-6 left-4 md:left-6 z-30 flex gap-2">
                             {/* Live Badge */}
                             {topStory.is_live && (
-                                <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg animate-pulse">
-                                    AO VIVO
-                                </span>
+                                <div className="p-2 bg-red-600 rounded-full shadow-lg animate-pulse" title="AO VIVO">
+                                    <div className="w-2 h-2 bg-white rounded-full component-shadow" />
+                                </div>
                             )}
                             {/* Breaking News Badge */}
                             {topStory.is_breaking && (
-                                <span className="px-3 py-1 bg-red-600 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
-                                    URGENTE
-                                </span>
+                                <div className="p-2 bg-red-600 rounded-full shadow-lg" title="URGENTE">
+                                    <Flame size={12} className="text-white fill-current" />
+                                </div>
                             )}
                         </div>
 
@@ -114,23 +115,23 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-xl md:text-4xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
+                        <h3 className="text-lg md:text-3xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
                             {topStory.title}
                         </h3>
 
                         {/* Source & Time */}
                         <div className="flex items-center gap-2 mt-4 opacity-100">
-                            <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-premium-gold/30 shadow-[0_0_15px_rgba(255,32,176,0.3)]">
-                                <Flame className="w-4 h-4 text-premium-gold animate-pulse fill-premium-gold/20" />
+                            <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-premium-gold/30 shadow-[0_0_15px_rgba(255,32,176,0.3)]">
+                                <Flame className="w-3.5 h-3.5 text-premium-gold animate-pulse fill-premium-gold/20" />
                                 <span className="text-[10px] font-black text-premium-gold uppercase tracking-widest">
-                                    DESTAQUE • {topStory.source || 'Fogão Prêmio'}
+                                    {topStory.source || 'Fogão Prêmio'}
                                 </span>
                             </div>
 
                             {/* Time Tag Moved Here */}
-                            <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
-                                <Clock size={12} className="text-zinc-400" />
-                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                            <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/10">
+                                <Clock size={11} className="text-zinc-400" />
+                                <span className="text-[9px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
                                     {getRelativeTime(topStory.created_at)}
                                 </span>
                             </div>
@@ -153,7 +154,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     <Link
                         key={story.id}
                         href={`/news/${story.id}`}
-                        className={`group relative flex items-center gap-5 p-5 md:p-6 hover:bg-white/5 transition-all duration-300 overflow-hidden border-b last:border-0`}
+                        className={`group relative flex items-center gap-4 p-4 md:p-5 hover:bg-white/5 transition-all duration-300 overflow-hidden border-b last:border-0`}
                         style={{ borderColor: 'var(--border-color)' }}
                     >
                         {/* Subtle Background Image */}
@@ -181,29 +182,27 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         )}
 
                         {/* Z-Index Wrapper to stay above bg */}
-                        <div className="relative z-10 flex flex-1 items-center gap-5 min-w-0">
+                        <div className="relative z-10 flex flex-1 items-center gap-4 min-w-0">
                             {/* Number */}
-                            <span className="text-3xl md:text-4xl font-black text-foreground/20 group-hover:text-premium-gold/30 transition-colors w-12 text-center leading-none">
+                            <span className="text-2xl md:text-3xl font-black text-foreground/20 group-hover:text-premium-gold/30 transition-colors w-10 text-center leading-none">
                                 {String(index + 2).padStart(2, '0')}
                             </span>
 
                             {/* Content */}
                             <div className="flex-1 min-w-0">
                                 {/* Source Highlight & Time */}
-                                <div className="flex items-center gap-3 mb-1.5">
-                                    <div className="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <div className="flex items-center gap-2 mb-1">
+                                    {/* Icon Only Source */}
+                                    <div className="flex items-center justify-center w-5 h-5 bg-zinc-800/80 rounded-full border border-white/10" title={story.source}>
                                         <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
-                                        <span className="text-[10px] font-bold text-foreground/60 group-hover:text-premium-gold uppercase tracking-wider">
-                                            {story.source}
-                                        </span>
                                     </div>
-                                    <div className="w-0.5 h-0.5 rounded-full bg-zinc-700" />
+
                                     <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider" suppressHydrationWarning>
                                         {getRelativeTime(story.created_at)}
                                     </span>
                                 </div>
 
-                                <h4 className="text-sm md:text-base font-bold text-foreground/80 group-hover:text-white transition-colors leading-snug line-clamp-2">
+                                <h4 className="text-xs md:text-sm font-bold text-foreground/90 group-hover:text-white transition-colors leading-relaxed line-clamp-2">
                                     {story.title}
                                 </h4>
                             </div>

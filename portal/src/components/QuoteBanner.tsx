@@ -19,7 +19,7 @@ const QUOTES: QuoteItem[] = [
     {
         text: "Foi uma vitória de superação. Esse grupo mostrou mais uma vez que tem garra.",
         author: "Artur Jorge",
-        image: "https://images.unsplash.com/photo-1522778119026-d647f0565c71?q=80&w=1000&auto=format&fit=crop"
+        image: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=1000&auto=format&fit=crop"
     },
     {
         text: "A estrela solitária brilha mais forte quando estamos juntos.",
@@ -64,7 +64,7 @@ export default function QuoteBanner() {
                             {/* Background Image */}
                             <div className="absolute inset-0 z-0">
                                 <img
-                                    src={quote.image || "https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1000&auto=format&fit=crop"}
+                                    src={quote.image || "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=1000&auto=format&fit=crop"}
                                     alt="Background"
                                     className="w-full h-full object-cover opacity-20 grayscale transition-transform duration-1000"
                                 />

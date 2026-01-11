@@ -10,9 +10,10 @@ export default function NewsCard({ article }: any) {
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`; // Changed from 'h' to 'm' for minutes
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-        return `${Math.floor(diffInSeconds / 86400)}d`;
+        if (diffInSeconds < 60) return 'Agora mesmo';
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutos atrás`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} horas atrás`;
+        return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
     };
 
     return (
@@ -34,29 +35,29 @@ export default function NewsCard({ article }: any) {
             </Link>
 
             <div className="p-3 md:p-5 flex flex-col justify-center flex-grow min-w-0">
-                <div className="flex items-center space-x-2 mb-1 md:mb-3">
-                    <SourceIcon source={article.source} className="w-3 h-3 md:w-4 md:h-4" />
-                    <span className="text-[9px] md:text-[10px] font-bold text-zinc-400 uppercase tracking-wider truncate">
-                        {article.source || 'FOGÃONET'}
-                    </span>
+                <div className="flex items-center gap-2 mb-1.5 md:mb-3">
+                    {/* Source Icon Only on Mobile, Full on Desktop */}
+                    <div className="flex items-center gap-1.5 md:gap-2">
+                        <SourceIcon source={article.source} className="w-3.5 h-3.5 md:w-4 md:h-4 text-zinc-400 group-hover:text-premium-gold transition-colors" />
+                        <span className="hidden md:inline text-[10px] font-bold text-zinc-400 uppercase tracking-wider truncate">
+                            {article.source || 'FOGÃONET'}
+                        </span>
+                    </div>
+
                     <span className="text-zinc-600 hidden md:inline">•</span>
-                    <div className="hidden md:flex items-center text-zinc-500 text-[10px] font-bold">
-                        <Clock size={10} className="mr-1" />
-                        <span>{timeAgo(article.created_at)}</span>
+
+                    {/* Time - Simplified */}
+                    <div className="flex items-center text-zinc-500 text-[10px] md:text-[10px] font-bold">
+                        <span className="md:hidden">•</span>
+                        <span className="pl-1 md:pl-0" suppressHydrationWarning>{timeAgo(article.created_at)}</span>
                     </div>
                 </div>
 
                 <Link href={`/news/${article.id}`} className="group-hover:text-premium-gold transition-colors block">
-                    <h3 className="text-xs md:text-lg font-bold text-white leading-tight font-display uppercase italic line-clamp-3 md:line-clamp-3">
+                    <h3 className="text-xs md:text-lg font-bold text-white leading-snug font-display uppercase italic line-clamp-3 md:line-clamp-3">
                         {article.title?.replace(/\*\*/g, '')}
                     </h3>
                 </Link>
-
-                {/* Mobile Timestamp shown below title */}
-                <div className="md:hidden mt-1 flex items-center text-zinc-500 text-[9px] font-bold">
-                    <Clock size={9} className="mr-1" />
-                    <span>{timeAgo(article.created_at)}</span>
-                </div>
             </div>
         </div>
     );

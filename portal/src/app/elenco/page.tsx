@@ -19,9 +19,15 @@ interface Player {
 async function getSquad(): Promise<Player[]> {
     try {
         const snapshot = await db.collection('squad')
-            .limit(100) // Safe limit for a squad
+            .limit(100)
             .get();
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Player));
+
+        const players = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Player));
+
+        // Deduplicate by Name
+        const uniquePlayers = Array.from(new Map(players.map(item => [item.name, item])).values());
+
+        return uniquePlayers;
     } catch (error) {
         console.error("Error fetching squad (likely quota exceeded):", error);
         return [];

@@ -210,6 +210,11 @@ export default async function Home() {
 
               {/* Headlines Widget */}
               <div className="-mx-4 lg:mx-0">
+                <div className="px-4 lg:px-0 mb-4 flex items-center lg:hidden">
+                  <h2 className="text-sm font-black italic tracking-tighter font-display uppercase text-white leading-none">
+                    Principais <span className="text-premium-gold">Notícias</span>
+                  </h2>
+                </div>
                 <HeadlinesWidget news={news} nextMatch={nextMatch} />
               </div>
 

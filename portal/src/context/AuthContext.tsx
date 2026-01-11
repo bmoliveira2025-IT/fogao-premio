@@ -51,16 +51,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const userRef = doc(db, "users", user.uid);
 
             unsubscribeProfile = onSnapshot(userRef, (userSnap) => {
-                console.log(`[AuthDebug] Profile Snapshot for ${user.uid}: Exists? ${userSnap.exists()}`);
                 if (userSnap.exists()) {
                     const data = userSnap.data();
-                    console.log("[AuthDebug] Data:", data);
                     setIsPremium(data?.is_premium === true);
                     if (data?.preferences) setPreferences(data.preferences);
 
                     // Sync Photo from Auth if missing in Firestore or if it updated
                     if (user.photoURL && data.photoURL !== user.photoURL) {
-                        console.log("[AuthDebug] Syncing PhotoURL from Auth to Firestore...");
                         setDoc(userRef, { photoURL: user.photoURL }, { merge: true });
                     }
                     if (user.displayName && data.displayName !== user.displayName) {
@@ -68,7 +65,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     }
 
                 } else {
-                    console.log("[AuthDebug] Creating new profile...");
                     // Create Profile if doesn't exist
                     const defaultPrefs = { news: true, podcasts: true, videos: true };
                     setDoc(userRef, {

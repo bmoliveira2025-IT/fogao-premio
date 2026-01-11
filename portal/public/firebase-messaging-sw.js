@@ -2,13 +2,12 @@ importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js')
 importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDARXxRCxKoAU_SeEyxRp1uXPR0roOVm7Y",
-    authDomain: "coastal-epigram-392314.firebaseapp.com",
-    projectId: "coastal-epigram-392314",
-    storageBucket: "coastal-epigram-392314.firebasestorage.app",
-    messagingSenderId: "526525338401",
-    appId: "1:526525338401:web:626a18b11f492d9294e460",
-    measurementId: "G-33MNNN57SE"
+    apiKey: "AIzaSyAmWOTIPqRaP-YWwhPElY6fPh9DAeFcp-c",
+    authDomain: "strive-bra.firebaseapp.com",
+    projectId: "strive-bra",
+    storageBucket: "strive-bra.firebasestorage.app",
+    messagingSenderId: "112700432380",
+    appId: "1:112700432380:web:90f802159ddf7ad4bc1c79"
 };
 
 firebase.initializeApp(firebaseConfig);

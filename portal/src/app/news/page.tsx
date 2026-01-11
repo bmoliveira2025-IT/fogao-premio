@@ -64,7 +64,7 @@ export default async function NewsPage() {
 
                             <div className="flex flex-col">
                                 <h1 className="text-xl font-black italic tracking-tighter font-display uppercase text-white leading-none">
-                                    Central de <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FFE578] to-[#C9A24D]">Notícias</span>
+                                    Últimas <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FFE578] to-[#C9A24D]">Notícias</span>
                                 </h1>
                                 <p className="text-[9px] text-zinc-400 font-bold tracking-widest uppercase mt-0.5">
                                     Cobertura do Glorioso

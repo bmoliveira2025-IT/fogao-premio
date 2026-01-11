@@ -22,6 +22,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
                 src={article.image || 'https://via.placeholder.com/800x600'}
                 alt={article.title}
                 fill
+                priority={true}
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
 
@@ -29,41 +30,35 @@ export default function HeroNewsCard({ article }: { article: any }) {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
 
             {/* Content Container */}
-            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12">
-                {/* Source & Date - Moved to Top of Content Area */}
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
-                        <SourceIcon source={article.source} className="w-4 h-4 text-premium-gold" />
-                        <span className="text-xs font-bold text-white uppercase tracking-wider">
-                            {article.source}
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-zinc-300 drop-shadow-md">
-                        <Clock size={12} />
-                        <span className="text-xs font-medium uppercase tracking-wider">
-                            {new Date(article.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} às {new Date(article.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                    </div>
-                </div>
-
-                {/* Category Tag - Moved Below Source to avoid overlap */}
-                <div className="mb-3">
-                    <span className="inline-block px-3 py-1 bg-premium-gold text-black text-xs font-black uppercase tracking-widest rounded-md shadow-lg transform -skew-x-6">
-                        {article.category || 'GERAL'}
-                    </span>
-                </div>
-
-                <h2 className="text-2xl md:text-5xl font-black text-white leading-tight drop-shadow-xl group-hover:text-premium-gold transition-colors mb-4 line-clamp-3">
+            <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-12">
+                <h2 className="text-lg md:text-5xl font-black text-white leading-tight drop-shadow-xl group-hover:text-premium-gold transition-colors mb-3 md:mb-4 line-clamp-3">
                     {article.title?.replace(/\*\*/g, '')}
                 </h2>
-                {/* Footer Tags */}
-                <div className="flex items-center space-x-2">
-                    <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[9px] font-bold text-white/50 uppercase tracking-wider">
-                        #BOTAFOGO
-                    </span>
-                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[9px] font-bold text-white/70 uppercase tracking-wider">
-                        NEUTRO
-                    </span>
+
+                {/* Footer Tags & Date */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                        <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[9px] font-bold text-white/50 uppercase tracking-wider">
+                            #BOTAFOGO
+                        </span>
+
+                        {/* Source Moved Here */}
+                        <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-md border border-premium-gold/15">
+                            <SourceIcon source={article.source} className="w-3 h-3 text-premium-gold" />
+                            <span className="text-[9px] font-bold text-white uppercase tracking-wider">
+                                {article.source}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Date Moved Here */}
+                    <div className="flex items-center gap-1.5 text-zinc-300 drop-shadow-md bg-black/40 px-2 py-1 rounded-md backdrop-blur-sm border border-white/5">
+                        <Clock size={12} className="md:w-3 md:h-3 w-2.5 h-2.5" />
+                        <span className="text-[10px] md:text-xs font-medium uppercase tracking-wider" suppressHydrationWarning>
+                            {new Date(article.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}
+                            <span className="hidden md:inline"> às {new Date(article.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </Link>
