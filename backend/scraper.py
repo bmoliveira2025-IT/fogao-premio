@@ -66,10 +66,7 @@ else:
 
 if not firebase_admin._apps:
     try:
-        firebase_admin.initialize_app(cred, {
-            'projectId': 'strive-bra', # Explicitly set project ID
-            'databaseURL': 'https://strive-bra-default-rtdb.firebaseio.com' 
-        })
+        firebase_admin.initialize_app(cred)
         print("Firebase initialized successfully.")
     except ValueError as e:
         print(f"Warning: Firebase init skipped (already initialized?): {e}")
@@ -789,37 +786,30 @@ if os.getenv("GITHUB_ACTIONS") == "true":
     else:
         print("Skipping Squad update (already updated today).")
         
+    # Run cleanup
+    cleanup_old_news(db)
+
     print("Scraping finished. Exiting.")
 else:
     # Local Loop Mode
-    print("Starting continuous monitoring... (Interval: 10 minutes)")
+    print("Starting continuous monitoring... (Interval: 22 minutes)")
     update_next_match() # Initial run
-    generate_daily_briefing() # Initial check
     
     while True:
         try:
-            fetch_youtube_videos() # Fetch videos every cycle
+            print("--- Starting Cycle ---")
+            fetch_youtube_videos()
             monitor_sources()
             generate_daily_briefing()
             
             if should_update_squad():
                 scrape_squad()
                 
+            # Run cleanup
+            cleanup_old_news(db)
+            
             print("Cycle finished. Sleeping for 22 minutes...")
             time.sleep(1320) # 22 minutes
         except Exception as e:
             print(f"Error in main loop: {e}")
             time.sleep(60) # Wait 1 min on error before retry
-
-        monitor_sources()
-        generate_daily_briefing() # Check every cycle (it has internal "once per day" check)
-        
-        if should_update_squad():
-            print("Updating Squad (24h period reached)...")
-            scrape_squad()
-        
-        # Run cleanup
-        cleanup_old_news(db)
-            
-        print("Cycle finished. Sleeping for 10 minutes...")
-        time.sleep(600)
