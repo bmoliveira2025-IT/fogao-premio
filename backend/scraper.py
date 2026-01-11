@@ -319,12 +319,16 @@ def monitor_sources():
                 links = [a['href'] for a in soup.find_all('a', href=True) if '/esportes/' in a['href'] and ('botafogo' in a['href'] or 'futebol' in a['href'])][:5]
                 # Fix relative URLs
                 links = [f"https://www.cnnbrasil.com.br{l}" if l.startswith('/') else l for l in links]
+                # Filter out the section page itself
+                links = [l for l in links if l.strip('/') != source.strip('/')]
 
             # Strategy for Terra
             elif "terra.com.br" in source:
                 links = [a['href'] for a in soup.find_all('a', href=True) if '/esportes/' in a['href'] and ('botafogo' in a['href'] or 'futebol' in a['href'])][:5]
                 # Fix relative URLs
                 links = [f"https://www.terra.com.br{l}" if l.startswith('/') else l for l in links]
+                # Filter out live feeds and section page
+                links = [l for l in links if '/ao-vivo/' not in l and l.strip('/') != source.strip('/')]
 
             # Strategy for Lance!
             elif "lance.com.br" in source:
@@ -342,6 +346,8 @@ def monitor_sources():
             elif "bolavip.com" in source:
                 links = [a['href'] for a in soup.find_all('a', href=True) if '/botafogo/' in a['href'] and a['href'].count('/') > 4][:5]
                 links = [f"https://br.bolavip.com{l}" if l.startswith('/') else l for l in links]
+                # Filter out tables, results, games
+                links = [l for l in links if '/tabelas' not in l and '/jogos' not in l and '/resultados' not in l]
 
             # Strategy for O Dia
             elif "odia.ig.com.br" in source:
