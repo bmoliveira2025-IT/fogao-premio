@@ -43,5 +43,5 @@ jobs:
           date > last_scraper_run.txt
           git add last_scraper_run.txt
           git commit -m "Scraper Run: $(date)"
-          git pull --rebase
+          git pull --rebase -X theirs
           git push
