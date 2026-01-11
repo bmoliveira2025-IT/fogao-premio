@@ -172,11 +172,19 @@ def process_with_ai(original_title, original_content):
     """
     
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "user", "content": prompt}],
-            model="llama-3.1-8b-instant",
-            response_format={"type": "json_object"}
-        )
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                chat_completion = client.chat.completions.create(
+                    messages=[{"role": "user", "content": prompt}],
+                    model="llama-3.1-8b-instant",
+                    response_format={"type": "json_object"}
+                )
+                break # Success, exit loop
+            except Exception as e:
+                if attempt == max_retries - 1: raise e # Re-raise if last attempt
+                print(f"Groq API connection failed (Attempt {attempt+1}/{max_retries}). Retrying in 2s...")
+                time.sleep(2)
     
         content = chat_completion.choices[0].message.content
         # Basic cleanup to attempt to fix common json issues from LLMs
@@ -739,11 +747,19 @@ def generate_daily_briefing():
     """
     
     try:
-        chat_completion = client.chat.completions.create(
-            messages=[{"role": "user", "content": prompt}],
-            model="llama-3.1-8b-instant",
-            response_format={"type": "json_object"}
-        )
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                chat_completion = client.chat.completions.create(
+                    messages=[{"role": "user", "content": prompt}],
+                    model="llama-3.1-8b-instant",
+                    response_format={"type": "json_object"}
+                )
+                break # Success
+            except Exception as e:
+                if attempt == max_retries - 1: raise e
+                print(f"Groq API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Retrying in 2s...")
+                time.sleep(2)
         
         content = chat_completion.choices[0].message.content
         briefing_data = json.loads(content)
