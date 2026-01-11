@@ -7,7 +7,7 @@ import NotificationManager from "@/components/NotificationManager";
 import InstallPrompt from "@/components/InstallPrompt";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://info-sphere-pro.vercel.app'),
+  metadataBase: new URL('https://fogao-premio.vercel.app'),
   title: {
     default: "Fogão Prêmio | Notícias Premium do Botafogo",
     template: "%s | Fogão Prêmio"
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    url: 'https://info-sphere-pro.vercel.app',
+    url: 'https://fogao-premio.vercel.app',
     siteName: 'Fogão Prêmio',
     images: [
       {
