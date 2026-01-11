@@ -187,7 +187,11 @@ def process_with_ai(original_title, original_content):
         if content.startswith('```json'):
             content = content.replace('```json', '').replace('```', '')
         
-        return json.loads(content)
+        result = json.loads(content)
+        # Clean Title specifically
+        if 'title' in result:
+             result['title'] = result['title'].replace('**', '').replace('__', '')
+        return result
     except json.JSONDecodeError:
         print("Failed to decode JSON from AI response. Falling back to raw text.")
         return {
@@ -793,7 +797,20 @@ else:
     generate_daily_briefing() # Initial check
     
     while True:
-        fetch_youtube_videos() # Fetch videos every cycle
+        try:
+            fetch_youtube_videos() # Fetch videos every cycle
+            monitor_sources()
+            generate_daily_briefing()
+            
+            if should_update_squad():
+                scrape_squad()
+                
+            print("Cycle finished. Sleeping for 22 minutes...")
+            time.sleep(1320) # 22 minutes
+        except Exception as e:
+            print(f"Error in main loop: {e}")
+            time.sleep(60) # Wait 1 min on error before retry
+
         monitor_sources()
         generate_daily_briefing() # Check every cycle (it has internal "once per day" check)
         
