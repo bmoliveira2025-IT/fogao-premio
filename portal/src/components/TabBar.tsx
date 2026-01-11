@@ -12,91 +12,63 @@ function cn(...inputs: ClassValue[]) {
 
 // --- Premium Custom SVGs ---
 
-// 1. Star (Home) - Crisp geometric start
-const IconStar = ({ active, className }: { active: boolean, className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-        <path
-            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-            fill={active ? "currentColor" : "none"}
-            stroke="currentColor"
-            strokeWidth={active ? "0" : "1.5"}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
-    </svg>
+import { Home, FileText, Calendar } from "lucide-react";
+
+// 1. Home - Lucide Home
+const IconHome = ({ active, className }: { active: boolean, className?: string }) => (
+    <Home
+        className={className}
+        strokeWidth={active ? 2.5 : 1.5}
+        absoluteStrokeWidth // Ensures consistent stroke width across sizes
+    />
 );
 
-// 2. News (Modern Feed/Newspaper) - Elegant lines
+// 2. News - Lucide FileText
 const IconNews = ({ active, className }: { active: boolean, className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-        <path
-            d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
-            fill={active ? "currentColor" : "none"}
-            stroke="currentColor"
-            strokeWidth={active ? "0" : "1.5"}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
-        <path d="M7 7H17" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M7 12H17" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M7 17H13" stroke={active ? "black" : "currentColor"} strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
+    <FileText
+        className={className}
+        strokeWidth={active ? 2.5 : 1.5}
+        absoluteStrokeWidth
+    />
 );
 
-// 3. Soccer Ball (Games) - Ultra Modern Minimalist
-const IconSoccer = ({ active, className }: { active: boolean, className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-        <circle
-            cx="12" cy="12" r="10"
-            stroke="currentColor"
-            strokeWidth={active ? "2" : "1.5"}
-            fill={active ? "currentColor" : "none"}
-        />
-        <path
-            d="M12 2C12 2 13 7 17 9.5M12 22C12 22 13 17 17 14.5M2 12C2 12 7 11 9.5 7M22 12C22 12 17 13 14.5 17"
-            stroke={active ? "black" : "currentColor"}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
-        <path
-            d="M8.5 7.5L15.5 16.5"
-            stroke={active ? "black" : "currentColor"}
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
-    </svg>
+// 3. Games - Lucide Calendar
+const IconGames = ({ active, className }: { active: boolean, className?: string }) => (
+    <Calendar
+        className={className}
+        strokeWidth={active ? 2.5 : 1.5}
+        absoluteStrokeWidth
+    />
 );
 
-// 4. Profile (User) - Clean
+// 4. Profile (User) - Keep existing Custom SVG
 const IconProfile = ({ active, className }: { active: boolean, className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
         <path
             className="transition-all"
             d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth={active ? "2.5" : "1.5"}
             strokeLinecap="round"
             strokeLinejoin="round"
-            fill={active ? "currentColor" : "none"}
+            fill="none" // Minimalist style usually avoids fill, or we can toggle it
         />
         <circle
             cx="12" cy="7" r="4"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth={active ? "2.5" : "1.5"}
             strokeLinecap="round"
             strokeLinejoin="round"
-            fill={active ? "currentColor" : "none"}
+            fill="none"
         />
     </svg>
 );
 
 
 const tabs = [
-    { icon: IconStar, label: "INÍCIO", href: "/" },
+    { icon: IconHome, label: "INÍCIO", href: "/" },
     { icon: IconNews, label: "NOTÍCIAS", href: "/news" },
-    { icon: IconSoccer, label: "JOGOS", href: "/matches" },
+    { icon: IconGames, label: "JOGOS", href: "/matches" },
     { icon: IconProfile, label: "PERFIL", href: "/profile" },
 ];
 
