@@ -35,12 +35,22 @@ service cloud.firestore {
     }
     
     match /news/{document=**} {
-      allow read: if true;
+      allow read, write: if true;
     }
 
     // Elenco: Leitura pública para todos
     match /squad/{document=**} {
-      allow read: if true;
+      allow read, write: if true;
+    }
+
+    // Matches: Leitura pública, escrita aberta (para scraper)
+    match /matches/{document=**} {
+      allow read, write: if true;
+    }
+    
+    // Videos: Leitura pública, escrita aberta (para scraper)
+    match /videos/{document=**} {
+      allow read, write: if true;
     }
   }
 }

@@ -4,7 +4,7 @@ import os
 def generate():
     try:
         # Look for service-account.json in the same directory
-        path = os.path.join(os.path.dirname(__file__), 'service-account.json')
+        path = os.path.join(os.path.dirname(__file__), 'service-account-new.json')
         if not os.path.exists(path):
              print(f"Error: {path} not found.")
              return
