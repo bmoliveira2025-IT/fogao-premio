@@ -1,5 +1,4 @@
 "use client";
-import React from 'react';
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { clsx, type ClassValue } from "clsx";
@@ -151,6 +150,6 @@ export default function TabBar() {
                     );
                 })}
             </div>
-        </motion.nav>
+        </nav>
     );
 }
