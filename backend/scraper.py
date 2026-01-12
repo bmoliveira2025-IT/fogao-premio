@@ -81,7 +81,10 @@ except Exception as e: # Fallback if client creation fails
 
 
 # Initialize Groq
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    print("WARNING: GROQ_API_KEY not found in environment variables.")
+client = Groq(api_key=api_key)
 
 # ... (rest of imports/functions unchanged until main) ...
 
@@ -183,7 +186,8 @@ def process_with_ai(original_title, original_content):
                 break # Success, exit loop
             except Exception as e:
                 if attempt == max_retries - 1: raise e # Re-raise if last attempt
-                print(f"Groq API connection failed (Attempt {attempt+1}/{max_retries}). Retrying in 2s...")
+                if attempt == max_retries - 1: raise e # Re-raise if last attempt
+                print(f"Groq API connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}. Retrying in 2s...")
                 time.sleep(2)
     
         content = chat_completion.choices[0].message.content
@@ -764,7 +768,8 @@ def generate_daily_briefing():
                 break # Success
             except Exception as e:
                 if attempt == max_retries - 1: raise e
-                print(f"Groq API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Retrying in 2s...")
+                if attempt == max_retries - 1: raise e
+                print(f"Groq API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}. Retrying in 2s...")
                 time.sleep(2)
         
         content = chat_completion.choices[0].message.content
