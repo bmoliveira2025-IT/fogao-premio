@@ -131,6 +131,27 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
                                     </div>
 
                                     <div className="max-h-[300px] overflow-y-auto">
+                                        {/* Static Briefing Notification */}
+                                        <Link
+                                            href="/?briefing=true"
+                                            onClick={() => setShowNotifications(false)}
+                                            className="block p-4 border-b border-premium-gold/15 hover:bg-white/5 transition-colors bg-premium-gold/5" // Distinct background
+                                        >
+                                            <div className="flex items-start space-x-3">
+                                                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-premium-gold/20 text-premium-gold">
+                                                    <FileText size={16} /> {/* Slightly larger icon */}
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-xs font-bold text-white mb-1 leading-tight">Resumo do Dia</h4>
+                                                    <p className="text-[10px] text-white/60 leading-relaxed">Confira as principais notícias e destaques de hoje.</p>
+                                                    <span className="text-[9px] text-white/30 mt-2 block uppercase tracking-wider font-bold text-premium-gold">
+                                                        Destaque Diário
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Link>
+
+                                        {/* Dynamic Notifications */}
                                         {visibleNotifications.length > 0 ? (
                                             visibleNotifications.map((notif) => (
                                                 <Link
@@ -157,8 +178,8 @@ export default function BrandingHeader({ notifications = EMPTY_NOTIFICATIONS }: 
                                                 </Link>
                                             ))
                                         ) : (
-                                            <div className="p-8 text-center">
-                                                <p className="text-xs text-white/30">Nenhuma notificação recente.</p>
+                                            <div className="p-8 text-center bg-zinc-900/50">
+                                                <p className="text-xs text-white/30">Nenhuma outra notificação.</p>
                                             </div>
                                         )}
                                     </div>

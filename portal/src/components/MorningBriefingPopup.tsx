@@ -142,42 +142,70 @@ export default function MorningBriefingPopup() {
                             {formatPremiumText(briefing.general_summary)}
                         </p>
 
-                        {/* Top Stories Grid */}
+                        {/* Top Top Story - Hero (Rank 01) */}
                         {briefing.top_stories && briefing.top_stories.length > 0 && (
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4">
-                                {briefing.top_stories.map((story, idx) => (
-                                    <div key={idx} className="relative group aspect-[4/3] rounded-lg overflow-hidden border border-white/10 bg-black">
-                                        {/* Image */}
-                                        {story.image ? (
-                                            <img
-                                                src={story.image}
-                                                alt={story.title}
-                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-70 group-hover:opacity-50"
-                                            />
-                                        ) : (
-                                            <div className="absolute inset-0 bg-zinc-800 flex items-center justify-center">
-                                                <FileText className="text-white/20" size={24} />
-                                            </div>
-                                        )}
+                            <div className="mt-4 space-y-4">
+                                {(() => {
+                                    // Separate Rank 1 from the rest
+                                    const mainStory = briefing.top_stories.find(s => s.rank === 1) || briefing.top_stories[0];
+                                    const otherStories = briefing.top_stories.filter(s => s !== mainStory).slice(0, 4); // Show max 4 others
 
-                                        {/* Gradient */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                                    return (
+                                        <>
+                                            {/* Hero Image Card */}
+                                            {mainStory && (
+                                                <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden border border-white/10 bg-black shadow-lg">
+                                                    {mainStory.image ? (
+                                                        <img
+                                                            src={mainStory.image}
+                                                            alt={mainStory.title}
+                                                            className="absolute inset-0 w-full h-full object-cover opacity-80"
+                                                        />
+                                                    ) : (
+                                                        <div className="absolute inset-0 bg-zinc-800 flex items-center justify-center">
+                                                            <FileText className="text-white/20" size={32} />
+                                                        </div>
+                                                    )}
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
 
-
-
-                                        {/* Title */}
-                                        <div className="absolute bottom-0 inset-x-0 p-2">
-                                            {story.category && (
-                                                <span className="text-[8px] font-bold text-premium-gold uppercase tracking-wider block mb-1">
-                                                    {story.category}
-                                                </span>
+                                                    <div className="absolute bottom-0 inset-x-0 p-3">
+                                                        {mainStory.category && (
+                                                            <span className="inline-block px-1.5 py-0.5 bg-premium-gold/90 text-black text-[9px] font-black uppercase tracking-wider rounded-sm mb-1.5">
+                                                                Destaque
+                                                            </span>
+                                                        )}
+                                                        <h4 className="text-sm md:text-base font-bold text-white leading-tight drop-shadow-md">
+                                                            {mainStory.title}
+                                                        </h4>
+                                                    </div>
+                                                </div>
                                             )}
-                                            <h4 className="text-[10px] font-bold text-white leading-tight line-clamp-3">
-                                                {story.title}
-                                            </h4>
-                                        </div>
-                                    </div>
-                                ))}
+
+                                            {/* Compact List for Others */}
+                                            {otherStories.length > 0 && (
+                                                <div className="flex flex-col gap-3 mt-2">
+                                                    {otherStories.map((story, idx) => (
+                                                        <div key={idx} className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
+                                                            <span className="text-3xl font-display font-black text-premium-gold leading-none">
+                                                                0{story.rank || idx + 2}
+                                                            </span>
+                                                            <div className="flex-1 min-w-0">
+                                                                {story.category && (
+                                                                    <span className="text-[9px] font-bold text-premium-gold/60 uppercase tracking-widest block mb-1">
+                                                                        {story.category}
+                                                                    </span>
+                                                                )}
+                                                                <h5 className="text-sm font-bold text-white leading-tight line-clamp-2">
+                                                                    {story.title}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </>
+                                    );
+                                })()}
                             </div>
                         )}
                     </div>

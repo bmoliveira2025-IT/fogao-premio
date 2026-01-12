@@ -151,58 +151,51 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         className={`group relative flex items-center gap-4 p-4 md:p-5 hover:bg-white/5 transition-all duration-300 overflow-hidden border-b last:border-0`}
                         style={{ borderColor: 'var(--border-color)' }}
                     >
-                        {/* Subtle Background Image */}
-                        {story.image && (
-                            <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
-                                <img
-                                    src={story.image}
-                                    alt=""
-                                    className="w-full h-full object-cover grayscale"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent dark:from-zinc-950 dark:via-zinc-950/90 dark:to-transparent" />
-                            </div>
-                        )}
-
-                        {/* Always visible very faint bg optimized for legibility - "imagem real transparente" */}
-                        {story.image && (
-                            <div className="absolute inset-0 z-0 opacity-[0.2] pointer-events-none">
-                                <img
-                                    src={story.image}
-                                    alt=""
-                                    className="w-full h-full object-cover brightness-125"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent dark:from-zinc-950 dark:via-zinc-950/80 dark:to-transparent" />
-                            </div>
-                        )}
+                        {/* Background removed/simplified for cleaner text readability */}
 
                         {/* Z-Index Wrapper to stay above bg */}
-                        <div className="relative z-10 flex flex-1 items-center gap-4 min-w-0">
-                            {/* Number */}
-                            <span className="text-2xl md:text-3xl font-black text-foreground/20 group-hover:text-premium-gold/30 transition-colors w-10 text-center leading-none">
+                        <div className="relative z-10 flex flex-1 items-center gap-5 min-w-0">
+                            {/* Number - Updated to GOLD and SOLID */}
+                            <span className="text-3xl font-display font-black text-premium-gold w-10 text-center leading-none flex-shrink-0">
                                 {String(index + 2).padStart(2, '0')}
                             </span>
 
                             {/* Content */}
                             <div className="flex-1 min-w-0">
                                 {/* Source Highlight & Time */}
-                                <div className="flex items-center gap-2 mb-1">
-                                    {/* Icon Only Source */}
-                                    <div className="flex items-center justify-center w-5 h-5 bg-zinc-800/80 rounded-full border border-white/10" title={story.source}>
+                                <div className="flex items-center gap-2 mb-1.5">
+                                    {/* Icon */}
+                                    <div className="flex items-center justify-center w-5 h-5 bg-zinc-800/80 rounded-full border border-white/10 shrink-0" title={story.source}>
                                         <SourceIcon source={story.source || ''} className="w-3 h-3 grayscale group-hover:grayscale-0 transition-all" />
                                     </div>
 
-                                    <span className="text-[10px] font-bold text-red-500/80 uppercase tracking-wider" suppressHydrationWarning>
+                                    {/* Source Name - with subtle background */}
+                                    <span className="text-[10px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-2 py-1 rounded bg-premium-gold/10 border border-premium-gold/10">
+                                        {story.source ? story.source.toUpperCase() : 'FOGÃO PRÊMIO'}
+                                    </span>
+
+                                    {/* Time - No separator needed with pill, or maybe keep it? Let's check logic. 
+                                        If pill is used, space is enough. 
+                                        But user wanted "do jeito que estava" relative to order. 
+                                        I'll keep the order but maybe remove the dot if it looks cluttered.
+                                        Let's keep the dot for now but maybe lighter.
+                                    */}
+                                    {/* Separator */}
+                                    <span className="text-[10px] text-white/10">•</span>
+
+                                    {/* Time */}
+                                    <span className="text-[9px] font-bold text-white/40 uppercase tracking-wider" suppressHydrationWarning>
                                         {getRelativeTime(story.created_at)}
                                     </span>
                                 </div>
 
-                                <h4 className="text-xs md:text-sm font-bold text-foreground/90 group-hover:text-white transition-colors leading-relaxed line-clamp-2">
+                                <h4 className="text-sm md:text-base font-bold text-foreground group-hover:text-white transition-colors leading-tight line-clamp-2">
                                     {story.title?.replace(/\*\*/g, '')}
                                 </h4>
                             </div>
 
                             {/* Arrow */}
-                            <ChevronRight className="text-foreground/20 group-hover:text-premium-gold transition-colors transform group-hover:translate-x-1" size={20} />
+                            <ChevronRight className="text-foreground/20 group-hover:text-premium-gold transition-colors transform group-hover:translate-x-1 flex-shrink-0" size={24} />
                         </div>
                     </Link>
                 ))}
