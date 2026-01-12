@@ -153,6 +153,18 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     >
                         {/* Background removed/simplified for cleaner text readability */}
 
+                        {/* Background Image - Subtle & Transparent */}
+                        {story.image && (
+                            <div className="absolute inset-0 z-0 opacity-10">
+                                <img
+                                    src={story.image}
+                                    alt=""
+                                    className="w-full h-full object-cover grayscale"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-r from-card to-transparent" />
+                            </div>
+                        )}
+
                         {/* Z-Index Wrapper to stay above bg */}
                         <div className="relative z-10 flex flex-1 items-center gap-5 min-w-0">
                             {/* Number - Updated to GOLD and SOLID */}
@@ -170,7 +182,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                     </div>
 
                                     {/* Source Name - with subtle background */}
-                                    <span className="text-[10px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-2 py-1 rounded bg-premium-gold/10 border border-premium-gold/10">
+                                    <span className="text-[9px] md:text-[10px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-2 py-1 rounded bg-premium-gold/10 border border-premium-gold/10 whitespace-nowrap">
                                         {story.source ? story.source.toUpperCase() : 'FOGÃO PRÊMIO'}
                                     </span>
 
