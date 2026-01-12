@@ -4,7 +4,8 @@ import sys
 import firebase_admin
 from firebase_admin import credentials, firestore, messaging
 from newspaper import Article
-from groq import Groq
+
+import google.generativeai as genai
 from dotenv import load_dotenv
 import requests
 import re
@@ -80,11 +81,21 @@ except Exception as e: # Fallback if client creation fails
      db = firestore.client(app=app)
 
 
-# Initialize Groq
-api_key = os.getenv("GROQ_API_KEY")
-if not api_key:
-    print("WARNING: GROQ_API_KEY not found in environment variables.")
-client = Groq(api_key=api_key, timeout=30.0)
+# Initialize Gemini
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    print("WARNING: GEMINI_API_KEY not found. AI features will fail.")
+else:
+    genai.configure(api_key=GEMINI_API_KEY)
+
+# We initialize the model inside the function or here if we want a global one, 
+# but usually configuring is enough. We'll instantiate model per call to be safe or global.
+# Let's use a global model instance for simplicity, but we need to handle potential init errors if key is missing.
+try:
+    model = genai.GenerativeModel('gemini-1.5-flash')
+except Exception as e:
+    print(f"Error initializing Gemini model: {e}")
+    model = None
 
 def check_connectivity():
     try:
@@ -185,30 +196,28 @@ def process_with_ai(original_title, original_content):
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                chat_completion = client.chat.completions.create(
-                    messages=[{"role": "user", "content": prompt}],
-                    model="llama-3.1-8b-instant",
-                    response_format={"type": "json_object"}
+                if not model:
+                     raise Exception("Gemini model not initialized (missing key?)")
+
+                response = model.generate_content(
+                    prompt,
+                    generation_config={"response_mime_type": "application/json"}
                 )
-                break # Success, exit loop
+                break # Success
             except Exception as e:
-                if attempt == max_retries - 1: raise e # Re-raise if last attempt
-                if attempt == max_retries - 1: raise e # Re-raise if last attempt
+                # Basic error handling for Gemini
+                if attempt == max_retries - 1: raise e
                 
-                print(f"Groq API connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
+                print(f"Gemini API connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
                 if not check_connectivity():
                      print("Network check failed: Internet seems to be down.")
-                else:
-                     print("Network check passed: Internet is reachable. Issue might be with Groq API.")
-
+                
                 print("Retrying in 5s...")
                 time.sleep(5)
     
-        content = chat_completion.choices[0].message.content
-        # Basic cleanup to attempt to fix common json issues from LLMs
-        content = content.strip()
-        if content.startswith('```json'):
-            content = content.replace('```json', '').replace('```', '')
+        content = response.text
+        # Basic cleanup just in case, though response_mime_type handles most
+        content = content.replace('```json', '').replace('```', '').strip()
         
         result = json.loads(content)
         # Clean Title specifically
@@ -345,8 +354,8 @@ def monitor_sources():
                 links = [a['href'] for a in soup.find_all('a', href=True) if '/esportes/' in a['href'] and ('botafogo' in a['href'] or 'futebol' in a['href'])][:5]
                 # Fix relative URLs
                 links = [f"https://www.terra.com.br{l}" if l.startswith('/') else l for l in links]
-                # Filter out live feeds and section page
-                links = [l for l in links if '/ao-vivo/' not in l and l.strip('/') != source.strip('/')]
+                # Filter out live feeds, section page, and Botafogo-SP
+                links = [l for l in links if '/ao-vivo/' not in l and l.strip('/') != source.strip('/') and 'botafogo-sp' not in l]
 
             # Strategy for Lance!
             elif "lance.com.br" in source:
@@ -774,26 +783,24 @@ def generate_daily_briefing():
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                chat_completion = client.chat.completions.create(
-                    messages=[{"role": "user", "content": prompt}],
-                    model="llama-3.1-8b-instant",
-                    response_format={"type": "json_object"}
+                if not model: raise Exception("Gemini model not initialized")
+
+                response = model.generate_content(
+                    prompt,
+                    generation_config={"response_mime_type": "application/json"}
                 )
                 break # Success
             except Exception as e:
                 if attempt == max_retries - 1: raise e
-                if attempt == max_retries - 1: raise e
                 
-                print(f"Groq API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
+                print(f"Gemini API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
                 if not check_connectivity():
                      print("Network check failed: Internet seems to be down.")
-                else:
-                     print("Network check passed: Internet is reachable. Issue might be with Groq API.")
                 
                 print("Retrying in 5s...")
                 time.sleep(5)
         
-        content = chat_completion.choices[0].message.content
+        content = response.text
         briefing_data = json.loads(content)
         
         # 5. Enrich with REAL images from source

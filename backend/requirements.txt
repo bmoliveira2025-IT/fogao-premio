@@ -2,7 +2,7 @@ fastapi
 uvicorn
 firebase-admin
 newspaper3k
-groq
+google-generativeai
 beautifulsoup4
 python-dotenv
 requests
