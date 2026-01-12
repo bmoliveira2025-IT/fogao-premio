@@ -84,7 +84,14 @@ except Exception as e: # Fallback if client creation fails
 api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
     print("WARNING: GROQ_API_KEY not found in environment variables.")
-client = Groq(api_key=api_key)
+client = Groq(api_key=api_key, timeout=30.0)
+
+def check_connectivity():
+    try:
+        requests.get("https://www.google.com", timeout=5)
+        return True
+    except Exception:
+        return False
 
 # ... (rest of imports/functions unchanged until main) ...
 
@@ -187,8 +194,15 @@ def process_with_ai(original_title, original_content):
             except Exception as e:
                 if attempt == max_retries - 1: raise e # Re-raise if last attempt
                 if attempt == max_retries - 1: raise e # Re-raise if last attempt
-                print(f"Groq API connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}. Retrying in 2s...")
-                time.sleep(2)
+                
+                print(f"Groq API connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
+                if not check_connectivity():
+                     print("Network check failed: Internet seems to be down.")
+                else:
+                     print("Network check passed: Internet is reachable. Issue might be with Groq API.")
+
+                print("Retrying in 5s...")
+                time.sleep(5)
     
         content = chat_completion.choices[0].message.content
         # Basic cleanup to attempt to fix common json issues from LLMs
@@ -769,8 +783,15 @@ def generate_daily_briefing():
             except Exception as e:
                 if attempt == max_retries - 1: raise e
                 if attempt == max_retries - 1: raise e
-                print(f"Groq API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}. Retrying in 2s...")
-                time.sleep(2)
+                
+                print(f"Groq API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
+                if not check_connectivity():
+                     print("Network check failed: Internet seems to be down.")
+                else:
+                     print("Network check passed: Internet is reachable. Issue might be with Groq API.")
+                
+                print("Retrying in 5s...")
+                time.sleep(5)
         
         content = chat_completion.choices[0].message.content
         briefing_data = json.loads(content)
