@@ -261,6 +261,30 @@ def scrape_news(url):
             "url": url,
             "publish_date": article.publish_date.isoformat() if article.publish_date else None
         }
+
+        # Date Check (Recency Filter)
+        if article.publish_date:
+            try:
+                # Ensure timezone awareness for comparison
+                pub_date = article.publish_date
+                if pub_date.tzinfo is None:
+                    pub_date = pub_date.replace(tzinfo=timezone.utc)
+                
+                now = datetime.now(timezone.utc)
+                # Allow up to 48 hours to be safe, but generally we want "recent"
+                if (now - pub_date).total_seconds() > 172800: # 48 hours
+                    print(f"Skipping old article ({pub_date}): {article.title}")
+                    return None
+            except Exception as e:
+                print(f"Date comparison warning: {e}")
+                
+        return {
+            "title": article.title,
+            "content": clean_text(article.text),
+            "image": image,
+            "url": url,
+            "publish_date": article.publish_date.isoformat() if article.publish_date else None
+        }
     except Exception as e:
         print(f"Error scraping {url}: {e}")
         # Fallback manual extraction
