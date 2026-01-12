@@ -19,45 +19,40 @@ export default function CompactNewsRow({ article }: any) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group flex gap-4 items-center p-3 rounded-xl hover:bg-white/5 border transition-all"
+            className="group flex gap-3 items-center p-3 rounded-xl hover:bg-white/5 border transition-all"
             style={{ borderColor: 'var(--border-color)' }}
         >
-            <div className="flex items-start space-x-3 py-3 relative overflow-hidden">
-                {/* Highlight Line (Hover) */}
-                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-premium-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* Thumbnail */}
+            <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-white/5 border border-white/5">
+                <Image
+                    src={article.image || 'https://via.placeholder.com/150'}
+                    alt={article.title}
+                    fill
+                    sizes="64px"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+            </div>
 
-                {/* Thumbnail (Small) */}
-                <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-white/5">
-                    <Image
-                        src={article.image || 'https://via.placeholder.com/150'}
-                        alt={article.title}
-                        fill
-                        sizes="64px"
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
+            {/* Info */}
+            <div className="flex flex-col flex-grow min-w-0 justify-center gap-1.5">
+                {/* Metadata Pill */}
+                <div className="flex items-center gap-2">
+                    <SourceIcon source={article.source} className="w-3 h-3 text-[10px] transition-all grayscale group-hover:grayscale-0" />
+
+                    <span className="text-[9px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-1.5 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/10">
+                        {article.source || 'FOGÃONET'}
+                    </span>
+
+                    <span className="text-[8px] text-foreground/20">•</span>
+
+                    <span className="text-[9px] text-foreground/40 font-bold tabular-nums">
+                        {timeAgo(article.created_at)}
+                    </span>
                 </div>
 
-                {/* Info */}
-                <div className="flex flex-col flex-grow min-w-0 justify-center h-16">
-                    <div className="flex items-center space-x-2 mb-1">
-                        <SourceIcon source={article.source} className="w-3 h-3 text-[5px]" />
-                        <span className="text-[9px] text-premium-gold/80 font-bold uppercase tracking-wider truncate">
-                            {article.source || 'FOGÃONET'}
-                        </span>
-                        <span className="text-foreground/10 text-[8px]">•</span>
-                        <span className="text-[9px] text-foreground/40 font-bold tabular-nums">
-                            {timeAgo(article.created_at)}
-                        </span>
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-snug">
-                            {article.title?.replace(/\*\*/g, '')}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-1">
-                        </div>
-                    </div>
-                </div>
+                <h4 className="text-xs font-bold text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-tight">
+                    {article.title?.replace(/\*\*/g, '')}
+                </h4>
             </div>
         </Link>
     );
