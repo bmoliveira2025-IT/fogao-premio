@@ -76,13 +76,15 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                                 </div>
 
                                 {/* Trend Stats */}
-                                <div className="flex items-center gap-1.5 shrink-0 pl-2">
-                                    <div className="bg-white/10 px-1.5 py-0.5 rounded text-[15px] font-bold text-white font-mono min-w-[24px] text-center border border-white/10">
-                                        {topic.count}
+                                <div className="pl-2 shrink-0">
+                                    <div className={`relative px-1.5 py-0.5 rounded text-[15px] font-bold font-mono min-w-[28px] text-center border overflow-hidden ${topic.trend === 'up' ? 'bg-emerald-900/40 border-emerald-500/30 text-emerald-100' : 'bg-white/10 border-white/10 text-white'}`}>
+                                        <span className="relative z-10 drop-shadow-sm">{topic.count}</span>
+                                        {topic.trend === 'up' && (
+                                            <div className="absolute -bottom-1 -right-0.5 opacity-40 rotate-[0deg] text-emerald-400">
+                                                <TrendingUp size={16} />
+                                            </div>
+                                        )}
                                     </div>
-                                    {topic.trend === 'up' && (
-                                        <TrendingUp size={10} className="text-emerald-500" />
-                                    )}
                                 </div>
                             </div>
                         </div>
