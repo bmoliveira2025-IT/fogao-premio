@@ -736,23 +736,38 @@ def generate_daily_briefing(force=False):
     
     # 1. Check if briefing for today already exists
     today_utc = datetime.now(timezone.utc)
-    # Convert to BRT (UTC-3)
     today_brt = today_utc - timedelta(hours=3)
+    current_hour = today_brt.hour
     
-    # Check if it's already past 22:00 BRT
-    if not force and today_brt.hour < 22:
-        print(f"Too early for Daily Briefing ({today_brt.strftime('%H:%M')} BRT). Waiting for 22:00.")
+    # Define Slots
+    briefing_slot = None
+    slot_label = ""
+    
+    if current_hour >= 7 and current_hour < 11:
+        briefing_slot = "07h"
+        slot_label = "Edição da Manhã"
+    elif current_hour >= 18 and current_hour < 21:
+        briefing_slot = "18h"
+        slot_label = "Edição da Tarde/Noite"
+    elif current_hour >= 23 or current_hour < 2: # 23h - 01h (Night/Next Day Start)
+        briefing_slot = "24h"
+        slot_label = "Edição de Fechamento"
+    
+    if not force and not briefing_slot:
+        print(f"Current time ({today_brt.strftime('%H:%M')} BRT) does not match any briefing slot (07h, 18h, 24h). Skipping.")
         return
 
     today_str = today_brt.strftime('%Y-%m-%d')
-    doc_ref = db.collection('daily_briefings').document(today_str)
+    # Use specific ID for each slot to allow multiple per day
+    doc_id = f"{today_str}_{briefing_slot}" if briefing_slot else f"{today_str}_forced"
     
-    if doc_ref.get().exists:
-        print(f"Daily Briefing for {today_str} already exists. Skipping.")
+    doc_ref = db.collection('daily_briefings').document(doc_id)
+    
+    if doc_ref.get().exists and not force:
+        print(f"Briefing for {doc_id} already exists. Skipping.")
         return
 
-    # 2. Fetch news from the last 24 hours (Yesterday's cycle)
-    # Actually, let's take everything from yesterday 00:00 to 23:59 local time roughly, or just last 24h
+    # 2. Fetch news from the last 24 hours (for context)
     dashboard_time = datetime.now(timezone.utc) - timedelta(days=1)
     
     docs = db.collection('news').where('created_at', '>=', dashboard_time).get()
@@ -761,17 +776,15 @@ def generate_daily_briefing(force=False):
         print("Not enough news to generate a briefing (need at least 3).")
         return
 
-    print(f"Generating Briefing from {len(docs)} articles...")
+    print(f"Generating ({slot_label or 'Forced'}) from {len(docs)} articles...")
     
     # 3. Prepare input for AI
     articles_text = ""
-    # Create a lookup map for easy access later
     articles_map = {}
     
     for i, d in enumerate(docs):
         data = d.to_dict()
-        data['_firestore_id'] = d.id # Store real ID
-        # Use simple integer index as ID for the prompt context
+        data['_firestore_id'] = d.id 
         article_id = i 
         articles_map[article_id] = data
         articles_text += f"[ID {article_id}] {data.get('title')}: {data.get('summary', [''])[0]}\n"
@@ -779,34 +792,30 @@ def generate_daily_briefing(force=False):
     # 4. Prompt AI
     prompt = f"""
     Atue como Central de Imprensa Premium do Botafogo.
-    Gere um "Resumo do Dia" jornalístico, sofisticado e direto para um torcedor exigente.
+    Gere o "Resumo do Dia - {slot_label}" jornalístico, sofisticado e direto.
     
     Regras de Conteúdo:
-    1. **Editorial (editorial_summary)**: Texto ÚNICO e contínuo (sem bullets/listas). Máximo 80 palavras. Tom profissional, informativo e neutro. Destaque: treino, bastidores, mercado, jogos. Evite especulações. Linguagem: The Athletic / Globo Premium.
-    2. **Indicadores (indicators)**: Extraia dados rápidos para "chips" informativos.
-       - Próximo Jogo: Data e Adversário (ex: "18/01 vs Madureira")
-       - Local: "Casa" (Nilton Santos) ou "Fora"
-       - DM: Situação médica relevante (ex: "Eduardo em transição") ou "Sem novidades"
-       - Mercado: Status rápido (ex: "Busca por lateral") ou "Monitorando"
+    1. **Editorial (editorial_summary)**: Texto ÚNICO e contínuo. Máximo 80 palavras. Foco no que é relevante AGORA ({slot_label}).
+    2. **Indicadores**:
+       - Próximo Jogo: Data e Adversário
+       - Local: "Casa" ou "Fora"
+       - DM: Situação médica 
+       - Mercado: Status rápido
 
-    Notícias Disponíveis (IDs para referência):
+    Notícias Disponíveis:
     {articles_text[:12000]} 
 
     Retorne APENAS um JSON válido:
     {{
         "date": "{today_str}",
-        "editorial_summary": "O Botafogo teve um dia movimentado... (texto corrido jornalístico)",
+        "edition": "{briefing_slot}",
+        "editorial_summary": "Texto editorial...",
         "reading_time": "~20 segundos",
-        "indicators": {{
-            "next_match": "DD/MM vs Adv",
-            "location": "Casa/Fora",
-            "dm": "Texto curto",
-            "market": "Texto curto"
-        }},
+        "indicators": {{ "next_match": "...", "location": "...", "dm": "...", "market": "..." }},
         "top_stories": [
-             {{ "rank": 1, "source_id": 0, "title": "Manchete Premium", "category": "Categoria" }},
-             {{ "rank": 2, "source_id": 1, "title": "Manchete Premium", "category": "Categoria" }},
-             {{ "rank": 3, "source_id": 2, "title": "Manchete Premium", "category": "Categoria" }}
+             {{ "rank": 1, "source_id": 0, "title": "Manchete", "category": "Categoria" }},
+             {{ "rank": 2, "source_id": 1, "title": "Manchete", "category": "Categoria" }},
+             {{ "rank": 3, "source_id": 2, "title": "Manchete", "category": "Categoria" }}
         ]
     }}
     """

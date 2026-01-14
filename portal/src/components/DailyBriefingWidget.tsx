@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { Newspaper, ChevronRight, X, Clock, Trophy, Users, Briefcase, TrendingUp, Activity } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface TopStory {
     rank: number;
@@ -15,11 +16,11 @@ interface TopStory {
 }
 
 interface DailyBriefing {
-    date: string;
     general_summary?: string;
     editorial_summary?: string;
-    top_stories?: TopStory[];
+    edition?: string;
     generated_at_formatted?: string;
+    top_stories?: TopStory[];
     indicators?: {
         next_match?: string;
         location?: string;
@@ -84,6 +85,8 @@ function getRelativeTime(dateStr?: string): string {
 }
 
 export default function DailyBriefingWidget({ className = "" }: DailyBriefingWidgetProps) {
+    const router = useRouter();
+    const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(true);
     const [briefing, setBriefing] = useState<DailyBriefing | null>(null);
     const [loading, setLoading] = useState(true);
@@ -112,19 +115,44 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
     if (loading) return null;
     if (!briefing) return null;
 
-    if (!isOpen) {
-        return (
-            <button
-                onClick={() => setIsOpen(true)}
-                className="fixed bottom-20 right-4 z-50 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-full shadow-2xl shadow-black/50 active:scale-95 transition-all backdrop-blur-xl"
-            >
-                <div className="w-2 h-2 rounded-full bg-premium-gold animate-pulse" />
-                <span className="text-xs font-semibold text-white">Resumo</span>
-            </button>
-        );
-    }
+    // Helper to extract time
+    const getBriefingTime = () => {
+        if (briefing.generated_at_formatted) {
+            const parts = briefing.generated_at_formatted.split('às');
+            if (parts.length > 1) return parts[1].trim();
+        }
+        return briefing.edition || '24h';
+    };
 
-    const stories = briefing.top_stories?.sort((a, b) => a.rank - b.rank) || [];
+    // Always render as the trigger button for the Story Popup
+    // The "Card" view is effectively replaced by the Story Popup experience for the "Resumo" feature
+    return (
+        <button
+            onClick={() => router.push(pathname + '?briefing=true', { scroll: false })}
+            className="fixed bottom-20 right-4 z-30 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-900 to-zinc-800 rounded-full shadow-2xl shadow-black/50 active:scale-95 transition-all backdrop-blur-xl border border-white/10 group"
+        >
+            <div className="relative">
+                <div className="absolute inset-0 bg-premium-gold/50 rounded-full blur-sm animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-premium-gold relative z-10" />
+            </div>
+            <span className="text-xs font-semibold text-white group-hover:text-premium-gold transition-colors">
+                Resumo das {getBriefingTime()}
+            </span>
+        </button>
+    );
+
+    /* 
+       Legacy Card View logic removed/hidden to prioritize Full Screen Popup 
+       If we want to keep the card as a "Feed" widget, we can, but the user requested "popup appearing on top".
+       For now, returning early simplifies the widget to just be the trigger.
+    */
+    /*
+    if (!isOpen) { 
+        // ... (original trigger logic)
+    }
+    */
+
+    const stories = briefing?.top_stories?.sort((a, b) => a.rank - b.rank) || [];
     const mainStory = stories[0];
     const secondaryStories = stories.slice(1, 5);
 
@@ -245,18 +273,18 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
                 )}
 
                 {/* Quick Info Pills */}
-                {briefing.indicators && (
+                {briefing?.indicators && (
                     <div className="flex flex-wrap gap-2 px-3 pb-3">
-                        {briefing.indicators.next_match && (
+                        {briefing?.indicators?.next_match && (
                             <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-900/30 to-emerald-950/30 text-[10px]">
                                 <span>⚽</span>
-                                <span className="text-emerald-400 font-medium">{briefing.indicators.next_match}</span>
+                                <span className="text-emerald-400 font-medium">{briefing?.indicators?.next_match}</span>
                             </div>
                         )}
-                        {briefing.indicators.location && (
+                        {briefing?.indicators?.location && (
                             <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-900/30 to-blue-950/30 text-[10px]">
                                 <span>🏟</span>
-                                <span className="text-blue-400 font-medium">{briefing.indicators.location}</span>
+                                <span className="text-blue-400 font-medium">{briefing?.indicators?.location}</span>
                             </div>
                         )}
                     </div>
