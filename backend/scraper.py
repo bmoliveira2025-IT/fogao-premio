@@ -16,6 +16,7 @@ from cleanup import cleanup_old_news # Import cleanup logic
 
 # Load environment variables
 load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env.local"))
 
 # Initialize Firebase
 cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
@@ -92,7 +93,7 @@ else:
 # but usually configuring is enough. We'll instantiate model per call to be safe or global.
 # Let's use a global model instance for simplicity, but we need to handle potential init errors if key is missing.
 try:
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-flash-latest')
 except Exception as e:
     print(f"Error initializing Gemini model: {e}")
     model = None
@@ -730,11 +731,20 @@ def deploy_to_vercel():
     except Exception as e:
         print(f"Error during deployment: {e}")
 
-def generate_daily_briefing():
+def generate_daily_briefing(force=False):
     print("Checking Daily Briefing status...")
     
     # 1. Check if briefing for today already exists
-    today_str = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    today_utc = datetime.now(timezone.utc)
+    # Convert to BRT (UTC-3)
+    today_brt = today_utc - timedelta(hours=3)
+    
+    # Check if it's already past 22:00 BRT
+    if not force and today_brt.hour < 22:
+        print(f"Too early for Daily Briefing ({today_brt.strftime('%H:%M')} BRT). Waiting for 22:00.")
+        return
+
+    today_str = today_brt.strftime('%Y-%m-%d')
     doc_ref = db.collection('daily_briefings').document(today_str)
     
     if doc_ref.get().exists:
@@ -768,40 +778,39 @@ def generate_daily_briefing():
 
     # 4. Prompt AI
     prompt = f"""
-    Atue como Editor-Chefe do Fogão Prêmio.
-    Analise as notícias abaixo (do dia anterior) e crie um "Resumo do Dia" (Daily Briefing) altamente curado.
+    Atue como Central de Imprensa Premium do Botafogo.
+    Gere um "Resumo do Dia" jornalístico, sofisticado e direto para um torcedor exigente.
     
-    Sua missão é selecionar as TOP 5 histórias mais importantes e gerar um resumo executivo.
+    Regras de Conteúdo:
+    1. **Editorial (editorial_summary)**: Texto ÚNICO e contínuo (sem bullets/listas). Máximo 80 palavras. Tom profissional, informativo e neutro. Destaque: treino, bastidores, mercado, jogos. Evite especulações. Linguagem: The Athletic / Globo Premium.
+    2. **Indicadores (indicators)**: Extraia dados rápidos para "chips" informativos.
+       - Próximo Jogo: Data e Adversário (ex: "18/01 vs Madureira")
+       - Local: "Casa" (Nilton Santos) ou "Fora"
+       - DM: Situação médica relevante (ex: "Eduardo em transição") ou "Sem novidades"
+       - Mercado: Status rápido (ex: "Busca por lateral") ou "Monitorando"
 
-    Notícias Disponíveis (Use o ID para referência):
+    Notícias Disponíveis (IDs para referência):
     {articles_text[:12000]} 
 
-    Retorne APENAS um JSON válido com esta estrutura:
+    Retorne APENAS um JSON válido:
     {{
         "date": "{today_str}",
-        "general_summary": "A rich, engaging editorial summary of the day's events (max 400 chars). Do NOT use markdown bold or asterisks.",
+        "editorial_summary": "O Botafogo teve um dia movimentado... (texto corrido jornalístico)",
+        "reading_time": "~20 segundos",
+        "indicators": {{
+            "next_match": "DD/MM vs Adv",
+            "location": "Casa/Fora",
+            "dm": "Texto curto",
+            "market": "Texto curto"
+        }},
         "top_stories": [
-            {{
-                "rank": 1,
-                "source_id": 0, // O ID da notícia original usada (inteiro)
-                "title": "Manchete Curta e Impactante",
-                "category": "Mercado/Jogo/Bastidores" 
-            }},
-            {{
-                "rank": 2,
-                "source_id": 1, // O ID da notícia original
-                "title": "Manchete",
-                "category": "Categoria"
-            }},
-            {{
-                "rank": 3,
-                "source_id": 2, // O ID da notícia original
-                "title": "Manchete",
-                "category": "Categoria"
-            }}
+             {{ "rank": 1, "source_id": 0, "title": "Manchete Premium", "category": "Categoria" }},
+             {{ "rank": 2, "source_id": 1, "title": "Manchete Premium", "category": "Categoria" }},
+             {{ "rank": 3, "source_id": 2, "title": "Manchete Premium", "category": "Categoria" }}
         ]
     }}
     """
+
     
     try:
         max_retries = 3
@@ -846,8 +855,13 @@ def generate_daily_briefing():
         if 'top_stories' in briefing_data and len(briefing_data['top_stories']) >= 3:
              # Save to Firestore
              briefing_data['created_at'] = firestore.SERVER_TIMESTAMP
+             
+             # Add formatted timestamp (BRT)
+             now_brt = datetime.now(timezone.utc) - timedelta(hours=3)
+             briefing_data['generated_at_formatted'] = now_brt.strftime('%d/%m às %H:%M')
+             
              doc_ref.set(briefing_data)
-             print(f"Daily Briefing for {today_str} saved successfully!")
+             print(f"Daily Briefing for {today_str} saved successfully! (Timestamp: {briefing_data['generated_at_formatted']})")
              
              # Notify? existing logic handles per-news, this is a daily aggregate.
              # Maybe send a special push? "Resumo do Dia disponível!" (Future)
@@ -857,43 +871,44 @@ def generate_daily_briefing():
 
     
 # Check if running in GitHub Actions (or any cloud "single run" environment)
-if os.getenv("GITHUB_ACTIONS") == "true":
-    print("Running in Cloud Mode (Single Execution)...")
-    update_next_match()
-    fetch_youtube_videos()
-    monitor_sources()
-    generate_daily_briefing() # Check/Gen Briefing
-    
-    if should_update_squad():
-        print("Updating Squad (24h period reached)...")
-        scrape_squad()
-    else:
-        print("Skipping Squad update (already updated today).")
+if __name__ == "__main__":
+    if os.getenv("GITHUB_ACTIONS") == "true":
+        print("Running in Cloud Mode (Single Execution)...")
+        update_next_match()
+        fetch_youtube_videos()
+        monitor_sources()
+        generate_daily_briefing() # Check/Gen Briefing
         
-    # Run cleanup
-    cleanup_old_news(db)
+        if should_update_squad():
+            print("Updating Squad (24h period reached)...")
+            scrape_squad()
+        else:
+            print("Skipping Squad update (already updated today).")
+            
+        # Run cleanup
+        cleanup_old_news(db)
 
-    print("Scraping finished. Exiting.")
-else:
-    # Local Loop Mode
-    print("Starting continuous monitoring... (Interval: 22 minutes)")
-    update_next_match() # Initial run
-    
-    while True:
-        try:
-            print("--- Starting Cycle ---")
-            fetch_youtube_videos()
-            monitor_sources()
-            generate_daily_briefing()
-            
-            if should_update_squad():
-                scrape_squad()
+        print("Scraping finished. Exiting.")
+    else:
+        # Local Loop Mode
+        print("Starting continuous monitoring... (Interval: 22 minutes)")
+        update_next_match() # Initial run
+        
+        while True:
+            try:
+                print("--- Starting Cycle ---")
+                fetch_youtube_videos()
+                monitor_sources()
+                generate_daily_briefing()
                 
-            # Run cleanup
-            cleanup_old_news(db)
-            
-            print("Cycle finished. Sleeping for 22 minutes...")
-            time.sleep(1320) # 22 minutes
-        except Exception as e:
-            print(f"Error in main loop: {e}")
-            time.sleep(60) # Wait 1 min on error before retry
+                if should_update_squad():
+                    scrape_squad()
+                    
+                # Run cleanup
+                cleanup_old_news(db)
+                
+                print("Cycle finished. Sleeping for 22 minutes...")
+                time.sleep(1320) # 22 minutes
+            except Exception as e:
+                print(f"Error in main loop: {e}")
+                time.sleep(60) # Wait 1 min on error before retry

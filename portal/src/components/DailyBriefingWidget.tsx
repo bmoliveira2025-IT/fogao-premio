@@ -14,8 +14,10 @@ interface TopStory {
 
 interface DailyBriefing {
     date: string;
-    general_summary: string;
-    top_stories: TopStory[];
+    general_summary?: string;
+    editorial_summary?: string;
+    top_stories?: TopStory[];
+    generated_at_formatted?: string;
 }
 
 interface DailyBriefingWidgetProps {
@@ -79,8 +81,8 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
         );
     }
 
-    const topStory = briefing.top_stories.find(s => s.rank === 1);
-    const otherStories = briefing.top_stories.filter(s => s.rank !== 1).sort((a, b) => a.rank - b.rank);
+    const topStory = briefing.top_stories?.find(s => s.rank === 1);
+    const otherStories = briefing.top_stories?.filter(s => s.rank !== 1).sort((a, b) => a.rank - b.rank) || [];
 
     return (
         <div className={`animate-in slide-in-from-top-4 fade-in duration-500 ${className}`}>
@@ -88,6 +90,11 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
                 <h2 className="text-xl font-display font-bold text-white flex items-center gap-2">
                     <FileText className="text-premium-gold" size={20} />
                     Resumo do Dia
+                    {briefing.generated_at_formatted && (
+                        <span className="text-[10px] text-white/40 font-sans font-normal ml-2 bg-white/5 px-2 py-0.5 rounded-full">
+                            {briefing.generated_at_formatted}
+                        </span>
+                    )}
                 </h2>
                 <button
                     onClick={() => setIsOpen(false)}
@@ -165,7 +172,7 @@ export default function DailyBriefingWidget({ className = "" }: DailyBriefingWid
                 <div className="bg-black/40 border-t border-white/5 p-6">
                     <div className="border-l-2 border-premium-gold pl-4 py-1">
                         <p className="text-sm md:text-base text-white/90 leading-relaxed font-medium">
-                            {formatPremiumText(briefing.general_summary)}
+                            {formatPremiumText(briefing.editorial_summary || briefing.general_summary || "")}
                         </p>
                     </div>
                 </div>

@@ -14,9 +14,17 @@ interface TopStory {
 }
 
 interface DailyBriefing {
-    date: string;
-    general_summary: string;
+    general_summary?: string;
+    editorial_summary?: string;
+    reading_time?: string;
+    indicators?: {
+        next_match?: string;
+        location?: string;
+        dm?: string;
+        market?: string;
+    };
     top_stories?: TopStory[];
+    generated_at_formatted?: string;
 }
 
 export default function MorningBriefingPopup() {
@@ -64,7 +72,7 @@ export default function MorningBriefingPopup() {
                 const response = await fetch('/api/daily-briefing');
                 if (response.ok) {
                     const data = await response.json();
-                    if (data && data.general_summary) {
+                    if (data && (data.general_summary || data.editorial_summary)) {
                         setBriefing(data);
 
                         if (forceOpen || lastSeen !== today) {
@@ -101,111 +109,100 @@ export default function MorningBriefingPopup() {
     return (
         <div className="fixed top-20 lg:top-24 left-0 right-0 z-40 px-2 md:px-0 flex justify-center pointer-events-none">
             <div className="w-full max-w-4xl bg-zinc-900/95 backdrop-blur-md border border-premium-gold/30 shadow-2xl rounded-xl overflow-hidden pointer-events-auto animate-in slide-in-from-top-2 duration-500">
-                {/* Header - Always Visible */}
+                {/* Header - Premium */}
                 <div
-                    className="flex items-center justify-between p-3 cursor-pointer bg-gradient-to-r from-zinc-900 to-black hover:bg-white/5 transition-colors"
+                    className="flex flex-col gap-1 p-5 pb-3 cursor-pointer bg-zinc-900 border-b border-white/5"
                     onClick={toggleExpand}
                 >
-                    <div className="flex items-center gap-3">
-                        <div className="p-1.5 bg-premium-gold/10 rounded-full">
-                            <Sunrise className="text-premium-gold" size={18} />
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-premium-gold/10 rounded-lg">
+                                <Sunrise className="text-premium-gold" size={20} />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-display font-bold text-white leading-tight">
+                                    Resumo do Dia <span className="text-white/30 font-light mx-2">|</span> Botafogo
+                                </h3>
+                                <div className="flex items-center gap-3 mt-1">
+                                    <span className="text-xs text-white/50 font-medium">
+                                        📅 {new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' })}
+                                    </span>
+                                    {briefing.reading_time && (
+                                        <span className="text-xs text-premium-gold/70 font-medium flex items-center gap-1">
+                                            ⏱ {briefing.reading_time}
+                                        </span>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="text-sm font-bold text-white leading-none">Resumo do Dia</h3>
-                            <p className="text-[10px] text-white/50 mt-0.5">
-                                {isExpanded ? 'Destaques diários do Fogão Prêmio' : 'Toque para expandir'}
-                            </p>
-                        </div>
-                    </div>
 
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={(e) => { e.stopPropagation(); toggleExpand(); }}
-                            className="p-1.5 text-white/40 hover:text-premium-gold transition-colors"
-                        >
-                            {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                        </button>
-                        <div className="w-px h-6 bg-white/10" />
-                        <button
-                            onClick={(e) => { e.stopPropagation(); handleDismiss(); }}
-                            className="p-1.5 text-white/40 hover:text-red-400 transition-colors"
-                        >
-                            <X size={18} />
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); toggleExpand(); }}
+                                className="p-2 text-white/30 hover:text-white transition-colors"
+                            >
+                                {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); handleDismiss(); }}
+                                className="p-2 text-white/30 hover:text-red-400 transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 {/* Content - Collapsible */}
                 {isExpanded && (
-                    <div className="p-4 pt-0 border-t border-white/5 bg-black/20 animate-in slide-in-from-top-1 duration-300">
-                        <p className="text-sm text-white/90 leading-relaxed font-medium mt-3 border-l-2 border-premium-gold pl-3 mb-4">
-                            {formatPremiumText(briefing.general_summary)}
-                        </p>
+                    <div className="p-6 bg-zinc-950/50 animate-in slide-in-from-top-1 duration-300">
+                        {/* 2. Editorial Summary */}
+                        <div className="mb-6">
+                            <p className="text-[15px] md:text-base text-white/80 leading-relaxed font-serif tracking-wide text-justify">
+                                {briefing.editorial_summary || briefing.general_summary}
+                            </p>
+                        </div>
 
-                        {/* Top Top Story - Hero (Rank 01) */}
-                        {briefing.top_stories && briefing.top_stories.length > 0 && (
-                            <div className="mt-4 space-y-4">
-                                {(() => {
-                                    // Separate Rank 1 from the rest
-                                    const mainStory = briefing.top_stories.find(s => s.rank === 1) || briefing.top_stories[0];
-                                    const otherStories = briefing.top_stories.filter(s => s !== mainStory).slice(0, 4); // Show max 4 others
+                        {/* 3. Indicators (Chips) */}
+                        {briefing.indicators && (
+                            <div className="flex flex-wrap gap-2 md:gap-3 mb-2">
+                                {/* Next Match */}
+                                {briefing.indicators.next_match && (
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/80 border border-white/10 rounded-full">
+                                        <span className="text-xs text-white/40 font-bold uppercase">⚽ Próximo:</span>
+                                        <span className="text-xs text-white font-medium">{briefing.indicators.next_match}</span>
+                                    </div>
+                                )}
+                                {/* Location */}
+                                {briefing.indicators.location && (
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/80 border border-white/10 rounded-full">
+                                        <span className="text-xs text-white/40 font-bold uppercase">🏟 Local:</span>
+                                        <span className="text-xs text-white font-medium">{briefing.indicators.location}</span>
+                                    </div>
+                                )}
+                                {/* DM */}
+                                {briefing.indicators.dm && (
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/80 border border-white/10 rounded-full">
+                                        <span className="text-xs text-white/40 font-bold uppercase">🩺 DM:</span>
+                                        <span className="text-xs text-red-300/90 font-medium">{briefing.indicators.dm}</span>
+                                    </div>
+                                )}
+                                {/* Market */}
+                                {briefing.indicators.market && (
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900/80 border border-white/10 rounded-full">
+                                        <span className="text-xs text-white/40 font-bold uppercase">🔁 Mercado:</span>
+                                        <span className="text-xs text-emerald-300/90 font-medium">{briefing.indicators.market}</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
-                                    return (
-                                        <>
-                                            {/* Hero Image Card */}
-                                            {mainStory && (
-                                                <div className="relative aspect-[16/9] w-full rounded-lg overflow-hidden border border-white/10 bg-black shadow-lg">
-                                                    {mainStory.image ? (
-                                                        <img
-                                                            src={mainStory.image}
-                                                            alt={mainStory.title}
-                                                            className="absolute inset-0 w-full h-full object-cover opacity-80"
-                                                        />
-                                                    ) : (
-                                                        <div className="absolute inset-0 bg-zinc-800 flex items-center justify-center">
-                                                            <FileText className="text-white/20" size={32} />
-                                                        </div>
-                                                    )}
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-
-                                                    <div className="absolute bottom-0 inset-x-0 p-3">
-                                                        {mainStory.category && (
-                                                            <span className="inline-block px-1.5 py-0.5 bg-premium-gold/90 text-black text-[9px] font-black uppercase tracking-wider rounded-sm mb-1.5">
-                                                                Destaque
-                                                            </span>
-                                                        )}
-                                                        <h4 className="text-sm md:text-base font-bold text-white leading-tight drop-shadow-md">
-                                                            {mainStory.title}
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {/* Compact List for Others */}
-                                            {otherStories.length > 0 && (
-                                                <div className="flex flex-col gap-3 mt-2">
-                                                    {otherStories.map((story, idx) => (
-                                                        <div key={idx} className="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/5">
-                                                            <span className="text-3xl font-display font-black text-premium-gold leading-none">
-                                                                0{story.rank || idx + 2}
-                                                            </span>
-                                                            <div className="flex-1 min-w-0">
-                                                                {story.category && (
-                                                                    <span className="text-[9px] font-bold text-premium-gold/60 uppercase tracking-widest block mb-1">
-                                                                        {story.category}
-                                                                    </span>
-                                                                )}
-                                                                <h5 className="text-sm font-bold text-white leading-tight line-clamp-2">
-                                                                    {story.title}
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
-                                        </>
-                                    );
-                                })()}
+                        {/* Optional: Generated At Footer */}
+                        {briefing.generated_at_formatted && (
+                            <div className="mt-4 pt-4 border-t border-white/5 flex justify-end">
+                                <span className="text-[10px] text-white/20">
+                                    Gerado às {briefing.generated_at_formatted}
+                                </span>
                             </div>
                         )}
                     </div>

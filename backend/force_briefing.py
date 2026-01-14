@@ -24,5 +24,5 @@ else:
 
 # Run generation
 print("Running generate_daily_briefing()...")
-scraper.generate_daily_briefing()
+scraper.generate_daily_briefing(force=True)
 print("Done!")
