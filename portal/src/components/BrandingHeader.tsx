@@ -99,7 +99,7 @@ export default function BrandingHeader() {
                     </div>
 
                     <div className="flex flex-col leading-none">
-                        <h1 className="text-lg font-display font-black tracking-tight text-white leading-none">
+                        <h1 className="text-[19px] font-display font-black tracking-tight text-white leading-none">
                             GLORIOSO <span className="font-light italic text-premium-gold">360</span>
                         </h1>
                     </div>
@@ -114,7 +114,7 @@ export default function BrandingHeader() {
                             className="flex items-center gap-1.5 px-2 py-1 bg-zinc-900/50 border border-zinc-800 rounded-md hover:border-premium-gold/50 hover:bg-zinc-800/80 transition-all group"
                         >
                             <div className="w-1.5 h-1.5 bg-premium-gold rounded-full animate-pulse"></div>
-                            <span className="text-[9px] font-bold text-zinc-400 group-hover:text-premium-gold transition-colors tracking-tight uppercase">
+                            <span className="text-[10px] font-bold text-zinc-400 group-hover:text-premium-gold transition-colors tracking-tight uppercase">
                                 Resumo {getBriefingTime()}
                             </span>
                         </button>

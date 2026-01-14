@@ -36,11 +36,11 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                     <div className="p-1.5 rounded-full bg-premium-gold text-black shadow-lg shadow-premium-gold/20">
                         <Crown size={14} fill="currentColor" />
                     </div>
-                    <span className="text-xs font-black text-premium-gold uppercase tracking-widest drop-shadow-sm">
+                    <span className="text-[13px] font-black text-premium-gold uppercase tracking-widest drop-shadow-sm">
                         Conteúdo Premium
                     </span>
                 </div>
-                <Link href="/premium" className="group flex items-center gap-1 text-[10px] font-bold text-premium-gold/60 hover:text-premium-gold transition-colors uppercase tracking-wider">
+                <Link href="/premium" className="group flex items-center gap-1 text-[11px] font-bold text-premium-gold/60 hover:text-premium-gold transition-colors uppercase tracking-wider">
                     Ver Todos
                     <ChevronRight size={12} className="transition-transform group-hover:translate-x-0.5" />
                 </Link>
@@ -62,10 +62,10 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                             <Lock size={14} className="text-premium-gold" />
                         </div>
                     </div>
-                    <h2 className="text-xl font-extrabold text-white drop-shadow-lg leading-tight mb-2">
+                    <h2 className="text-[21px] font-extrabold text-white drop-shadow-lg leading-tight mb-2">
                         {featured.title}
                     </h2>
-                    <p className="text-xs text-zinc-300 drop-shadow-md line-clamp-2">
+                    <p className="text-[13px] text-zinc-300 drop-shadow-md line-clamp-2">
                         {featured.summary || "Análise tática exclusiva, bastidores e entrevistas especiais para assinantes."}
                     </p>
                 </div>
@@ -73,7 +73,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
 
             {/* Other Premium Articles */}
             <div className="p-4 pt-0">
-                <h3 className="text-xs font-bold text-premium-gold uppercase tracking-widest mb-4 mt-6 flex items-center gap-2 relative z-10">
+                <h3 className="text-[13px] font-bold text-premium-gold uppercase tracking-widest mb-4 mt-6 flex items-center gap-2 relative z-10">
                     <div className="w-1 h-4 bg-premium-gold rounded-full shadow-[0_0_10px_#D4AF37]" />
                     Conteúdo Premium
                 </h3>
@@ -94,7 +94,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                                 </div>
                             </div>
                             <div className="min-w-0">
-                                <h4 className="text-xs font-bold text-zinc-300 group-hover:text-white transition-colors line-clamp-2 leading-snug">
+                                <h4 className="text-[13px] font-bold text-zinc-300 group-hover:text-white transition-colors line-clamp-2 leading-snug">
                                     {item.title}
                                 </h4>
                             </div>

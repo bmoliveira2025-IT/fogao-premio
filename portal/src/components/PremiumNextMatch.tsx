@@ -54,7 +54,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         onClick={() => setIsCollapsed(!isCollapsed)}
                     >
                         <div className="h-[1px] w-4 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
-                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-premium-gold whitespace-nowrap">
                             PRÓXIMO JOGO
                         </span>
                         <div className="h-[1px] w-4 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
@@ -78,13 +78,13 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                             <Shield size={48} className="text-foreground/20" />
                                         )}
                                     </div>
-                                    <span className="text-lg font-black text-foreground font-display tracking-wide text-center leading-tight">
+                                    <span className="text-[19px] font-black text-foreground font-display tracking-wide text-center leading-tight">
                                         {data.home_team}
                                     </span>
                                 </div>
 
                                 <div className="flex flex-col items-center justify-center w-1/3 space-y-2">
-                                    <span className="text-5xl font-black italic text-foreground/10 font-display select-none">VS</span>
+                                    <span className="text-[49px] font-black italic text-foreground/10 font-display select-none">VS</span>
                                 </div>
 
                                 <div className="flex flex-col items-center w-1/3">
@@ -95,15 +95,15 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                             <Shield size={48} className="text-foreground/20" />
                                         )}
                                     </div>
-                                    <span className="text-lg font-black text-foreground font-display tracking-wide text-center leading-tight">
+                                    <span className="text-[19px] font-black text-foreground font-display tracking-wide text-center leading-tight">
                                         {data.away_team}
                                     </span>
                                 </div>
                             </div>
                             <div className="text-center space-y-1 mt-6">
-                                <p className="text-xs font-bold text-foreground/80 uppercase tracking-widest">{data.championship}</p>
-                                <p className="text-[11px] text-foreground/40 capitalize">{dateString} • {timeString}</p>
-                                <p className="text-[11px] text-foreground/40">{data.location}</p>
+                                <p className="text-[13px] font-bold text-foreground/80 uppercase tracking-widest">{data.championship}</p>
+                                <p className="text-[12px] text-foreground/40 capitalize">{dateString} • {timeString}</p>
+                                <p className="text-[12px] text-foreground/40">{data.location}</p>
                             </div>
                         </div>
 
@@ -116,7 +116,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                                 {/* Home Side (Right Aligned Name) */}
                                 <div className="flex items-center justify-end gap-2 flex-1 min-w-0">
-                                    <span className="text-[10px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-right">
+                                    <span className="text-[11px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-right">
                                         {data.home_team}
                                     </span>
                                     <div className="w-9 h-9 relative drop-shadow-lg shrink-0">
@@ -132,14 +132,14 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 <div className="flex flex-col items-center justify-center shrink-0 mx-2 w-16">
                                     {/* Time Box */}
                                     <div className="bg-zinc-900 border border-white/10 rounded px-1.5 py-0.5 shadow-sm mb-1">
-                                        <span className="text-xs font-bold text-white whitespace-nowrap">{timeString}</span>
+                                        <span className="text-[13px] font-bold text-white whitespace-nowrap">{timeString}</span>
                                     </div>
                                     {/* Meta Info (Champ + Date) stacked */}
                                     <div className="flex flex-col items-center gap-0.5">
-                                        <span className="text-[8px] font-bold text-premium-gold uppercase tracking-wider text-center leading-none truncate max-w-full">
+                                        <span className="text-[9px] font-bold text-premium-gold uppercase tracking-wider text-center leading-none truncate max-w-full">
                                             {champName.split(' ')[0]} {/* Shorten Champ if needed */}
                                         </span>
-                                        <span className="text-[8px] font-medium text-foreground/50 leading-none">
+                                        <span className="text-[9px] font-medium text-foreground/50 leading-none">
                                             {formattedDate}
                                         </span>
                                     </div>
@@ -154,7 +154,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                             <Shield size={36} className="text-foreground/20" />
                                         )}
                                     </div>
-                                    <span className="text-[10px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-left">
+                                    <span className="text-[11px] font-black text-foreground font-display tracking-wide leading-tight line-clamp-2 text-left">
                                         {data.away_team}
                                     </span>
                                 </div>
@@ -163,7 +163,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                             {/* Optional Location Bottom - faint */}
                             <div className="text-center mt-2 opacity-30">
-                                <span className="text-[8px] uppercase tracking-widest">{data.location}</span>
+                                <span className="text-[9px] uppercase tracking-widest">{data.location}</span>
                             </div>
 
                         </div>

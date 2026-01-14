@@ -29,7 +29,7 @@ export default function DesktopSidebar() {
                     <GloriosoLogo size={56} className="relative z-10 drop-shadow-2xl" />
                 </div>
                 <div className="flex flex-col leading-none text-center">
-                    <h1 className="text-xl font-display font-black tracking-tight text-white leading-none">
+                    <h1 className="text-[21px] font-display font-black tracking-tight text-white leading-none">
                         GLORIOSO <span className="font-light italic text-premium-gold">360</span>
                     </h1>
                 </div>
@@ -66,7 +66,7 @@ export default function DesktopSidebar() {
                             />
 
                             <span className={cn(
-                                "text-sm font-bold tracking-wide uppercase",
+                                "text-[15px] font-bold tracking-wide uppercase",
                                 isActive && "font-black"
                             )}>
                                 {item.label}
@@ -103,11 +103,11 @@ export default function DesktopSidebar() {
 
                             {/* Info */}
                             <div className="flex-1 overflow-hidden">
-                                <p className="text-xs font-bold text-white truncate">
+                                <p className="text-[13px] font-bold text-white truncate">
                                     {user.displayName || 'Torcedor'}
                                 </p>
                                 <p className={cn(
-                                    "text-[10px] uppercase tracking-wider font-bold",
+                                    "text-[11px] uppercase tracking-wider font-bold",
                                     isPremium ? "text-premium-gold" : "text-zinc-500"
                                 )}>
                                     {isPremium ? 'Membro Premium' : 'Plano Gratuito'}
@@ -125,7 +125,7 @@ export default function DesktopSidebar() {
                         </div>
                     </div>
                 ) : (
-                    <Link href="/login" className="flex items-center justify-center w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all text-xs font-bold text-white uppercase tracking-widest gap-2 group">
+                    <Link href="/login" className="flex items-center justify-center w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all text-[13px] font-bold text-white uppercase tracking-widest gap-2 group">
                         <LogOut size={14} className="group-hover:translate-x-0.5 transition-transform" />
                         <span>Entrar</span>
                     </Link>

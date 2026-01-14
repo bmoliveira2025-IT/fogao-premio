@@ -46,7 +46,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 
                     {/* Title - Typographic Premium Style */}
                     <div>
-                        <span className="text-xs md:text-sm font-black text-white italic tracking-widest uppercase shadow-black drop-shadow-md">
+                        <span className="text-[13px] md:text-[15px] font-black text-white italic tracking-widest uppercase shadow-black drop-shadow-md">
                             BOTAFOGO <span className="text-premium-gold">TV</span>
                         </span>
                     </div>
@@ -89,7 +89,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                                     {/* <span className="inline-block px-1.5 py-0.5 mb-1.5 rounded-[2px] bg-blue-600/80 text-[8px] font-bold text-white uppercase tracking-wider backdrop-blur-md">
                                         Novo
                                     </span> */}
-                                    <p className="text-[11px] font-bold text-white leading-tight line-clamp-2 drop-shadow-md group-hover:text-premium-gold transition-colors">
+                                    <p className="text-[12px] font-bold text-white leading-tight line-clamp-2 drop-shadow-md group-hover:text-premium-gold transition-colors">
                                         {video.title}
                                     </p>
                                 </div>

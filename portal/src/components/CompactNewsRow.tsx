@@ -37,20 +37,20 @@ export default function CompactNewsRow({ article }: any) {
             <div className="flex flex-col flex-grow min-w-0 justify-center gap-1.5">
                 {/* Metadata Pill */}
                 <div className="flex items-center gap-2">
-                    <SourceIcon source={article.source} className="w-3 h-3 text-[10px] transition-all grayscale group-hover:grayscale-0" />
+                    <SourceIcon source={article.source} className="w-3 h-3 text-[11px] transition-all grayscale group-hover:grayscale-0" />
 
-                    <span className="text-[9px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-1.5 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/10">
+                    <span className="text-[10px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-1.5 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/10">
                         {article.source || 'FOGÃONET'}
                     </span>
 
-                    <span className="text-[8px] text-foreground/20">•</span>
+                    <span className="text-[9px] text-foreground/20">•</span>
 
-                    <span className="text-[9px] text-foreground/40 font-bold tabular-nums">
+                    <span className="text-[10px] text-foreground/40 font-bold tabular-nums">
                         {timeAgo(article.created_at)}
                     </span>
                 </div>
 
-                <h4 className="text-xs font-bold text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-tight">
+                <h4 className="text-[13px] font-bold text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-tight">
                     {article.title?.replace(/\*\*/g, '')}
                 </h4>
             </div>

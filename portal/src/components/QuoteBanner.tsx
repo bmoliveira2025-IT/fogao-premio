@@ -79,13 +79,13 @@ export default function QuoteBanner() {
                             {/* Content */}
                             <div className="relative z-10 flex flex-col items-center gap-2 px-10 text-center max-w-[90%]">
                                 <Quote size={16} className="text-premium-gold/50 mb-1" />
-                                <p className="text-sm text-white font-medium italic leading-snug drop-shadow-md">
+                                <p className="text-[15px] text-white font-medium italic leading-snug drop-shadow-md">
                                     "{quote.text}"
                                 </p>
                                 {quote.author && (
                                     <div className="flex items-center gap-2 mt-2 opacity-60">
                                         <div className="w-4 h-[1px] bg-premium-gold/40"></div>
-                                        <span className="text-[9px] font-bold text-premium-gold uppercase tracking-widest">
+                                        <span className="text-[10px] font-bold text-premium-gold uppercase tracking-widest">
                                             {quote.author}
                                         </span>
                                         <div className="w-4 h-[1px] bg-premium-gold/40"></div>
@@ -119,11 +119,11 @@ export default function QuoteBanner() {
 
                 {/* Text Content */}
                 <div className="flex flex-col justify-center">
-                    <p className="text-[11px] text-zinc-800 dark:text-zinc-300 font-medium italic leading-tight">
+                    <p className="text-[12px] text-zinc-800 dark:text-zinc-300 font-medium italic leading-tight">
                         "{desktopQuote.text}"
                     </p>
                     {desktopQuote.author && (
-                        <span className="text-[9px] font-bold text-premium-gold uppercase tracking-wider opacity-90 mt-0.5">
+                        <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider opacity-90 mt-0.5">
                             — {desktopQuote.author}
                         </span>
                     )}

@@ -24,10 +24,10 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                             <Flame size={18} className="text-pink-500 animate-pulse" />
                         </div>
                         <div>
-                            <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none">
+                            <h3 className="text-[15px] font-black text-white uppercase tracking-widest leading-none">
                                 Em Alta nas Redes Sociais
                             </h3>
-                            <p className="text-[10px] text-zinc-400 font-medium">
+                            <p className="text-[11px] text-zinc-400 font-medium">
                                 Assuntos do momento na torcida
                             </p>
                         </div>
@@ -70,16 +70,16 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                                         {topic.source === 'facebook' && <Facebook size={12} />}
                                     </div>
 
-                                    <span className={`text-[11px] font-medium tracking-tight leading-snug ${index === 0 ? 'text-white font-bold' : 'text-zinc-300'}`}>
+                                    <span className={`text-[12px] font-medium tracking-tight leading-snug ${index === 0 ? 'text-white font-bold' : 'text-zinc-300'}`}>
                                         {topic.text}
                                     </span>
                                 </div>
 
                                 {/* Trend Stats */}
                                 <div className="flex items-center gap-1.5 shrink-0 pl-2">
-                                    <span className="text-[9px] text-zinc-600 font-medium font-mono">
+                                    <div className="bg-white/10 px-1.5 py-0.5 rounded text-[15px] font-bold text-white font-mono min-w-[24px] text-center border border-white/10">
                                         {topic.count}
-                                    </span>
+                                    </div>
                                     {topic.trend === 'up' && (
                                         <TrendingUp size={10} className="text-emerald-500" />
                                     )}
@@ -90,7 +90,7 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                 </div>
 
                 {/* Subtle Footer */}
-                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-end gap-2 text-[9px] text-zinc-600 uppercase tracking-wider">
+                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-end gap-2 text-[10px] text-zinc-600 uppercase tracking-wider">
                     <span>Baseado nas notícias de hoje</span>
                     <div className="flex gap-1 items-center">
                         <Instagram size={10} />

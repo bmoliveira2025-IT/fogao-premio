@@ -109,7 +109,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
 
 
-                        <h3 className="text-lg md:text-3xl font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
+                        <h3 className="text-[19px] md:text-[31px] font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors">
                             {topStory.title?.replace(/\*\*/g, '')}
                         </h3>
 
@@ -117,7 +117,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         <div className="flex items-center gap-2 mt-4 opacity-100">
                             <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-premium-gold/30 shadow-[0_0_15px_rgba(255,32,176,0.3)]">
                                 <Flame className="w-3.5 h-3.5 text-premium-gold animate-pulse fill-premium-gold/20" />
-                                <span className="text-[10px] font-black text-premium-gold uppercase tracking-widest">
+                                <span className="text-[11px] font-black text-premium-gold uppercase tracking-widest">
                                     {topStory.source || 'Fogão Prêmio'}
                                 </span>
                             </div>
@@ -125,7 +125,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             {/* Time Tag Moved Here */}
                             <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/10">
                                 <Clock size={11} className="text-zinc-400" />
-                                <span className="text-[9px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
                                     {getRelativeTime(topStory.created_at)}
                                 </span>
                             </div>
@@ -168,7 +168,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         {/* Z-Index Wrapper to stay above bg */}
                         <div className="relative z-10 flex flex-1 items-center gap-5 min-w-0">
                             {/* Number - Updated to GOLD and SOLID */}
-                            <span className="text-3xl font-display font-black text-premium-gold w-10 text-center leading-none flex-shrink-0">
+                            <span className="text-[31px] font-display font-black text-premium-gold w-10 text-center leading-none flex-shrink-0">
                                 {String(index + 2).padStart(2, '0')}
                             </span>
 
@@ -182,7 +182,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                     </div>
 
                                     {/* Source Name - with subtle background */}
-                                    <span className="text-[9px] md:text-[10px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-2 py-1 rounded bg-premium-gold/10 border border-premium-gold/10 whitespace-nowrap">
+                                    <span className="text-[10px] md:text-[11px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-2 py-1 rounded bg-premium-gold/10 border border-premium-gold/10 whitespace-nowrap">
                                         {story.source ? story.source.toUpperCase() : 'FOGÃO PRÊMIO'}
                                     </span>
 
@@ -193,15 +193,15 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                         Let's keep the dot for now but maybe lighter.
                                     */}
                                     {/* Separator */}
-                                    <span className="text-[10px] text-white/10">•</span>
+                                    <span className="text-[11px] text-white/10">•</span>
 
                                     {/* Time */}
-                                    <span className="text-[9px] font-bold text-white/40 uppercase tracking-wider" suppressHydrationWarning>
+                                    <span className="text-[10px] font-bold text-white/40 uppercase tracking-wider" suppressHydrationWarning>
                                         {getRelativeTime(story.created_at)}
                                     </span>
                                 </div>
 
-                                <h4 className="text-sm md:text-base font-bold text-foreground group-hover:text-white transition-colors leading-tight line-clamp-2">
+                                <h4 className="text-[15px] md:text-[17px] font-bold text-foreground group-hover:text-white transition-colors leading-tight line-clamp-2">
                                     {story.title?.replace(/\*\*/g, '')}
                                 </h4>
                             </div>
@@ -216,7 +216,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
             {/* Footer */}
             <Link
                 href="/news"
-                className="block p-4 text-center bg-card hover:bg-white/5 border-t text-xs font-bold text-foreground/40 hover:text-white uppercase tracking-widest transition-colors relative z-10"
+                className="block p-4 text-center bg-card hover:bg-white/5 border-t text-[13px] font-bold text-foreground/40 hover:text-white uppercase tracking-widest transition-colors relative z-10"
                 style={{ borderColor: 'var(--border-color)' }}
             >
                 Ver Todas as Notícias

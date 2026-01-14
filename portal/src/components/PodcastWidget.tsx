@@ -78,11 +78,11 @@ export default function PodcastWidget() {
     return (
         <section className="mt-8 mb-12">
             <div className="flex items-center justify-between mb-6 px-4 lg:px-0">
-                <h3 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
+                <h3 className="text-[19px] font-black uppercase tracking-tight flex items-center gap-2">
                     <Mic className="text-premium-gold" size={20} />
                     Podcast 360
                 </h3>
-                <Link href="/podcasts" className="text-xs font-bold text-zinc-500 hover:text-white flex items-center gap-1 transition-colors">
+                <Link href="/podcasts" className="text-[13px] font-bold text-zinc-500 hover:text-white flex items-center gap-1 transition-colors">
                     VER TODOS <ChevronRight size={14} />
                 </Link>
             </div>
@@ -110,9 +110,9 @@ export default function PodcastWidget() {
                         </div>
 
                         <div className="space-y-1 lg:space-y-2">
-                            <span className="text-[9px] lg:text-[10px] font-bold text-premium-gold uppercase tracking-wider">{new Date(pod.pubDate).toLocaleDateString()}</span>
-                            <h4 className="text-xs lg:text-sm font-bold text-white leading-tight line-clamp-2 min-h-[2rem] lg:min-h-[2.5rem]">{pod.title}</h4>
-                            <p className="text-[10px] lg:text-[11px] text-zinc-400 line-clamp-2 md:hidden">{pod.description}</p>
+                            <span className="text-[10px] lg:text-[11px] font-bold text-premium-gold uppercase tracking-wider">{new Date(pod.pubDate).toLocaleDateString()}</span>
+                            <h4 className="text-[13px] lg:text-[15px] font-bold text-white leading-tight line-clamp-2 min-h-[2rem] lg:min-h-[2.5rem]">{pod.title}</h4>
+                            <p className="text-[11px] lg:text-[12px] text-zinc-400 line-clamp-2 md:hidden">{pod.description}</p>
                         </div>
                     </motion.div>
                 ))}

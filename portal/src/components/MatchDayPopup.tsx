@@ -105,9 +105,9 @@ export default function MatchDayPopup({ nextMatch }: MatchDayPopupProps) {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.3 }}
-                                className="text-2xl font-black font-display text-white uppercase italic leading-none mb-4"
+                                className="text-[25px] font-black font-display text-white uppercase italic leading-none mb-4"
                             >
-                                {message.title} <br /> <span className="text-premium-gold text-4xl">{message.highlight}</span>
+                                {message.title} <br /> <span className="text-premium-gold text-[37px]">{message.highlight}</span>
                             </motion.h2>
 
                             {message.text && (
@@ -115,7 +115,7 @@ export default function MatchDayPopup({ nextMatch }: MatchDayPopupProps) {
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.35 }}
-                                    className="text-white/80 text-sm font-medium mb-6 italic px-4"
+                                    className="text-white/80 text-[15px] font-medium mb-6 italic px-4"
                                 >
                                     {message.text}
                                 </motion.p>
@@ -125,7 +125,7 @@ export default function MatchDayPopup({ nextMatch }: MatchDayPopupProps) {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.4 }}
-                                className="text-white/60 font-medium mb-6 text-xs"
+                                className="text-white/60 font-medium mb-6 text-[13px]"
                             >
                                 {nextMatch.home_team} vs {nextMatch.away_team}
                                 <br />
@@ -139,7 +139,7 @@ export default function MatchDayPopup({ nextMatch }: MatchDayPopupProps) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.5 }}
                                 onClick={() => setIsOpen(false)}
-                                className="bg-premium-gold text-black font-bold uppercase tracking-widest text-xs py-3 px-8 rounded-full shadow-lg hover:scale-105 transition-transform"
+                                className="bg-premium-gold text-black font-bold uppercase tracking-widest text-[13px] py-3 px-8 rounded-full shadow-lg hover:scale-105 transition-transform"
                             >
                                 Vamos lá!
                             </motion.button>

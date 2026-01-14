@@ -85,7 +85,7 @@ export default function MorningBriefingPopup() {
                         <Zap size={40} className="text-premium-gold" />
                     </div>
                     <div>
-                        <h2 className="text-4xl font-black text-white uppercase tracking-tighter mb-2">
+                        <h2 className="text-[37px] font-black text-white uppercase tracking-tighter mb-2">
                             Resumo<br /><span className="text-premium-gold">Das {getBriefingTime()}</span>
                         </h2>
                         <p className="text-zinc-400 font-medium">
@@ -100,10 +100,10 @@ export default function MorningBriefingPopup() {
             type: 'content',
             content: (
                 <div className="flex flex-col h-full justify-center">
-                    <h3 className="text-xl font-bold text-premium-gold mb-6 uppercase tracking-wide border-l-4 border-premium-gold pl-4">
+                    <h3 className="text-[21px] font-bold text-premium-gold mb-6 uppercase tracking-wide border-l-4 border-premium-gold pl-4">
                         Destaques
                     </h3>
-                    <p className="text-lg text-white/90 leading-relaxed font-medium">
+                    <p className="text-[19px] text-white/90 leading-relaxed font-medium">
                         {briefing.editorial_summary || briefing.general_summary}
                     </p>
                 </div>
@@ -114,16 +114,16 @@ export default function MorningBriefingPopup() {
             type: 'content',
             content: (
                 <div className="flex flex-col h-full justify-center space-y-6">
-                    <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
+                    <h3 className="text-[21px] font-bold text-white mb-2 uppercase tracking-wide">
                         Manchetes
                     </h3>
                     <div className="space-y-4">
                         {briefing.top_stories.slice(0, 3).map((story, i) => (
                             <div key={i} className="bg-zinc-800/40 p-4 rounded-xl border-l-2 border-premium-gold/50">
-                                <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider mb-1 block">
+                                <span className="text-[11px] font-bold text-premium-gold uppercase tracking-wider mb-1 block">
                                     {story.category || 'Notícia'}
                                 </span>
-                                <p className="text-sm font-medium text-white line-clamp-2 leading-snug">
+                                <p className="text-[15px] font-medium text-white line-clamp-2 leading-snug">
                                     {story.title}
                                 </p>
                             </div>
@@ -137,7 +137,7 @@ export default function MorningBriefingPopup() {
             type: 'content',
             content: (
                 <div className="flex flex-col h-full justify-center space-y-8">
-                    <h3 className="text-xl font-bold text-white mb-2 uppercase tracking-wide">
+                    <h3 className="text-[21px] font-bold text-white mb-2 uppercase tracking-wide">
                         Giro Rápido
                     </h3>
 
@@ -145,9 +145,9 @@ export default function MorningBriefingPopup() {
                         <div className="bg-zinc-800/50 p-6 rounded-2xl border border-white/10">
                             <div className="flex items-center gap-3 mb-2 text-premium-gold">
                                 <Trophy size={24} />
-                                <span className="font-bold uppercase text-sm">Próximo Jogo</span>
+                                <span className="font-bold uppercase text-[15px]">Próximo Jogo</span>
                             </div>
-                            <p className="text-xl text-white font-bold">{briefing.indicators.next_match}</p>
+                            <p className="text-[21px] text-white font-bold">{briefing.indicators.next_match}</p>
                         </div>
                     )}
 
@@ -155,9 +155,9 @@ export default function MorningBriefingPopup() {
                         <div className="bg-zinc-800/50 p-6 rounded-2xl border border-white/10">
                             <div className="flex items-center gap-3 mb-2 text-blue-400">
                                 <Target size={24} />
-                                <span className="font-bold uppercase text-sm">Local</span>
+                                <span className="font-bold uppercase text-[15px]">Local</span>
                             </div>
-                            <p className="text-xl text-white font-bold">{briefing.indicators.location}</p>
+                            <p className="text-[21px] text-white font-bold">{briefing.indicators.location}</p>
                         </div>
                     )}
                 </div>
@@ -171,7 +171,7 @@ export default function MorningBriefingPopup() {
                     <div className="w-16 h-16 bg-premium-gold rounded-full flex items-center justify-center">
                         <Calendar size={32} className="text-black" />
                     </div>
-                    <h2 className="text-3xl font-bold text-white">
+                    <h2 className="text-[31px] font-bold text-white">
                         Você está<br />atualizado!
                     </h2>
                     <button
