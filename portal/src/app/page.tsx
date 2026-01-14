@@ -14,6 +14,8 @@ import MatchDayPopup from '@/components/MatchDayPopup';
 import QuoteBanner from '@/components/QuoteBanner';
 import DesktopSidebar from '@/components/DesktopSidebar';
 import PodcastWidget from '@/components/PodcastWidget';
+import SocialHubWidget from '@/components/SocialHubWidget';
+import { getTrendingTopics } from '@/lib/social-pulse';
 
 export const revalidate = 60;
 
@@ -206,6 +208,9 @@ export default async function Home() {
 
   notifications.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
+  // GENERATE TRENDING TOPICS
+  const topics = getTrendingTopics(news.map(n => n.title));
+
   return (
     <main className="min-h-screen bg-background dark:bg-zinc-950 text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
 
@@ -301,6 +306,11 @@ export default async function Home() {
 
               {/* Botafogo TV (Visible Both) */}
               <BotafogoTVCarousel videos={videos} className="-mt-10 lg:mt-0" />
+
+              {/* Social Trending Topics (Full Width on Mobile) */}
+              <div className="-mx-4 lg:mx-0">
+                <SocialHubWidget topics={topics} />
+              </div>
 
               {/* Extra News Section (Desktop - Center Column Extension?) 
                            Or maybe keep Extra News in Sidebar? 
