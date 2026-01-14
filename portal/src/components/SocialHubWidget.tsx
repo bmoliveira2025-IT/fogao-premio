@@ -11,95 +11,126 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
     if (topics.length === 0) return null;
 
     return (
-        <div className="mt-2 lg:mt-4 bg-zinc-900/30 border-y md:border border-white/5 rounded-none md:rounded-2xl p-4 md:p-6 backdrop-blur-sm relative overflow-hidden group">
-            {/* Ambient Background Glow */}
-            <div className="absolute -top-24 -left-24 w-48 h-48 bg-premium-gold/5 rounded-full blur-3xl group-hover:bg-premium-gold/10 transition-colors duration-700" />
-            <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-600/5 rounded-full blur-3xl group-hover:bg-blue-600/10 transition-colors duration-700" />
-
-            <div className="relative z-10">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-2">
-                        <div className="p-2 rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-600/20 border border-pink-500/20">
-                            <Flame size={18} className="text-pink-500 animate-pulse" />
-                        </div>
-                        <div>
-                            <h3 className="text-[15px] font-black text-white uppercase tracking-widest leading-none">
-                                Em Alta nas Redes Sociais
-                            </h3>
-                            <p className="text-[11px] text-zinc-400 font-medium">
-                                Assuntos do momento na torcida
-                            </p>
-                        </div>
+        <div className="mt-2 md:mt-4 relative group">
+            {/* Header */}
+            <div className="mb-3 px-1 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-600/20 border border-pink-500/20">
+                        <Flame size={14} className="text-pink-500 animate-pulse" />
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none">
+                            Em Alta
+                        </h3>
+                        <p className="text-[10px] text-zinc-400 font-medium">
+                            Assuntos do momento
+                        </p>
                     </div>
                 </div>
+                <div className="flex items-center gap-1.5 text-[10px] text-zinc-600 uppercase tracking-wider font-medium">
+                    <span className="hidden md:inline">Atualizado agora</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                </div>
+            </div>
 
-                {/* Topics Timeline - Compact Vertical */}
-                <div className="relative pl-4 space-y-3">
-                    {/* Connecting Line */}
-                    <div className="absolute left-[5px] top-2 bottom-2 w-[1px] bg-gradient-to-b from-premium-gold/50 via-white/10 to-transparent" />
+            {/* Cards Container - Spaced (Restoring lateral spacing) */}
+            <div className="flex flex-col gap-2">
+                {topics.map((topic, index) => (
+                    <div
+                        key={topic.id}
+                        className={`
+                            relative overflow-hidden w-full rounded-xl
+                            group/card transition-all duration-500
+                            border border-white/5
+                            bg-[#0a0a0a] md:bg-zinc-900/40 backdrop-blur-md
+                            hover:bg-white/[0.07] hover:border-white/10
+                        `}
+                    >
+                        {/* Rank Background Effect */}
+                        <div className={`
+                            absolute left-0 top-0 bottom-0 w-1
+                            ${index === 0 ? 'bg-gradient-to-b from-yellow-400 to-yellow-600' :
+                                index === 1 ? 'bg-gradient-to-b from-zinc-300 to-zinc-500' :
+                                    index === 2 ? 'bg-gradient-to-b from-orange-400 to-orange-700' :
+                                        'bg-zinc-800'}
+                        `} />
 
-                    {topics.map((topic, index) => (
-                        <div key={topic.id} className="relative flex items-center gap-3 group/item">
-                            {/* Timeline Node */}
-                            <div className={`
-                                relative z-10 w-2.5 h-2.5 rounded-full border-2 shrink-0 transition-all duration-500
-                                ${topic.source === 'instagram' ? 'bg-zinc-950 border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.5)]' :
-                                    topic.source === 'twitter' ? 'bg-zinc-950 border-white shadow-[0_0_8px_rgba(255,255,255,0.3)]' :
-                                        'bg-zinc-950 border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]'}
-                            `}>
-                                {index < 2 && <div className="absolute inset-0 bg-white animate-ping opacity-20 rounded-full" />}
+                        {/* Ambient Glow on Hover */}
+                        <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 pointer-events-none bg-gradient-to-r from-white/5 to-transparent" />
+
+                        <div className="flex items-center p-3 sm:p-4 gap-3 sm:gap-4 relative z-10">
+                            {/* Rank Indicator */}
+                            <div className="flex-shrink-0 w-12 text-center flex flex-col items-center justify-center">
+                                <span className={`
+                                    text-3xl font-black italic tracking-tighter leading-normal py-1 pr-2
+                                    ${index === 0 ? 'text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 to-yellow-600 drop-shadow-[0_2px_10px_rgba(250,204,21,0.3)]' :
+                                        index === 1 ? 'text-transparent bg-clip-text bg-gradient-to-br from-zinc-200 to-zinc-500' :
+                                            index === 2 ? 'text-transparent bg-clip-text bg-gradient-to-br from-orange-300 to-orange-600' :
+                                                'text-zinc-600'}
+                                `}>
+                                    {index + 1}
+                                </span>
                             </div>
 
-                            {/* Content Card */}
-                            <div className={`
-                                flex-1 flex items-center justify-between py-1.5 px-0 transition-all
-                            `}>
-                                <div className="flex items-center gap-2 overflow-hidden">
-                                    {/* Social Icon Small */}
-                                    <div className={`shrink-0 ${topic.source === 'instagram' ? 'text-pink-500' :
-                                        topic.source === 'twitter' ? 'text-zinc-300' :
-                                            'text-blue-500'
-                                        }`}>
-                                        {topic.source === 'instagram' && <Instagram size={12} />}
-                                        {topic.source === 'twitter' && (
-                                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3">
-                                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                            </svg>
-                                        )}
-                                        {topic.source === 'facebook' && <Facebook size={12} />}
+                            {/* Content */}
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1">
+                                    {/* Source Badge */}
+                                    <div className={`
+                                        inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider
+                                        ${topic.source === 'instagram' ? 'bg-pink-500/10 border-pink-500/20 text-pink-400' :
+                                            topic.source === 'twitter' ? 'bg-blue-400/10 border-blue-400/20 text-blue-400' :
+                                                'bg-blue-600/10 border-blue-600/20 text-blue-500'}
+                                    `}>
+                                        {topic.source === 'instagram' && <Instagram size={8} />}
+                                        {topic.source === 'twitter' && <Hash size={8} />}
+                                        {topic.source === 'facebook' && <Facebook size={8} />}
+                                        <span className="mt-px">{topic.source}</span>
                                     </div>
 
-                                    <span className={`text-[12px] font-medium tracking-tight leading-snug ${index === 0 ? 'text-white font-bold' : 'text-zinc-300'}`}>
-                                        {topic.text}
+                                    {/* Trend Badge */}
+                                    {topic.trend === 'up' && (
+                                        <div className="flex items-center gap-0.5 text-[9px] font-bold text-emerald-500 uppercase tracking-widest animate-pulse">
+                                            <TrendingUp size={10} />
+                                            <span>Alta</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <h4 className={`
+                                    text-[14px] sm:text-[15px] font-medium leading-tight line-clamp-2
+                                    ${index < 3 ? 'text-white font-bold' : 'text-zinc-300'}
+                                    group-hover/card:text-premium-gold transition-colors
+                                `}>
+                                    {topic.text}
+                                </h4>
+                            </div>
+
+                            {/* Volume Metric */}
+                            <div className="shrink-0 text-right">
+                                <div className={`
+                                    flex flex-col items-center justify-center
+                                    px-2 py-1 rounded-lg border
+                                    ${index < 3 ? 'bg-white/10 border-white/20' : 'bg-zinc-900/50 border-white/5'}
+                                `}>
+                                    <span className="text-[13px] font-black text-white font-mono leading-none">
+                                        {topic.count}
+                                    </span>
+                                    <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest mt-0.5">
+                                        Posts
                                     </span>
                                 </div>
-
-                                {/* Trend Stats */}
-                                <div className="pl-2 shrink-0">
-                                    <div className={`relative px-1.5 py-0.5 rounded text-[15px] font-bold font-mono min-w-[28px] text-center border overflow-hidden ${topic.trend === 'up' ? 'bg-emerald-900/40 border-emerald-500/30 text-emerald-100' : 'bg-white/10 border-white/10 text-white'}`}>
-                                        <span className="relative z-10 drop-shadow-sm">{topic.count}</span>
-                                        {topic.trend === 'up' && (
-                                            <div className="absolute -bottom-1 -right-0.5 opacity-40 rotate-[0deg] text-emerald-400">
-                                                <TrendingUp size={16} />
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                    ))}
-                </div>
-
-                {/* Subtle Footer */}
-                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-end gap-2 text-[10px] text-zinc-600 uppercase tracking-wider">
-                    <span>Baseado nas notícias de hoje</span>
-                    <div className="flex gap-1 items-center">
-                        <Instagram size={10} />
-                        <svg viewBox="0 0 24 24" fill="currentColor" className="w-2.5 h-2.5">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                        </svg>
                     </div>
+                ))}
+            </div>
+
+            {/* Subtle Footer */}
+            <div className="mt-3 flex items-center justify-end gap-2 text-[10px] text-zinc-600 uppercase tracking-wider px-1">
+                <span>Baseado no noticiário</span>
+                <div className="flex gap-1 items-center">
+                    <Instagram size={10} />
                 </div>
             </div>
         </div>
