@@ -3,6 +3,7 @@ import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
 import HeadlinesWidget from '@/components/HeadlinesWidget';
 import MorningBriefingPopup from '@/components/MorningBriefingPopup';
+import DailyBriefingWidget from '@/components/DailyBriefingWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BrandingHeader from '@/components/BrandingHeader';
 import TabBar from '@/components/TabBar';
@@ -241,6 +242,11 @@ export default async function Home() {
                   </h2>
                 </div>
                 <HeadlinesWidget news={news} nextMatch={nextMatch} />
+              </div>
+
+              {/* Daily Briefing Widget */}
+              <div className="mt-4">
+                <DailyBriefingWidget />
               </div>
 
               {/* PODCAST WIDGET */}
