@@ -203,14 +203,15 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 {article.title}
                             </h1>
 
-                            <div className="flex items-center text-[11px] lg:text-xs text-foreground/60 font-medium space-x-2 tracking-wide">
-                                <span className="text-premium-gold uppercase font-bold">{article.source || 'Botafogo'}</span>
-                                <span>•</span>
-                                <span>Por Redação</span>
-                                <span>•</span>
-                                <span>{timeString}</span>
-                                <span>•</span>
-                                <span>3 min de leitura</span>
+                            <div className="flex flex-wrap items-center gap-y-2 gap-x-3 text-[11px] lg:text-xs text-foreground/60 font-medium tracking-wide leading-none">
+                                <span className="text-premium-gold uppercase font-black bg-premium-gold/10 px-2 py-1 rounded border border-premium-gold/20">{article.source || 'Botafogo'}</span>
+                                <div className="flex items-center gap-2">
+                                    <span>Por Redação</span>
+                                    <span className="w-0.5 h-0.5 bg-foreground/30 rounded-full" />
+                                    <span>{timeString}</span>
+                                    <span className="w-0.5 h-0.5 bg-foreground/30 rounded-full" />
+                                    <span>3 min de leitura</span>
+                                </div>
                             </div>
                         </div>
 
