@@ -222,7 +222,7 @@ export default async function Home() {
 
       {/* 2. MOBILE HEADER & NAVIGATION */}
       <div className="lg:hidden">
-        <BrandingHeader notifications={notifications} />
+        <BrandingHeader />
       </div>
 
       {/* 3. MAIN CONTENT WRAPPER */}

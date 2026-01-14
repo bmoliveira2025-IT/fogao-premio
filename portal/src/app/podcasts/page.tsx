@@ -79,7 +79,7 @@ export default function PodcastsPage() {
 
             {/* 2. MOBILE HEADER */}
             <div className="lg:hidden">
-                <BrandingHeader notifications={[]} />
+                <BrandingHeader />
             </div>
 
             <div className="w-full lg:pl-64">
