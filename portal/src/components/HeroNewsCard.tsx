@@ -15,7 +15,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-3xl border shadow-2xl block"
+            className="group relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-none md:rounded-3xl border shadow-2xl block"
             style={{ borderColor: 'var(--border-color)' }}
         >    {/* Background Image */}
             <Image

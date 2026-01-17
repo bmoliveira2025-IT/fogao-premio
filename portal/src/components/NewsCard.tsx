@@ -18,7 +18,7 @@ export default function NewsCard({ article }: any) {
 
     return (
         <div
-            className="bg-card rounded-xl md:rounded-3xl overflow-hidden shadow-2xl border flex flex-row md:flex-col h-[100px] md:h-full group transition-all duration-300 hover:scale-[1.02]"
+            className="bg-card rounded-none md:rounded-3xl overflow-hidden md:shadow-2xl border-b border-white/5 md:border flex flex-row md:flex-col h-[100px] md:h-full group transition-all duration-300 hover:scale-[1.02]"
             style={{ borderColor: 'var(--border-color)' }}
         >
             <Link href={`/news/${article.id}`} className="block relative w-[130px] md:w-full md:aspect-[16/10] shrink-0 overflow-hidden">
