@@ -1,0 +1,139 @@
+/* ===== PREMIUM VISUAL REFRESH ===== */
+
+/* Premium Background with Subtle Radial Gradient */
+.premium-bg {
+    background: radial-gradient(ellipse at top, #0f0f0f 0%, #050505 50%, #000 100%);
+}
+
+/* Gold Glow Effect */
+.gold-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.15), 0 0 40px rgba(255, 215, 0, 0.05);
+}
+
+.gold-glow-text {
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Glassmorphism Card */
+.glass-card {
+    background: rgba(18, 18, 18, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-hover:hover {
+    background: rgba(24, 24, 24, 0.8);
+    border-color: rgba(255, 215, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 215, 0, 0.1);
+}
+
+/* Premium Hero Overlay */
+.hero-gradient {
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.7) 30%,
+            rgba(0, 0, 0, 0.3) 60%,
+            transparent 100%);
+}
+
+/* Edge Fade for Infinite Screen Effect */
+.edge-fade {
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+/* Entrance Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.4), 0 0 10px rgba(255, 215, 0, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.3);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Premium Card Hover Effect */
+.premium-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Live Indicator Pulse */
+@keyframes live-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+}
+
+.live-indicator {
+    animation: live-pulse 1.5s ease-in-out infinite;
+}
+
+/* Text Gradient for Premium Headlines */
+.text-gradient-gold {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Mesh Gradient Background */
+.mesh-gradient {
+    background:
+        radial-gradient(at 40% 20%, rgba(255, 215, 0, 0.03) 0px, transparent 50%),
+        radial-gradient(at 80% 0%, rgba(255, 165, 0, 0.02) 0px, transparent 50%),
+        radial-gradient(at 0% 50%, rgba(255, 215, 0, 0.02) 0px, transparent 50%),
+        #050505;
+}

@@ -41,7 +41,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     return (
         <div className={cn("w-full transition-all duration-300", className)}>
             {/* Card - Ultra Compact for Mobile, Premium for Desktop */}
-            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0">
+            <div className="bg-card backdrop-blur-sm rounded-none md:rounded-xl md:border border-foreground/10 dark:border-premium-gold/20 shadow-2xl relative overflow-hidden group -mx-4 md:mx-0 md:glass-card md:gold-glow">
 
                 {/* Glow Effect on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

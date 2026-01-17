@@ -15,23 +15,22 @@ export default function HeroNewsCard({ article }: { article: any }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-none md:rounded-3xl border shadow-2xl block"
-            style={{ borderColor: 'var(--border-color)' }}
-        >    {/* Background Image */}
+            className="group relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-none md:rounded-3xl shadow-2xl block premium-card glass-card-hover gradient-border-animated"
+        >    {/* Background Image - Position Top to Keep Faces */}
             <Image
                 src={article.image || 'https://via.placeholder.com/800x600'}
                 alt={article.title}
                 fill
                 priority={true}
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
             />
 
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
+            {/* Gradient Overlay - Premium */}
+            <div className="absolute inset-0 hero-gradient" />
 
             {/* Content Container */}
             <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-12">
-                <h2 className="text-[19px] md:text-[49px] font-black text-white leading-tight drop-shadow-xl group-hover:text-premium-gold transition-colors mb-3 md:mb-4 line-clamp-3">
+                <h2 className="text-[19px] md:text-[49px] font-black text-white leading-tight gold-glow-text group-hover:text-premium-gold transition-colors mb-3 md:mb-4 line-clamp-3">
                     {article.title?.replace(/\*\*/g, '')}
                 </h2>
 

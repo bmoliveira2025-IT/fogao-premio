@@ -212,7 +212,7 @@ export default async function Home() {
   const topics = getTrendingTopics(news.map(n => n.title));
 
   return (
-    <main className="min-h-screen bg-background dark:bg-zinc-950 text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
+    <main className="min-h-screen bg-background dark:bg-zinc-950 text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 premium-bg mesh-gradient">
 
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
@@ -237,7 +237,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
 
             {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-2 lg:space-y-12">
+            <div className="lg:col-span-8 space-y-2 lg:space-y-12 animate-fade-in-up">
 
               {/* Headlines Widget */}
               <div className="-mx-4 lg:mx-0">

@@ -57,27 +57,6 @@ export default async function NewsPage() {
             <div className="hidden lg:block h-24"></div>
 
             <div className="max-w-5xl lg:max-w-7xl mx-auto lg:px-6">
-                {/* Section Title (Mobile) */}
-                <div className="lg:hidden mb-2 py-3 border-b border-premium-gold/30 relative overflow-hidden">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-premium-gold/5 blur-3xl rounded-full pointer-events-none" />
-
-                    <div className="relative z-10 flex items-center justify-between px-4">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-br from-zinc-900 to-black rounded-lg flex items-center justify-center border border-premium-gold/20 shadow-sm">
-                                <Newspaper className="text-premium-gold" size={16} />
-                            </div>
-
-                            <div className="flex flex-col">
-                                <h1 className="text-lg font-black italic tracking-tighter font-display uppercase text-white leading-none">
-                                    Todas as <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#FFE578] to-[#C9A24D]">Notícias</span>
-                                </h1>
-                                <p className="text-[8px] text-zinc-400 font-bold tracking-widest uppercase">
-                                    Cobertura do Glorioso
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 {/* Desktop Title */}
                 <div className="hidden lg:flex items-center space-x-4 mb-10 border-b border-foreground/10 pb-6">
@@ -86,14 +65,14 @@ export default async function NewsPage() {
                     </h1>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-4 lg:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                    {/* Hero Section (Spans Full Width) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 lg:gap-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    {/* Hero Section (Spans Full Width) - Skip first news (already on home) */}
                     <div className="md:col-span-2 lg:col-span-3 mb-0 md:mb-6">
-                        {news.length > 0 && <HeroNewsCard article={news[0]} />}
+                        {news.length > 1 && <HeroNewsCard article={news[1]} />}
                     </div>
 
-                    {/* Feed List (Grid) - Infinite Scroll */}
-                    <InfiniteNewsFeed initialNews={news.slice(1)} />
+                    {/* Feed List (Grid) - Infinite Scroll, skip first 2 */}
+                    <InfiniteNewsFeed initialNews={news.slice(2)} />
                 </div>
             </div>
 

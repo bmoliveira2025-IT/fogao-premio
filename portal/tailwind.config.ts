@@ -27,8 +27,21 @@ const config: Config = {
                 "social-facebook": "#2563eb", // blue-600
             },
             fontFamily: {
-                sans: ["Inter", "sans-serif"],
-                display: ["Montserrat", "sans-serif"],
+                sans: ["Inter", "Roboto", "sans-serif"],
+                display: ["Outfit", "sans-serif"],
+            },
+            animation: {
+                'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                'scale-in': 'scaleIn 0.3s ease-out forwards',
+                'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+            },
+            boxShadow: {
+                'premium': '0 20px 40px rgba(0, 0, 0, 0.4)',
+                'gold-glow': '0 0 20px rgba(255, 215, 0, 0.15), 0 0 40px rgba(255, 215, 0, 0.05)',
+                'card-hover': '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 215, 0, 0.1)',
+            },
+            transitionTimingFunction: {
+                'premium': 'cubic-bezier(0.4, 0, 0.2, 1)',
             },
         },
     },

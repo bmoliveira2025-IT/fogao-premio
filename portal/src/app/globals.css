@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&display=swap');
+@import './premium.css';
 
 @tailwind base;
 @tailwind components;
@@ -124,4 +125,74 @@ h6 {
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
+}
+
+/* Infinite Gradient Border Animation */
+@keyframes gradient-rotate {
+  0% {
+    --angle: 0deg;
+  }
+
+  100% {
+    --angle: 360deg;
+  }
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.gradient-border-animated {
+  position: relative;
+}
+
+.gradient-border-animated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgb(var(--premium-gold) / 0.15) 25%,
+      rgb(var(--premium-gold) / 0.4) 50%,
+      rgb(var(--premium-gold) / 0.15) 75%,
+      transparent 100%);
+  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+  pointer-events: none;
+  animation: gradient-slide 3s ease-in-out infinite;
+}
+
+@keyframes gradient-slide {
+
+  0%,
+  100% {
+    background-position: 200% 0;
+  }
+
+  50% {
+    background-position: -200% 0;
+  }
+}
+
+/* Mobile version - keep animated border but no border-radius */
+@media (max-width: 768px) {
+  .gradient-border-animated {
+    border-radius: 0;
+  }
+
+  .gradient-border-animated::before {
+    border-radius: 0;
+  }
 }
