@@ -244,7 +244,17 @@ def process_with_ai(original_title, original_content):
             "sentiment": "Neutro"
         }
 
+def is_relevant(title, content):
+    keywords = [
+        'botafogo', 'glorioso', 'fogo', 'alvinegro', 'estrela solitária', 
+        'nilton santos', 'john textor', 'artur jorge', 'eagle football',
+        'bfr', 'camisa 7'
+    ]
+    text = (title + " " + content).lower()
+    return any(k in text for k in keywords)
+
 def scrape_news(url):
+
     try:
         article = Article(url)
         article.download()
@@ -255,13 +265,13 @@ def scrape_news(url):
         og_image = soup.find('meta', property='og:image')
         image = og_image['content'] if og_image and 'content' in og_image.attrs else article.top_image
 
-        return {
-            "title": article.title,
-            "content": clean_text(article.text),
-            "image": image,
-            "url": url,
-            "publish_date": article.publish_date.isoformat() if article.publish_date else None
-        }
+        title = article.title
+        content = clean_text(article.text)
+
+        # Relevance Check
+        if not is_relevant(title, content):
+            print(f"Skipping irrelevant article: {title}")
+            return None
 
         # Date Check (Recency Filter)
         if article.publish_date:
@@ -280,8 +290,8 @@ def scrape_news(url):
                 print(f"Date comparison warning: {e}")
                 
         return {
-            "title": article.title,
-            "content": clean_text(article.text),
+            "title": title,
+            "content": content,
             "image": image,
             "url": url,
             "publish_date": article.publish_date.isoformat() if article.publish_date else None
@@ -350,6 +360,8 @@ def monitor_sources():
             # Strategy for GE Botafogo
             if "globo.com" in source:
                 links = [a['href'] for a in soup.find_all('a', href=True) if '/noticia/' in a['href']][:10]
+                # Filter out obvious non-football sections
+                links = [l for l in links if not any(x in l for x in ['/motor/', '/surfe/', '/volei/', '/olimpiadas/', '/basquete/'])]
             
             # Strategy for FogãoNET
             elif "fogaonet.com" in source:
@@ -507,6 +519,11 @@ def fetch_youtube_videos():
             "id": "UCFxjZDrLCOCHkUCu632AmMQ",
             "name": "Botafogo TV",
             "filter": None # No filter, get all videos
+        },
+        {
+            "id": "UCqzaT59nBHOSoK1nikip_Gg", # Arena Alvinegra
+            "name": "Arena Alvinegra",
+            "filter": None
         },
         {
             "id": "UCgCKagVhzGnZcuP9bSMgMCg", # ge TV / Globo Esporte

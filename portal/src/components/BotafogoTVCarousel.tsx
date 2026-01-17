@@ -47,7 +47,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                     {/* Title - Typographic Premium Style */}
                     <div>
                         <span className="text-[13px] md:text-[15px] font-black text-white italic tracking-widest uppercase shadow-black drop-shadow-md">
-                            BOTAFOGO <span className="text-premium-gold">TV</span>
+                            GLORIOSO <span className="text-premium-gold">TV</span>
                         </span>
                     </div>
                 </div>
