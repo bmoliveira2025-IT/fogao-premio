@@ -63,7 +63,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
     const bannerStories = allNews.slice(1);
 
     return (
-        <div className={`gradient-border-animated md:rounded-3xl ${className}`}>
+        <div className={`gradient-border-static md:rounded-3xl ${className}`}>
             <div className="w-full flex flex-col gap-2 md:gap-0 bg-card resize-none md:rounded-3xl overflow-hidden shadow-2xl">
 
                 {/* Rank 01 - Hero Section (Premium Highlight) */}
@@ -102,7 +102,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                 )}
                             </div>
 
-                            <h3 className="text-[20px] md:text-[32px] font-black text-white leading-tight drop-shadow-xl max-w-4xl group-hover:text-premium-gold/90 transition-colors mb-4 md:mb-5">
+                            <h3 className="text-[20px] md:text-[32px] font-semibold font-sans text-white leading-tight max-w-4xl group-hover:text-premium-gold/90 transition-colors mb-4 md:mb-5">
                                 {topStory.title?.replace(/\*\*/g, '')}
                             </h3>
 
@@ -143,7 +143,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         <Link
                             key={story.id}
                             href={`/news/${story.id}`}
-                            className="group relative h-[160px] md:h-[180px] w-full rounded-none md:rounded-xl overflow-hidden bg-zinc-900 hover:brightness-110 transition-all duration-300 block"
+                            className="group relative h-[180px] md:h-[220px] w-full rounded-none md:rounded-xl overflow-hidden bg-zinc-900 hover:brightness-110 transition-all duration-300 block"
                         >
                             {/* Full Width Background Image - Position Top to Keep Faces */}
                             <img
@@ -172,7 +172,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                 </div>
 
                                 {/* Title - Bold and Prominent */}
-                                <h3 className="text-[16px] md:text-[18px] font-black text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2 gold-glow-text">
+                                <h3 className="text-[16px] md:text-[18px] font-semibold font-sans text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
                                     {story.title}
                                 </h3>
                             </div>

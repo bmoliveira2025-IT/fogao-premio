@@ -30,7 +30,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
 
             {/* Content Container */}
             <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-12">
-                <h2 className="text-[19px] md:text-[49px] font-black text-white leading-tight gold-glow-text group-hover:text-premium-gold transition-colors mb-3 md:mb-4 line-clamp-3">
+                <h2 className="text-[19px] md:text-[49px] font-black text-white leading-tight font-sans gold-glow-text group-hover:text-premium-gold transition-colors mb-3 md:mb-4 line-clamp-3">
                     {article.title?.replace(/\*\*/g, '')}
                 </h2>
 

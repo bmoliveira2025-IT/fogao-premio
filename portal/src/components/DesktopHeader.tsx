@@ -40,7 +40,7 @@ export default function DesktopHeader() {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "text-sm font-bold transition-all duration-300 tracking-widest uppercase relative",
+                                "text-sm font-bold transition-all duration-300 tracking-widest uppercase relative font-sans",
                                 isActive(link.href)
                                     ? "text-premium-gold drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] scale-105"
                                     : "text-white/60 hover:text-white"

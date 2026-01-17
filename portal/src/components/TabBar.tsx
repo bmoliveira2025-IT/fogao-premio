@@ -84,7 +84,7 @@ export default function TabBar() {
                         <Link
                             key={tab.href}
                             href={tab.href}
-                            className="relative flex flex-col items-center justify-center w-16 h-14 group"
+                            className="relative flex flex-col items-center justify-center w-20 h-16 group"
                         >
                             {/* Active Indicator Light */}
                             {isActive && (
@@ -92,7 +92,7 @@ export default function TabBar() {
                             )}
 
                             <div className={cn(
-                                "flex items-center justify-center w-10 h-10 transition-all duration-500",
+                                "flex items-center justify-center w-12 h-12 transition-all duration-500",
                                 isActive
                                     ? "text-premium-gold -translate-y-1"
                                     : "text-[#666] group-hover:text-white"
@@ -100,14 +100,14 @@ export default function TabBar() {
                                 <Icon
                                     active={isActive}
                                     className={cn(
-                                        "w-[26px] h-[26px]", // Slightly larger icon size
-                                        isActive && "drop-shadow-[0_0_12px_rgba(255,32,176,0.6)]"
+                                        "w-[30px] h-[30px]", // Larger icon size
+                                        isActive && "drop-shadow-[0_0_12px_rgba(255,215,0,0.6)]"
                                     )}
                                 />
                             </div>
 
                             <span className={cn(
-                                "text-[9px] font-black mt-0.5 tracking-[0.2em] uppercase transition-all duration-300",
+                                "text-[9px] font-black mt-0.5 tracking-[0.2em] uppercase transition-all duration-300 font-sans",
                                 isActive
                                     ? "text-premium-gold scale-100 opacity-100"
                                     : "text-zinc-600 scale-90 opacity-0 group-hover:opacity-100"
