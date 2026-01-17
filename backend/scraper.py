@@ -523,7 +523,8 @@ def fetch_youtube_videos():
         {
             "id": "UCqzaT59nBHOSoK1nikip_Gg", # Arena Alvinegra
             "name": "Arena Alvinegra",
-            "filter": None
+            "filter": None,
+            "limit": 2
         },
         {
             "id": "UC_JIxHLpOkTGw6LDjq50_oQ", # Setor Visitante
@@ -548,6 +549,11 @@ def fetch_youtube_videos():
                 soup = BeautifulSoup(response.content, 'xml')
                 entries = soup.find_all('entry')
                 
+                # Apply channel specific limit if exists
+                limit = channel.get('limit')
+                if limit:
+                    entries = entries[:limit]
+
                 for entry in entries:
                     video_id = entry.find('videoId').text
                     title = entry.find('title').text
