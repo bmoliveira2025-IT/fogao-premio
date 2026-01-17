@@ -526,6 +526,11 @@ def fetch_youtube_videos():
             "filter": None
         },
         {
+            "id": "UC_JIxHLpOkTGw6LDjq50_oQ", # Setor Visitante
+            "name": "Setor Visitante",
+            "filter": None
+        },
+        {
             "id": "UCgCKagVhzGnZcuP9bSMgMCg", # ge TV / Globo Esporte
             "name": "ge TV",
             "filter": "botafogo" # Only videos with "Botafogo" in title (case-insensitive)
