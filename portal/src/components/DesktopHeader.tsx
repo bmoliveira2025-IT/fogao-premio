@@ -2,13 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Share2 } from 'lucide-react';
+import { Share2, Crown } from 'lucide-react';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { cn } from '@/lib/utils';
 
+import { useAuth } from '@/context/AuthContext';
+
 export default function DesktopHeader() {
     const pathname = usePathname();
-
+    const { isPremium } = useAuth();
     const isActive = (path: string) => pathname === path;
 
     const navLinks = [
@@ -28,8 +30,11 @@ export default function DesktopHeader() {
                         <GloriosoLogo size={48} className="relative z-10 drop-shadow-2xl" />
                     </div>
                     <div className="flex flex-col leading-none">
-                        <h1 className="text-2xl font-display font-black tracking-tight text-white leading-none group-hover:text-premium-gold transition-colors">
+                        <h1 className="text-2xl font-display font-black tracking-tight text-white leading-none group-hover:text-premium-gold transition-colors flex items-center gap-2">
                             GLORIOSO <span className="font-light italic text-premium-gold">360</span>
+                            {isPremium && (
+                                <Crown size={16} className="text-premium-gold fill-premium-gold/20 ml-1.5 self-start -mt-0.5" strokeWidth={2.5} />
+                            )}
                         </h1>
                     </div>
                 </Link>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Settings, X, Calendar, Star, FileText, Sunrise, Moon, Check } from 'lucide-react';
+import { Bell, Settings, X, Calendar, Star, FileText, Sunrise, Moon, Check, Crown } from 'lucide-react';
 import Link from 'next/link';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { useState, useEffect } from 'react';
@@ -58,10 +58,13 @@ function getTodayBriefingNotifications(): BriefingNotification[] {
     return notifications;
 }
 
+import { useAuth } from '@/context/AuthContext';
+
 export default function BrandingHeader() {
     const [briefing, setBriefing] = useState<{ edition?: string, generated_at_formatted?: string } | null>(null);
-    const router = useRouter(); // Ensure useRouter is imported from next/navigation
-    const pathname = usePathname(); // Ensure usePathname is imported from next/navigation
+    const router = useRouter();
+    const pathname = usePathname();
+    const { isPremium } = useAuth(); // Import useAuth to check premium status
 
     useEffect(() => {
         const fetchBriefing = async () => {
@@ -99,8 +102,11 @@ export default function BrandingHeader() {
                     </div>
 
                     <div className="flex flex-col leading-none">
-                        <h1 className="text-[19px] font-display font-black tracking-tight text-white leading-none">
+                        <h1 className="text-[19px] font-display font-black tracking-tight text-white leading-none flex items-center gap-1.5">
                             GLORIOSO <span className="font-light italic text-premium-gold">360</span>
+                            {isPremium && (
+                                <Crown size={14} className="text-premium-gold fill-premium-gold/20 ml-0.5 self-start -mt-0.5" strokeWidth={2.5} />
+                            )}
                         </h1>
                     </div>
                 </Link>

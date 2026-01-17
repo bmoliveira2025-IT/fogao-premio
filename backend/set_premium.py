@@ -44,9 +44,15 @@ def set_premium_by_email(email):
         print(f"❌ User with email '{email}' not found.")
         print("Please make sure you have logged in at least once.")
 
+import sys
+
 if __name__ == "__main__":
     print("--- Tool to Make User Premium ---")
-    email_input = input("Enter the user email: ").strip()
+    
+    if len(sys.argv) > 1:
+        email_input = sys.argv[1]
+    else:
+        email_input = input("Enter the user email: ").strip()
     
     if email_input:
         set_premium_by_email(email_input)
