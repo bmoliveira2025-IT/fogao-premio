@@ -30,10 +30,22 @@ const config: Config = {
                 sans: ["Inter", "Roboto", "sans-serif"],
                 display: ["Outfit", "sans-serif"],
             },
+            keyframes: {
+                fadeIn: {
+                    '0%': { opacity: '0' },
+                    '100%': { opacity: '1' },
+                },
+                scaleIn: {
+                    '0%': { opacity: '0', transform: 'scale(0.95)' },
+                    '100%': { opacity: '1', transform: 'scale(1)' },
+                },
+            },
             animation: {
                 'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
                 'scale-in': 'scaleIn 0.3s ease-out forwards',
                 'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                'fade-in': 'fadeIn 0.3s ease-out forwards',
+                'scale-up': 'scaleIn 0.3s ease-out forwards',
             },
             boxShadow: {
                 'premium': '0 20px 40px rgba(0, 0, 0, 0.4)',

@@ -273,6 +273,11 @@ def scrape_news(url):
             print(f"Skipping irrelevant article: {title}")
             return None
 
+        # Exclude specific unwanted titles
+        if "Night Live Especial" in title or "Night Live" in title:
+            print(f"Skipping blacklisted article: {title}")
+            return None
+
         # Date Check (Recency Filter)
         if article.publish_date:
             try:
@@ -791,9 +796,14 @@ def generate_daily_briefing(force=False):
     
     doc_ref = db.collection('daily_briefings').document(doc_id)
     
-    if doc_ref.get().exists and not force:
-        print(f"Briefing for {doc_id} already exists. Skipping.")
-        return
+    existing_doc = doc_ref.get()
+    if existing_doc.exists and not force:
+        data = existing_doc.to_dict()
+        if data and data.get('editorial_summary') and len(data.get('editorial_summary')) > 10:
+            print(f"Briefing for {doc_id} already exists and is valid. Skipping.")
+            return
+        else:
+            print(f"Briefing for {doc_id} exists but seems invalid/empty. Regenerating...")
 
     # 2. Fetch news from the last 24 hours (for context)
     dashboard_time = datetime.now(timezone.utc) - timedelta(days=1)

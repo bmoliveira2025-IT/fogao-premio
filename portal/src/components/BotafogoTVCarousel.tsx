@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Play, X, Tv, MonitorPlay } from 'lucide-react';
+import { Play, Tv, MonitorPlay } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import VideoModal from './VideoModal';
 
 interface VideoItem {
     id: string;
@@ -20,12 +21,44 @@ interface BotafogoTVCarouselProps {
 }
 
 export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCarouselProps) {
-    const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+    const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
 
-    // Extract video ID from URL for embed
-    const getEmbedUrl = (url: string) => {
-        const videoId = url.split('v=')[1];
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    // Robust Video ID extraction (YouTube & GloboPlay)
+    const getVideoId = (url: string) => {
+        try {
+            if (!url) return null;
+
+            // Check if it's already just an ID (numeric for GloboPlay or 11 chars for YT)
+            if (/^\d+$/.test(url)) return url; // GloboPlay ID
+            if (/^[a-zA-Z0-9_-]{11}$/.test(url)) return url; // YouTube ID
+
+            // GloboPlay URL
+            if (url.includes('globoplay.globo.com')) {
+                const match = url.match(/\/v\/(\d+)/);
+                return match ? match[1] : null;
+            }
+
+            // YouTube URL
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        } catch (e) {
+            console.error('Error parsing video URL:', url, e);
+            return null;
+        }
+    };
+
+    const handleVideoClick = (video: VideoItem) => {
+        const videoId = getVideoId(video.url);
+        if (videoId) {
+            setSelectedVideoId(videoId);
+        } else {
+            console.warn('Could not extract video ID from URL:', video.url, 'Using full URL as fallback if possible or failing.');
+            // Fallback: if we can't parse it but it's not empty, maybe pass it through? 
+            // VideoModal might not handle it well if it's a full URL, but better than nothing?
+            // Actually, let's try to pass it if it looks kinda valid? 
+            // For now, strict on ID but with better parsers.
+        }
     };
 
     return (
@@ -63,7 +96,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                             <motion.div
                                 key={video.id}
                                 whileTap={{ scale: 0.98 }}
-                                onClick={() => setSelectedVideo(video)}
+                                onClick={() => handleVideoClick(video)}
                                 className="shrink-0 w-72 aspect-video relative rounded-xl overflow-hidden cursor-pointer group snap-center shadow-lg border border-white/5 bg-zinc-900"
                             >
                                 <Image
@@ -86,9 +119,6 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 
                                 {/* Title */}
                                 <div className="absolute bottom-0 left-0 right-0 p-3">
-                                    {/* <span className="inline-block px-1.5 py-0.5 mb-1.5 rounded-[2px] bg-blue-600/80 text-[8px] font-bold text-white uppercase tracking-wider backdrop-blur-md">
-                                        Novo
-                                    </span> */}
                                     <p className="text-[12px] font-bold text-white leading-tight line-clamp-2 drop-shadow-md group-hover:text-premium-gold transition-colors">
                                         {video.title}
                                     </p>
@@ -107,44 +137,11 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 
             {/* Video Modal */}
             <AnimatePresence>
-                {selectedVideo && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-md p-4"
-                    >
-                        <div className="relative w-full max-w-4xl bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800">
-                            {/* Header */}
-                            <div className="flex items-center justify-between p-3 bg-zinc-900/80 border-b border-zinc-800">
-                                <h3 className="text-xs lg:text-sm font-bold text-white line-clamp-1 pr-4">{selectedVideo.title}</h3>
-                                <button
-                                    onClick={() => setSelectedVideo(null)}
-                                    className="p-1.5 bg-zinc-800 hover:bg-zinc-700 rounded-full text-white transition-colors"
-                                >
-                                    <X size={16} />
-                                </button>
-                            </div>
-
-                            {/* Video Player */}
-                            <div className="aspect-video w-full bg-black">
-                                <iframe
-                                    src={getEmbedUrl(selectedVideo.url)}
-                                    title={selectedVideo.title}
-                                    className="w-full h-full"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                            </div>
-                        </div>
-
-                        {/* Backdrop Click to Close */}
-                        <div
-                            className="absolute inset-0 -z-10"
-                            onClick={() => setSelectedVideo(null)}
-                        />
-                    </motion.div>
+                {selectedVideoId && (
+                    <VideoModal
+                        videoId={selectedVideoId}
+                        onClose={() => setSelectedVideoId(null)}
+                    />
                 )}
             </AnimatePresence>
         </section>
