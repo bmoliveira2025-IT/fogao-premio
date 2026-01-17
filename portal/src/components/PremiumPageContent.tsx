@@ -6,6 +6,9 @@ import TabBar from '@/components/TabBar';
 import PremiumGuard from '@/components/PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
 
+import PremiumWallpapers from '@/components/PremiumWallpapers';
+import BauGlorioso from '@/components/BauGlorioso';
+
 export default function PremiumPageContent({ premiumNews }: { premiumNews: any[] }) {
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-premium-gold selection:text-black pb-32">
@@ -33,18 +36,33 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
             <div className="hidden lg:block h-24"></div>
 
             <div className="px-4 lg:max-w-5xl lg:mx-auto">
-                <div className="mb-8 text-center relative">
+                <div className="mb-12 text-center relative">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-premium-gold/20 blur-[60px] rounded-full pointer-events-none"></div>
                     <h1 className="text-2xl lg:text-4xl font-display font-bold italic uppercase relative z-10">
                         Área <span className="text-premium-gold">Exclusiva</span>
                     </h1>
                     <p className="text-xs lg:text-sm text-white/50 mt-2 max-w-xs lg:max-w-md mx-auto relative z-10">
-                        Análises táticas, bastidores e conteúdo com inteligência artificial para quem vive o Botafogo.
+                        Análises táticas, bastidores e conteúdo histórico para quem vive o Botafogo.
                     </p>
                 </div>
 
                 {/* WRAP CONTENT WITH PREMIUM GUARD */}
                 <PremiumGuard>
+
+                    {/* NEW: Wallpapers Section */}
+                    <PremiumWallpapers />
+
+                    {/* NEW: Bau Glorioso Section */}
+                    <BauGlorioso />
+
+                    {/* EXISTING: News Section */}
+                    <div className="mb-8 flex items-center gap-2">
+                        <Zap className="text-premium-gold" size={20} />
+                        <h3 className="text-xl font-display font-medium text-white">
+                            Análises <span className="text-premium-gold">Táticas</span>
+                        </h3>
+                    </div>
+
                     <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
                         {premiumNews.length > 0 ? (
                             premiumNews.map((item: any) => (
