@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import StoryContainer from './StoryContainer';
 import StorySlide from './StorySlide';
-import { Trophy, Target, TrendingUp, Calendar, Zap } from 'lucide-react';
+import { Trophy, Target, TrendingUp, Calendar, Zap, Tv } from 'lucide-react';
 
 interface DailyBriefing {
     date: string;
@@ -15,6 +15,7 @@ interface DailyBriefing {
     indicators?: {
         next_match?: string;
         location?: string;
+        transmission?: string;
         market?: string;
     };
     top_stories?: any[];
@@ -158,6 +159,16 @@ export default function MorningBriefingPopup() {
                                 <span className="font-bold uppercase text-[15px]">Local</span>
                             </div>
                             <p className="text-[21px] text-white font-bold">{briefing.indicators.location}</p>
+                        </div>
+                    )}
+
+                    {briefing.indicators.transmission && (
+                        <div className="bg-zinc-800/50 p-6 rounded-2xl border border-white/10">
+                            <div className="flex items-center gap-3 mb-2 text-green-400">
+                                <Tv size={24} />
+                                <span className="font-bold uppercase text-[15px]">Onde Assistir</span>
+                            </div>
+                            <p className="text-[21px] text-white font-bold">{briefing.indicators.transmission}</p>
                         </div>
                     )}
                 </div>

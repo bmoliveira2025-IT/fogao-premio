@@ -837,6 +837,7 @@ def generate_daily_briefing(force=False):
     2. **Indicadores**:
        - Próximo Jogo: Data e Adversário
        - Local: "Casa" ou "Fora"
+       - Onde Assistir (transmission): Canal de TV ou Streaming (ex: Premiere, Globo, ESPN)
        - DM: Situação médica 
        - Mercado: Status rápido
 
@@ -849,7 +850,7 @@ def generate_daily_briefing(force=False):
         "edition": "{briefing_slot}",
         "editorial_summary": "Texto editorial...",
         "reading_time": "~20 segundos",
-        "indicators": {{ "next_match": "...", "location": "...", "dm": "...", "market": "..." }},
+        "indicators": {{ "next_match": "...", "location": "...", "transmission": "...", "dm": "...", "market": "..." }},
         "top_stories": [
              {{ "rank": 1, "source_id": 0, "title": "Manchete", "category": "Categoria" }},
              {{ "rank": 2, "source_id": 1, "title": "Manchete", "category": "Categoria" }},
