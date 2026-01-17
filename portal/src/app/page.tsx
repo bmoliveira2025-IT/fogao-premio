@@ -232,7 +232,7 @@ export default async function Home() {
 
       {/* 3. MAIN CONTENT WRAPPER */}
       <div className="w-full lg:pl-64 transition-all duration-300 pb-32 lg:pb-10">
-        <div className="container mx-auto pt-16 px-4 lg:pt-12 lg:px-12 max-w-[1600px]">
+        <div className="container mx-auto pt-[calc(4rem+env(safe-area-inset-top))] px-4 lg:pt-12 lg:px-12 max-w-[1600px]">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
 

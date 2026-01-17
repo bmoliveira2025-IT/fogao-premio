@@ -91,7 +91,7 @@ export default function BrandingHeader() {
     };
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b border-premium-gold/10 h-16 transition-all duration-300 shadow-lg shadow-black/50">
+        <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-xl border-b border-premium-gold/10 h-[calc(4rem+env(safe-area-inset-top))] pt-[env(safe-area-inset-top)] transition-all duration-300 shadow-lg shadow-black/50">
             <div className="md:max-w-2xl lg:max-w-4xl max-w-md mx-auto h-full flex items-center justify-between px-5">
 
                 {/* Left: Branding (Logo + Text) */}
