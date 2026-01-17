@@ -223,7 +223,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
             {/* Visual Grid (Items 6-10) */}
             {visualGridNews.length > 0 && (
                 <div className="border-t bg-black/40" style={{ borderColor: 'var(--border-color)' }}>
-                    <div className="p-4 md:p-5">
+                    <div className="p-0 md:p-5">
                         <VisualNewsGrid news={visualGridNews} />
                     </div>
                 </div>
