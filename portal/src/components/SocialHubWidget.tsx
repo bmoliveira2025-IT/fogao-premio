@@ -1,6 +1,6 @@
 'use client';
 
-import { Flame, Hash, TrendingUp, Instagram, Facebook } from 'lucide-react';
+import { Flame, Hash, TrendingUp, Instagram, Facebook, Music2 } from 'lucide-react';
 import { Topic } from '@/lib/social-pulse';
 
 interface SocialHubWidgetProps {
@@ -78,11 +78,13 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                                     {/* Source Badge */}
                                     <div className={`
                                         inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider
-                                        ${topic.source === 'instagram' ? 'bg-pink-500/10 border-pink-500/20 text-pink-400' :
-                                            topic.source === 'twitter' ? 'bg-blue-400/10 border-blue-400/20 text-blue-400' :
-                                                'bg-blue-600/10 border-blue-600/20 text-blue-500'}
+                                        ${topic.source === 'instagram' ? 'bg-social-instagram/10 border-social-instagram/20 text-social-instagram' :
+                                            topic.source === 'tiktok' ? 'bg-social-tiktok/10 border-social-tiktok/20 text-social-tiktok' :
+                                                topic.source === 'twitter' ? 'bg-social-twitter/10 border-social-twitter/20 text-social-twitter' :
+                                                    'bg-social-facebook/10 border-social-facebook/20 text-social-facebook'}
                                     `}>
                                         {topic.source === 'instagram' && <Instagram size={8} />}
+                                        {topic.source === 'tiktok' && <Music2 size={8} />}
                                         {topic.source === 'twitter' && <Hash size={8} />}
                                         {topic.source === 'facebook' && <Facebook size={8} />}
                                         <span className="mt-px">{topic.source}</span>
@@ -113,10 +115,10 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                                     px-2 py-1 rounded-lg border
                                     ${index < 3 ? 'bg-white/10 border-white/20' : 'bg-zinc-900/50 border-white/5'}
                                 `}>
-                                    <span className="text-[13px] font-black text-white font-mono leading-none">
+                                    <span className="text-xl font-black text-white font-mono leading-none">
                                         {topic.count}
                                     </span>
-                                    <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-widest mt-0.5">
+                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest mt-0.5">
                                         Posts
                                     </span>
                                 </div>

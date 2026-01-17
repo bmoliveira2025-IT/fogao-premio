@@ -20,7 +20,11 @@ const config: Config = {
                     dark: "#050505",
                     gray: "#121212",
                     light: "#E5E5E5"
-                }
+                },
+                "social-tiktok": "#22d3ee", // cyan-400
+                "social-instagram": "#ec4899", // pink-500
+                "social-twitter": "#60a5fa", // blue-400
+                "social-facebook": "#2563eb", // blue-600
             },
             fontFamily: {
                 sans: ["Inter", "sans-serif"],

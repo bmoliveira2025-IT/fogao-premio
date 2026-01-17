@@ -3,7 +3,7 @@ export interface Topic {
     text: string;
     count: number;
     trend: 'up' | 'stable' | 'new';
-    source: 'instagram' | 'twitter' | 'facebook';
+    source: 'instagram' | 'twitter' | 'facebook' | 'tiktok';
 }
 
 const STOP_WORDS = new Set([
@@ -81,7 +81,7 @@ export function getTrendingTopics(titles: string[]): Topic[] {
 
     // Format top 3
     const sorted = uniqueTopics
-        .slice(0, 3) // Top 3 only
+        .slice(0, 4) // Top 4
         .map((t, index) => {
             // Find a representative title for this topic (shortest one usually looks best)
             const matches = titles.filter(title =>
@@ -91,10 +91,12 @@ export function getTrendingTopics(titles: string[]): Topic[] {
             // Prefer short titles, but at least 15 chars to be a sentence
             const representative = matches.sort((a, b) => a.length - b.length)[0] || t.text;
 
-            // Distribute sources: 1 Insta, 1 X, 1 Facebook
-            let source: 'instagram' | 'twitter' | 'facebook' = 'facebook';
+            // Distribute sources: 1 Insta, 1 TikTok, 1 X, 1 Facebook
+            let source: 'instagram' | 'twitter' | 'facebook' | 'tiktok' = 'facebook';
             if (index === 0) source = 'instagram';
-            else if (index === 1) source = 'twitter';
+            else if (index === 1) source = 'tiktok';
+            else if (index === 2) source = 'twitter';
+            else if (index === 3) source = 'facebook';
 
             return {
                 id: `topic-${index}`,
@@ -105,5 +107,6 @@ export function getTrendingTopics(titles: string[]): Topic[] {
             } as Topic;
         });
 
+    console.log("[SocialPulse] Generated Topics:", sorted.map(t => `${t.text} (${t.count}) [${t.source}]`));
     return sorted;
 }
