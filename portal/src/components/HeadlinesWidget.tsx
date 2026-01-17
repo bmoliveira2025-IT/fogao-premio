@@ -2,6 +2,7 @@
 
 import { FileText, ChevronRight, Clock, Flame } from 'lucide-react';
 import Link from 'next/link';
+import VisualNewsGrid from './VisualNewsGrid';
 import SourceIcon from './SourceIcon';
 import PremiumNextMatch from './PremiumNextMatch';
 import { cn } from '@/lib/utils';
@@ -52,10 +53,16 @@ function getRelativeTime(dateString?: string) {
 export default function HeadlinesWidget({ news, nextMatch, className = "" }: HeadlinesWidgetProps) {
     if (!news || news.length === 0) return null;
 
-    // Take top 8 for a balanced view
-    const topBriefing = news.slice(0, 8);
+    // Take top 10 for extended view
+    const allNews = news.slice(0, 10);
+
+    // Top 5: Standard List (1 Hero + 4 Rows)
+    const topBriefing = allNews.slice(0, 5);
     const topStory = topBriefing[0];
     const otherStories = topBriefing.slice(1);
+
+    // Next 5: Visual Grid
+    const visualGridNews = allNews.slice(5, 10);
 
     return (
         <div className={`w-full flex flex-col gap-0 bg-card border resize-none md:rounded-3xl overflow-hidden shadow-2xl ${className}`} style={{ borderColor: 'var(--border-color)' }}>
@@ -212,6 +219,15 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     </Link>
                 ))}
             </div>
+
+            {/* Visual Grid (Items 6-10) */}
+            {visualGridNews.length > 0 && (
+                <div className="border-t bg-black/40" style={{ borderColor: 'var(--border-color)' }}>
+                    <div className="p-4 md:p-5">
+                        <VisualNewsGrid news={visualGridNews} />
+                    </div>
+                </div>
+            )}
 
             {/* Footer */}
             <Link
