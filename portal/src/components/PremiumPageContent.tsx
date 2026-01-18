@@ -5,6 +5,7 @@ import { ChevronLeft, Lock, Star, Zap } from 'lucide-react';
 import TabBar from '@/components/TabBar';
 import PremiumGuard from '@/components/PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
+import { getSafeImageSrc } from '@/lib/images';
 
 import PremiumWallpapers from '@/components/PremiumWallpapers';
 import BauGlorioso from '@/components/BauGlorioso';
@@ -75,7 +76,7 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                                                 <span className="text-[9px] font-bold uppercase tracking-wider text-white">Análise IA</span>
                                             </div>
                                             <img
-                                                src={item.image || 'https://via.placeholder.com/800x400'}
+                                                src={getSafeImageSrc(item.image, 'https://placehold.co/800x400')}
                                                 alt={item.title}
                                                 className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                                             />

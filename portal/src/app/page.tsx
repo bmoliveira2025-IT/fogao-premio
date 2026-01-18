@@ -4,15 +4,12 @@ import PremiumWidget from '@/components/PremiumWidget';
 import HeadlinesWidget from '@/components/HeadlinesWidget';
 import DailyBriefingWidget from '@/components/DailyBriefingWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
-import BrandingHeader from '@/components/BrandingHeader';
-import TabBar from '@/components/TabBar';
 import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
 import { ChevronRight, Users } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import MatchDayPopup from '@/components/MatchDayPopup';
 import QuoteBanner from '@/components/QuoteBanner';
-import DesktopSidebar from '@/components/DesktopSidebar';
 import PodcastWidget from '@/components/PodcastWidget';
 import SocialHubWidget from '@/components/SocialHubWidget';
 import { getTrendingTopics } from '@/lib/social-pulse';
@@ -212,24 +209,14 @@ export default async function Home() {
   const topics = getTrendingTopics(news.map(n => n.title));
 
   return (
-    <main className="min-h-screen bg-background dark:bg-zinc-950 text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 premium-bg mesh-gradient">
+    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 premium-bg mesh-gradient">
 
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
 
-      {/* 1. SIDEBAR - DESKTOP ONLY */}
-      <div className="hidden lg:block">
-        <DesktopSidebar />
-      </div>
-
-      {/* 2. MOBILE HEADER & NAVIGATION */}
-      <div className="lg:hidden">
-        <BrandingHeader />
-      </div>
-
-      {/* 3. MAIN CONTENT WRAPPER */}
-      <div className="w-full lg:pl-64 transition-all duration-300 pb-40 lg:pb-10">
-        <div className="container mx-auto pt-[calc(4rem+env(safe-area-inset-top))] px-4 lg:pt-12 lg:px-12 max-w-[1600px]">
+      {/* MAIN CONTENT WRAPPER */}
+      <div className="w-full transition-all duration-300 pb-20 lg:pb-10">
+        <div className="container mx-auto px-4 lg:pt-12 lg:px-12 max-w-[1600px]">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
 
@@ -359,11 +346,6 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="lg:hidden">
-        <Suspense fallback={<div className="h-16 bg-black" />}>
-          <TabBar />
-        </Suspense>
-      </div>
-    </main>
+    </div>
   );
 }

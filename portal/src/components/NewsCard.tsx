@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
+import { getSafeImageSrc } from '@/lib/images';
 
 export default function NewsCard({ article }: any) {
     const timeAgo = (dateStr: string) => {
@@ -19,11 +20,11 @@ export default function NewsCard({ article }: any) {
     return (
         <div className="relative">
             <div
-                className="bg-card rounded-none md:rounded-3xl overflow-hidden md:shadow-2xl flex flex-row md:flex-col h-[100px] md:h-full group transition-all duration-300 premium-card md:glass-card md:glass-card-hover gradient-border-animated"
+                className="bg-card rounded-none md:rounded-3xl overflow-hidden md:shadow-2xl flex flex-row md:flex-col h-[140px] md:h-full group transition-all duration-300 premium-card md:glass-card md:glass-card-hover gradient-border-animated"
             >
-                <Link href={`/news/${article.id}`} className="block relative w-[130px] md:w-full md:aspect-[16/10] shrink-0 overflow-hidden">
+                <Link href={`/news/${article.id}`} className="block relative w-[180px] md:w-full md:aspect-[16/10] shrink-0 overflow-hidden">
                     <Image
-                        src={article.image || 'https://via.placeholder.com/800x600'}
+                        src={getSafeImageSrc(article.image)}
                         alt={article.title}
                         fill
                         sizes="(max-width: 768px) 130px, (max-width: 1200px) 50vw, 33vw"
@@ -54,7 +55,7 @@ export default function NewsCard({ article }: any) {
                     </div>
 
                     <Link href={`/news/${article.id}`} className="group-hover:text-premium-gold transition-colors block">
-                        <h3 className="text-xs md:text-lg font-bold text-white leading-snug font-sans uppercase italic line-clamp-3 md:line-clamp-3">
+                        <h3 className="text-[10px] md:text-base font-black text-white leading-snug font-sans uppercase line-clamp-3 md:line-clamp-3">
                             {article.title?.replace(/\*\*/g, '')}
                         </h3>
                     </Link>

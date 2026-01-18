@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, TrendingUp } from 'lucide-react';
+import { getSafeImageSrc } from '@/lib/images';
 
 interface NewsItem {
     id: string;
@@ -35,11 +36,11 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
             {/* Main Story (Takes 3/4 width on desktop) */}
             <Link
                 href={`/news/${mainStory.id}`}
-                className="lg:col-span-3 relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden group border border-white/10 hover:border-premium-gold/30 transition-all duration-300 shadow-2xl"
+                className="lg:col-span-3 relative h-[450px] md:h-[650px] rounded-[3rem] overflow-hidden group border border-white/5 hover:border-premium-gold/40 transition-all duration-700 shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
             >
                 <div className="absolute inset-0">
                     <Image
-                        src={mainStory.image || 'https://via.placeholder.com/800x600'}
+                        src={getSafeImageSrc(mainStory.image)}
                         alt={mainStory.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -65,7 +66,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                         </div>
                     </div>
 
-                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1] md:leading-tight italic uppercase drop-shadow-lg group-hover:text-premium-gold transition-colors duration-300">
+                    <h2 className="text-xl md:text-4xl lg:text-6xl font-black text-white leading-[1] uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors duration-500 tracking-tighter">
                         {mainStory.title}
                     </h2>
 
@@ -83,10 +84,10 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                     <Link
                         key={story.id}
                         href={`/news/${story.id}`}
-                        className="relative flex-1 min-h-[180px] rounded-2xl overflow-hidden group border border-white/5 hover:border-premium-gold/30 transition-all"
+                        className="relative flex-1 min-h-[220px] md:min-h-[300px] rounded-[2rem] overflow-hidden group border border-white/5 hover:border-premium-gold/40 transition-all duration-500 shadow-xl"
                     >
                         <Image
-                            src={story.image || 'https://via.placeholder.com/400x300'}
+                            src={getSafeImageSrc(story.image, 'https://placehold.co/400x300')}
                             alt={story.title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80"
@@ -100,7 +101,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                                 <span className="text-zinc-500">•</span>
                                 <span className="text-zinc-400">{timeAgo(story.created_at)}</span>
                             </div>
-                            <h3 className="text-sm md:text-base font-bold text-white leading-snug line-clamp-3 group-hover:underline decoration-premium-gold underline-offset-4">
+                            <h3 className="text-sm md:text-lg font-black text-white leading-tight line-clamp-3 uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors">
                                 {story.title}
                             </h3>
                         </div>

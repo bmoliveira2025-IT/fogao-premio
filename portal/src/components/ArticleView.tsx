@@ -13,9 +13,10 @@ import CompactNewsRow from './CompactNewsRow';
 import QuoteBanner from './QuoteBanner';
 import PremiumGuard from './PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
+import { getSafeImageSrc } from '@/lib/images';
 
 export default function ArticleView({ article, nextMatch, relatedNews = [] }: { article: any, nextMatch: any, relatedNews?: any[] }) {
-    // ... (rest of component)
+    // ... rest of component
 
     const [showVoice, setShowVoice] = useState(false);
 
@@ -100,7 +101,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     {/* Home */}
                     <div className="flex flex-col items-center w-1/3">
                         <div className="w-10 h-10 mb-2 relative">
-                            <img src={nextMatch.home_team_logo || 'https://via.placeholder.com/40'} alt={nextMatch.home_team} className="w-full h-full object-contain" />
+                            <img src={getSafeImageSrc(nextMatch.home_team_logo, 'https://placehold.co/80x80')} alt={nextMatch.home_team} className="w-full h-full object-contain" />
                         </div>
                         <span className="text-[10px] font-bold text-foreground uppercase text-center leading-tight">{nextMatch.home_team}</span>
                     </div>
@@ -117,7 +118,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     {/* Away */}
                     <div className="flex flex-col items-center w-1/3">
                         <div className="w-10 h-10 mb-2 relative">
-                            <img src={nextMatch.away_team_logo || 'https://via.placeholder.com/40'} alt={nextMatch.away_team} className="w-full h-full object-contain" />
+                            <img src={getSafeImageSrc(nextMatch.away_team_logo, 'https://placehold.co/80x80')} alt={nextMatch.away_team} className="w-full h-full object-contain" />
                         </div>
                         <span className="text-[10px] font-bold text-foreground uppercase text-center leading-tight">{nextMatch.away_team}</span>
                     </div>
@@ -140,46 +141,14 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     ) : null;
 
     return (
-        <main className="min-h-screen bg-background text-foreground font-sans selection:bg-premium-gold selection:text-black pb-32 transition-colors duration-300">
+        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
 
-            {/* 1. EDITORIAL HEADER (MOBILE ONLY) */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-premium-gold/15 h-14 flex items-center justify-between px-4 transition-all duration-300 shadow-sm">
-                <Link href="/" className="p-2 -ml-2 text-white/70 hover:text-white transition-colors">
-                    <ChevronLeft size={24} />
-                </Link>
+            {/* 1. EDITORIAL HEADER (MOBILE ONLY) - REMOVED, NOW GLOBAL */}
 
-                <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
-                    <span className="text-[10px] font-black text-premium-gold tracking-[0.2em] uppercase drop-shadow-md">Fogão Prêmio</span>
-                </div>
+            {/* Spacer - reduced because RootLayout already handles top spacer */}
+            <div className="h-4 lg:h-12"></div>
 
-                <div className="flex items-center space-x-1">
-                    <button
-                        onClick={() => setShowVoice(!showVoice)}
-                        className={`p-2 transition-colors ${showVoice ? 'text-premium-gold' : 'text-white/70 hover:text-premium-gold'}`}
-                    >
-                        <Volume2 size={20} />
-                    </button>
-                    <button className="p-2 text-white/70 hover:text-premium-gold transition-colors">
-                        <Bookmark size={20} />
-                    </button>
-                    <button
-                        onClick={handleShare}
-                        className="p-2 text-white/70 hover:text-white transition-colors"
-                    >
-                        <Share2 size={20} />
-                    </button>
-                </div>
-            </header>
-
-            {/* DESKTOP HEADER */}
-            {/* DESKTOP HEADER */}
-            <DesktopHeader />
-
-
-            {/* Spacer */}
-            <div className="h-14 lg:h-24"></div>
-
-            <div className="lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-12 lg:gap-12 lg:px-8 lg:pt-8">
+            <div className="lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-12 lg:gap-12 lg:px-8">
 
                 {/* LEFT COLUMN (Main Content) */}
                 <div className="lg:col-span-8">
@@ -187,7 +156,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     {/* 2. FEATURED IMAGE */}
                     <div className="w-full aspect-[4/3] md:h-96 lg:h-[500px] lg:aspect-auto relative overflow-hidden lg:rounded-2xl shadow-xl">
                         <img
-                            src={article.image || 'https://via.placeholder.com/800x600'}
+                            src={getSafeImageSrc(article.image)}
                             alt={article.title}
                             className="w-full h-full object-cover"
                         />
@@ -278,10 +247,6 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 title={article.title}
                 url={typeof window !== 'undefined' ? window.location.href : ''}
             />
-
-            <div className="lg:hidden">
-                <TabBar />
-            </div>
-        </main >
+        </div>
     );
 }

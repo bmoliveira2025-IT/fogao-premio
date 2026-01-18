@@ -2,14 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import GloriosoLogo from '@/components/GloriosoLogo';
-import { User, Crown, Zap } from 'lucide-react';
+import { User, Crown, Zap, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 
 export default function BrandingHeader() {
     const { user, isPremium } = useAuth();
     const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
+    const router = useRouter();
 
     useEffect(() => {
         setMounted(true);
@@ -19,11 +22,23 @@ export default function BrandingHeader() {
     const showPremiumUI = mounted && isPremium;
 
     return (
-        <header className="fixed top-0 z-40 w-full bg-background/90 backdrop-blur-xl border-b border-white/5 lg:hidden pt-[env(safe-area-inset-top)]">
+        <header className="fixed inset-x-0 top-0 z-[999] w-full bg-background/95 backdrop-blur-xl border-b border-white/5 lg:hidden pt-[env(safe-area-inset-top)] transform translate-z-0">
             <div className="flex items-center justify-between px-4 h-16">
-                {/* Logo Area */}
-                <Link href="/" className="flex items-center gap-2">
-                    <GloriosoLogo size={36} className="drop-shadow-lg" />
+                {/* Logo Area / Back Button */}
+                <div className="flex items-center gap-2">
+                    {pathname !== '/' ? (
+                        <button
+                            onClick={() => router.back()}
+                            className="p-2 -ml-2 text-white/70 hover:text-white transition-colors"
+                        >
+                            <ArrowLeft size={24} />
+                        </button>
+                    ) : (
+                        <Link href="/" className="flex items-center gap-2">
+                            <GloriosoLogo size={36} className="drop-shadow-lg" />
+                        </Link>
+                    )}
+
                     <div className="flex flex-col leading-none">
                         <span className="font-display font-black text-lg text-white tracking-tight">
                             GLORIOSO <span className="text-premium-gold font-light italic">360</span>
@@ -32,7 +47,7 @@ export default function BrandingHeader() {
                             )}
                         </span>
                     </div>
-                </Link>
+                </div>
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">

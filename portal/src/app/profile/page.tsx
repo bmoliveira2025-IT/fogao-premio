@@ -1,23 +1,21 @@
 "use client";
-
 import { useEffect, useState } from 'react';
 import {
     User, Settings, Bell, Shield, ChevronRight, LogOut,
-    Moon, Smartphone, Volume2, Star, CreditCard
+    Moon, Smartphone, Volume2, Star, CreditCard, Crown
 } from 'lucide-react';
-import TabBar from '@/components/TabBar';
-import DesktopHeader from '@/components/DesktopHeader';
 import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useTheme } from '@/components/ThemeProvider';
 import { useAuth } from '@/context/AuthContext';
+import { cn } from '@/lib/utils';
 import SubscriptionModal from '@/components/SubscriptionModal';
 
 export default function ProfilePage() {
     const router = useRouter();
-    const { user, isPremium } = useAuth(); // Use real auth context
+    const { user, isPremium, points, rank } = useAuth(); // Use real auth context
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
     const { theme, toggleTheme } = useTheme();
 
@@ -76,11 +74,7 @@ export default function ProfilePage() {
     };
 
     return (
-        <main className="min-h-screen bg-background text-foreground font-sans selection:bg-premium-gold selection:text-black pb-32 transition-colors duration-300">
-
-            <DesktopHeader />
-            <div className="hidden lg:block h-24"></div>
-
+        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
             <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
 
                 {/* Header Area - Wrapped for Mobile Hiding/Desktop Styling */}
@@ -108,7 +102,7 @@ export default function ProfilePage() {
 
                                 {isPremium ? (
                                     <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/20">
-                                        <Star size={10} className="text-premium-gold fill-premium-gold" />
+                                        <Crown size={10} className="text-premium-gold fill-premium-gold" />
                                         <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider">
                                             Membro Premium
                                         </span>
@@ -117,7 +111,7 @@ export default function ProfilePage() {
                                     <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-zinc-800 border border-zinc-700">
                                         <User size={10} className="text-zinc-400" />
                                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
-                                            Torcedor Comum
+                                            Torcedor {rank}
                                         </span>
                                     </div>
                                 )}
@@ -127,6 +121,29 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="px-5 space-y-6 lg:col-span-8 lg:px-0 lg:space-y-8">
+
+                    {/* Points Card */}
+                    <div className="flex items-center justify-between p-5 bg-zinc-900/50 border border-premium-gold/20 rounded-xl overflow-hidden relative group">
+                        <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="flex items-center space-x-4 relative z-10">
+                            <div className="w-12 h-12 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/30">
+                                <Star size={24} className="text-premium-gold fill-premium-gold" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-black text-white leading-none uppercase italic tracking-tighter">Fogão Points</h3>
+                                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">Sua Pontuação de Lealdade</p>
+                            </div>
+                        </div>
+                        <div className="text-right relative z-10">
+                            <div className="text-3xl font-black text-premium-gold leading-none tracking-tighter">{points}</div>
+                            <div className={cn(
+                                "text-[9px] font-bold uppercase tracking-widest mt-1",
+                                rank === "Platina" ? "text-blue-400" :
+                                    rank === "Ouro" ? "text-premium-gold" :
+                                        rank === "Prata" ? "text-zinc-300" : "text-zinc-500"
+                            )}>Nível {rank}</div>
+                        </div>
+                    </div>
 
                     {/* Subscription Card */}
                     <div className="relative group overflow-hidden rounded-xl border border-premium-gold/15 bg-card p-5 shadow-lg">
@@ -273,17 +290,7 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </div>
-
-            <div className="lg:hidden">
-                <TabBar />
-            </div>
-
-            <SubscriptionModal
-                isOpen={showSubscriptionModal}
-                onClose={() => setShowSubscriptionModal(false)}
-                user={user}
-            />
-        </main >
+        </div>
     );
 }
 
@@ -370,7 +377,7 @@ function VoiceSelector() {
 
     return (
         <div className="flex flex-col space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
-            {voices.length > 0 ? voices.map((voice) => (
+            {voices.length > 0 ? voices.map((voice: SpeechSynthesisVoice) => (
                 <button
                     key={voice.name}
                     onClick={() => handleSelect(voice.name)}

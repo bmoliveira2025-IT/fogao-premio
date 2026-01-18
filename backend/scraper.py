@@ -266,10 +266,27 @@ def scrape_news(url):
         article.download()
         article.parse()
         
-        # Custom extraction for better image accuracy (prioritize og:image)
+        # Custom extraction for better image accuracy (prioritize og:image, then twitter:image)
         soup = BeautifulSoup(article.html, 'html.parser')
-        og_image = soup.find('meta', property='og:image')
-        image = og_image['content'] if og_image and 'content' in og_image.attrs else article.top_image
+        og_image = soup.find('meta', property='og:image') or soup.find('meta', attrs={'name': 'og:image'})
+        twitter_image = soup.find('meta', name='twitter:image') or soup.find('meta', attrs={'property': 'twitter:image'})
+        
+        image = None
+        if og_image and og_image.get('content'):
+            image = og_image['content']
+        elif twitter_image and twitter_image.get('content'):
+            image = twitter_image['content']
+        else:
+            image = article.top_image
+
+        # Fallback: if still no image, look for large images in soup
+        if not image or image == 'None':
+            all_imgs = soup.find_all('img', src=True)
+            for img in all_imgs:
+                src = img['src']
+                if 'glbimg.com' in src or 'fogaonet' in src: # Known good sources
+                    image = src
+                    break
 
         title = article.title
         content = clean_text(article.text)
@@ -332,9 +349,21 @@ def scrape_news(url):
                 
                 # Image fallback
                 image = None
-                og_image = soup.find('meta', property='og:image')
-                if og_image:
+                og_image = soup.find('meta', property='og:image') or soup.find('meta', attrs={'name': 'og:image'})
+                twitter_image = soup.find('meta', name='twitter:image') or soup.find('meta', attrs={'property': 'twitter:image'})
+                
+                if og_image and og_image.get('content'):
                     image = og_image['content']
+                elif twitter_image and twitter_image.get('content'):
+                    image = twitter_image['content']
+                
+                if not image:
+                    # Look for first large-looking image
+                    img_tags = soup.find_all('img', src=True)
+                    for img in img_tags:
+                        if 'glbimg' in img['src'] or 'static' in img['src']:
+                            image = img['src']
+                            break
                 
                 if title and text:
                      return {

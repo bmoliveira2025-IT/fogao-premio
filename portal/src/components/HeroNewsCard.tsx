@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
+import { getSafeImageSrc } from '@/lib/images';
 
 export default function HeroNewsCard({ article }: { article: any }) {
     if (!article) return null;
@@ -15,10 +16,10 @@ export default function HeroNewsCard({ article }: { article: any }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden rounded-none md:rounded-3xl shadow-2xl block premium-card glass-card-hover gradient-border-animated"
+            className="group relative w-full aspect-[16/12] md:aspect-[21/7.5] overflow-hidden rounded-none md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] block premium-card glass-card-hover gradient-border-animated"
         >    {/* Background Image - Position Top to Keep Faces */}
             <Image
-                src={article.image || 'https://via.placeholder.com/800x600'}
+                src={getSafeImageSrc(article.image)}
                 alt={article.title}
                 fill
                 priority={true}
@@ -29,8 +30,8 @@ export default function HeroNewsCard({ article }: { article: any }) {
             <div className="absolute inset-0 hero-gradient" />
 
             {/* Content Container */}
-            <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-12">
-                <h2 className="text-[19px] md:text-[49px] font-black text-white leading-tight font-sans gold-glow-text group-hover:text-premium-gold transition-colors mb-3 md:mb-4 line-clamp-3">
+            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12">
+                <h2 className="text-lg md:text-4xl lg:text-5xl font-black text-white leading-[0.95] md:leading-[1] font-sans uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors mb-2 md:mb-4 line-clamp-3">
                     {article.title?.replace(/\*\*/g, '')}
                 </h2>
 

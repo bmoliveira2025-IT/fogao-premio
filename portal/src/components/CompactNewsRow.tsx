@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
+import { getSafeImageSrc } from '@/lib/images';
 
 export default function CompactNewsRow({ article }: any) {
     const timeAgo = (dateStr: string) => {
@@ -19,17 +20,17 @@ export default function CompactNewsRow({ article }: any) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group flex gap-3 items-center p-3 rounded-xl hover:bg-white/5 border transition-all"
+            className="group flex gap-4 md:gap-6 items-center p-4 md:p-6 rounded-2xl hover:bg-white/5 border transition-all hover:scale-[1.01]"
             style={{ borderColor: 'var(--border-color)' }}
         >
             {/* Thumbnail */}
-            <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-white/5 border border-white/5">
+            <div className="relative w-20 h-20 md:w-28 md:h-28 flex-shrink-0 rounded-xl md:rounded-2xl overflow-hidden bg-white/5 border border-white/5 shadow-lg">
                 <Image
-                    src={article.image || 'https://via.placeholder.com/150'}
+                    src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
                     alt={article.title}
                     fill
-                    sizes="64px"
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 80px, 112px"
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
             </div>
 
@@ -50,7 +51,7 @@ export default function CompactNewsRow({ article }: any) {
                     </span>
                 </div>
 
-                <h4 className="text-[13px] font-bold text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-tight">
+                <h4 className="text-[13px] md:text-[16px] font-black text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-tight uppercase">
                     {article.title?.replace(/\*\*/g, '')}
                 </h4>
             </div>

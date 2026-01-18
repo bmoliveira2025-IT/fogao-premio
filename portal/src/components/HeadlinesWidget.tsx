@@ -6,6 +6,7 @@ import VisualNewsGrid from './VisualNewsGrid';
 import SourceIcon from './SourceIcon';
 import PremiumNextMatch from './PremiumNextMatch';
 import { cn } from '@/lib/utils';
+import { getSafeImageSrc } from '@/lib/images';
 
 interface NewsItem {
     id: string;
@@ -64,65 +65,64 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
     const bannerStories = allNews.slice(1);
 
     return (
-        <div className={`gradient-border-static md:rounded-3xl ${className}`}>
-            <div className="w-full flex flex-col gap-2 md:gap-0 bg-card resize-none md:rounded-3xl overflow-hidden shadow-2xl">
+        <div className={` ${className}`}>
+            <div className="w-full flex flex-col gap-4 md:gap-6 bg-transparent">
 
                 {/* Rank 01 - Hero Section (Premium Highlight) */}
                 {topStory && (
                     <Link
                         href={`/news/${topStory.id}`}
-                        className="relative w-full aspect-[16/9] md:aspect-[21/9] group overflow-hidden block"
+                        className="relative w-full aspect-[16/12] md:aspect-[21/6.5] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10"
                     >
                         {/* Image */}
-                        {topStory.image ? (
-                            <img
-                                src={topStory.image}
-                                alt={topStory.title}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
-                        ) : (
-                            <div className="absolute inset-0 bg-zinc-900" />
-                        )}
+                        <img
+                            src={getSafeImageSrc(topStory.image)}
+                            alt={topStory.title}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        />
 
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent dark:from-zinc-950 dark:via-zinc-950/60 dark:to-transparent opacity-90 transition-opacity group-hover:opacity-80" />
+                        {/* Cinematic Overlay - Deeper and more nuanced */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90 transition-opacity group-hover:opacity-85" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent opacity-60" />
 
                         {/* Content */}
-                        <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-10 z-20">
+                        <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-20 z-20">
                             {/* Badges (Top Left) */}
-                            <div className="absolute top-4 md:top-6 left-4 md:left-6 z-30 flex gap-2">
+                            <div className="absolute top-6 md:top-10 left-6 md:left-10 z-30 flex gap-3">
                                 {topStory.is_live && (
-                                    <div className="p-2 bg-red-600 rounded-full shadow-lg animate-pulse" title="AO VIVO">
-                                        <div className="w-2 h-2 bg-white rounded-full component-shadow" />
+                                    <div className="px-4 py-1.5 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
+                                        <div className="w-2 h-2 bg-white rounded-full" />
+                                        <span className="text-[11px] font-black text-white uppercase tracking-widest">AO VIVO</span>
                                     </div>
                                 )}
                                 {topStory.is_breaking && (
-                                    <div className="p-2 bg-red-600 rounded-full shadow-lg" title="URGENTE">
-                                        <Flame size={12} className="text-white fill-current" />
+                                    <div className="px-4 py-1.5 bg-premium-gold rounded-full shadow-lg flex items-center gap-2 border border-black/10">
+                                        <Flame size={14} className="text-black fill-current" />
+                                        <span className="text-[11px] font-black text-black uppercase tracking-widest">URGENTE</span>
                                     </div>
                                 )}
                             </div>
 
-                            <h3 className="text-[20px] md:text-[32px] font-semibold font-sans text-white leading-tight max-w-4xl group-hover:text-premium-gold/90 transition-colors mb-4 md:mb-5">
-                                {topStory.title?.replace(/\*\*/g, '')}
-                            </h3>
+                            <div className="max-w-7xl space-y-4 md:space-y-6">
+                                <h3 className="text-2xl md:text-5xl lg:text-6xl font-black font-sans text-white leading-[0.95] md:leading-[1] uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors duration-500 tracking-tighter">
+                                    {topStory.title?.replace(/\*\*/g, '')}
+                                </h3>
 
-                            {/* Source & Time Row */}
-                            <div className="flex items-center gap-2 md:gap-3">
-                                {/* Premium Source Pill */}
-                                <div className="flex items-center gap-2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-premium-gold/40 shadow-lg shadow-premium-gold/10">
-                                    <Flame className="w-3.5 h-3.5 text-premium-gold animate-pulse fill-premium-gold/20" />
-                                    <span className="text-[11px] md:text-xs font-black text-premium-gold uppercase tracking-widest">
-                                        {topStory.source || 'FOGÃO PRÊMIO'}
-                                    </span>
-                                </div>
+                                {/* Source & Time Row */}
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/20 shadow-xl">
+                                        <SourceIcon source={topStory.source || 'default'} className="w-5 h-5 text-premium-gold" />
+                                        <span className="text-[12px] md:text-sm font-black text-white uppercase tracking-[0.25em]">
+                                            {topStory.source || 'FOGÃO PRÊMIO'}
+                                        </span>
+                                    </div>
 
-                                {/* Time Pill */}
-                                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
-                                    <Clock size={12} className="text-zinc-400" />
-                                    <span className="text-[10px] md:text-xs font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
-                                        {getRelativeTime(topStory.created_at)}
-                                    </span>
+                                    <div className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10">
+                                        <Clock size={16} className="text-zinc-400" />
+                                        <span className="text-[11px] md:text-sm font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                            {getRelativeTime(topStory.created_at)}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -138,51 +138,41 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     </div>
                 )}
 
-                {/* List of Banners (Indices 1-9) - Modern Premium Cards */}
-                <div className="flex flex-col gap-3 md:gap-4 p-4 md:p-5 bg-transparent md:bg-card">
+                {/* Grid for Banner Stories - 2 columns on desktop */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 px-4 md:px-0">
                     {bannerStories.map((story) => (
                         <Link
                             key={story.id}
                             href={`/news/${story.id}`}
-                            className="group relative h-[200px] md:h-[240px] w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-lg shadow-black/50 hover:border-premium-gold/30 hover:shadow-premium-gold/5 transition-all duration-300 block"
+                            className="group relative h-[250px] md:h-[420px] w-full rounded-2xl md:rounded-[2.5rem] overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl hover:border-premium-gold/40 hover:scale-[1.01] transition-all duration-500 block"
                         >
-                            {/* Full Width Background Image */}
+                            {/* Image */}
                             <img
-                                src={story.image || 'https://via.placeholder.com/800x400'}
+                                src={getSafeImageSrc(story.image, 'https://placehold.co/800x400')}
                                 alt={story.title}
-                                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
                             />
 
                             {/* Cinematic Gradient Overlay */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity" />
 
-                            {/* Content - Bottom Aligned */}
-                            <div className="absolute inset-0 p-5 flex flex-col justify-end">
-                                {/* Top Badges (Floating) */}
-                                <div className="absolute top-4 left-4 flex gap-2">
-                                    {story.is_premium && (
-                                        <div className="p-1.5 bg-premium-gold/20 backdrop-blur-md rounded-lg border border-premium-gold/30">
-                                            <Flame size={12} className="text-premium-gold fill-premium-gold/40" />
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Source & Time Row */}
+                            {/* Content */}
+                            <div className="absolute inset-0 p-7 md:p-12 flex flex-col justify-end">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/30 transition-colors">
-                                        <SourceIcon source={story.source || 'default'} className="w-3.5 h-3.5 text-premium-gold drop-shadow-md" />
-                                        <span className="text-[10px] font-black text-white/90 uppercase tracking-widest drop-shadow-md">
+                                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/30 transition-colors">
+                                        <SourceIcon source={story.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
+                                        <span className="text-[9px] font-black text-white/90 uppercase tracking-[0.15em]">
                                             {story.source || 'FOGÃO'}
                                         </span>
                                     </div>
-                                    <span className="text-[10px] font-medium text-zinc-400 flex items-center gap-1.5 drop-shadow-md" suppressHydrationWarning>
-                                        <div className="w-1 h-1 rounded-full bg-zinc-500" />
-                                        <span suppressHydrationWarning>{getRelativeTime(story.created_at)}</span>
+                                    <span className="text-[10px] font-bold text-zinc-400 flex items-center gap-2" suppressHydrationWarning>
+                                        <div className="w-1 h-1 rounded-full bg-premium-gold/50" />
+                                        {getRelativeTime(story.created_at)}
                                     </span>
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="text-[17px] md:text-[19px] font-bold font-sans text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2 drop-shadow-lg pr-4">
+                                <h3 className="text-lg md:text-xl font-black font-sans text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2 drop-shadow-2xl pr-4 uppercase">
                                     {story.title}
                                 </h3>
                             </div>
@@ -193,10 +183,10 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                 {/* Footer */}
                 <Link
                     href="/news"
-                    className="block p-4 text-center bg-card hover:bg-white/5 border-t text-[13px] font-bold text-foreground/40 hover:text-white uppercase tracking-widest transition-colors relative z-10"
-                    style={{ borderColor: 'var(--border-color)' }}
+                    className="flex items-center justify-center gap-3 p-6 mt-4 md:mt-6 bg-white/5 hover:bg-white/10 md:rounded-2xl border border-white/5 text-[13px] font-black text-white uppercase tracking-[0.2em] transition-all hover:gap-5 group"
                 >
                     Ver Todas as Notícias
+                    <ChevronRight size={18} className="text-premium-gold group-hover:translate-x-1 transition-transform" />
                 </Link>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Share2, Crown } from 'lucide-react';
+import { Share2, Crown, Star, Shield } from 'lucide-react';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { cn } from '@/lib/utils';
 
@@ -10,7 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 
 export default function DesktopHeader() {
     const pathname = usePathname();
-    const { isPremium } = useAuth();
+    const { isPremium, points, rank } = useAuth();
     const isActive = (path: string) => pathname === path;
 
     const navLinks = [
@@ -57,6 +57,24 @@ export default function DesktopHeader() {
                             )}
                         </Link>
                     ))}
+                </div>
+
+                {/* Points & Rank Display */}
+                <div className="flex items-center space-x-4 pl-6 border-l border-white/10">
+                    <div className="flex flex-col items-end">
+                        <div className="flex items-center space-x-1.5 bg-zinc-900 px-3 py-1 rounded-full border border-premium-gold/20 shadow-[0_0_15px_rgba(255,215,0,0.05)]">
+                            <Star size={14} className="text-premium-gold fill-premium-gold" />
+                            <span className="text-sm font-black font-sans text-white tracking-widest">{points}</span>
+                        </div>
+                        <span className={cn(
+                            "text-[10px] font-bold uppercase tracking-widest mt-1",
+                            rank === "Platina" ? "text-blue-400" :
+                                rank === "Ouro" ? "text-premium-gold" :
+                                    rank === "Prata" ? "text-zinc-300" : "text-zinc-500"
+                        )}>
+                            Torcedor {rank}
+                        </span>
+                    </div>
                 </div>
             </div>
         </header>

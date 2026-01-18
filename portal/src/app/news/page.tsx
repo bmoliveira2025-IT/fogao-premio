@@ -1,9 +1,5 @@
-import BrandingHeader from '@/components/BrandingHeader';
-
 import NewsContent from '@/components/NewsContent';
 import { db } from '@/lib/firebase-admin';
-import TabBar from '@/components/TabBar';
-import DesktopHeader from '@/components/DesktopHeader';
 import { Suspense } from 'react';
 import Loading from '../loading';
 
@@ -42,26 +38,10 @@ export default async function NewsPage() {
     const news = await getNews();
 
     return (
-        <main className="min-h-screen bg-black text-foreground pb-44 pt-20 lg:pt-0 font-sans selection:bg-premium-gold selection:text-black">
-            {/* Desktop Sidebar (Optional if layout adds it, but keeping structure) */}
-
-            {/* Mobile Header */}
-            <div className="lg:hidden">
-                <BrandingHeader />
-            </div>
-
-            <DesktopHeader />
-            <div className="hidden lg:block h-24"></div>
-
-            <div className="max-w-7xl mx-auto px-0">
+        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black">
+            <div className="max-w-7xl mx-auto px-0 pt-4">
                 <NewsContent initialNews={news} />
             </div>
-
-            <div className="lg:hidden">
-                <Suspense fallback={<div className="h-16 bg-black" />}>
-                    <TabBar />
-                </Suspense>
-            </div>
-        </main>
+        </div>
     );
 }

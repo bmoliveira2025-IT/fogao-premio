@@ -8,6 +8,8 @@ import { auth, db } from "@/lib/firebase";
 interface AuthContextType {
     user: User | null;
     isPremium: boolean;
+    points: number;
+    rank: string;
     preferences: { news: boolean; podcasts: boolean; videos: boolean };
     loading: boolean;
     logout: () => Promise<void>;
@@ -16,6 +18,8 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
     user: null,
     isPremium: false,
+    points: 0,
+    rank: "Bronze",
     preferences: { news: true, podcasts: true, videos: true },
     loading: true,
     logout: async () => { },
@@ -24,6 +28,8 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isPremium, setIsPremium] = useState(false);
+    const [points, setPoints] = useState(0);
+    const [rank, setRank] = useState("Bronze");
     const [preferences, setPreferences] = useState({ news: true, podcasts: true, videos: true });
     const [loading, setLoading] = useState(true);
 
@@ -31,6 +37,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await signOut(auth);
         setUser(null);
         setIsPremium(false);
+        setPoints(0);
+        setRank("Bronze");
     };
 
     useEffect(() => {
@@ -54,6 +62,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 if (userSnap.exists()) {
                     const data = userSnap.data();
                     setIsPremium(data?.is_premium === true);
+                    setPoints(data?.points || 0);
+
+                    // Logic for Rank
+                    const p = data?.points || 0;
+                    if (p > 5000) setRank("Platina");
+                    else if (p > 2000) setRank("Ouro");
+                    else if (p > 500) setRank("Prata");
+                    else setRank("Bronze");
+
                     if (data?.preferences) setPreferences(data.preferences);
 
                     // Sync Photo from Auth if missing in Firestore or if it updated
@@ -72,10 +89,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         displayName: user.displayName,
                         photoURL: user.photoURL,
                         is_premium: false,
+                        points: 0,
                         created_at: new Date().toISOString(),
                         preferences: defaultPrefs
                     });
                     setIsPremium(false);
+                    setPoints(0);
+                    setRank("Bronze");
                     setPreferences(defaultPrefs);
                 }
                 setLoading(false);
@@ -95,8 +115,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return () => unsubscribeProfile();
     }, [user]);
 
+    // Activity Points Heartbeat
+    useEffect(() => {
+        if (!user) return;
+
+        const HEARTBEAT_SECONDS = 300; // 5 minutes
+        const interval = setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                const userRef = doc(db, "users", user.uid);
+                // We use increment logic here
+                setDoc(userRef, {
+                    points: (points + 5),
+                    last_activity: new Date().toISOString()
+                }, { merge: true });
+            }
+        }, HEARTBEAT_SECONDS * 1000);
+
+        return () => clearInterval(interval);
+    }, [user, points]);
+
     return (
-        <AuthContext.Provider value={{ user, isPremium, preferences, loading, logout }}>
+        <AuthContext.Provider value={{ user, isPremium, points, rank, preferences, loading, logout }}>
             {children}
         </AuthContext.Provider>
     );

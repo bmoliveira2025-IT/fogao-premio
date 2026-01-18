@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'www.fogaonet.com' },
       { protocol: 'https', hostname: 'i.fogaonet.com' },
       { protocol: 'https', hostname: 'via.placeholder.com' },
+      { protocol: 'https', hostname: 'placehold.co' },
       { protocol: 'https', hostname: 'admin.cnnbrasil.com.br' },
       { protocol: 'https', hostname: 'www.botafogo.com.br' },
       { protocol: 'https', hostname: 'p2.trrsf.com' }, // Terra images

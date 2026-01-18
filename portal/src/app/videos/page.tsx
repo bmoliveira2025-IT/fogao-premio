@@ -1,8 +1,5 @@
 import { db } from '@/lib/firebase-admin';
-import BrandingHeader from '@/components/BrandingHeader';
-import DesktopSidebar from '@/components/DesktopSidebar';
 import VideoGrid from '@/components/VideoGrid';
-import TabBar from '@/components/TabBar';
 import { ArrowLeft, MonitorPlay } from 'lucide-react';
 import Link from 'next/link';
 
@@ -38,18 +35,8 @@ export default async function VideosPage() {
     const videos = await getVideos();
 
     return (
-        <div className="min-h-screen bg-black pb-24 md:pb-0 md:pl-64">
-            {/* Desktop Sidebar */}
-            <div className="hidden md:block">
-                <DesktopSidebar />
-            </div>
-
-            {/* Mobile Header + Back Button */}
-            <div className="md:hidden">
-                <BrandingHeader />
-            </div>
-
-            <main className="p-4 md:p-8 space-y-6 pt-20 md:pt-8 w-full max-w-7xl mx-auto">
+        <div className="w-full pb-24 md:pb-0">
+            <div className="p-4 md:p-8 space-y-6 pt-6 md:pt-8 w-full max-w-7xl mx-auto">
                 <div className="flex items-center gap-4 mb-8">
                     <Link href="/" className="md:hidden p-2 -ml-2 text-zinc-400 hover:text-white transition-colors">
                         <ArrowLeft size={24} />
@@ -71,9 +58,7 @@ export default async function VideosPage() {
                 </div>
 
                 <VideoGrid videos={videos} />
-            </main>
-
-            <TabBar />
+            </div>
         </div>
     );
 }
