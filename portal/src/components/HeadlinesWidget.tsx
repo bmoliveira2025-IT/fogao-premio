@@ -172,7 +172,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="text-lg md:text-xl font-black font-sans text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2 drop-shadow-2xl pr-4 uppercase">
+                                <h3 className="text-lg md:text-xl font-black font-sans text-white leading-tight group-hover:text-premium-gold transition-colors drop-shadow-2xl pr-4 uppercase">
                                     {story.title}
                                 </h3>
                             </div>

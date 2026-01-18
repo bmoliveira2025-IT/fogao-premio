@@ -31,7 +31,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
 
             {/* Content Container */}
             <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12">
-                <h2 className="text-lg md:text-4xl lg:text-5xl font-black text-white leading-[0.95] md:leading-[1] font-sans uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors mb-2 md:mb-4 line-clamp-3">
+                <h2 className="text-lg md:text-4xl lg:text-5xl font-black text-white leading-[0.95] md:leading-[1] font-sans uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors mb-2 md:mb-4">
                     {article.title?.replace(/\*\*/g, '')}
                 </h2>
 

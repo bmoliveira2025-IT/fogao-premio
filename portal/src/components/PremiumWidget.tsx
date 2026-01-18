@@ -65,7 +65,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                     <h2 className="text-[21px] font-extrabold text-white drop-shadow-lg leading-tight mb-2">
                         {featured.title}
                     </h2>
-                    <p className="text-[13px] text-zinc-300 drop-shadow-md line-clamp-2">
+                    <p className="text-[13px] text-zinc-300 drop-shadow-md">
                         {featured.summary || "Análise tática exclusiva, bastidores e entrevistas especiais para assinantes."}
                     </p>
                 </div>
@@ -94,7 +94,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                                 </div>
                             </div>
                             <div className="min-w-0">
-                                <h4 className="text-[13px] font-bold text-zinc-300 group-hover:text-white transition-colors line-clamp-2 leading-snug">
+                                <h4 className="text-[13px] font-bold text-zinc-300 group-hover:text-white transition-colors leading-snug">
                                     {item.title}
                                 </h4>
                             </div>

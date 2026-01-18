@@ -51,7 +51,7 @@ export default function CompactNewsRow({ article }: any) {
                     </span>
                 </div>
 
-                <h4 className="text-[13px] md:text-[16px] font-black text-white group-hover:text-premium-gold transition-colors line-clamp-2 leading-tight uppercase">
+                <h4 className="text-[13px] md:text-[16px] font-black text-white group-hover:text-premium-gold transition-colors leading-tight uppercase">
                     {article.title?.replace(/\*\*/g, '')}
                 </h4>
             </div>

@@ -101,7 +101,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                                 <span className="text-zinc-500">•</span>
                                 <span className="text-zinc-400">{timeAgo(story.created_at)}</span>
                             </div>
-                            <h3 className="text-sm md:text-lg font-black text-white leading-tight line-clamp-3 uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors">
+                            <h3 className="text-sm md:text-lg font-black text-white leading-tight uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors">
                                 {story.title}
                             </h3>
                         </div>

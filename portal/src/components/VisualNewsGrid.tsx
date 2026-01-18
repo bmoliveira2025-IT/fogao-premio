@@ -74,7 +74,7 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
                                 </span>
                             </div>
 
-                            <h3 className="text-base md:text-lg font-black text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2 pr-12 uppercase">
+                            <h3 className="text-base md:text-lg font-black text-white leading-tight group-hover:text-premium-gold transition-colors pr-12 uppercase">
                                 {item.title}
                             </h3>
                         </div>

@@ -55,7 +55,7 @@ export default function NewsCard({ article }: any) {
                     </div>
 
                     <Link href={`/news/${article.id}`} className="group-hover:text-premium-gold transition-colors block">
-                        <h3 className="text-[10px] md:text-base font-black text-white leading-snug font-sans uppercase line-clamp-3 md:line-clamp-3">
+                        <h3 className="text-[10px] md:text-base font-black text-white leading-snug font-sans uppercase">
                             {article.title?.replace(/\*\*/g, '')}
                         </h3>
                     </Link>
