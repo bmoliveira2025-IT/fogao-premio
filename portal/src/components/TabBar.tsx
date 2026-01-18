@@ -80,7 +80,7 @@ export default function TabBar() {
     }
 
     return (
-        <nav className="fixed inset-x-0 bottom-0 z-[999] bg-[#050505]/95 backdrop-blur-3xl border-t border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden transform translate-z-0">
+        <nav className="fixed inset-x-0 bottom-0 z-[999] bg-[#050505] border-t border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
             <div className="flex items-center justify-between relative">
                 {/* Premium Gold Line */}
                 <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />

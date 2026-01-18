@@ -22,7 +22,7 @@ export default function BrandingHeader() {
     const showPremiumUI = mounted && isPremium;
 
     return (
-        <header className="fixed inset-x-0 top-0 z-[999] w-full bg-background/95 backdrop-blur-xl border-b border-white/5 lg:hidden pt-[env(safe-area-inset-top)] transform translate-z-0">
+        <header className="fixed top-0 left-0 right-0 z-[999] w-full bg-[#050505] lg:bg-background/90 lg:backdrop-blur-xl border-b border-white/5 lg:hidden pt-[env(safe-area-inset-top)]">
             <div className="flex items-center justify-between px-4 h-16">
                 {/* Logo Area / Back Button */}
                 <div className="flex items-center gap-2">

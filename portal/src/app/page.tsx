@@ -61,7 +61,13 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       .limit(20);
 
     // Matches, Videos, Premium (keep existing logic but with safety limits if needed)
-    const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(1);
+    // Matches: Show the match until 3 hours after its start time
+    const matchThreshold = new Date();
+    matchThreshold.setHours(matchThreshold.getHours() - 3);
+    const matchesRef = db.collection('matches')
+      .where('date', '>=', matchThreshold.toISOString())
+      .orderBy('date', 'asc')
+      .limit(1);
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
     const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);

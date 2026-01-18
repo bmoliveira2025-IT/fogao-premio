@@ -5,7 +5,12 @@ export const revalidate = 60;
 
 async function getMatches() {
     try {
-        const matchesRef = db.collection('matches').orderBy('date', 'asc').where('date', '>=', new Date().toISOString()).limit(20);
+        const threshold = new Date();
+        threshold.setHours(threshold.getHours() - 3);
+        const matchesRef = db.collection('matches')
+            .where('date', '>=', threshold.toISOString())
+            .orderBy('date', 'asc')
+            .limit(20);
         const snapshot = await matchesRef.get();
 
         return snapshot.docs.map(doc => ({

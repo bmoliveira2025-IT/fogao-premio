@@ -64,8 +64,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
-      <body className="antialiased">
+    <html lang="pt-BR" suppressHydrationWarning className="overflow-x-hidden">
+      <body className="antialiased overflow-x-hidden selection:bg-premium-gold/30">
         <ThemeProvider>
           <AuthProvider>
             <AutoRefresh />
