@@ -91,8 +91,8 @@ export default function DesktopSidebar() {
                             <div className={cn(
                                 "w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold overflow-hidden transition-all duration-300",
                                 isPremium
-                                    ? "ring-1 ring-premium-gold bg-premium-gold/5"
-                                    : "bg-zinc-800 text-zinc-400 ring-1 ring-white/5"
+                                    ? "ring-1 ring-premium-gold"
+                                    : "ring-1 ring-white/5"
                             )}>
                                 {user.photoURL ? (
                                     <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full object-cover" />
