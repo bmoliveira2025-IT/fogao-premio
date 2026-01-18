@@ -4,6 +4,12 @@ import Link from 'next/link';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { Search, User, Menu, Crown, Zap } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}
 
 export default function BrandingHeader() {
     // Basic mobile header
@@ -34,12 +40,18 @@ export default function BrandingHeader() {
 
                     <Link
                         href="/profile"
-                        className="w-8 h-8 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center overflow-hidden"
+                        className={cn(
+                            "w-9 h-9 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300",
+                            "border-2",
+                            isPremium
+                                ? "border-premium-gold shadow-[0_0_12px_rgba(255,215,0,0.4)] bg-premium-gold/10"
+                                : "border-white/20 bg-zinc-800"
+                        )}
                     >
                         {user?.photoURL ? (
                             <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
                         ) : (
-                            <User size={16} className="text-zinc-400" />
+                            <User size={18} className={isPremium ? "text-premium-gold" : "text-zinc-400"} />
                         )}
                     </Link>
                 </div>

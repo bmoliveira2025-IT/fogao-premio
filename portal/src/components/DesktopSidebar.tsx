@@ -89,13 +89,13 @@ export default function DesktopSidebar() {
                         <div className="flex items-center gap-3 relative z-10">
                             {/* Avatar */}
                             <div className={cn(
-                                "w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg",
+                                "w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg overflow-hidden transition-all duration-300",
                                 isPremium
-                                    ? "bg-gradient-to-br from-premium-gold to-yellow-700 text-black ring-2 ring-black ring-offset-2 ring-offset-premium-gold/20"
-                                    : "bg-zinc-800 text-zinc-400"
+                                    ? "border-2 border-premium-gold shadow-[0_0_15px_rgba(255,215,0,0.4)] bg-premium-gold/10"
+                                    : "bg-zinc-800 text-zinc-400 border border-white/10"
                             )}>
                                 {user.photoURL ? (
-                                    <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full rounded-full object-cover" />
+                                    <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full object-cover" />
                                 ) : (
                                     (user.displayName?.[0] || user.email?.[0] || 'U').toUpperCase()
                                 )}
