@@ -86,37 +86,37 @@ export default function TabBar() {
                         <Link
                             key={tab.label}
                             href={tab.href}
-                            className="relative flex flex-col items-center justify-center flex-1 h-14 group outline-none"
+                            className="relative flex flex-col items-center justify-center flex-1 h-16 group outline-none"
                         >
                             {/* Active Indicator Light - Subtle Glow behind icon */}
                             {isActive && (
                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                    <div className="w-10 h-10 rounded-full bg-premium-gold/15 blur-lg" />
+                                    <div className="w-12 h-12 rounded-full bg-premium-gold/15 blur-xl" />
                                 </div>
                             )}
 
                             <div className={cn(
                                 "relative flex items-center justify-center transition-all duration-300",
                                 isActive
-                                    ? "text-premium-gold -translate-y-1"
+                                    ? "text-premium-gold -translate-y-1.5"
                                     : "text-zinc-500 group-hover:text-white"
                             )}>
                                 <Icon
                                     active={isActive}
                                     className={cn(
-                                        "w-[26px] h-[26px]", // Precise size for 5 icons
+                                        "w-[28px] h-[28px]", // Slightly larger for better reachability
                                         isActive && "drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
                                     )}
                                 />
 
                                 {/* Active Dot */}
                                 {isActive && (
-                                    <div className="absolute -bottom-1 w-1 h-1 rounded-full bg-premium-gold" />
+                                    <div className="absolute -bottom-1.5 w-1 h-1 rounded-full bg-premium-gold" />
                                 )}
                             </div>
 
                             <span className={cn(
-                                "text-[10px] font-bold mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap",
+                                "text-[11px] font-bold mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap",
                                 isActive
                                     ? "opacity-100 scale-100 text-premium-gold"
                                     : "opacity-40 scale-90 text-zinc-400 group-hover:opacity-70"
