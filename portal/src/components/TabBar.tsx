@@ -3,7 +3,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Home, FileText, Calendar, Zap } from "lucide-react";
+import { Home, FileText, Calendar, Play } from "lucide-react";
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -63,7 +63,7 @@ const IconProfile = ({ active, className }: { active: boolean, className?: strin
 const tabs = [
     { icon: IconHome, label: "INÍCIO", href: "/" },
     { icon: IconNews, label: "NOTÍCIAS", href: "/news" },
-    { icon: ({ active, className }: any) => <Zap className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "RESUMO", href: "?briefing=true" },
+    { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "VÍDEOS", href: "/videos" },
     { icon: IconGames, label: "JOGOS", href: "/matches" },
     { icon: IconProfile, label: "PERFIL", href: "/profile" },
 ];
@@ -79,10 +79,7 @@ export default function TabBar() {
                 <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
 
                 {tabs.map((tab) => {
-                    const isBriefing = tab.href.startsWith('?');
-                    const isActive = isBriefing
-                        ? searchParams.get('briefing') === 'true'
-                        : pathname === tab.href;
+                    const isActive = pathname === tab.href;
                     const Icon = tab.icon;
 
                     return (
