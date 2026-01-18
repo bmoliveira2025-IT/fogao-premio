@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Play, Tv, MonitorPlay } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import VideoModal from './VideoModal';
@@ -63,72 +64,74 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 
     return (
         <section className={cn(
-            "relative overflow-hidden rounded-none md:rounded-2xl border-b md:border border-white/5 bg-zinc-950/80 shadow-2xl w-[calc(100%+2rem)] -ml-4 md:w-auto md:ml-0 md:mx-0",
+            "relative w-full mb-8 pt-4",
             className
         )}>
-            {/* Ambient Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-zinc-900/50 to-black pointer-events-none" />
-
-            {/* Header */}
-            <div className="relative z-10 flex items-center justify-between px-4 pt-0 pb-1">
-                <div className="flex items-center gap-2">
-                    {/* Live Dot/Icon */}
-                    <div className="w-6 h-6 rounded-full bg-red-900/20 border border-red-500/20 flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)] animate-pulse" />
+            {/* Header - Glass Pill Centered/Left */}
+            <div className="flex items-center justify-between px-4 lg:px-0 mb-6">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl">
+                    {/* Live Dot */}
+                    <div className="relative flex h-3 w-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
                     </div>
 
-                    {/* Title - Typographic Premium Style */}
-                    <div>
-                        <span className="text-[13px] md:text-[15px] font-black text-white italic tracking-widest uppercase shadow-black drop-shadow-md">
-                            GLORIOSO <span className="text-premium-gold">TV</span>
-                        </span>
-                    </div>
+                    <span className="text-[13px] md:text-[14px] font-black text-white tracking-[0.2em] uppercase">
+                        Glorioso <span className="text-premium-gold">TV</span>
+                    </span>
                 </div>
 
-                <MonitorPlay size={16} className="text-zinc-600" />
+                <Link href="/videos" className="flex items-center gap-2 text-[11px] font-bold text-zinc-500 uppercase tracking-widest hover:text-white transition-colors cursor-pointer group">
+                    Ver todos <MonitorPlay size={14} className="group-hover:text-premium-gold transition-colors" />
+                </Link>
             </div>
 
-            {/* Carousel */}
-            <div className="relative z-10 pb-6 pt-2">
-                <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 gap-4">
+            {/* Cinematic Carousel */}
+            <div className="relative">
+                <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 lg:px-0 gap-4 pb-8">
                     {videos.length > 0 ? (
                         videos.map((video) => (
                             <motion.div
                                 key={video.id}
+                                whileHover={{ y: -5 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => handleVideoClick(video)}
-                                className="shrink-0 w-72 aspect-video relative rounded-xl overflow-hidden cursor-pointer group snap-center shadow-lg border border-white/5 bg-zinc-900"
+                                className="shrink-0 w-[280px] md:w-[320px] aspect-video relative rounded-xl overflow-hidden cursor-pointer group snap-center border border-white/5 bg-zinc-900 shadow-lg hover:shadow-premium-gold/20 hover:border-premium-gold/30 transition-all duration-300"
                             >
                                 <Image
                                     src={video.thumbnail}
                                     alt={video.title}
                                     fill
-                                    sizes="(max-width: 768px) 288px, 320px"
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                                    sizes="(max-width: 768px) 280px, 320px"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100"
                                 />
 
-                                {/* Overlay Gradient */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90" />
+                                {/* Cinematic Gradient Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-                                {/* Play Button (Centered & Gold) */}
-                                <div className="absolute inset-0 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity">
-                                    <div className="w-12 h-12 rounded-full bg-premium-gold text-black flex items-center justify-center shadow-lg shadow-black/50 transform group-hover:scale-110 transition-transform duration-300 backdrop-blur-sm">
-                                        <Play size={18} fill="currentColor" className="ml-1" />
+                                {/* Play Button - Minimal Glass */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                                    <div className="w-14 h-14 rounded-full bg-white/5 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-premium-gold group-hover:border-premium-gold transition-colors duration-300 shadow-xl">
+                                        <Play size={20} className="fill-white group-hover:fill-black text-white group-hover:text-black ml-1 transition-colors duration-300" />
                                     </div>
                                 </div>
 
-                                {/* Title */}
-                                <div className="absolute bottom-0 left-0 right-0 p-3">
-                                    <p className="text-[12px] font-bold text-white leading-tight line-clamp-2 drop-shadow-md group-hover:text-premium-gold transition-colors">
+                                {/* Source Badge (If available) & Title */}
+                                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                                    <h4 className="text-[13px] md:text-[14px] font-bold text-white leading-snug line-clamp-2 drop-shadow-md group-hover:text-premium-gold transition-colors mb-1">
                                         {video.title}
+                                    </h4>
+                                    <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-wider flex items-center gap-1.5">
+                                        <Tv size={10} />
+                                        Assista agora
                                     </p>
                                 </div>
                             </motion.div>
                         ))
                     ) : (
                         [1, 2, 3].map((_, i) => (
-                            <div key={i} className="shrink-0 w-72 aspect-video relative rounded-xl overflow-hidden bg-zinc-900/50 border border-white/5 flex items-center justify-center animate-pulse">
-                                <Tv size={24} className="text-zinc-700" />
+                            <div key={i} className="shrink-0 w-[280px] md:w-[320px] aspect-video relative rounded-xl overflow-hidden bg-zinc-900/30 border border-white/5 flex items-center justify-center animate-pulse">
+                                <Tv size={24} className="text-zinc-800" />
                             </div>
                         ))
                     )}

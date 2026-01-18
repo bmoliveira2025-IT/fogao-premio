@@ -5,6 +5,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import AutoRefresh from "@/components/AutoRefresh";
 import NotificationManager from "@/components/NotificationManager";
 import InstallPrompt from "@/components/InstallPrompt";
+import MorningBriefingPopup from "@/components/MorningBriefingPopup";
+import { Suspense } from "react";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -65,6 +67,9 @@ export default function RootLayout({
             <AutoRefresh />
             <NotificationManager />
             <InstallPrompt />
+            <Suspense fallback={null}>
+              <MorningBriefingPopup />
+            </Suspense>
             {children}
           </AuthProvider>
         </ThemeProvider>

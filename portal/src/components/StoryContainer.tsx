@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, ReactNode } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface StoryContainerProps {
@@ -50,7 +50,7 @@ export default function StoryContainer({
     }, [currentIndex, isPaused, onNext, autoAdvanceDuration]);
 
     return (
-        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+        <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
             {/* Mobile/Desktop Responsive Container */}
             <div className="relative w-full h-full md:max-w-md md:h-[90vh] md:max-h-[800px] md:rounded-2xl overflow-hidden bg-zinc-900 shadow-2xl">
 
@@ -93,6 +93,37 @@ export default function StoryContainer({
                 {/* Content */}
                 <div className="relative h-full w-full pointer-events-none">
                     {children}
+                </div>
+
+                {/* Bottom Controls - Super Compact & Floating Higher */}
+                <div className="absolute bottom-20 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-auto">
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+                        className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg"
+                        aria-label="Anterior"
+                    >
+                        <ChevronLeft size={18} />
+                    </button>
+
+                    <button
+                        onClick={(e) => { e.stopPropagation(); setIsPaused(!isPaused); }}
+                        className="w-12 h-12 rounded-full bg-premium-gold text-black flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-[0_4_15px_rgba(255,215,0,0.3)] border border-white/20"
+                        aria-label={isPaused ? "Play" : "Pause"}
+                    >
+                        {isPaused ? (
+                            <Play size={20} className="ml-0.5 fill-black" />
+                        ) : (
+                            <Pause size={20} className="fill-black" />
+                        )}
+                    </button>
+
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onNext(); }}
+                        className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg"
+                        aria-label="Próximo"
+                    >
+                        <ChevronRight size={18} />
+                    </button>
                 </div>
 
             </div>

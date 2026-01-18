@@ -2,6 +2,9 @@ import { db } from '@/lib/firebase-admin';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, Shield } from 'lucide-react';
+import BrandingHeader from '@/components/BrandingHeader';
+import TabBar from '@/components/TabBar';
+import { Suspense } from 'react';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -69,7 +72,7 @@ export default async function ElencoPage() {
                 </div>
             </header>
 
-            <div className="max-w-7xl mx-auto px-2 sm:px-4 py-6 space-y-8">
+            <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
                 {ORDER.map(posCode => {
                     const groupTitle = POSITION_MAP[posCode];
                     const groupPlayers = groupedPlayers[posCode];
@@ -77,68 +80,84 @@ export default async function ElencoPage() {
                     if (!groupPlayers || groupPlayers.length === 0) return null;
 
                     return (
-                        <section key={posCode} className="space-y-3">
-                            <div className="flex items-center gap-3 mb-4 px-1">
-                                <div className="h-5 w-1 bg-premium-gold rounded-full shadow-[0_0_15px_rgba(255,215,0,0.6)]" />
-                                <h2 className="text-base sm:text-lg font-black text-foreground uppercase tracking-widest">
+                        <section key={posCode} className="space-y-6">
+                            <div className="flex items-center gap-4 border-b border-white/5 pb-4">
+                                <div className="h-8 w-1.5 bg-gradient-to-b from-premium-gold to-yellow-600 rounded-full shadow-[0_0_15px_rgba(255,215,0,0.4)]" />
+                                <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-[0.2em] drop-shadow-lg">
                                     {groupTitle}
                                 </h2>
                             </div>
 
-                            {/* EXTREME COMPACT GRID: 5 cols mobile, 6 sm, 7 md, 8 lg, 9 xl */}
-                            <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-9 gap-1.5">
+                            {/* EA FC Style Grid */}
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
-                                        className="group relative aspect-[3/4] overflow-hidden rounded-md bg-card-bg border border-premium-gold/15 hover:border-premium-gold/40 transition-all duration-300 hover:z-50 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+                                        className="group relative aspect-[0.7] overflow-hidden rounded-xl bg-gradient-to-b from-zinc-800 to-black border border-white/10 hover:border-premium-gold shadow-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.2)] transition-all duration-300 transform hover:-translate-y-2"
                                     >
-                                        {/* Image Background */}
-                                        <div className="absolute inset-0 bg-graphite">
+                                        {/* Background Texture/Effect */}
+                                        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+
+                                        {/* Player Image */}
+                                        <div className="absolute inset-0 z-0">
                                             {player.image ? (
                                                 <Image
                                                     src={player.image}
                                                     alt={player.name}
                                                     fill
-                                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-110"
-                                                    sizes="(max-width: 768px) 20vw, 10vw"
-                                                    priority={false}
+                                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-110 filter brightness-90 group-hover:brightness-100"
+                                                    sizes="(max-width: 768px) 50vw, 20vw"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center text-foreground/5">
-                                                    <Shield size={24} strokeWidth={1} />
+                                                <div className="absolute inset-0 flex items-center justify-center text-white/5">
+                                                    <Shield size={48} strokeWidth={1} />
                                                 </div>
                                             )}
                                         </div>
 
-                                        {/* Gradient Overlay */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
-
-                                        {/* Number Badge (Micro) */}
+                                        {/* Golden Top Shield/Badge for Number */}
                                         {player.number && (
-                                            <div className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-premium-gold/90 flex items-center justify-center text-black font-black text-[7px] shadow-sm backdrop-blur-sm">
-                                                {player.number}
+                                            <div className="absolute top-0 right-4 w-10 h-12 bg-gradient-to-b from-premium-gold to-yellow-700 clip-path-ribbon flex items-center justify-center shadow-lg z-20">
+                                                <span className="text-xl font-black text-black drop-shadow-sm font-mono mt-[-4px]">
+                                                    {player.number}
+                                                </span>
                                             </div>
                                         )}
 
-                                        {/* Content Overlay (Bottom) */}
-                                        <div className="absolute bottom-0 inset-x-0 p-1.5 pt-4 bg-gradient-to-t from-black via-black/60 to-transparent flex flex-col justify-end">
+                                        {/* Bottom Data Overlay */}
+                                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-4 px-3 z-10">
+                                            <div className="flex flex-col items-center text-center">
+                                                {/* Name */}
+                                                <h3 className="text-white text-sm md:text-base font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-300">
+                                                    {player.name}
+                                                </h3>
 
-                                            {/* Name */}
-                                            <h3 className="text-white text-[9px] sm:text-[10px] font-bold leading-none uppercase tracking-tight mb-0 group-hover:text-premium-gold transition-colors truncate text-center">
-                                                {player.name.split(' ')[0]}
-                                            </h3>
-
-                                            {/* Full Name Hover */}
-                                            <div className="hidden group-hover:block absolute bottom-6 left-[-10px] right-[-10px] bg-background/95 p-1 text-[9px] text-foreground text-center z-50 rounded border border-premium-gold/15 shadow-xl whitespace-nowrap">
-                                                {player.name}
+                                                {/* Meta Info */}
+                                                <div className="flex items-center gap-2 mt-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                    <div className="px-1.5 py-0.5 rounded bg-white/10 backdrop-blur-sm text-[9px] font-bold text-premium-gold uppercase">
+                                                        {player.country.substring(0, 3)}
+                                                    </div>
+                                                    <span className="text-[10px] text-zinc-400 font-mono">
+                                                        {player.age} anos
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        {/* Shiny Border Effect on Hover */}
+                                        <div className="absolute inset-0 border border-white/0 group-hover:border-premium-gold/50 rounded-xl transition-all duration-300 pointer-events-none" />
                                     </div>
                                 ))}
                             </div>
                         </section>
                     );
                 })}
+            </div>
+
+            <div className="lg:hidden">
+                <Suspense fallback={<div className="h-16 bg-black" />}>
+                    <TabBar />
+                </Suspense>
             </div>
         </main>
     );

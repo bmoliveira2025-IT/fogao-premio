@@ -17,6 +17,7 @@ interface NewsItem {
     created_at?: string;
     is_live?: boolean;
     is_breaking?: boolean;
+    is_premium?: boolean;
 }
 
 interface MatchData {
@@ -137,53 +138,54 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     </div>
                 )}
 
-                {/* List of Banners (Indices 1-9) - Full Width Premium Style */}
-                <div className="flex flex-col gap-1 md:gap-2 p-0 md:p-5 bg-card">
+                {/* List of Banners (Indices 1-9) - Modern Premium Cards */}
+                <div className="flex flex-col gap-3 md:gap-4 p-4 md:p-5 bg-transparent md:bg-card">
                     {bannerStories.map((story) => (
                         <Link
                             key={story.id}
                             href={`/news/${story.id}`}
-                            className="group relative h-[180px] md:h-[220px] w-full rounded-none md:rounded-xl overflow-hidden bg-zinc-900 hover:brightness-110 transition-all duration-300 block"
+                            className="group relative h-[200px] md:h-[240px] w-full rounded-2xl overflow-hidden bg-zinc-900 border border-white/5 shadow-lg shadow-black/50 hover:border-premium-gold/30 hover:shadow-premium-gold/5 transition-all duration-300 block"
                         >
-                            {/* Full Width Background Image - Position Top to Keep Faces */}
+                            {/* Full Width Background Image */}
                             <img
                                 src={story.image || 'https://via.placeholder.com/800x400'}
                                 alt={story.title}
-                                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                             />
 
-                            {/* Premium Gradient Overlay - Bottom Heavy */}
-                            <div className="absolute inset-0 hero-gradient" />
+                            {/* Cinematic Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity" />
 
                             {/* Content - Bottom Aligned */}
-                            <div className="absolute inset-0 p-4 flex flex-col justify-end">
+                            <div className="absolute inset-0 p-5 flex flex-col justify-end">
+                                {/* Top Badges (Floating) */}
+                                <div className="absolute top-4 left-4 flex gap-2">
+                                    {story.is_premium && (
+                                        <div className="p-1.5 bg-premium-gold/20 backdrop-blur-md rounded-lg border border-premium-gold/30">
+                                            <Flame size={12} className="text-premium-gold fill-premium-gold/40" />
+                                        </div>
+                                    )}
+                                </div>
+
                                 {/* Source & Time Row */}
-                                <div className="flex items-center gap-2 mb-2">
-                                    <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-black/60 backdrop-blur-sm border border-white/10">
-                                        <SourceIcon source={story.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
-                                        <span className="text-[10px] font-black text-white uppercase tracking-widest">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/30 transition-colors">
+                                        <SourceIcon source={story.source || 'default'} className="w-3.5 h-3.5 text-premium-gold drop-shadow-md" />
+                                        <span className="text-[10px] font-black text-white/90 uppercase tracking-widest drop-shadow-md">
                                             {story.source || 'FOGÃO'}
                                         </span>
                                     </div>
-                                    <span className="text-[10px] font-medium text-zinc-300 flex items-center gap-1 bg-black/40 px-2 py-1 rounded backdrop-blur-sm" suppressHydrationWarning>
-                                        <Clock size={10} />
+                                    <span className="text-[10px] font-medium text-zinc-400 flex items-center gap-1.5 drop-shadow-md" suppressHydrationWarning>
+                                        <div className="w-1 h-1 rounded-full bg-zinc-500" />
                                         <span suppressHydrationWarning>{getRelativeTime(story.created_at)}</span>
                                     </span>
                                 </div>
 
-                                {/* Title - Bold and Prominent */}
-                                <h3 className="text-[16px] md:text-[18px] font-semibold font-sans text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
+                                {/* Title */}
+                                <h3 className="text-[17px] md:text-[19px] font-bold font-sans text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2 drop-shadow-lg pr-4">
                                     {story.title}
                                 </h3>
                             </div>
-
-                            {/* Gradient Separator - Mobile Only */}
-                            <div
-                                className="md:hidden absolute bottom-0 left-[10%] right-[10%] h-px"
-                                style={{
-                                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.3) 20%, rgba(255, 215, 0, 0.5) 50%, rgba(255, 215, 0, 0.3) 80%, transparent 100%)'
-                                }}
-                            />
                         </Link>
                     ))}
                 </div>

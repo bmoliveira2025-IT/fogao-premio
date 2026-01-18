@@ -2,7 +2,6 @@ import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
 import HeadlinesWidget from '@/components/HeadlinesWidget';
-import MorningBriefingPopup from '@/components/MorningBriefingPopup';
 import DailyBriefingWidget from '@/components/DailyBriefingWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BrandingHeader from '@/components/BrandingHeader';
@@ -10,6 +9,7 @@ import TabBar from '@/components/TabBar';
 import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
 import { ChevronRight, Users } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import MatchDayPopup from '@/components/MatchDayPopup';
 import QuoteBanner from '@/components/QuoteBanner';
 import DesktopSidebar from '@/components/DesktopSidebar';
@@ -217,9 +217,6 @@ export default async function Home() {
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
 
-      {/* UPDATE: BRIEFING POPUP IS NOW DESKTOP & MOBILE */}
-      <MorningBriefingPopup />
-
       {/* 1. SIDEBAR - DESKTOP ONLY */}
       <div className="hidden lg:block">
         <DesktopSidebar />
@@ -231,7 +228,7 @@ export default async function Home() {
       </div>
 
       {/* 3. MAIN CONTENT WRAPPER */}
-      <div className="w-full lg:pl-64 transition-all duration-300 pb-32 lg:pb-10">
+      <div className="w-full lg:pl-64 transition-all duration-300 pb-40 lg:pb-10">
         <div className="container mx-auto pt-[calc(4rem+env(safe-area-inset-top))] px-4 lg:pt-12 lg:px-12 max-w-[1600px]">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
@@ -244,10 +241,7 @@ export default async function Home() {
                 <HeadlinesWidget news={news} nextMatch={nextMatch} />
               </div>
 
-              {/* Daily Briefing Widget */}
-              <div className="mt-4">
-                <DailyBriefingWidget />
-              </div>
+
 
               {/* PODCAST WIDGET */}
               <PodcastWidget />
@@ -259,16 +253,8 @@ export default async function Home() {
                   <PremiumNextMatch match={nextMatch} />
                 </section> */}
 
-                {/* QUOTE BANNER - MOBILE ONLY */}
-                <div className="lg:hidden mb-4">
-                  <QuoteBanner />
-                </div>
-
-                {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
-                <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
-
                 {/* SQUAD LINK - MOBILE */}
-                <Link href="/elenco" className="block mt-4 -mb-4 lg:hidden group relative">
+                <Link href="/elenco" className="block mb-4 lg:hidden group relative">
                   <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
 
                     {/* Background Image - Players */}
@@ -297,6 +283,16 @@ export default async function Home() {
                     <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={18} />
                   </div>
                 </Link>
+
+                {/* QUOTE BANNER - MOBILE ONLY */}
+                <div className="lg:hidden mb-4">
+                  <QuoteBanner />
+                </div>
+
+                {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
+                <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
+
+
               </div>
 
               {/* Botafogo TV (Visible Both) */}
@@ -364,7 +360,9 @@ export default async function Home() {
       </div>
 
       <div className="lg:hidden">
-        <TabBar />
+        <Suspense fallback={<div className="h-16 bg-black" />}>
+          <TabBar />
+        </Suspense>
       </div>
     </main>
   );

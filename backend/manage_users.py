@@ -7,10 +7,22 @@ import os
 if not firebase_admin._apps:
     cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
     if not cred_path:
-        if os.path.exists("service-account-new.json"):
-            cred_path = "service-account-new.json"
-        else:
-            cred_path = "service-account.json"
+        possible_paths = [
+            "service-account-new.json",
+            "service-account.json",
+            os.path.join(os.path.dirname(__file__), "service-account-new.json"),
+            os.path.join(os.path.dirname(__file__), "service-account.json"),
+        ]
+        for p in possible_paths:
+            if os.path.exists(p):
+                cred_path = p
+                break
+            
+    if not cred_path:
+        print("Error: Could not find service-account.json or service-account-new.json")
+        exit(1)
+        
+    print(f"Loading credentials from: {cred_path}")
             
     try:
         cred = credentials.Certificate(cred_path)

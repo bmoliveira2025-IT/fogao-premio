@@ -34,7 +34,7 @@ export default function StorySlide({ isActive, children, backgroundImage, type =
             )}
 
             {/* Content Layer */}
-            <div className="relative z-10 flex-1 flex flex-col p-6 pt-20 pb-12">
+            <div className="relative z-10 flex-1 flex flex-col p-6 pt-14 pb-24">
                 {children}
             </div>
         </motion.div>

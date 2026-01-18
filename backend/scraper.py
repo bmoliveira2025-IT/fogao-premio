@@ -210,11 +210,17 @@ def process_with_ai(original_title, original_content):
                 if attempt == max_retries - 1: raise e
                 
                 print(f"Gemini API connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
-                if not check_connectivity():
-                     print("Network check failed: Internet seems to be down.")
                 
-                print("Retrying in 5s...")
-                time.sleep(5)
+                # Check for Quota/Rate Limit Errors
+                error_str = str(e).lower()
+                if "429" in error_str or "quota" in error_str or "resource exhausted" in error_str:
+                     print("Quota exceeded. Waiting 60s before retry...")
+                     time.sleep(60)
+                else:
+                     if not check_connectivity():
+                          print("Network check failed: Internet seems to be down.")
+                     print("Retrying in 10s...")
+                     time.sleep(10)
     
         content = response.text
         # Basic cleanup just in case, though response_mime_type handles most

@@ -1,9 +1,9 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Home, FileText, Calendar } from "lucide-react";
+import { Home, FileText, Calendar, Zap } from "lucide-react";
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -63,54 +63,66 @@ const IconProfile = ({ active, className }: { active: boolean, className?: strin
 const tabs = [
     { icon: IconHome, label: "INÍCIO", href: "/" },
     { icon: IconNews, label: "NOTÍCIAS", href: "/news" },
+    { icon: ({ active, className }: any) => <Zap className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "RESUMO", href: "?briefing=true" },
     { icon: IconGames, label: "JOGOS", href: "/matches" },
     { icon: IconProfile, label: "PERFIL", href: "/profile" },
 ];
 
 export default function TabBar() {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
 
     return (
-        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#050505]/95 backdrop-blur-3xl border-t border-white/[0.08] pb-safe pt-1 px-6 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
+        <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#050505]/95 backdrop-blur-3xl border-t border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
             <div className="flex items-center justify-between relative">
                 {/* Premium Gold Line */}
                 <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
 
                 {tabs.map((tab) => {
-                    const isActive = pathname === tab.href;
+                    const isBriefing = tab.href.startsWith('?');
+                    const isActive = isBriefing
+                        ? searchParams.get('briefing') === 'true'
+                        : pathname === tab.href;
                     const Icon = tab.icon;
 
                     return (
                         <Link
-                            key={tab.href}
+                            key={tab.label}
                             href={tab.href}
-                            className="relative flex flex-col items-center justify-center w-20 h-16 group"
+                            className="relative flex flex-col items-center justify-center flex-1 h-14 group outline-none"
                         >
-                            {/* Active Indicator Light */}
+                            {/* Active Indicator Light - Subtle Glow behind icon */}
                             {isActive && (
-                                <div className="absolute top-0 w-8 h-8 rounded-full bg-premium-gold/20 blur-xl pointer-events-none" />
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div className="w-10 h-10 rounded-full bg-premium-gold/15 blur-lg" />
+                                </div>
                             )}
 
                             <div className={cn(
-                                "flex items-center justify-center w-12 h-12 transition-all duration-500",
+                                "relative flex items-center justify-center transition-all duration-300",
                                 isActive
                                     ? "text-premium-gold -translate-y-1"
-                                    : "text-[#666] group-hover:text-white"
+                                    : "text-zinc-500 group-hover:text-white"
                             )}>
                                 <Icon
                                     active={isActive}
                                     className={cn(
-                                        "w-[30px] h-[30px]", // Larger icon size
-                                        isActive && "drop-shadow-[0_0_12px_rgba(255,215,0,0.6)]"
+                                        "w-[26px] h-[26px]", // Precise size for 5 icons
+                                        isActive && "drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
                                     )}
                                 />
+
+                                {/* Active Dot */}
+                                {isActive && (
+                                    <div className="absolute -bottom-1 w-1 h-1 rounded-full bg-premium-gold" />
+                                )}
                             </div>
 
                             <span className={cn(
-                                "text-[9px] font-black mt-0.5 tracking-[0.2em] uppercase transition-all duration-300 font-sans",
+                                "text-[10px] font-bold mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap",
                                 isActive
-                                    ? "text-premium-gold scale-100 opacity-100"
-                                    : "text-zinc-600 scale-90 opacity-0 group-hover:opacity-100"
+                                    ? "opacity-100 scale-100 text-premium-gold"
+                                    : "opacity-40 scale-90 text-zinc-400 group-hover:opacity-70"
                             )}>
                                 {tab.label}
                             </span>

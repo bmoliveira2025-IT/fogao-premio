@@ -11,62 +11,47 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
     if (topics.length === 0) return null;
 
     return (
-        <div className="mt-2 md:mt-4 relative group">
-            {/* Header */}
-            <div className="mb-3 px-1 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-pink-500/20 to-purple-600/20 border border-pink-500/20">
-                        <Flame size={14} className="text-pink-500 animate-pulse" />
+        <div className="mt-4 mb-8 md:mt-8 relative group">
+            {/* Header with Glass Effect Pill */}
+            <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-xl bg-gradient-to-br from-pink-500/10 to-purple-600/10 border border-pink-500/20 backdrop-blur-sm shadow-[0_0_15px_rgba(236,72,153,0.1)]">
+                        <Flame size={16} className="text-pink-500 animate-pulse" />
                     </div>
                     <div>
-                        <h3 className="text-sm font-black text-white uppercase tracking-widest leading-none">
+                        <h3 className="text-[15px] font-black text-white uppercase tracking-wider leading-none mb-1">
                             Em Alta
                         </h3>
-                        <p className="text-[10px] text-zinc-400 font-medium">
-                            Assuntos do momento
+                        <p className="text-[11px] text-zinc-500 font-medium tracking-wide">
+                            O que a torcida está falando
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-1.5 text-[10px] text-zinc-600 uppercase tracking-wider font-medium">
-                    <span className="hidden md:inline">Atualizado agora</span>
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                </div>
             </div>
 
-            {/* Cards Container - Spaced (Restoring lateral spacing) */}
-            <div className="flex flex-col gap-2">
+            {/* Modern Cards Container */}
+            <div className="flex flex-col gap-3">
                 {topics.map((topic, index) => (
                     <div
                         key={topic.id}
-                        className={`
-                            relative overflow-hidden w-full rounded-xl
-                            group/card transition-all duration-500
-                            border border-white/5
-                            bg-[#0a0a0a] md:bg-zinc-900/40 backdrop-blur-md
-                            hover:bg-white/[0.07] hover:border-white/10
-                        `}
+                        className="group relative w-full rounded-2xl bg-zinc-900/30 backdrop-blur-md border border-white/5 hover:border-white/10 hover:bg-white/5 transition-all duration-300 overflow-hidden"
                     >
-                        {/* Rank Background Effect */}
-                        <div className={`
-                            absolute left-0 top-0 bottom-0 w-1
-                            ${index === 0 ? 'bg-gradient-to-b from-yellow-400 to-yellow-600' :
-                                index === 1 ? 'bg-gradient-to-b from-zinc-300 to-zinc-500' :
-                                    index === 2 ? 'bg-gradient-to-b from-orange-400 to-orange-700' :
-                                        'bg-zinc-800'}
+                        {/* Background Gradient Spot */}
+                        <div className={`absolute -right-10 -top-10 w-40 h-40 rounded-full blur-[50px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none
+                            ${topic.source === 'instagram' ? 'bg-pink-600' :
+                                topic.source === 'twitter' ? 'bg-sky-600' :
+                                    topic.source === 'tiktok' ? 'bg-teal-500' :
+                                        'bg-blue-600'}
                         `} />
 
-                        {/* Ambient Glow on Hover */}
-                        <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-700 pointer-events-none bg-gradient-to-r from-white/5 to-transparent" />
-
-                        <div className="flex items-center p-3 sm:p-4 gap-3 sm:gap-4 relative z-10">
-                            {/* Rank Indicator */}
-                            <div className="flex-shrink-0 w-12 text-center flex flex-col items-center justify-center">
-                                <span className={`
-                                    text-3xl font-black italic tracking-tighter leading-normal py-1 pr-2
-                                    ${index === 0 ? 'text-transparent bg-clip-text bg-gradient-to-br from-yellow-300 to-yellow-600 drop-shadow-[0_2px_10px_rgba(250,204,21,0.3)]' :
-                                        index === 1 ? 'text-transparent bg-clip-text bg-gradient-to-br from-zinc-200 to-zinc-500' :
-                                            index === 2 ? 'text-transparent bg-clip-text bg-gradient-to-br from-orange-300 to-orange-600' :
-                                                'text-zinc-600'}
+                        <div className="flex items-center p-4 relative z-10 gap-4">
+                            {/* Integrated Rank Number */}
+                            <div className="flex-shrink-0 w-8 text-center">
+                                <span className={`text-2xl font-black italic
+                                    ${index === 0 ? 'text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-600 drop-shadow-sm' :
+                                        index === 1 ? 'text-zinc-400' :
+                                            index === 2 ? 'text-zinc-600' :
+                                                'text-zinc-700'}
                                 `}>
                                     {index + 1}
                                 </span>
@@ -74,66 +59,51 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
 
                             {/* Content */}
                             <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 mb-1">
-                                    {/* Source Badge */}
-                                    <div className={`
-                                        inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[9px] font-bold uppercase tracking-wider
-                                        ${topic.source === 'instagram' ? 'bg-social-instagram/10 border-social-instagram/20 text-social-instagram' :
-                                            topic.source === 'tiktok' ? 'bg-social-tiktok/10 border-social-tiktok/20 text-social-tiktok' :
-                                                topic.source === 'twitter' ? 'bg-social-twitter/10 border-social-twitter/20 text-social-twitter' :
-                                                    'bg-social-facebook/10 border-social-facebook/20 text-social-facebook'}
+                                {/* Header Row: Source Icon + Trend */}
+                                <div className="flex items-center gap-2 mb-1.5">
+                                    <div className={`p-1 rounded-full border bg-black/50 backdrop-blur-sm
+                                        ${topic.source === 'instagram' ? 'border-pink-500/30 text-pink-500' :
+                                            topic.source === 'twitter' ? 'border-sky-500/30 text-sky-500' :
+                                                topic.source === 'tiktok' ? 'border-teal-500/30 text-teal-500' :
+                                                    'border-blue-500/30 text-blue-500'}
                                     `}>
-                                        {topic.source === 'instagram' && <Instagram size={8} />}
-                                        {topic.source === 'tiktok' && <Music2 size={8} />}
-                                        {topic.source === 'twitter' && <Hash size={8} />}
-                                        {topic.source === 'facebook' && <Facebook size={8} />}
-                                        <span className="mt-px">{topic.source}</span>
+                                        {topic.source === 'instagram' && <Instagram size={10} />}
+                                        {topic.source === 'tiktok' && <Music2 size={10} />}
+                                        {topic.source === 'twitter' && <Hash size={10} />}
+                                        {topic.source === 'facebook' && <Facebook size={10} />}
                                     </div>
 
-                                    {/* Trend Badge */}
                                     {topic.trend === 'up' && (
-                                        <div className="flex items-center gap-0.5 text-[9px] font-bold text-emerald-500 uppercase tracking-widest animate-pulse">
-                                            <TrendingUp size={10} />
-                                            <span>Alta</span>
-                                        </div>
+                                        <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-wider flex items-center gap-0.5">
+                                            <TrendingUp size={10} /> Alta
+                                        </span>
                                     )}
                                 </div>
 
-                                <h4 className={`
-                                    text-[14px] sm:text-[15px] font-medium leading-tight line-clamp-2
-                                    ${index < 3 ? 'text-white font-bold' : 'text-zinc-300'}
-                                    group-hover/card:text-premium-gold transition-colors
-                                `}>
+                                <h4 className="text-[14px] font-medium text-white/90 leading-snug group-hover:text-white transition-colors line-clamp-2">
                                     {topic.text}
                                 </h4>
                             </div>
 
-                            {/* Volume Metric */}
-                            <div className="shrink-0 text-right">
-                                <div className={`
-                                    flex flex-col items-center justify-center
-                                    px-2 py-1 rounded-lg border
-                                    ${index < 3 ? 'bg-white/10 border-white/20' : 'bg-zinc-900/50 border-white/5'}
-                                `}>
-                                    <span className="text-xl font-black text-white font-mono leading-none">
-                                        {topic.count}
-                                    </span>
-                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest mt-0.5">
-                                        Posts
-                                    </span>
-                                </div>
+                            {/* Volume (Subtle) */}
+                            <div className="flex flex-col items-end shrink-0 pl-2 border-l border-white/5 gap-0.5">
+                                <span className="text-[13px] font-bold text-white tabular-nums">
+                                    {topic.count}
+                                </span>
+                                <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">
+                                    Posts
+                                </span>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Subtle Footer */}
-            <div className="mt-3 flex items-center justify-end gap-2 text-[10px] text-zinc-600 uppercase tracking-wider px-1">
-                <span>Baseado no noticiário</span>
-                <div className="flex gap-1 items-center">
-                    <Instagram size={10} />
-                </div>
+            <div className="mt-4 flex justify-center">
+                <p className="text-[10px] text-zinc-600 flex items-center gap-1.5 uppercase tracking-widest font-medium opacity-50">
+                    <Hash size={10} />
+                    Monitoramento em Tempo Real
+                </p>
             </div>
         </div>
     );
