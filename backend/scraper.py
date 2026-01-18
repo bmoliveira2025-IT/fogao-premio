@@ -278,6 +278,11 @@ def scrape_news(url):
             print(f"Skipping blacklisted article: {title}")
             return None
 
+        # Exclude FogãoNET "LIVE ESPECIAL"
+        if "fogaonet.com" in url and "LIVE ESPECIAL" in title.upper():
+            print(f"Skipping blacklisted FogãoNET article: {title}")
+            return None
+
         # Date Check (Recency Filter)
         if article.publish_date:
             try:
