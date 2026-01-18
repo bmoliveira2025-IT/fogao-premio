@@ -1,13 +1,9 @@
 "use client";
+import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 import { Home, FileText, Calendar, Play } from "lucide-react";
-
-function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
+import { cn } from "@/lib/utils";
 
 // 1. Home - Lucide Home
 const IconHome = ({ active, className }: { active: boolean, className?: string }) => (
@@ -71,6 +67,15 @@ const tabs = [
 export default function TabBar() {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#050505] h-16 md:hidden border-t border-white/[0.08]" />;
+    }
 
     return (
         <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#050505]/95 backdrop-blur-3xl border-t border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">

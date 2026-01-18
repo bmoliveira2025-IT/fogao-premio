@@ -1,19 +1,22 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import GloriosoLogo from '@/components/GloriosoLogo';
-import { Search, User, Menu, Crown, Zap } from 'lucide-react';
+import { User, Crown, Zap } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
 
 export default function BrandingHeader() {
-    // Basic mobile header
     const { user, isPremium } = useAuth();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    // Show simplified version during hydration to match SSR
+    const showPremiumUI = mounted && isPremium;
 
     return (
         <header className="fixed top-0 z-40 w-full bg-background/90 backdrop-blur-xl border-b border-white/5 lg:hidden pt-[env(safe-area-inset-top)]">
