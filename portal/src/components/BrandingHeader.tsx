@@ -42,10 +42,10 @@ export default function BrandingHeader() {
                         href="/profile"
                         className={cn(
                             "w-9 h-9 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300",
-                            "border-2",
+                            "border",
                             isPremium
-                                ? "border-premium-gold shadow-[0_0_12px_rgba(255,215,0,0.4)] bg-premium-gold/10"
-                                : "border-white/20 bg-zinc-800"
+                                ? "border-premium-gold shadow-[0_0_10px_rgba(255,215,0,0.2)] bg-premium-gold/5"
+                                : "border-white/10 bg-zinc-800"
                         )}
                     >
                         {user?.photoURL ? (
