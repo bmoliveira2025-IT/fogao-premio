@@ -43,8 +43,8 @@ export default function BrandingHeader() {
                         className={cn(
                             "w-9 h-9 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300",
                             isPremium
-                                ? "ring-1 ring-premium-gold bg-premium-gold/5"
-                                : "ring-1 ring-white/10 bg-zinc-800"
+                                ? "ring-1 ring-premium-gold"
+                                : "ring-1 ring-white/10"
                         )}
                     >
                         {user?.photoURL ? (
