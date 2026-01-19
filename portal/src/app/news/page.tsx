@@ -39,7 +39,7 @@ export default async function NewsPage() {
 
     return (
         <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black">
-            <div className="max-w-7xl mx-auto px-0 pt-4">
+            <div className="max-w-7xl mx-auto px-0 pt-0">
                 <NewsContent initialNews={news} />
             </div>
         </div>

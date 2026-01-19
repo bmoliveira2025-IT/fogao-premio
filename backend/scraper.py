@@ -618,6 +618,12 @@ def fetch_youtube_videos():
                     video_id = entry.find('videoId').text
                     title = entry.find('title').text
                     published = entry.find('published').text
+                    
+                    # Global Filter: Remove Botafogo-SP content
+                    if "botafogo-sp" in title.lower() or "botafogo sp" in title.lower():
+                        print(f"Skipping Botafogo-SP video: {title}")
+                        continue
+
                     link = f"https://www.youtube.com/watch?v={video_id}"
                     thumbnail = f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg"
                     

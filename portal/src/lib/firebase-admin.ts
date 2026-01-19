@@ -10,7 +10,14 @@ if (!getApps().length) {
     // 1. Try Environment Variable (Production/Vercel)
     if (process.env.FIREBASE_SERVICE_ACCOUNT) {
         try {
-            const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+            // Sanitize string: ensure all newlines are escaped as \n for JSON.parse
+            // This handles cases where .env has real newlines (which break JSON) 
+            // OR literal \n that might be double escaped.
+            // Strategy: Convert all forms of newlines to real newlines, then escape them all to \n.
+            const raw = process.env.FIREBASE_SERVICE_ACCOUNT;
+            const sanitized = raw.replace(/\\n/g, '\n').replace(/\n/g, '\\n');
+
+            const serviceAccount = JSON.parse(sanitized);
             credential = cert(serviceAccount);
             console.log("Firebase Admin initialized with FIREBASE_SERVICE_ACCOUNT env var");
         } catch (e) {

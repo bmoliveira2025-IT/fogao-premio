@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Play, Tv, MonitorPlay } from 'lucide-react';
+import { Play, Tv, MonitorPlay, Hand } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -87,7 +87,10 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
             </div>
 
             {/* Cinematic Carousel */}
-            <div className="relative">
+            <div className="relative group/carousel">
+                {/* Drag Hint Overlay */}
+                <DragHint />
+
                 <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 lg:px-0 gap-4 pb-8">
                     {videos.length > 0 ? (
                         videos.map((video) => (
@@ -96,7 +99,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                                 whileHover={{ y: -5 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => handleVideoClick(video)}
-                                className="shrink-0 w-[280px] md:w-[320px] aspect-video relative rounded-xl overflow-hidden cursor-pointer group snap-center border border-white/5 bg-zinc-900 shadow-lg hover:shadow-premium-gold/20 hover:border-premium-gold/30 transition-all duration-300"
+                                className="shrink-0 w-[85vw] lg:w-72 aspect-video relative rounded-2xl overflow-hidden cursor-pointer group snap-center lg:snap-start border border-white/5 bg-zinc-900 shadow-2xl hover:shadow-premium-gold/20 hover:border-premium-gold/30 transition-all duration-300"
                             >
                                 <Image
                                     src={video.thumbnail}
@@ -130,7 +133,7 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                         ))
                     ) : (
                         [1, 2, 3].map((_, i) => (
-                            <div key={i} className="shrink-0 w-[280px] md:w-[320px] aspect-video relative rounded-xl overflow-hidden bg-zinc-900/30 border border-white/5 flex items-center justify-center animate-pulse">
+                            <div key={i} className="shrink-0 w-[85vw] md:w-[450px] aspect-video relative rounded-2xl overflow-hidden bg-zinc-900/30 border border-white/5 flex items-center justify-center animate-pulse">
                                 <Tv size={24} className="text-zinc-800" />
                             </div>
                         ))
@@ -148,5 +151,42 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                 )}
             </AnimatePresence>
         </section>
+    );
+}
+
+function DragHint() {
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setVisible(false), 6000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (!visible) return null;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none lg:hidden"
+        >
+            <div className="flex flex-col items-center gap-2">
+                <motion.div
+                    animate={{ x: [-20, 20, -20] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl"
+                >
+                    <Hand size={24} className="text-white fill-white/20" />
+                </motion.div>
+                <motion.span
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="text-[10px] font-bold text-white/80 uppercase tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10"
+                >
+                    Arraste
+                </motion.span>
+            </div>
+        </motion.div>
     );
 }

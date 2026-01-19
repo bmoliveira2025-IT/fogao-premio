@@ -253,29 +253,31 @@ export default async function Home() {
                   <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
 
                     {/* Background Image - Players */}
-                    <div className="absolute inset-0 z-0 opacity-20">
+                    {/* Background Image - Players */}
+                    <div className="absolute inset-0 z-0 opacity-40">
                       <img
                         src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1000&auto=format&fit=crop"
                         alt="Background"
                         className="w-full h-full object-cover grayscale"
+                        style={{ objectPosition: 'center 20%' }}
                       />
-                      <div className="absolute inset-0 bg-zinc-900/80 mix-blend-multiply" />
+                      <div className="absolute inset-0 bg-zinc-900/60 mix-blend-multiply" />
                     </div>
 
                     <div className="relative z-10 flex items-center gap-4">
-                      <div className="p-2.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20 backdrop-blur-sm">
-                        <Users size={20} />
+                      <div className="p-3.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20 backdrop-blur-sm">
+                        <Users size={24} />
                       </div>
                       <div>
-                        <h4 className="text-sm font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors drop-shadow-md">
+                        <h4 className="text-[17px] font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors drop-shadow-md">
                           Elenco 2026
                         </h4>
-                        <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
+                        <p className="text-[12px] text-zinc-400 font-medium tracking-wide">
                           Conheça os jogadores atualizados
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={18} />
+                    <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={20} />
                   </div>
                 </Link>
 

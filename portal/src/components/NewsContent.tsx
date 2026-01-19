@@ -19,7 +19,7 @@ export default function NewsContent({ initialNews }: { initialNews: NewsItem[] }
     const filteredNews = initialNews;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 pb-12 mt-8">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 pb-12 mt-0">
             {/* Simple Cleaner Header or No Header if preferred, but spacing is good */}
 
             {/* Content Area - Check if we have news */}

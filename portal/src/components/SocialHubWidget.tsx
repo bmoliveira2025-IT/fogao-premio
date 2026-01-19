@@ -74,20 +74,20 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                                     </div>
 
                                     {topic.trend === 'up' && (
-                                        <span className="text-[9px] font-bold text-emerald-500 uppercase tracking-wider flex items-center gap-0.5">
-                                            <TrendingUp size={10} /> Alta
+                                        <span className="text-[10px] md:text-[9px] font-bold text-emerald-500 uppercase tracking-wider flex items-center gap-0.5">
+                                            <TrendingUp size={12} /> Alta
                                         </span>
                                     )}
                                 </div>
 
-                                <h4 className="text-[16px] font-medium text-white/90 leading-snug group-hover:text-white transition-colors line-clamp-2">
+                                <h4 className="text-[18px] md:text-[16px] font-medium text-white/90 leading-snug group-hover:text-white transition-colors">
                                     {topic.text}
                                 </h4>
                             </div>
 
                             {/* Volume (Subtle) */}
                             <div className="flex flex-col items-end shrink-0 pl-2 border-l border-white/5 gap-0.5">
-                                <span className="text-[13px] font-bold text-white tabular-nums">
+                                <span className="text-[14px] md:text-[13px] font-bold text-white tabular-nums">
                                     {topic.count}
                                 </span>
                                 <span className="text-[9px] font-bold text-zinc-600 uppercase tracking-widest">

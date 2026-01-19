@@ -74,7 +74,7 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
+        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 pb-32">
             <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
 
                 {/* Header Area - Wrapped for Mobile Hiding/Desktop Styling */}
