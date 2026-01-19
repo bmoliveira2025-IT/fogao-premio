@@ -108,7 +108,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             {/* Destaque Badge Removed */}
 
                             <div className="max-w-7xl space-y-4 md:space-y-6">
-                                <h3 className="text-xl md:text-4xl lg:text-5xl font-black font-sans text-white leading-[0.95] md:leading-[1] uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors duration-500 tracking-tighter">
+                                <h3 className="text-lg md:text-xl lg:text-2xl font-black font-sans text-white leading-tight uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors duration-500 tracking-tight">
                                     {topStory.title?.replace(/\*\*/g, '')}
                                 </h3>
 
