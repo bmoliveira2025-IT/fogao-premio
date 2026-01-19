@@ -40,6 +40,7 @@ export interface MatchData {
   home_team_logo?: string;
   away_team_logo?: string;
   stadium?: string;
+  transmission?: string;
 }
 
 interface VideoItem {
@@ -122,6 +123,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         home_team_logo: data.home_team_logo,
         away_team_logo: data.away_team_logo,
         stadium: data.stadium,
+        transmission: data.transmission,
       } as MatchData;
     });
 

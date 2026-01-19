@@ -66,7 +66,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
     return (
         <div className={` ${className}`}>
-            <div className="w-full flex flex-col gap-4 md:gap-6 bg-transparent">
+            <div className="w-full flex flex-col gap-2 md:gap-6 bg-transparent">
 
                 {/* Rank 01 - Hero Section (Premium Highlight) */}
                 {topStory && (
@@ -97,8 +97,10 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                 )}
                                 {topStory.is_breaking && (
                                     <div className="px-4 py-1.5 bg-premium-gold rounded-full shadow-lg flex items-center gap-2 border border-black/10">
-                                        <Flame size={14} className="text-black fill-current" />
-                                        <span className="text-[11px] font-black text-black uppercase tracking-widest">URGENTE</span>
+                                        <div className="flex items-center gap-2">
+                                            <Flame size={14} className="text-black fill-current" />
+                                            <span className="text-[11px] font-black text-black uppercase tracking-widest">URGENTE</span>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -129,11 +131,9 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                     </Link>
                 )}
 
-                {/* INTERSTITIAL: NEXT MATCH (Shown after Hero on Mobile, integrated differently on desktop if needed, 
-                but user requested it "maintain" position meaning broadly after the first/top news) 
-            */}
+                {/* INTERSTITIAL: NEXT MATCH (Shown after Hero on Mobile) */}
                 {nextMatch && (
-                    <div className="md:hidden px-4 mb-4">
+                    <div className="md:hidden px-4">
                         <PremiumNextMatch match={nextMatch} />
                     </div>
                 )}

@@ -23,6 +23,9 @@ else:
     print("No existing briefing found.")
 
 # Run generation
+print("Updating Next Match Data...")
+scraper.update_next_match()
+
 print("Running generate_daily_briefing()...")
 scraper.generate_daily_briefing(force=True)
 print("Done!")

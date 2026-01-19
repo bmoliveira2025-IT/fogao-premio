@@ -14,6 +14,7 @@ interface MatchData {
     status: string;
     home_team_logo?: string;
     away_team_logo?: string;
+    transmission?: string;
 }
 
 export default function PremiumNextMatch({ match, className }: { match?: MatchData | null, className?: string }) {
@@ -42,7 +43,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                 <div className="p-6 md:p-8">
                     {/* Header: PRÓXIMO CONFRONTO */}
-                    <div className="mb-8">
+                    <div className="mb-8 text-center">
                         <h4 className="text-sm md:text-base font-black text-premium-gold uppercase tracking-[0.2em] italic drop-shadow-sm">
                             PRÓXIMO CONFRONTO
                         </h4>
@@ -71,6 +72,11 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                             <span className="text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-widest whitespace-nowrap">
                                 {dateString}
                             </span>
+                            {data.transmission && (
+                                <span className="mt-2 text-[9px] md:text-[10px] font-bold text-premium-gold/80 uppercase tracking-widest border border-premium-gold/20 px-2 py-0.5 rounded-full">
+                                    {data.transmission}
+                                </span>
+                            )}
                         </div>
 
                         {/* Away Team */}

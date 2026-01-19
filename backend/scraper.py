@@ -654,15 +654,16 @@ def update_next_match():
     
     match_data = {
         "home_team": "Botafogo",
-        "away_team": "Cruzeiro",
+        "away_team": "Volta Redonda",
         "home_team_logo": "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg",
-        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg/250px-Cruzeiro_Esporte_Clube_%28logo%29.svg.png",
+        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Volta_Redonda_Futebol_Clube_logo.svg/1024px-Volta_Redonda_Futebol_Clube_logo.svg.png",
         "home_score": 0,
         "away_score": 0,
-        "date": "2026-01-28T16:00:00Z", # Date from user image (28/01)
+        "date": "2026-01-21T19:00:00-03:00", # Data Confirmada: 21/01 Qua 19h
         "location": "Estádio Nilton Santos • Rio de Janeiro",
-        "championship": "Brasileirão 2026",
-        "status": "scheduled" 
+        "championship": "Campeonato Carioca",
+        "status": "scheduled",
+        "transmission": "Band, BandSports e Cazé TV" 
     }
     
     # Update or create the 'next_match' document
@@ -887,12 +888,18 @@ def generate_daily_briefing(force=False):
     Atue como Central de Imprensa Premium do Botafogo.
     Gere o "Resumo do Dia - {slot_label}" jornalístico, sofisticado e direto.
     
+    CONTEXTO OBRIGATÓRIO (Use estas informações oficiais nos Indicadores):
+    - Próximo Jogo: Botafogo vs Volta Redonda, Quarta-feira (21/01) às 19h.
+    - Campeonato: Campeonato Carioca.
+    - Local: Estádio Nilton Santos (Casa).
+    - Transmissão (Onde Assistir): Band, BandSports e Cazé TV.
+
     Regras de Conteúdo:
     1. **Editorial (editorial_summary)**: Texto ÚNICO e contínuo. Máximo 80 palavras. Foco no que é relevante AGORA ({slot_label}).
     2. **Indicadores**:
-       - Próximo Jogo: Data e Adversário
-       - Local: "Casa" ou "Fora"
-       - Onde Assistir (transmission): Canal de TV ou Streaming (ex: Premiere, Globo, ESPN)
+       - Próximo Jogo: Data e Adversário (Use o contexto acima)
+       - Local: "Casa" ou "Fora" (Use o contexto acima)
+       - Onde Assistir (transmission): Use EXATAMENTE "Band, BandSports e Cazé TV"
        - DM: Situação médica 
        - Mercado: Status rápido
 

@@ -35,14 +35,14 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
     if (!news || news.length === 0) return null;
 
     return (
-        <div className={cn("w-full mt-2", className)}>
+        <div className={cn("w-full", className)}>
 
             <div className="flex flex-col gap-6">
                 {news.map((item) => (
                     <Link
                         key={item.id}
                         href={`/news/${item.id}`}
-                        className="group relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
+                        className="group relative w-full h-[320px] md:h-[420px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
                     >
                         {/* Full Background Image */}
                         <img
@@ -56,7 +56,7 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-60" />
 
                         {/* Content Overlay */}
-                        <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
+                        <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-8 z-20">
 
                             {/* Meta Badges */}
                             <div className="flex items-center gap-3 mb-4">
@@ -73,7 +73,7 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
                             </div>
 
                             {/* Large Title */}
-                            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black font-sans text-white leading-[1.1] uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors duration-300 mb-2">
+                            <h3 className="text-lg md:text-xl lg:text-2xl font-black font-sans text-white leading-[1.1] uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors duration-300 mb-2">
                                 {item.title}
                             </h3>
 
