@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Pause, Mic, ChevronRight } from 'lucide-react';
+import { Play, Pause, Mic, ChevronRight, Hand } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -87,7 +87,10 @@ export default function PodcastWidget() {
                 </Link>
             </div>
 
-            <div className="relative">
+            <div className="relative group/carousel">
+                {/* Drag Hint Overlay */}
+                <DragHint />
+
                 <div className="flex gap-4 overflow-x-auto pb-4 px-4 lg:px-0 snap-x hide-scrollbar">
                     {podcasts.map((pod, i) => (
                         <motion.div
@@ -114,11 +117,7 @@ export default function PodcastWidget() {
                                 <div className="flex justify-between items-start">
                                     <span className="text-[10px] lg:text-[11px] font-bold text-premium-gold uppercase tracking-wider">{new Date(pod.pubDate).toLocaleDateString()}</span>
                                     {/* Mobile Scroll Hint (Visible on first item) */}
-                                    {i === 0 && (
-                                        <span className="lg:hidden text-[9px] text-zinc-500 font-medium flex items-center gap-1 animate-pulse">
-                                            Arraste <ChevronRight size={10} />
-                                        </span>
-                                    )}
+                                    {/* Mobile Scroll Hint Removed - Replaced by Global DragHint */}
                                 </div>
                                 <h4 className="text-[14px] lg:text-[15px] font-bold text-white leading-tight line-clamp-2 min-h-[auto] lg:min-h-[2.5rem]">{pod.title}</h4>
                                 <p className="text-[11px] lg:text-[12px] text-zinc-400 line-clamp-2">{pod.description}</p>
@@ -128,5 +127,42 @@ export default function PodcastWidget() {
                 </div>
             </div>
         </section>
+    );
+}
+
+function DragHint() {
+    const [visible, setVisible] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setVisible(false), 6000); // 6 seconds
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (!visible) return null;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none lg:hidden"
+        >
+            <div className="flex flex-col items-center gap-2">
+                <motion.div
+                    animate={{ x: [-20, 20, -20] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl"
+                >
+                    <Hand size={24} className="text-white fill-white/20" />
+                </motion.div>
+                <motion.span
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="text-[10px] font-bold text-white/80 uppercase tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10"
+                >
+                    Arraste
+                </motion.span>
+            </div>
+        </motion.div>
     );
 }

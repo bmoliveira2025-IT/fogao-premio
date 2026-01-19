@@ -38,9 +38,6 @@ export default async function VideosPage() {
         <div className="w-full pb-24 md:pb-0">
             <div className="p-4 md:p-8 space-y-6 pt-6 md:pt-8 w-full max-w-7xl mx-auto">
                 <div className="flex items-center gap-4 mb-8">
-                    <Link href="/" className="md:hidden p-2 -ml-2 text-zinc-400 hover:text-white transition-colors">
-                        <ArrowLeft size={24} />
-                    </Link>
 
                     <div>
                         <div className="flex items-center gap-3 mb-2">

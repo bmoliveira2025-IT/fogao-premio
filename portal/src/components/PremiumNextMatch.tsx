@@ -39,7 +39,9 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
         <div className={cn("w-full", className)}>
             <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl md:rounded-3xl relative overflow-hidden shadow-2xl group transition-all duration-500 hover:border-premium-gold/30">
                 {/* Gold Top Border */}
+                {/* Gold Top Border & Bottom Border */}
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
 
                 <div className="p-6 md:p-8">
                     {/* Header: PRÓXIMO CONFRONTO */}

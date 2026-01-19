@@ -72,7 +72,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                 {topStory && (
                     <Link
                         href={`/news/${topStory.id}`}
-                        className="relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10 border-b-4 border-premium-gold"
+                        className="relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10"
                     >
                         {/* Image */}
                         <img
@@ -105,13 +105,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                 )}
                             </div>
 
-                            {/* Destaque Badge (Top Right or next to others) - Let's put it Distinctively */}
-                            <div className="absolute top-6 md:top-10 right-6 md:right-10 z-30">
-                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-premium-gold text-black font-black uppercase tracking-widest text-[12px] shadow-lg border-2 border-white/10">
-                                    <Crown size={16} fill="black" />
-                                    Destaque
-                                </div>
-                            </div>
+                            {/* Destaque Badge Removed */}
 
                             <div className="max-w-7xl space-y-4 md:space-y-6">
                                 <h3 className="text-xl md:text-4xl lg:text-5xl font-black font-sans text-white leading-[0.95] md:leading-[1] uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors duration-500 tracking-tighter">
