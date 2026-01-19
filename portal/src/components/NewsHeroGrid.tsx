@@ -60,7 +60,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                     <div className="flex items-center gap-3 mb-3 text-zinc-300 text-xs font-bold uppercase tracking-wider">
                         <span className="text-premium-gold">{mainStory.source || 'FOGÃONET'}</span>
                         <span>•</span>
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1" suppressHydrationWarning>
                             <Clock size={12} />
                             {timeAgo(mainStory.created_at)}
                         </div>
@@ -99,7 +99,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                             <div className="flex items-center gap-2 mb-2 text-[10px] font-bold text-premium-gold uppercase">
                                 {story.source || 'FOGÃONET'}
                                 <span className="text-zinc-500">•</span>
-                                <span className="text-zinc-400">{timeAgo(story.created_at)}</span>
+                                <span className="text-zinc-400" suppressHydrationWarning>{timeAgo(story.created_at)}</span>
                             </div>
                             <h3 className="text-sm md:text-lg font-black text-white leading-tight uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors">
                                 {story.title}

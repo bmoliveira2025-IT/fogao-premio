@@ -89,14 +89,22 @@ if not GEMINI_API_KEY:
 else:
     genai.configure(api_key=GEMINI_API_KEY)
 
-# We initialize the model inside the function or here if we want a global one, 
-# but usually configuring is enough. We'll instantiate model per call to be safe or global.
-# Let's use a global model instance for simplicity, but we need to handle potential init errors if key is missing.
+# Use a specific model that might have better free tier limits or just be consistent
+# The user seems to be hitting a 20-req/day limit on gemini-2.5-flash? 
+# Let's stick to gemini-1.5-flash which is standard.
 try:
     model = genai.GenerativeModel('gemini-flash-latest')
 except Exception as e:
     print(f"Error initializing Gemini model: {e}")
     model = None
+
+# Config for newspaper to avoid 403
+from newspaper import Config
+def get_scraper_config():
+    config = Config()
+    config.browser_user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+    config.request_timeout = 15
+    return config
 
 def check_connectivity():
     try:
@@ -262,14 +270,20 @@ def is_relevant(title, content):
 def scrape_news(url):
 
     try:
-        article = Article(url)
+        config = get_scraper_config()
+        article = Article(url, config=config)
         article.download()
+        
+        # Fallback if download failed but didn't raise
+        if not article.html:
+             raise Exception("Empty HTML content")
+             
         article.parse()
         
         # Custom extraction for better image accuracy (prioritize og:image, then twitter:image)
         soup = BeautifulSoup(article.html, 'html.parser')
-        og_image = soup.find('meta', property='og:image') or soup.find('meta', attrs={'name': 'og:image'})
-        twitter_image = soup.find('meta', name='twitter:image') or soup.find('meta', attrs={'property': 'twitter:image'})
+        og_image = soup.find('meta', attrs={'property': 'og:image'}) or soup.find('meta', attrs={'name': 'og:image'})
+        twitter_image = soup.find('meta', attrs={'name': 'twitter:image'}) or soup.find('meta', attrs={'property': 'twitter:image'})
         
         image = None
         if og_image and og_image.get('content'):
@@ -297,13 +311,14 @@ def scrape_news(url):
             return None
 
         # Exclude specific unwanted titles
-        if "Night Live Especial" in title or "Night Live" in title:
-            print(f"Skipping blacklisted article: {title}")
+        blacklisted_patterns = ["Night Live Especial", "Night Live", "LIVE ESPECIAL", "LIVE |"]
+        if any(pattern.upper() in title.upper() for pattern in blacklisted_patterns):
+            print(f"Skipping blacklisted article (LIVE): {title}")
             return None
-
-        # Exclude FogãoNET "LIVE ESPECIAL"
-        if "fogaonet.com" in url and "LIVE ESPECIAL" in title.upper():
-            print(f"Skipping blacklisted FogãoNET article: {title}")
+            
+        # Generic LIVE check (case insensitive)
+        if "LIVE" in title.upper():
+            print(f"Skipping generic LIVE article: {title}")
             return None
 
         # Date Check (Recency Filter)
@@ -349,8 +364,8 @@ def scrape_news(url):
                 
                 # Image fallback
                 image = None
-                og_image = soup.find('meta', property='og:image') or soup.find('meta', attrs={'name': 'og:image'})
-                twitter_image = soup.find('meta', name='twitter:image') or soup.find('meta', attrs={'property': 'twitter:image'})
+                og_image = soup.find('meta', attrs={'property': 'og:image'}) or soup.find('meta', attrs={'name': 'og:image'})
+                twitter_image = soup.find('meta', attrs={'name': 'twitter:image'}) or soup.find('meta', attrs={'property': 'twitter:image'})
                 
                 if og_image and og_image.get('content'):
                     image = og_image['content']

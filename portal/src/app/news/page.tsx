@@ -12,7 +12,7 @@ async function getNews() {
         const snapshot = await db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
-            .limit(24) // ENFORCE LIMIT
+            .limit(100) // Safety limit, but high enough to cover all reasonable 24h volume
             .get();
 
         return snapshot.docs.map(doc => {

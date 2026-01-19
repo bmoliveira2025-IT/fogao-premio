@@ -104,7 +104,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                             </div>
 
                             <div className="max-w-7xl space-y-4 md:space-y-6">
-                                <h3 className="text-2xl md:text-5xl lg:text-6xl font-black font-sans text-white leading-[0.95] md:leading-[1] uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors duration-500 tracking-tighter">
+                                <h3 className="text-xl md:text-4xl lg:text-5xl font-black font-sans text-white leading-[0.95] md:leading-[1] uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors duration-500 tracking-tighter">
                                     {topStory.title?.replace(/\*\*/g, '')}
                                 </h3>
 
@@ -133,51 +133,14 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                 but user requested it "maintain" position meaning broadly after the first/top news) 
             */}
                 {nextMatch && (
-                    <div className="md:hidden mt-0.5 border-t border-b bg-background dark:bg-zinc-900/30" style={{ borderColor: 'var(--border-color)' }}>
-                        <PremiumNextMatch match={nextMatch} className="rounded-none border-0 shadow-none !bg-transparent" />
+                    <div className="md:hidden px-4 mb-4">
+                        <PremiumNextMatch match={nextMatch} />
                     </div>
                 )}
 
                 {/* Grid for Banner Stories - 2 columns on desktop */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 px-4 md:px-0">
-                    {bannerStories.map((story) => (
-                        <Link
-                            key={story.id}
-                            href={`/news/${story.id}`}
-                            className="group relative h-[250px] md:h-[420px] w-full rounded-2xl md:rounded-[2.5rem] overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl hover:border-premium-gold/40 hover:scale-[1.01] transition-all duration-500 block"
-                        >
-                            {/* Image */}
-                            <img
-                                src={getSafeImageSrc(story.image, 'https://placehold.co/800x400')}
-                                alt={story.title}
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100"
-                            />
-
-                            {/* Cinematic Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 transition-opacity" />
-
-                            {/* Content */}
-                            <div className="absolute inset-0 p-7 md:p-12 flex flex-col justify-end">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/30 transition-colors">
-                                        <SourceIcon source={story.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
-                                        <span className="text-[9px] font-black text-white/90 uppercase tracking-[0.15em]">
-                                            {story.source || 'FOGÃO'}
-                                        </span>
-                                    </div>
-                                    <span className="text-[10px] font-bold text-zinc-400 flex items-center gap-2" suppressHydrationWarning>
-                                        <div className="w-1 h-1 rounded-full bg-premium-gold/50" />
-                                        {getRelativeTime(story.created_at)}
-                                    </span>
-                                </div>
-
-                                {/* Title */}
-                                <h3 className="text-lg md:text-xl font-black font-sans text-white leading-tight group-hover:text-premium-gold transition-colors drop-shadow-2xl pr-4 uppercase">
-                                    {story.title}
-                                </h3>
-                            </div>
-                        </Link>
-                    ))}
+                <div className="px-4 md:px-0">
+                    <VisualNewsGrid news={bannerStories} />
                 </div>
 
                 {/* Footer */}

@@ -13,6 +13,7 @@ interface AuthContextType {
     preferences: { news: boolean; podcasts: boolean; videos: boolean };
     loading: boolean;
     logout: () => Promise<void>;
+    addPoints: (amount: number) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthContextType>({
     preferences: { news: true, podcasts: true, videos: true },
     loading: true,
     logout: async () => { },
+    addPoints: async () => { },
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -134,8 +136,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return () => clearInterval(interval);
     }, [user, points]);
 
+    const addPoints = async (amount: number) => {
+        if (!user) return;
+        const userRef = doc(db, "users", user.uid);
+        // We use client side update for consistency with existing code
+        try {
+            await setDoc(userRef, {
+                points: (points + amount),
+                last_activity: new Date().toISOString()
+            }, { merge: true });
+            // local state will update via the onSnapshot listener already in place
+        } catch (error) {
+            console.error("Error adding points:", error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, isPremium, points, rank, preferences, loading, logout }}>
+        <AuthContext.Provider value={{ user, isPremium, points, rank, preferences, loading, logout, addPoints }}>
             {children}
         </AuthContext.Provider>
     );

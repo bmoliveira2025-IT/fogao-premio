@@ -80,7 +80,7 @@ export default function SocialHubWidget({ topics }: SocialHubWidgetProps) {
                                     )}
                                 </div>
 
-                                <h4 className="text-[14px] font-medium text-white/90 leading-snug group-hover:text-white transition-colors line-clamp-2">
+                                <h4 className="text-[16px] font-medium text-white/90 leading-snug group-hover:text-white transition-colors line-clamp-2">
                                     {topic.text}
                                 </h4>
                             </div>

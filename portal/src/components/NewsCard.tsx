@@ -12,62 +12,56 @@ export default function NewsCard({ article }: any) {
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
         if (diffInSeconds < 60) return 'Agora mesmo';
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutos atrás`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} horas atrás`;
-        return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min atrás`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
+        return `${Math.floor(diffInSeconds / 86400)}d atrás`;
     };
 
     return (
-        <div className="relative">
-            <div
-                className="bg-card rounded-none md:rounded-3xl overflow-hidden md:shadow-2xl flex flex-row md:flex-col h-[140px] md:h-full group transition-all duration-300 premium-card md:glass-card md:glass-card-hover gradient-border-animated"
+        <div
+            className="group relative w-full h-[350px] md:h-[450px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
+            style={{ minHeight: '350px' }}
+        >
+            <Link
+                href={`/news/${article.id}`}
+                className="block w-full h-full relative"
             >
-                <Link href={`/news/${article.id}`} className="block relative w-[180px] md:w-full md:aspect-[16/10] shrink-0 overflow-hidden">
-                    <Image
-                        src={getSafeImageSrc(article.image)}
-                        alt={article.title}
-                        fill
-                        sizes="(max-width: 768px) 130px, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover object-top transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/20 md:bg-gradient-to-t md:from-black/90 md:via-black/40 md:to-transparent opacity-80" />
+                {/* Full Background Image */}
+                <Image
+                    src={getSafeImageSrc(article.image)}
+                    alt={article.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                />
 
-                    {/* Removed GERAL tag as requested */}
-                </Link>
+                {/* Cinematic Gradients */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-60" />
 
-                <div className="p-3 md:p-5 flex flex-col justify-center flex-grow min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5 md:mb-3">
-                        {/* Source Icon Only on Mobile, Full on Desktop */}
-                        <div className="flex items-center gap-1.5 md:gap-2">
-                            <SourceIcon source={article.source} className="w-3.5 h-3.5 md:w-4 md:h-4 text-zinc-400 group-hover:text-premium-gold transition-colors" />
-                            <span className="hidden md:inline text-[10px] font-bold text-zinc-400 uppercase tracking-wider truncate">
-                                {article.source || 'FOGÃONET'}
+                {/* Content Overlay */}
+                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 z-20">
+
+                    {/* Meta Badges */}
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/40 transition-colors">
+                            <SourceIcon source={article.source || 'default'} className="w-3 h-3 text-premium-gold" />
+                            <span className="text-[9px] font-black text-white/90 uppercase tracking-[0.15em]">
+                                {article.source || 'FOGÃO'}
                             </span>
                         </div>
-
-                        <span className="text-zinc-600 hidden md:inline">•</span>
-
-                        {/* Time - Simplified */}
-                        <div className="flex items-center text-zinc-500 text-[10px] md:text-[10px] font-bold">
-                            <span className="md:hidden">•</span>
-                            <span className="pl-1 md:pl-0" suppressHydrationWarning>{timeAgo(article.created_at)}</span>
-                        </div>
+                        <span className="text-[10px] font-bold text-zinc-300 flex items-center gap-1.5 drop-shadow-md" suppressHydrationWarning>
+                            <Clock size={11} className="text-premium-gold" />
+                            {timeAgo(article.created_at)}
+                        </span>
                     </div>
 
-                    <Link href={`/news/${article.id}`} className="group-hover:text-premium-gold transition-colors block">
-                        <h3 className="text-[10px] md:text-base font-black text-white leading-snug font-sans uppercase">
-                            {article.title?.replace(/\*\*/g, '')}
-                        </h3>
-                    </Link>
+                    {/* Large Title */}
+                    <h3 className="text-xl md:text-2xl font-black font-sans text-white leading-[1.1] uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors duration-300 mb-1">
+                        {article.title?.replace(/\*\*/g, '')}
+                    </h3>
                 </div>
-            </div>
-            {/* Gradient Separator - Mobile Only */}
-            <div
-                className="md:hidden absolute bottom-0 left-[10%] right-[10%] h-px"
-                style={{
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 215, 0, 0.3) 20%, rgba(255, 215, 0, 0.5) 50%, rgba(255, 215, 0, 0.3) 80%, transparent 100%)'
-                }}
-            />
+            </Link>
         </div>
     );
 }

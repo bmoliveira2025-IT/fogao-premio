@@ -1,21 +1,46 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, Share2, Bookmark, Volume2, Clock } from 'lucide-react';
+import { ChevronLeft, Share2, Bookmark, Volume2, Clock, Heart } from 'lucide-react';
 import TabBar from '@/components/TabBar';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import CompactNewsRow from './CompactNewsRow';
 import QuoteBanner from './QuoteBanner';
 import PremiumGuard from './PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
 import { getSafeImageSrc } from '@/lib/images';
+import { useAuth } from '@/context/AuthContext';
 
 export default function ArticleView({ article, nextMatch, relatedNews = [] }: { article: any, nextMatch: any, relatedNews?: any[] }) {
+    const { addPoints } = useAuth();
+    const [liked, setLiked] = useState(false);
+    const [pointsAwarded, setPointsAwarded] = useState(false);
+
+    useEffect(() => {
+        // Check if already liked this article in this session/browser
+        const hasLiked = localStorage.getItem(`liked_${article.id}`);
+        if (hasLiked) {
+            setLiked(true);
+            setPointsAwarded(true);
+        }
+    }, [article.id]);
+
+    const handleLike = async () => {
+        if (liked) return;
+
+        setLiked(true);
+        localStorage.setItem(`liked_${article.id}`, 'true');
+
+        if (!pointsAwarded) {
+            await addPoints(5);
+            setPointsAwarded(true);
+        }
+    };
     // ... rest of component
 
     const [showVoice, setShowVoice] = useState(false);
@@ -182,6 +207,40 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                     <span>3 min de leitura</span>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Action Bar */}
+                        <div className="flex flex-wrap items-center gap-2 mb-8">
+                            <button
+                                onClick={handleLike}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${liked
+                                    ? 'bg-red-500/10 border-red-500/50 text-red-500'
+                                    : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
+                                    }`}
+                            >
+                                <Heart size={18} className={liked ? 'fill-current' : ''} />
+                                <span className="text-xs font-bold uppercase tracking-wider">{liked ? 'Curtiu' : 'Curtir'}</span>
+                                {!liked && <span className="ml-0.5 text-[10px] bg-premium-gold/20 text-premium-gold px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
+                            </button>
+
+                            <button
+                                onClick={() => setShowVoice(!showVoice)}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${showVoice
+                                    ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
+                                    : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
+                                    }`}
+                            >
+                                <Volume2 size={18} />
+                                <span className="text-xs font-bold uppercase tracking-wider">Ouvir</span>
+                            </button>
+
+                            <button
+                                onClick={handleShare}
+                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
+                            >
+                                <Share2 size={18} />
+                                <span className="text-xs font-bold uppercase tracking-wider">Compartilhar</span>
+                            </button>
                         </div>
 
                         {/* Divider */}
