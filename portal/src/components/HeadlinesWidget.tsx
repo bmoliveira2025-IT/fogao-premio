@@ -114,9 +114,9 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
                                 {/* Source & Time Row */}
                                 <div className="flex items-center gap-4">
-                                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/20 shadow-xl">
-                                        <SourceIcon source={topStory.source || 'default'} className="w-5 h-5 text-premium-gold" />
-                                        <span className="text-[12px] md:text-sm font-black text-white uppercase tracking-[0.25em]">
+                                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl px-3 py-1.5 rounded-full border border-white/20 shadow-xl">
+                                        <SourceIcon source={topStory.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
+                                        <span className="text-[10px] md:text-xs font-black text-white uppercase tracking-widest">
                                             {topStory.source || 'FOGÃO PRÊMIO'}
                                         </span>
                                     </div>
