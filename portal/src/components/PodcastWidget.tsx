@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, Mic, ChevronRight, Hand } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -101,13 +101,13 @@ export default function PodcastWidget() {
                             className="flex-shrink-0 w-[85vw] lg:w-72 bg-zinc-900/50 border border-white/5 rounded-2xl p-3 lg:p-4 snap-center lg:snap-start hover:border-premium-gold/30 transition-all group"
                         >
                             <div className="relative aspect-video lg:aspect-square rounded-xl overflow-hidden mb-3 lg:mb-4 bg-zinc-800">
-                                <img src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"} alt={pod.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <img src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"} alt={pod.title} className="w-full h-full object-cover opacity-100 transition-opacity" />
 
                                 <button
                                     onClick={() => togglePlay(pod.audioUrl)}
-                                    className="absolute inset-0 flex items-center justify-center bg-black/40 lg:opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm"
+                                    className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/40 opacity-0 hover:opacity-100 transition-all backdrop-blur-0 hover:backdrop-blur-sm"
                                 >
-                                    <div className="w-12 h-12 lg:w-12 lg:h-12 rounded-full bg-premium-gold text-black flex items-center justify-center shadow-lg transform scale-100 lg:scale-90 group-hover:scale-100 transition-transform">
+                                    <div className="w-12 h-12 lg:w-12 lg:h-12 rounded-full bg-premium-gold text-black flex items-center justify-center shadow-lg transform scale-100 transition-transform">
                                         {isPlaying === pod.audioUrl ? <Pause size={18} fill="black" /> : <Play size={18} fill="black" className="ml-1" />}
                                     </div>
                                 </button>
@@ -131,17 +131,38 @@ export default function PodcastWidget() {
 }
 
 function DragHint() {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
+    const [hasShown, setHasShown] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => setVisible(false), 6000); // 6 seconds
-        return () => clearTimeout(timer);
-    }, []);
+        if (hasShown) return; // Only show once per session
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !hasShown) {
+                    setVisible(true);
+                    setHasShown(true);
+
+                    // Hide after 12 seconds
+                    setTimeout(() => setVisible(false), 12000);
+                }
+            },
+            { threshold: 0.3 } // Show when 30% visible
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => observer.disconnect();
+    }, [hasShown]);
 
     if (!visible) return null;
 
     return (
         <motion.div
+            ref={ref}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Play, Tv, MonitorPlay, Hand } from 'lucide-react';
 import Link from 'next/link';
@@ -155,17 +155,38 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 }
 
 function DragHint() {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
+    const [hasShown, setHasShown] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => setVisible(false), 6000);
-        return () => clearTimeout(timer);
-    }, []);
+        if (hasShown) return; // Only show once per session
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !hasShown) {
+                    setVisible(true);
+                    setHasShown(true);
+
+                    // Hide after 12 seconds
+                    setTimeout(() => setVisible(false), 12000);
+                }
+            },
+            { threshold: 0.3 } // Show when 30% visible
+        );
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => observer.disconnect();
+    }, [hasShown]);
 
     if (!visible) return null;
 
     return (
         <motion.div
+            ref={ref}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
