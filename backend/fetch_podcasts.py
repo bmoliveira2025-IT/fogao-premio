@@ -57,7 +57,7 @@ def fetch_podcasts(db=None):
     
     print(f"Fetching podcasts from {RSS_URL}...")
     try:
-        response = requests.get(RSS_URL)
+        response = requests.get(RSS_URL, timeout=20)
         response.raise_for_status()
     except Exception as e:
         print(f"Failed to fetch content: {e}")

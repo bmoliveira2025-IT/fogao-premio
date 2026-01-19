@@ -413,7 +413,7 @@ def monitor_sources():
         print(f"Checking source: {source}")
         try:
             headers = {'User-Agent': 'Mozilla/5.0'}
-            response = requests.get(source, headers=headers)
+            response = requests.get(source, headers=headers, timeout=20)
             soup = BeautifulSoup(response.text, 'html.parser')
             
             links = []
@@ -605,7 +605,7 @@ def fetch_youtube_videos():
         
         try:
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=20)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.content, 'xml')
                 entries = soup.find_all('entry')
@@ -697,7 +697,7 @@ def scrape_squad():
     
     print(f"Fetching squad from {url}...")
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, timeout=20)
         if response.status_code != 200:
             print(f"Failed to fetch content: {response.status_code}")
             return
