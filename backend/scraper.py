@@ -895,18 +895,20 @@ def generate_daily_briefing(force=False):
     Atue como Central de Imprensa Premium do Botafogo.
     Gere o "Resumo do Dia - {slot_label}" jornalístico, sofisticado e direto.
     
+    - Transmissão (Onde Assistir): Sportv, Premiere e GE TV.
+    
     CONTEXTO OBRIGATÓRIO (Use estas informações oficiais nos Indicadores):
     - Próximo Jogo: Botafogo vs Volta Redonda, Quarta-feira (21/01) às 19h.
     - Campeonato: Campeonato Carioca.
     - Local: Estádio Nilton Santos (Casa).
-    - Transmissão (Onde Assistir): Band, BandSports e Cazé TV.
+    - Transmissão (Onde Assistir): Sportv, Premiere e GE TV.
 
     Regras de Conteúdo:
     1. **Editorial (editorial_summary)**: Texto ÚNICO e contínuo. Máximo 80 palavras. Foco no que é relevante AGORA ({slot_label}).
     2. **Indicadores**:
        - Próximo Jogo: Data e Adversário (Use o contexto acima)
        - Local: "Casa" ou "Fora" (Use o contexto acima)
-       - Onde Assistir (transmission): Use EXATAMENTE "Band, BandSports e Cazé TV"
+       - Onde Assistir (transmission): Pesquise nas notícias disponíveis onde o próximo jogo será transmitido e informe os canais corretos (ex: Sportv, Premiere, GE TV, Band, BandSports, Cazé TV, YouTube Paulistão, etc.)
        - DM: Situação médica 
        - Mercado: Status rápido
 

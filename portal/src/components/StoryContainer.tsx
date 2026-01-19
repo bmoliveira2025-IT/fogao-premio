@@ -72,7 +72,7 @@ export default function StoryContainer({
                 {/* Close Button - Safe Area & High Z-Index */}
                 <button
                     onClick={onClose}
-                    className="absolute top-12 right-4 z-50 p-3 text-white/80 hover:text-white pointer-events-auto bg-black/20 rounded-full backdrop-blur-sm"
+                    className="absolute top-20 right-6 z-50 p-3 text-white/80 hover:text-white pointer-events-auto bg-black/40 rounded-full backdrop-blur-sm transition-all hover:bg-black/60"
                     style={{ marginTop: 'env(safe-area-inset-top)' }}
                 >
                     <X size={24} />
