@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, ChevronRight, Clock, Flame } from 'lucide-react';
+import { FileText, ChevronRight, Clock, Flame, Crown } from 'lucide-react';
 import Link from 'next/link';
 import VisualNewsGrid from './VisualNewsGrid';
 import SourceIcon from './SourceIcon';
@@ -72,7 +72,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                 {topStory && (
                     <Link
                         href={`/news/${topStory.id}`}
-                        className="relative w-full aspect-[16/12] md:aspect-[21/6.5] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10"
+                        className="relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10 border-b-4 border-premium-gold"
                     >
                         {/* Image */}
                         <img
@@ -103,6 +103,14 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                         </div>
                                     </div>
                                 )}
+                            </div>
+
+                            {/* Destaque Badge (Top Right or next to others) - Let's put it Distinctively */}
+                            <div className="absolute top-6 md:top-10 right-6 md:right-10 z-30">
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-premium-gold text-black font-black uppercase tracking-widest text-[12px] shadow-lg border-2 border-white/10">
+                                    <Crown size={16} fill="black" />
+                                    Destaque
+                                </div>
                             </div>
 
                             <div className="max-w-7xl space-y-4 md:space-y-6">
