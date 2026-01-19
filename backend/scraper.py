@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 import time
 from datetime import datetime, timezone, timedelta
 from cleanup import cleanup_old_news # Import cleanup logic
+from fetch_podcasts import fetch_podcasts # Import Podcast logic
 
 # Load environment variables
 load_dotenv()
@@ -992,6 +993,7 @@ if __name__ == "__main__":
         print("Running in Cloud Mode (Single Execution)...")
         update_next_match()
         fetch_youtube_videos()
+        fetch_podcasts() # Fetch Podcasts
         monitor_sources()
         generate_daily_briefing() # Check/Gen Briefing
         
