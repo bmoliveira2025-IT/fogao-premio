@@ -4,29 +4,55 @@ import requests
 import xml.etree.ElementTree as ET
 from datetime import datetime
 import os
+import sys
 
-# Initialize Firebase
-if not firebase_admin._apps:
-    cred_path = os.path.join(os.path.dirname(__file__), "..", "service-account-new.json")
+def get_db_client():
+    # Check if already initialized
+    if firebase_admin._apps:
+        try:
+            return firestore.client()
+        except Exception:
+            pass # Try to get app or re-init if needed (unlikely if _apps exists)
+
+    # Load credentials
+    cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
+    
+    if not cred_path or not os.path.exists(cred_path):
+        # Common locations to check
+        possible_paths = [
+            os.path.join(os.path.dirname(__file__), "service-account-new.json"), 
+            os.path.join(os.path.dirname(__file__), "..", "service-account-new.json"),
+            os.path.join(os.path.dirname(__file__), "service-account.json"),
+            os.path.join(os.path.dirname(__file__), "..", "service-account.json"),
+            "service-account.json"
+        ]
+        
+        for p in possible_paths:
+            if os.path.exists(p):
+                cred_path = p
+                break
+        
     try:
-        cred = credentials.Certificate(cred_path)
-        firebase_admin.initialize_app(cred)
-    except Exception as e:
-        print(f"Error initializing Firebase: {e}")
-        try: # Fallback
-            cred = credentials.Certificate("service-account.json")
+        if cred_path and os.path.exists(cred_path):
+            cred = credentials.Certificate(cred_path)
             firebase_admin.initialize_app(cred)
-        except:
-            pass
+            return firestore.client()
+        else:
+            # Try default (e.g. Cloud Environment)
+            firebase_admin.initialize_app()
+            return firestore.client()
+            
+    except Exception as e:
+        print(f"Error initializing Firebase in fetch_podcasts: {e}")
+        return None
 
-try:
-    db = firestore.client()
-    print(f"Firestore initialized with project: {db.project}")
-except Exception as e:
-    print(f"Firestore connection failed: {e}")
-    exit(1)
+def fetch_podcasts(db=None):
+    if db is None:
+        db = get_db_client()
+        if not db:
+            print("Database client not available. Skipping podcasts.")
+            return
 
-def fetch_podcasts():
     RSS_URL = "https://audio.globoradio.globo.com/podcast/feed/690/ge-botafogo"
     
     print(f"Fetching podcasts from {RSS_URL}...")
@@ -44,26 +70,31 @@ def fetch_podcasts():
         podcasts = []
         
         # namespaces might act up, but usually standard RSS uses <item>
-        for item in channel.findall('item'):
+        items = channel.findall('item') if channel is not None else []
+        
+        for item in items:
             title = item.find('title').text
-            description = item.find('description').text
+            description = item.find('description').text if item.find('description') is not None else ""
             pubDate = item.find('pubDate').text
             
             # Extract audio URL from enclosure
             enclosure = item.find('enclosure')
             audio_url = enclosure.attrib.get('url') if enclosure is not None else ""
             
-            # Image usually in itunes:image
-            # Simple hack: scrape description or use default
-            image_url = "" 
-            # (Parsing namespaces requires registering them, keeping it simple for now)
+            # Image usually in itunes:image - skipping for now as per original
             
             # Parse Date
+            dt = datetime.now()
             try:
                 # Format: Tue, 09 Jan 2024 10:00:00 -0300
                 dt = datetime.strptime(pubDate, "%a, %d %b %Y %H:%M:%S %z")
             except:
-                dt = datetime.now()
+                try:
+                     # Try without timezone if first fails, or other formats?
+                     # Original was ignoring errors mostly, passing dt=now() on fail
+                     pass
+                except:
+                     pass
 
             # Create ID from title or date
             p_id = "pod_" + str(int(dt.timestamp()))

@@ -995,7 +995,7 @@ if __name__ == "__main__":
         print("Running in Cloud Mode (Single Execution)...")
         update_next_match()
         fetch_youtube_videos()
-        fetch_podcasts() # Fetch Podcasts
+        fetch_podcasts(db) # Fetch Podcasts
         monitor_sources()
         generate_daily_briefing() # Check/Gen Briefing
         
