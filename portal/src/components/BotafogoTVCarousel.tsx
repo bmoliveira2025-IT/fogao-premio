@@ -160,19 +160,17 @@ function DragHint() {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (hasShown) return; // Only show once per session
+        if (hasShown) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting && !hasShown) {
                     setVisible(true);
                     setHasShown(true);
-
-                    // Hide after 12 seconds
-                    setTimeout(() => setVisible(false), 12000);
+                    setTimeout(() => setVisible(false), 8000); // 8 seconds is plenty
                 }
             },
-            { threshold: 0.3 } // Show when 30% visible
+            { threshold: 0.5 } // 50% visible to trigger
         );
 
         if (ref.current) {
@@ -182,32 +180,39 @@ function DragHint() {
         return () => observer.disconnect();
     }, [hasShown]);
 
-    if (!visible) return null;
-
     return (
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none lg:hidden"
-        >
-            <div className="flex flex-col items-center gap-2">
-                <motion.div
-                    animate={{ x: [-20, 20, -20] }}
-                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                    className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl"
-                >
-                    <Hand size={24} className="text-white fill-white/20" />
-                </motion.div>
-                <motion.span
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="text-[10px] font-bold text-white/80 uppercase tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10"
-                >
-                    Arraste
-                </motion.span>
-            </div>
-        </motion.div>
+        <>
+            {/* Observer Target - Always rendered but invisible */}
+            <div ref={ref} className="absolute top-0 left-0 w-full h-full pointer-events-none z-0" aria-hidden="true" />
+
+            {/* Animation Entry/Exit */}
+            <AnimatePresence>
+                {visible && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none lg:hidden"
+                    >
+                        <div className="flex flex-col items-center gap-2">
+                            <motion.div
+                                animate={{ x: [-20, 20, -20] }}
+                                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                                className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl"
+                            >
+                                <Hand size={24} className="text-white fill-white/20" />
+                            </motion.div>
+                            <motion.span
+                                animate={{ opacity: [0.5, 1, 0.5] }}
+                                transition={{ repeat: Infinity, duration: 2 }}
+                                className="text-[10px] font-bold text-white/80 uppercase tracking-widest bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10"
+                            >
+                                Arraste
+                            </motion.span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </>
     );
 }
