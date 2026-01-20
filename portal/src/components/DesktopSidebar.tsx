@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Newspaper, Calendar, Star, ShoppingBag, Settings, LogOut, Shield, Users } from 'lucide-react';
+import { Home, Newspaper, Calendar, Star, ShoppingBag, Settings, LogOut, Shield, Users, Trophy } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import GloriosoLogo from '@/components/GloriosoLogo';
@@ -16,6 +16,7 @@ export default function DesktopSidebar() {
         { icon: Home, label: 'Início', href: '/' },
         { icon: Newspaper, label: 'Notícias', href: '/news' },
         { icon: Calendar, label: 'Jogos', href: '/matches' },
+        { icon: Trophy, label: 'Tabela', href: '/tabela' },
         { icon: Users, label: 'Elenco', href: '/elenco' },
         { icon: Star, label: 'Premium', href: '/premium', isPremium: true },
     ];

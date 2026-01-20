@@ -123,7 +123,7 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
         .filter(item => item.id !== id);
 
     // Shuffle array to get random related news
-    relatedNews = relatedNews.sort(() => 0.5 - Math.random()).slice(0, 4);
+    relatedNews = relatedNews.sort(() => 0.5 - Math.random()).slice(0, 3);
 
     return (
         <ArticleView article={article} nextMatch={nextMatch} relatedNews={relatedNews} />

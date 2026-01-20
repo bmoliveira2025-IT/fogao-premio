@@ -5,7 +5,8 @@ import HeadlinesWidget from '@/components/HeadlinesWidget';
 import DailyBriefingWidget from '@/components/DailyBriefingWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
-import { ChevronRight, Users } from 'lucide-react';
+import { ChevronRight, Users, Trophy } from 'lucide-react';
+
 import Link from 'next/link';
 import { Suspense } from 'react';
 import MatchDayPopup from '@/components/MatchDayPopup';
@@ -281,10 +282,39 @@ export default async function Home() {
                   </div>
                 </Link>
 
-                {/* QUOTE BANNER - MOBILE ONLY */}
-                <div className="lg:hidden mb-4">
-                  <QuoteBanner />
-                </div>
+                {/* STANDINGS LINK - MOBILE */}
+                <Link href="/tabela" className="block mb-16 lg:hidden group relative">
+                  <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
+
+                    {/* Background Image - Trophy/Stadium */}
+                    <div className="absolute inset-0 z-0 opacity-40">
+                      <img
+                        src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop"
+                        alt="Background"
+                        className="w-full h-full object-cover grayscale"
+                        style={{ objectPosition: 'center 30%' }}
+                      />
+                      <div className="absolute inset-0 bg-zinc-900/60 mix-blend-multiply" />
+                    </div>
+
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div className="p-3.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20 backdrop-blur-sm">
+                        <Trophy size={24} />
+                      </div>
+                      <div>
+                        <h4 className="text-[17px] font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors drop-shadow-md">
+                          Classificação
+                        </h4>
+                        <p className="text-[12px] text-zinc-400 font-medium tracking-wide">
+                          Veja a tabela atualizada
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={20} />
+                  </div>
+                </Link>
+
+
 
                 {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
                 <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
@@ -298,6 +328,11 @@ export default async function Home() {
               {/* Social Trending Topics (Full Width on Mobile) */}
               <div className="-mx-4 lg:mx-0">
                 <SocialHubWidget topics={topics} />
+              </div>
+
+              {/* Quote Banner - Bottom of Page */}
+              <div className="mt-8 mb-8 lg:mb-0">
+                <QuoteBanner />
               </div>
 
               {/* Extra News Section (Desktop - Center Column Extension?) 
@@ -335,8 +370,27 @@ export default async function Home() {
                 </div>
               </Link>
 
-              {/* Quote */}
-              <QuoteBanner />
+              {/* Standings Banner */}
+              <Link href="/tabela" className="block group">
+                <div className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 hover:border-premium-gold/30 transition-all p-6 flex items-center justify-between shadow-2xl group-hover:shadow-premium-gold/5">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
+                      <Trophy size={24} />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
+                        Classificação
+                      </h4>
+                      <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
+                        Tabela Carioca 2026
+                      </p>
+                    </div>
+                  </div>
+                  <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
+                </div>
+              </Link>
+
+
 
               {/* Sidebar News Feed */}
               <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6 backdrop-blur-sm">

@@ -36,10 +36,10 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
             {introParams.map((p, i) => (
                 <div key={i} className="mb-6">
                     <p
-                        className={`transition-all duration-500 ease-in-out text-[20px] leading-[1.8] text-zinc-100/90 font-sans tracking-wide
+                        className={`transition-all duration-500 ease-in-out text-[22px] leading-[1.8] text-zinc-100/90 font-sans tracking-wide
                         ${i === 0 ? 'first-letter:text-5xl first-letter:font-black first-letter:text-premium-gold first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]' : ''}
                         ${activeParagraphIndex === i ? 'bg-premium-gold/10 text-white border-l-4 border-premium-gold shadow-md pl-4 py-2 -ml-4 rounded-r-xl' : ''}`}
-                        dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>') }}
+                        dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>').replace(/Botafogo/g, '<strong class="text-premium-gold font-bold">Botafogo</strong>') }}
                     />
                 </div>
             ))}
@@ -54,9 +54,9 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                         return (
                             <div key={`rem-${i}`} className="mb-6">
                                 <p
-                                    className={`transition-all duration-500 ease-in-out text-[20px] leading-[1.8] text-zinc-300/90 font-sans tracking-wide
+                                    className={`transition-all duration-500 ease-in-out text-[22px] leading-[1.8] text-zinc-300/90 font-sans tracking-wide
                                     ${activeParagraphIndex === actualIndex ? 'bg-premium-gold/10 text-white border-l-4 border-premium-gold shadow-md pl-4 py-2 -ml-4 rounded-r-xl' : ''}`}
-                                    dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>') }}
+                                    dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>').replace(/Botafogo/g, '<strong class="text-premium-gold font-bold">Botafogo</strong>') }}
                                 />
                             </div>
                         );

@@ -276,6 +276,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     {/* Related News Mobile Only */}
                     <div className="lg:hidden px-6 max-w-2xl mx-auto">
                         <RelatedNewsWidget />
+                        <div className="h-32 lg:hidden" />
                     </div>
                 </div>
 

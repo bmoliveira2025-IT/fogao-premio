@@ -13,12 +13,39 @@ async function getMatches() {
             .limit(20);
         const snapshot = await matchesRef.get();
 
-        return snapshot.docs.map(doc => ({
+        const rawMatches = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
             // Serialize dates for Client Component
             date: doc.data().date instanceof Date ? doc.data().date.toISOString() : doc.data().date
         }));
+
+        // Deduplicate Logic
+        const uniqueMatchesMap = new Map();
+
+        rawMatches.forEach((match: any) => {
+            // Create a unique key based on teams
+            // We ignore date details to catch dups on same day easily, or include day if needed. 
+            // Given the report, it's likely exact same match data.
+            const matchDate = new Date(match.date).toLocaleDateString('pt-BR');
+            const key = `${match.home_team}-${match.away_team}-${matchDate}`;
+
+            if (uniqueMatchesMap.has(key)) {
+                // Determine which one to keep
+                const existing = uniqueMatchesMap.get(key);
+                // Priority: Status 'live' > Has Logo > Existing
+                const existingHasLogo = existing.home_team_logo && existing.away_team_logo;
+                const currentHasLogo = match.home_team_logo && match.away_team_logo;
+
+                if (!existingHasLogo && currentHasLogo) {
+                    uniqueMatchesMap.set(key, match);
+                }
+            } else {
+                uniqueMatchesMap.set(key, match);
+            }
+        });
+
+        return Array.from(uniqueMatchesMap.values());
     } catch (error) {
         // Quota exceeded or other Firestore error - fail gracefully
         return [];
@@ -37,6 +64,12 @@ export default async function MatchesPage() {
                         Calendário
                     </h1>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-foreground/10"></div>
+                </div>
+
+                <div className="flex justify-center mb-8">
+                    <a href="/tabela" className="px-6 py-2 rounded-full bg-premium-gold/10 border border-premium-gold/30 text-premium-gold text-xs font-bold uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all duration-300">
+                        Ver Classificação
+                    </a>
                 </div>
 
                 {matches.length > 0 ? (

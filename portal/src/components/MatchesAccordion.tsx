@@ -124,9 +124,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                             </div>
                                         </div>
 
-                                        <button className="w-full py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#B8860B] rounded-lg text-black font-bold uppercase tracking-widest text-[9px] hover:brightness-110 active:scale-[0.98] transition-all shadow-lg">
-                                            Pré-Jogo
-                                        </button>
+
                                     </div>
                                 </motion.div>
                             )}

@@ -11,6 +11,7 @@ VIDEOS_SCRIPT = os.path.join(BACKEND_DIR, "fetch_videos.py")
 PODCASTS_SCRIPT = os.path.join(BACKEND_DIR, "fetch_podcasts.py")
 SQUAD_SCRIPT = os.path.join(BACKEND_DIR, "seed_squad.py")
 MATCHES_SCRIPT = os.path.join(BACKEND_DIR, "seed_matches.py")
+TABLE_SCRIPT = os.path.join(BACKEND_DIR, "fetch_table.py")
 
 def run_script(script_path, name):
     print(f"[{datetime.now()}] Starting {name}...")
@@ -31,6 +32,9 @@ def job_system_update():
     run_script(SQUAD_SCRIPT, "Squad Seeder")
     run_script(MATCHES_SCRIPT, "Match Seeder")
 
+def job_table_update():
+    run_script(TABLE_SCRIPT, "Table Fetcher")
+
 # --- Schedule Configuration ---
 
 # 1. News: Every 20 minutes
@@ -41,6 +45,9 @@ schedule.every(24).hours.do(job_videos_podcasts)
 
 # 3. Squad & Matches: Every 20 days
 schedule.every(20).days.do(job_system_update)
+
+# 4. Table: Every 6 hours
+schedule.every(6).hours.do(job_table_update)
 
 print("--- Botafogo Portal Scheduler Started ---")
 print("Schedule:")
