@@ -122,7 +122,7 @@ export default function StoryContainer({
                 </>
 
                 {/* Bottom Controls - Super Compact & Floating Higher */}
-                <div className="absolute bottom-20 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-none">
+                <div className="absolute bottom-8 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-none">
                     <button
                         onClick={(e) => { e.stopPropagation(); onPrev(); }}
                         className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg pointer-events-auto"
