@@ -175,8 +175,8 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col h-full pt-8 pb-4">
-                    <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
+                <div className="flex flex-col h-full pt-8">
+                    <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide pb-32">
                         {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
                     </div>
                 </div>
