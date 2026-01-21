@@ -405,7 +405,7 @@ def monitor_sources():
         "https://www.lance.com.br/botafogo",
         "https://br.bolavip.com/botafogo",
         "https://odia.ig.com.br/esporte/botafogo",
-        "https://fogonarede.com.br/",
+
         # "https://www.espn.com.br/futebol/time/_/id/6086/botafogo" # Disabled by user request
     ]
     
@@ -479,14 +479,6 @@ def monitor_sources():
                 links = [a['href'] for a in soup.find_all('a', href=True) if '/esporte/botafogo/' in a['href'] and '.html' in a['href']][:5]
                 links = [f"https://odia.ig.com.br{l}" if l.startswith('/') else l for l in links]
 
-            # Strategy for Fogo na Rede
-            elif "fogonarede.com.br" in source:
-                links = [a['href'] for a in soup.find_all('a', href=True) 
-                        if ('/noticias-do-botafogo/' in a['href'] or '/coluna-do-editor/' in a['href'])
-                        and '/category/' not in a['href']][:5]
-                # Fix relative URLs
-                links = [f"https://fogonarede.com.br{l}" if l.startswith('/') else l for l in links]
-
             # Strategy for ESPN
             elif "espn.com.br" in source:
                 # Find links that contain 'botafogo' in href OR text, and look like articles
@@ -531,7 +523,7 @@ def monitor_sources():
                 elif "gazetabotafogo.com" in link: source_name = "Gazeta Botafogo"
                 elif "bolavip.com" in link: source_name = "Bolavip"
                 elif "odia.ig.com.br" in link: source_name = "O Dia"
-                elif "fogonarede.com.br" in link: source_name = "Fogo na Rede"
+
                 elif "espn.com.br" in link: source_name = "ESPN"
 
                 news_doc = {

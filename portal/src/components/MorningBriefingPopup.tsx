@@ -97,34 +97,34 @@ export default function MorningBriefingPopup() {
         }
 
         return (
-            <div className="space-y-6">
+            <div className="space-y-4">
                 {abertura && (
-                    <div className="bg-gradient-to-br from-premium-gold/20 to-transparent p-6 rounded-2xl border border-premium-gold/20 shadow-lg relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-premium-gold/20 to-transparent p-4 rounded-2xl border border-premium-gold/20 shadow-lg relative overflow-hidden">
                         <Quote className="absolute top-4 right-4 text-premium-gold/20 w-8 h-8" />
                         <h4 className="text-premium-gold font-bold uppercase text-xs tracking-wider mb-2 flex items-center gap-2">
                             Panorama
                         </h4>
-                        <p className="text-lg text-white font-medium leading-relaxed italic">"{abertura}"</p>
+                        <p className="text-[15px] text-white font-medium leading-relaxed italic">"{abertura}"</p>
                     </div>
                 )}
 
                 {destaques.length > 0 && (
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                         <h4 className="text-white/60 font-bold uppercase text-xs tracking-wider ml-1 flex items-center gap-2">
                             <Star size={12} className="text-premium-gold" />
                             Destaques do Dia
                         </h4>
                         {destaques.map((d, i) => (
-                            <div key={i} className="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
+                            <div key={i} className="flex items-start gap-3 bg-white/5 p-3 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
                                 <div className="min-w-1.5 h-1.5 rounded-full bg-premium-gold mt-2" />
-                                <p className="text-white/90 text-[15px] font-medium leading-snug">{d}</p>
+                                <p className="text-white/90 text-sm font-medium leading-snug">{d}</p>
                             </div>
                         ))}
                     </div>
                 )}
 
                 {radar && (
-                    <div className="bg-zinc-900/40 p-5 rounded-xl border-l-2 border-blue-400 flex items-start gap-4">
+                    <div className="bg-zinc-900/40 p-3 rounded-xl border-l-2 border-blue-400 flex items-start gap-4">
                         <div className="bg-blue-500/20 p-2 rounded-lg">
                             <Activity size={18} className="text-blue-400" />
                         </div>
@@ -175,7 +175,7 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col h-full px-6 pt-32">
+                <div className="flex flex-col h-full px-6 pt-24">
                     <div className="flex-1 overflow-y-auto scrollbar-hide">
                         {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
                         {/* Explicit Spacer for scrolling past bottom controls */}
