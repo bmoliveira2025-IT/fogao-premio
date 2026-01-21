@@ -6,7 +6,7 @@ import BrandingHeader from '@/components/BrandingHeader';
 import TabBar from '@/components/TabBar';
 import { Suspense } from 'react';
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 0; // Disable cache for immediate updates
 
 interface Player {
     id: string;

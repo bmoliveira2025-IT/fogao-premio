@@ -701,20 +701,26 @@ def scrape_squad():
             print("No table with class 'items' found.")
             return
 
+        # NEW: Delete all existing players first to remove outdated ones
+        print("Cleaning up old squad data...")
+        docs = db.collection('squad').list_documents()
+        del_batch = db.batch()
+        for doc in docs:
+            del_batch.delete(doc)
+        del_batch.commit()
+        print("Old squad cleared.")
+
         batch = db.batch()
         count = 0
-        
-        # We don't clear the whole collection to avoid flicker, 
-        # but in this specific script's original logic it did. 
-        # I'll keep the "update" logic but using batch for efficiency.
         
         rows = table.find_all('tr', class_=['odd', 'even'])
         print(f"Found {len(rows)} player rows. Processing...")
 
-        for row in rows:
+        for i, row in enumerate(rows):
             cols = row.find_all('td')
             if not cols: continue
-            
+
+            # Restore missing parsing logic
             number_div = row.find('div', class_='rn_nummer')
             number = number_div.get_text().strip() if number_div else None
             if number == "-": number = None
@@ -741,12 +747,14 @@ def scrape_squad():
             group, pos_code = map_position(specific_pos)
             age = cols[2].get_text().strip() if len(cols) > 2 else ""
             if "(" in age: age = age.split("(")[0].strip()
-
             country = "Brasil"
-            if len(cols) > 3:
-                flags = cols[3].find_all('img', class_='flaggenrahmen')
+            for col in cols:
+                flags = col.find_all('img', class_='flaggenrahmen')
                 if flags:
                     country = flags[0].get('title', 'Brasil')
+                    break
+
+            print(f"Scraped: {name} | Pos: {pos_code} | Country: {country}")
 
             player_id = name.lower().replace(' ', '-')
             
