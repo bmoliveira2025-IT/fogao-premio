@@ -91,22 +91,35 @@ export default function StoryContainer({
                     <X size={24} />
                 </button>
 
-                {/* Navigation Touch Areas */}
-                <div
-                    className="absolute inset-0 z-10 grid grid-cols-2"
-                    onTouchStart={() => setIsPaused(true)}
-                    onTouchEnd={() => setIsPaused(false)}
-                    onMouseDown={() => setIsPaused(true)}
-                    onMouseUp={() => setIsPaused(false)}
-                >
-                    <div onClick={(e) => { e.stopPropagation(); onPrev(); }} className="h-full w-full" />
-                    <div onClick={(e) => { e.stopPropagation(); onNext(); }} className="h-full w-full" />
-                </div>
-
-                {/* Content */}
-                <div className="relative h-full w-full pointer-events-none">
+                {/* Content - Interactive for scrolling (z-40) */}
+                <div className="relative h-full w-full pointer-events-auto z-40">
                     {children}
                 </div>
+
+                {/* Navigation Touch Zones - Edges Only (z-50) */}
+                <>
+                    {/* Left Zone (Prev) */}
+                    <div
+                        className="absolute top-0 left-0 bottom-0 w-[20%] z-50 cursor-pointer"
+                        onClick={(e) => { e.stopPropagation(); onPrev(); }}
+                        onTouchStart={() => setIsPaused(true)}
+                        onTouchEnd={() => setIsPaused(false)}
+                        onMouseDown={() => setIsPaused(true)}
+                        onMouseUp={() => setIsPaused(false)}
+                        aria-label="Previous Slide Helper"
+                    />
+
+                    {/* Right Zone (Next) */}
+                    <div
+                        className="absolute top-0 right-0 bottom-0 w-[20%] z-50 cursor-pointer"
+                        onClick={(e) => { e.stopPropagation(); onNext(); }}
+                        onTouchStart={() => setIsPaused(true)}
+                        onTouchEnd={() => setIsPaused(false)}
+                        onMouseDown={() => setIsPaused(true)}
+                        onMouseUp={() => setIsPaused(false)}
+                        aria-label="Next Slide Helper"
+                    />
+                </>
 
                 {/* Bottom Controls - Super Compact & Floating Higher */}
                 <div className="absolute bottom-20 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-auto">
