@@ -143,7 +143,7 @@ export default function MorningBriefingPopup() {
         {
             type: 'cover',
             content: (
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10">
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10 px-6">
                     <div className="relative">
                         <div className="absolute inset-0 bg-premium-gold blur-2xl opacity-20 rounded-full" />
                         <div className="w-24 h-24 bg-gradient-to-br from-zinc-800 to-black rounded-3xl border border-premium-gold/30 flex items-center justify-center shadow-2xl relative z-10 transform rotate-3">
@@ -175,9 +175,11 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col h-full pt-28">
-                    <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide pb-64">
+                <div className="flex flex-col h-full px-6 pt-32">
+                    <div className="flex-1 overflow-y-auto scrollbar-hide">
                         {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
+                        {/* Explicit Spacer for scrolling past bottom controls */}
+                        <div className="h-48 w-full shrink-0" />
                     </div>
                 </div>
             )
@@ -186,7 +188,7 @@ export default function MorningBriefingPopup() {
         ...(briefing.top_stories && briefing.top_stories.length > 0 ? [{
             type: 'content',
             content: (
-                <div className="flex flex-col h-full justify-center space-y-6">
+                <div className="flex flex-col h-full justify-center space-y-6 px-6">
                     <div className="flex items-center gap-3 mb-2">
                         <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
                             <TrendingUp size={20} className="text-white" />
@@ -216,7 +218,7 @@ export default function MorningBriefingPopup() {
         ...(briefing.indicators ? [{
             type: 'content',
             content: (
-                <div className="flex flex-col h-full justify-center space-y-3">
+                <div className="flex flex-col h-full justify-center space-y-3 px-6">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
                             <Target size={20} className="text-white" />
@@ -276,7 +278,7 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10">
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10 px-6">
                     <div className="w-20 h-20 bg-white text-black rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.3)] transform rotate-6">
                         <Calendar size={40} />
                     </div>
