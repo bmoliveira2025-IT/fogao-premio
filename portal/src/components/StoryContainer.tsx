@@ -52,9 +52,9 @@ export default function StoryContainer({
     }, [currentIndex, isPaused, onNext, autoAdvanceDuration]);
 
     return (
-        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-0 md:p-4">
             {/* Mobile/Desktop Responsive Container */}
-            <div className="relative w-full h-full md:max-w-md md:h-[85vh] md:max-h-[800px] md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/40 backdrop-blur-xl">
+            <div className="relative w-full h-full md:max-w-md md:h-[85vh] md:max-h-[800px] rounded-none md:rounded-3xl overflow-hidden shadow-2xl border-0 md:border border-white/10 bg-black/40 backdrop-blur-xl">
 
                 {/* Background Image Layer */}
                 {backgroundImage && (
