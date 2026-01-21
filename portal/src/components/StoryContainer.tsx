@@ -122,10 +122,10 @@ export default function StoryContainer({
                 </>
 
                 {/* Bottom Controls - Super Compact & Floating Higher */}
-                <div className="absolute bottom-20 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-auto">
+                <div className="absolute bottom-20 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-none">
                     <button
                         onClick={(e) => { e.stopPropagation(); onPrev(); }}
-                        className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg"
+                        className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg pointer-events-auto"
                         aria-label="Anterior"
                     >
                         <ChevronLeft size={18} />
@@ -133,7 +133,7 @@ export default function StoryContainer({
 
                     <button
                         onClick={(e) => { e.stopPropagation(); setIsPaused(!isPaused); }}
-                        className="w-12 h-12 rounded-full bg-premium-gold text-black flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-[0_4_15px_rgba(255,215,0,0.3)] border border-white/20"
+                        className="w-12 h-12 rounded-full bg-premium-gold text-black flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-[0_4_15px_rgba(255,215,0,0.3)] border border-white/20 pointer-events-auto"
                         aria-label={isPaused ? "Play" : "Pause"}
                     >
                         {isPaused ? (
@@ -145,7 +145,7 @@ export default function StoryContainer({
 
                     <button
                         onClick={(e) => { e.stopPropagation(); onNext(); }}
-                        className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg"
+                        className="p-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md text-white/70 transition-all active:scale-90 border border-white/10 shadow-lg pointer-events-auto"
                         aria-label="Próximo"
                     >
                         <ChevronRight size={18} />
