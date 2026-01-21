@@ -16,7 +16,10 @@ TABLE_SCRIPT = os.path.join(BACKEND_DIR, "fetch_table.py")
 def run_script(script_path, name):
     print(f"[{datetime.now()}] Starting {name}...")
     try:
-        subprocess.run(["python", script_path], check=True, cwd=BACKEND_DIR)
+        # Pass SINGLE_RUN=true to ensure scripts exit after one pass
+        env = os.environ.copy()
+        env["SINGLE_RUN"] = "true"
+        subprocess.run(["python", script_path], check=True, cwd=BACKEND_DIR, env=env)
         print(f"[{datetime.now()}] {name} completed successfully.")
     except Exception as e:
         print(f"[{datetime.now()}] Error running {name}: {e}")

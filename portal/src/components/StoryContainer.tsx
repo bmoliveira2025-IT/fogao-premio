@@ -12,6 +12,7 @@ interface StoryContainerProps {
     onPrev: () => void;
     onClose: () => void;
     autoAdvanceDuration?: number; // ms
+    backgroundImage?: string;
 }
 
 export default function StoryContainer({
@@ -21,7 +22,8 @@ export default function StoryContainer({
     onNext,
     onPrev,
     onClose,
-    autoAdvanceDuration = 5000
+    autoAdvanceDuration = 5000,
+    backgroundImage
 }: StoryContainerProps) {
     const [progress, setProgress] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
@@ -50,14 +52,25 @@ export default function StoryContainer({
     }, [currentIndex, isPaused, onNext, autoAdvanceDuration]);
 
     return (
-        <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
             {/* Mobile/Desktop Responsive Container */}
-            <div className="relative w-full h-full md:max-w-md md:h-[90vh] md:max-h-[800px] md:rounded-2xl overflow-hidden bg-zinc-900 shadow-2xl">
+            <div className="relative w-full h-full md:max-w-md md:h-[85vh] md:max-h-[800px] md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-black/40 backdrop-blur-xl">
+
+                {/* Background Image Layer */}
+                {backgroundImage && (
+                    <>
+                        <div
+                            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none"
+                            style={{ backgroundImage: `url(${backgroundImage})` }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 pointer-events-none" />
+                    </>
+                )}
 
                 {/* Progress Bars */}
                 <div className="absolute top-4 left-4 right-4 z-20 flex gap-1.5 h-1">
                     {Array.from({ length: totalSlides }).map((_, idx) => (
-                        <div key={idx} className="flex-1 bg-white/20 rounded-full h-full overflow-hidden">
+                        <div key={idx} className="flex-1 bg-white/10 rounded-full h-full overflow-hidden">
                             <div
                                 className="h-full bg-white transition-all duration-100 ease-linear"
                                 style={{

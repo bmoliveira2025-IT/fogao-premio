@@ -842,10 +842,10 @@ def generate_daily_briefing(force=False):
     if current_hour >= 7 and current_hour < 11:
         briefing_slot = "07h"
         slot_label = "Edição da Manhã"
-    elif current_hour >= 18 and current_hour < 21:
+    elif current_hour >= 18 and current_hour < 22:
         briefing_slot = "18h"
         slot_label = "Edição da Tarde/Noite"
-    elif current_hour >= 23 or current_hour < 2: # 23h - 01h (Night/Next Day Start)
+    elif current_hour >= 22 or current_hour < 2: # 22h - 02h (Night/Next Day Start)
         briefing_slot = "24h"
         slot_label = "Edição de Fechamento"
     
@@ -892,25 +892,48 @@ def generate_daily_briefing(force=False):
 
     # 4. Prompt AI
     prompt = f"""
-    Atue como Central de Imprensa Premium do Botafogo.
-    Gere o "Resumo do Dia - {slot_label}" jornalístico, sofisticado e direto.
+    Atue como Editor-Chefe de Conteúdo Esportivo Premium do Botafogo.
+    Sua especialidade é curadoria de notícias, leitura estratégica e comunicação direta para assinantes exigentes.
     
-    - Transmissão (Onde Assistir): Sportv, Premiere e GE TV.
+    Gere um "Daily Premium" com base exclusivamente nas notícias fornecidas, seguindo rigorosamente estas diretrizes:
     
-    CONTEXTO OBRIGATÓRIO (Use estas informações oficiais nos Indicadores):
+    Horário: {slot_label} ({briefing_slot})
+    Clube: Botafogo
+    Data: {today_str}
+
+    OBJETIVO:
+    Entregar um resumo objetivo, criativo, direto e de alto padrão, sem excesso de opinião, sem sensacionalismo e sem repetição.
+    
+    CONTEXTO OBRIGATÓRIO (Use para Próximo Jogo/Indicadores):
     - Próximo Jogo: Botafogo vs Volta Redonda, Quarta-feira (21/01) às 19h.
-    - Campeonato: Campeonato Carioca.
+    - Competição: Campeonato Carioca.
     - Local: Estádio Nilton Santos (Casa).
     - Transmissão (Onde Assistir): Sportv, Premiere e GE TV.
 
-    Regras de Conteúdo:
-    1. **Editorial (editorial_summary)**: Texto ÚNICO e contínuo. Máximo 80 palavras. Foco no que é relevante AGORA ({slot_label}).
-    2. **Indicadores**:
-       - Próximo Jogo: Data e Adversário (Use o contexto acima)
-       - Local: "Casa" ou "Fora" (Use o contexto acima)
-       - Onde Assistir (transmission): Pesquise nas notícias disponíveis onde o próximo jogo será transmitido e informe os canais corretos (ex: Sportv, Premiere, GE TV, Band, BandSports, Cazé TV, YouTube Paulistão, etc.)
-       - DM: Situação médica 
-       - Mercado: Status rápido
+    ESTRUTURA DE SAÍDA (JSON):
+    Você deve retornar um JSON com os campos abaixo. 
+    
+    1. "editorial_summary": Combine as seções "Abertura", "Destaques do Dia" e "Radar Rápido" em um único texto formatado com Markdown.
+       - Abertura: 🎯 Uma frase forte que contextualize o momento.
+       - Destaques: ⭐ Liste 2-3 pontos de alto impacto (use bullets).
+       - Radar: 📊 Um dado ou curiosidade tática breve.
+       (Mantenha tudo isso concatenado no campo 'editorial_summary', use quebras de linha \\n).
+
+    2. "indicators": Preencha com os dados do próximo jogo e mercado.
+       - next_match: "Quarta (21/01), 19h vs Volta Redonda"
+       - location: "Nilton Santos (Casa)"
+       - transmission: "Sportv, Premiere e GE TV" (ou conforme notícias se houver mudança)
+       - dm: Situação médica breve ou "Sem novidades"
+       - market: Status rápido de transferências
+
+    3. "top_stories": Selecione as 3 manchetes mais essenciais (Manchetes Essenciais).
+       - rank, source_id (baseado na lista abaixo), title (curto e objetivo), category.
+
+    DIRETRIZES DO TEXTO:
+    - Linguagem moderna, clara e confiante.
+    - Frases curtas.
+    - Sem clichês.
+    - Tom profissional e envolvente.
 
     Notícias Disponíveis:
     {articles_text[:12000]} 
@@ -919,13 +942,13 @@ def generate_daily_briefing(force=False):
     {{
         "date": "{today_str}",
         "edition": "{briefing_slot}",
-        "editorial_summary": "Texto editorial...",
-        "reading_time": "~20 segundos",
+        "editorial_summary": "🎯 [Abertura]\\n\\n⭐ [Destaque 1]\\n⭐ [Destaque 2]\\n\\n📊 [Radar]",
+        "reading_time": "~1 min",
         "indicators": {{ "next_match": "...", "location": "...", "transmission": "...", "dm": "...", "market": "..." }},
         "top_stories": [
-             {{ "rank": 1, "source_id": 0, "title": "Manchete", "category": "Categoria" }},
-             {{ "rank": 2, "source_id": 1, "title": "Manchete", "category": "Categoria" }},
-             {{ "rank": 3, "source_id": 2, "title": "Manchete", "category": "Categoria" }}
+             {{ "rank": 1, "source_id": 0, "title": "...", "category": "..." }},
+             {{ "rank": 2, "source_id": 1, "title": "...", "category": "..." }},
+             {{ "rank": 3, "source_id": 2, "title": "...", "category": "..." }}
         ]
     }}
     """
@@ -990,9 +1013,10 @@ def generate_daily_briefing(force=False):
 
     
 # Check if running in GitHub Actions (or any cloud "single run" environment)
+# Check if running in GitHub Actions OR explicitly requested Single Run
 if __name__ == "__main__":
-    if os.getenv("GITHUB_ACTIONS") == "true":
-        print("Running in Cloud Mode (Single Execution)...")
+    if os.getenv("GITHUB_ACTIONS") == "true" or os.getenv("SINGLE_RUN") == "true":
+        print(f"Running in Single Execution Mode (Source: {'GitHub Actions' if os.getenv('GITHUB_ACTIONS') == 'true' else 'Scheduler/Env'})...")
         update_next_match()
         fetch_youtube_videos()
         fetch_podcasts(db) # Fetch Podcasts
