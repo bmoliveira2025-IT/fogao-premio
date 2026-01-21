@@ -290,6 +290,11 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </div>
+            <SubscriptionModal
+                isOpen={showSubscriptionModal}
+                onClose={() => setShowSubscriptionModal(false)}
+                user={user}
+            />
         </div>
     );
 }
