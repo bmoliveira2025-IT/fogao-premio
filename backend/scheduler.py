@@ -57,11 +57,13 @@ print("Schedule:")
 print("- News: Every 20 minutes")
 print("- Videos/Podcasts: Every 24 hours")
 print("- Squad/Matches: Every 20 days")
+print("- Table: Every 6 hours")
 
 # Run all jobs immediately on startup to ensure fresh data
 print("Running initial jobs...")
 job_news()
 job_videos_podcasts()
+job_table_update()
 # Skipping heavy squad/match update on startup unless empty? User implied "updates", so maybe just schedule.
 # run_script(SQUAD_SCRIPT, "Squad Seeder") # Optional on startup
 

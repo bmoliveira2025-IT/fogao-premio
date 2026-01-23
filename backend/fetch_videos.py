@@ -57,22 +57,23 @@ def fetch_videos():
             
             # Media Group for thumbnail
             media_group = entry.find(f'{media}group')
-            thumbnail = media_group.find(f'{media}thumbnail').attrib['url']
+            # Normalize thumbnail to avoid subdomain issues
+            thumbnail = f"https://i.ytimg.com/vi/{video_id}/hqdefault.jpg"
             
             # Parse date
-            # Format: 2026-01-09T15:30:00+00:00
             try:
                 dt = datetime.fromisoformat(published)
             except:
                 dt = datetime.now()
             
             videos.append({
-                "id": video_id,
+                "video_id": video_id, # Add explicit video_id field
                 "title": title,
                 "url": f"https://www.youtube.com/watch?v={video_id}",
                 "thumbnail": thumbnail,
                 "published_at": dt,
-                "source": "Botafogo TV"
+                "source": "Botafogo TV",
+                "created_at": firestore.SERVER_TIMESTAMP # Add creation timestamp
             })
             
         print(f"Found {len(videos)} videos.")
@@ -81,7 +82,8 @@ def fetch_videos():
         batch = db.batch()
         count = 0
         for video in videos:
-            doc_ref = db.collection('videos').document(video['id'])
+            # IMPORTANT: Use video_id as the document ID to prevent duplicates
+            doc_ref = db.collection('videos').document(video['video_id'])
             batch.set(doc_ref, video)
             count += 1
             

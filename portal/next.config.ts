@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '*.ig.com.br' }, // Wildcard for IG if needed
       { protocol: 'https', hostname: '*.bp.blogspot.com' }, // Gazeta uses Blogger
       { protocol: 'https', hostname: 'blogger.googleusercontent.com' },
-      { protocol: 'https', hostname: 'i.ytimg.com' },
+      { protocol: 'https', hostname: '*.ytimg.com' },
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
       { protocol: 'https', hostname: 'fogonarede.com.br' },
       { protocol: 'https', hostname: 'www.fogonarede.com.br' },

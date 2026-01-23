@@ -113,8 +113,8 @@ export default function LeagueTable() {
                                     return (
                                         <div
                                             key={team.team}
-                                            className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-colors hover:bg-white/5 
-                                            ${isBotafogo ? 'bg-premium-gold/10 relative overflow-hidden' : ''}`}
+                                            className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-300 hover:bg-white/[0.07] group
+                                            ${isBotafogo ? 'bg-premium-gold/10 relative overflow-hidden backdrop-blur-sm shadow-[inset_0_0_20px_rgba(212,175,55,0.05)]' : ''}`}
                                         >
                                             {/* Highlight Bar for Botafogo */}
                                             {isBotafogo && (
@@ -130,8 +130,21 @@ export default function LeagueTable() {
                                             </div>
 
                                             {/* Team */}
-                                            <div className="col-span-5 pl-2 flex items-center space-x-2">
-                                                <span className={`font-bold ${isBotafogo ? 'text-premium-gold uppercase tracking-wide' : 'text-white/80'}`}>
+                                            <div className="col-span-5 pl-2 flex items-center space-x-3">
+                                                {team.logo ? (
+                                                    <div className="w-6 h-6 flex-shrink-0 relative bg-white/5 rounded-full p-0.5 border border-white/10 group-hover:border-premium-gold/30 transition-colors">
+                                                        <img
+                                                            src={team.logo}
+                                                            alt=""
+                                                            className="w-full h-full object-contain"
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <div className="w-6 h-6 flex-shrink-0 bg-white/5 rounded-full flex items-center justify-center p-1 border border-white/10">
+                                                        <Shield size={12} className="text-white/20" />
+                                                    </div>
+                                                )}
+                                                <span className={`font-bold truncate ${isBotafogo ? 'text-premium-gold uppercase tracking-wide' : 'text-white/80'}`}>
                                                     {team.team}
                                                 </span>
                                             </div>

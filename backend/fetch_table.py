@@ -89,6 +89,7 @@ def fetch_table():
                     "draws": team.get('empates'),
                     "losses": team.get('derrotas'),
                     "goal_diff": team.get('saldo_gols'),
+                    "logo": team.get('escudo'),
                     "group": group_name
                 })
 

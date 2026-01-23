@@ -641,7 +641,7 @@ def fetch_youtube_videos():
                         "created_at": firestore.SERVER_TIMESTAMP
                     }
                     
-                    db.collection('videos').add(video_doc)
+                    db.collection('videos').document(video_id).set(video_doc)
                     print(f"Saved Video ({channel['name']}): {title}")
                     
         except Exception as e:
