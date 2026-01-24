@@ -244,10 +244,11 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                             <button
                                 onClick={handleShare}
-                                className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all font-bold text-xs uppercase"
+                                title="Compartilhar"
                             >
-                                <Share2 size={18} />
-                                <span className="text-xs font-bold uppercase tracking-wider">Compartilhar</span>
+                                <Share2 size={16} />
+                                <span>Compartilhar</span>
                             </button>
 
                             <div className="flex items-center gap-2">
