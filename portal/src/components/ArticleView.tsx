@@ -225,10 +225,10 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                     ? 'bg-red-500/10 border-red-500/50 text-red-500'
                                     : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                                     }`}
+                                title={liked ? 'Curtiu' : 'Curtir'}
                             >
                                 <Heart size={16} className={liked ? 'fill-current' : ''} />
-                                <span>{liked ? 'Curtiu' : 'Curtir'}</span>
-                                {!liked && <span className="ml-0.5 text-[10px] bg-premium-gold/20 text-premium-gold px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
+                                {!liked && <span className="text-[10px] bg-premium-gold/20 text-premium-gold px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
                             </button>
 
                             <button
