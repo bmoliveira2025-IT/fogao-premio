@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, Share2, Bookmark, Volume2, Clock, Heart } from 'lucide-react';
+import { ChevronLeft, Share2, Bookmark, Volume2, Clock, Heart, Type } from 'lucide-react';
 import TabBar from '@/components/TabBar';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
@@ -13,6 +13,7 @@ import CompactNewsRow from './CompactNewsRow';
 import QuoteBanner from './QuoteBanner';
 import PremiumGuard from './PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
+import ReadingControls from '@/components/ReadingControls';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 
@@ -20,6 +21,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     const { addPoints } = useAuth();
     const [liked, setLiked] = useState(false);
     const [pointsAwarded, setPointsAwarded] = useState(false);
+    const [showReadingControls, setShowReadingControls] = useState(false);
 
     useEffect(() => {
         // Check if already liked this article in this session/browser
@@ -241,6 +243,25 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 <Share2 size={18} />
                                 <span className="text-xs font-bold uppercase tracking-wider">Compartilhar</span>
                             </button>
+
+                            <div className="relative">
+                                <button
+                                    onClick={() => setShowReadingControls(!showReadingControls)}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${showReadingControls
+                                        ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
+                                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
+                                        }`}
+                                >
+                                    <Type size={18} />
+                                    <span className="text-xs font-bold uppercase tracking-wider text-inherit">Texto</span>
+                                </button>
+
+                                <AnimatePresence>
+                                    {showReadingControls && (
+                                        <ReadingControls onClose={() => setShowReadingControls(false)} />
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         </div>
 
                         {/* Divider */}
