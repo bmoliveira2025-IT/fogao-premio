@@ -14,6 +14,7 @@ import time
 from datetime import datetime, timezone, timedelta
 from cleanup import cleanup_old_news # Import cleanup logic
 from fetch_podcasts import fetch_podcasts # Import Podcast logic
+from fetch_brasileirao import fetch_brasileirao # Import Brasileirão logic
 
 # Load environment variables
 load_dotenv()
@@ -1018,6 +1019,7 @@ if __name__ == "__main__":
     if os.getenv("GITHUB_ACTIONS") == "true" or os.getenv("SINGLE_RUN") == "true":
         print(f"Running in Single Execution Mode (Source: {'GitHub Actions' if os.getenv('GITHUB_ACTIONS') == 'true' else 'Scheduler/Env'})...")
         update_next_match()
+        fetch_brasileirao() # Fetch Brasileirão Table
         fetch_youtube_videos()
         fetch_podcasts(db) # Fetch Podcasts
         monitor_sources()
@@ -1041,6 +1043,7 @@ if __name__ == "__main__":
         while True:
             try:
                 print("--- Starting Cycle ---")
+                fetch_brasileirao()
                 fetch_youtube_videos()
                 monitor_sources()
                 generate_daily_briefing()
