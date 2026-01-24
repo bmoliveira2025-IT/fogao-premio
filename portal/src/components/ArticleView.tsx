@@ -218,10 +218,10 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         </div>
 
                         {/* Action Bar */}
-                        <div className="flex flex-wrap items-center gap-2 mb-8">
+                        <div className="flex flex-wrap items-center gap-3 mb-8">
                             <button
                                 onClick={handleLike}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${liked
+                                className={`flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${liked
                                     ? 'bg-red-500/10 border-red-500/50 text-red-500'
                                     : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                                     }`}
@@ -233,7 +233,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                             <button
                                 onClick={() => setShowVoice(!showVoice)}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${showVoice
+                                className={`flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${showVoice
                                     ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
                                     : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                                     }`}
@@ -244,29 +244,29 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                             <button
                                 onClick={handleShare}
-                                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
+                                className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
                             >
                                 <Share2 size={18} />
                                 <span className="text-xs font-bold uppercase tracking-wider">Compartilhar</span>
                             </button>
 
-                            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-1 py-1">
-                                <button
-                                    onClick={() => adjustFont(-10)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                                    title="Diminuir texto"
-                                >
-                                    <Minus size={16} />
-                                </button>
-                                <span className="text-[10px] font-black text-premium-gold/50 min-w-[28px] text-center">{fontSize}%</span>
-                                <button
-                                    onClick={() => adjustFont(10)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                                    title="Aumentar texto"
-                                >
-                                    <Plus size={16} />
-                                </button>
-                            </div>
+                            <button
+                                onClick={() => adjustFont(-10)}
+                                className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
+                                title="Diminuir texto"
+                            >
+                                <Minus size={18} />
+                                <span className="text-xs font-bold uppercase tracking-wider">Menor</span>
+                            </button>
+
+                            <button
+                                onClick={() => adjustFont(10)}
+                                className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
+                                title="Aumentar texto"
+                            >
+                                <Plus size={18} />
+                                <span className="text-xs font-bold uppercase tracking-wider">Maior</span>
+                            </button>
                         </div>
 
                         {/* Divider */}
