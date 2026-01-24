@@ -251,23 +251,25 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 <span>Compartilhar</span>
                             </button>
 
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center bg-zinc-900/40 backdrop-blur-sm border border-premium-gold/30 rounded-xl overflow-hidden shadow-lg shadow-black/20">
                                 <button
                                     onClick={() => adjustFont(-10)}
-                                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all font-bold text-xs uppercase"
+                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-r border-premium-gold/10"
                                     title="Diminuir texto"
                                 >
                                     <Minus size={16} />
-                                    <span>Menor</span>
                                 </button>
+
+                                <div className="px-2 flex items-center justify-center min-w-[45px]">
+                                    <span className="text-[10px] font-black text-premium-gold/80 italic">{fontSize}%</span>
+                                </div>
 
                                 <button
                                     onClick={() => adjustFont(10)}
-                                    className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all font-bold text-xs uppercase"
+                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-l border-premium-gold/10"
                                     title="Aumentar texto"
                                 >
                                     <Plus size={16} />
-                                    <span>Maior</span>
                                 </button>
                             </div>
                         </div>
