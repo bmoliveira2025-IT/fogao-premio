@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, Share2, Bookmark, Volume2, Clock, Heart, Type } from 'lucide-react';
+import { ChevronLeft, Share2, Bookmark, Volume2, Clock, Heart, Plus, Minus } from 'lucide-react';
 import TabBar from '@/components/TabBar';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
@@ -13,7 +13,6 @@ import CompactNewsRow from './CompactNewsRow';
 import QuoteBanner from './QuoteBanner';
 import PremiumGuard from './PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
-import ReadingControls from '@/components/ReadingControls';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 
@@ -21,7 +20,14 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     const { addPoints } = useAuth();
     const [liked, setLiked] = useState(false);
     const [pointsAwarded, setPointsAwarded] = useState(false);
-    const [showReadingControls, setShowReadingControls] = useState(false);
+    const [fontSize, setFontSize] = useState(100);
+
+    const adjustFont = (delta: number) => {
+        if (typeof document === 'undefined') return;
+        const newSize = Math.min(Math.max(fontSize + delta, 80), 200);
+        setFontSize(newSize);
+        document.documentElement.style.setProperty('--font-scale', `${newSize / 100}`);
+    };
 
     useEffect(() => {
         // Check if already liked this article in this session/browser
@@ -244,23 +250,22 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 <span className="text-xs font-bold uppercase tracking-wider">Compartilhar</span>
                             </button>
 
-                            <div className="relative">
+                            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-1 py-1">
                                 <button
-                                    onClick={() => setShowReadingControls(!showReadingControls)}
-                                    className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all ${showReadingControls
-                                        ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
-                                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
-                                        }`}
-                                    title="Ajustar Zoom"
+                                    onClick={() => adjustFont(-10)}
+                                    className="w-8 h-8 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                                    title="Diminuir texto"
                                 >
-                                    <Type size={18} />
+                                    <Minus size={16} />
                                 </button>
-
-                                <AnimatePresence>
-                                    {showReadingControls && (
-                                        <ReadingControls onClose={() => setShowReadingControls(false)} />
-                                    )}
-                                </AnimatePresence>
+                                <span className="text-[10px] font-black text-premium-gold/50 min-w-[28px] text-center">{fontSize}%</span>
+                                <button
+                                    onClick={() => adjustFont(10)}
+                                    className="w-8 h-8 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                                    title="Aumentar texto"
+                                >
+                                    <Plus size={16} />
+                                </button>
                             </div>
                         </div>
 
