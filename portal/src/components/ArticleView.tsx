@@ -49,7 +49,6 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             setPointsAwarded(true);
         }
     };
-    // ... rest of component
 
     const [showVoice, setShowVoice] = useState(false);
 
@@ -260,7 +259,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 </button>
 
                                 <div className="px-2 flex items-center justify-center min-w-[45px]">
-                                    <span className="text-[10px] font-black text-premium-gold/80 italic">{fontSize}%</span>
+                                    <span className="text-[10px] font-black text-premium-gold/50 italic">{fontSize}%</span>
                                 </div>
 
                                 <button
