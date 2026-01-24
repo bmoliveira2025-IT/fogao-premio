@@ -15,6 +15,7 @@ interface VideoItem {
     url: string;
     thumbnail: string;
     published_at: string;
+    is_live?: boolean;
 }
 
 interface BotafogoTVCarouselProps {
@@ -24,6 +25,15 @@ interface BotafogoTVCarouselProps {
 
 export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCarouselProps) {
     const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+
+    // Sort: Live first, then by date (if date strings are comparable)
+    const sortedVideos = [...videos].sort((a, b) => {
+        if (a.is_live && !b.is_live) return -1;
+        if (!a.is_live && b.is_live) return 1;
+        return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+    });
+
+    const hasLive = videos.some(v => v.is_live);
 
     // Robust Video ID extraction (YouTube & GloboPlay)
     const getVideoId = (url: string) => {
@@ -73,8 +83,8 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl">
                     {/* Live Dot */}
                     <div className="relative flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+                        {hasLive && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>}
+                        <span className={cn("relative inline-flex rounded-full h-3 w-3", hasLive ? "bg-red-600" : "bg-zinc-700")}></span>
                     </div>
 
                     <span className="text-[13px] md:text-[14px] font-black text-white tracking-[0.2em] uppercase">
@@ -93,8 +103,8 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                 <DragHint />
 
                 <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 lg:px-0 gap-4 pb-8">
-                    {videos.length > 0 ? (
-                        videos.map((video) => (
+                    {sortedVideos.length > 0 ? (
+                        sortedVideos.map((video) => (
                             <motion.div
                                 key={video.id}
                                 whileHover={{ y: -5 }}
@@ -113,6 +123,14 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
 
                                 {/* Cinematic Gradient Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+                                {/* Live Badge */}
+                                {video.is_live && (
+                                    <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-600 border border-white/20 shadow-lg animate-pulse">
+                                        <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                        <span className="text-[10px] font-black text-white uppercase tracking-widest">AO VIVO</span>
+                                    </div>
+                                )}
 
                                 {/* Play Button - Minimal Glass */}
                                 <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity duration-300">
