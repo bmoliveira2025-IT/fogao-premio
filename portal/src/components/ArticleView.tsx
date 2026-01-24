@@ -247,13 +247,13 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                             <div className="relative">
                                 <button
                                     onClick={() => setShowReadingControls(!showReadingControls)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all ${showReadingControls
+                                    className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all ${showReadingControls
                                         ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
                                         : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                                         }`}
+                                    title="Ajustar Zoom"
                                 >
                                     <Type size={18} />
-                                    <span className="text-xs font-bold uppercase tracking-wider text-inherit">Texto</span>
                                 </button>
 
                                 <AnimatePresence>
