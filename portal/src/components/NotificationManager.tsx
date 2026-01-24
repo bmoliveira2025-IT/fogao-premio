@@ -19,6 +19,7 @@ const firebaseConfig = {
 export default function NotificationManager() {
     const [permission, setPermission] = useState<NotificationPermission>('default');
     const [isSupported, setIsSupported] = useState(false);
+    const [isDismissed, setIsDismissed] = useState(false);
 
     useEffect(() => {
         // Check if running in browser and if Notification/SW is supported
@@ -29,6 +30,7 @@ export default function NotificationManager() {
     }, []);
 
     const requestPermission = async () => {
+        setIsDismissed(true);
         if (!isSupported) return;
 
         try {
@@ -87,8 +89,8 @@ export default function NotificationManager() {
 
     if (!isSupported) return null;
 
-    // Don't show if already granted (or maybe show a small 'active' icon?)
-    if (permission === 'granted') return null;
+    // Don't show if already granted, or if user dismissed/interacted with it
+    if (permission !== 'default' || isDismissed) return null;
 
     return (
         <button
