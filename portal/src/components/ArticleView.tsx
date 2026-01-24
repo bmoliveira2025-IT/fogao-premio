@@ -221,25 +221,25 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         <div className="flex flex-wrap items-center gap-3 mb-8">
                             <button
                                 onClick={handleLike}
-                                className={`flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${liked
+                                className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border transition-all font-bold text-xs uppercase ${liked
                                     ? 'bg-red-500/10 border-red-500/50 text-red-500'
                                     : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                                     }`}
                             >
-                                <Heart size={18} className={liked ? 'fill-current' : ''} />
-                                <span className="text-xs font-bold uppercase tracking-wider">{liked ? 'Curtiu' : 'Curtir'}</span>
+                                <Heart size={16} className={liked ? 'fill-current' : ''} />
+                                <span>{liked ? 'Curtiu' : 'Curtir'}</span>
                                 {!liked && <span className="ml-0.5 text-[10px] bg-premium-gold/20 text-premium-gold px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
                             </button>
 
                             <button
                                 onClick={() => setShowVoice(!showVoice)}
-                                className={`flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${showVoice
+                                className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border transition-all font-bold text-xs uppercase ${showVoice
                                     ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
                                     : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                                     }`}
                             >
-                                <Volume2 size={18} />
-                                <span className="text-xs font-bold uppercase tracking-wider">Ouvir</span>
+                                <Volume2 size={16} />
+                                <span>Ouvir</span>
                             </button>
 
                             <button
@@ -251,10 +251,10 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 <span>Compartilhar</span>
                             </button>
 
-                            <div className="flex items-center bg-zinc-900/40 backdrop-blur-sm border border-premium-gold/30 rounded-xl overflow-hidden shadow-lg shadow-black/20">
+                            <div className="flex items-center bg-zinc-900/40 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden shadow-lg shadow-black/20">
                                 <button
                                     onClick={() => adjustFont(-10)}
-                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-r border-premium-gold/10"
+                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-r border-white/5"
                                     title="Diminuir texto"
                                 >
                                     <Minus size={16} />
@@ -266,7 +266,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                                 <button
                                     onClick={() => adjustFont(10)}
-                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-l border-premium-gold/10"
+                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-l border-white/5"
                                     title="Aumentar texto"
                                 >
                                     <Plus size={16} />
