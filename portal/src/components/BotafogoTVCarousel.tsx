@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import VideoModal from './VideoModal';
+import { getSafeImageSrc } from '@/lib/images';
 
 interface VideoItem {
     id: string;
@@ -102,11 +103,12 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                                 className="shrink-0 w-[85vw] lg:w-72 aspect-video relative rounded-2xl overflow-hidden cursor-pointer group snap-center lg:snap-start border border-white/5 bg-zinc-900 shadow-2xl hover:shadow-premium-gold/20 hover:border-premium-gold/30 transition-all duration-300"
                             >
                                 <Image
-                                    src={video.thumbnail}
+                                    src={getSafeImageSrc(video.thumbnail)}
                                     alt={video.title}
                                     fill
+                                    unoptimized
                                     sizes="(max-width: 768px) 280px, 320px"
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-100"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 md:opacity-60 group-hover:opacity-100"
                                 />
 
                                 {/* Cinematic Gradient Overlay */}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Play, Calendar, Tv } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import VideoModal from './VideoModal';
+import { getSafeImageSrc } from '@/lib/images';
 
 interface VideoItem {
     id: string;
@@ -72,11 +73,12 @@ export default function VideoGrid({ videos }: VideoGridProps) {
                     >
                         {/* Thumbnail */}
                         <Image
-                            src={video.thumbnail}
+                            src={getSafeImageSrc(video.thumbnail)}
                             alt={video.title}
                             fill
+                            unoptimized
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                            className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 md:opacity-80 group-hover:opacity-100"
                         />
 
                         {/* Overlay */}
