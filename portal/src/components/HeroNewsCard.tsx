@@ -24,6 +24,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
                 fill
                 priority={true}
                 className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                unoptimized={true}
             />
 
             {/* Gradient Overlay - Premium */}

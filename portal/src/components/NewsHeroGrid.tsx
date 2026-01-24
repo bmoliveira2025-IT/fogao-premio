@@ -45,6 +45,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                         priority
+                        unoptimized={true}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                 </div>
@@ -92,6 +93,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80"
                             sizes="(max-width: 768px) 100vw, 33vw"
+                            unoptimized={true}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
 

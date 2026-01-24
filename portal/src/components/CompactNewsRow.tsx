@@ -31,6 +31,7 @@ export default function CompactNewsRow({ article }: any) {
                     fill
                     sizes="(max-width: 768px) 80px, 112px"
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    unoptimized={true}
                 />
             </div>
 
