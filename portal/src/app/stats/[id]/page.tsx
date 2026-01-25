@@ -324,21 +324,21 @@ export default function MatchStatsPage() {
                                 <StatRow label="Precisão Passe" stats={match.stats.pass_accuracy} icon={Award} unit="%" />
                                 <div className="space-y-4 pt-2">
                                     <StatRow label="Finalizações Totais" stats={match.stats.shots} icon={TrendingUp} />
-                                    <div className="grid grid-cols-3 gap-2 pl-4 border-l border-white/5">
-                                        <div className="flex flex-col">
-                                            <span className="text-[10px] font-black text-white">{match.stats.shots_on_target.home}</span>
-                                            <span className="text-[7px] text-white/30 uppercase">No Alvo</span>
+                                    <div className="grid grid-cols-3 gap-3 pl-4 border-l border-white/10">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm font-black text-white">{match.stats.shots_on_target.home}</span>
+                                            <span className="text-[12px] text-white/90 uppercase font-black tracking-tight">No Alvo</span>
                                         </div>
                                         {match.stats.shots_off_target && (
-                                            <div className="flex flex-col">
-                                                <span className="text-[10px] font-black text-white/60">{match.stats.shots_off_target.home}</span>
-                                                <span className="text-[7px] text-white/20 uppercase">Fora</span>
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-sm font-black text-white">{match.stats.shots_off_target.home}</span>
+                                                <span className="text-[12px] text-white/70 uppercase font-bold tracking-tight">Fora</span>
                                             </div>
                                         )}
                                         {match.stats.shots_blocked && (
-                                            <div className="flex flex-col">
-                                                <span className="text-[10px] font-black text-white/40">{match.stats.shots_blocked.home}</span>
-                                                <span className="text-[7px] text-white/10 uppercase">Blocks</span>
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-sm font-black text-white/90">{match.stats.shots_blocked.home}</span>
+                                                <span className="text-[12px] text-white/50 uppercase font-bold tracking-tight">Blocks</span>
                                             </div>
                                         )}
                                     </div>
