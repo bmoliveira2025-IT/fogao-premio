@@ -14,6 +14,7 @@ import QuoteBanner from '@/components/QuoteBanner';
 import PodcastWidget from '@/components/PodcastWidget';
 import SocialHubWidget from '@/components/SocialHubWidget';
 import { getTrendingTopics } from '@/lib/social-pulse';
+import LastMatchStatsCard from '@/components/LastMatchStatsCard';
 
 export const revalidate = 60;
 
@@ -236,6 +237,9 @@ export default async function Home() {
               <div className="-mx-4 lg:mx-0">
                 <HeadlinesWidget news={news} nextMatch={nextMatch} />
               </div>
+
+              {/* NEW: Last Match Analysis Card */}
+              <LastMatchStatsCard />
 
 
 

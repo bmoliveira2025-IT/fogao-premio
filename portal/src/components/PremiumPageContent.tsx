@@ -9,6 +9,7 @@ import { getSafeImageSrc } from '@/lib/images';
 
 import PremiumWallpapers from '@/components/PremiumWallpapers';
 import BauGlorioso from '@/components/BauGlorioso';
+import PremiumGameStats from '@/components/PremiumGameStats';
 
 export default function PremiumPageContent({ premiumNews }: { premiumNews: any[] }) {
     return (
@@ -43,7 +44,7 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                         Área <span className="text-premium-gold">Exclusiva</span>
                     </h1>
                     <p className="text-xs lg:text-sm text-white/50 mt-2 max-w-xs lg:max-w-md mx-auto relative z-10">
-                        Análises táticas, bastidores e conteúdo histórico para quem vive o Botafogo.
+                        Análises táticas, bastidores e conteúdo exclusivo da Temporada 2026 do Botafogo.
                     </p>
                 </div>
 
@@ -56,11 +57,14 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                     {/* NEW: Bau Glorioso Section */}
                     <BauGlorioso />
 
+                    {/* NEW: Match Stats Section */}
+                    <PremiumGameStats />
+
                     {/* EXISTING: News Section */}
                     <div className="mb-8 flex items-center gap-2">
                         <Zap className="text-premium-gold" size={20} />
                         <h3 className="text-xl font-display font-medium text-white">
-                            Análises <span className="text-premium-gold">Táticas</span>
+                            Análises de <span className="text-premium-gold">Partidas 2026</span>
                         </h3>
                     </div>
 
