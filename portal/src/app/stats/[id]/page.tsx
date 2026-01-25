@@ -104,29 +104,29 @@ export default function MatchStatsPage() {
 
         return (
             <div className="space-y-2">
-                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-white/30">
+                <div className="flex justify-between items-center text-[12px] font-black uppercase tracking-widest text-white/90">
                     <span className="flex items-center gap-2">
-                        <Icon size={12} className="text-premium-gold/40" />
+                        <Icon size={16} className="text-premium-gold" />
                         {label}
                     </span>
-                    <span className="text-premium-gold/60">{unit}</span>
+                    <span className="text-premium-gold font-bold">{unit}</span>
                 </div>
 
-                <div className="relative h-2 w-full bg-white/5 rounded-full overflow-hidden flex">
+                <div className="relative h-3 w-full bg-white/20 rounded-full overflow-hidden flex shadow-inner">
                     <div
-                        className="h-full bg-premium-gold shadow-[0_0_10px_rgba(212,175,55,0.3)] transition-all duration-1000 ease-out"
+                        className="h-full bg-premium-gold shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all duration-1000 ease-out"
                         style={{ width: `${homePercent}%` }}
                     />
                 </div>
 
-                <div className="flex justify-between items-center text-xs font-black font-mono">
+                <div className="flex justify-between items-center text-sm font-black font-mono">
                     <div className="flex flex-col gap-0.5">
-                        <span className="text-white text-md">{stats.home}</span>
-                        <span className="text-[7px] text-white/20 uppercase tracking-tighter">Botafogo</span>
+                        <span className="text-white text-xl leading-none">{stats.home}</span>
+                        <span className="text-[11px] text-white/50 uppercase tracking-tighter">Botafogo</span>
                     </div>
                     <div className="flex flex-col items-end gap-0.5">
-                        <span className="text-white/40 text-md">{stats.away}</span>
-                        <span className="text-[7px] text-white/10 uppercase tracking-tighter">Rival</span>
+                        <span className="text-white/80 text-xl leading-none">{stats.away}</span>
+                        <span className="text-[11px] text-white/30 uppercase tracking-tighter">Rival</span>
                     </div>
                 </div>
             </div>
@@ -177,13 +177,13 @@ export default function MatchStatsPage() {
         const awayWidth = 100 - homeWidth;
 
         return (
-            <div className="space-y-1.5">
+            <div className="space-y-3">
                 <div className="flex justify-between items-center px-1">
-                    <span className="text-xs font-black text-white font-mono">{home}</span>
-                    <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.2em]">{label}</span>
-                    <span className="text-xs font-black text-white/40 font-mono">{away}</span>
+                    <span className="text-lg font-black text-white font-mono">{home}</span>
+                    <span className="text-[11px] font-black text-white/90 uppercase tracking-[0.2em]">{label}</span>
+                    <span className="text-lg font-black text-white/60 font-mono">{away}</span>
                 </div>
-                <div className="flex h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="flex h-3 w-full bg-white/20 rounded-full overflow-hidden shadow-lg">
                     <div className="h-full rounded-l-full transition-all duration-1000" style={{ width: `${homeWidth}%`, backgroundColor: homeColor }} />
                     <div className="h-full rounded-r-full transition-all duration-1000" style={{ width: `${awayWidth}%`, backgroundColor: awayColor }} />
                 </div>
@@ -211,20 +211,18 @@ export default function MatchStatsPage() {
     return (
         <main className="min-h-screen bg-black text-white pb-32 selection:bg-premium-gold selection:text-black">
             <PremiumGuard>
-                {/* Compact Sticky Header */}
-                <header className="fixed top-0 left-0 right-0 z-[100] bg-black/90 backdrop-blur-2xl border-b border-white/5 h-16 flex items-center px-4">
-                    <button onClick={() => router.back()} className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/70 active:scale-90 transition-transform">
-                        <ChevronLeft size={20} />
+                {/* Ultra Compact Non-Sticky Header */}
+                <header className="fixed top-0 left-0 right-0 z-[100] bg-black/95 backdrop-blur-3xl border-b border-white/10 h-11 flex items-center px-4 shadow-xl">
+                    <button onClick={() => router.back()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 active:scale-90 transition-transform">
+                        <ChevronLeft size={18} />
                     </button>
                     <div className="flex-1 text-center px-2">
-                        <h1 className="text-[10px] font-black text-premium-gold uppercase tracking-[0.3em] truncate">Análise de Dados • 2026</h1>
+                        <h1 className="text-[12px] font-black text-premium-gold uppercase tracking-[0.3em] truncate">Análise de Dados • 2026</h1>
                     </div>
-                    <div className="w-10"></div>
+                    <div className="w-8"></div>
                 </header>
 
-                <div className="h-16"></div>
-
-                <div className="px-4 py-6 max-w-xl mx-auto space-y-6">
+                <div className="px-4 pt-12 pb-12 max-w-xl mx-auto space-y-3">
                     {/* Scoreboard - Ultra Compact */}
                     <div className="p-6 bg-gradient-to-b from-white/[0.03] to-transparent rounded-[2.5rem] border border-white/[0.02] flex flex-col items-center">
                         <span className="text-[8px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-4">{match.championship}</span>
@@ -237,9 +235,9 @@ export default function MatchStatsPage() {
                                 <span className="text-[10px] font-black uppercase text-white/40 tracking-widest">{match.away_team.split(' ')[0]}</span>
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/5">
-                            <Clock size={10} className="text-white/20" />
-                            <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest">
+                        <div className="mt-4 flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full border border-white/10 shadow-lg">
+                            <Clock size={12} className="text-white/40" />
+                            <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">
                                 {new Date(match.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                             </span>
                         </div>
@@ -269,8 +267,8 @@ export default function MatchStatsPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-4 pt-4 border-t border-white/5">
-                                <p className="text-[10px] text-white/40 font-medium italic">"{match.motm_data.contribution}"</p>
+                            <div className="mt-4 pt-4 border-t border-white/20">
+                                <p className="text-[13px] text-white/80 font-medium italic leading-relaxed">"{match.motm_data.contribution}"</p>
                             </div>
                         </div>
                     )}
@@ -385,17 +383,17 @@ export default function MatchStatsPage() {
                                 ].map((row, i) => (
                                     <div key={i} className="flex items-center justify-between py-2">
                                         <div className="flex flex-col items-center gap-2 w-24">
-                                            <span className="text-[10px] font-bold text-white font-mono">{row.stats.home}/{row.stats.home_total}</span>
-                                            <CircularProgress value={row.stats.home} total={row.stats.home_total} color="#22c55e" size={48} />
+                                            <span className="text-[13px] font-bold text-white font-mono">{row.stats.home}/{row.stats.home_total}</span>
+                                            <CircularProgress value={row.stats.home} total={row.stats.home_total} color="#22c55e" size={60} />
                                         </div>
 
-                                        <span className="flex-1 text-center text-[9px] font-black text-white/30 uppercase tracking-widest px-2">
+                                        <span className="flex-1 text-center text-[11px] font-black text-white/90 uppercase tracking-widest px-2 leading-tight">
                                             {row.label}
                                         </span>
 
                                         <div className="flex flex-col items-center gap-2 w-24">
-                                            <CircularProgress value={row.stats.away} total={row.stats.away_total} color="#818cf8" size={48} />
-                                            <span className="text-[10px] font-bold text-white/40 font-mono">{row.stats.away}/{row.stats.away_total}</span>
+                                            <CircularProgress value={row.stats.away} total={row.stats.away_total} color="#818cf8" size={60} />
+                                            <span className="text-[13px] font-bold text-white/60 font-mono">{row.stats.away}/{row.stats.away_total}</span>
                                         </div>
                                     </div>
                                 ))}

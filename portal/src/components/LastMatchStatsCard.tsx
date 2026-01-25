@@ -50,68 +50,70 @@ export default function LastMatchStatsCard() {
                 {/* Background Glow */}
                 <div className="absolute top-0 right-0 w-48 h-48 bg-premium-gold/5 blur-[80px] rounded-full opacity-50" />
 
-                <div className="p-7 relative z-10 flex flex-col items-center">
+                <div className="p-5 relative z-10 flex flex-col items-center">
                     {/* Header */}
-                    <div className="w-full flex items-center justify-between mb-8">
+                    <div className="w-full flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
-                                <BarChart3 size={18} className="text-premium-gold" />
+                            <div className="w-10 h-10 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/40 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                                <BarChart3 size={20} className="text-premium-gold" />
                             </div>
                             <div>
-                                <h4 className="text-[11px] font-black text-premium-gold uppercase tracking-[0.2em] italic leading-tight">Análise de Jogo</h4>
-                                <p className="text-[9px] text-white/30 uppercase tracking-[0.2em] font-bold">Última Partida • 2026</p>
+                                <h4 className="text-[12px] font-black text-premium-gold uppercase tracking-[0.2em] italic leading-tight">Análise de Jogo</h4>
+                                <p className="text-[10px] text-white/90 uppercase tracking-[0.2em] font-bold">Última Partida • 2026</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
+                        <div className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20">
                             <span className="w-1.5 h-1.5 rounded-full bg-premium-gold animate-pulse" />
-                            <span className="text-[8px] font-black text-white/60 uppercase tracking-widest">Premium</span>
+                            <span className="text-[9px] font-black text-white uppercase tracking-widest">Premium</span>
                         </div>
                     </div>
 
-                    {/* Score Area - COMPACT */}
-                    <div className="flex items-center justify-center gap-6 mb-8 w-full max-w-[280px]">
+                    {/* Score Area - ULTRA COMPACT */}
+                    <div className="flex items-center justify-center gap-6 mb-7 w-full">
                         <div className="flex-1 text-right">
-                            <span className="text-sm font-black text-white uppercase tracking-wider block leading-tight">{lastMatch.home_team.split(' ')[0]}</span>
-                            <div className="w-1 h-1 rounded-full bg-premium-gold float-right mt-1" />
+                            <span className="text-base font-black text-white uppercase tracking-wider block leading-tight">{lastMatch.home_team.split(' ')[0]}</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-premium-gold float-right mt-1.5" />
                         </div>
 
                         <div className="flex flex-col items-center shrink-0">
-                            <span className="text-5xl font-black italic text-white leading-none tracking-tighter drop-shadow-2xl">
-                                {lastMatch.score}
-                            </span>
-                            <div className="mt-2 px-3 py-0.5 bg-premium-gold/5 border border-premium-gold/20 rounded-full">
-                                <span className="text-[8px] font-black text-premium-gold uppercase tracking-widest italic">Finalizado</span>
+                            <div className="relative">
+                                <span className="text-5xl font-black italic text-white leading-none tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                                    {lastMatch.score}
+                                </span>
+                            </div>
+                            <div className="mt-2 px-3 py-0.5 bg-premium-gold/20 border border-premium-gold/40 rounded-full shadow-lg">
+                                <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest italic">Finalizado</span>
                             </div>
                         </div>
 
                         <div className="flex-1 text-left">
-                            <span className="text-sm font-black text-white/40 uppercase tracking-wider block leading-tight">{lastMatch.away_team.split(' ')[0]}</span>
-                            <div className="w-1 h-1 rounded-full bg-white/10 mt-1" />
+                            <span className="text-base font-black text-white/80 uppercase tracking-wider block leading-tight">{lastMatch.away_team.split(' ')[0]}</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-1.5" />
                         </div>
                     </div>
 
-                    {/* Stats Tiles - COMPACT */}
-                    <div className="grid grid-cols-2 gap-3 w-full mb-8">
-                        <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col items-start gap-1 group/stat">
+                    {/* Stats Tiles - COMPACT GRID */}
+                    <div className="grid grid-cols-2 gap-3 w-full mb-6">
+                        <div className="bg-white/10 border border-white/10 rounded-[1.5rem] p-4 flex flex-col items-start gap-1 group/stat shadow-xl backdrop-blur-sm">
                             <div className="flex items-center justify-between w-full">
-                                <span className="text-[8px] font-black text-premium-gold/60 uppercase tracking-[0.2em]">Posse de Bola</span>
-                                <Zap size={12} className="text-premium-gold/40 group-hover/stat:text-premium-gold transition-colors" />
+                                <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em]">Posse</span>
+                                <Zap size={15} className="text-premium-gold group-hover/stat:scale-110 transition-transform" />
                             </div>
-                            <span className="text-2xl font-black text-white font-mono">{lastMatch.stats.possession.home}%</span>
+                            <span className="text-3xl font-black text-white font-mono leading-none">{lastMatch.stats.possession.home}%</span>
                         </div>
-                        <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 flex flex-col items-start gap-1 group/stat">
+                        <div className="bg-white/10 border border-white/10 rounded-[1.5rem] p-4 flex flex-col items-start gap-1 group/stat shadow-xl backdrop-blur-sm">
                             <div className="flex items-center justify-between w-full">
-                                <span className="text-[8px] font-black text-premium-gold/60 uppercase tracking-[0.2em]">Finalizações</span>
-                                <TrendingUp size={12} className="text-premium-gold/40 group-hover/stat:text-premium-gold transition-colors" />
+                                <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em]">Chutes</span>
+                                <TrendingUp size={15} className="text-premium-gold group-hover/stat:scale-110 transition-transform" />
                             </div>
-                            <span className="text-2xl font-black text-white font-mono">{lastMatch.stats.shots.home}</span>
+                            <span className="text-3xl font-black text-white font-mono leading-none">{lastMatch.stats.shots.home}</span>
                         </div>
                     </div>
 
-                    {/* Major Access Button */}
+                    {/* Action Button */}
                     <button
                         onClick={handleAction}
-                        className="w-full bg-premium-gold hover:bg-white text-black font-black uppercase tracking-[0.2em] py-4 rounded-2xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl shadow-premium-gold/10 active:scale-95"
+                        className="w-full bg-premium-gold hover:bg-white text-black font-black uppercase tracking-[0.2em] py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl shadow-premium-gold/10 active:scale-95"
                     >
                         <span className="text-[11px]">Ver Análise Completa</span>
                         <ChevronRight size={16} />
