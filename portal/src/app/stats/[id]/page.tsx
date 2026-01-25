@@ -183,9 +183,11 @@ export default function MatchStatsPage() {
 
         return (
             <div className="space-y-3">
-                <div className="flex justify-between items-center px-1">
+                <div className="flex justify-between items-center px-1 gap-2">
                     <span className="text-2xl font-black text-white font-mono">{home}</span>
-                    <span className="text-[15px] font-black text-white/90 uppercase tracking-[0.2em]">{label}</span>
+                    <span className="text-[12px] md:text-[14px] font-black text-white/90 uppercase tracking-[0.1em] text-center flex-1 leading-tight">
+                        {label}
+                    </span>
                     <span className="text-2xl font-black text-white/60 font-mono">{away}</span>
                 </div>
                 <div className="flex h-3 w-full bg-white/20 rounded-full overflow-hidden shadow-lg">
