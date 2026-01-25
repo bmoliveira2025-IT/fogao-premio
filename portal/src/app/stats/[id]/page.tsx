@@ -98,6 +98,8 @@ export default function MatchStatsPage() {
         };
 
         fetchMatch();
+        // Force scroll to top on mount
+        window.scrollTo(0, 0);
     }, [params.id]);
 
     const StatRow = ({ label, stats, icon: Icon, unit = "" }: { label: string, stats: TeamStat, icon: any, unit?: string }) => {
