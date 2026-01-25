@@ -121,25 +121,41 @@ export default function LastMatchStatsCard() {
                 </div>
             </div>
 
-            {/* Premium Gating Modal */}
+            {/* Premium Gating Modal - PERFECTLY CENTERED */}
             {showModal && (
-                <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl animate-in fade-in duration-300">
-                    <div className="bg-[#0a0a0a] border border-premium-gold/30 rounded-[2.5rem] p-8 max-w-sm w-full shadow-[0_0_50px_rgba(212,175,55,0.15)] relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-premium-gold" />
-                        <div className="flex flex-col items-center text-center gap-5">
-                            <div className="w-16 h-16 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20 mb-2">
-                                <Shield size={32} className="text-premium-gold" />
+                <div className="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-black/85 backdrop-blur-2xl animate-in fade-in zoom-in duration-300">
+                    {/* Background Light Beam */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-32 bg-premium-gold/10 -rotate-45 blur-3xl pointer-events-none" />
+
+                    <div className="bg-[#0a0a0a] border border-premium-gold/40 rounded-[2.5rem] p-10 max-w-sm w-full shadow-[0_0_100px_rgba(212,175,55,0.25)] relative overflow-hidden">
+                        <div className="absolute top-0 left-0 w-full h-1.5 bg-premium-gold shadow-[0_0_15px_rgba(212,175,55,0.5)]" />
+
+                        <div className="flex flex-col items-center text-center">
+                            <div className="w-20 h-20 rounded-3xl bg-premium-gold/15 flex items-center justify-center border border-premium-gold/30 mb-8 shadow-2xl">
+                                <Shield size={40} className="text-premium-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" />
                             </div>
-                            <h3 className="text-2xl font-black text-white uppercase italic tracking-wider">Conteúdo Exclusivo</h3>
-                            <p className="text-sm text-white/50 leading-relaxed">
-                                A análise técnica detalhada está disponível apenas para <span className="text-premium-gold font-bold">Sócios Premium Fogão</span>.
+
+                            <h3 className="text-3xl font-black text-white uppercase italic tracking-tight mb-4 leading-none">
+                                Conteúdo <br /> <span className="text-premium-gold">Exclusivo</span>
+                            </h3>
+
+                            <p className="text-base text-white/90 font-medium leading-relaxed mb-10">
+                                A análise tática detalhada é um benefício exclusivo para <span className="text-premium-gold font-bold underline decoration-premium-gold/30">Sócios Premium Fogão</span>.
                             </p>
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="w-full bg-white text-black font-black uppercase tracking-widest py-4 rounded-xl mt-4 active:scale-95 transition-transform"
-                            >
-                                Entendido
-                            </button>
+
+                            <div className="flex flex-col gap-4 w-full">
+                                <button
+                                    className="w-full bg-premium-gold text-black font-black uppercase tracking-widest text-xs py-5 rounded-2xl shadow-xl shadow-premium-gold/20 active:scale-95 transition-transform"
+                                >
+                                    Seja Sócio agora
+                                </button>
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="w-full bg-white/5 border border-white/10 text-white/60 font-black uppercase tracking-widest text-[9px] py-3 rounded-xl active:scale-95 transition-transform"
+                                >
+                                    Talvez depois
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
