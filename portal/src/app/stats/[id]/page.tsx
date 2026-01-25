@@ -109,7 +109,7 @@ export default function MatchStatsPage() {
 
         return (
             <div className="space-y-2">
-                <div className="flex justify-between items-center text-[14px] font-black uppercase tracking-widest text-white/90">
+                <div className="flex justify-between items-center text-base font-black uppercase tracking-widest text-white/90">
                     <span className="flex items-center gap-2">
                         <Icon size={16} className="text-premium-gold" />
                         {label}
@@ -127,11 +127,11 @@ export default function MatchStatsPage() {
                 <div className="flex justify-between items-center text-sm font-black font-mono">
                     <div className="flex flex-col gap-0.5">
                         <span className="text-white text-xl leading-none">{stats.home}</span>
-                        <span className="text-[12px] text-white/50 uppercase tracking-tighter">Botafogo</span>
+                        <span className="text-[14px] text-white/50 uppercase tracking-tighter">Botafogo</span>
                     </div>
                     <div className="flex flex-col items-end gap-0.5">
                         <span className="text-white/80 text-xl leading-none">{stats.away}</span>
-                        <span className="text-[12px] text-white/30 uppercase tracking-tighter">Rival</span>
+                        <span className="text-[14px] text-white/30 uppercase tracking-tighter">Rival</span>
                     </div>
                 </div>
             </div>
@@ -184,9 +184,9 @@ export default function MatchStatsPage() {
         return (
             <div className="space-y-3">
                 <div className="flex justify-between items-center px-1">
-                    <span className="text-xl font-black text-white font-mono">{home}</span>
-                    <span className="text-[13px] font-black text-white/90 uppercase tracking-[0.2em]">{label}</span>
-                    <span className="text-xl font-black text-white/60 font-mono">{away}</span>
+                    <span className="text-2xl font-black text-white font-mono">{home}</span>
+                    <span className="text-[15px] font-black text-white/90 uppercase tracking-[0.2em]">{label}</span>
+                    <span className="text-2xl font-black text-white/60 font-mono">{away}</span>
                 </div>
                 <div className="flex h-3 w-full bg-white/20 rounded-full overflow-hidden shadow-lg">
                     <div className="h-full rounded-l-full transition-all duration-1000" style={{ width: `${homeWidth}%`, backgroundColor: homeColor }} />
@@ -221,7 +221,7 @@ export default function MatchStatsPage() {
                     <ChevronLeft size={18} />
                 </button>
                 <div className="flex-1 text-center px-2">
-                    <h1 className="text-[14px] font-black text-premium-gold uppercase tracking-[0.3em] truncate">Análise de Dados • 2026</h1>
+                    <h1 className="text-base font-black text-premium-gold uppercase tracking-[0.3em] truncate">Análise de Dados • 2026</h1>
                 </div>
                 <div className="w-8"></div>
             </header>
@@ -229,10 +229,10 @@ export default function MatchStatsPage() {
             <div className="px-4 pt-0 pb-12 max-w-xl mx-auto space-y-2">
                 {/* Scoreboard - Ultra Compact */}
                 <div className="p-6 bg-gradient-to-b from-white/[0.03] to-transparent rounded-[2.5rem] border border-white/[0.02] flex flex-col items-center">
-                    <span className="text-[10px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-2">{match.championship || "Campeonato Carioca"}</span>
+                    <span className="text-[12px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-2">{match.championship || "Campeonato Carioca"}</span>
                     <div className="flex items-center justify-center gap-8 translate-x-1">
                         <div className="flex flex-col items-center gap-1">
-                            <span className="text-[12px] font-black uppercase text-white tracking-widest">{match.home_team.split(' ')[0]}</span>
+                            <span className="text-[14px] font-black uppercase text-white tracking-widest">{match.home_team.split(' ')[0]}</span>
                         </div>
                         <span className="text-4xl font-black italic font-display text-white">
                             {match.home_score !== undefined && match.home_score !== null ?
@@ -240,12 +240,12 @@ export default function MatchStatsPage() {
                                 (match.score || "0 - 0")}
                         </span>
                         <div className="flex flex-col items-center gap-1">
-                            <span className="text-[12px] font-black uppercase text-white/40 tracking-widest">{match.away_team.split(' ')[0]}</span>
+                            <span className="text-[14px] font-black uppercase text-white/40 tracking-widest">{match.away_team.split(' ')[0]}</span>
                         </div>
                     </div>
                     <div className="mt-2 flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full border border-white/10 shadow-lg">
                         <Clock size={12} className="text-white/40" />
-                        <span className="text-[11px] font-bold text-white/60 uppercase tracking-widest">
+                        <span className="text-[12px] font-bold text-white/60 uppercase tracking-widest">
                             {new Date(match.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
                         </span>
                     </div>
@@ -258,9 +258,9 @@ export default function MatchStatsPage() {
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
                                 <Star size={14} className="text-premium-gold fill-premium-gold/20" />
-                                <h2 className="text-[12px] font-black uppercase tracking-[0.3em] text-white/50">Destaque da Partida</h2>
+                                <h2 className="text-[14px] font-black uppercase tracking-[0.3em] text-white/50">Destaque da Partida</h2>
                             </div>
-                            <div className="bg-premium-gold px-2 py-1 rounded text-[12px] font-black text-black">
+                            <div className="bg-premium-gold px-2 py-1 rounded text-[14px] font-black text-black">
                                 {match.motm_data.rating}
                             </div>
                         </div>
@@ -270,13 +270,13 @@ export default function MatchStatsPage() {
                                 <Award size={24} className="text-premium-gold" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-white leading-none mb-1">{match.motm_data.name}</h3>
-                                <p className="text-[11px] font-bold text-premium-gold uppercase tracking-widest">{match.motm_data.position}</p>
+                                <h3 className="text-2xl font-black text-white leading-none mb-1">{match.motm_data.name}</h3>
+                                <p className="text-[13px] font-bold text-premium-gold uppercase tracking-widest">{match.motm_data.position}</p>
                             </div>
                         </div>
 
                         <div className="mt-4 pt-4 border-t border-white/20">
-                            <p className="text-[15px] text-white/80 font-medium italic leading-relaxed">"{match.motm_data.contribution}"</p>
+                            <p className="text-[17px] text-white/80 font-medium italic leading-relaxed">"{match.motm_data.contribution}"</p>
                         </div>
                     </div>
                 )}
@@ -290,10 +290,10 @@ export default function MatchStatsPage() {
                                     <Shield size={16} className="text-premium-gold" />
                                 </div>
                                 <div>
-                                    <h2 className="text-[13px] font-black uppercase tracking-wider text-white truncate max-w-[140px]">
+                                    <h2 className="text-base font-black uppercase tracking-wider text-white truncate max-w-[140px]">
                                         {match.goalkeeper_stats.name}
                                     </h2>
-                                    <span className="text-[9px] font-bold text-premium-gold/50 uppercase tracking-widest">Muralha Alvinegra</span>
+                                    <span className="text-[11px] font-bold text-premium-gold/50 uppercase tracking-widest">Muralha Alvinegra</span>
                                 </div>
                             </div>
                             {match.goalkeeper_stats.clean_sheet && (
@@ -312,8 +312,8 @@ export default function MatchStatsPage() {
                                 { label: 'Aéreas', val: match.goalkeeper_stats.high_claims }
                             ].map((s, i) => (
                                 <div key={i} className="bg-white/[0.02] rounded-xl py-3 border border-white/[0.03] flex flex-col items-center">
-                                    <span className="text-lg font-black text-white mb-0.5">{s.val}</span>
-                                    <span className="text-[9px] font-black text-white/30 uppercase tracking-tighter">{s.label}</span>
+                                    <span className="text-xl font-black text-white mb-0.5">{s.val}</span>
+                                    <span className="text-[11px] font-black text-white/30 uppercase tracking-tighter">{s.label}</span>
                                 </div>
                             ))}
                         </div>
@@ -325,7 +325,7 @@ export default function MatchStatsPage() {
                     <div className="bg-[#080808] border border-white/5 rounded-[2rem] p-6 shadow-xl space-y-6">
                         <div className="flex items-center gap-3">
                             <Target size={14} className="text-premium-gold" />
-                            <h2 className="text-[12px] font-black uppercase tracking-[0.3em] text-white/50">Scout Técnico</h2>
+                            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Scout Técnico</h2>
                         </div>
                         <div className="space-y-6">
                             <StatRow label="Posse de Bola" stats={match.stats.possession} icon={Zap} unit="%" />
@@ -335,19 +335,19 @@ export default function MatchStatsPage() {
                                 {match.stats.shots_on_target && (
                                     <div className="grid grid-cols-3 gap-3 pl-4 border-l border-white/10">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-base font-black text-white">{match.stats.shots_on_target.home}</span>
-                                            <span className="text-[13px] text-white/90 uppercase font-black tracking-tight">No Alvo</span>
+                                            <span className="text-lg font-black text-white">{match.stats.shots_on_target.home}</span>
+                                            <span className="text-[14px] text-white/90 uppercase font-black tracking-tight">No Alvo</span>
                                         </div>
                                         {match.stats.shots_off_target && (
                                             <div className="flex flex-col gap-1">
-                                                <span className="text-base font-black text-white">{match.stats.shots_off_target.home}</span>
-                                                <span className="text-[13px] text-white/70 uppercase font-bold tracking-tight">Fora</span>
+                                                <span className="text-lg font-black text-white">{match.stats.shots_off_target.home}</span>
+                                                <span className="text-[14px] text-white/70 uppercase font-bold tracking-tight">Fora</span>
                                             </div>
                                         )}
                                         {match.stats.shots_blocked && (
                                             <div className="flex flex-col gap-1">
-                                                <span className="text-base font-black text-white/90">{match.stats.shots_blocked.home}</span>
-                                                <span className="text-[13px] text-white/50 uppercase font-bold tracking-tight">Blocks</span>
+                                                <span className="text-lg font-black text-white/90">{match.stats.shots_blocked.home}</span>
+                                                <span className="text-[14px] text-white/50 uppercase font-bold tracking-tight">Blocks</span>
                                             </div>
                                         )}
                                     </div>
@@ -360,7 +360,7 @@ export default function MatchStatsPage() {
                         <div className="bg-[#080808] border border-white/5 rounded-[2rem] p-6 shadow-xl space-y-6">
                             <div className="flex items-center gap-3">
                                 <Shield size={14} className="text-premium-gold" />
-                                <h2 className="text-[12px] font-black uppercase tracking-[0.3em] text-white/50">Combate</h2>
+                                <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Combate</h2>
                             </div>
                             <div className="space-y-6">
                                 <StatRow label="Desarmes Ganhos" stats={match.stats.tackles_won} icon={Award} />
@@ -376,7 +376,7 @@ export default function MatchStatsPage() {
                     <div className="bg-[#080808] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl space-y-10">
                         <div className="flex items-center gap-3">
                             <TrendingUp size={14} className="text-premium-gold" />
-                            <h2 className="text-[12px] font-black uppercase tracking-[0.3em] text-white/50">Passes</h2>
+                            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Passes</h2>
                         </div>
 
                         <div className="space-y-8">
@@ -397,7 +397,7 @@ export default function MatchStatsPage() {
                                         <CircularProgress value={row.stats.home} total={row.stats.home_total} color="#22c55e" size={60} />
                                     </div>
 
-                                    <span className="flex-1 text-center text-[12px] font-black text-white/90 uppercase tracking-widest px-2 leading-tight">
+                                    <span className="flex-1 text-center text-[14px] font-black text-white/90 uppercase tracking-widest px-2 leading-tight">
                                         {row.label}
                                     </span>
 
@@ -415,7 +415,7 @@ export default function MatchStatsPage() {
                 <div className="bg-[#080808] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
                     <div className="flex items-center gap-3 mb-10">
                         <Clock size={14} className="text-premium-gold" />
-                        <h2 className="text-[12px] font-black uppercase tracking-[0.3em] text-white/50">Cronologia</h2>
+                        <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Cronologia</h2>
                     </div>
 
                     <div className="relative pl-4">
@@ -425,19 +425,19 @@ export default function MatchStatsPage() {
                             {match.events.sort((a, b) => a.minute - b.minute).map((e, idx) => (
                                 <div key={idx} className="flex gap-6 relative group">
                                     {/* Minute Marker */}
-                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 z-10 border transition-all duration-500
+                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 z-10 border transition-all duration-500
                                             ${e.type === 'goal' ? 'bg-premium-gold border-premium-gold text-black shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-110' :
                                             e.type === 'substitution' ? 'bg-blue-600 border-blue-500 text-white' :
                                                 e.type === 'yellow_card' ? 'bg-yellow-500 border-yellow-400 text-black' :
                                                     e.type === 'red_card' ? 'bg-red-600 border-red-500 text-white' :
                                                         'bg-zinc-900 border-white/10 text-white/40'}`}>
-                                        <span className="text-[10px] font-black">{e.minute}'</span>
+                                        <span className="text-[14px] font-black">{e.minute}'</span>
                                     </div>
 
                                     <div className="flex-1 pt-1">
                                         {/* Team Badge */}
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className={`text-[8px] font-black uppercase px-2 py-0.5 rounded-md ${e.team === 'home' ? 'bg-premium-gold/10 text-premium-gold' : 'bg-white/5 text-white/30'}`}>
+                                            <span className={`text-[11px] font-black uppercase px-2 py-0.5 rounded-md ${e.team === 'home' ? 'bg-premium-gold/10 text-premium-gold' : 'bg-white/5 text-white/30'}`}>
                                                 {e.team === 'home' ? match.home_team : match.away_team}
                                             </span>
                                         </div>
@@ -448,11 +448,11 @@ export default function MatchStatsPage() {
                                                 <div className="absolute -inset-4 bg-premium-gold/5 blur-2xl rounded-full opacity-0 group-hover/goal:opacity-100 transition-opacity" />
                                                 <div className="space-y-1 relative">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="px-2 py-0.5 bg-premium-gold rounded text-[10px] font-black text-black uppercase tracking-tighter">GOL!</div>
+                                                        <div className="px-2 py-0.5 bg-premium-gold rounded text-[12px] font-black text-black uppercase tracking-tighter">GOL!</div>
                                                         <Star size={14} className="text-premium-gold fill-premium-gold/20" />
                                                     </div>
-                                                    <h4 className="text-md font-black text-white tracking-tight">{e.player}</h4>
-                                                    {e.assist && <p className="text-[9px] text-white/40 uppercase tracking-[0.2em] font-bold">Assistência: {e.assist}</p>}
+                                                    <h4 className="text-lg font-black text-white tracking-tight">{e.player}</h4>
+                                                    {e.assist && <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-bold">Assistência: {e.assist}</p>}
                                                 </div>
                                             </div>
                                         ) : e.type === 'substitution' ? (
@@ -462,8 +462,8 @@ export default function MatchStatsPage() {
                                                         <ArrowUpRight size={14} className="text-green-500" />
                                                     </div>
                                                     <div>
-                                                        <p className="text-[13px] font-black text-white">
-                                                            <span className="text-green-500/80 mr-1.5 text-[10px]">ENTRA:</span>
+                                                        <p className="text-[17px] font-black text-white">
+                                                            <span className="text-green-500/80 mr-1.5 text-[12px]">ENTRA:</span>
                                                             {e.player_in}
                                                         </p>
                                                     </div>
@@ -474,8 +474,8 @@ export default function MatchStatsPage() {
                                                         <ArrowDownLeft size={14} className="text-red-500/60" />
                                                     </div>
                                                     <div>
-                                                        <p className="text-[13px] font-black text-white/50">
-                                                            <span className="text-red-500/40 mr-1.5 text-[10px]">SAI:</span>
+                                                        <p className="text-[17px] font-black text-white/50">
+                                                            <span className="text-red-500/40 mr-1.5 text-[12px]">SAI:</span>
                                                             {e.player_out}
                                                         </p>
                                                     </div>
@@ -483,12 +483,12 @@ export default function MatchStatsPage() {
                                             </div>
                                         ) : (
                                             <div className="flex items-center gap-3">
-                                                <div className={`px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-tighter
+                                                <div className={`px-2 py-1 rounded-md text-[11px] font-black uppercase tracking-tighter
                                                         ${e.type === 'yellow_card' ? 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/20' : 'bg-red-500/20 text-red-500 border border-red-500/20'}`}>
                                                     {e.type === 'yellow_card' ? 'Amarelo' : 'Vermelho'}
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-[13px] font-black text-white">{e.player}</h4>
+                                                    <h4 className="text-[17px] font-black text-white">{e.player}</h4>
                                                 </div>
                                             </div>
                                         )}
@@ -501,7 +501,7 @@ export default function MatchStatsPage() {
 
                 {/* Footer Extra */}
                 <div className="text-center py-6">
-                    <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">Central de Inteligência • Botafogo 2026</span>
+                    <span className="text-[12px] font-black text-white/10 uppercase tracking-[0.5em]">Central de Inteligência • Botafogo 2026</span>
                 </div>
             </div>
 
