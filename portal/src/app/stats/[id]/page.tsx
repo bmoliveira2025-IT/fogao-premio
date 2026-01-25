@@ -18,15 +18,18 @@ interface MatchStatData {
     home_team: string;
     away_team: string;
     score: string;
+    home_score: number;
+    away_score: number;
+    status: string;
     date: string;
     championship: string;
     stats: {
         possession: TeamStat;
         shots: TeamStat;
-        shots_on_target: TeamStat;
-        corners: TeamStat;
-        pass_accuracy: TeamStat;
-        fouls: TeamStat;
+        shots_on_target?: TeamStat;
+        corners?: TeamStat;
+        pass_accuracy?: TeamStat;
+        fouls?: TeamStat;
         shots_off_target?: TeamStat;
         shots_blocked?: TeamStat;
         tackles_won?: TeamStat;
@@ -54,12 +57,12 @@ interface MatchStatData {
         weight: number;
     }>;
     pass_stats?: {
-        accurate_passes: TeamStat & { home_total: number; away_total: number };
-        sideways_passes: TeamStat & { home_total: number; away_total: number };
-        final_third_entries: TeamStat & { home_total: number; away_total: number };
-        final_third_accuracy: TeamStat & { home_total: number; away_total: number };
-        long_passes: TeamStat & { home_total: number; away_total: number };
-        crosses: TeamStat & { home_total: number; away_total: number };
+        accurate_passes: { home: number; away: number; home_total: number; away_total: number };
+        sideways_passes: { home: number; away: number; home_total: number; away_total: number };
+        final_third_entries: { home: number; away: number; home_total: number; away_total: number };
+        final_third_accuracy: { home: number; away: number; home_total: number; away_total: number };
+        long_passes: { home: number; away: number; home_total: number; away_total: number };
+        crosses: { home: number; away: number; home_total: number; away_total: number };
     };
     events: Array<{
         minute: number;
@@ -98,6 +101,7 @@ export default function MatchStatsPage() {
     }, [params.id]);
 
     const StatRow = ({ label, stats, icon: Icon, unit = "" }: { label: string, stats: TeamStat, icon: any, unit?: string }) => {
+        if (!stats) return null;
         const total = stats.home + stats.away;
         const homePercent = total === 0 ? 50 : (stats.home / total) * 100;
 
@@ -220,20 +224,24 @@ export default function MatchStatsPage() {
                 <div className="w-8"></div>
             </header>
 
-            <div className="px-4 pt-12 pb-12 max-w-xl mx-auto space-y-3">
+            <div className="px-4 pt-0 pb-12 max-w-xl mx-auto space-y-2">
                 {/* Scoreboard - Ultra Compact */}
                 <div className="p-6 bg-gradient-to-b from-white/[0.03] to-transparent rounded-[2.5rem] border border-white/[0.02] flex flex-col items-center">
-                    <span className="text-[8px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-4">{match.championship}</span>
+                    <span className="text-[8px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-2">{match.championship || "Campeonato Carioca"}</span>
                     <div className="flex items-center justify-center gap-8 translate-x-1">
                         <div className="flex flex-col items-center gap-1">
                             <span className="text-[10px] font-black uppercase text-white tracking-widest">{match.home_team.split(' ')[0]}</span>
                         </div>
-                        <span className="text-4xl font-black italic font-display text-white">{match.score}</span>
+                        <span className="text-4xl font-black italic font-display text-white">
+                            {match.home_score !== undefined && match.home_score !== null ?
+                                `${match.home_score} - ${match.away_score}` :
+                                (match.score || "0 - 0")}
+                        </span>
                         <div className="flex flex-col items-center gap-1">
                             <span className="text-[10px] font-black uppercase text-white/40 tracking-widest">{match.away_team.split(' ')[0]}</span>
                         </div>
                     </div>
-                    <div className="mt-4 flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full border border-white/10 shadow-lg">
+                    <div className="mt-2 flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full border border-white/10 shadow-lg">
                         <Clock size={12} className="text-white/40" />
                         <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">
                             {new Date(match.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
@@ -319,27 +327,29 @@ export default function MatchStatsPage() {
                         </div>
                         <div className="space-y-6">
                             <StatRow label="Posse de Bola" stats={match.stats.possession} icon={Zap} unit="%" />
-                            <StatRow label="Precisão Passe" stats={match.stats.pass_accuracy} icon={Award} unit="%" />
+                            {match.stats.pass_accuracy && <StatRow label="Precisão Passe" stats={match.stats.pass_accuracy} icon={Award} unit="%" />}
                             <div className="space-y-4 pt-2">
                                 <StatRow label="Finalizações Totais" stats={match.stats.shots} icon={TrendingUp} />
-                                <div className="grid grid-cols-3 gap-3 pl-4 border-l border-white/10">
-                                    <div className="flex flex-col gap-1">
-                                        <span className="text-sm font-black text-white">{match.stats.shots_on_target.home}</span>
-                                        <span className="text-[12px] text-white/90 uppercase font-black tracking-tight">No Alvo</span>
+                                {match.stats.shots_on_target && (
+                                    <div className="grid grid-cols-3 gap-3 pl-4 border-l border-white/10">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm font-black text-white">{match.stats.shots_on_target.home}</span>
+                                            <span className="text-[12px] text-white/90 uppercase font-black tracking-tight">No Alvo</span>
+                                        </div>
+                                        {match.stats.shots_off_target && (
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-sm font-black text-white">{match.stats.shots_off_target.home}</span>
+                                                <span className="text-[12px] text-white/70 uppercase font-bold tracking-tight">Fora</span>
+                                            </div>
+                                        )}
+                                        {match.stats.shots_blocked && (
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-sm font-black text-white/90">{match.stats.shots_blocked.home}</span>
+                                                <span className="text-[12px] text-white/50 uppercase font-bold tracking-tight">Blocks</span>
+                                            </div>
+                                        )}
                                     </div>
-                                    {match.stats.shots_off_target && (
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-sm font-black text-white">{match.stats.shots_off_target.home}</span>
-                                            <span className="text-[12px] text-white/70 uppercase font-bold tracking-tight">Fora</span>
-                                        </div>
-                                    )}
-                                    {match.stats.shots_blocked && (
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-sm font-black text-white/90">{match.stats.shots_blocked.home}</span>
-                                            <span className="text-[12px] text-white/50 uppercase font-bold tracking-tight">Blocks</span>
-                                        </div>
-                                    )}
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>

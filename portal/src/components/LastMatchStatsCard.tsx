@@ -40,6 +40,8 @@ export default function LastMatchStatsCard() {
 
     if (loading || !lastMatch) return null;
 
+    const isLive = lastMatch.status === "AO_VIVO" || lastMatch.status === "EM_ANDAMENTO";
+
     return (
         <div
             className="w-full relative overflow-hidden bg-black border border-white/5 shadow-2xl rounded-[2.5rem] cursor-pointer group"
@@ -49,7 +51,7 @@ export default function LastMatchStatsCard() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
 
             {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-premium-gold/5 blur-[80px] rounded-full opacity-50" />
+            <div className={`absolute top-0 right-0 w-48 h-48 ${isLive ? 'bg-red-600/10' : 'bg-premium-gold/5'} blur-[80px] rounded-full opacity-50`} />
 
             <div className="p-5 relative z-10 flex flex-col items-center">
                 {/* Header */}
@@ -59,8 +61,12 @@ export default function LastMatchStatsCard() {
                             <BarChart3 size={20} className="text-premium-gold" />
                         </div>
                         <div>
-                            <h4 className="text-[12px] font-black text-premium-gold uppercase tracking-[0.2em] italic leading-tight">Análise de Jogo</h4>
-                            <p className="text-[10px] text-white/90 uppercase tracking-[0.2em] font-bold">Última Partida • 2026</p>
+                            <h4 className="text-[12px] font-black text-premium-gold uppercase tracking-[0.2em] italic leading-tight">
+                                {isLive ? 'Partida ao Vivo' : 'Análise de Jogo'}
+                            </h4>
+                            <p className="text-[10px] text-white/90 uppercase tracking-[0.2em] font-bold">
+                                {isLive ? 'Tempo Real' : 'Última Partida'} • 2026
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -78,8 +84,10 @@ export default function LastMatchStatsCard() {
                                 {lastMatch.score}
                             </span>
                         </div>
-                        <div className="mt-2 px-3 py-0.5 bg-premium-gold/20 border border-premium-gold/40 rounded-full shadow-lg">
-                            <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest italic">Finalizado</span>
+                        <div className={`mt-2 px-3 py-0.5 ${isLive ? 'bg-red-600/20 border-red-600/40 animate-pulse' : 'bg-premium-gold/20 border-premium-gold/40'} border rounded-full shadow-lg`}>
+                            <span className={`text-[9px] font-black ${isLive ? 'text-red-500' : 'text-premium-gold'} uppercase tracking-widest italic`}>
+                                {isLive ? 'AO VIVO' : 'Finalizado'}
+                            </span>
                         </div>
                     </div>
 
@@ -96,14 +104,18 @@ export default function LastMatchStatsCard() {
                             <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em]">Posse</span>
                             <Zap size={15} className="text-premium-gold group-hover/stat:scale-110 transition-transform" />
                         </div>
-                        <span className="text-3xl font-black text-white font-mono leading-none">{lastMatch.stats.possession.home}%</span>
+                        <span className="text-3xl font-black text-white font-mono leading-none">
+                            {lastMatch.stats?.possession?.home || 0}%
+                        </span>
                     </div>
                     <div className="bg-white/10 border border-white/10 rounded-[1.5rem] p-4 flex flex-col items-start gap-1 group/stat shadow-xl backdrop-blur-sm">
                         <div className="flex items-center justify-between w-full">
                             <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em]">Chutes</span>
                             <TrendingUp size={15} className="text-premium-gold group-hover/stat:scale-110 transition-transform" />
                         </div>
-                        <span className="text-3xl font-black text-white font-mono leading-none">{lastMatch.stats.shots.home}</span>
+                        <span className="text-3xl font-black text-white font-mono leading-none">
+                            {lastMatch.stats?.shots?.home || 0}
+                        </span>
                     </div>
                 </div>
 
