@@ -51,12 +51,9 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full relative flex items-center justify-between p-4 border-b border-premium-gold/10 hover:bg-white/5 transition-colors"
             >
-                <div className="flex items-center space-x-3 text-left">
-                    {/* Date Badge */}
-                    <div className="flex flex-col items-center justify-center w-10 h-10 rounded-lg border bg-premium-gold text-black border-premium-gold shadow-lg">
-                        <span className="text-[9px] font-black uppercase leading-none">{dateString.split(' ')[0]}</span>
-                        <span className="text-[12px] font-black leading-none">{dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()}</span>
-                    </div>
+                <div className="flex items-center space-x-3 text-left opacity-0 pointer-events-none">
+                    {/* Spacer to maintain layout if needed, or remove */}
+                    <div className="w-10 h-10" />
                 </div>
 
                 {/* Centered Teams Text - Absolute Positioning for Perfect Center */}
@@ -87,7 +84,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
                         <div className="px-4 pb-5 pt-4">
-                            <div className="flex items-center py-4 relative h-16">
+                            <div className="flex items-center py-4 relative h-20">
                                 {/* Home Logo */}
                                 <div className="absolute left-6">
                                     <div className="w-12 h-12 relative drop-shadow-md">
@@ -99,11 +96,17 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                     </div>
                                 </div>
 
-                                {/* Time/Score - Absolutely Centered */}
-                                <div className="absolute left-1/2 -translate-x-1/2">
-                                    <span className="text-xs font-mono font-bold text-premium-gold bg-premium-gold/10 px-3 py-1.5 rounded transition-all duration-300">
-                                        {timeString}
-                                    </span>
+                                {/* Date & Time - Absolutely Centered */}
+                                <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+                                    <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
+                                        <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
+                                            {dateString.split(' ')[0]} {dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()} {dateString.split(' ')[4] || 'JAN'}
+                                        </span>
+                                        <div className="h-px w-8 bg-premium-gold/30 mb-1" />
+                                        <span className="text-sm font-mono font-bold text-white tracking-widest">
+                                            {timeString}
+                                        </span>
+                                    </div>
                                 </div>
 
                                 {/* Away Logo */}
