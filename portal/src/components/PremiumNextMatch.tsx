@@ -100,7 +100,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
                                     <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
                                         <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
-                                            {dateString.split(' ')[0]} {dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()} {dateString.split(' ')[4] || 'JAN'}
+                                            {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
                                         </span>
                                         <div className="h-px w-8 bg-premium-gold/30 mb-1" />
                                         <span className="text-sm font-mono font-bold text-white tracking-widest">
