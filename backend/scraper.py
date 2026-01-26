@@ -95,7 +95,9 @@ else:
 # The user seems to be hitting a 20-req/day limit on gemini-2.5-flash? 
 # Let's stick to gemini-1.5-flash which is standard.
 try:
-    model = genai.GenerativeModel('gemini-flash-latest')
+    # Using 1.5-flash for stability. 
+    # Note: If 429 errors occur, the daily quota (20 reqs/day) might have been reached.
+    model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
     print(f"Error initializing Gemini model: {e}")
     model = None
@@ -654,16 +656,16 @@ def update_next_match():
     
     match_data = {
         "home_team": "Botafogo",
-        "away_team": "Volta Redonda",
+        "away_team": "Cruzeiro",
         "home_team_logo": "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg",
-        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Volta_Redonda_Futebol_Clube_logo.svg/1024px-Volta_Redonda_Futebol_Clube_logo.svg.png",
+        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Cruzeiro_Esporte_Clube_%282021%29.svg",
         "home_score": 0,
         "away_score": 0,
-        "date": "2026-01-21T19:00:00-03:00", # Data Confirmada: 21/01 Qua 19h
+        "date": "2026-01-29T21:30:00-03:00", 
         "location": "Estádio Nilton Santos • Rio de Janeiro",
-        "championship": "Campeonato Carioca",
+        "championship": "Campeonato Brasileiro",
         "status": "scheduled",
-        "transmission": "Band, BandSports e Cazé TV" 
+        "transmission": "Globo, SporTV e Premiere" 
     }
     
     # Update or create the 'next_match' document
@@ -906,10 +908,14 @@ def generate_daily_briefing(force=False):
     Entregar um resumo objetivo, criativo, direto e de alto padrão, sem excesso de opinião, sem sensacionalismo e sem repetição.
     
     CONTEXTO OBRIGATÓRIO (Use para Próximo Jogo/Indicadores):
-    - Próximo Jogo: Botafogo vs Volta Redonda, Quarta-feira (21/01) às 19h.
-    - Competição: Campeonato Carioca.
+    - Próximo Jogo: Botafogo vs Cruzeiro, Quinta-feira (29/01) às 21h30.
+    - Competição: Campeonato Brasileiro (Estreia).
     - Local: Estádio Nilton Santos (Casa).
-    - Transmissão (Onde Assistir): Sportv, Premiere e GE TV.
+    - Transmissão (Onde Assistir): Globo, SporTV e Premiere.
+
+    INSTRUÇÃO ESPECIAL PARA O PRÓXIMO JOGO:
+    - Se encontrar notícias sobre um jogo MAIS PRÓXIMO ou MAIS RELEVANTE de qualquer competição (Libertadores, Brasileirão, Carioca, Copa do Brasil, etc.), PRIORIZE os dados das notícias para os campos "next_match", "location" e "transmission".
+    - Mantenha o formato: "Dia (DD/MM), HHhMM vs Adversário".
 
     ESTRUTURA DE SAÍDA (JSON):
     Você deve retornar um JSON com os campos abaixo. 
@@ -919,11 +925,12 @@ def generate_daily_briefing(force=False):
        - Destaques: ⭐ Liste 2-3 pontos de alto impacto (use bullets).
        - Radar: 📊 Um dado ou curiosidade tática breve.
        (Mantenha tudo isso concatenado no campo 'editorial_summary', use quebras de linha \\n).
+       (Se houver informações sobre jogos da Libertadores ou Brasileirão nas notícias, inclua-as no Radar ou Destaques).
 
     2. "indicators": Preencha com os dados do próximo jogo e mercado.
-       - next_match: "Quarta (21/01), 19h vs Volta Redonda"
+       - next_match: "Qui (29/01), 21h30 vs Cruzeiro"
        - location: "Nilton Santos (Casa)"
-       - transmission: "Sportv, Premiere e GE TV" (ou conforme notícias se houver mudança)
+       - transmission: "Globo, SporTV e Premiere" 
        - dm: Situação médica breve ou "Sem novidades"
        - market: Status rápido de transferências
 
