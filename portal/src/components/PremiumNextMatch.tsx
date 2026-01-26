@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Shield, MapPin, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,8 +19,6 @@ interface MatchData {
     away_team_logo?: string;
     transmission?: string;
 }
-
-'use client';
 
 export default function PremiumNextMatch({ match, className }: { match?: MatchData | null, className?: string }) {
     const [isOpen, setIsOpen] = useState(true);
