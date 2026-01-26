@@ -659,7 +659,7 @@ def update_next_match():
         "home_team": "Botafogo",
         "away_team": "Cruzeiro",
         "home_team_logo": "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg",
-        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/b/bc/Cruzeiro_Esporte_Clube_%282021%29.svg",
+        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg/330px-Cruzeiro_Esporte_Clube_%28logo%29.svg.png",
         "home_score": 0,
         "away_score": 0,
         "date": "2026-01-29T21:30:00-03:00", 
