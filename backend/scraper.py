@@ -98,7 +98,7 @@ else:
 try:
     # Using 1.5-flash for stability. 
     # Note: If 429 errors occur, the daily quota (20 reqs/day) might have been reached.
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    model = genai.GenerativeModel('gemini-2.5-flash')
 except Exception as e:
     print(f"Error initializing Gemini model: {e}")
     model = None
