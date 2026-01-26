@@ -1,6 +1,6 @@
 'use client';
 
-import { Shield } from 'lucide-react';
+import { Shield, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getSafeImageSrc } from '@/lib/images';
 
@@ -34,68 +34,71 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     };
 
     const matchDate = new Date(data.date);
-    const dateString = matchDate.toLocaleDateString('pt-BR', { weekday: 'short', hour: '2-digit', minute: '2-digit' }).replace('.', '');
+    const dateString = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).toUpperCase();
+    const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className={cn("w-full", className)}>
-            <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl md:rounded-3xl relative overflow-hidden shadow-2xl group transition-all duration-500 hover:border-premium-gold/30">
-                {/* Gold Top Border */}
-                {/* Gold Top Border & Bottom Border */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
-
-                <div className="p-6 md:p-8">
-                    {/* Header: PRÓXIMO CONFRONTO */}
-                    <div className="mb-8 text-center">
-                        <h4 className="text-sm md:text-base font-black text-premium-gold uppercase tracking-[0.2em] italic drop-shadow-sm">
-                            PRÓXIMO CONFRONTO
-                        </h4>
+        <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#111] border border-premium-gold/15 rounded-xl shadow-2xl", className)}>
+            {/* Header Style */}
+            <div className="w-full flex items-center justify-between p-4 border-b border-premium-gold/10">
+                <div className="flex items-center space-x-3">
+                    {/* Date Badge */}
+                    <div className="flex flex-col items-center justify-center w-10 h-10 rounded-lg border bg-premium-gold text-black border-premium-gold">
+                        <span className="text-[9px] font-black uppercase leading-none">{dateString.split(' ')[0]}</span>
+                        <span className="text-[12px] font-black leading-none">{dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()}</span>
                     </div>
 
-                    {/* Match Grid */}
-                    <div className="flex items-center justify-between">
+                    {/* Teams Text */}
+                    <div className="flex flex-col items-start">
+                        <span className="text-xs font-bold uppercase tracking-wider text-white">
+                            {data.home_team} <span className="text-premium-gold mx-1">X</span> {data.away_team}
+                        </span>
+                        <span className="text-[9px] font-medium text-white/30 capitalize">
+                            {data.championship}
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-                        {/* Home Team */}
-                        <div className="flex flex-col items-center w-1/3 gap-3">
-                            <div className="w-16 h-16 md:w-24 md:h-24 relative transition-transform duration-500 group-hover:scale-105">
-                                {data.home_team_logo ? (
-                                    <img src={getSafeImageSrc(data.home_team_logo)} alt={data.home_team} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
-                                ) : (
-                                    <Shield size={64} className="text-white/10" />
-                                )}
-                            </div>
-                            <span className="text-xs md:text-sm font-black text-white uppercase tracking-widest text-center leading-tight">
-                                {data.home_team}
-                            </span>
+            {/* Content Style (Accordion Expanded) */}
+            <div className="px-4 pb-5 pt-4">
+                <div className="flex justify-between items-center py-4">
+                    {/* Home Logo */}
+                    <div className="flex flex-col items-center w-1/3">
+                        <div className="w-12 h-12 relative mb-2 drop-shadow-md">
+                            {data.home_team_logo ? (
+                                <img src={getSafeImageSrc(data.home_team_logo)} alt={data.home_team} className="w-full h-full object-contain" />
+                            ) : (
+                                <Shield size={32} className="text-white/20" />
+                            )}
                         </div>
+                    </div>
 
-                        {/* Center Info: VS + Date */}
-                        <div className="flex flex-col items-center justify-center w-1/3 gap-1">
-                            <span className="text-xl md:text-3xl font-black italic text-white tracking-widest drop-shadow-md">VS</span>
-                            <span className="text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-widest whitespace-nowrap">
-                                {dateString}
-                            </span>
+                    {/* Time/Score */}
+                    <div className="flex flex-col items-center w-1/3">
+                        <span className="text-xs font-mono font-bold text-premium-gold bg-premium-gold/10 px-3 py-1.5 rounded transition-all duration-300">
+                            {timeString}
+                        </span>
+                    </div>
+
+                    {/* Away Logo */}
+                    <div className="flex flex-col items-center w-1/3">
+                        <div className="w-12 h-12 relative mb-2 drop-shadow-md">
+                            {data.away_team_logo ? (
+                                <img src={getSafeImageSrc(data.away_team_logo)} alt={data.away_team} className="w-full h-full object-contain" />
+                            ) : (
+                                <Shield size={32} className="text-white/20" />
+                            )}
                         </div>
-
-                        {/* Away Team */}
-                        <div className="flex flex-col items-center w-1/3 gap-3">
-                            <div className="w-16 h-16 md:w-24 md:h-24 relative transition-transform duration-500 group-hover:scale-105">
-                                {data.away_team_logo ? (
-                                    <img src={getSafeImageSrc(data.away_team_logo)} alt={data.away_team} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
-                                ) : (
-                                    <Shield size={64} className="text-white/10" />
-                                )}
-                            </div>
-                            <span className="text-xs md:text-sm font-black text-white uppercase tracking-widest text-center leading-tight">
-                                {data.away_team}
-                            </span>
-                        </div>
-
                     </div>
                 </div>
 
-                {/* Glassy Background Flare */}
-                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-premium-gold/5 blur-[100px] rounded-full" />
+                <div className="text-center mt-2">
+                    <div className="inline-flex items-center space-x-2 text-[10px] text-white/40 bg-white/5 px-4 py-1.5 rounded-full border border-white/5">
+                        <MapPin size={10} className="text-premium-gold/50" />
+                        <span>{data.location}</span>
+                    </div>
+                </div>
             </div>
         </div>
     );
