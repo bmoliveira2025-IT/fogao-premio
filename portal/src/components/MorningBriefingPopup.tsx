@@ -256,7 +256,7 @@ export default function MorningBriefingPopup() {
                                         <ArrowRight size={14} className="text-blue-400" />
                                         <span className="text-[10px] font-bold text-blue-400 uppercase">Mercado</span>
                                     </div>
-                                    <p className="text-sm text-white font-bold leading-tight line-clamp-3">{briefing.indicators.market}</p>
+                                    <p className="text-sm text-white font-bold leading-tight">{briefing.indicators.market}</p>
                                 </div>
                             )}
                         </div>
