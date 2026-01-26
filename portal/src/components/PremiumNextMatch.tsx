@@ -49,7 +49,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
             {/* Header Style (Clickable to Toggle) */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between p-4 border-b border-premium-gold/10 hover:bg-white/5 transition-colors"
+                className="w-full relative flex items-center justify-between p-4 border-b border-premium-gold/10 hover:bg-white/5 transition-colors"
             >
                 <div className="flex items-center space-x-3 text-left">
                     {/* Date Badge */}
