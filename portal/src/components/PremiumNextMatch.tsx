@@ -57,9 +57,10 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         <span className="text-[9px] font-black uppercase leading-none">{dateString.split(' ')[0]}</span>
                         <span className="text-[12px] font-black leading-none">{dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()}</span>
                     </div>
+                </div>
 
-                    {/* Teams Text */}
-                    <div className="flex flex-col items-start leading-tight">
+                <div className="flex-1 flex justify-center text-center">
+                    <div className="flex flex-col items-center leading-tight">
                         <span className="text-xs font-bold uppercase tracking-wider text-white">
                             {data.home_team} <span className="text-premium-gold mx-0.5">X</span> {data.away_team}
                         </span>
@@ -69,10 +70,12 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     </div>
                 </div>
 
-                <ChevronDown
-                    size={16}
-                    className={cn("text-premium-gold transition-transform duration-300", isOpen ? "rotate-180" : "rotate-0")}
-                />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                    <ChevronDown
+                        size={16}
+                        className={cn("text-premium-gold transition-transform duration-300", isOpen ? "rotate-180" : "rotate-0")}
+                    />
+                </div>
             </button>
 
             {/* Content Style (AnimatePresence for smooth expand/collapse) */}
