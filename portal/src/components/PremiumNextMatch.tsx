@@ -42,7 +42,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#111] border border-premium-gold/15 rounded-xl shadow-2xl", className)}>
+        <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#111] border-y md:border border-premium-gold/15 rounded-none md:rounded-xl shadow-2xl", className)}>
             {/* Header Style (Clickable to Toggle) */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
