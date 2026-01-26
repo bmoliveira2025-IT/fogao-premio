@@ -2,6 +2,7 @@
 
 import { Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getSafeImageSrc } from '@/lib/images';
 
 interface MatchData {
     home_team: string;
@@ -58,7 +59,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         <div className="flex flex-col items-center w-1/3 gap-3">
                             <div className="w-16 h-16 md:w-24 md:h-24 relative transition-transform duration-500 group-hover:scale-105">
                                 {data.home_team_logo ? (
-                                    <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+                                    <img src={getSafeImageSrc(data.home_team_logo)} alt={data.home_team} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
                                 ) : (
                                     <Shield size={64} className="text-white/10" />
                                 )}
@@ -80,7 +81,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         <div className="flex flex-col items-center w-1/3 gap-3">
                             <div className="w-16 h-16 md:w-24 md:h-24 relative transition-transform duration-500 group-hover:scale-105">
                                 {data.away_team_logo ? (
-                                    <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
+                                    <img src={getSafeImageSrc(data.away_team_logo)} alt={data.away_team} className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" />
                                 ) : (
                                     <Shield size={64} className="text-white/10" />
                                 )}
