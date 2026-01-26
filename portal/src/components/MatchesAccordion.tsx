@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Shield, ChevronDown, Calendar, MapPin } from 'lucide-react';
+import { getSafeImageSrc } from '@/lib/images';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface MatchData {
@@ -91,7 +92,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                             <div className="flex flex-col items-center w-1/3">
                                                 <div className="w-12 h-12 relative mb-2 drop-shadow-md">
                                                     {match.home_team_logo ? (
-                                                        <img src={match.home_team_logo} alt={match.home_team} className="w-full h-full object-contain" />
+                                                        <img src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} className="w-full h-full object-contain" />
                                                     ) : (
                                                         <Shield size={32} className="text-white/20" />
                                                     )}
@@ -109,7 +110,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                             <div className="flex flex-col items-center w-1/3">
                                                 <div className="w-12 h-12 relative mb-2 drop-shadow-md">
                                                     {match.away_team_logo ? (
-                                                        <img src={match.away_team_logo} alt={match.away_team} className="w-full h-full object-contain" />
+                                                        <img src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} className="w-full h-full object-contain" />
                                                     ) : (
                                                         <Shield size={32} className="text-white/20" />
                                                     )}
