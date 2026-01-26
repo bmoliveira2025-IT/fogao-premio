@@ -59,15 +59,14 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     </div>
                 </div>
 
-                <div className="flex-1 flex justify-center text-center">
-                    <div className="flex flex-col items-center leading-tight">
-                        <span className="text-xs font-bold uppercase tracking-wider text-white">
-                            {data.home_team} <span className="text-premium-gold mx-0.5">X</span> {data.away_team}
-                        </span>
-                        <span className="text-[9px] font-medium text-white/30 capitalize">
-                            {data.championship}
-                        </span>
-                    </div>
+                {/* Centered Teams Text - Absolute Positioning for Perfect Center */}
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center leading-tight pointer-events-none">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white whitespace-nowrap">
+                        {data.home_team} <span className="text-premium-gold mx-0.5">X</span> {data.away_team}
+                    </span>
+                    <span className="text-[9px] font-medium text-white/30 capitalize">
+                        {data.championship}
+                    </span>
                 </div>
 
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -88,10 +87,10 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
                         <div className="px-4 pb-5 pt-4">
-                            <div className="flex justify-between items-center py-4">
+                            <div className="flex items-center py-4 relative h-16">
                                 {/* Home Logo */}
-                                <div className="flex flex-col items-center w-1/3">
-                                    <div className="w-12 h-12 relative mb-2 drop-shadow-md">
+                                <div className="absolute left-6">
+                                    <div className="w-12 h-12 relative drop-shadow-md">
                                         {data.home_team_logo ? (
                                             <img src={getSafeImageSrc(data.home_team_logo)} alt={data.home_team} className="w-full h-full object-contain" />
                                         ) : (
@@ -100,16 +99,16 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                     </div>
                                 </div>
 
-                                {/* Time/Score */}
-                                <div className="flex flex-col items-center w-1/3">
+                                {/* Time/Score - Absolutely Centered */}
+                                <div className="absolute left-1/2 -translate-x-1/2">
                                     <span className="text-xs font-mono font-bold text-premium-gold bg-premium-gold/10 px-3 py-1.5 rounded transition-all duration-300">
                                         {timeString}
                                     </span>
                                 </div>
 
                                 {/* Away Logo */}
-                                <div className="flex flex-col items-center w-1/3">
-                                    <div className="w-12 h-12 relative mb-2 drop-shadow-md">
+                                <div className="absolute right-6">
+                                    <div className="w-12 h-12 relative drop-shadow-md">
                                         {data.away_team_logo ? (
                                             <img src={getSafeImageSrc(data.away_team_logo)} alt={data.away_team} className="w-full h-full object-contain" />
                                         ) : (
