@@ -74,11 +74,6 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                             <span className="text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-widest whitespace-nowrap">
                                 {dateString}
                             </span>
-                            {data.transmission && (
-                                <span className="mt-2 text-[9px] md:text-[10px] font-bold text-premium-gold/80 uppercase tracking-widest border border-premium-gold/20 px-2 py-0.5 rounded-full">
-                                    {data.transmission}
-                                </span>
-                            )}
                         </div>
 
                         {/* Away Team */}
