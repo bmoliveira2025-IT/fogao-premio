@@ -19,7 +19,10 @@ interface MatchData {
     away_team_logo?: string;
     transmission?: string;
     display_time?: string; // New field for "15'" or "INT"
+    match_id?: string;
 }
+
+import Link from 'next/link';
 
 import { db } from '@/lib/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
@@ -123,30 +126,32 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 </div>
 
                                 {/* CENTER: Date & Time OR Score */}
-                                <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
-                                    {showScore ? (
-                                        <div className="flex flex-col items-center">
+                                <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+                                    <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="group cursor-pointer">
+                                        {showScore ? (
+                                            <div className="flex flex-col items-center group-hover:scale-105 transition-transform duration-200">
 
-                                            <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none">
-                                                <span>{data.home_score}</span>
-                                                <span className="text-premium-gold/50 text-xl">x</span>
-                                                <span>{data.away_score}</span>
+                                                <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none group-hover:text-premium-gold transition-colors">
+                                                    <span>{data.home_score}</span>
+                                                    <span className="text-premium-gold/50 text-xl">x</span>
+                                                    <span>{data.away_score}</span>
+                                                </div>
+                                                <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20 group-hover:bg-premium-gold group-hover:text-black transition-colors">
+                                                    {data.display_time || data.status}
+                                                </span>
                                             </div>
-                                            <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20">
-                                                {data.display_time || data.status}
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
-                                            <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
-                                                {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
-                                            </span>
-                                            <div className="h-px w-8 bg-premium-gold/30 mb-1" />
-                                            <span className="text-sm font-mono font-bold text-white tracking-widest">
-                                                {timeString}
-                                            </span>
-                                        </div>
-                                    )}
+                                        ) : (
+                                            <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm group-hover:border-premium-gold/50 transition-colors">
+                                                <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
+                                                    {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
+                                                </span>
+                                                <div className="h-px w-8 bg-premium-gold/30 mb-1" />
+                                                <span className="text-sm font-mono font-bold text-white tracking-widest">
+                                                    {timeString}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </Link>
                                 </div>
 
                                 {/* Away Logo */}
@@ -167,6 +172,17 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                     <span>{data.location}</span>
                                 </div>
                             </div>
+
+                            {isFinished && (
+                                <div className="mt-4 px-8">
+                                    <Link
+                                        href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`}
+                                        className="block w-full py-2.5 bg-premium-gold text-black hover:bg-white hover:text-black border border-premium-gold rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-all text-center shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+                                    >
+                                        Veja a Análise Completa
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </motion.div>
                 )}

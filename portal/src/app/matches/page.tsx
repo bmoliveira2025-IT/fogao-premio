@@ -3,57 +3,55 @@ import MatchesAccordion from '@/components/MatchesAccordion';
 
 export const revalidate = 60;
 
-async function getMatches() {
+async function getUpcomingMatches() {
+    try {
+        const threshold = new Date();
+        threshold.setHours(threshold.getHours() - 3); // Include games just finished
+        const matchesRef = db.collection('matches')
+            .where('date', '>=', threshold.toISOString())
+            .orderBy('date', 'asc')
+            .limit(10);
+        const snapshot = await matchesRef.get();
+        return serializeMatches(snapshot);
+    } catch (e) { return []; }
+}
+
+async function getPastMatches() {
     try {
         const threshold = new Date();
         threshold.setHours(threshold.getHours() - 3);
         const matchesRef = db.collection('matches')
-            .where('date', '>=', threshold.toISOString())
-            .orderBy('date', 'asc')
-            .limit(20);
+            .where('date', '<', threshold.toISOString())
+            .orderBy('date', 'desc')
+            .limit(1);
         const snapshot = await matchesRef.get();
+        return serializeMatches(snapshot);
+    } catch (e) { return []; }
+}
 
-        const rawMatches = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-            // Serialize dates for Client Component
-            date: doc.data().date instanceof Date ? doc.data().date.toISOString() : doc.data().date
-        }));
-
-        // Deduplicate Logic
-        const uniqueMatchesMap = new Map();
-
-        rawMatches.forEach((match: any) => {
-            // Create a unique key based on teams
-            // We ignore date details to catch dups on same day easily, or include day if needed. 
-            // Given the report, it's likely exact same match data.
-            const matchDate = new Date(match.date).toLocaleDateString('pt-BR');
-            const key = `${match.home_team}-${match.away_team}-${matchDate}`;
-
-            if (uniqueMatchesMap.has(key)) {
-                // Determine which one to keep
-                const existing = uniqueMatchesMap.get(key);
-                // Priority: Status 'live' > Has Logo > Existing
-                const existingHasLogo = existing.home_team_logo && existing.away_team_logo;
-                const currentHasLogo = match.home_team_logo && match.away_team_logo;
-
-                if (!existingHasLogo && currentHasLogo) {
-                    uniqueMatchesMap.set(key, match);
-                }
-            } else {
-                uniqueMatchesMap.set(key, match);
-            }
-        });
-
-        return Array.from(uniqueMatchesMap.values());
-    } catch (error) {
-        // Quota exceeded or other Firestore error - fail gracefully
-        return [];
-    }
+function serializeMatches(snapshot: any) {
+    return snapshot.docs.map((doc: any) => {
+        const data = doc.data();
+        return {
+            id: data.match_id || doc.id,
+            home_team: data.home_team,
+            away_team: data.away_team,
+            home_score: data.home_score,
+            away_score: data.away_score,
+            date: data.date && typeof data.date.toDate === 'function' ? data.date.toDate().toISOString() : (data.date instanceof Date ? data.date.toISOString() : data.date),
+            location: data.location,
+            championship: data.championship,
+            status: data.status,
+            home_team_logo: data.home_team_logo,
+            away_team_logo: data.away_team_logo,
+            display_time: data.display_time
+        };
+    });
 }
 
 export default async function MatchesPage() {
-    const matches: any = await getMatches();
+    const upcoming = await getUpcomingMatches();
+    const past = await getPastMatches();
 
     return (
         <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
@@ -72,11 +70,25 @@ export default async function MatchesPage() {
                     </a>
                 </div>
 
-                {matches.length > 0 ? (
-                    <MatchesAccordion matches={matches} />
+                {/* PAST MATCHES */}
+                {past.length > 0 && (
+                    <div className="mb-12">
+                        <MatchesAccordion matches={past} title="Últimos Resultados" />
+                    </div>
+                )}
+
+                {/* UPCOMING MATCHES */}
+                {upcoming.length > 0 ? (
+                    <MatchesAccordion matches={upcoming} title="Próximos Jogos" />
                 ) : (
                     <div className="text-center py-20 text-foreground/30 text-sm">
-                        Nenhum jogo agendado no momento.
+
+                    </div>
+                )}
+
+                {upcoming.length === 0 && (
+                    <div className="text-center py-5 text-foreground/30 text-sm">
+                        Nenhum jogo futuro agendado no momento.
                     </div>
                 )}
             </div>

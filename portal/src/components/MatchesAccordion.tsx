@@ -19,7 +19,7 @@ interface MatchData {
     away_team_logo?: string;
 }
 
-export default function MatchesAccordion({ matches }: { matches: MatchData[] }) {
+export default function MatchesAccordion({ matches, title = "Próximos Jogos" }: { matches: MatchData[], title?: string }) {
     const [openId, setOpenId] = useState<string | null>(matches[0]?.id || null);
 
     const toggle = (id: string) => {
@@ -33,7 +33,7 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
             {/* Label */}
             <div className="flex items-center justify-center space-x-2 mb-2">
                 <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-premium-gold/50"></div>
-                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-premium-gold">Próximos Jogos</span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-premium-gold">{title}</span>
                 <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-premium-gold/50"></div>
             </div>
 
@@ -63,10 +63,12 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                 {/* Teams Text */}
                                 <div className="flex flex-col items-start">
                                     <span className={`text-xs font-bold uppercase tracking-wider ${isOpen ? 'text-white' : 'text-white/70'}`}>
-                                        {match.home_team} <span className="text-premium-gold mx-1">x</span> {match.away_team}
+                                        {match.home_team} <span className={`mx-1 ${match.status === 'AO_VIVO' || match.status === 'ENCERRADA' || match.home_score !== undefined ? 'text-premium-gold' : 'text-premium-gold'}`}>
+                                            {match.home_score !== undefined && match.away_score !== undefined ? `${match.home_score} x ${match.away_score}` : 'x'}
+                                        </span> {match.away_team}
                                     </span>
                                     <span className="text-[9px] font-medium text-white/30 capitalize">
-                                        {match.championship}
+                                        {match.championship} • {match.status === 'AO_VIVO' ? 'AO VIVO' : match.status === 'ENCERRADA' ? 'Finalizado' : timeString}
                                     </span>
                                 </div>
                             </div>
@@ -99,10 +101,10 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                                 </div>
                                             </div>
 
-                                            {/* Time/Score */}
-                                            <div className="flex flex-col items-center w-1/3">
+                                            {/* Time/Score or Action */}
+                                            <div className="flex flex-col items-center w-1/3 space-y-2">
                                                 <span className="text-xs font-mono font-bold text-premium-gold bg-premium-gold/10 px-2 py-1 rounded">
-                                                    {timeString}
+                                                    {match.home_score !== undefined ? `${match.home_score} - ${match.away_score}` : timeString}
                                                 </span>
                                             </div>
 
@@ -119,13 +121,19 @@ export default function MatchesAccordion({ matches }: { matches: MatchData[] }) 
                                         </div>
 
                                         <div className="text-center mb-4">
-                                            <div className="inline-flex items-center space-x-1 text-[10px] text-white/40 bg-white/5 px-3 py-1 rounded-full">
+                                            <div className="inline-flex items-center space-x-1 text-[10px] text-white/40 bg-white/5 px-3 py-1 rounded-full mb-3">
                                                 <MapPin size={10} />
                                                 <span>{match.location}</span>
                                             </div>
+
+                                            {/* ANALYSIS BUTTON */}
+                                            <a
+                                                href={`/stats/${match.id}`}
+                                                className="block w-full py-3 bg-premium-gold text-black uppercase font-black text-[10px] tracking-widest rounded-lg hover:bg-white hover:text-black transition-colors shadow-lg"
+                                            >
+                                                Ver Análise Completa
+                                            </a>
                                         </div>
-
-
                                     </div>
                                 </motion.div>
                             )}

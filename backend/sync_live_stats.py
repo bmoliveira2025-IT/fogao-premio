@@ -153,8 +153,48 @@ def sync_botafogo_live():
             
     # Fallback for testing/debugging if tournament pages are shells
     if not game_urls:
-        print("DEBUG: No game URLs found in tournament pages. Using fallback for testing.")
-        game_urls = ["https://ge.globo.com/rj/futebol/campeonato-carioca/jogo/24-01-2026/botafogo-bangu.ghtml"]
+        print("DEBUG: No game URLs found in tournament pages. Using fallback/manual options.")
+        
+    # Check for manual GE URL override
+    manual_path = os.path.join(os.path.dirname(__file__), "manual_live_game.json")
+    if os.path.exists(manual_path):
+        try:
+            with open(manual_path, "r", encoding="utf-8") as f:
+                manual_conf = json.load(f)
+            if manual_conf.get("ge_url"):
+                print(f"Adding Manual GE URL: {manual_conf['ge_url']}")
+                game_urls.append(manual_conf['ge_url'])
+            
+            # AUTOMATIC FALLBACK: Construct URL from manual data
+            try:
+                from datetime import timedelta
+                m_date = datetime.fromisoformat(manual_conf["date"].replace("Z", "+00:00"))
+                now_utc = datetime.now(timezone.utc)
+                
+                # Time Window: Start checking 1 hour before, stop 4 hours after start
+                start_window = m_date - timedelta(hours=1)
+                end_window = m_date + timedelta(hours=4)
+                
+                if start_window <= now_utc <= end_window:
+                    date_str = m_date.strftime("%d-%m-%Y")
+                    home_slug = manual_conf["home_team"].lower().replace(" ", "-")
+                    away_slug = manual_conf["away_team"].lower().replace(" ", "-")
+                    
+                    # Try RJ base first (most common for Botafogo context)
+                    auto_url = f"https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/{date_str}/{home_slug}-{away_slug}.ghtml"
+                    print(f"Time window matches! Trying Auto-Constructed URL: {auto_url}")
+                    game_urls.append(auto_url)
+                else:
+                    print(f"Match is not strictly 'live' (Window: {start_window} to {end_window}). Skipping auto-URL construction to save resources.")
+
+            except Exception as e:
+                print(f"Error constructing auto URL: {e}")
+
+        except Exception as e:
+            print(f"Error reading manual config for URL: {e}")
+
+    if not game_urls:
+         game_urls = ["https://ge.globo.com/rj/futebol/campeonato-carioca/jogo/24-01-2026/botafogo-bangu.ghtml"]
 
     # Remove duplicates
     game_urls = list(set(game_urls))
@@ -212,16 +252,64 @@ def sync_botafogo_live():
                     "away_score": away_score,
                     "status": status,
                     "display_time": manual_data.get("display_time", ""), # Pass specific time like "15'"
+                    "match_id": m_id,
                     "updated_at": firestore.SERVER_TIMESTAMP
                 }
                 
                 db.collection("matches").document("next_match").set(matches_update, merge=True)
-                print("Successfully updated matches/next_match with live score.")
+                
+                # Also save to permanent history
+                db.collection("matches").document(m_id).set(matches_update, merge=True)
+                print(f"Successfully updated matches/next_match and matches/{m_id} with live score.")
             except Exception as e:
                 print(f"Error updating matches/next_match: {e}")
 
     if not found_live:
         print("No live match active for Botafogo at this moment.")
+    
+    # --- AUTO-SWITCH TO NEXT MATCH LOGIC (Projected for 2026-01-30 00:01) ---
+    try:
+        # Time to switch: Jan 30, 2026 at 00:01 (Subtitle: "Amanhã as 00:01")
+        # Assuming local time -03:00. 
+        # 00:01 Local = 03:01 UTC.
+        
+        switch_time_iso = "2026-01-30T13:00:00+00:00"
+        switch_time = datetime.fromisoformat(switch_time_iso)
+        now_time = datetime.now(timezone.utc)
+        
+        manual_path = os.path.join(os.path.dirname(__file__), "manual_live_game.json")
+        if os.path.exists(manual_path):
+            with open(manual_path, "r", encoding="utf-8") as f:
+                current_conf = json.load(f)
+            
+            # Only switch if we are still on the OLD match (bot_v_cruz) AND time has passed
+            if current_conf.get("match_id") == "bot_v_cruz_2026_01_29" and now_time >= switch_time:
+                print(f"⏰ It is past {switch_time_iso}. Switching to NEXT MATCH (Botafogo x Fluminense)...")
+                
+                new_conf = current_conf.copy()
+                new_conf["match_id"] = "bot_v_flu_2026_02_01"
+                new_conf["home_team"] = "Botafogo"
+                new_conf["away_team"] = "Fluminense"
+                new_conf["date"] = "2026-02-01T20:30:00-03:00"
+                new_conf["home_score"] = 0
+                new_conf["away_score"] = 0
+                new_conf["status"] = "AGENDADO"
+                new_conf["display_time"] = ""
+                new_conf["ge_url"] = "" # Reset URL for auto-discovery later
+                new_conf["stats"] = {} # Clear stats
+                new_conf["events"] = [] # Clear events
+                new_conf["player_stats"] = {"home": [], "away": []} # Clear players
+                
+                with open(manual_path, "w", encoding="utf-8") as f:
+                    json.dump(new_conf, f, indent=4, ensure_ascii=False)
+                    
+                print("✅ Successfully auto-switched config to Botafogo x Fluminense!")
+                # Re-run sync logic immediately to update DB? 
+                # Better to let the next loop handle it or just rely on the script logic above if it was re-entrant. 
+                # For safety, we just updated the file. The next scheduled run (or manual run) will pick it up.
+                
+    except Exception as e:
+        print(f"Error in auto-switch logic: {e}")
 
 if __name__ == "__main__":
     sync_botafogo_live()

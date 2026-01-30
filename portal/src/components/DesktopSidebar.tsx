@@ -7,19 +7,19 @@ import { cn } from '@/lib/utils';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { useAuth } from '@/context/AuthContext';
 
+const menuItems = [
+    { icon: Home, label: 'Início', href: '/' },
+    { icon: Newspaper, label: 'Notícias', href: '/news' },
+    { icon: Calendar, label: 'Jogos', href: '/matches' },
+    { icon: Trophy, label: 'Tabela', href: '/tabela' },
+    { icon: Users, label: 'Elenco', href: '/elenco' },
+    { icon: Star, label: 'Premium', href: '/premium', isPremium: true },
+];
+
 export default function DesktopSidebar() {
     const { user, isPremium, logout } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
-
-    const menuItems = [
-        { icon: Home, label: 'Início', href: '/' },
-        { icon: Newspaper, label: 'Notícias', href: '/news' },
-        { icon: Calendar, label: 'Jogos', href: '/matches' },
-        { icon: Trophy, label: 'Tabela', href: '/tabela' },
-        { icon: Users, label: 'Elenco', href: '/elenco' },
-        { icon: Star, label: 'Premium', href: '/premium', isPremium: true },
-    ];
 
     return (
         <aside className="fixed left-0 top-0 bottom-0 w-64 bg-zinc-950 border-r border-white/5 flex flex-col z-50">
