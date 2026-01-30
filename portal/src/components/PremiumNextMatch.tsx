@@ -126,11 +126,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
                                     {showScore ? (
                                         <div className="flex flex-col items-center">
-                                            {isLive && (
-                                                <span className="mb-2 text-[9px] font-black text-red-500 animate-pulse uppercase tracking-widest border border-red-500/20 px-2 py-0.5 rounded-full bg-red-500/5">
-                                                    ● AO VIVO
-                                                </span>
-                                            )}
+
                                             <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none">
                                                 <span>{data.home_score}</span>
                                                 <span className="text-premium-gold/50 text-xl">x</span>
