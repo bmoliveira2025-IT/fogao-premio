@@ -239,7 +239,7 @@ export default async function Home() {
               </div>
 
               {/* NEW: Last Match Analysis Card */}
-              <LastMatchStatsCard />
+              {/* LastMatchStatsCard removed */}
 
 
 
