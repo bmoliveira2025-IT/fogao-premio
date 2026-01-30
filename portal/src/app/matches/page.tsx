@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase-admin';
 import MatchesAccordion from '@/components/MatchesAccordion';
 
-export const revalidate = 60;
+export const revalidate = 0;
 
 async function getUpcomingMatches() {
     try {
