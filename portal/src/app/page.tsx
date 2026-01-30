@@ -16,7 +16,7 @@ import SocialHubWidget from '@/components/SocialHubWidget';
 import { getTrendingTopics } from '@/lib/social-pulse';
 import LastMatchStatsCard from '@/components/LastMatchStatsCard';
 
-export const revalidate = 60;
+export const revalidate = 0; // Disable cache for real-time updates
 
 interface NewsItem {
   id: string;

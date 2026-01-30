@@ -103,6 +103,18 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                 </div>
             </button>
 
+            {/* Analysis Button - Always Visible for Finished Matches */}
+            {isFinished && (
+                <div className="px-4 pt-3 pb-4 border-t border-premium-gold/10">
+                    <Link
+                        href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`}
+                        className="block w-full py-2.5 bg-premium-gold text-black hover:bg-white hover:text-black border border-premium-gold rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-all text-center shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+                    >
+                        Veja a Análise Completa
+                    </Link>
+                </div>
+            )}
+
             {/* Content Style (AnimatePresence for smooth expand/collapse) */}
             <AnimatePresence>
                 {isOpen && (
@@ -172,17 +184,6 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                     <span>{data.location}</span>
                                 </div>
                             </div>
-
-                            {isFinished && (
-                                <div className="mt-4 px-8">
-                                    <Link
-                                        href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`}
-                                        className="block w-full py-2.5 bg-premium-gold text-black hover:bg-white hover:text-black border border-premium-gold rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-all text-center shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
-                                    >
-                                        Veja a Análise Completa
-                                    </Link>
-                                </div>
-                            )}
                         </div>
                     </motion.div>
                 )}

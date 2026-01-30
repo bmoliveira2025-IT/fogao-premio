@@ -16,14 +16,15 @@ def init_firebase():
 
 db = init_firebase()
 
-doc_ref = db.collection("matches").document("next_match")
-doc = doc_ref.get()
-
+print("=== Checking matches/next_match ===")
+doc = db.collection("matches").document("next_match").get()
 if doc.exists:
     data = doc.to_dict()
     print(f"Status: {data.get('status')}")
     print(f"Home Score: {data.get('home_score')}")
-    print(f"Display Time: {data.get('display_time')}")
+    print(f"Away Score: {data.get('away_score')}")
     print(f"Match ID: {data.get('match_id')}")
+    print(f"Display Time: {data.get('display_time')}")
+    print(f"Date: {data.get('date')}")
 else:
-    print("matches/next_match document does not exist.")
+    print("Document does not exist!")
