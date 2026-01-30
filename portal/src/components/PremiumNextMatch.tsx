@@ -59,8 +59,11 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     // Check if live or finished
-    const isLive = data.status === 'AO_VIVO' || data.status === 'EM_ANDAMENTO' || data.status === 'INTERVALO';
-    const isFinished = data.status === 'ENCERRADA' || data.status === 'FINALIZADO';
+    const status = data.status?.toUpperCase().trim() || '';
+    const hasGameTime = data.display_time?.includes("'"); // e.g. "72'"
+
+    const isLive = status === 'AO_VIVO' || status === 'EM_ANDAMENTO' || status === 'INTERVALO' || hasGameTime;
+    const isFinished = status === 'ENCERRADA' || status === 'FINALIZADO' || status === 'FIM_DE_JOGO';
     const showScore = isLive || isFinished;
 
     return (
@@ -123,6 +126,11 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
                                     {showScore ? (
                                         <div className="flex flex-col items-center">
+                                            {isLive && (
+                                                <span className="mb-2 text-[9px] font-black text-red-500 animate-pulse uppercase tracking-widest border border-red-500/20 px-2 py-0.5 rounded-full bg-red-500/5">
+                                                    ● AO VIVO
+                                                </span>
+                                            )}
                                             <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none">
                                                 <span>{data.home_score}</span>
                                                 <span className="text-premium-gold/50 text-xl">x</span>
