@@ -57,18 +57,22 @@ export default function LastMatchStatsCard() {
                 {/* Header */}
                 <div className="w-full flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/40 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                            <BarChart3 size={20} className="text-premium-gold" />
-                        </div>
                         <div>
                             <h4 className="text-[12px] font-black text-premium-gold uppercase tracking-[0.2em] italic leading-tight">
                                 {isLive ? 'Partida ao Vivo' : 'Análise de Jogo'}
                             </h4>
-                            <p className="text-[10px] text-white/90 uppercase tracking-[0.2em] font-bold">
-                                {isLive ? 'Tempo Real' : 'Última Partida'} • 2026
-                            </p>
                         </div>
                     </div>
+
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleAction();
+                        }}
+                        className="bg-white/10 hover:bg-white/20 text-white font-black uppercase tracking-[0.1em] px-4 py-2 rounded-lg text-[10px] transition-colors border border-white/10"
+                    >
+                        Ver Detalhes
+                    </button>
                 </div>
 
                 {/* Score Area - ULTRA COMPACT */}
@@ -81,7 +85,9 @@ export default function LastMatchStatsCard() {
                     <div className="flex flex-col items-center shrink-0">
                         <div className="relative">
                             <span className="text-5xl font-black italic text-white leading-none tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                                {lastMatch.score || '0 - 0'}
+                                {lastMatch.home_score !== undefined && lastMatch.away_score !== undefined
+                                    ? `${lastMatch.home_score} - ${lastMatch.away_score}`
+                                    : (lastMatch.score || '0 - 0')}
                             </span>
                         </div>
                         <div className={`mt-2 px-3 py-0.5 ${isLive ? 'bg-red-600/20 border-red-600/40 animate-pulse' : 'bg-premium-gold/20 border-premium-gold/40'} border rounded-full shadow-lg`}>
@@ -98,7 +104,7 @@ export default function LastMatchStatsCard() {
                 </div>
 
                 {/* Stats Tiles - COMPACT GRID */}
-                <div className="grid grid-cols-2 gap-3 w-full mb-6">
+                <div className="grid grid-cols-2 gap-3 w-full">
                     <div className="bg-white/10 border border-white/10 rounded-[1.5rem] p-4 flex flex-col items-start gap-1 group/stat shadow-xl backdrop-blur-sm">
                         <div className="flex items-center justify-between w-full">
                             <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em]">Posse</span>
@@ -118,18 +124,6 @@ export default function LastMatchStatsCard() {
                         </span>
                     </div>
                 </div>
-
-                {/* Action Button */}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleAction();
-                    }}
-                    className="w-full bg-premium-gold hover:bg-white text-black font-black uppercase tracking-[0.2em] py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-xl shadow-premium-gold/10 active:scale-95"
-                >
-                    <span className="text-[11px]">Ver Análise Completa</span>
-                    <ChevronRight size={16} />
-                </button>
             </div>
         </div>
     );

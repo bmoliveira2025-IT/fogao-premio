@@ -3,32 +3,32 @@
     "match_id": "bot_v_cruz_2026_01_29",
     "home_team": "Botafogo",
     "away_team": "Cruzeiro",
-    "home_score": 0,
+    "home_score": 1,
     "away_score": 0,
     "status": "AO_VIVO",
-    "display_time": "15'",
+    "display_time": "2T 10'",
     "date": "2026-01-29T21:30:00-03:00",
     "championship": "Brasileirão Betano",
     "stats": {
         "possession": {
-            "home": 58,
-            "away": 42
+            "home": 55,
+            "away": 45
         },
         "shots": {
-            "home": 3,
-            "away": 2
+            "home": 5,
+            "away": 3
         },
         "shots_on_target": {
-            "home": 1,
+            "home": 2,
             "away": 1
         },
         "corners": {
-            "home": 2,
-            "away": 0
+            "home": 3,
+            "away": 1
         },
         "fouls": {
-            "home": 2,
-            "away": 3
+            "home": 4,
+            "away": 4
         },
         "yellow_cards": {
             "home": 0,
@@ -38,6 +38,84 @@
             "home": 0,
             "away": 0
         }
+    },
+    "player_stats": {
+        "home": [
+            {
+                "name": "Danilo",
+                "position": "VOL",
+                "rating": 8.2,
+                "goals": 1,
+                "assists": 0,
+                "shots": 1,
+                "passes": 30
+            },
+            {
+                "name": "Luiz Henrique",
+                "position": "ATA",
+                "rating": 7.6,
+                "goals": 0,
+                "assists": 0,
+                "shots": 2,
+                "passes": 16
+            },
+            {
+                "name": "Thiago Almada",
+                "position": "MEI",
+                "rating": 7.3,
+                "goals": 0,
+                "assists": 1,
+                "shots": 1,
+                "passes": 28
+            },
+            {
+                "name": "Marlon Freitas",
+                "position": "VOL",
+                "rating": 7.1,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 38
+            },
+            {
+                "name": "Bastos",
+                "position": "ZAG",
+                "rating": 6.9,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 32
+            },
+            {
+                "name": "John",
+                "position": "GOL",
+                "rating": 7.2,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 14
+            }
+        ],
+        "away": [
+            {
+                "name": "Matheus Pereira",
+                "position": "MEI",
+                "rating": 7.1,
+                "goals": 0,
+                "assists": 0,
+                "shots": 1,
+                "passes": 24
+            },
+            {
+                "name": "Cássio",
+                "position": "GOL",
+                "rating": 6.5,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 12
+            }
+        ]
     },
     "events": [
         {
@@ -61,6 +139,14 @@
             "type": "save",
             "player": "Matheus Pereira",
             "description": "Chute forte, defensa de Neto"
+        },
+        {
+            "minute": 55,
+            "team": "home",
+            "type": "goal",
+            "player": "Danilo",
+            "assist": "Thiago Almada",
+            "description": "GOL! Chute de fora da área no ângulo."
         }
     ]
 }
