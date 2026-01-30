@@ -128,9 +128,9 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                                 <span>{match.location}</span>
                                             </div>
 
-                                            {/* ANALYSIS BUTTON */}
                                             <Link
                                                 href={`/stats/${match.match_id || match.id}`}
+                                                onClick={(e) => e.stopPropagation()}
                                                 className="block w-full py-3 bg-premium-gold text-black uppercase font-black text-[10px] tracking-widest rounded-lg hover:bg-white hover:text-black transition-colors shadow-lg text-center"
                                             >
                                                 Ver Análise Completa

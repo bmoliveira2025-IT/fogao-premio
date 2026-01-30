@@ -258,8 +258,29 @@ def sync_botafogo_live():
                 
                 db.collection("matches").document("next_match").set(matches_update, merge=True)
                 
-                # Also save to permanent history
+                # Also save to permanent history and update any duplicates in matches collection
                 db.collection("matches").document(m_id).set(matches_update, merge=True)
+                
+                # Query matches collection for any other docs with same teams on same date to update them too
+                try:
+                    # Using date prefix match (YYYY-MM-DD)
+                    date_prefix = manual_data.get("date", "").split('T')[0]
+                    if date_prefix:
+                        other_matches = db.collection("matches").where("date", ">=", date_prefix).where("date", "<=", date_prefix + "T23:59:59").stream()
+                        for om in other_matches:
+                            om_data = om.to_dict()
+                            if (om_data.get("home_team") == home_team and om_data.get("away_team") == away_team):
+                                if om.id != "next_match" and om.id != m_id:
+                                    db.collection("matches").document(om.id).update({
+                                        "home_score": home_score,
+                                        "away_score": away_score,
+                                        "status": status,
+                                        "match_id": m_id
+                                    })
+                                    print(f"Propagated scores to duplicate match doc: {om.id}")
+                except Exception as propagation_err:
+                    print(f"Error propagating scores: {propagation_err}")
+
                 print(f"Successfully updated matches/next_match and matches/{m_id} with live score.")
             except Exception as e:
                 print(f"Error updating matches/next_match: {e}")
