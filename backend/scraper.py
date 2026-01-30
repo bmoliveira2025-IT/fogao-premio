@@ -653,25 +653,26 @@ def fetch_youtube_videos():
 
 def update_next_match():
     # In a real scenario, this would scrape 'https://api.globoesporte.globo.com/tabela/d1/...'
-    # For this MVP/Demo, and since scraping failed, we update the DB with the requested "Brasileirão 2026" data.
+    # Based on the user feedback, the Cruzeiro game has passed.
+    # Next match: Botafogo vs Fluminense, Sunday (02/01) at 18h
     
     match_data = {
         "home_team": "Botafogo",
-        "away_team": "Cruzeiro",
+        "away_team": "Fluminense",
         "home_team_logo": "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg",
-        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Cruzeiro_Esporte_Clube_%28logo%29.svg/330px-Cruzeiro_Esporte_Clube_%28logo%29.svg.png",
+        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fluminense_FC_escudo.png",
         "home_score": 0,
         "away_score": 0,
-        "date": "2026-01-29T21:30:00-03:00", 
+        "date": "2026-02-01T18:00:00-03:00", 
         "location": "Estádio Nilton Santos • Rio de Janeiro",
-        "championship": "Campeonato Brasileiro",
+        "championship": "Campeonato Carioca",
         "status": "scheduled",
-        "transmission": "Globo, SporTV e Premiere" 
+        "transmission": "CazéTV e Band" 
     }
     
     # Update or create the 'next_match' document
     db.collection('matches').document('next_match').set(match_data)
-    print("Match data updated in Firestore.")
+    print("Match data updated in Firestore (Next: Fluminense).")
 
 def map_position(pos_text):
     pos_text = pos_text.lower()
@@ -909,10 +910,10 @@ def generate_daily_briefing(force=False):
     Entregar um resumo objetivo, criativo, direto e de alto padrão, sem excesso de opinião, sem sensacionalismo e sem repetição.
     
     CONTEXTO OBRIGATÓRIO (Use para Próximo Jogo/Indicadores):
-    - Próximo Jogo: Botafogo vs Cruzeiro, Quinta-feira (29/01) às 21h30.
-    - Competição: Campeonato Brasileiro (Estreia).
+    - Próximo Jogo: Botafogo vs Fluminense, Domingo (01/02) às 18h00.
+    - Competição: Campeonato Carioca.
     - Local: Estádio Nilton Santos (Casa).
-    - Transmissão (Onde Assistir): Globo, SporTV e Premiere.
+    - Transmissão (Onde Assistir): CazéTV e Band.
 
     INSTRUÇÃO ESPECIAL PARA O PRÓXIMO JOGO:
     - Se encontrar notícias sobre um jogo MAIS PRÓXIMO ou MAIS RELEVANTE de qualquer competição (Libertadores, Brasileirão, Carioca, Copa do Brasil, etc.), PRIORIZE os dados das notícias para os campos "next_match", "location" e "transmission".
@@ -929,9 +930,9 @@ def generate_daily_briefing(force=False):
        (Se houver informações sobre jogos da Libertadores ou Brasileirão nas notícias, inclua-as no Radar ou Destaques).
 
     2. "indicators": Preencha com os dados do próximo jogo e mercado.
-       - next_match: "Qui (29/01), 21h30 vs Cruzeiro"
-       - location: "Nilton Santos (Casa)"
-       - transmission: "Globo, SporTV e Premiere" 
+        - next_match: "Dom (01/02), 18h00 vs Fluminense"
+        - location: "Nilton Santos (Casa)"
+        - transmission: "CazéTV e Band" 
        - dm: Situação médica breve ou "Sem novidades"
        - market: Status rápido de transferências
 

@@ -56,8 +56,8 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
         return () => unsub();
     }, []);
 
-    // Default Fallback
-    const data = liveMatch || {
+    // Priority: Prop > Live > Fallback
+    const data = match || liveMatch || {
         home_team: "BOTAFOGO",
         away_team: "ADVERSÁRIO",
         home_score: 0,
@@ -81,33 +81,16 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
     const isLive = status === 'AO_VIVO' || status === 'EM_ANDAMENTO' || status === 'INTERVALO' || hasGameTime;
 
-    // Robust finished check
+    // Robust finished check - rely on status markers
     const isFinished =
         ['ENCERRADA', 'FINALIZADO', 'FIM_DE_JOGO', 'CONCLUÍDO', 'FIM'].includes(status) ||
-        ['FIM DE JOGO', 'ENCERRADA', 'FINALIZADO', 'TERMINADO'].includes(displayTime) ||
-        // Force for the known match if we have scores or it's past the date
-        (data.home_team?.toLowerCase().includes('botafogo') &&
-            data.away_team?.toLowerCase().includes('cruzeiro') &&
-            (data.home_score > 0 || data.away_score > 0 || new Date(data.date).getTime() < new Date().getTime()));
+        ['FIM DE JOGO', 'ENCERRADA', 'FINALIZADO', 'TERMINADO'].includes(displayTime);
 
     // Show score if live, finished, or if there is any goal recorded
     const hasScore = (data.home_score !== undefined && data.home_score !== null && data.home_score > 0) ||
-        (data.away_score !== undefined && data.away_score !== null && data.away_score > 0) ||
-        isFinished;
+        (data.away_score !== undefined && data.away_score !== null && data.away_score > 0);
 
     const showScore = isLive || isFinished || hasScore;
-
-    // Debug logging
-    console.log('PremiumNextMatch Debug:', {
-        status,
-        displayTime,
-        isFinished,
-        isLive,
-        showScore,
-        hasScore,
-        match_id: data.match_id,
-        scores: `${data.home_score}x${data.away_score}`
-    });
 
     return (
         <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#0a0a0a] border-y md:border border-white/5 rounded-none md:rounded-xl shadow-2xl relative z-[100]", className)}>
@@ -168,10 +151,9 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                                 {/* CENTER: Date & Time OR Score */}
                                 <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
-                                    <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="group cursor-pointer">
-                                        {showScore ? (
+                                    {isFinished ? (
+                                        <Link href={`/stats/${data.match_id}`} className="group cursor-pointer">
                                             <div className="flex flex-col items-center group-hover:scale-105 transition-transform duration-200">
-
                                                 <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none group-hover:text-premium-gold transition-colors">
                                                     <span>{data.home_score}</span>
                                                     <span className="text-premium-gold/50 text-xl">x</span>
@@ -181,18 +163,33 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                                     {data.display_time || data.status}
                                                 </span>
                                             </div>
-                                        ) : (
-                                            <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm group-hover:border-premium-gold/50 transition-colors">
-                                                <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
-                                                    {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
-                                                </span>
-                                                <div className="h-px w-8 bg-premium-gold/30 mb-1" />
-                                                <span className="text-sm font-mono font-bold text-white tracking-widest">
-                                                    {timeString}
-                                                </span>
-                                            </div>
-                                        )}
-                                    </Link>
+                                        </Link>
+                                    ) : (
+                                        <div className="flex flex-col items-center">
+                                            {showScore ? (
+                                                <div className="flex flex-col items-center">
+                                                    <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none">
+                                                        <span>{data.home_score}</span>
+                                                        <span className="text-premium-gold/50 text-xl">x</span>
+                                                        <span>{data.away_score}</span>
+                                                    </div>
+                                                    <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20">
+                                                        {data.display_time || data.status}
+                                                    </span>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
+                                                    <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
+                                                        {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
+                                                    </span>
+                                                    <div className="h-px w-8 bg-premium-gold/30 mb-1" />
+                                                    <span className="text-sm font-mono font-bold text-white tracking-widest">
+                                                        {timeString}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Away Logo */}
@@ -218,9 +215,9 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                 )}
             </AnimatePresence>
             {/* Modern Bottom Analysis Button - Always Visible for Finished Games */}
-            {isFinished && (
+            {isFinished && data.match_id && (
                 <div className="px-4 pb-4">
-                    <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="block">
+                    <Link href={`/stats/${data.match_id}`} className="block">
                         <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 hover:border-premium-gold/50 hover:bg-premium-gold/5 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold group-hover:text-white transition-colors">
                                 Veja a Análise Completa
