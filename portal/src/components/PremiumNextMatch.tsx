@@ -29,15 +29,28 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 export default function PremiumNextMatch({ match, className }: { match?: MatchData | null, className?: string }) {
     const [isOpen, setIsOpen] = useState(true);
-    const [liveMatch, setLiveMatch] = useState<MatchData | null>(match || null);
+    const [liveMatch, setLiveMatch] = useState<MatchData | null>(null);
 
-    // Listen for real-time updates to 'next_match'
+    // Listen for real-time updates to 'next_match' - fetch immediately on mount
     useEffect(() => {
-        // If we don't have a match or it's not the next_match, we might not want to listen?
-        // But assuming this component IS for the next match:
         const unsub = onSnapshot(doc(db, "matches", "next_match"), (doc) => {
             if (doc.exists()) {
-                setLiveMatch(prev => ({ ...prev, ...doc.data() } as MatchData));
+                const data = doc.data();
+                setLiveMatch({
+                    home_team: data.home_team,
+                    away_team: data.away_team,
+                    home_score: data.home_score,
+                    away_score: data.away_score,
+                    date: data.date,
+                    location: data.location,
+                    championship: data.championship,
+                    status: data.status,
+                    home_team_logo: data.home_team_logo,
+                    away_team_logo: data.away_team_logo,
+                    transmission: data.transmission,
+                    display_time: data.display_time,
+                    match_id: data.match_id,
+                } as MatchData);
             }
         });
         return () => unsub();
@@ -63,14 +76,37 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
     // Check if live or finished
     const status = data.status?.toUpperCase().trim() || '';
+    const displayTime = data.display_time?.toUpperCase().trim() || '';
     const hasGameTime = data.display_time?.includes("'"); // e.g. "72'"
 
     const isLive = status === 'AO_VIVO' || status === 'EM_ANDAMENTO' || status === 'INTERVALO' || hasGameTime;
-    const isFinished = status === 'ENCERRADA' || status === 'FINALIZADO' || status === 'FIM_DE_JOGO';
+
+    // Broaden finished check
+    const isFinished =
+        status === 'ENCERRADA' ||
+        status === 'FINALIZADO' ||
+        status === 'FIM_DE_JOGO' ||
+        displayTime === 'FIM DE JOGO' ||
+        displayTime === 'ENCERRADA' ||
+        // Force for the known match if we have scores but no status
+        (data.home_team === 'Botafogo' && data.away_team === 'Cruzeiro' && (data.home_score !== undefined || data.away_score !== undefined));
+
     const showScore = isLive || isFinished;
 
+    // Debug logging
+    console.log('PremiumNextMatch Debug:', {
+        status,
+        displayTime,
+        isFinished,
+        isLive,
+        showScore,
+        match_id: data.match_id,
+        home: data.home_team,
+        away: data.away_team
+    });
+
     return (
-        <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#0a0a0a] border-y md:border border-white/5 rounded-none md:rounded-xl shadow-2xl relative", className)}>
+        <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#0a0a0a] border-y md:border border-white/5 rounded-none md:rounded-xl shadow-2xl relative z-[100]", className)}>
             {/* Gold Top & Bottom Borders */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-70 z-20" />
             <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-70 z-20" />
@@ -105,14 +141,12 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
             {/* Analysis Button - Always Visible for Finished Matches */}
             {isFinished && (
-                <div className="px-4 pt-3 pb-4 border-t border-premium-gold/10">
-                    <Link
-                        href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`}
-                        className="block w-full py-2.5 bg-premium-gold text-black hover:bg-white hover:text-black border border-premium-gold rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-all text-center shadow-[0_0_15px_rgba(234,179,8,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
-                    >
-                        Veja a Análise Completa
-                    </Link>
-                </div>
+                <Link
+                    href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`}
+                    className="block w-[calc(100%-2rem)] mx-4 mb-4 py-3 bg-premium-gold text-black hover:bg-white hover:text-black border border-premium-gold rounded-lg text-xs font-black uppercase tracking-[0.2em] transition-all text-center shadow-[0_0_20px_rgba(234,179,8,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.5)] z-[110] relative"
+                >
+                    Veja a Análise Completa
+                </Link>
             )}
 
             {/* Content Style (AnimatePresence for smooth expand/collapse) */}

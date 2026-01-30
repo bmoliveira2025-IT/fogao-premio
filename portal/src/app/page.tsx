@@ -63,21 +63,15 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       .orderBy('created_at', 'desc')
       .limit(20);
 
-    // Matches, Videos, Premium (keep existing logic but with safety limits if needed)
-    // Matches: Show the match until 3 hours after its start time
-    const matchThreshold = new Date();
-    matchThreshold.setHours(matchThreshold.getHours() - 3);
-    const matchesRef = db.collection('matches')
-      .where('date', '>=', matchThreshold.toISOString())
-      .orderBy('date', 'asc')
-      .limit(1);
+    // Fetch the next_match document directly (which contains live/finished match data)
+    const nextMatchRef = db.collection('matches').doc('next_match');
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
     const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);
 
-    const [newsSnap, matchesSnap, videosSnap, premiumSnap, briefingSnap] = await Promise.all([
+    const [newsSnap, nextMatchSnap, videosSnap, premiumSnap, briefingSnap] = await Promise.all([
       newsRef.get(),
-      matchesRef.get(),
+      nextMatchRef.get(),
       videosRef.get(),
       premiumRef.get(),
       briefingRef.get()
@@ -110,10 +104,12 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       } as NewsItem;
     });
 
-    const matches = matchesSnap.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
+    // Parse next_match document
+    const matches = [];
+    if (nextMatchSnap.exists) {
+      const data = nextMatchSnap.data()!;
+      matches.push({
+        id: data.match_id || nextMatchSnap.id,
         home_team: data.home_team || '',
         away_team: data.away_team || '',
         home_score: data.home_score || 0,
@@ -126,8 +122,10 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         away_team_logo: data.away_team_logo,
         stadium: data.stadium,
         transmission: data.transmission,
-      } as MatchData;
-    });
+        display_time: data.display_time,
+        match_id: data.match_id,
+      } as MatchData);
+    }
 
     const videos = videosSnap.docs.map(doc => {
       const data = doc.data();
