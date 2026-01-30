@@ -31,6 +31,7 @@ interface MatchStatData {
         type: string;
         player: string;
         assist?: string;
+        description?: string;
     }>;
 }
 
@@ -38,6 +39,20 @@ export default function PremiumGameStats() {
     const [matches, setMatches] = useState<MatchStatData[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeMatchIndex, setActiveMatchIndex] = useState(0);
+
+    // Helper for Event Types
+    const getEventStyle = (type: string) => {
+        switch (type) {
+            case 'goal': return { color: 'bg-premium-gold text-black shadow-lg shadow-premium-gold/20', label: 'GOL!', icon: '⚽' };
+            case 'yellow_card': return { color: 'bg-yellow-500 text-black', label: 'Cartão Amarelo', icon: '🟨' };
+            case 'red_card': return { color: 'bg-red-600 text-white', label: 'Cartão Vermelho', icon: '🟥' };
+            case 'substitution': return { color: 'bg-blue-600 text-white', label: 'Substituição', icon: '🔄' };
+            case 'corner': return { color: 'bg-white/10 text-white', label: 'Escanteio', icon: '🚩' };
+            case 'finalization': return { color: 'bg-white/10 text-white', label: 'Finalização', icon: '👟' };
+            case 'save': return { color: 'bg-green-900/40 text-green-400', label: 'Defesa', icon: '🧤' };
+            default: return { color: 'bg-black/50 border border-white/10 text-white/50', label: '', icon: '•' };
+        }
+    };
 
     useEffect(() => {
         const q = query(collection(db, 'match_stats'), orderBy('date', 'desc'), limit(5));
@@ -72,7 +87,7 @@ export default function PremiumGameStats() {
 
     const StatRow = ({ label, stats, icon: Icon, unit = "" }: { label: string, stats: TeamStat, icon: any, unit?: string }) => {
         const total = stats.home + stats.away;
-        const homePercent = (stats.home / total) * 100;
+        const homePercent = total > 0 ? (stats.home / total) * 100 : 50;
 
         return (
             <div className="space-y-2">
@@ -130,7 +145,7 @@ export default function PremiumGameStats() {
                 </div>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="max-w-3xl mx-auto">
                 {/* Visual Stats Card */}
                 <div className="bg-[#0a0a0a] border border-white/5 rounded-3xl overflow-hidden relative group">
                     <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-premium-gold/50 to-transparent" />
@@ -146,7 +161,9 @@ export default function PremiumGameStats() {
                             </div>
                             <div className="text-right">
                                 <span className="text-2xl font-black italic text-white font-display leading-none">{currentMatch.score}</span>
-                                <p className="text-[9px] text-white/30 font-bold uppercase mt-1">Finalizado</p>
+                                <p className="text-[9px] text-white/30 font-bold uppercase mt-1">
+                                    {currentMatch.stats.possession.home > 0 ? "Finalizado" : "Ao Vivo"}
+                                </p>
                             </div>
                         </div>
 
@@ -157,47 +174,6 @@ export default function PremiumGameStats() {
                             <StatRow label="No Alvo" stats={currentMatch.stats.shots_on_target} icon={Award} />
                             <StatRow label="Precisão de Passe" stats={currentMatch.stats.pass_accuracy} icon={ChevronRight} unit="%" />
                         </div>
-                    </div>
-                </div>
-
-                {/* Event Timeline / Facts Card */}
-                <div className="bg-zinc-900/30 border border-white/5 rounded-3xl p-6 md:p-8 relative overflow-hidden">
-                    <div className="flex items-center gap-3 mb-8">
-                        <Zap size={18} className="text-premium-gold fill-premium-gold/20" />
-                        <h4 className="text-sm font-black text-white uppercase tracking-widest italic">Principais Eventos</h4>
-                    </div>
-
-                    <div className="relative">
-                        {/* Vertical Line */}
-                        <div className="absolute left-[21px] top-0 bottom-0 w-[1px] bg-gradient-to-b from-premium-gold/40 via-premium-gold/10 to-transparent" />
-
-                        <div className="space-y-8">
-                            {currentMatch.events.map((event, idx) => (
-                                <div key={idx} className="flex items-start gap-4 relative">
-                                    <div className={`w-[42px] h-[42px] rounded-xl flex items-center justify-center shrink-0 z-10 
-                                        ${event.type === 'goal' ? 'bg-premium-gold text-black shadow-lg shadow-premium-gold/20' : 'bg-black/50 border border-white/10 text-white/50'}`}>
-                                        <span className="text-xs font-black">{event.minute}'</span>
-                                    </div>
-
-                                    <div className="pt-2">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${event.team === 'home' ? 'bg-white/5 text-white/80' : 'bg-white/5 text-white/40'}`}>
-                                                {event.team === 'home' ? currentMatch.home_team : currentMatch.away_team}
-                                            </span>
-                                            {event.type === 'goal' && <span className="text-[9px] font-black text-premium-gold uppercase tracking-widest">GOL!</span>}
-                                        </div>
-                                        <p className="text-sm font-bold text-white tracking-wide">{event.player}</p>
-                                        {event.assist && <p className="text-[10px] text-white/40 mt-0.5">Assis: {event.assist}</p>}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Premium Disclaimer Subtle */}
-                    <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
-                        <p className="text-[9px] text-white/20 font-bold uppercase tracking-widest italic">Dados Exclusivos Fogão Prêmio</p>
-                        <Shield size={12} className="text-white/10" />
                     </div>
                 </div>
             </div>

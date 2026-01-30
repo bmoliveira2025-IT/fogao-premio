@@ -231,7 +231,7 @@ export default function MatchStatsPage() {
             <div className="px-4 pt-0 pb-12 max-w-xl mx-auto space-y-2">
                 {/* Scoreboard - Ultra Compact */}
                 <div className="p-6 bg-gradient-to-b from-white/[0.03] to-transparent rounded-[2.5rem] border border-white/[0.02] flex flex-col items-center">
-                    <span className="text-[12px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-2">{match.championship || "Campeonato Carioca"}</span>
+                    <span className="text-[12px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-2">{match.championship || "Brasileirão Betano"}</span>
                     <div className="flex items-center justify-center gap-8 translate-x-1">
                         <div className="flex flex-col items-center gap-1">
                             <span className="text-[14px] font-black uppercase text-white tracking-widest">{match.home_team.split(' ')[0]}</span>
@@ -414,92 +414,7 @@ export default function MatchStatsPage() {
                 )}
 
                 {/* Events Timeline - ULTRA DETAILED */}
-                <div className="bg-[#080808] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
-                    <div className="flex items-center gap-3 mb-10">
-                        <Clock size={14} className="text-premium-gold" />
-                        <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Cronologia</h2>
-                    </div>
-
-                    <div className="relative pl-4">
-                        <div className="absolute left-[23px] top-1 bottom-1 w-[2px] bg-gradient-to-b from-premium-gold/40 via-white/5 to-transparent" />
-
-                        <div className="space-y-10">
-                            {match.events.sort((a, b) => a.minute - b.minute).map((e, idx) => (
-                                <div key={idx} className="flex gap-6 relative group">
-                                    {/* Minute Marker */}
-                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 z-10 border transition-all duration-500
-                                            ${e.type === 'goal' ? 'bg-premium-gold border-premium-gold text-black shadow-[0_0_20px_rgba(212,175,55,0.4)] scale-110' :
-                                            e.type === 'substitution' ? 'bg-blue-600 border-blue-500 text-white' :
-                                                e.type === 'yellow_card' ? 'bg-yellow-500 border-yellow-400 text-black' :
-                                                    e.type === 'red_card' ? 'bg-red-600 border-red-500 text-white' :
-                                                        'bg-zinc-900 border-white/10 text-white/40'}`}>
-                                        <span className="text-[14px] font-black">{e.minute}'</span>
-                                    </div>
-
-                                    <div className="flex-1 pt-1">
-                                        {/* Team Badge */}
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className={`text-[11px] font-black uppercase px-2 py-0.5 rounded-md ${e.team === 'home' ? 'bg-premium-gold/10 text-premium-gold' : 'bg-white/5 text-white/30'}`}>
-                                                {e.team === 'home' ? match.home_team : match.away_team}
-                                            </span>
-                                        </div>
-
-                                        {/* Event Content */}
-                                        {e.type === 'goal' ? (
-                                            <div className="relative group/goal">
-                                                <div className="absolute -inset-4 bg-premium-gold/5 blur-2xl rounded-full opacity-0 group-hover/goal:opacity-100 transition-opacity" />
-                                                <div className="space-y-1 relative">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="px-2 py-0.5 bg-premium-gold rounded text-[12px] font-black text-black uppercase tracking-tighter">GOL!</div>
-                                                        <Star size={14} className="text-premium-gold fill-premium-gold/20" />
-                                                    </div>
-                                                    <h4 className="text-lg font-black text-white tracking-tight">{e.player}</h4>
-                                                    {e.assist && <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-bold">Assistência: {e.assist}</p>}
-                                                </div>
-                                            </div>
-                                        ) : e.type === 'substitution' ? (
-                                            <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
-                                                        <ArrowUpRight size={14} className="text-green-500" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-[17px] font-black text-white">
-                                                            <span className="text-green-500/80 mr-1.5 text-[12px]">ENTRA:</span>
-                                                            {e.player_in}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="h-[1px] w-full bg-white/5" />
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
-                                                        <ArrowDownLeft size={14} className="text-red-500/60" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-[17px] font-black text-white/50">
-                                                            <span className="text-red-500/40 mr-1.5 text-[12px]">SAI:</span>
-                                                            {e.player_out}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className="flex items-center gap-3">
-                                                <div className={`px-2 py-1 rounded-md text-[11px] font-black uppercase tracking-tighter
-                                                        ${e.type === 'yellow_card' ? 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/20' : 'bg-red-500/20 text-red-500 border border-red-500/20'}`}>
-                                                    {e.type === 'yellow_card' ? 'Amarelo' : 'Vermelho'}
-                                                </div>
-                                                <div>
-                                                    <h4 className="text-[17px] font-black text-white">{e.player}</h4>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                {/* Events Timeline (REMOVED) */}
 
                 {/* Footer Extra */}
                 <div className="text-center py-6">

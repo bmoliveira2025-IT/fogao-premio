@@ -81,7 +81,7 @@ export default function LastMatchStatsCard() {
                     <div className="flex flex-col items-center shrink-0">
                         <div className="relative">
                             <span className="text-5xl font-black italic text-white leading-none tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                                {lastMatch.score}
+                                {lastMatch.score || '0 - 0'}
                             </span>
                         </div>
                         <div className={`mt-2 px-3 py-0.5 ${isLive ? 'bg-red-600/20 border-red-600/40 animate-pulse' : 'bg-premium-gold/20 border-premium-gold/40'} border rounded-full shadow-lg`}>

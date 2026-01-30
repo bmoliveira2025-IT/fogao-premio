@@ -180,6 +180,46 @@ def sync_botafogo_live():
             if m_info["status"] in ["AO_VIVO", "EM_ANDAMENTO"]:
                 found_live = True
 
+    # Logic to use manual override
+    manual_path = os.path.join(os.path.dirname(__file__), "manual_live_game.json")
+    if os.path.exists(manual_path):
+        with open(manual_path, "r", encoding="utf-8") as f:
+            manual_data = json.load(f)
+            
+        if manual_data.get("active"):
+            print("USING MANUAL LIVE GAME DATA") # Upsert detailed stats
+            m_id = manual_data.get("match_id", "manual_match")
+            # Ensure timestamp
+            manual_data["last_sync"] = datetime.now(timezone.utc).isoformat()
+            
+            db.collection("match_stats").document(m_id).set(manual_data, merge=True)
+            print(f"Successfully synced MANUAL match {m_id} to match_stats")
+            found_live = True
+
+            # ALSO update 'matches/next_match' for the Home Page Widget
+            # This ensures the home page shows the live score without needing full stats
+            try:
+                # Map specific fields expected by the frontend MatchData interface
+                home_score = manual_data["home_score"]
+                away_score = manual_data["away_score"]
+                status = manual_data.get("status", "AO_VIVO")
+                # Create a specific status label if needed, e.g., "INTERVALO", "2T 15'"
+                # But 'status' field is usually generic. Let's send the specific time as well if possible?
+                # The frontend might use 'status' for logic.
+                
+                matches_update = {
+                    "home_score": home_score,
+                    "away_score": away_score,
+                    "status": status,
+                    "display_time": manual_data.get("display_time", ""), # Pass specific time like "15'"
+                    "updated_at": firestore.SERVER_TIMESTAMP
+                }
+                
+                db.collection("matches").document("next_match").set(matches_update, merge=True)
+                print("Successfully updated matches/next_match with live score.")
+            except Exception as e:
+                print(f"Error updating matches/next_match: {e}")
+
     if not found_live:
         print("No live match active for Botafogo at this moment.")
 

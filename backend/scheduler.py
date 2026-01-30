@@ -12,6 +12,7 @@ PODCASTS_SCRIPT = os.path.join(BACKEND_DIR, "fetch_podcasts.py")
 SQUAD_SCRIPT = os.path.join(BACKEND_DIR, "seed_squad.py")
 MATCHES_SCRIPT = os.path.join(BACKEND_DIR, "seed_matches.py")
 TABLE_SCRIPT = os.path.join(BACKEND_DIR, "fetch_table.py")
+LIVE_STATS_SCRIPT = os.path.join(BACKEND_DIR, "sync_live_stats.py")
 
 def run_script(script_path, name):
     print(f"[{datetime.now()}] Starting {name}...")
@@ -38,7 +39,13 @@ def job_system_update():
 def job_table_update():
     run_script(TABLE_SCRIPT, "Table Fetcher")
 
+def job_live_stats():
+    run_script(LIVE_STATS_SCRIPT, "Live Stats Sync")
+
 # --- Schedule Configuration ---
+
+# 0. Live Stats: Every 1 minute (Critical for game days)
+schedule.every(1).minutes.do(job_live_stats)
 
 # 1. News: Every 20 minutes
 schedule.every(20).minutes.do(job_news)
