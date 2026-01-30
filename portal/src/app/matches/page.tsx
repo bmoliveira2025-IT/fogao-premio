@@ -30,23 +30,39 @@ async function getPastMatches() {
 }
 
 function serializeMatches(snapshot: any) {
-    return snapshot.docs.map((doc: any) => {
+    const matchesMap = new Map();
+
+    snapshot.docs.forEach((doc: any) => {
         const data = doc.data();
-        return {
-            id: data.match_id || doc.id,
-            home_team: data.home_team,
-            away_team: data.away_team,
+        const date = data.date && typeof data.date.toDate === 'function' ? data.date.toDate().toISOString() : (data.date instanceof Date ? data.date.toISOString() : data.date);
+        const home = data.home_team || '';
+        const away = data.away_team || '';
+        const key = `${home}_vs_${away}_${date.split('T')[0]}`;
+
+        const serialized = {
+            id: doc.id,
+            home_team: home,
+            away_team: away,
             home_score: data.home_score,
             away_score: data.away_score,
-            date: data.date && typeof data.date.toDate === 'function' ? data.date.toDate().toISOString() : (data.date instanceof Date ? data.date.toISOString() : data.date),
+            date: date,
             location: data.location,
             championship: data.championship,
             status: data.status,
             home_team_logo: data.home_team_logo,
             away_team_logo: data.away_team_logo,
-            display_time: data.display_time
+            display_time: data.display_time,
+            match_id: data.match_id
         };
+
+        // If we have a version with a match_id or a non-zero score, prioritize it
+        const existing = matchesMap.get(key);
+        if (!existing || (serialized.match_id && !existing.match_id) || (serialized.home_score > 0 || serialized.away_score > 0)) {
+            matchesMap.set(key, serialized);
+        }
     });
+
+    return Array.from(matchesMap.values());
 }
 
 export default async function MatchesPage() {

@@ -143,42 +143,6 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                 </div>
             </button>
 
-            {/* Analysis Button - Always Visible for Finished Matches */}
-            {isFinished && (
-                <div className="px-4 pb-4">
-                    <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="block group">
-                        <motion.div
-                            whileHover={{ scale: 1.02, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="relative overflow-hidden p-[1px] rounded-xl bg-gradient-to-r from-premium-gold/50 via-white/50 to-premium-gold/50 shadow-[0_0_20px_rgba(234,179,8,0.3)] group-hover:shadow-[0_0_30px_rgba(234,179,8,0.5)] transition-all duration-500"
-                        >
-                            {/* Animated Background Shimmer */}
-                            <motion.div
-                                animate={{
-                                    x: ['-100%', '100%'],
-                                }}
-                                transition={{
-                                    duration: 3,
-                                    repeat: Infinity,
-                                    ease: "linear",
-                                }}
-                                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent z-10"
-                            />
-
-                            {/* Main Button Body */}
-                            <div className="relative z-20 bg-[#0a0a0a] rounded-[11px] py-3 px-4 flex items-center justify-center space-x-3 group-hover:bg-transparent transition-colors duration-500">
-                                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-premium-gold shadow-[0_0_10px_rgba(234,179,8,0.5)]">
-                                    <TrendingUp size={14} className="text-black" />
-                                </div>
-                                <span className="text-xs font-black uppercase tracking-[0.2em] text-white group-hover:text-black transition-colors duration-500">
-                                    Veja a Análise Completa
-                                </span>
-                                <Zap size={14} className="text-premium-gold group-hover:text-black transition-colors duration-500 animate-pulse" />
-                            </div>
-                        </motion.div>
-                    </Link>
-                </div>
-            )}
 
             {/* Content Style (AnimatePresence for smooth expand/collapse) */}
             <AnimatePresence>
@@ -252,7 +216,21 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         </div>
                     </motion.div>
                 )}
-            </AnimatePresence>
+                {/* Modern Bottom Analysis Button - Always Visible for Finished Games */}
+                {isFinished && (
+                    <div className="px-4 pb-4">
+                        <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="block">
+                            <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 hover:border-premium-gold/50 hover:bg-premium-gold/5 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold group-hover:text-white transition-colors">
+                                    Veja a Análise Completa
+                                </span>
+                                <div className="w-5 h-5 rounded-full bg-premium-gold/10 flex items-center justify-center group-hover:bg-premium-gold transition-all duration-300">
+                                    <ChevronDown size={12} className="text-premium-gold group-hover:text-black -rotate-90 transition-colors" />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                )}
         </div>
     );
 }

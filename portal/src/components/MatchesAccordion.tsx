@@ -65,8 +65,8 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                 {/* Teams Text */}
                                 <div className="flex flex-col items-start">
                                     <span className={`text-xs font-bold uppercase tracking-wider ${isOpen ? 'text-white' : 'text-white/70'}`}>
-                                        {match.home_team} <span className={`mx-1 ${match.status === 'AO_VIVO' || match.status === 'ENCERRADA' || match.home_score !== undefined ? 'text-premium-gold' : 'text-premium-gold'}`}>
-                                            {match.home_score !== undefined && match.away_score !== undefined ? `${match.home_score} x ${match.away_score}` : 'x'}
+                                        {match.home_team} <span className="text-premium-gold mx-1">
+                                            {match.home_score !== undefined && match.home_score !== null ? `${match.home_score} x ${match.away_score}` : 'x'}
                                         </span> {match.away_team}
                                     </span>
                                     <span className="text-[9px] font-medium text-white/30 capitalize">
@@ -131,7 +131,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                             <Link
                                                 href={`/stats/${match.match_id || match.id}`}
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="block w-full py-3 bg-premium-gold text-black uppercase font-black text-[10px] tracking-widest rounded-lg hover:bg-white hover:text-black transition-colors shadow-lg text-center"
+                                                className="block w-full py-3.5 bg-white/5 border border-premium-gold/30 hover:border-premium-gold hover:bg-premium-gold/10 text-premium-gold hover:text-white uppercase font-black text-[10px] tracking-[0.2em] rounded-xl transition-all duration-300 text-center backdrop-blur-sm"
                                             >
                                                 Ver Análise Completa
                                             </Link>
