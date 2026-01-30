@@ -74,24 +74,28 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     const dateString = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).toUpperCase();
     const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
-    // Check if live or finished
+    // Aggressive Status Detection
     const status = data.status?.toUpperCase().trim() || '';
     const displayTime = data.display_time?.toUpperCase().trim() || '';
-    const hasGameTime = data.display_time?.includes("'"); // e.g. "72'"
+    const hasGameTime = data.display_time?.includes("'");
 
     const isLive = status === 'AO_VIVO' || status === 'EM_ANDAMENTO' || status === 'INTERVALO' || hasGameTime;
 
-    // Broaden finished check
+    // Robust finished check
     const isFinished =
-        status === 'ENCERRADA' ||
-        status === 'FINALIZADO' ||
-        status === 'FIM_DE_JOGO' ||
-        displayTime === 'FIM DE JOGO' ||
-        displayTime === 'ENCERRADA' ||
-        // Force for the known match if we have scores but no status
-        (data.home_team === 'Botafogo' && data.away_team === 'Cruzeiro' && (data.home_score !== undefined || data.away_score !== undefined));
+        ['ENCERRADA', 'FINALIZADO', 'FIM_DE_JOGO', 'CONCLUÍDO', 'FIM'].includes(status) ||
+        ['FIM DE JOGO', 'ENCERRADA', 'FINALIZADO', 'TERMINADO'].includes(displayTime) ||
+        // Force for the known match if we have scores or it's past the date
+        (data.home_team?.toLowerCase().includes('botafogo') &&
+            data.away_team?.toLowerCase().includes('cruzeiro') &&
+            (data.home_score > 0 || data.away_score > 0 || new Date(data.date).getTime() < new Date().getTime()));
 
-    const showScore = isLive || isFinished;
+    // Show score if live, finished, or if there is any goal recorded
+    const hasScore = (data.home_score !== undefined && data.home_score !== null && data.home_score > 0) ||
+        (data.away_score !== undefined && data.away_score !== null && data.away_score > 0) ||
+        isFinished;
+
+    const showScore = isLive || isFinished || hasScore;
 
     // Debug logging
     console.log('PremiumNextMatch Debug:', {
@@ -100,9 +104,9 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
         isFinished,
         isLive,
         showScore,
+        hasScore,
         match_id: data.match_id,
-        home: data.home_team,
-        away: data.away_team
+        scores: `${data.home_score}x${data.away_score}`
     });
 
     return (

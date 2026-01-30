@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Shield, ChevronDown, Calendar, MapPin } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 interface MatchData {
     id: string;
@@ -17,6 +18,7 @@ interface MatchData {
     status: string;
     home_team_logo?: string;
     away_team_logo?: string;
+    match_id?: string;
 }
 
 export default function MatchesAccordion({ matches, title = "Próximos Jogos" }: { matches: MatchData[], title?: string }) {
@@ -127,12 +129,12 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                             </div>
 
                                             {/* ANALYSIS BUTTON */}
-                                            <a
-                                                href={`/stats/${match.id}`}
-                                                className="block w-full py-3 bg-premium-gold text-black uppercase font-black text-[10px] tracking-widest rounded-lg hover:bg-white hover:text-black transition-colors shadow-lg"
+                                            <Link
+                                                href={`/stats/${match.match_id || match.id}`}
+                                                className="block w-full py-3 bg-premium-gold text-black uppercase font-black text-[10px] tracking-widest rounded-lg hover:bg-white hover:text-black transition-colors shadow-lg text-center"
                                             >
                                                 Ver Análise Completa
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </motion.div>
