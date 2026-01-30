@@ -216,21 +216,22 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         </div>
                     </motion.div>
                 )}
-                {/* Modern Bottom Analysis Button - Always Visible for Finished Games */}
-                {isFinished && (
-                    <div className="px-4 pb-4">
-                        <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="block">
-                            <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 hover:border-premium-gold/50 hover:bg-premium-gold/5 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold group-hover:text-white transition-colors">
-                                    Veja a Análise Completa
-                                </span>
-                                <div className="w-5 h-5 rounded-full bg-premium-gold/10 flex items-center justify-center group-hover:bg-premium-gold transition-all duration-300">
-                                    <ChevronDown size={12} className="text-premium-gold group-hover:text-black -rotate-90 transition-colors" />
-                                </div>
+            </AnimatePresence>
+            {/* Modern Bottom Analysis Button - Always Visible for Finished Games */}
+            {isFinished && (
+                <div className="px-4 pb-4">
+                    <Link href={`/stats/${data.match_id || 'bot_v_cruz_2026_01_29'}`} className="block">
+                        <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 hover:border-premium-gold/50 hover:bg-premium-gold/5 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold group-hover:text-white transition-colors">
+                                Veja a Análise Completa
+                            </span>
+                            <div className="w-5 h-5 rounded-full bg-premium-gold/10 flex items-center justify-center group-hover:bg-premium-gold transition-all duration-300">
+                                <ChevronDown size={12} className="text-premium-gold group-hover:text-black -rotate-90 transition-colors" />
                             </div>
-                        </Link>
-                    </div>
-                )}
+                        </div>
+                    </Link>
+                </div>
+            )}
         </div>
     );
 }
