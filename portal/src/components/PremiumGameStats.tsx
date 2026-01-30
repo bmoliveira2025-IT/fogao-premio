@@ -126,7 +126,7 @@ export default function PremiumGameStats() {
                     </div>
                     <div>
                         <h3 className="text-xl font-display font-medium text-white">
-                            Análise de Jogos <span className="text-premium-gold">2025</span>
+                            Análise de Jogos <span className="text-premium-gold">2026</span>
                         </h3>
                         <p className="text-[10px] text-white/40 uppercase tracking-widest font-bold">Dados Exclusivos do Botafogo</p>
                     </div>

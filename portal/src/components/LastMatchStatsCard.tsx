@@ -58,9 +58,9 @@ export default function LastMatchStatsCard() {
                 <div className="w-full flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
                         <div>
-                            <h4 className="text-[12px] font-black text-premium-gold uppercase tracking-[0.2em] italic leading-tight">
-                                {isLive ? 'Partida ao Vivo' : 'Análise de Jogo'}
-                            </h4>
+                            <p className="text-[10px] text-white/90 uppercase tracking-[0.2em] font-bold">
+                                {isLive ? 'Tempo Real' : 'Última Partida'} • 2026
+                            </p>
                         </div>
                     </div>
 

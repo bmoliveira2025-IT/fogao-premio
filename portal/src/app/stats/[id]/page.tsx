@@ -227,7 +227,7 @@ export default function MatchStatsPage() {
                     <ChevronLeft size={18} />
                 </button>
                 <div className="flex-1 text-center px-2">
-                    <h1 className="text-base font-black text-premium-gold uppercase tracking-[0.3em] truncate">Análise de Dados • 2025</h1>
+                    <h1 className="text-base font-black text-premium-gold uppercase tracking-[0.3em] truncate">Análise de Dados • 2026</h1>
                 </div>
                 <div className="w-8"></div>
             </header>
@@ -419,98 +419,11 @@ export default function MatchStatsPage() {
 
                 {/* Events Timeline - ULTRA DETAILED */}
                 {/* Player Statistics - NEW */}
-                {match.player_stats && (
-                    <div className="bg-[#080808] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl space-y-8">
-                        <div className="flex items-center gap-3">
-                            <Activity size={14} className="text-premium-gold" />
-                            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Estatísticas dos Jogadores</h2>
-                        </div>
-
-                        {/* Home Players */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-4">
-                                <span className="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-                                <h3 className="text-xs font-black uppercase tracking-widest text-white/70">{match.home_team}</h3>
-                            </div>
-                            <div className="space-y-3">
-                                {match.player_stats.home.map((player, idx) => (
-                                    <div key={idx} className="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between group hover:border-premium-gold/30 transition-colors">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex flex-col">
-                                                <span className="text-sm font-black text-white">{player.name}</span>
-                                                <span className="text-[10px] uppercase font-bold text-white/30">{player.position}</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-4">
-                                            {/* Stats Mini Grid */}
-                                            <div className="flex items-center gap-3 text-right">
-                                                <div className="flex flex-col items-end">
-                                                    <span className="text-[10px] uppercase text-white/20 font-bold">Chutes</span>
-                                                    <span className="text-xs font-mono font-bold text-white">{player.shots}</span>
-                                                </div>
-                                                <div className="flex flex-col items-end">
-                                                    <span className="text-[10px] uppercase text-white/20 font-bold">Passes</span>
-                                                    <span className="text-xs font-mono font-bold text-white">{player.passes}</span>
-                                                </div>
-                                            </div>
-                                            {/* Rating */}
-                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs border
-                                                ${player.rating >= 7.5 ? 'bg-premium-gold text-black border-premium-gold' :
-                                                    player.rating >= 7.0 ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                                                        'bg-white/5 text-white/40 border-white/10'}`}>
-                                                {player.rating}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Away Players */}
-                        <div>
-                            <div className="flex items-center gap-2 mb-4">
-                                <span className="w-1.5 h-1.5 rounded-full bg-white/20"></span>
-                                <h3 className="text-xs font-black uppercase tracking-widest text-white/70">{match.away_team}</h3>
-                            </div>
-                            <div className="space-y-3">
-                                {match.player_stats.away.map((player, idx) => (
-                                    <div key={idx} className="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex items-center justify-between group hover:border-premium-gold/30 transition-colors">
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex flex-col">
-                                                <span className="text-sm font-black text-white">{player.name}</span>
-                                                <span className="text-[10px] uppercase font-bold text-white/30">{player.position}</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-4">
-                                            {/* Stats Mini Grid */}
-                                            <div className="flex items-center gap-3 text-right">
-                                                <div className="flex flex-col items-end">
-                                                    <span className="text-[10px] uppercase text-white/20 font-bold">Chutes</span>
-                                                    <span className="text-xs font-mono font-bold text-white">{player.shots}</span>
-                                                </div>
-                                                <div className="flex flex-col items-end">
-                                                    <span className="text-[10px] uppercase text-white/20 font-bold">Passes</span>
-                                                    <span className="text-xs font-mono font-bold text-white">{player.passes}</span>
-                                                </div>
-                                            </div>
-                                            {/* Rating */}
-                                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs border
-                                                ${player.rating >= 7.5 ? 'bg-premium-gold text-black border-premium-gold' :
-                                                    player.rating >= 7.0 ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                                                        'bg-white/5 text-white/40 border-white/10'}`}>
-                                                {player.rating}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
+                {/* Player Statistics (REMOVED) */}
 
                 {/* Footer Extra */}
                 <div className="text-center py-6">
-                    <span className="text-[12px] font-black text-white/10 uppercase tracking-[0.5em]">Central de Inteligência • Botafogo 2025</span>
+                    <span className="text-[12px] font-black text-white/10 uppercase tracking-[0.5em]">Central de Inteligência • Botafogo 2026</span>
                 </div>
             </div>
 

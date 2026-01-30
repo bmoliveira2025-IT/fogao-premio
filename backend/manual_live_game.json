@@ -44,76 +44,202 @@
             {
                 "name": "Danilo",
                 "position": "VOL",
-                "rating": 8.2,
+                "rating": 8.5,
                 "goals": 1,
                 "assists": 0,
-                "shots": 1,
-                "passes": 30
-            },
-            {
-                "name": "Luiz Henrique",
-                "position": "ATA",
-                "rating": 7.6,
-                "goals": 0,
-                "assists": 0,
                 "shots": 2,
-                "passes": 16
+                "passes": 42
             },
             {
                 "name": "Thiago Almada",
                 "position": "MEI",
-                "rating": 7.3,
+                "rating": 7.8,
                 "goals": 0,
                 "assists": 1,
                 "shots": 1,
-                "passes": 28
+                "passes": 35
             },
             {
-                "name": "Marlon Freitas",
+                "name": "Arthur Cabral",
+                "position": "ATA",
+                "rating": 7.2,
+                "goals": 0,
+                "assists": 0,
+                "shots": 3,
+                "passes": 12
+            },
+            {
+                "name": "Santi Rodríguez",
+                "position": "ATA",
+                "rating": 7.0,
+                "goals": 0,
+                "assists": 0,
+                "shots": 1,
+                "passes": 20
+            },
+            {
+                "name": "Álvaro Montoro",
+                "position": "ATA",
+                "rating": 6.8,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 15
+            },
+            {
+                "name": "Alex Telles",
+                "position": "LE",
+                "rating": 7.5,
+                "goals": 0,
+                "assists": 0,
+                "shots": 1,
+                "passes": 40
+            },
+            {
+                "name": "Allan",
                 "position": "VOL",
-                "rating": 7.1,
+                "rating": 7.3,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 55
+            },
+            {
+                "name": "Alexander Barboza",
+                "position": "ZAG",
+                "rating": 7.4,
                 "goals": 0,
                 "assists": 0,
                 "shots": 0,
                 "passes": 38
             },
             {
-                "name": "Bastos",
+                "name": "Mateo Ponte",
+                "position": "LD",
+                "rating": 7.1,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 30
+            },
+            {
+                "name": "Newton",
                 "position": "ZAG",
-                "rating": 6.9,
+                "rating": 7.0,
                 "goals": 0,
                 "assists": 0,
                 "shots": 0,
                 "passes": 32
             },
             {
-                "name": "John",
+                "name": "Neto",
                 "position": "GOL",
-                "rating": 7.2,
+                "rating": 7.6,
                 "goals": 0,
                 "assists": 0,
                 "shots": 0,
-                "passes": 14
+                "passes": 18
             }
         ],
         "away": [
             {
                 "name": "Matheus Pereira",
                 "position": "MEI",
-                "rating": 7.1,
+                "rating": 7.5,
+                "goals": 0,
+                "assists": 0,
+                "shots": 2,
+                "passes": 28
+            },
+            {
+                "name": "Gerson",
+                "position": "VOL",
+                "rating": 7.4,
                 "goals": 0,
                 "assists": 0,
                 "shots": 1,
-                "passes": 24
+                "passes": 45
+            },
+            {
+                "name": "Kaio Jorge",
+                "position": "ATA",
+                "rating": 6.7,
+                "goals": 0,
+                "assists": 0,
+                "shots": 2,
+                "passes": 10
+            },
+            {
+                "name": "Wanderson",
+                "position": "ATA",
+                "rating": 6.5,
+                "goals": 0,
+                "assists": 0,
+                "shots": 1,
+                "passes": 12
+            },
+            {
+                "name": "Lucas Romero",
+                "position": "VOL",
+                "rating": 6.8,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 30
+            },
+            {
+                "name": "Lucas Silva",
+                "position": "VOL",
+                "rating": 6.6,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 25
+            },
+            {
+                "name": "Fagner",
+                "position": "LD",
+                "rating": 6.9,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 35
+            },
+            {
+                "name": "Fabrício Bruno",
+                "position": "ZAG",
+                "rating": 7.0,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 40
+            },
+            {
+                "name": "Jonathan Jesus",
+                "position": "ZAG",
+                "rating": 6.8,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 33
+            },
+            {
+                "name": "Kaiki",
+                "position": "LE",
+                "rating": 6.7,
+                "goals": 0,
+                "assists": 0,
+                "shots": 0,
+                "passes": 28
             },
             {
                 "name": "Cássio",
                 "position": "GOL",
-                "rating": 6.5,
+                "rating": 7.2,
                 "goals": 0,
                 "assists": 0,
                 "shots": 0,
-                "passes": 12
+                "passes": 15
             }
         ]
     },
@@ -138,7 +264,7 @@
             "team": "away",
             "type": "save",
             "player": "Matheus Pereira",
-            "description": "Chute forte, defensa de Neto"
+            "description": "Chute forte, defesa de Neto"
         },
         {
             "minute": 55,
