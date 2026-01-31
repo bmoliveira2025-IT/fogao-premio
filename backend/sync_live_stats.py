@@ -240,6 +240,8 @@ def sync_botafogo_live():
             # This ensures the home page shows the live score without needing full stats
             try:
                 # Map specific fields expected by the frontend MatchData interface
+                home_team = manual_data["home_team"]
+                away_team = manual_data["away_team"]
                 home_score = manual_data["home_score"]
                 away_score = manual_data["away_score"]
                 status = manual_data.get("status", "AO_VIVO")
@@ -248,6 +250,8 @@ def sync_botafogo_live():
                 # The frontend might use 'status' for logic.
                 
                 matches_update = {
+                    "home_team": home_team,
+                    "away_team": away_team,
                     "home_score": home_score,
                     "away_score": away_score,
                     "status": status,
