@@ -130,7 +130,7 @@ export default function MatchDayPopup({ nextMatch }: MatchDayPopupProps) {
                                 {nextMatch.home_team} vs {nextMatch.away_team}
                                 <br />
                                 <span className="opacity-60">
-                                    {new Date(nextMatch.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })} • {nextMatch.location}
+                                    {new Date(nextMatch.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })} • {nextMatch.location}
                                 </span>
                             </motion.p>
 

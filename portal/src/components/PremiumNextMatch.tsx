@@ -71,8 +71,8 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     };
 
     const matchDate = new Date(data.date);
-    const dateString = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).toUpperCase();
-    const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const dateString = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', timeZone: 'America/Sao_Paulo' }).toUpperCase();
+    const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' });
 
     // Aggressive Status Detection
     const status = data.status?.toUpperCase().trim() || '';

@@ -1,2 +1,2 @@
-<!-- Re-trigger Vercel Deployment: 2026-02-01 16:50 BRT -->
-<!-- Fix Match Time Consistency: Persist 20:30 for Botafogo x Fluminense -->
+<!-- Re-trigger Vercel Deployment: 2026-02-01 17:00 BRT -->
+<!-- Fix: Enforce America/Sao_Paulo timezone on Frontend to prevent incorrect match time display -->
