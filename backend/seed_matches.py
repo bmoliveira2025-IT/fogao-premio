@@ -67,7 +67,7 @@ def seed_matches():
         { "date": "2026-01-24T21:00:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Bangu", "round": "Rodada 4" },
         { "date": "2026-01-28T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Botafogo", "away_team": "Cruzeiro", "round": "Rodada 1" },
          # FEVEREIRO 2026
-        { "date": "2026-02-01T18:00:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Fluminense", "round": "Rodada 5" },
+        { "date": "2026-02-01T20:30:00-03:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Fluminense", "round": "Rodada 5" },
         { "date": "2026-02-04T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Grêmio", "away_team": "Botafogo", "round": "Rodada 2" },
         { "date": "2026-02-08T18:00:00", "championship": "Campeonato Carioca", "location": "A definir", "home_team": "Vasco", "away_team": "Botafogo", "round": "Rodada 6" },
         { "date": "2026-02-11T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Fluminense", "away_team": "Botafogo", "round": "Rodada 3" },

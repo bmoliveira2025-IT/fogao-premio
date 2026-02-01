@@ -219,6 +219,34 @@ def sync_botafogo_live():
             
             if m_info["status"] in ["AO_VIVO", "EM_ANDAMENTO"]:
                 found_live = True
+            
+            # Check if match just finished and needs analysis
+            if m_info["status"] == "ENCERRADA":
+                 try:
+                    # Check if analysis exists (using a key like 'motm_data' as marker)
+                    # We need to read the current doc to see if it has analysis, 
+                    # OR we can just blindly run analyze_match_data since it has its own check.
+                    # But game_data here is fresh from GE, it doesn't have the analysis yet.
+                    # We need to fetch the FULL doc from Firestore to get players stats (not just GE summary)
+                    # if we want to do a deep analysis. 
+                    # However, analyze_match_data relies on 'player_stats' which GE scrape doesn't provide fully here.
+                    # If 'player_stats' are missing, analysis might be weak.
+                    
+                    # Let's try to run it on what we have + what's in DB.
+                    current_doc = db.collection("match_stats").document(m_id).get()
+                    if current_doc.exists:
+                        full_data = current_doc.to_dict()
+                        # update with latest info from GE
+                        full_data.update(game_data)
+                        
+                        from auto_analysis import analyze_match_data
+                        analyzed_data = analyze_match_data(full_data)
+                        
+                        if "motm_data" in analyzed_data and "motm_data" not in current_doc.to_dict():
+                             print(f"Stats analysis generated for {m_id}")
+                             db.collection("match_stats").document(m_id).set(analyzed_data, merge=True)
+                 except Exception as e:
+                    print(f"Error running auto-analysis for {m_id}: {e}")
 
     # Logic to use manual override
     manual_path = os.path.join(os.path.dirname(__file__), "manual_live_game.json")
@@ -324,6 +352,9 @@ def sync_botafogo_live():
                 new_conf["stats"] = {} # Clear stats
                 new_conf["events"] = [] # Clear events
                 new_conf["player_stats"] = {"home": [], "away": []} # Clear players
+                new_conf.pop("motm_data", None)
+                new_conf.pop("goalkeeper_stats", None)
+                new_conf.pop("pass_stats", None)
                 
                 with open(manual_path, "w", encoding="utf-8") as f:
                     json.dump(new_conf, f, indent=4, ensure_ascii=False)

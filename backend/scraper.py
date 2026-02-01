@@ -654,7 +654,7 @@ def fetch_youtube_videos():
 def update_next_match():
     # In a real scenario, this would scrape 'https://api.globoesporte.globo.com/tabela/d1/...'
     # Based on the user feedback, the Cruzeiro game has passed.
-    # Next match: Botafogo vs Fluminense, Sunday (02/01) at 18h
+    # Next match: Botafogo vs Fluminense, Sunday (02/01) at 20:30h
     
     match_data = {
         "home_team": "Botafogo",
@@ -663,7 +663,7 @@ def update_next_match():
         "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fluminense_FC_escudo.png",
         "home_score": 0,
         "away_score": 0,
-        "date": "2026-02-01T18:00:00-03:00", 
+        "date": "2026-02-01T20:30:00-03:00", 
         "location": "Estádio Nilton Santos • Rio de Janeiro",
         "championship": "Campeonato Carioca",
         "status": "scheduled",

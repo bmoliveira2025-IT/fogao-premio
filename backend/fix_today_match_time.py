@@ -7,6 +7,9 @@ load_dotenv()
 
 if not firebase_admin._apps:
     cred_path = os.getenv("SERVICE_ACCOUNT_PATH")
+    if not cred_path or not os.path.exists(cred_path):
+        cred_path = os.path.join(os.path.dirname(__file__), "service-account-new.json")
+    
     cred = credentials.Certificate(cred_path)
     firebase_admin.initialize_app(cred)
 

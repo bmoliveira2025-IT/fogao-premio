@@ -14,10 +14,10 @@ if not firebase_admin._apps:
 db = firestore.client()
 
 def update_time():
-    print("--- UPDATING MATCH TIME to 16:00 (19:00 UTC) ---")
+    print("--- UPDATING MATCH TIME to 20:30 (23:30 UTC) ---")
     
-    # 19:00 UTC is 16:00 BRT
-    new_date = "2026-01-28T19:00:00Z"
+    # 23:30 UTC is 20:30 BRT
+    new_date = "2026-02-01T23:30:00Z"
     
     db.collection('matches').document('next_match').update({
         'date': new_date
