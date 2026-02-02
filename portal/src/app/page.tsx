@@ -14,7 +14,7 @@ import QuoteBanner from '@/components/QuoteBanner';
 import PodcastWidget from '@/components/PodcastWidget';
 import SocialHubWidget from '@/components/SocialHubWidget';
 import { getTrendingTopics } from '@/lib/social-pulse';
-import LastMatchStatsCard from '@/components/LastMatchStatsCard';
+
 
 export const revalidate = 0; // Disable cache for real-time updates
 

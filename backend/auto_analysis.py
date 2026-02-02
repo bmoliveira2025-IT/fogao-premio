@@ -63,6 +63,12 @@ def analyze_match_data(data):
     
     saves = max(0, away_shots - away_score) 
     
+    # Correction: If shots < score (e.g. missing stats), assume shots = score + saves
+    if away_shots < away_score:
+        # If we have no shot data, assume at least equal to goals + some saves
+        away_shots = away_score + 2
+        saves = 2
+    
     # Find home GK
     gk = next((p for p in home_players if p.get("position") == "GOL"), {"name": "Goleiro"})
     

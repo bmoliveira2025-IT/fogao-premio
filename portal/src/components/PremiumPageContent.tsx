@@ -9,7 +9,7 @@ import { getSafeImageSrc } from '@/lib/images';
 
 import PremiumWallpapers from '@/components/PremiumWallpapers';
 import BauGlorioso from '@/components/BauGlorioso';
-import PremiumGameStats from '@/components/PremiumGameStats';
+// import PremiumGameStats from '@/components/PremiumGameStats';
 
 export default function PremiumPageContent({ premiumNews }: { premiumNews: any[] }) {
     return (
@@ -57,8 +57,8 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                     {/* NEW: Bau Glorioso Section */}
                     <BauGlorioso />
 
-                    {/* NEW: Match Stats Section */}
-                    <PremiumGameStats />
+                    {/* NEW: Match Stats Section - REMOVED per user request to hide previous games */}
+                    {/* <PremiumGameStats /> */}
 
                     {/* EXISTING: News Section */}
                     <div className="mb-8 flex items-center gap-2">

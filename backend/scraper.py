@@ -652,27 +652,57 @@ def fetch_youtube_videos():
             print(f"Error fetching videos for {channel['name']}: {e}")
 
 def update_next_match():
-    # In a real scenario, this would scrape 'https://api.globoesporte.globo.com/tabela/d1/...'
-    # Based on the user feedback, the Cruzeiro game has passed.
-    # Next match: Botafogo vs Fluminense, Sunday (02/01) at 20:30h
-    
-    match_data = {
-        "home_team": "Botafogo",
-        "away_team": "Fluminense",
-        "home_team_logo": "https://upload.wikimedia.org/wikipedia/commons/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg",
-        "away_team_logo": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Fluminense_FC_escudo.png",
-        "home_score": 0,
-        "away_score": 0,
-        "date": "2026-02-01T20:30:00-03:00", 
-        "location": "Estádio Nilton Santos • Rio de Janeiro",
-        "championship": "Campeonato Carioca",
-        "status": "scheduled",
-        "transmission": "CazéTV e Band" 
-    }
-    
-    # Update or create the 'next_match' document
-    db.collection('matches').document('next_match').set(match_data)
-    print("Match data updated in Firestore (Next: Fluminense).")
+    try:
+        # Get current time in ISO format for comparison
+        # Note: Matches in DB vary between UTC and Local, but generally are ISO strings.
+        # We'll use a string comparison which works for ISO8601
+        now_iso = datetime.now().isoformat()
+        
+        print(f"Looking for matches after: {now_iso}")
+        
+        # Query matches collection
+        # We'll get a batch of future matches to ensure accurate sorting
+        matches_ref = db.collection('matches')
+        query = matches_ref.where('date', '>=', now_iso).order_by('date').limit(5)
+        docs = query.stream()
+        
+        next_match_doc = None
+        for doc in docs:
+            if doc.id == 'next_match': continue
+            next_match_doc = doc
+            break
+            
+        if not next_match_doc:
+            print("No future matches found in 'matches' collection.")
+            return
+
+        data = next_match_doc.to_dict()
+        match_id = next_match_doc.id
+        print(f"Found next match: {data.get('home_team')} x {data.get('away_team')} ({data.get('date')})")
+        
+        # Prepare valid MatchData structure
+        match_data = {
+            "match_id": match_id,
+            "home_team": data.get('home_team', 'Botafogo'),
+            "away_team": data.get('away_team', 'Adversário'),
+            "home_team_logo": data.get('home_team_logo', ''),
+            "away_team_logo": data.get('away_team_logo', ''),
+            "home_score": data.get('home_score', 0),
+            "away_score": data.get('away_score', 0),
+            "date": data.get('date'),
+            "location": data.get('location', 'A definir'),
+            "championship": data.get('championship', ''),
+            "status": "AGENDADO", # Force status to scheduled for future games
+            "transmission": data.get('transmission', ''),
+            "stadium": data.get('stadium', '')
+        }
+        
+        # Update the 'next_match' singleton document
+        db.collection('matches').document('next_match').set(match_data)
+        print("Successfully updated 'matches/next_match' with dynamic data.")
+
+    except Exception as e:
+        print(f"Error in update_next_match: {e}")
 
 def map_position(pos_text):
     pos_text = pos_text.lower()
@@ -910,7 +940,7 @@ def generate_daily_briefing(force=False):
     Entregar um resumo objetivo, criativo, direto e de alto padrão, sem excesso de opinião, sem sensacionalismo e sem repetição.
     
     CONTEXTO OBRIGATÓRIO (Use para Próximo Jogo/Indicadores):
-    - Próximo Jogo: Botafogo vs Fluminense, Domingo (01/02) às 18h00.
+    - Próximo Jogo: Botafogo vs Fluminense, Domingo (01/02) às 20h30.
     - Competição: Campeonato Carioca.
     - Local: Estádio Nilton Santos (Casa).
     - Transmissão (Onde Assistir): CazéTV e Band.
@@ -930,7 +960,7 @@ def generate_daily_briefing(force=False):
        (Se houver informações sobre jogos da Libertadores ou Brasileirão nas notícias, inclua-as no Radar ou Destaques).
 
     2. "indicators": Preencha com os dados do próximo jogo e mercado.
-        - next_match: "Dom (01/02), 18h00 vs Fluminense"
+        - next_match: "Dom (01/02), 20h30 vs Fluminense"
         - location: "Nilton Santos (Casa)"
         - transmission: "CazéTV e Band" 
        - dm: Situação médica breve ou "Sem novidades"

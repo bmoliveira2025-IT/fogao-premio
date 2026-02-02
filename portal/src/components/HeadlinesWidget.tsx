@@ -135,9 +135,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
 
                 {/* INTERSTITIAL: NEXT MATCH (Shown after Hero on Mobile) */}
                 {nextMatch && (
-                    <div className="md:hidden">
-                        <PremiumNextMatch match={nextMatch} />
-                    </div>
+                    <PremiumNextMatch match={nextMatch} className="md:hidden" />
                 )}
 
                 {/* Grid for Banner Stories - 2 columns on desktop */}

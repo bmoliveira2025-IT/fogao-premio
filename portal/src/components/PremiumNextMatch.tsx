@@ -56,8 +56,8 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
         return () => unsub();
     }, []);
 
-    // Priority: Prop > Live > Fallback
-    const data = match || liveMatch || {
+    // Priority: Live > Prop > Fallback
+    const data = liveMatch || match || {
         home_team: "BOTAFOGO",
         away_team: "ADVERSÁRIO",
         home_score: 0,
@@ -82,15 +82,26 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     const isLive = status === 'AO_VIVO' || status === 'EM_ANDAMENTO' || status === 'INTERVALO' || hasGameTime;
 
     // Robust finished check - rely on status markers
-    const isFinished =
+    const isFinishedStatus =
         ['ENCERRADA', 'FINALIZADO', 'FIM_DE_JOGO', 'CONCLUÍDO', 'FIM'].includes(status) ||
         ['FIM DE JOGO', 'ENCERRADA', 'FINALIZADO', 'TERMINADO'].includes(displayTime);
 
-    // Show score if live, finished, or if there is any goal recorded
+    // Time-based check: If match started more than 6 hours ago and isn't marked as LIVE, assume finished
+    // This handles cases where backend hasn't updated the status e.g. "Agendado" but date passed
+    const now = new Date();
+    const hoursSinceStart = (now.getTime() - matchDate.getTime()) / (1000 * 60 * 60);
+    const isOldMatch = hoursSinceStart > 6;
+
+    const isFinished = isFinishedStatus || isOldMatch;
+
+    // Filter out finished games - User requested to ONLY show next game
+    if (isFinished) return null;
+
+    // Show score if live (removed finished check as we return null)
     const hasScore = (data.home_score !== undefined && data.home_score !== null && data.home_score > 0) ||
         (data.away_score !== undefined && data.away_score !== null && data.away_score > 0);
 
-    const showScore = isLive || isFinished || hasScore;
+    const showScore = isLive || hasScore; // Removed isFinished
 
     return (
         <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#0a0a0a] border-y md:border border-white/5 rounded-none md:rounded-xl shadow-2xl relative z-[100]", className)}>

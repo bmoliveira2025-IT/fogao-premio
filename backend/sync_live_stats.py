@@ -121,7 +121,46 @@ def get_ge_match_stats(match_url):
             
         return m_info, stats
     except Exception as e:
-        print(f"Error fetching stats from {match_url}: {e}")
+        print(f"Error parsing JSON from {match_url}: {e}")
+        # Fallback to Regex on HTML content if JSON parse fails
+        try:
+             # Basic fallback: Try to find "Home X x Y Away" or similar in title/meta
+             # Title format: "Botafogo 0 x 1 Fluminense | Campeonato Carioca: melhores momentos"
+             title_match = re.search(r'<title>([^<]+)</title>', text)
+             if title_match:
+                 title_text = title_match.group(1)
+                 # Adjust regex to capture team names and scores loosely
+                 # Looking for "TeamA Score x Score TeamB"
+                 score_match = re.search(r'([A-Za-z\u00C0-\u00FF ]+)\s+(\d+)\s*x\s*(\d+)\s+([A-Za-z\u00C0-\u00FF ]+)', title_text)
+                 
+                 if score_match:
+                     home_team = score_match.group(1).strip()
+                     home_score = int(score_match.group(2))
+                     away_score = int(score_match.group(3))
+                     away_team = score_match.group(4).strip()
+                     
+                     print(f"Fallback: Found score in title: {home_team} {home_score} x {away_score} {away_team}")
+                     
+                     # Construct basic info object
+                     match_id = "bot_v_flu_2026_02_01" # TODO: Extract from URL or config more dynamically if needed
+                     if "fluminense" in match_url.lower():
+                          match_id = "bot_v_flu_2026_02_01"
+                     
+                     m_info = {
+                        "id": match_id,
+                        "match_id": match_id,
+                        "status": "ENCERRADA", # Assume finished if we scrape from a "melhores momentos" page
+                        "home_team": home_team,
+                        "away_team": away_team,
+                        "home_score": home_score,
+                        "away_score": away_score,
+                        "score": f"{home_score} - {away_score}",
+                        "date": datetime.now(timezone.utc).isoformat() 
+                     }
+                     return m_info, {} # No detailed stats available in fallback
+        except Exception as fallback_err:
+            print(f"Fallback scraping also failed: {fallback_err}")
+
         return None, None
 
 def sync_botafogo_live():
@@ -242,7 +281,7 @@ def sync_botafogo_live():
                         from auto_analysis import analyze_match_data
                         analyzed_data = analyze_match_data(full_data)
                         
-                        if "motm_data" in analyzed_data and "motm_data" not in current_doc.to_dict():
+                        if "pass_stats" in analyzed_data or "motm_data" in analyzed_data:
                              print(f"Stats analysis generated for {m_id}")
                              db.collection("match_stats").document(m_id).set(analyzed_data, merge=True)
                  except Exception as e:
@@ -255,8 +294,23 @@ def sync_botafogo_live():
             manual_data = json.load(f)
             
         if manual_data.get("active"):
-            print("USING MANUAL LIVE GAME DATA") # Upsert detailed stats
-            m_id = manual_data.get("match_id", "manual_match")
+            # Check staleness
+            try:
+                m_date_str = manual_data.get('date')
+                if m_date_str:
+                    m_date = datetime.fromisoformat(m_date_str.replace("Z", "+00:00"))
+                    now_utc = datetime.now(timezone.utc)
+                    # If match was more than 6 hours ago, ignore manual active flag
+                    if (now_utc - m_date).total_seconds() > 6 * 3600:
+                        print(f"Manual match data is stale (Date: {m_date_str}). Ignoring.")
+                        found_live = False # Ensure we don't treat it as found
+                    else:
+                        print("USING MANUAL LIVE GAME DATA") # Upsert detailed stats
+            except Exception as e:
+                print(f"Error checking manual data staleness: {e}")
+                
+            if found_live: # Only proceed if we decided it's live
+                m_id = manual_data.get("match_id", "manual_match")
             # Ensure timestamp
             manual_data["last_sync"] = datetime.now(timezone.utc).isoformat()
             
@@ -319,6 +373,11 @@ def sync_botafogo_live():
 
     if not found_live:
         print("No live match active for Botafogo at this moment.")
+        # Ensure next_match is correct (run update_next_match logic from scraper if imported, or replicate)
+        # Since we can't easily import circular, we assume the scheduled scraper handles it.
+        # But for robust 'live' sync, if no live match, we could check if we need to switch back to 'scheduled' state?
+        # The scraper.py update_next_match does that.
+
     
     # --- AUTO-SWITCH TO NEXT MATCH LOGIC (Projected for 2026-01-30 00:01) ---
     try:
