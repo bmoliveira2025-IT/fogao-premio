@@ -12,6 +12,7 @@ PODCASTS_SCRIPT = os.path.join(BACKEND_DIR, "fetch_podcasts.py")
 SQUAD_SCRIPT = os.path.join(BACKEND_DIR, "seed_squad.py")
 MATCHES_SCRIPT = os.path.join(BACKEND_DIR, "seed_matches.py")
 TABLE_SCRIPT = os.path.join(BACKEND_DIR, "fetch_table.py")
+BRASILEIRAO_SCRIPT = os.path.join(BACKEND_DIR, "fetch_brasileirao.py")
 LIVE_STATS_SCRIPT = os.path.join(BACKEND_DIR, "sync_live_stats.py")
 
 def run_script(script_path, name):
@@ -37,7 +38,8 @@ def job_system_update():
     run_script(MATCHES_SCRIPT, "Match Seeder")
 
 def job_table_update():
-    run_script(TABLE_SCRIPT, "Table Fetcher")
+    run_script(TABLE_SCRIPT, "Carioca Table Fetcher")
+    run_script(BRASILEIRAO_SCRIPT, "Brasileirão Table Fetcher")
 
 def job_live_stats():
     run_script(LIVE_STATS_SCRIPT, "Live Stats Sync")
@@ -64,7 +66,7 @@ print("Schedule:")
 print("- News: Every 20 minutes")
 print("- Videos/Podcasts: Every 24 hours")
 print("- Squad/Matches: Every 20 days")
-print("- Table: Every 6 hours")
+print("- Table (Carioca/Brasileirão): Every 6 hours")
 
 # Run all jobs immediately on startup to ensure fresh data
 print("Running initial jobs...")

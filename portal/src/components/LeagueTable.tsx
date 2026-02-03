@@ -62,11 +62,13 @@ export default function LeagueTable() {
     // Sort groups (A first) and teams within (by position)
     const sortedGroups = Object.keys(groupedData).sort();
 
-    return (
-        <div className="w-full h-96 bg-muted rounded-2xl border border-foreground/10 flex items-center justify-center animate-pulse">
-            <Shield className="w-12 h-12 text-foreground/10" />
-        </div>
-    );
+    if (loading) {
+        return (
+            <div className="w-full h-96 bg-muted rounded-2xl border border-foreground/10 flex items-center justify-center animate-pulse">
+                <Shield className="w-12 h-12 text-foreground/10" />
+            </div>
+        );
+    }
 
     const championships = [
         { id: 'carioca_2026', name: 'Carioca 2026' },
