@@ -23,15 +23,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
         <nav className={`sticky top-0 z-50 bg-white dark:bg-black backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 shadow-sm ${className}`}>
             <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                 <div className="flex items-center justify-between h-16">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 bg-premium-gold dark:bg-premium-gold light:bg-zinc-900 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <span className="text-black dark:text-black light:text-white font-black text-sm">FP</span>
-                        </div>
-                        <span className="hidden md:block font-black text-lg text-zinc-900 dark:text-white">
-                            Fogão Prêmio
-                        </span>
-                    </Link>
+                    {/* Logo removed per user request */}
 
                     {/* Navigation Links - Desktop */}
                     <div className="hidden md:flex items-center gap-1">
