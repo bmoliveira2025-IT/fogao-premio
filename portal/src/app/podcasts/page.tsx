@@ -1,11 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Pause, Mic, ArrowLeft, Calendar, Clock } from 'lucide-react';
-import Link from 'next/link';
-import BrandingHeader from '@/components/BrandingHeader';
-import DesktopSidebar from '@/components/DesktopSidebar';
-import TabBar from '@/components/TabBar';
+import { Play, Pause, Mic, Calendar, Clock, TrendingUp, Headphones, Download } from 'lucide-react';
+import ModernNavMenu from '@/components/ModernNavMenu';
 
 interface PodcastItem {
     title: string;
@@ -21,15 +18,16 @@ export default function PodcastsPage() {
     const [loading, setLoading] = useState(true);
     const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
     const [isPlaying, setIsPlaying] = useState<string | null>(null);
+    const [featuredPodcast, setFeaturedPodcast] = useState<PodcastItem | null>(null);
 
     useEffect(() => {
         async function fetchPodcasts() {
             try {
-                // Force no-store and manual slice to ensure exactly 8 items
-                const res = await fetch('/api/podcasts?limit=8', { cache: 'no-store' });
+                const res = await fetch('/api/podcasts?limit=20', { cache: 'no-store' });
                 const data = await res.json();
-                if (data.items) {
-                    setPodcasts(data.items.slice(0, 8));
+                if (data.items && data.items.length > 0) {
+                    setFeaturedPodcast(data.items[0]); // First one as featured
+                    setPodcasts(data.items);
                 }
             } catch (err) {
                 console.error("Failed to load podcasts", err);
@@ -70,120 +68,226 @@ export default function PodcastsPage() {
         };
     };
 
+    const formatDate = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    const getTimeAgo = (dateStr: string) => {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+
+        if (diffInHours < 24) return `${diffInHours}h atrás`;
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays === 1) return '1 dia atrás';
+        if (diffInDays < 7) return `${diffInDays} dias atrás`;
+        return formatDate(dateStr);
+    };
+
     return (
-        <main className="min-h-screen bg-background dark:bg-zinc-950 text-foreground pb-32 lg:pb-0">
-            {/* 1. SIDEBAR - DESKTOP ONLY */}
-            <div className="hidden lg:block">
-                <DesktopSidebar />
-            </div>
+        <div className="min-h-screen bg-white dark:bg-black text-zinc-900 dark:text-white">
 
-            {/* 2. MOBILE HEADER */}
-            <div className="lg:hidden">
-                <BrandingHeader />
-            </div>
+            {/* MODERN NAVIGATION */}
+            <ModernNavMenu />
 
-            <div className="w-full lg:pl-64">
-                <div className="container mx-auto px-4 pt-24 pb-8 lg:p-12 max-w-7xl">
+            {/* HERO SECTION - Featured Podcast */}
+            {featuredPodcast && !loading && (
+                <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
+                    {/* Background Image */}
+                    <div className="absolute inset-0">
+                        <img
+                            src={featuredPodcast.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"}
+                            alt={featuredPodcast.title}
+                            className="w-full h-full object-cover"
+                        />
+                        {/* Gradient Overlays */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent dark:from-black dark:via-black/40" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-transparent to-transparent dark:from-black/80" />
+                    </div>
 
-                    {/* Header */}
-                    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-4 mb-8 lg:mb-12 relative">
-                        <Link href="/" className="absolute left-0 top-1 lg:static lg:block p-2 -ml-2 text-zinc-400 hover:text-white transition-colors">
-                            <ArrowLeft size={24} />
-                        </Link>
-
-                        <div className="w-full flex flex-col items-center lg:items-start text-center lg:text-left">
-                            <h1 className="inline-flex items-center gap-2 px-6 py-2 rounded-full border border-premium-gold/20 bg-premium-gold/5 text-xl lg:text-4xl lg:p-0 lg:bg-transparent lg:border-0 font-black uppercase tracking-widest lg:tracking-tighter text-premium-gold lg:text-white">
-                                <Mic size={18} className="lg:hidden" />
-                                <span className="hidden lg:inline-flex p-3 bg-premium-gold/10 rounded-xl border border-premium-gold/20 text-premium-gold mr-3">
-                                    <Mic size={24} className="lg:w-8 lg:h-8" />
+                    {/* Content */}
+                    <div className="relative h-full container mx-auto px-4 md:px-12 max-w-[1600px] flex flex-col justify-end pb-12 md:pb-20">
+                        {/* Badge */}
+                        <div className="flex items-center gap-2 mb-4">
+                            <div className="px-4 py-1.5 bg-premium-gold rounded-full flex items-center gap-2 shadow-lg">
+                                <TrendingUp size={14} className="text-black" />
+                                <span className="text-xs font-black text-black uppercase tracking-widest">Mais Recente</span>
+                            </div>
+                            <div className="px-4 py-1.5 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full border border-zinc-200 dark:border-white/10">
+                                <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">
+                                    {getTimeAgo(featuredPodcast.pubDate)}
                                 </span>
-                                Podcast 360
-                            </h1>
-                            <p className="text-zinc-500 font-medium text-xs lg:text-base mt-2 lg:ml-1">
-                                Últimos 12 episódios do GE Botafogo
+                            </div>
+                        </div>
+
+                        {/* Title */}
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-zinc-900 dark:text-white leading-tight max-w-4xl mb-4 uppercase tracking-tight">
+                            {featuredPodcast.title}
+                        </h1>
+
+                        {/* Description */}
+                        <p className="text-base md:text-lg text-zinc-700 dark:text-zinc-300 max-w-3xl mb-6 line-clamp-2 leading-relaxed">
+                            {featuredPodcast.description}
+                        </p>
+
+                        {/* Play Button */}
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => togglePlay(featuredPodcast.audioUrl)}
+                                className="group flex items-center gap-3 px-8 py-4 bg-premium-gold hover:bg-premium-gold/90 rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                            >
+                                {isPlaying === featuredPodcast.audioUrl ? (
+                                    <>
+                                        <Pause fill="black" className="w-5 h-5 text-black" />
+                                        <span className="text-sm font-black text-black uppercase tracking-widest">Pausar</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Play fill="black" className="w-5 h-5 text-black ml-0.5" />
+                                        <span className="text-sm font-black text-black uppercase tracking-widest">Ouvir Agora</span>
+                                    </>
+                                )}
+                            </button>
+
+                            <a
+                                href={featuredPodcast.audioUrl}
+                                download
+                                className="p-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm border border-zinc-200 dark:border-white/10 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                                title="Download"
+                            >
+                                <Download size={20} className="text-zinc-900 dark:text-white" />
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* MAIN CONTENT */}
+            <div className="container mx-auto px-4 md:px-12 max-w-[1600px] py-12 md:py-20">
+
+                {/* Section Header */}
+                <div className="flex items-center justify-between mb-8 md:mb-12">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-premium-gold/10 rounded-xl border border-premium-gold/20">
+                            <Mic size={24} className="text-premium-gold" />
+                        </div>
+                        <div>
+                            <h2 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-tight">
+                                Todos os Episódios
+                            </h2>
+                            <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+                                GE Botafogo - Glorioso 360
                             </p>
                         </div>
                     </div>
 
-                    {/* Content Area */}
-                    {loading ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
-                            {[...Array(6)].map((_, i) => (
-                                <div key={i} className="h-48 bg-zinc-900 rounded-2xl border border-white/5" />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="flex flex-col gap-2 lg:grid lg:grid-cols-3 lg:gap-6">
-                            {podcasts.map((pod) => (
-                                <div key={pod.audioUrl} className="group relative bg-zinc-900/40 border border-white/5 hover:border-premium-gold/30 rounded-xl p-2 lg:p-4 transition-all hover:bg-zinc-900/60 hover:shadow-2xl hover:shadow-black/50 flex flex-row lg:flex-col gap-3 lg:gap-0 items-center lg:items-start h-auto lg:h-full">
+                    <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-zinc-900 rounded-full border border-zinc-200 dark:border-white/5">
+                        <Headphones size={16} className="text-premium-gold" />
+                        <span className="text-sm font-bold text-zinc-600 dark:text-zinc-400">
+                            {podcasts.length} episódios
+                        </span>
+                    </div>
+                </div>
 
-                                    {/* Image Container */}
-                                    <div className="relative flex-shrink-0 w-16 h-16 lg:w-full lg:h-64 rounded-lg lg:rounded-xl overflow-hidden bg-zinc-800 shadow-md lg:shadow-lg lg:mb-5">
-                                        <img
-                                            src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"}
-                                            alt={pod.title}
-                                            className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-                                        />
+                {/* Podcast Grid */}
+                {loading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+                        {[...Array(9)].map((_, i) => (
+                            <div key={i} className="h-80 bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-white/5" />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {podcasts.slice(1).map((pod, index) => (
+                            <div
+                                key={pod.audioUrl}
+                                className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 rounded-2xl overflow-hidden transition-all hover:shadow-2xl hover:shadow-premium-gold/5"
+                                style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                {/* Image */}
+                                <div className="relative h-64 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                                    <img
+                                        src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"}
+                                        alt={pod.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
 
-                                        {/* Gradient Overlay (Desktop) */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity hidden lg:block" />
+                                    {/* Gradient */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
-                                        {/* Play Overlay */}
-                                        <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors backdrop-blur-[0px] group-hover:backdrop-blur-[2px]">
-                                            <button
-                                                onClick={() => togglePlay(pod.audioUrl)}
-                                                className={`w-8 h-8 lg:w-16 lg:h-16 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 ${isPlaying === pod.audioUrl ? 'bg-premium-gold scale-100 ring-2 lg:ring-4 ring-premium-gold/30' : 'bg-premium-gold scale-90 group-hover:scale-100'}`}
-                                            >
-                                                {isPlaying === pod.audioUrl ?
-                                                    <Pause fill="black" className="w-3 h-3 lg:w-6 lg:h-6 text-black" /> :
-                                                    <Play fill="black" className="w-3 h-3 lg:w-6 lg:h-6 ml-0.5 lg:ml-1 text-black" />
-                                                }
-                                            </button>
-                                        </div>
+                                    {/* Play Button Overlay */}
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+                                        <button
+                                            onClick={() => togglePlay(pod.audioUrl)}
+                                            className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 ${isPlaying === pod.audioUrl
+                                                    ? 'bg-premium-gold scale-100 ring-4 ring-premium-gold/30'
+                                                    : 'bg-premium-gold/90 scale-90 group-hover:scale-100'
+                                                }`}
+                                        >
+                                            {isPlaying === pod.audioUrl ? (
+                                                <Pause fill="black" className="w-6 h-6 text-black" />
+                                            ) : (
+                                                <Play fill="black" className="w-6 h-6 ml-1 text-black" />
+                                            )}
+                                        </button>
                                     </div>
 
-                                    {/* Content */}
-                                    <div className="flex-1 min-w-0 flex flex-col h-full justify-center">
-                                        {/* Date Badge */}
-                                        <div className="flex items-center gap-2 mb-1 lg:mb-3">
-                                            <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-zinc-800/80 border border-white/5 text-[9px] lg:text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
-                                                <Calendar size={9} className="lg:hidden" />
-                                                <Calendar size={10} className="hidden lg:block" />
-                                                {new Date(pod.pubDate).toLocaleDateString()}
-                                            </div>
-                                        </div>
-
-                                        {/* Title */}
-                                        <h2 className="text-xs lg:text-lg font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
-                                            {pod.title}
-                                        </h2>
-
-                                        {/* Description (Desktop Only) */}
-                                        <p className="hidden lg:block text-sm text-zinc-400 line-clamp-3 leading-relaxed mb-4">
-                                            {pod.description}
-                                        </p>
-
-                                        {/* Footer (Desktop Only) */}
-                                        <div className="hidden lg:flex items-center justify-between mt-auto border-t border-white/5 pt-4 w-full">
-                                            <span className="text-[11px] font-bold text-premium-gold uppercase tracking-wider flex items-center gap-1.5">
-                                                <Play size={12} />
-                                                Ouvir Agora
-                                            </span>
-                                            <span className="text-[10px] font-medium text-zinc-500">
-                                                GLORIOSO 360
-                                            </span>
-                                        </div>
+                                    {/* Date Badge */}
+                                    <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full border border-zinc-200 dark:border-white/10">
+                                        <Calendar size={12} className="text-premium-gold" />
+                                        <span className="text-xs font-bold text-zinc-900 dark:text-white">
+                                            {formatDate(pod.pubDate)}
+                                        </span>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div>
 
-            <div className="lg:hidden">
-                <TabBar />
+                                {/* Content */}
+                                <div className="p-5">
+                                    <h3 className="text-base font-bold text-zinc-900 dark:text-white leading-tight mb-3 line-clamp-2 group-hover:text-premium-gold transition-colors">
+                                        {pod.title}
+                                    </h3>
+
+                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-relaxed mb-4">
+                                        {pod.description}
+                                    </p>
+
+                                    {/* Footer */}
+                                    <div className="flex items-center justify-between pt-4 border-t border-zinc-200 dark:border-white/5">
+                                        <span className="text-xs font-black text-premium-gold uppercase tracking-wider flex items-center gap-1.5">
+                                            <Headphones size={12} />
+                                            Ouvir
+                                        </span>
+                                        <a
+                                            href={pod.audioUrl}
+                                            download
+                                            className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <Download size={14} className="text-zinc-500 dark:text-zinc-400" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* Empty State */}
+                {!loading && podcasts.length === 0 && (
+                    <div className="text-center py-20">
+                        <div className="inline-flex p-6 bg-zinc-100 dark:bg-zinc-900 rounded-full mb-6">
+                            <Mic size={48} className="text-zinc-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">
+                            Nenhum podcast disponível
+                        </h3>
+                        <p className="text-zinc-500 dark:text-zinc-400">
+                            Novos episódios em breve!
+                        </p>
+                    </div>
+                )}
             </div>
-        </main>
+        </div>
     );
 }

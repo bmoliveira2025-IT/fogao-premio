@@ -104,14 +104,26 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     const showScore = isLive || hasScore; // Removed isFinished
 
     return (
-        <div className={cn("w-full transition-all duration-300 overflow-hidden bg-[#0a0a0a] border-y md:border border-white/5 rounded-none md:rounded-xl shadow-2xl relative z-[100]", className)}>
+        <div
+            className={cn("w-full transition-all duration-300 overflow-hidden bg-transparent border-y md:border rounded-none md:rounded-xl shadow-2xl relative z-[100]", className)}
+            style={{
+                borderColor: 'var(--border-color)'
+            }}
+        >
             {/* Gold Top & Bottom Borders */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-70 z-20" />
-            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-70 z-20" />
+            <div
+                className="absolute top-0 left-0 w-full h-[2px] opacity-70 z-20 bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-300 to-transparent"
+            />
+            <div
+                className="absolute bottom-0 left-0 w-full h-[2px] opacity-70 z-20 bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-300 to-transparent"
+            />
             {/* Header Style (Clickable to Toggle) */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-full relative flex items-center justify-between p-4 border-b border-premium-gold/10 hover:bg-white/5 transition-colors"
+                className="w-full relative flex items-center justify-between p-4 border-b hover:bg-white/5 dark:hover:bg-white/5 transition-colors"
+                style={{
+                    borderColor: 'rgba(184, 134, 11, 0.2)'
+                }}
             >
                 <div className="flex items-center space-x-3 text-left opacity-0 pointer-events-none">
                     {/* Spacer to maintain layout if needed, or remove */}
@@ -120,10 +132,10 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                 {/* Centered Teams Text - Absolute Positioning for Perfect Center */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center leading-tight pointer-events-none">
-                    <span className="text-xs font-bold uppercase tracking-wider text-white whitespace-nowrap">
-                        {data.home_team} <span className="text-premium-gold mx-0.5">X</span> {data.away_team}
+                    <span className="text-xs font-bold uppercase tracking-wider whitespace-nowrap text-foreground">
+                        {data.home_team} <span className="text-premium-gold dark:text-premium-gold light:text-zinc-400 mx-0.5">X</span> {data.away_team}
                     </span>
-                    <span className="text-[9px] font-medium text-white/30 capitalize">
+                    <span className="text-[9px] font-medium opacity-30 capitalize" style={{ color: 'var(--foreground)' }}>
                         {data.championship}
                         {isLive && <span className="ml-2 text-red-500 font-bold animate-pulse">• AO VIVO</span>}
                     </span>
@@ -132,7 +144,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
                     <ChevronDown
                         size={16}
-                        className={cn("text-premium-gold transition-transform duration-300", isOpen ? "rotate-180" : "rotate-0")}
+                        className={cn("text-premium-gold dark:text-premium-gold light:text-zinc-400 transition-transform duration-300", isOpen ? "rotate-180" : "rotate-0")}
                     />
                 </div>
             </button>
@@ -165,7 +177,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                     {isFinished ? (
                                         <Link href={`/stats/${data.match_id}`} className="group cursor-pointer">
                                             <div className="flex flex-col items-center group-hover:scale-105 transition-transform duration-200">
-                                                <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none group-hover:text-premium-gold transition-colors">
+                                                <div className="flex items-center gap-4 text-3xl font-black italic font-display leading-none group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
                                                     <span>{data.home_score}</span>
                                                     <span className="text-premium-gold/50 text-xl">x</span>
                                                     <span>{data.away_score}</span>
@@ -179,7 +191,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                         <div className="flex flex-col items-center">
                                             {showScore ? (
                                                 <div className="flex flex-col items-center">
-                                                    <div className="flex items-center gap-4 text-3xl font-black italic text-white font-display leading-none">
+                                                    <div className="flex items-center gap-4 text-3xl font-black italic font-display leading-none" style={{ color: 'var(--foreground)' }}>
                                                         <span>{data.home_score}</span>
                                                         <span className="text-premium-gold/50 text-xl">x</span>
                                                         <span>{data.away_score}</span>
@@ -189,12 +201,12 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                                     </span>
                                                 </div>
                                             ) : (
-                                                <div className="flex flex-col items-center bg-premium-gold/5 border border-premium-gold/20 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
-                                                    <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.2em] mb-1">
+                                                <div className="flex flex-col items-center bg-transparent border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
+                                                    <span className="text-[10px] font-black text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase tracking-[0.2em] mb-1">
                                                         {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
                                                     </span>
-                                                    <div className="h-px w-8 bg-premium-gold/30 mb-1" />
-                                                    <span className="text-sm font-mono font-bold text-white tracking-widest">
+                                                    <div className="h-px w-8 bg-premium-gold/30 dark:bg-premium-gold/30 light:bg-zinc-300 mb-1" />
+                                                    <span className="text-sm font-mono font-bold tracking-widest text-foreground">
                                                         {timeString}
                                                     </span>
                                                 </div>
@@ -216,7 +228,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                             </div>
 
                             <div className="text-center mt-2">
-                                <div className="inline-flex items-center space-x-2 text-[10px] text-white/40 bg-white/5 px-4 py-1.5 rounded-full border border-white/5">
+                                <div className="inline-flex items-center space-x-2 text-[10px] opacity-40 bg-white/5 px-4 py-1.5 rounded-full border border-white/5" style={{ color: 'var(--foreground)' }}>
                                     <MapPin size={10} className="text-premium-gold/50" />
                                     <span>{data.location}</span>
                                 </div>
@@ -229,12 +241,12 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
             {isFinished && data.match_id && (
                 <div className="px-4 pb-4">
                     <Link href={`/stats/${data.match_id}`} className="block">
-                        <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 hover:border-premium-gold/50 hover:bg-premium-gold/5 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold group-hover:text-white transition-colors">
+                        <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200 hover:border-premium-gold/50 dark:hover:border-premium-gold/50 light:hover:border-zinc-400 hover:bg-premium-gold/5 dark:hover:bg-premium-gold/5 light:hover:bg-zinc-100 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold dark:text-premium-gold light:text-zinc-800 group-hover:text-white dark:group-hover:text-white light:group-hover:text-black transition-colors">
                                 Veja a Análise Completa
                             </span>
-                            <div className="w-5 h-5 rounded-full bg-premium-gold/10 flex items-center justify-center group-hover:bg-premium-gold transition-all duration-300">
-                                <ChevronDown size={12} className="text-premium-gold group-hover:text-black -rotate-90 transition-colors" />
+                            <div className="w-5 h-5 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-200 flex items-center justify-center group-hover:bg-premium-gold dark:group-hover:bg-premium-gold light:group-hover:bg-zinc-300 transition-all duration-300">
+                                <ChevronDown size={12} className="text-premium-gold dark:text-premium-gold light:text-zinc-600 group-hover:text-black -rotate-90 transition-colors" />
                             </div>
                         </div>
                     </Link>

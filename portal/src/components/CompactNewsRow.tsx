@@ -41,7 +41,7 @@ export default function CompactNewsRow({ article }: any) {
                 <div className="flex items-center gap-2">
                     <SourceIcon source={article.source} className="w-3 h-3 text-[11px] transition-all grayscale group-hover:grayscale-0" />
 
-                    <span className="text-[10px] font-bold text-premium-gold/90 uppercase tracking-widest leading-none px-1.5 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/10">
+                    <span className="text-[10px] font-bold text-premium-gold/90 dark:text-premium-gold/90 light:text-zinc-900 uppercase tracking-widest leading-none px-1.5 py-0.5 rounded bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 border border-premium-gold/10 dark:border-premium-gold/10 light:border-zinc-200">
                         {article.source || 'FOGÃONET'}
                     </span>
 
@@ -52,7 +52,7 @@ export default function CompactNewsRow({ article }: any) {
                     </span>
                 </div>
 
-                <h4 className="text-[13px] md:text-[16px] font-black text-white group-hover:text-premium-gold transition-colors leading-tight uppercase">
+                <h4 className="text-[13px] md:text-[16px] font-black text-foreground group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors leading-tight uppercase">
                     {article.title?.replace(/\*\*/g, '')}
                 </h4>
             </div>

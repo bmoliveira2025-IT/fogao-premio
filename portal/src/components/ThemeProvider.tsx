@@ -2,43 +2,55 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "dark" | "light";
+type Theme = "glorioso" | "gloriosa" | "biriba"; // glorioso = dark/gold, gloriosa = pink, biriba = white
 
 interface ThemeContextType {
     theme: Theme;
-    toggleTheme: () => void;
+    setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>("dark");
+    const [theme, setTheme] = useState<Theme>("glorioso"); // Default: Glorioso (dark)
 
     useEffect(() => {
-        // Check local storage or system preference on mount
+        // Check local storage on mount
         const savedTheme = localStorage.getItem("theme") as Theme;
-        if (savedTheme) {
+        if (savedTheme && ["glorioso", "gloriosa", "biriba"].includes(savedTheme)) {
             setTheme(savedTheme);
-            document.documentElement.classList.remove("light", "dark");
-            document.documentElement.classList.add(savedTheme);
+            applyTheme(savedTheme);
         } else {
-            // Default to dark
-            document.documentElement.classList.add("dark");
+            // Default to Glorioso (dark)
+            applyTheme("glorioso");
         }
     }, []);
 
-    const toggleTheme = () => {
-        const newTheme = theme === "dark" ? "light" : "dark";
+    const applyTheme = (newTheme: Theme) => {
+        // Remove all theme classes
+        document.documentElement.classList.remove("glorioso", "gloriosa", "biriba", "dark", "light");
+
+        // Add new theme class
+        document.documentElement.classList.add(newTheme);
+
+        // Also add dark/light for compatibility with existing components
+        if (newTheme === "glorioso" || newTheme === "gloriosa") {
+            // Both Glorioso and Gloriosa are dark themes
+            document.documentElement.classList.add("dark");
+        } else if (newTheme === "biriba") {
+            // Biriba is the light/white theme
+            document.documentElement.classList.add("light");
+        }
+    };
+
+    const changeTheme = (newTheme: Theme) => {
         setTheme(newTheme);
         localStorage.setItem("theme", newTheme);
-
-        // Explicitly handle classes
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add(newTheme);
+        applyTheme(newTheme);
     };
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, setTheme: changeTheme }}>
             {children}
         </ThemeContext.Provider>
     );

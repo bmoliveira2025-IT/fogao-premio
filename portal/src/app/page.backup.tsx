@@ -1,17 +1,20 @@
-// Forced update - 2026-02-03 - Modern Homepage
+// Forced update - 2026-02-03
 import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
+import HeadlinesWidget from '@/components/HeadlinesWidget';
+import DailyBriefingWidget from '@/components/DailyBriefingWidget';
 import CompactNewsRow from '@/components/CompactNewsRow';
 import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
-import QuoteBanner from '@/components/QuoteBanner';
-import MatchDayPopup from '@/components/MatchDayPopup';
-import ModernNavMenu from '@/components/ModernNavMenu';
-import ModernHeroNews from '@/components/ModernHeroNews';
-import InfiniteNewsGrid from '@/components/InfiniteNewsGrid';
-
 import { ChevronRight, Users, Trophy } from 'lucide-react';
+
 import Link from 'next/link';
+import { Suspense } from 'react';
+import MatchDayPopup from '@/components/MatchDayPopup';
+import QuoteBanner from '@/components/QuoteBanner';
+import PodcastWidget from '@/components/PodcastWidget';
+import SocialHubWidget from '@/components/SocialHubWidget';
+import { getTrendingTopics } from '@/lib/social-pulse';
 
 
 export const revalidate = 0; // Disable cache for real-time updates
@@ -59,10 +62,11 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(50); // Increased for infinite scroll
+      .limit(20);
 
+    // Fetch the next_match document directly (which contains live/finished match data)
     const nextMatchRef = db.collection('matches').doc('next_match');
-    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
+    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(8);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
     const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);
 
@@ -101,6 +105,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       } as NewsItem;
     });
 
+    // Parse next_match document
     const matches = [];
     if (nextMatchSnap.exists) {
       const data = nextMatchSnap.data()!;
@@ -146,6 +151,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
 
   } catch (error: any) {
     console.error("DATA FETCH ERROR DETAILS:", error);
+    // console.warn("Failed to Fetch Data (likely Quota Exceeded), returning empty.");
     return { news: [], matches: [], videos: [], premiumNews: [], briefing: null };
   }
 }
@@ -189,6 +195,7 @@ export default async function Home() {
     });
   });
 
+  // DAILY BRIEFING NOTIFICATION
   if (briefing) {
     const briefingDate = new Date(briefing.created_at).toLocaleDateString('pt-BR');
     const today = new Date().toLocaleDateString('pt-BR');
@@ -200,75 +207,145 @@ export default async function Home() {
         title: 'Resumo do Dia',
         message: 'Confira os destaques de hoje no Fogão Prêmio',
         timestamp: briefing.created_at,
-        link: '?briefing=true'
+        link: '?briefing=true' // Open popup via query param or just simple link
       });
     }
   }
 
   notifications.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
-  // Separate first news for hero
-  const heroNews = news[0];
-  const remainingNews = news.slice(1);
+  // GENERATE TRENDING TOPICS
+  const topics = getTrendingTopics(news.map(n => n.title));
 
   return (
-    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-white dark:bg-black">
+    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 premium-bg mesh-gradient">
 
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
 
-      {/* MODERN NAVIGATION MENU */}
-      <ModernNavMenu />
-
       {/* MAIN CONTENT WRAPPER */}
       <div className="w-full transition-all duration-300 pb-20 lg:pb-10">
-        <div className="container mx-auto px-0 md:px-4 lg:px-12 max-w-[1600px]">
+        <div className="container mx-auto px-4 lg:pt-12 lg:px-12 max-w-[1600px]">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
 
             {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-6 lg:space-y-12 animate-fade-in-up">
+            <div className="lg:col-span-8 space-y-2 lg:space-y-12 animate-fade-in-up">
 
-              {/* HERO NEWS - First News Highlight */}
-              {heroNews && (
-                <div className="px-0 md:px-0 mt-0 md:mt-8">
-                  <ModernHeroNews news={heroNews} />
-                </div>
-              )}
+              {/* Headlines Widget */}
+              <div className="-mx-4 lg:mx-0">
+                <HeadlinesWidget news={news} nextMatch={nextMatch} />
+              </div>
 
-              {/* NEXT MATCH - Mobile Only (After Hero) */}
-              {nextMatch && (
-                <div className="lg:hidden px-4 md:px-0">
+              {/* NEW: Last Match Analysis Card */}
+              <PremiumNextMatch match={nextMatch} className="hidden lg:block mb-8" />
+
+
+
+              {/* PODCAST WIDGET */}
+              <PodcastWidget />
+
+              {/* MOBILE INTERSTITIALS (Visible only on Mobile) */}
+              <div className="lg:hidden space-y-0">
+                {/* 3. MANDATORY MATCH BLOCK - MOBILE ONLY (REMOVED - INTEGRATED IN WIDGET) */}
+                {/* <section className="-mt-0 relative z-10 lg:hidden">
                   <PremiumNextMatch match={nextMatch} />
-                </div>
-              )}
+                </section> */}
 
-              {/* GLORIOSO TV (BOTAFOGO TV CAROUSEL) */}
-              <div className="px-0 md:px-0">
-                <BotafogoTVCarousel videos={videos} />
+                {/* SQUAD LINK - MOBILE */}
+                <Link href="/elenco" className="block mb-4 lg:hidden group relative">
+                  <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
+
+                    {/* Background Image - Players */}
+                    {/* Background Image - Players */}
+                    <div className="absolute inset-0 z-0 opacity-40">
+                      <img
+                        src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1000&auto=format&fit=crop"
+                        alt="Background"
+                        className="w-full h-full object-cover grayscale"
+                        style={{ objectPosition: 'center 20%' }}
+                      />
+                      <div className="absolute inset-0 bg-zinc-900/60 mix-blend-multiply" />
+                    </div>
+
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div className="p-3.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20 backdrop-blur-sm">
+                        <Users size={24} />
+                      </div>
+                      <div>
+                        <h4 className="text-[17px] font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors drop-shadow-md">
+                          Elenco 2026
+                        </h4>
+                        <p className="text-[12px] text-zinc-400 font-medium tracking-wide">
+                          Conheça os jogadores atualizados
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={20} />
+                  </div>
+                </Link>
+
+                {/* STANDINGS LINK - MOBILE */}
+                <Link href="/tabela" className="block mb-16 lg:hidden group relative">
+                  <div className="relative overflow-hidden rounded-none md:rounded-xl bg-zinc-900 transition-all p-5 flex items-center justify-between shadow-lg -mx-4 md:mx-0">
+
+                    {/* Background Image - Trophy/Stadium */}
+                    <div className="absolute inset-0 z-0 opacity-40">
+                      <img
+                        src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop"
+                        alt="Background"
+                        className="w-full h-full object-cover grayscale"
+                        style={{ objectPosition: 'center 30%' }}
+                      />
+                      <div className="absolute inset-0 bg-zinc-900/60 mix-blend-multiply" />
+                    </div>
+
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div className="p-3.5 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20 backdrop-blur-sm">
+                        <Trophy size={24} />
+                      </div>
+                      <div>
+                        <h4 className="text-[17px] font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors drop-shadow-md">
+                          Classificação
+                        </h4>
+                        <p className="text-[12px] text-zinc-400 font-medium tracking-wide">
+                          Veja a tabela atualizada
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="relative z-10 text-white/30 group-hover:text-premium-gold transition-colors" size={20} />
+                  </div>
+                </Link>
+
+
+
+                {/* 5. PREMIUM BLOCK - MOBILE ONLY */}
+                <PremiumWidget news={premiumNews} className="lg:hidden mb-4" />
+
+
               </div>
 
-              {/* INFINITE NEWS GRID - Mixed with Videos */}
-              <div className="px-4 md:px-0">
-                <h2 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-tight mb-6 flex items-center gap-3">
-                  <div className="w-1.5 h-8 bg-premium-gold rounded-full" />
-                  Últimas Notícias
-                </h2>
-                <InfiniteNewsGrid
-                  initialNews={remainingNews}
-                  initialVideos={videos}
-                />
+              {/* Botafogo TV (Visible Both) */}
+              <BotafogoTVCarousel videos={videos} className="-mt-10 lg:mt-0" />
+
+              {/* Social Trending Topics (Full Width on Mobile) */}
+              <div className="-mx-4 lg:mx-0">
+                <SocialHubWidget topics={topics} />
               </div>
 
-              {/* QUOTE BANNER */}
-              <div className="px-4 md:px-0 mt-8 mb-8 lg:mb-0">
+              {/* Quote Banner - Bottom of Page */}
+              <div className="mt-8 mb-8 lg:mb-0">
                 <QuoteBanner />
               </div>
 
+              {/* Extra News Section (Desktop - Center Column Extension?) 
+                           Or maybe keep Extra News in Sidebar? 
+                           Let's put extra news in Desktop Sidebar as 'Giro pelo Mundo' style
+                        */}
             </div>
 
             {/* --- RIGHT COLUMN (Widgets - Desktop Only) --- */}
-            <div className="hidden lg:flex lg:col-span-4 flex-col gap-8 mt-8">
+            <div className="hidden lg:flex lg:col-span-4 flex-col gap-8">
 
               {/* Next Match Card */}
               <PremiumNextMatch match={nextMatch} />
@@ -278,46 +355,48 @@ export default async function Home() {
 
               {/* Elenco Banner */}
               <Link href="/elenco" className="block group">
-                <div className="relative overflow-hidden rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-6 flex items-center justify-between shadow-lg hover:shadow-premium-gold/10">
+                <div className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 hover:border-premium-gold/30 transition-all p-6 flex items-center justify-between shadow-2xl group-hover:shadow-premium-gold/5">
                   <div className="flex items-center gap-4">
                     <div className="p-3 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
                       <Users size={24} />
                     </div>
                     <div>
-                      <h4 className="text-sm font-black text-zinc-900 dark:text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
+                      <h4 className="text-sm font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
                         Elenco 2026
                       </h4>
-                      <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium tracking-wide">
+                      <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
                         Plantel Completo
                       </p>
                     </div>
                   </div>
-                  <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
+                  <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
                 </div>
               </Link>
 
               {/* Standings Banner */}
               <Link href="/tabela" className="block group">
-                <div className="relative overflow-hidden rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-6 flex items-center justify-between shadow-lg hover:shadow-premium-gold/10">
+                <div className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 hover:border-premium-gold/30 transition-all p-6 flex items-center justify-between shadow-2xl group-hover:shadow-premium-gold/5">
                   <div className="flex items-center gap-4">
                     <div className="p-3 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
                       <Trophy size={24} />
                     </div>
                     <div>
-                      <h4 className="text-sm font-black text-zinc-900 dark:text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
+                      <h4 className="text-sm font-black text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
                         Classificação
                       </h4>
-                      <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium tracking-wide">
+                      <p className="text-[10px] text-zinc-400 font-medium tracking-wide">
                         Tabela Carioca 2026
                       </p>
                     </div>
                   </div>
-                  <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
+                  <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
                 </div>
               </Link>
 
+
+
               {/* Sidebar News Feed */}
-              <div className="bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-white/5 rounded-2xl p-6 backdrop-blur-sm">
+              <div className="bg-zinc-900/40 border border-white/5 rounded-2xl p-6 backdrop-blur-sm">
                 <h3 className="text-xs font-bold text-premium-gold uppercase tracking-widest mb-6 flex items-center gap-2">
                   <div className="w-1 h-4 bg-premium-gold rounded-full" />
                   Últimas do Esporte

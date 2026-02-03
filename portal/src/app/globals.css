@@ -6,34 +6,20 @@
 @tailwind utilities;
 
 :root {
-  /* Default Dark Mode (Premium) */
-  --background: #050505;
+  /* Default: Tema Glorioso (Dark Mode with Gold) */
+  --background: #0a0a0a;
+  /* Matte Black */
   --foreground: #FFFFFF;
   --premium-gold: 255 215 0;
   /* #FFD700 - Gold */
   --card-bg: #121212;
   --graphite: #1A1A1A;
   /* For special blocks */
+  --border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Light Mode Class (Toggled by ThemeProvider) */
-.light {
-  /* Premium Gloriosa Theme (Deep Purple with Gold Accents) */
-  --background: #180826;
-  /* Deep Purple */
-  --foreground: #FFFFFF;
-  /* White Text */
-  --premium-gold: 255 32 176;
-  /* #FF20B0 - Neon Pink */
-  --card-bg: #2A1235;
-  /* Lighter Purple for Cards */
-  --graphite: #3B1E48;
-  /* Purple Graphite */
-  --border-color: #3E1C55;
-  /* Dark Purple/Black Border */
-}
-
-/* Force Dark Mode Class (Default) */
+/* Tema Glorioso (Dark Mode - Gold Accent) */
+.glorioso,
 .dark {
   --background: #0a0a0a;
   /* Matte Black */
@@ -43,6 +29,39 @@
   --card-bg: #121212;
   --graphite: #1A1A1A;
   --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tema Gloriosa (Dark Mode - Pink Accent) */
+.gloriosa {
+  --background: #0a0a0a;
+  /* Matte Black (same as Glorioso) */
+  --foreground: #FFFFFF;
+  /* White Text */
+  --premium-gold: 255 32 176;
+  /* #FF20B0 - Neon Pink */
+  --card-bg: #121212;
+  /* Dark cards */
+  --graphite: #1A1A1A;
+  /* Dark graphite */
+  --border-color: rgba(255, 32, 176, 0.1);
+  /* Pink tinted borders */
+}
+
+/* Tema Biriba (Clean White Theme) */
+.biriba,
+.light {
+  --background: #FFFFFF;
+  /* Pure White */
+  --foreground: #18181b;
+  /* Zinc-900 for text */
+  --premium-gold: 255 215 0;
+  /* #FFD700 - Gold (same accent) */
+  --card-bg: #FFFFFF;
+  /* White cards */
+  --graphite: #F5F5F5;
+  /* Light gray for special blocks */
+  --border-color: rgba(0, 0, 0, 0.1);
+  /* Light borders */
 }
 
 body {
@@ -272,4 +291,31 @@ h6 {
       0 10px 30px rgba(0, 0, 0, 0.4),
       0 0 20px rgb(var(--premium-gold) / 0.15);
   }
+}
+
+/* Fade In Up Animation for Infinite Scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

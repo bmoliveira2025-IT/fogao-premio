@@ -205,7 +205,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                             </h1>
 
                             <div className="flex flex-wrap items-center gap-y-2 gap-x-3 text-[11px] lg:text-xs text-foreground/60 font-medium tracking-wide leading-none">
-                                <span className="text-premium-gold uppercase font-black bg-premium-gold/10 px-2 py-1 rounded border border-premium-gold/20">{article.source || 'Botafogo'}</span>
+                                <span className="text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase font-black bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 px-2 py-1 rounded border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200">{article.source || 'Botafogo'}</span>
                                 <div className="flex items-center gap-2">
                                     <span>Por Redação</span>
                                     <span className="w-0.5 h-0.5 bg-foreground/30 rounded-full" />
@@ -222,19 +222,19 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 onClick={handleLike}
                                 className={`flex items-center justify-center w-auto h-10 gap-1.5 px-3 rounded-xl border transition-all ${liked
                                     ? 'bg-red-500/10 border-red-500/50 text-red-500'
-                                    : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
+                                    : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20'
                                     }`}
                                 title={liked ? 'Curtiu' : 'Curtir'}
                             >
                                 <Heart size={16} className={liked ? 'fill-current' : ''} />
-                                {!liked && <span className="text-[10px] bg-premium-gold/20 text-premium-gold px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
+                                {!liked && <span className="text-[10px] bg-premium-gold/20 dark:bg-premium-gold/20 light:bg-zinc-100 text-premium-gold dark:text-premium-gold light:text-zinc-900 px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
                             </button>
 
                             <button
                                 onClick={() => setShowVoice(!showVoice)}
                                 className={`flex items-center justify-center w-10 h-10 rounded-xl border transition-all ${showVoice
                                     ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
-                                    : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
+                                    : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20'
                                     }`}
                                 title="Ouvir"
                             >
@@ -243,28 +243,28 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                             <button
                                 onClick={handleShare}
-                                className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20 transition-all"
+                                className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all"
                                 title="Compartilhar"
                             >
                                 <Share2 size={16} />
                             </button>
 
-                            <div className="flex items-center bg-zinc-900/40 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden shadow-lg shadow-black/20">
+                            <div className="flex items-center bg-zinc-100 dark:bg-zinc-900/40 backdrop-blur-sm border border-black/10 dark:border-white/10 rounded-xl overflow-hidden shadow-lg shadow-black/5 dark:shadow-black/20">
                                 <button
                                     onClick={() => adjustFont(-10)}
-                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-r border-white/5"
+                                    className="px-3 py-2.5 text-foreground/50 dark:text-white/50 hover:text-foreground dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all border-r border-black/5 dark:border-white/5"
                                     title="Diminuir texto"
                                 >
                                     <Minus size={16} />
                                 </button>
 
                                 <div className="px-2 flex items-center justify-center min-w-[45px]">
-                                    <span className="text-[10px] font-black text-premium-gold/50 italic">{fontSize}%</span>
+                                    <span className="text-[10px] font-black text-premium-gold/50 dark:text-premium-gold/50 light:text-zinc-900/50 italic">{fontSize}%</span>
                                 </div>
 
                                 <button
                                     onClick={() => adjustFont(10)}
-                                    className="px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/5 transition-all border-l border-white/5"
+                                    className="px-3 py-2.5 text-foreground/50 dark:text-white/50 hover:text-foreground dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-all border-l border-black/5 dark:border-white/5"
                                     title="Aumentar texto"
                                 >
                                     <Plus size={16} />

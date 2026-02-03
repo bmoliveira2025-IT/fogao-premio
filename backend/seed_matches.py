@@ -8,7 +8,8 @@ load_dotenv()
 
 # Initialize Firebase
 if not firebase_admin._apps:
-    cred_path = "service-account-new.json"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    cred_path = os.path.join(script_dir, "service-account-new.json")
              
     try:
         cred = credentials.Certificate(cred_path)
@@ -17,7 +18,8 @@ if not firebase_admin._apps:
         print(f"Error initializing Firebase with {cred_path}: {e}")
         # Try fallback
         try:
-             cred = credentials.Certificate("service-account.json")
+             cred_path_fallback = os.path.join(script_dir, "service-account.json")
+             cred = credentials.Certificate(cred_path_fallback)
              firebase_admin.initialize_app(cred)
         except Exception as e2:
              print(f"Fallback failed: {e2}")
@@ -66,14 +68,13 @@ def seed_matches():
         { "date": "2026-01-21T19:00:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Volta Redonda", "round": "Rodada 3" },
         { "date": "2026-01-24T21:00:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Bangu", "round": "Rodada 4" },
         { "date": "2026-01-28T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Botafogo", "away_team": "Cruzeiro", "round": "Rodada 1" },
-         # FEVEREIRO 2026
-        { "date": "2026-02-01T20:30:00-03:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Fluminense", "round": "Rodada 5" },
-        { "date": "2026-02-04T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Grêmio", "away_team": "Botafogo", "round": "Rodada 2" },
-        { "date": "2026-02-08T18:00:00", "championship": "Campeonato Carioca", "location": "A definir", "home_team": "Vasco", "away_team": "Botafogo", "round": "Rodada 6" },
-        { "date": "2026-02-11T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Fluminense", "away_team": "Botafogo", "round": "Rodada 3" },
-        { "date": "2026-02-18T21:30:00", "championship": "Libertadores", "location": "Víctor Ugarte", "home_team": "Nacional Potosí", "away_team": "Botafogo", "round": "Fase de Grupos" },
-        { "date": "2026-02-25T21:30:00", "championship": "Libertadores", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Nacional Potosí", "round": "Fase de Grupos" },
-        { "date": "2026-02-25T16:00:00", "championship": "Brasileirão 2026", "location": "A definir", "home_team": "Botafogo", "away_team": "Vitória", "round": "Rodada 4" },
+        # FEVEREIRO 2026
+        { "date": "2026-02-01T20:30:00-03:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Fluminense", "round": "Rodada 5", "status": "ENCERRADA", "home_score": 0, "away_score": 1, "display_time": "FIM DE JOGO" },
+        { "date": "2026-02-04T21:30:00-03:00", "championship": "Brasileirão 2026", "location": "Arena do Grêmio", "home_team": "Grêmio", "away_team": "Botafogo", "round": "Rodada 2" },
+        { "date": "2026-02-08T18:00:00-03:00", "championship": "Campeonato Carioca", "location": "São Januário", "home_team": "Vasco", "away_team": "Botafogo", "round": "Rodada 6" },
+        { "date": "2026-02-12T19:30:00-03:00", "championship": "Campeonato Carioca", "location": "Maracanã", "home_team": "Fluminense", "away_team": "Botafogo", "round": "Rodada 7" },
+        { "date": "2026-02-18T21:30:00-03:00", "championship": "Libertadores", "location": "Víctor Ugarte", "home_team": "Nacional Potosí", "away_team": "Botafogo", "round": "Fase Preliminar" },
+        { "date": "2026-02-25T21:30:00-03:00", "championship": "Libertadores", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Nacional Potosí", "round": "Fase Preliminar" },
         # MARÇO 2026
         { "date": "2026-03-11T16:00:00", "championship": "Brasileirão 2026", "location": "Ligga Arena", "home_team": "Athletico-PR", "away_team": "Botafogo", "round": "Rodada 5" },
         { "date": "2026-03-14T16:00:00", "championship": "Brasileirão 2026", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Flamengo", "round": "Rodada 6" },
@@ -298,6 +299,9 @@ Botafogo
         except IndexError:
             break
 
+    # Sort matches by date
+    matches.sort(key=lambda x: x.get('date', ''))
+
     # Seeding
     print("Deleting old matches...")
     docs = db.collection('matches').list_documents()
@@ -305,11 +309,33 @@ Botafogo
         doc.delete()
 
     print(f"Seeding {len(matches)} matches...")
+    now_iso = "2026-02-03T00:00:00-03:00" # Approximate "now" for seeding logic
+    next_match = None
+
     for m in matches:
         m['home_team_logo'] = get_logo(m['home_team'])
         m['away_team_logo'] = get_logo(m['away_team'])
+        
+        # Ensure status is set for finished games
+        if m.get('home_score') is not None or m.get('away_score') is not None:
+             m['status'] = "ENCERRADA"
+             m['display_time'] = "FIM DE JOGO"
+        else:
+             m['status'] = m.get('status', "AGENDADO")
+             
+        # Add to collection
         db.collection('matches').add(m)
-        print(f" > {m['home_team']} vs {m['away_team']}")
+        print(f" > {m['home_team']} vs {m['away_team']} ({m['date']})")
+        
+        # Identify next match (first one after now_iso that isn't finished)
+        if not next_match and m.get('status') == "AGENDADO" and m['date'] >= now_iso:
+            next_match = m
+
+    if next_match:
+        print(f"Setting next_match document: {next_match['home_team']} vs {next_match['away_team']}")
+        db.collection('matches').document('next_match').set(next_match)
+    else:
+        print("Warning: No upcoming next_match found!")
         
     print("Seed complete!")
 

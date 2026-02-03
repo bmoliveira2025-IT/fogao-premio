@@ -57,10 +57,10 @@ const IconProfile = ({ active, className }: { active: boolean, className?: strin
 );
 
 
+
 const tabs = [
     { icon: IconHome, label: "INÍCIO", href: "/" },
-    { icon: IconNews, label: "NOTÍCIAS", href: "/news" },
-    { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "VÍDEOS", href: "/videos" },
+    { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "PODCAST", href: "/podcasts" },
     { icon: IconGames, label: "JOGOS", href: "/matches" },
     { icon: IconProfile, label: "PERFIL", href: "/profile" },
 ];
@@ -76,14 +76,14 @@ export default function TabBar() {
     }, []);
 
     if (!mounted) {
-        return <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#050505] h-16 md:hidden border-t border-white/[0.08]" />;
+        return <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background h-16 md:hidden border-t border-foreground/[0.08]" />;
     }
 
     return (
-        <nav className="fixed inset-x-0 bottom-0 z-[999] bg-[#050505] border-t border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
+        <nav className="fixed inset-x-0 bottom-0 z-[999] bg-background dark:bg-black border-t border-foreground/[0.08] dark:border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
             <div className="flex items-center justify-between relative">
                 {/* Premium Gold Line */}
-                <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
+                <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-400 to-transparent opacity-80" />
 
                 {tabs.map((tab) => {
                     const isActive = pathname === tab.href;
@@ -98,42 +98,42 @@ export default function TabBar() {
                             {/* Active Indicator Light - Subtle Glow behind icon */}
                             {isActive && (
                                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                    <div className="w-12 h-12 rounded-full bg-premium-gold/15 blur-xl" />
+                                    <div className="w-12 h-12 rounded-full bg-premium-gold/15 dark:bg-premium-gold/15 light:bg-zinc-200/50 blur-xl" />
                                 </div>
                             )}
 
                             <div className={cn(
                                 "relative flex items-center justify-center transition-all duration-300",
                                 isActive
-                                    ? "text-premium-gold -translate-y-1.5"
-                                    : "text-zinc-500 group-hover:text-white"
+                                    ? "text-premium-gold dark:text-premium-gold light:text-zinc-900 -translate-y-1.5"
+                                    : "text-zinc-500 group-hover:text-foreground dark:group-hover:text-white"
                             )}>
                                 <Icon
                                     active={isActive}
                                     className={cn(
                                         "w-[28px] h-[28px]", // Slightly larger for better reachability
-                                        isActive && "drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
+                                        isActive && "drop-shadow-[0_0_8px_rgba(40,40,40,0.1)] dark:drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
                                     )}
                                 />
 
                                 {/* Points Badge for Profile */}
                                 {tab.label === "PERFIL" && points > 0 && (
-                                    <div className="absolute -top-1 -right-1 bg-premium-gold text-black text-[9px] font-black px-1 rounded-full min-w-[14px] h-[14px] flex items-center justify-center border border-black shadow-lg">
+                                    <div className="absolute -top-1 -right-1 bg-premium-gold dark:bg-premium-gold light:bg-zinc-900 text-black dark:text-black light:text-white text-[9px] font-black px-1 rounded-full min-w-[14px] h-[14px] flex items-center justify-center border border-black dark:border-black light:border-white shadow-lg">
                                         {points > 999 ? "1k+" : points}
                                     </div>
                                 )}
 
                                 {/* Active Dot */}
                                 {isActive && (
-                                    <div className="absolute -bottom-1.5 w-1 h-1 rounded-full bg-premium-gold" />
+                                    <div className="absolute -bottom-1.5 w-1.5 h-1.5 rounded-full bg-premium-gold dark:bg-premium-gold light:bg-zinc-900" />
                                 )}
                             </div>
 
                             <span className={cn(
-                                "text-[11px] font-bold mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap",
+                                "text-[11px] font-black mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap",
                                 isActive
-                                    ? "opacity-100 scale-100 text-premium-gold"
-                                    : "opacity-40 scale-90 text-zinc-400 group-hover:opacity-70"
+                                    ? "opacity-100 scale-100 text-premium-gold dark:text-premium-gold light:text-zinc-900"
+                                    : "opacity-40 scale-90 text-zinc-500 light:text-zinc-400 group-hover:opacity-70"
                             )}>
                                 {tab.label}
                             </span>

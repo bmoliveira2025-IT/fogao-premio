@@ -22,14 +22,14 @@ export default function BrandingHeader() {
     const showPremiumUI = mounted && isPremium;
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[999] w-full bg-[#050505] lg:bg-background/90 lg:backdrop-blur-xl border-b border-white/5 lg:hidden pt-[env(safe-area-inset-top)]">
+        <header className="fixed top-0 left-0 right-0 z-[999] w-full bg-background dark:bg-[#050505] backdrop-blur-xl border-b border-foreground/5 dark:border-white/5 lg:hidden pt-[env(safe-area-inset-top)]">
             <div className="flex items-center justify-between px-4 h-16">
                 {/* Logo Area / Back Button */}
                 <div className="flex items-center gap-2">
                     {pathname !== '/' ? (
                         <button
                             onClick={() => router.back()}
-                            className="p-2 -ml-2 text-white/70 hover:text-white transition-colors"
+                            className="p-2 -ml-2 text-foreground/70 hover:text-foreground transition-colors"
                         >
                             <ArrowLeft size={24} />
                         </button>
@@ -40,10 +40,10 @@ export default function BrandingHeader() {
                     )}
 
                     <div className="flex flex-col leading-none">
-                        <span className="font-display font-black text-lg text-white tracking-tight">
-                            GLORIOSO <span className="text-premium-gold font-light italic">360</span>
+                        <span className="font-display font-black text-lg text-foreground tracking-tight">
+                            GLORIOSO <span className="text-premium-gold dark:text-premium-gold light:text-zinc-500 font-light italic">360</span>
                             {isPremium && (
-                                <Crown size={14} className="text-premium-gold fill-premium-gold/20 ml-1.5 self-start -mt-0.5 inline-block" strokeWidth={2.5} />
+                                <Crown size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-400 fill-premium-gold/20 ml-1.5 self-start -mt-0.5 inline-block" strokeWidth={2.5} />
                             )}
                         </span>
                     </div>
@@ -51,7 +51,7 @@ export default function BrandingHeader() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
-                    <Link href="?briefing=true" className="p-2 text-zinc-400 hover:text-premium-gold transition-colors">
+                    <Link href="?briefing=true" className="p-2 text-zinc-400 dark:text-zinc-400 light:text-zinc-600 hover:text-premium-gold dark:hover:text-premium-gold light:hover:text-zinc-900 transition-colors">
                         <Zap size={20} className="fill-current" />
                     </Link>
 
@@ -68,7 +68,7 @@ export default function BrandingHeader() {
                         {user?.photoURL ? (
                             <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
                         ) : (
-                            <User size={18} className={isPremium ? "text-premium-gold" : "text-zinc-400"} />
+                            <User size={18} className={isPremium ? "text-premium-gold dark:text-premium-gold light:text-zinc-900" : "text-zinc-400 light:text-zinc-500"} />
                         )}
                     </Link>
                 </div>

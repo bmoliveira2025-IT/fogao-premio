@@ -17,7 +17,7 @@ export default function ProfilePage() {
     const router = useRouter();
     const { user, isPremium, points, rank } = useAuth(); // Use real auth context
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
-    const { theme, toggleTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
 
     // Preferences State
     const [preferences, setPreferences] = useState({
@@ -237,18 +237,24 @@ export default function ProfilePage() {
                                         <Moon size={18} className="text-white/70" />
                                         <span className="text-sm font-medium text-white/90">Tema</span>
                                     </div>
-                                    <div className="flex bg-black rounded-lg p-0.5 border border-premium-gold/15">
+                                    <div className="flex bg-black rounded-lg p-0.5 border border-premium-gold/15 gap-0.5">
                                         <button
-                                            onClick={() => theme === 'dark' && toggleTheme()}
-                                            className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'light' ? 'bg-pink-500 text-white shadow-sm ring-1 ring-pink-400' : 'text-white/40 hover:text-pink-400'}`}
+                                            onClick={() => setTheme('glorioso')}
+                                            className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'glorioso' ? 'bg-[#1A1A1A] text-[#D4AF37] shadow-sm ring-1 ring-[#D4AF37]/50' : 'text-white/40 hover:text-[#D4AF37]'}`}
+                                        >
+                                            Glorioso
+                                        </button>
+                                        <button
+                                            onClick={() => setTheme('gloriosa')}
+                                            className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'gloriosa' ? 'bg-pink-500 text-white shadow-sm ring-1 ring-pink-400' : 'text-white/40 hover:text-pink-400'}`}
                                         >
                                             Gloriosa
                                         </button>
                                         <button
-                                            onClick={() => theme === 'light' && toggleTheme()}
-                                            className={`px-3 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'dark' ? 'bg-[#1A1A1A] text-[#D4AF37] shadow-sm ring-1 ring-[#D4AF37]/50' : 'text-white/40 hover:text-[#D4AF37]'}`}
+                                            onClick={() => setTheme('biriba')}
+                                            className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'biriba' ? 'bg-white text-black shadow-sm ring-1 ring-white/50' : 'text-white/40 hover:text-white'}`}
                                         >
-                                            Glorioso
+                                            Biriba
                                         </button>
                                     </div>
                                 </div>
