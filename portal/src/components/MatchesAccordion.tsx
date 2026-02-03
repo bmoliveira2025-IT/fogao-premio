@@ -64,12 +64,12 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
 
                                 {/* Teams Text */}
                                 <div className="flex flex-col items-start">
-                                    <span className={`text-xs font-bold uppercase tracking-wider ${isOpen ? 'text-white' : 'text-white/70'}`}>
+                                    <span className={`text-sm md:text-base font-black uppercase tracking-widest ${isOpen ? 'text-white' : 'text-white/80'}`}>
                                         {match.home_team} <span className="text-premium-gold mx-1">
                                             {match.home_score !== undefined && match.home_score !== null ? `${match.home_score} x ${match.away_score}` : 'x'}
                                         </span> {match.away_team}
                                     </span>
-                                    <span className="text-[9px] font-medium text-white/30 capitalize">
+                                    <span className="text-[11px] md:text-[12px] font-bold text-white/50 capitalize mt-1">
                                         {match.championship} • {match.status === 'AO_VIVO' ? 'AO VIVO' : match.status === 'ENCERRADA' ? 'Finalizado' : timeString}
                                     </span>
                                 </div>
@@ -123,8 +123,8 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                         </div>
 
                                         <div className="text-center mb-4">
-                                            <div className="inline-flex items-center space-x-1 text-[10px] text-white/40 bg-white/5 px-3 py-1 rounded-full mb-3">
-                                                <MapPin size={10} />
+                                            <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold text-white/60 bg-white/5 px-4 py-2 rounded-full mb-4 border border-white/10">
+                                                <MapPin size={12} className="text-premium-gold/80" />
                                                 <span>{match.location}</span>
                                             </div>
 

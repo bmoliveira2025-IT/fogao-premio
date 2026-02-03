@@ -39,14 +39,14 @@ export default function HeroNewsCard({ article }: { article: any }) {
                 {/* Footer Tags & Date */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                        <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[10px] font-bold text-white/50 uppercase tracking-wider">
+                        <span className="px-3 py-1 bg-[#222]/80 backdrop-blur-sm border border-premium-gold/15 rounded-md text-[11px] font-bold text-white/50 uppercase tracking-wider">
                             #BOTAFOGO
                         </span>
 
                         {/* Source Moved Here */}
                         <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-md border border-premium-gold/15">
-                            <SourceIcon source={article.source} className="w-3 h-3 text-premium-gold" />
-                            <span className="text-[10px] font-bold text-white uppercase tracking-wider">
+                            <SourceIcon source={article.source} className="w-3.5 h-3.5 text-premium-gold" />
+                            <span className="text-[11px] font-bold text-white uppercase tracking-wider">
                                 {article.source}
                             </span>
                         </div>

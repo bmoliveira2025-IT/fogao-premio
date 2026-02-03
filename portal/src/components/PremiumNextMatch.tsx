@@ -132,10 +132,10 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
 
                 {/* Centered Teams Text - Absolute Positioning for Perfect Center */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center leading-tight pointer-events-none">
-                    <span className="text-xs font-bold uppercase tracking-wider whitespace-nowrap text-foreground">
+                    <span className="text-sm md:text-lg font-black uppercase tracking-widest whitespace-nowrap text-foreground">
                         {data.home_team} <span className="text-premium-gold dark:text-premium-gold light:text-zinc-400 mx-0.5">X</span> {data.away_team}
                     </span>
-                    <span className="text-[9px] font-medium opacity-30 capitalize" style={{ color: 'var(--foreground)' }}>
+                    <span className="text-[11px] md:text-[13px] font-bold opacity-60 capitalize mt-1" style={{ color: 'var(--foreground)' }}>
                         {data.championship}
                         {isLive && <span className="ml-2 text-red-500 font-bold animate-pulse">• AO VIVO</span>}
                     </span>
@@ -227,9 +227,9 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 </div>
                             </div>
 
-                            <div className="text-center mt-2">
-                                <div className="inline-flex items-center space-x-2 text-[10px] opacity-40 bg-white/5 px-4 py-1.5 rounded-full border border-white/5" style={{ color: 'var(--foreground)' }}>
-                                    <MapPin size={10} className="text-premium-gold/50" />
+                            <div className="text-center mt-4">
+                                <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold opacity-70 bg-white/5 dark:bg-white/5 light:bg-zinc-100 px-5 py-2 rounded-full border border-white/5 dark:border-white/5 light:border-zinc-200 shadow-sm" style={{ color: 'var(--foreground)' }}>
+                                    <MapPin size={12} className="text-premium-gold/70" />
                                     <span>{data.location}</span>
                                 </div>
                             </div>

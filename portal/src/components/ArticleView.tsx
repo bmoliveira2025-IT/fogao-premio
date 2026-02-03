@@ -127,7 +127,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold/50 to-transparent"></div>
 
             <div className="p-4">
-                <h4 className="text-[10px] text-premium-gold uppercase tracking-widest font-bold mb-4 italic">Próximo Confronto</h4>
+                <h4 className="text-[11px] text-premium-gold uppercase tracking-widest font-black mb-4 italic">Próximo Confronto</h4>
 
                 <div className="flex items-center justify-between">
                     {/* Home */}
@@ -135,16 +135,16 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         <div className="w-10 h-10 mb-2 relative">
                             <img src={getSafeImageSrc(nextMatch.home_team_logo, 'https://placehold.co/80x80')} alt={nextMatch.home_team} className="w-full h-full object-contain" />
                         </div>
-                        <span className="text-[10px] font-bold text-foreground uppercase text-center leading-tight">{nextMatch.home_team}</span>
+                        <span className="text-[12px] font-black text-foreground uppercase text-center leading-tight">{nextMatch.home_team}</span>
                     </div>
 
                     {/* VS/Time */}
                     <div className="flex flex-col items-center justify-center w-1/3 space-y-1">
                         <span className="text-xs font-black text-foreground/20 italic">VS</span>
-                        <span className="text-[10px] font-bold text-foreground/60 bg-foreground/5 px-2 py-0.5 rounded-full">
+                        <span className="text-[11px] font-black text-foreground/70 bg-foreground/5 px-2 py-0.5 rounded-full">
                             {new Date(nextMatch.date).toLocaleDateString('pt-BR', { weekday: 'short' })}, {new Date(nextMatch.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                         </span>
-                        <span className="text-[9px] text-foreground/40 truncate max-w-full">{nextMatch.stadium}</span>
+                        <span className="text-[11px] font-bold text-foreground/50 truncate max-w-full">{nextMatch.stadium}</span>
                     </div>
 
                     {/* Away */}
@@ -152,7 +152,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         <div className="w-10 h-10 mb-2 relative">
                             <img src={getSafeImageSrc(nextMatch.away_team_logo, 'https://placehold.co/80x80')} alt={nextMatch.away_team} className="w-full h-full object-contain" />
                         </div>
-                        <span className="text-[10px] font-bold text-foreground uppercase text-center leading-tight">{nextMatch.away_team}</span>
+                        <span className="text-[12px] font-black text-foreground uppercase text-center leading-tight">{nextMatch.away_team}</span>
                     </div>
                 </div>
             </div>

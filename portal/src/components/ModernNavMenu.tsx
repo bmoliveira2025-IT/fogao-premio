@@ -44,7 +44,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                                     key={item.href}
                                     href={item.href}
                                     className={`
-                                        relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm uppercase tracking-wide transition-all
+                                        relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-[15px] uppercase tracking-wide transition-all
                                         ${isActive
                                             ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100'
                                             : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/5'
@@ -75,7 +75,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                                         key={item.href}
                                         href={item.href}
                                         className={`
-                                            flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs uppercase tracking-wide whitespace-nowrap transition-all
+                                            flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-[13px] uppercase tracking-wide whitespace-nowrap transition-all
                                             ${isActive
                                                 ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100'
                                                 : 'text-zinc-600 dark:text-zinc-400'

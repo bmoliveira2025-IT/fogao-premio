@@ -105,13 +105,13 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                     )}
 
                     {/* Title */}
-                    <h3 className="text-lg md:text-xl font-black leading-tight mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
+                    <h3 className="text-[22px] md:text-[25px] font-black leading-tight mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
                         {item.title?.replace(/\*\*/g, '')}
                     </h3>
 
                     {/* Summary */}
                     {item.summary && (
-                        <p className="text-sm md:text-base leading-relaxed line-clamp-2 mb-4 opacity-70" style={{ color: 'var(--foreground)' }}>
+                        <p className="text-[17px] md:text-[19px] leading-relaxed line-clamp-2 mb-4 opacity-70" style={{ color: 'var(--foreground)' }}>
                             {item.summary}
                         </p>
                     )}
@@ -154,12 +154,12 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
             {/* News Info */}
             <div className="p-4 md:p-5">
-                <h3 className="text-sm md:text-lg font-bold leading-tight line-clamp-2 mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
+                <h3 className="text-[15px] md:text-[20px] font-bold leading-tight line-clamp-2 mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
                     {item.title?.replace(/\*\*/g, '')}
                 </h3>
 
                 {item.summary && (
-                    <p className="text-xs md:text-sm line-clamp-2 mb-3 leading-relaxed hidden md:block opacity-70" style={{ color: 'var(--foreground)' }}>
+                    <p className="text-[13px] md:text-[15px] line-clamp-2 mb-3 leading-relaxed hidden md:block opacity-70" style={{ color: 'var(--foreground)' }}>
                         {item.summary}
                     </p>
                 )}

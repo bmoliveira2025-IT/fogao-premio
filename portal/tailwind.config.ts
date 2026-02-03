@@ -27,7 +27,7 @@ const config: Config = {
                 "social-facebook": "#2563eb", // blue-600
             },
             fontFamily: {
-                sans: ["Inter", "Roboto", "sans-serif"],
+                sans: ["Inter", "Roboto", "Open Sans", "sans-serif"],
                 display: ["Outfit", "sans-serif"],
             },
             keyframes: {
