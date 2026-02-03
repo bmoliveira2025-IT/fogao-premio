@@ -22,7 +22,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
     return (
         <nav className={`sticky top-0 z-50 bg-white dark:bg-black backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 shadow-sm ${className}`}>
             <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                <div className="flex items-center justify-between h-16">
+                <div className="flex items-center justify-center h-16">
                     {/* Logo removed per user request */}
 
                     {/* Navigation Links - Desktop */}
@@ -56,7 +56,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                     </div>
 
                     {/* Mobile Menu - Horizontal Scroll */}
-                    <div className="md:hidden flex-1 ml-4 overflow-x-auto scrollbar-hide">
+                    <div className="md:hidden flex-1 overflow-x-auto scrollbar-hide">
                         <div className="flex items-center gap-1">
                             {navItems.map((item) => {
                                 const Icon = item.icon;
