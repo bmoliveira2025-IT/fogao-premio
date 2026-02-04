@@ -23,18 +23,7 @@ export default function CompactNewsCard({ article }: any) {
 
     return (
         <div className="group flex flex-col mb-8 animate-in fade-in duration-500">
-            <Link href={`/news/${article.id}`} className="flex gap-5 items-start">
-                {/* Compact Image (GE Style) - Balanced rounding */}
-                <div className="relative w-32 h-20 md:w-48 md:h-32 flex-shrink-0 rounded-2xl md:rounded-3xl overflow-hidden border border-white/5 bg-zinc-900 shadow-lg">
-                    <Image
-                        src={getSafeImageSrc(article.image)}
-                        alt={article.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        unoptimized={true}
-                    />
-                </div>
-
+            <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between min-h-[80px] md:min-h-[110px] py-1">
                     <h3 className="text-lg md:text-xl font-bold leading-[1.2] text-white/90 group-hover:text-premium-gold transition-colors line-clamp-3">
@@ -54,6 +43,17 @@ export default function CompactNewsCard({ article }: any) {
                             <span>{timeAgo(article.created_at)}</span>
                         </div>
                     </div>
+                </div>
+
+                {/* Compact Image (Right Side) */}
+                <div className="relative w-32 h-20 md:w-48 md:h-32 flex-shrink-0 rounded-2xl md:rounded-3xl overflow-hidden border border-white/5 bg-zinc-900 shadow-lg">
+                    <Image
+                        src={getSafeImageSrc(article.image)}
+                        alt={article.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        unoptimized={true}
+                    />
                 </div>
             </Link>
 
