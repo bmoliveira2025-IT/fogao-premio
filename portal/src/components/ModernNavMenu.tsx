@@ -1,8 +1,7 @@
-"use client";
-
 import { Home, Video, Users, Trophy, Crown, Zap, User, Search, Star } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import GloriosoLogo from './GloriosoLogo';
 
 interface ModernNavMenuProps {
     className?: string;
@@ -24,13 +23,17 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
             <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                 <div className="flex items-center justify-between h-14">
                     {/* Logo Section */}
-                    <Link href="/" className="flex items-center gap-2.5 group">
-                        <div className="relative w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden shadow-lg border border-white/10">
-                            <Star className="text-premium-gold fill-current" size={16} />
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="relative group-hover:scale-110 transition-transform duration-500">
+                            <GloriosoLogo size={36} />
                         </div>
-                        <div className="flex flex-col -space-y-1">
-                            <span className="text-[17px] font-black text-white italic tracking-tighter leading-none">FOGÃO <span className="text-premium-gold">PRÊMIO</span></span>
-                            <span className="text-[7px] font-bold text-zinc-500 tracking-[0.25em] uppercase">Glorioso 360</span>
+                        <div className="flex flex-col -space-y-1.5">
+                            <span className="text-[19px] font-black text-white italic tracking-tighter leading-none">
+                                GLORIOSO
+                            </span>
+                            <span className="text-[14px] font-black text-premium-gold italic tracking-tighter leading-none flex items-start">
+                                360<span className="text-[8px] mt-0.5 ml-0.5 font-bold">º</span>
+                            </span>
                         </div>
                     </Link>
 
