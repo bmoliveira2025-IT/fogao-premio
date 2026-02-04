@@ -14,7 +14,7 @@ import { ChevronRight, Users, Trophy } from 'lucide-react';
 import Link from 'next/link';
 
 
-export const revalidate = 0; // Disable cache for real-time updates
+export const revalidate = 60; // Enable ISR (60s) for better TTFB
 
 interface NewsItem {
   id: string;
@@ -59,7 +59,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(50); // Increased for infinite scroll
+      .limit(12); // Reduced for faster initial load
 
     const nextMatchRef = db.collection('matches').doc('next_match');
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
