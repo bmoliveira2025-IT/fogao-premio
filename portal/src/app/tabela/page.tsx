@@ -7,7 +7,7 @@ export default function TabelaPage() {
                 {/* Header */}
                 <div className="flex items-center space-x-3 mb-6 lg:mb-10">
                     <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-foreground/10"></div>
-                    <h1 className="text-xl lg:text-3xl font-display font-black text-foreground px-4 border border-premium-gold/30 py-2 rounded-full bg-foreground/5 uppercase tracking-wider backdrop-blur-md shadow-sm">
+                    <h1 className="text-xl lg:text-3xl font-display font-black text-foreground px-4 py-2 uppercase tracking-widest">
                         Classificação
                     </h1>
                     <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-foreground/10"></div>

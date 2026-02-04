@@ -47,23 +47,6 @@
   /* Pink tinted borders */
 }
 
-/* Tema Biriba (Clean White Theme) */
-.biriba,
-.light {
-  --background: #FFFFFF;
-  /* Pure White */
-  --foreground: #18181b;
-  /* Zinc-900 for text */
-  --premium-gold: 255 215 0;
-  /* #FFD700 - Gold (same accent) */
-  --card-bg: #FFFFFF;
-  /* White cards */
-  --graphite: #F5F5F5;
-  /* Light gray for special blocks */
-  --border-color: rgba(0, 0, 0, 0.1);
-  /* Light borders */
-}
-
 body {
   color: var(--foreground);
   background: var(--background);

@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Newspaper, Video, Users, Trophy, Crown } from 'lucide-react';
+import { Home, Video, Users, Trophy, Crown, Zap, User, Search, Star } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -9,24 +9,47 @@ interface ModernNavMenuProps {
 }
 
 const navItems = [
-    { href: '/', label: 'Início', icon: Home },
-    { href: '/podcasts', label: 'Podcast', icon: Video },
-    { href: '/elenco', label: 'Elenco', icon: Users },
-    { href: '/tabela', label: 'Tabela', icon: Trophy },
-    { href: '/premium', label: 'Premium', icon: Crown },
+    { href: '/', label: 'INÍCIO', icon: Home },
+    { href: '/podcasts', label: 'PODCAST', icon: Video },
+    { href: '/elenco', label: 'ELENCO', icon: Users },
+    { href: '/tabela', label: 'TABELA', icon: Trophy },
 ];
 
 export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
     const pathname = usePathname();
 
     return (
-        <nav className={`sticky top-0 z-50 bg-white dark:bg-black backdrop-blur-xl border-b border-zinc-200 dark:border-white/10 shadow-sm ${className}`}>
+        <nav className={`sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 ${className}`}>
+            {/* Top Bar: Logo and Quick Actions */}
             <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                <div className="flex items-center justify-center h-16">
-                    {/* Logo removed per user request */}
+                <div className="flex items-center justify-between h-14">
+                    {/* Logo Section */}
+                    <Link href="/" className="flex items-center gap-2.5 group">
+                        <div className="relative w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden shadow-lg border border-white/10">
+                            <Star className="text-premium-gold fill-current" size={16} />
+                        </div>
+                        <div className="flex flex-col -space-y-1">
+                            <span className="text-[17px] font-black text-white italic tracking-tighter leading-none">FOGÃO <span className="text-premium-gold">PRÊMIO</span></span>
+                            <span className="text-[7px] font-bold text-zinc-500 tracking-[0.25em] uppercase">Glorioso 360</span>
+                        </div>
+                    </Link>
 
-                    {/* Navigation Links - Desktop */}
-                    <div className="hidden md:flex items-center gap-1">
+                    {/* Action Icons */}
+                    <div className="flex items-center gap-2">
+                        <button className="p-2 rounded-full text-zinc-400 hover:text-premium-gold hover:bg-white/5 transition-all">
+                            <Zap size={18} className="fill-current" />
+                        </button>
+                        <button className="p-2 rounded-full text-zinc-400 hover:text-premium-gold hover:bg-white/5 transition-all">
+                            <User size={18} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom Bar: Horizontal Navigation */}
+            <div className="py-2.5 pb-3">
+                <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
+                    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
                         {navItems.map((item) => {
                             const Icon = item.icon;
                             const isActive = pathname === item.href;
@@ -36,50 +59,18 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                                     key={item.href}
                                     href={item.href}
                                     className={`
-                                        relative flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-[15px] uppercase tracking-wide transition-all
+                                        flex items-center gap-1.5 px-4 py-2 rounded-lg font-black text-[10px] md:text-[12px] uppercase tracking-widest whitespace-nowrap transition-all duration-300
                                         ${isActive
-                                            ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100'
-                                            : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/5'
+                                            ? 'bg-premium-gold text-black shadow-md shadow-premium-gold/10'
+                                            : 'text-zinc-500 hover:text-white hover:bg-white/5'
                                         }
                                     `}
                                 >
-                                    <Icon size={16} />
+                                    <Icon size={isActive ? 14 : 12} className={isActive ? 'fill-current' : ''} />
                                     <span>{item.label}</span>
-
-                                    {/* Active Indicator */}
-                                    {isActive && (
-                                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-premium-gold dark:bg-premium-gold light:bg-zinc-900 rounded-full" />
-                                    )}
                                 </Link>
                             );
                         })}
-                    </div>
-
-                    {/* Mobile Menu - Horizontal Scroll */}
-                    <div className="md:hidden flex-1 overflow-x-auto scrollbar-hide">
-                        <div className="flex items-center gap-1">
-                            {navItems.map((item) => {
-                                const Icon = item.icon;
-                                const isActive = pathname === item.href;
-
-                                return (
-                                    <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        className={`
-                                            flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-[13px] uppercase tracking-wide whitespace-nowrap transition-all
-                                            ${isActive
-                                                ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100'
-                                                : 'text-zinc-600 dark:text-zinc-400'
-                                            }
-                                        `}
-                                    >
-                                        <Icon size={14} />
-                                        <span>{item.label}</span>
-                                    </Link>
-                                );
-                            })}
-                        </div>
                     </div>
                 </div>
             </div>

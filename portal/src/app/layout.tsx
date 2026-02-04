@@ -7,8 +7,7 @@ import NotificationManager from "@/components/NotificationManager";
 import InstallPrompt from "@/components/InstallPrompt";
 import MorningBriefingPopup from "@/components/MorningBriefingPopup";
 import { Suspense } from "react";
-import DesktopHeader from "@/components/DesktopHeader";
-import BrandingHeader from "@/components/BrandingHeader";
+import ModernNavMenu from "@/components/ModernNavMenu";
 import TabBar from "@/components/TabBar";
 import DesktopSidebar from "@/components/DesktopSidebar";
 
@@ -75,18 +74,15 @@ export default function RootLayout({
               <MorningBriefingPopup />
             </Suspense>
 
-            {/* Standardized Header & Sidebar */}
-            <DesktopHeader />
+            {/* Premium Navigation Header */}
+            <ModernNavMenu />
+
             <div className="hidden lg:block">
               <DesktopSidebar />
             </div>
-            <BrandingHeader />
 
             {/* Main Content Wrapper with Safe Area Handling */}
-            <main className="min-h-screen bg-background lg:pl-64 flex flex-col pt-16 lg:pt-0">
-              {/* Mobile Header Spacer - h-16 + safe area top */}
-              <div className="lg:hidden h-[env(safe-area-inset-top)]"></div>
-
+            <main className="min-h-screen bg-background lg:pl-64 flex flex-col pt-0">
               <div className="flex-1">
                 {children}
               </div>

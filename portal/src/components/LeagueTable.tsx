@@ -64,7 +64,7 @@ export default function LeagueTable() {
 
     if (loading) {
         return (
-            <div className="w-full h-96 bg-muted rounded-2xl border border-foreground/10 flex items-center justify-center animate-pulse">
+            <div className="w-full h-96 bg-muted rounded-2xl flex items-center justify-center animate-pulse">
                 <Shield className="w-12 h-12 text-foreground/10" />
             </div>
         );
@@ -78,7 +78,7 @@ export default function LeagueTable() {
     return (
         <div className="w-full space-y-6">
             {/* Championship Selector */}
-            <div className="flex bg-muted p-1.5 rounded-2xl border border-foreground/5 backdrop-blur-md w-full max-w-md mx-auto mb-8">
+            <div className="flex bg-muted p-1.5 rounded-2xl backdrop-blur-md w-full max-w-md mx-auto mb-8 shadow-inner">
                 {championships.map((champ) => (
                     <button
                         key={champ.id}
@@ -96,14 +96,14 @@ export default function LeagueTable() {
 
             <div className="space-y-8">
                 {sortedGroups.map((groupName) => (
-                    <div key={groupName} className="bg-card rounded-2xl border border-foreground/10 overflow-hidden shadow-xl">
+                    <div key={groupName} className="bg-card rounded-2xl overflow-hidden shadow-xl">
                         {/* Header - Clickable for Dropdown */}
                         <div
                             onClick={() => toggleGroup(groupName)}
-                            className="bg-muted p-4 flex items-center justify-between border-b border-foreground/5 cursor-pointer hover:bg-foreground/5 transition-colors"
+                            className="bg-muted p-4 flex items-center justify-between cursor-pointer hover:bg-foreground/5 transition-colors"
                         >
                             <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 flex items-center justify-center border border-premium-gold/30 dark:border-premium-gold/30 light:border-zinc-200">
+                                <div className="w-8 h-8 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 flex items-center justify-center border border-premium-gold/20">
                                     <Shield size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-600" />
                                 </div>
                                 <div>
@@ -122,7 +122,7 @@ export default function LeagueTable() {
                         {expandedGroups[groupName] && (
                             <>
                                 {/* Table Header */}
-                                <div className="grid grid-cols-12 gap-2 p-3 bg-muted/50 text-[10px] font-bold text-foreground/30 uppercase tracking-wider border-b border-foreground/5">
+                                <div className="grid grid-cols-12 gap-2 p-3 bg-muted/50 text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
                                     <div className="col-span-1 text-center">Pos</div>
                                     <div className="col-span-5 pl-2">Time</div>
                                     <div className="col-span-1 text-center text-foreground">Pts</div>
@@ -134,7 +134,7 @@ export default function LeagueTable() {
                                 </div>
 
                                 {/* Rows */}
-                                <div className="divide-y divide-white/5">
+                                <div className="divide-y divide-white/[0.02]">
                                     {groupedData[groupName].sort((a, b) => a.position - b.position).map((team) => {
                                         const isBotafogo = team.team === "Botafogo";
                                         return (
@@ -159,7 +159,7 @@ export default function LeagueTable() {
                                                 {/* Team */}
                                                 <div className="col-span-5 pl-2 flex items-center space-x-3">
                                                     {team.logo ? (
-                                                        <div className="w-6 h-6 flex-shrink-0 relative bg-muted rounded-full p-0.5 border border-foreground/10 group-hover:border-premium-gold/30 transition-colors">
+                                                        <div className="w-6 h-6 flex-shrink-0 relative bg-muted rounded-full p-0.5 group-hover:scale-110 transition-transform">
                                                             <img
                                                                 src={team.logo}
                                                                 alt=""

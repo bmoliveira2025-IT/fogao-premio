@@ -250,12 +250,6 @@ export default function ProfilePage() {
                                         >
                                             Gloriosa
                                         </button>
-                                        <button
-                                            onClick={() => setTheme('biriba')}
-                                            className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'biriba' ? 'bg-white text-black shadow-sm ring-1 ring-white/50' : 'text-white/40 hover:text-white'}`}
-                                        >
-                                            Biriba
-                                        </button>
                                     </div>
                                 </div>
                             </div>

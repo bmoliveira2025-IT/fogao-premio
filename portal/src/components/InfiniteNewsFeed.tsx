@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import NewsCard from '@/components/NewsCard';
+import ModernNewsCard from '@/components/ModernNewsCard';
+import CompactNewsCard from '@/components/CompactNewsCard';
+import TextOnlyNewsCard from '@/components/TextOnlyNewsCard';
 import { fetchMoreNews } from '@/app/news/actions';
 
 interface NewsItem {
@@ -31,7 +33,7 @@ export default function InfiniteNewsFeed({ initialNews }: { initialNews: NewsIte
             setHasMore(false);
         } else {
             setNews((prev) => [...prev, ...newItems]);
-            if (newItems.length < 2) { // If we got less than the limit, we reached the end
+            if (newItems.length < 2) {
                 setHasMore(false);
             }
         }
@@ -44,10 +46,19 @@ export default function InfiniteNewsFeed({ initialNews }: { initialNews: NewsIte
     }, [inView, hasMore]);
 
     return (
-        <>
-            {news.map((item) => (
-                <NewsCard key={item.id} article={item} />
-            ))}
+        <div className="flex flex-col">
+            {news.map((item, index) => {
+                // Intercalação de 4 itens: 1 Moderno, 2 Compactos, 1 Texto
+                const patternIndex = index % 4;
+
+                if (patternIndex === 0) {
+                    return <ModernNewsCard key={item.id} article={item} />;
+                } else if (patternIndex === 3) {
+                    return <TextOnlyNewsCard key={item.id} article={item} />;
+                } else {
+                    return <CompactNewsCard key={item.id} article={item} />;
+                }
+            })}
 
             {hasMore ? (
                 <div ref={ref} className="col-span-full py-8 flex justify-center">
@@ -58,6 +69,6 @@ export default function InfiniteNewsFeed({ initialNews }: { initialNews: NewsIte
                     Você chegou ao fim
                 </div>
             )}
-        </>
+        </div>
     );
 }

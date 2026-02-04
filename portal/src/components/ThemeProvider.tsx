@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "glorioso" | "gloriosa" | "biriba"; // glorioso = dark/gold, gloriosa = pink, biriba = white
+type Theme = "glorioso" | "gloriosa"; // glorioso = dark/gold, gloriosa = pink
 
 interface ThemeContextType {
     theme: Theme;
@@ -17,7 +17,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         // Check local storage on mount
         const savedTheme = localStorage.getItem("theme") as Theme;
-        if (savedTheme && ["glorioso", "gloriosa", "biriba"].includes(savedTheme)) {
+        if (savedTheme && ["glorioso", "gloriosa"].includes(savedTheme)) {
             setTheme(savedTheme);
             applyTheme(savedTheme);
         } else {
@@ -33,14 +33,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         // Add new theme class
         document.documentElement.classList.add(newTheme);
 
-        // Also add dark/light for compatibility with existing components
-        if (newTheme === "glorioso" || newTheme === "gloriosa") {
-            // Both Glorioso and Gloriosa are dark themes
-            document.documentElement.classList.add("dark");
-        } else if (newTheme === "biriba") {
-            // Biriba is the light/white theme
-            document.documentElement.classList.add("light");
-        }
+        // Always add dark for compatibility with existing components since both remaining themes are dark
+        document.documentElement.classList.add("dark");
     };
 
     const changeTheme = (newTheme: Theme) => {

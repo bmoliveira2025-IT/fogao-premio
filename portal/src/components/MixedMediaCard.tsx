@@ -1,6 +1,7 @@
 "use client";
 
-import { Play } from 'lucide-react';
+import { Play, ThumbsUp } from 'lucide-react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { getSafeImageSrc } from '@/lib/images';
 import NewsSourceTag from './NewsSourceTag';
@@ -32,6 +33,9 @@ interface MixedMediaCardProps {
 }
 
 export default function MixedMediaCard({ item, index = 0, className = '' }: MixedMediaCardProps) {
+    const [liked, setLiked] = useState(false);
+    const [likesCount, setLikesCount] = useState(0);
+
     if (item.type === 'video') {
         return (
             <Link
@@ -41,7 +45,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                 className={`group relative overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all duration-500 shadow-lg hover:shadow-premium-gold/10 ${className}`}
             >
                 {/* Video Thumbnail */}
-                <div className="relative aspect-video overflow-hidden">
+                <div className="relative aspect-video overflow-hidden rounded-2xl md:rounded-3xl m-2 shadow-inner">
                     <img
                         src={getSafeImageSrc(item.thumbnail)}
                         alt={item.title}
@@ -116,12 +120,21 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                         </p>
                     )}
 
-                    {/* Source Tag at Bottom */}
-                    <NewsSourceTag
-                        source={item.source}
-                        timestamp={item.created_at}
-                        variant="compact"
-                    />
+                    {/* Source Tag & Like Button */}
+                    <div className="flex items-center justify-between mt-auto">
+                        <NewsSourceTag
+                            source={item.source}
+                            timestamp={item.created_at}
+                            variant="compact"
+                        />
+                        <button
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); setLikesCount(prev => liked ? prev - 1 : prev + 1); }}
+                            className={`flex items-center gap-1.5 text-[10px] font-black transition-all ${liked ? 'text-premium-gold' : 'text-zinc-500'}`}
+                        >
+                            <ThumbsUp size={12} className={liked ? 'fill-current' : ''} />
+                            <span>{likesCount > 0 ? likesCount : ''}</span>
+                        </button>
+                    </div>
                 </div>
             </Link>
         );
@@ -134,7 +147,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
             className={`group relative overflow-hidden rounded-2xl bg-transparent transition-all duration-500 ${className}`}
         >
             {/* News Image */}
-            <div className="relative aspect-video overflow-hidden">
+            <div className="relative aspect-video overflow-hidden rounded-2xl md:rounded-3xl m-2 shadow-inner">
                 <img
                     src={getSafeImageSrc(item.image)}
                     alt={item.title}
@@ -164,11 +177,20 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                     </p>
                 )}
 
-                <NewsSourceTag
-                    source={item.source}
-                    timestamp={item.created_at}
-                    variant="compact"
-                />
+                <div className="flex items-center justify-between mt-auto">
+                    <NewsSourceTag
+                        source={item.source}
+                        timestamp={item.created_at}
+                        variant="compact"
+                    />
+                    <button
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); setLikesCount(prev => liked ? prev - 1 : prev + 1); }}
+                        className={`flex items-center gap-1.5 text-[10px] font-black transition-all ${liked ? 'text-premium-gold' : 'text-zinc-500'}`}
+                    >
+                        <ThumbsUp size={12} className={liked ? 'fill-current' : ''} />
+                        <span>{likesCount > 0 ? likesCount : ''}</span>
+                    </button>
+                </div>
             </div>
         </Link>
     );

@@ -88,9 +88,6 @@ export default function PodcastsPage() {
     return (
         <div className="min-h-screen bg-white dark:bg-black text-zinc-900 dark:text-white">
 
-            {/* MODERN NAVIGATION */}
-            <ModernNavMenu />
-
             {/* HERO SECTION - Featured Podcast */}
             {featuredPodcast && !loading && (
                 <section className="relative w-full h-[500px] md:h-[600px] overflow-hidden">
@@ -221,8 +218,8 @@ export default function PodcastsPage() {
                                         <button
                                             onClick={() => togglePlay(pod.audioUrl)}
                                             className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 ${isPlaying === pod.audioUrl
-                                                    ? 'bg-premium-gold scale-100 ring-4 ring-premium-gold/30'
-                                                    : 'bg-premium-gold/90 scale-90 group-hover:scale-100'
+                                                ? 'bg-premium-gold scale-100 ring-4 ring-premium-gold/30'
+                                                : 'bg-premium-gold/90 scale-90 group-hover:scale-100'
                                                 }`}
                                         >
                                             {isPlaying === pod.audioUrl ? (

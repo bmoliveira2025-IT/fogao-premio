@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from 'react';
+import ModernNewsCard from './ModernNewsCard';
+import CompactNewsCard from './CompactNewsCard';
+import TextOnlyNewsCard from './TextOnlyNewsCard';
 import MixedMediaCard from './MixedMediaCard';
 
 interface NewsItem {
@@ -35,7 +38,6 @@ export default function InfiniteNewsGrid({
     className = ''
 }: InfiniteNewsGridProps) {
     const [items, setItems] = useState<MediaItem[]>([]);
-    const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const observerRef = useRef<IntersectionObserver | null>(null);
@@ -48,36 +50,38 @@ export default function InfiniteNewsGrid({
         return newsWithType;
     }, []);
 
-    // Initialize with first 10 items
+    // Initialize with first 6 items
     useEffect(() => {
         const mixed = mixMediaItems(initialNews, initialVideos);
-        setItems(mixed.slice(0, 10));
-        setPage(1);
+        setItems(mixed.slice(0, 6));
     }, [initialNews, initialVideos, mixMediaItems]);
 
-    // Load more items
+    // Load more items (1 by 1) with duplicate protection
     const loadMore = useCallback(() => {
         if (loading || !hasMore) return;
 
         setLoading(true);
 
-        // Simulate API call delay
-        setTimeout(() => {
-            const mixed = mixMediaItems(initialNews, initialVideos);
-            const startIndex = page * 10;
-            const endIndex = startIndex + 10;
-            const newItems = mixed.slice(startIndex, endIndex);
+        // Deriving mixed inside to ensure we have the latest
+        const mixed = mixMediaItems(initialNews, initialVideos);
 
-            if (newItems.length === 0) {
+        setItems(prev => {
+            // Find the first item in mixed that is NOT already in prev
+            const nextItem = mixed.find(m => !prev.some(p => p.id === m.id));
+
+            if (!nextItem) {
                 setHasMore(false);
-            } else {
-                setItems(prev => [...prev, ...newItems]);
-                setPage(prev => prev + 1);
+                return prev;
             }
 
+            return [...prev, nextItem];
+        });
+
+        // Small delay to prevent double-firing from the observer
+        setTimeout(() => {
             setLoading(false);
-        }, 500);
-    }, [loading, hasMore, page, initialNews, initialVideos, mixMediaItems]);
+        }, 50);
+    }, [loading, hasMore, initialNews, initialVideos, mixMediaItems]);
 
     // Intersection Observer for infinite scroll
     useEffect(() => {
@@ -103,40 +107,35 @@ export default function InfiniteNewsGrid({
 
     return (
         <div className={className}>
-            {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4">
-                {items.map((item, index) => (
-                    <div
-                        key={`${item.type}-${item.id}-${index}`}
-                        className="animate-fade-in-up relative"
-                        style={{ animationDelay: `${(index % 10) * 50}ms` }}
-                    >
-                        <MixedMediaCard item={item} index={index} />
+            {/* Lista Vertical Intercalada (Estilo GE/Veja) */}
+            <div className="flex flex-col gap-2">
+                {items.map((item, index) => {
+                    if (item.type === 'video') {
+                        return <MixedMediaCard key={`${item.type}-${item.id}`} item={item} index={index} className="mb-4" />;
+                    }
 
-                        {/* Subtle divider line after each card (except last) */}
-                        {index < items.length - 1 && (
-                            <div
-                                className="absolute -bottom-1.5 left-0 right-0 h-px"
-                                style={{
-                                    background: 'linear-gradient(to right, transparent, rgba(184, 134, 11, 0.2), transparent)'
-                                }}
-                            />
-                        )}
-                    </div>
-                ))}
+                    // Intercalação para notícias (Pattern: 1 Moderno, 2 Compactos, 1 Texto)
+                    const newsIndex = items.filter((it, idx) => it.type === 'news' && idx <= index).length - 1;
+                    const patternIndex = newsIndex % 4;
+
+                    if (patternIndex === 0) {
+                        return <ModernNewsCard key={item.id} article={item} />;
+                    } else if (patternIndex === 3) {
+                        return <TextOnlyNewsCard key={item.id} article={item} />;
+                    } else {
+                        return <CompactNewsCard key={item.id} article={item} />;
+                    }
+                })}
             </div>
 
             {/* Loading Skeletons */}
             {loading && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 mt-4">
-                    {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 overflow-hidden animate-pulse">
-                            <div className="aspect-video bg-zinc-200 dark:bg-zinc-800" />
-                            <div className="p-5 space-y-3">
-                                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-3/4" />
-                                <div className="h-4 bg-zinc-200 dark:bg-zinc-800 rounded w-1/2" />
-                                <div className="h-3 bg-zinc-200 dark:bg-zinc-800 rounded w-1/3" />
-                            </div>
+                <div className="flex flex-col gap-6 mt-4">
+                    {[1, 2].map((i) => (
+                        <div key={i} className="animate-pulse px-4">
+                            <div className="aspect-video bg-zinc-800 rounded-[2rem] mb-4" />
+                            <div className="h-4 bg-zinc-800 rounded w-3/4 mb-2" />
+                            <div className="h-4 bg-zinc-800 rounded w-1/2" />
                         </div>
                     ))}
                 </div>

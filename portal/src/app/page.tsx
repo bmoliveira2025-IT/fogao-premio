@@ -217,9 +217,6 @@ export default async function Home() {
       {/* MATCH DAY POPUP */}
       <MatchDayPopup nextMatch={nextMatch} />
 
-      {/* MODERN NAVIGATION MENU */}
-      <ModernNavMenu />
-
       {/* MAIN CONTENT WRAPPER */}
       <div className="w-full transition-all duration-300 pb-20 lg:pb-10">
         <div className="container mx-auto px-0 md:px-4 lg:px-12 max-w-[1600px]">

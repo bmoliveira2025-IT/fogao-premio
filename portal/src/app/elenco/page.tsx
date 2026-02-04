@@ -2,8 +2,6 @@ import { db } from '@/lib/firebase-admin';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, Shield } from 'lucide-react';
-import BrandingHeader from '@/components/BrandingHeader';
-import TabBar from '@/components/TabBar';
 import { Suspense } from 'react';
 
 export const revalidate = 0; // Disable cache for immediate updates
@@ -58,19 +56,16 @@ export default async function ElencoPage() {
     }, {} as Record<string, Player[]>);
 
     return (
-        <main className="min-h-screen bg-background pb-20">
-            {/* Header */}
-            <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-premium-gold/15 shadow-2xl">
-                <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto">
-                    <Link href="/" className="p-2 -ml-2 hover:bg-foreground/5 rounded-full transition-colors group">
-                        <ChevronLeft className="text-foreground/70 group-hover:text-premium-gold transition-colors" />
-                    </Link>
-                    <h1 className="text-lg font-black uppercase tracking-wider text-foreground">
-                        Elenco <span className="text-premium-gold">2026</span>
-                    </h1>
-                    <div className="w-10" /> {/* Spacer */}
-                </div>
-            </header>
+        <main className="min-h-screen bg-background pb-10">
+            {/* Content Header (Simple title, no full header) */}
+            <div className="flex items-center gap-4 px-4 py-8 max-w-7xl mx-auto">
+                <Link href="/" className="p-2 -ml-2 hover:bg-foreground/5 rounded-full transition-colors group">
+                    <ChevronLeft className="text-foreground/70 group-hover:text-premium-gold transition-colors" />
+                </Link>
+                <h1 className="text-2xl font-black uppercase tracking-tight text-foreground">
+                    Elenco <span className="text-premium-gold">2026</span>
+                </h1>
+            </div>
 
             <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
                 {ORDER.map(posCode => {
@@ -88,8 +83,8 @@ export default async function ElencoPage() {
                                 </h2>
                             </div>
 
-                            {/* EA FC Style Grid */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+                            {/* EA FC Style Grid - Smaller cards */}
+                            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-3 md:gap-4">
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
@@ -128,17 +123,17 @@ export default async function ElencoPage() {
                                         <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-4 px-3 z-10">
                                             <div className="flex flex-col items-center text-center">
                                                 {/* Name */}
-                                                <h3 className="text-white text-sm md:text-base font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-300">
+                                                <h3 className="text-white text-[10px] md:text-xs font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-300">
                                                     {player.name}
                                                 </h3>
 
                                                 {/* Meta Info */}
-                                                <div className="flex items-center gap-2 mt-1 opacity-60 group-hover:opacity-100 transition-opacity">
-                                                    <div className="px-1.5 py-0.5 rounded bg-white/10 backdrop-blur-sm text-[9px] font-bold text-premium-gold uppercase">
+                                                <div className="flex items-center gap-1 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                    <div className="px-1 py-0.5 rounded bg-white/10 backdrop-blur-sm text-[7px] font-bold text-premium-gold uppercase">
                                                         {player.country.substring(0, 3)}
                                                     </div>
-                                                    <span className="text-[10px] text-zinc-400 font-mono">
-                                                        {player.age} anos
+                                                    <span className="text-[8px] text-zinc-400 font-mono">
+                                                        {player.age}
                                                     </span>
                                                 </div>
                                             </div>
@@ -154,11 +149,6 @@ export default async function ElencoPage() {
                 })}
             </div>
 
-            <div className="lg:hidden">
-                <Suspense fallback={<div className="h-16 bg-black" />}>
-                    <TabBar />
-                </Suspense>
-            </div>
         </main>
     );
 }
