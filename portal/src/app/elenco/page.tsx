@@ -1,7 +1,7 @@
 import { db } from '@/lib/firebase-admin';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronLeft, Shield } from 'lucide-react';
+import { ChevronLeft, Shield, User } from 'lucide-react';
 import { Suspense } from 'react';
 
 export const revalidate = 0; // Disable cache for immediate updates
@@ -95,17 +95,21 @@ export default async function ElencoPage() {
 
                                         {/* Player Image */}
                                         <div className="absolute inset-0 z-0">
-                                            {player.image ? (
+                                            {player.image && player.image.trim() !== '' ? (
                                                 <Image
                                                     src={player.image}
                                                     alt={player.name}
                                                     fill
+                                                    unoptimized={true}
                                                     className="object-cover object-top transition-transform duration-500 group-hover:scale-110 filter brightness-90 group-hover:brightness-100"
                                                     sizes="(max-width: 768px) 50vw, 20vw"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center text-white/5">
-                                                    <Shield size={48} strokeWidth={1} />
+                                                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-zinc-800 to-black">
+                                                    <div className="flex items-center justify-center relative">
+                                                        <Shield size={64} strokeWidth={1} className="text-white/5" />
+                                                        <User size={32} className="absolute text-premium-gold/20" />
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
