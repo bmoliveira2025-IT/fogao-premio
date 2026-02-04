@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import StoryContainer from './StoryContainer';
 import StorySlide from './StorySlide';
-import { Trophy, Target, TrendingUp, Calendar, Zap, Tv, Quote, Star, Activity, ArrowRight, MapPin } from 'lucide-react';
+import { Trophy, Target, TrendingUp, Calendar, Zap, Tv, Quote, Star, Activity, ArrowRight, MapPin, CheckCircle } from 'lucide-react';
 import GloriosoLogo from './GloriosoLogo';
 
 interface DailyBriefing {
@@ -332,24 +332,48 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10 px-6">
-                    <div className="w-20 h-20 bg-white text-black rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.3)] transform rotate-6">
-                        <Calendar size={40} />
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-10 relative z-10 px-6">
+                    <motion.div
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                        className="relative"
+                    >
+                        <div className="absolute inset-0 bg-premium-gold blur-3xl opacity-20 rounded-full scale-150" />
+                        <div className="w-32 h-32 bg-white/5 backdrop-blur-2xl rounded-[40px] border border-white/10 flex items-center justify-center shadow-2xl relative z-10 p-6">
+                            <CheckCircle size={64} className="text-premium-gold" />
+                        </div>
+                    </motion.div>
+
+                    <div className="space-y-4">
+                        <motion.h2
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-4xl font-black text-white leading-none uppercase tracking-tight"
+                        >
+                            Você está<br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-premium-gold to-yellow-200">100% Atualizado</span>
+                        </motion.h2>
+                        <motion.p
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="text-white/50 text-sm max-w-[240px] mx-auto font-medium"
+                        >
+                            O Giro do Fogão termina aqui.<br />Volte amanhã para uma nova edição exclusiva.
+                        </motion.p>
                     </div>
-                    <div>
-                        <h2 className="text-3xl font-black text-white leading-tight mb-4">
-                            Você está<br />100% atualizado!
-                        </h2>
-                        <p className="text-white/60 text-sm max-w-[200px] mx-auto">
-                            Volte amanhã para mais resumos exclusivos do Fogão.
-                        </p>
-                    </div>
-                    <button
+
+                    <motion.button
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.7 }}
                         onClick={handleClose}
-                        className="w-full py-4 bg-premium-gold text-black font-black uppercase tracking-wider rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg pointer-events-auto relative z-30"
+                        className="w-full py-5 bg-gradient-to-r from-premium-gold to-yellow-400 text-black font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_30px_rgba(255,215,0,0.2)] pointer-events-auto relative z-30"
                     >
                         Voltar ao Portal
-                    </button>
+                    </motion.button>
                 </div>
             )
         }
