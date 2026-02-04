@@ -1,6 +1,8 @@
 "use client";
 
 import { Home, Video, Users, Trophy, Crown, Zap, User, Search, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import GloriosoLogo from './GloriosoLogo';
@@ -22,6 +24,15 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const { user, isPremium } = useAuth();
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const menuItems = [...navItems];
     if (isPremium) {
@@ -29,7 +40,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
     }
 
     return (
-        <nav className={`sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 ${className}`}>
+        <nav className={`fixed top-0 inset-x-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5 ${className}`}>
             {/* Top Bar: Logo and Quick Actions */}
             <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                 <div className="flex items-center justify-between h-14">
@@ -89,34 +100,42 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                 </div>
             </div>
 
-            {/* Bottom Bar: Horizontal Navigation */}
-            <div className="py-3 pb-3">
-                <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-                        {menuItems.map((item) => {
-                            const Icon = item.icon;
-                            const isActive = pathname === item.href;
+            {/* Bottom Bar: Horizontal Navigation - Collapsible */}
+            <motion.div
+                initial={false}
+                animate={{
+                    height: scrolled ? 0 : 'auto',
+                    opacity: scrolled ? 0 : 1,
+                    pointerEvents: scrolled ? 'none' : 'auto'
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+            >
+                <div className="py-3 pb-3">
+                    <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
+                        <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+                            {menuItems.map((item) => {
+                                const Icon = item.icon;
+                                const isActive = pathname === item.href;
 
-                            return (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    className={`
-                                        flex items-center gap-1.5 px-4 py-2 rounded-lg font-black text-[11px] md:text-[13px] uppercase tracking-widest whitespace-nowrap transition-all duration-300
-                                        ${isActive
-                                            ? 'bg-premium-gold text-black shadow-md shadow-premium-gold/10'
-                                            : 'text-zinc-500 hover:text-white hover:bg-white/5'
-                                        }
-                                    `}
-                                >
-                                    <Icon size={isActive ? 14 : 12} className={isActive ? 'fill-current' : ''} />
-                                    <span>{item.label}</span>
-                                </Link>
-                            );
-                        })}
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-300 ${isActive
+                                            ? 'bg-premium-gold text-black shadow-lg shadow-premium-gold/20 scale-105'
+                                            : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                                            }`}
+                                    >
+                                        <Icon size={16} />
+                                        <span>{item.label}</span>
+                                    </Link>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </nav>
     );
 }
