@@ -75,7 +75,7 @@ export default function ModernNewsCard({ article }: any) {
                 </div>
 
                 <Link href={`/news/${article.id}`}>
-                    <h3 className="text-2xl md:text-3xl font-black font-sans text-white group-hover:text-premium-gold transition-colors duration-300 normal-case">
+                    <h3 className="text-[25.5px] md:text-3xl font-black font-sans text-white group-hover:text-premium-gold transition-colors duration-300 normal-case">
                         {toSentenceCase(article.title)}
                     </h3>
                 </Link>

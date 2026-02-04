@@ -68,7 +68,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                             <Lock size={14} className="text-premium-gold" />
                         </div>
                     </div>
-                    <h2 className="text-[21px] font-extrabold text-white drop-shadow-lg mb-2 normal-case">
+                    <h2 className="text-[22.5px] font-extrabold text-white drop-shadow-lg mb-2 normal-case">
                         {toSentenceCase(featured.title)}
                     </h2>
                     <p className="text-[13px] text-zinc-300 drop-shadow-md">
@@ -100,7 +100,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                                 </div>
                             </div>
                             <div className="min-w-0">
-                                <h4 className="text-[13px] font-bold text-zinc-300 group-hover:text-white transition-colors normal-case">
+                                <h4 className="text-[14px] font-bold text-zinc-300 group-hover:text-white transition-colors normal-case">
                                     {toSentenceCase(item.title)}
                                 </h4>
                             </div>
