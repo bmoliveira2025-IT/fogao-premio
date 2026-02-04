@@ -22,6 +22,12 @@ export default function ModernNewsCard({ article }: any) {
         return `${Math.floor(diffInSeconds / 86400)}d`;
     };
 
+    const toSentenceCase = (str: string) => {
+        if (!str) return '';
+        const cleanStr = str.replace(/\*\*/g, '').trim();
+        return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+    };
+
     return (
         <div className="group flex flex-col mb-10 bg-zinc-900/50 dark:bg-zinc-900/50 rounded-3xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-premium-gold/30 shadow-2xl">
             {/* Top Image Container - Independent Rounded Block */}
@@ -69,8 +75,8 @@ export default function ModernNewsCard({ article }: any) {
                 </div>
 
                 <Link href={`/news/${article.id}`}>
-                    <h3 className="text-2xl md:text-3xl font-black font-sans text-white leading-tight uppercase tracking-tighter group-hover:text-premium-gold transition-colors duration-300">
-                        {article.title?.replace(/\*\*/g, '')}
+                    <h3 className="text-2xl md:text-3xl font-black font-sans text-white group-hover:text-premium-gold transition-colors duration-300 normal-case">
+                        {toSentenceCase(article.title)}
                     </h3>
                 </Link>
 

@@ -16,6 +16,12 @@ import DesktopHeader from '@/components/DesktopHeader';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 
+const toSentenceCase = (str: string) => {
+    if (!str) return '';
+    const cleanStr = str.replace(/\*\*/g, '').trim();
+    return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+};
+
 export default function ArticleView({ article, nextMatch, relatedNews = [] }: { article: any, nextMatch: any, relatedNews?: any[] }) {
     const { addPoints } = useAuth();
     const [liked, setLiked] = useState(false);
@@ -200,8 +206,8 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                         {/* Title Block */}
                         <div className="mb-8">
-                            <h1 className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold leading-[1.1] mb-4 tracking-tight drop-shadow-lg transition-colors duration-300 ${activeParagraphIndex === -2 ? 'text-premium-gold' : 'text-foreground'}`}>
-                                {article.title}
+                            <h1 className={`text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-4 drop-shadow-lg transition-colors duration-300 ${activeParagraphIndex === -2 ? 'text-premium-gold' : 'text-foreground'}`}>
+                                {toSentenceCase(article.title)}
                             </h1>
 
                             <div className="flex flex-wrap items-center gap-y-2 gap-x-3 text-[11px] lg:text-xs text-foreground/60 font-medium tracking-wide leading-none">

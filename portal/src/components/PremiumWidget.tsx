@@ -15,6 +15,12 @@ interface NewsItem {
     is_premium?: boolean;
 }
 
+const toSentenceCase = (str: string) => {
+    if (!str) return '';
+    const cleanStr = str.replace(/\*\*/g, '').trim();
+    return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+};
+
 export default function PremiumWidget({ news, className }: { news: NewsItem[], className?: string }) {
     if (!news || news.length === 0) return null;
 
@@ -62,8 +68,8 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                             <Lock size={14} className="text-premium-gold" />
                         </div>
                     </div>
-                    <h2 className="text-[21px] font-extrabold text-white drop-shadow-lg leading-tight mb-2">
-                        {featured.title}
+                    <h2 className="text-[21px] font-extrabold text-white drop-shadow-lg mb-2 normal-case">
+                        {toSentenceCase(featured.title)}
                     </h2>
                     <p className="text-[13px] text-zinc-300 drop-shadow-md">
                         {featured.summary || "Análise tática exclusiva, bastidores e entrevistas especiais para assinantes."}
@@ -94,8 +100,8 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                                 </div>
                             </div>
                             <div className="min-w-0">
-                                <h4 className="text-[13px] font-bold text-zinc-300 group-hover:text-white transition-colors leading-snug">
-                                    {item.title}
+                                <h4 className="text-[13px] font-bold text-zinc-300 group-hover:text-white transition-colors normal-case">
+                                    {toSentenceCase(item.title)}
                                 </h4>
                             </div>
                         </Link>

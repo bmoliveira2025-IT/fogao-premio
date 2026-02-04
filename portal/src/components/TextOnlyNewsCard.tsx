@@ -19,11 +19,17 @@ export default function TextOnlyNewsCard({ article }: any) {
         return `${Math.floor(diffInSeconds / 86400)}d`;
     };
 
+    const toSentenceCase = (str: string) => {
+        if (!str) return '';
+        const cleanStr = str.replace(/\*\*/g, '').trim();
+        return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+    };
+
     return (
         <div className="group flex flex-col mb-6 animate-in fade-in duration-500">
             <Link href={`/news/${article.id}`} className="flex flex-col gap-3">
-                <h3 className="text-lg md:text-xl font-bold leading-[1.3] text-white/90 group-hover:text-premium-gold transition-colors line-clamp-2">
-                    {article.title?.replace(/\*\*/g, '')}
+                <h3 className="text-lg md:text-xl font-bold text-white/90 group-hover:text-premium-gold transition-colors line-clamp-2 normal-case">
+                    {toSentenceCase(article.title)}
                 </h3>
 
                 <div className="flex items-center gap-3">

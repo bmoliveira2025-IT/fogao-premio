@@ -34,6 +34,12 @@ function getRelativeTime(dateString?: string) {
     return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
 }
 
+const toSentenceCase = (str: string) => {
+    if (!str) return '';
+    const cleanStr = str.replace(/\*\*/g, '').trim();
+    return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+};
+
 export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsProps) {
     if (!news) return null;
 
@@ -78,8 +84,8 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                 </div>
 
                 <div className="max-w-7xl space-y-4 md:space-y-6">
-                    <h1 className="text-2xl md:text-4xl lg:text-6xl font-black font-sans text-white leading-[1.1] uppercase drop-shadow-xl group-hover:text-premium-gold transition-colors duration-500 tracking-tight">
-                        {news.title?.replace(/\*\*/g, '')}
+                    <h1 className="text-2xl md:text-4xl lg:text-6xl font-black font-sans text-white drop-shadow-xl group-hover:text-premium-gold transition-colors duration-500 normal-case">
+                        {toSentenceCase(news.title)}
                     </h1>
 
                     {/* Summary - Desktop Only */}

@@ -21,13 +21,19 @@ export default function CompactNewsCard({ article }: any) {
         return `${Math.floor(diffInSeconds / 86400)}d`;
     };
 
+    const toSentenceCase = (str: string) => {
+        if (!str) return '';
+        const cleanStr = str.replace(/\*\*/g, '').trim();
+        return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+    };
+
     return (
         <div className="group flex flex-col mb-8 animate-in fade-in duration-500">
             <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between min-h-[80px] md:min-h-[110px] py-1">
-                    <h3 className="text-lg md:text-xl font-bold leading-[1.2] text-white/90 group-hover:text-premium-gold transition-colors line-clamp-3">
-                        {article.title?.replace(/\*\*/g, '')}
+                    <h3 className="text-lg md:text-xl font-bold text-white/90 group-hover:text-premium-gold transition-colors line-clamp-3 normal-case">
+                        {toSentenceCase(article.title)}
                     </h3>
 
                     <div className="flex items-center gap-3 mt-3">
