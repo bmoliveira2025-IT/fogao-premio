@@ -17,6 +17,12 @@ export default function CompactNewsRow({ article }: any) {
         return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
     };
 
+    const toSentenceCase = (str: string) => {
+        if (!str) return '';
+        const cleanStr = str.replace(/\*\*/g, '').trim();
+        return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+    };
+
     return (
         <Link
             href={`/news/${article.id}`}
@@ -38,7 +44,7 @@ export default function CompactNewsRow({ article }: any) {
             {/* Info */}
             <div className="flex flex-col flex-grow min-w-0 justify-center gap-3">
                 <h4 className="text-[17px] md:text-[21px] font-black text-foreground group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors leading-tight">
-                    {article.title?.replace(/\*\*/g, '')}
+                    {toSentenceCase(article.title)}
                 </h4>
 
                 {/* Metadata Pill */}

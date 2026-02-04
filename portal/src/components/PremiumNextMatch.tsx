@@ -165,6 +165,23 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                     >
                         <div className="px-4 pb-5 pt-4">
+                            {/* Match Meta - Integrated Top Bar */}
+                            <div className="flex items-center justify-center gap-4 mb-6 opacity-60 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--foreground)' }}>
+                                <div className="flex items-center gap-1.5">
+                                    <MapPin size={12} className="text-premium-gold" />
+                                    <span>{data.location}</span>
+                                </div>
+                                {data.transmission && (
+                                    <>
+                                        <span className="w-1 h-1 rounded-full bg-foreground/20" />
+                                        <div className="flex items-center gap-1.5 text-green-500">
+                                            <Tv size={12} className="fill-current" />
+                                            <span>{data.transmission}</span>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+
                             <div className="flex items-center py-4 relative h-20">
                                 {/* Home Logo */}
                                 <div className="absolute left-6">
@@ -230,20 +247,6 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                         )}
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="flex flex-col items-center gap-3 mt-4">
-                                <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold opacity-70 bg-white/5 dark:bg-white/5 light:bg-zinc-100 px-5 py-2 rounded-full border border-white/5 dark:border-white/5 light:border-zinc-200 shadow-sm" style={{ color: 'var(--foreground)' }}>
-                                    <MapPin size={12} className="text-premium-gold/70" />
-                                    <span>{data.location}</span>
-                                </div>
-
-                                {data.transmission && (
-                                    <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold opacity-70 bg-green-500/5 dark:bg-green-500/5 light:bg-green-50 px-5 py-2 rounded-full border border-green-500/10 shadow-sm" style={{ color: 'var(--foreground)' }}>
-                                        <Tv size={12} className="text-green-500/70" />
-                                        <span>{data.transmission}</span>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </motion.div>

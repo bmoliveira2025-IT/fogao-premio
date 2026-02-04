@@ -36,6 +36,13 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
     const [liked, setLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
 
+    const toSentenceCase = (str: string) => {
+        if (!str) return '';
+        const cleanStr = str.replace(/\*\*/g, '').trim();
+        // If it's all uppercase, transform it. If it has mixed case, it might be curated, but mostly data is flat.
+        return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
+    };
+
     if (item.type === 'video') {
         return (
             <Link
@@ -71,7 +78,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                 {/* Video Info */}
                 <div className="p-4 md:p-5">
                     <h3 className="text-[15px] md:text-[18px] font-bold text-zinc-900 dark:text-white leading-tight line-clamp-2 group-hover:text-premium-gold transition-colors normal-case">
-                        {item.title?.replace(/\*\*/g, '')}
+                        {toSentenceCase(item.title)}
                     </h3>
 
                     <NewsSourceTag
@@ -110,7 +117,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
                     {/* Title */}
                     <h3 className="text-[24px] md:text-[28px] font-black leading-tight mb-3 group-hover:text-premium-gold transition-colors normal-case" style={{ color: 'var(--foreground)' }}>
-                        {item.title?.replace(/\*\*/g, '')}
+                        {toSentenceCase(item.title)}
                     </h3>
 
                     {/* Summary */}
@@ -168,7 +175,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
             {/* News Info */}
             <div className="p-4 md:p-5">
                 <h3 className="text-[17px] md:text-[22px] font-bold leading-tight line-clamp-2 mb-3 group-hover:text-premium-gold transition-colors normal-case" style={{ color: 'var(--foreground)' }}>
-                    {item.title?.replace(/\*\*/g, '')}
+                    {toSentenceCase(item.title)}
                 </h3>
 
                 {item.summary && (
