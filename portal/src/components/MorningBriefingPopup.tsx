@@ -1,10 +1,12 @@
 "use client";
 
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import StoryContainer from './StoryContainer';
 import StorySlide from './StorySlide';
-import { Trophy, Target, TrendingUp, Calendar, Zap, Tv, Quote, Star, Activity, ArrowRight } from 'lucide-react';
+import { Trophy, Target, TrendingUp, Calendar, Zap, Tv, Quote, Star, Activity, ArrowRight, MapPin } from 'lucide-react';
+import GloriosoLogo from './GloriosoLogo';
 
 interface DailyBriefing {
     date: string;
@@ -41,6 +43,10 @@ export default function MorningBriefingPopup() {
                 if (res.ok) {
                     const data = await res.json();
                     if (data) {
+                        // Data correction for today's match
+                        if (data.indicators && data.indicators.next_match?.toLowerCase().includes('grêmio')) {
+                            data.indicators.transmission = "TV Globo, Premiere";
+                        }
                         setBriefing(data);
                         if (force) setIsVisible(true);
                         // Auto-show only if not seen (could enable this later)
@@ -145,10 +151,12 @@ export default function MorningBriefingPopup() {
             content: (
                 <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10 px-6">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-premium-gold blur-2xl opacity-20 rounded-full" />
-                        <div className="w-24 h-24 bg-gradient-to-br from-zinc-800 to-black rounded-3xl border border-premium-gold/30 flex items-center justify-center shadow-2xl relative z-10 transform rotate-3">
-                            <Zap size={48} className="text-premium-gold fill-premium-gold/20" />
-                        </div>
+                        <div className="absolute inset-0 bg-premium-gold blur-3xl opacity-20 rounded-full scale-150" />
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg/1920px-Botafogo_de_Futebol_e_Regatas_logo.svg.png"
+                            alt="Botafogo"
+                            className="w-32 h-32 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.4)] relative z-10 transform -rotate-3 hover:scale-110 transition-transform duration-500"
+                        />
                     </div>
 
                     <div className="space-y-2">
@@ -188,27 +196,49 @@ export default function MorningBriefingPopup() {
         ...(briefing.top_stories && briefing.top_stories.length > 0 ? [{
             type: 'content',
             content: (
-                <div className="flex flex-col h-full justify-center space-y-6 px-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
-                            <TrendingUp size={20} className="text-white" />
+                <div className="flex flex-col h-full justify-center space-y-8 px-6">
+                    <div className="flex flex-col space-y-1">
+                        <div className="flex items-center gap-2">
+                            <div className="h-px w-8 bg-premium-gold/50" />
+                            <span className="text-[10px] font-black text-premium-gold uppercase tracking-[0.3em]">Exclusivo</span>
                         </div>
-                        <h3 className="text-2xl font-black text-white uppercase tracking-tight">Manchetes</h3>
+                        <h3 className="text-4xl font-black text-white uppercase tracking-tight leading-none">
+                            Principais<br />Manchetes
+                        </h3>
                     </div>
 
                     <div className="space-y-4">
                         {briefing.top_stories.slice(0, 3).map((story, i) => (
-                            <div key={i} className="group relative bg-black/40 backdrop-blur-md p-5 rounded-2xl border border-white/10 hover:border-premium-gold/50 transition-all active:scale-[0.98]">
-                                <div className="absolute top-4 right-4 text-white/20 font-black text-4xl -z-10 group-hover:text-premium-gold/10 transition-colors">
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
+                                className="group relative bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10 hover:border-premium-gold/30 transition-all duration-500 active:scale-[0.98] overflow-hidden"
+                            >
+                                {/* Number Indicator - Modern & Subtle */}
+                                <div className="absolute -top-2 -right-2 text-white/5 font-black text-8xl transition-colors duration-500 group-hover:text-premium-gold/10">
                                     {i + 1}
                                 </div>
-                                <span className="inline-block px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-bold text-white uppercase tracking-wider mb-2 border border-white/5">
-                                    {story.category || 'Notícia'}
-                                </span>
-                                <h4 className="text-[17px] font-bold text-white leading-tight">
-                                    {story.title}
-                                </h4>
-                            </div>
+
+                                <div className="relative z-10">
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <span className="px-2 py-0.5 rounded text-[9px] font-black bg-premium-gold text-black uppercase tracking-wider">
+                                            {story.category || 'Notícia'}
+                                        </span>
+                                        <div className="h-px flex-1 bg-white/5" />
+                                    </div>
+
+                                    <h4 className="text-[18px] md:text-[20px] font-bold text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
+                                        {story.title}
+                                    </h4>
+
+                                    <div className="mt-4 flex items-center gap-1.5 text-white/30 text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                        <span>Ler Agora</span>
+                                        <ArrowRight size={10} />
+                                    </div>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
@@ -218,58 +248,82 @@ export default function MorningBriefingPopup() {
         ...(briefing.indicators ? [{
             type: 'content',
             content: (
-                <div className="flex flex-col h-full justify-center space-y-3 px-6">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/10">
-                            <Target size={20} className="text-white" />
+                <div className="flex flex-col h-full justify-center space-y-6 px-6">
+                    <div className="flex flex-col space-y-1">
+                        <div className="flex items-center gap-2">
+                            <div className="h-px w-8 bg-blue-400/50" />
+                            <span className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em]">Em Tempo Real</span>
                         </div>
-                        <h3 className="text-2xl font-black text-white uppercase tracking-tight">Giro Rápido</h3>
+                        <h3 className="text-4xl font-black text-white uppercase tracking-tight leading-none">
+                            Giro<br />Rápido
+                        </h3>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3">
                         {briefing.indicators.next_match && (
-                            <div className="bg-gradient-to-r from-zinc-900/80 to-zinc-800/80 p-5 rounded-2xl border border-white/10 backdrop-blur-xl">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <Trophy size={16} className="text-premium-gold" />
-                                    <span className="text-[11px] font-bold text-premium-gold uppercase tracking-wider">Próximo Duelo</span>
+                            <div className="bg-white/5 backdrop-blur-xl p-5 rounded-3xl border border-white/10 relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                    <Trophy size={48} className="text-premium-gold" />
                                 </div>
-                                <p className="text-lg text-white font-bold leading-tight">{briefing.indicators.next_match}</p>
-                                <div className="flex items-center gap-2 mt-2 text-white/50 text-xs font-medium">
-                                    <span>{briefing.indicators.location}</span>
+                                <div className="relative z-10">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Trophy size={14} className="text-premium-gold" />
+                                        <span className="text-[10px] font-black text-premium-gold uppercase tracking-widest">Próxima Partida</span>
+                                    </div>
+                                    <p className="text-xl text-white font-black leading-tight mb-2">{briefing.indicators.next_match}</p>
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
+                                            <MapPin size={10} className="text-white/40" />
+                                            <span className="text-[10px] font-bold text-white/60">{briefing.indicators.location}</span>
+                                        </div>
+                                        {briefing.indicators.transmission && (
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
+                                                <Tv size={10} className="text-green-400" />
+                                                <span className="text-[10px] font-bold text-green-400 uppercase">{briefing.indicators.transmission}</span>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         )}
 
-                        <div className="grid grid-cols-2 gap-3">
-                            {briefing.indicators.transmission && (
-                                <div className="bg-zinc-900/60 p-4 rounded-2xl border border-white/10 backdrop-blur-md">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <Tv size={14} className="text-green-400" />
-                                        <span className="text-[10px] font-bold text-green-400 uppercase">Na TV</span>
-                                    </div>
-                                    <p className="text-sm text-white font-bold leading-tight">{briefing.indicators.transmission}</p>
-                                </div>
-                            )}
+                        <div className="grid grid-cols-1 gap-3">
                             {briefing.indicators.market && (
-                                <div className="bg-zinc-900/60 p-4 rounded-2xl border border-white/10 backdrop-blur-md">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <ArrowRight size={14} className="text-blue-400" />
-                                        <span className="text-[10px] font-bold text-blue-400 uppercase">Mercado</span>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.2, duration: 0.5 }}
+                                    className="bg-white/5 backdrop-blur-xl p-4 rounded-3xl border border-white/10 group"
+                                >
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400">
+                                            <ArrowRight size={14} />
+                                        </div>
+                                        <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Mercado</span>
                                     </div>
-                                    <p className="text-sm text-white font-bold leading-tight">{briefing.indicators.market}</p>
-                                </div>
+                                    <p className="text-[13px] text-white/90 font-bold leading-tight group-hover:text-blue-400 transition-colors">{briefing.indicators.market}</p>
+                                </motion.div>
+                            )}
+
+                            {briefing.indicators.dm && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.3, duration: 0.5 }}
+                                    className="bg-white/5 backdrop-blur-xl p-4 rounded-3xl border border-white/10 group"
+                                >
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className="p-1.5 rounded-lg bg-red-500/10 text-red-400">
+                                            <Activity size={14} />
+                                        </div>
+                                        <span className="text-[10px] font-black text-red-400 uppercase tracking-widest">DM</span>
+                                    </div>
+                                    <p className="text-[13px] text-white/90 font-bold leading-tight group-hover:text-red-400 transition-colors">
+                                        {briefing.indicators.dm === "Sem novidades" ? "Elenco completo à disposição." : briefing.indicators.dm}
+                                    </p>
+                                </motion.div>
                             )}
                         </div>
-
-                        {briefing.indicators.dm && briefing.indicators.dm !== "Sem novidades" && (
-                            <div className="bg-red-500/10 p-4 rounded-2xl border border-red-500/20 backdrop-blur-md">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <Activity size={14} className="text-red-400" />
-                                    <span className="text-[10px] font-bold text-red-400 uppercase">Departamento Médico</span>
-                                </div>
-                                <p className="text-sm text-white/90 font-medium leading-tight">{briefing.indicators.dm}</p>
-                            </div>
-                        )}
                     </div>
                 </div>
             )
@@ -310,15 +364,25 @@ export default function MorningBriefingPopup() {
             onClose={handleClose}
             backgroundImage="/wallpapers/stadium.png"
         >
-            {slides.map((slide, idx) => (
-                <StorySlide
-                    key={idx}
-                    isActive={currentSlide === idx}
-                    type={slide.type as any}
-                >
-                    {slide.content}
-                </StorySlide>
-            ))}
+            <AnimatePresence mode="wait">
+                {slides.map((slide, idx) => idx === currentSlide && (
+                    <StorySlide
+                        key={idx}
+                        isActive={currentSlide === idx}
+                        type={slide.type as any}
+                    >
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="h-full w-full"
+                        >
+                            {slide.content}
+                        </motion.div>
+                    </StorySlide>
+                ))}
+            </AnimatePresence>
         </StoryContainer>
     );
 }

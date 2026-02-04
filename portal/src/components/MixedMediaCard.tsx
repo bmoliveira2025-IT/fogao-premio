@@ -70,7 +70,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
                 {/* Video Info */}
                 <div className="p-4 md:p-5">
-                    <h3 className="text-sm md:text-base font-bold text-zinc-900 dark:text-white leading-tight line-clamp-2 group-hover:text-premium-gold transition-colors">
+                    <h3 className="text-[15px] md:text-[18px] font-bold text-zinc-900 dark:text-white leading-tight line-clamp-2 group-hover:text-premium-gold transition-colors">
                         {item.title}
                     </h3>
 
@@ -109,7 +109,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                     )}
 
                     {/* Title */}
-                    <h3 className="text-[22px] md:text-[25px] font-black leading-tight mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
+                    <h3 className="text-[24px] md:text-[28px] font-black leading-tight mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
                         {item.title?.replace(/\*\*/g, '')}
                     </h3>
 
@@ -167,7 +167,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
             {/* News Info */}
             <div className="p-4 md:p-5">
-                <h3 className="text-[15px] md:text-[20px] font-bold leading-tight line-clamp-2 mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
+                <h3 className="text-[17px] md:text-[22px] font-bold leading-tight line-clamp-2 mb-3 group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
                     {item.title?.replace(/\*\*/g, '')}
                 </h3>
 

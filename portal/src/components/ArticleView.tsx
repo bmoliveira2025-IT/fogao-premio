@@ -127,7 +127,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-premium-gold/50 to-transparent"></div>
 
             <div className="p-4">
-                <h4 className="text-[11px] text-premium-gold uppercase tracking-widest font-black mb-4 italic">Próximo Confronto</h4>
+                <h4 className="text-[11px] text-premium-gold uppercase tracking-widest font-black mb-4">Próximo Confronto</h4>
 
                 <div className="flex items-center justify-between">
                     {/* Home */}

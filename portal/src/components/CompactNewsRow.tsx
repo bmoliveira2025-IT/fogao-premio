@@ -36,7 +36,11 @@ export default function CompactNewsRow({ article }: any) {
             </div>
 
             {/* Info */}
-            <div className="flex flex-col flex-grow min-w-0 justify-center gap-1.5">
+            <div className="flex flex-col flex-grow min-w-0 justify-center gap-3">
+                <h4 className="text-[17px] md:text-[21px] font-black text-foreground group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors leading-tight uppercase">
+                    {article.title?.replace(/\*\*/g, '')}
+                </h4>
+
                 {/* Metadata Pill */}
                 <div className="flex items-center gap-2">
                     <SourceIcon source={article.source} className="w-3 h-3 text-[11px] transition-all grayscale group-hover:grayscale-0" />
@@ -51,10 +55,6 @@ export default function CompactNewsRow({ article }: any) {
                         {timeAgo(article.created_at)}
                     </span>
                 </div>
-
-                <h4 className="text-[15px] md:text-[19px] font-black text-foreground group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors leading-tight uppercase">
-                    {article.title?.replace(/\*\*/g, '')}
-                </h4>
             </div>
         </Link>
     );

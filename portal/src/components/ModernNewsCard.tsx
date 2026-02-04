@@ -69,7 +69,7 @@ export default function ModernNewsCard({ article }: any) {
                 </div>
 
                 <Link href={`/news/${article.id}`}>
-                    <h3 className="text-2xl md:text-3xl font-black font-sans text-white leading-tight uppercase italic tracking-tighter group-hover:text-premium-gold transition-colors duration-300">
+                    <h3 className="text-2xl md:text-3xl font-black font-sans text-white leading-tight uppercase tracking-tighter group-hover:text-premium-gold transition-colors duration-300">
                         {article.title?.replace(/\*\*/g, '')}
                     </h3>
                 </Link>

@@ -16,7 +16,7 @@ export default function FilterPills() {
                             key={filter}
                             onClick={() => setActive(filter)}
                             className={`px-6 py-2.5 rounded-full text-[10px] font-black tracking-widest uppercase transition-all duration-300 font-sans flex-shrink-0 border ${isActive
-                                ? 'bg-premium-gold text-black shadow-[0_0_15px_rgba(212,175,55,0.4)] border-transparent'
+                                ? 'bg-premium-gold text-black shadow-[0_0_15px_rgba(var(--premium-gold),0.4)] border-transparent'
                                 : 'bg-[#181818] text-white/40 hover:bg-[#202020] hover:text-white'
                                 }`}
                             style={{ borderColor: isActive ? 'transparent' : 'var(--border-color)' }}

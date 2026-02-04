@@ -11,7 +11,7 @@ interface StorySlideProps {
 }
 
 export default function StorySlide({ isActive, children, backgroundImage, type = 'content' }: StorySlideProps) {
-    if (!isActive) return null;
+    // Relying on parent AnimatePresence
 
     return (
         <motion.div

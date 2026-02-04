@@ -121,7 +121,7 @@ export default function PremiumGameStats() {
         <section className="mt-12 mb-16">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20 shadow-[0_0_15px_rgba(212,175,55,0.1)]">
+                    <div className="w-10 h-10 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20 shadow-[0_0_15px_rgba(var(--premium-gold),0.1)]">
                         <BarChart3 size={20} className="text-premium-gold" />
                     </div>
                     <div>

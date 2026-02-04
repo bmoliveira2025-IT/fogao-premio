@@ -41,7 +41,7 @@ export default function BrandingHeader() {
 
                     <div className="flex flex-col leading-none">
                         <span className="font-display font-black text-lg text-foreground tracking-tight">
-                            GLORIOSO <span className="text-premium-gold dark:text-premium-gold light:text-zinc-500 font-light italic">360</span>
+                            GLORIOSO <span className="text-premium-gold dark:text-premium-gold light:text-zinc-500 font-light">360</span>
                             {isPremium && (
                                 <Crown size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-400 fill-premium-gold/20 ml-1.5 self-start -mt-0.5 inline-block" strokeWidth={2.5} />
                             )}
@@ -50,7 +50,13 @@ export default function BrandingHeader() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                    {isPremium && (
+                        <Link href="/premium" className="p-2 text-premium-gold hover:scale-110 active:scale-95 transition-all">
+                            <Crown size={22} className="fill-premium-gold/20" />
+                        </Link>
+                    )}
+
                     <Link href="?briefing=true" className="p-2 text-zinc-400 dark:text-zinc-400 light:text-zinc-600 hover:text-premium-gold dark:hover:text-premium-gold light:hover:text-zinc-900 transition-colors">
                         <Zap size={20} className="fill-current" />
                     </Link>

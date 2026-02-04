@@ -90,7 +90,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                                 >
-                                    <div className="px-4 pb-5 pt-0 border-t border-premium-gold/15 mt-2">
+                                    <div className="px-4 pb-2 pt-0 border-t border-premium-gold/15 mt-2">
                                         <div className="flex justify-between items-center py-4">
                                             {/* Home Logo */}
                                             <div className="flex flex-col items-center w-1/3">
@@ -122,19 +122,12 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                             </div>
                                         </div>
 
-                                        <div className="text-center mb-4">
+                                        <div className="text-center">
                                             <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold text-white/60 bg-white/5 px-4 py-2 rounded-full mb-4 border border-white/10">
                                                 <MapPin size={12} className="text-premium-gold/80" />
                                                 <span>{match.location}</span>
                                             </div>
 
-                                            <Link
-                                                href={`/stats/${match.match_id || match.id}`}
-                                                onClick={(e) => e.stopPropagation()}
-                                                className="block w-full py-3.5 bg-white/5 border border-premium-gold/30 hover:border-premium-gold hover:bg-premium-gold/10 text-premium-gold hover:text-white uppercase font-black text-[10px] tracking-[0.2em] rounded-xl transition-all duration-300 text-center backdrop-blur-sm"
-                                            >
-                                                Ver Análise Completa
-                                            </Link>
                                         </div>
                                     </div>
                                 </motion.div>

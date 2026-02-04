@@ -17,9 +17,9 @@ export default function GloriosoLogo({ size = 40, className = "" }: { size?: num
         >
             <defs>
                 <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#D4AF37" />
-                    <stop offset="50%" stopColor="#FFE578" />
-                    <stop offset="100%" stopColor="#C9A24D" />
+                    <stop offset="0%" stopColor="rgb(var(--premium-gold))" />
+                    <stop offset="50%" stopColor="rgb(var(--premium-gold))" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="rgb(var(--premium-gold))" />
                 </linearGradient>
                 <filter id={glowId} x="-20%" y="-20%" width="140%" height="140%">
                     <feGaussianBlur stdDeviation="2" result="blur" />

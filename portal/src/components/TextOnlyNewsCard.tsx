@@ -21,7 +21,7 @@ export default function TextOnlyNewsCard({ article }: any) {
 
     return (
         <div className="group flex flex-col mb-6 animate-in fade-in duration-500">
-            <Link href={`/news/${article.id}`} className="flex flex-col gap-2">
+            <Link href={`/news/${article.id}`} className="flex flex-col gap-3">
                 <h3 className="text-lg md:text-xl font-bold leading-[1.3] text-white/90 group-hover:text-premium-gold transition-colors line-clamp-2">
                     {article.title?.replace(/\*\*/g, '')}
                 </h3>

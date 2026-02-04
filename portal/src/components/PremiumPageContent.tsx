@@ -1,47 +1,71 @@
 "use client";
 
 import Link from 'next/link';
-import { ChevronLeft, Lock, Star, Zap } from 'lucide-react';
+import { ChevronLeft, Lock, Star, Zap, Crown } from 'lucide-react';
+import GloriosoLogo from '@/components/GloriosoLogo';
 import TabBar from '@/components/TabBar';
 import PremiumGuard from '@/components/PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
 import { getSafeImageSrc } from '@/lib/images';
+import { useAuth } from '@/context/AuthContext';
 
 import PremiumWallpapers from '@/components/PremiumWallpapers';
 import BauGlorioso from '@/components/BauGlorioso';
 // import PremiumGameStats from '@/components/PremiumGameStats';
 
 export default function PremiumPageContent({ premiumNews }: { premiumNews: any[] }) {
+    const { user, isPremium } = useAuth();
     return (
         <main className="min-h-screen bg-black text-white font-sans selection:bg-premium-gold selection:text-black pb-32">
 
             {/* HEADER - MOBILE */}
             <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-premium-gold/30 h-16 flex items-center justify-between px-4">
-                <Link href="/" className="text-white/70 hover:text-white transition-colors">
-                    <ChevronLeft size={24} />
+                <Link href="/" className="flex items-center gap-2">
+                    <GloriosoLogo size={28} />
+                    <div className="flex flex-col -space-y-1 font-sans">
+                        <span className="text-[14px] font-black text-white tracking-tighter leading-none">
+                            GLORIOSO
+                        </span>
+                        <span className="text-[11px] font-black text-premium-gold tracking-tighter leading-none">
+                            360<span className="text-[6px] ml-0.5 font-bold">º</span>
+                        </span>
+                    </div>
                 </Link>
 
-                <div className="flex flex-col items-center">
-                    <span className="text-xs font-black text-premium-gold uppercase tracking-[0.2em]">Fogão Premium</span>
-                    <div className="flex items-center space-x-1 mt-0.5">
-                        <Star size={8} className="fill-premium-gold text-premium-gold" />
-                        <Star size={8} className="fill-premium-gold text-premium-gold" />
-                        <Star size={8} className="fill-premium-gold text-premium-gold" />
-                    </div>
-                </div>
+                <div className="flex items-center gap-2">
+                    {isPremium && (
+                        <Link href="/premium" className="p-2 text-premium-gold hover:scale-110 active:scale-95 transition-all">
+                            <Crown size={22} className="fill-premium-gold/20" />
+                        </Link>
+                    )}
+                    <Link href="?briefing=true" className="p-2 text-zinc-400 hover:text-premium-gold transition-colors">
+                        <Zap size={20} className="fill-current" />
+                    </Link>
 
-                <div className="w-6"></div> {/* Spacer */}
+                    {user?.photoURL ? (
+                        <Link href="/profile" className="w-8 h-8 rounded-full overflow-hidden border border-premium-gold/50 shadow-lg shadow-premium-gold/20">
+                            <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                        </Link>
+                    ) : (
+                        <div className="w-6"></div>
+                    )}
+                </div>
             </header>
 
             <DesktopHeader />
-            <div className="lg:hidden h-20"></div>
+            <div className="lg:hidden h-4"></div>
             <div className="hidden lg:block h-24"></div>
 
             <div className="px-4 lg:max-w-5xl lg:mx-auto">
                 <div className="mb-12 text-center relative">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-premium-gold/20 blur-[60px] rounded-full pointer-events-none"></div>
-                    <h1 className="text-2xl lg:text-4xl font-display font-bold italic uppercase relative z-10">
-                        Área <span className="text-premium-gold">Exclusiva</span>
+                    <h1 className="text-2xl lg:text-4xl font-display font-bold uppercase relative z-10 flex items-center justify-center gap-3">
+                        {user?.photoURL && (
+                            <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-full overflow-hidden border-2 border-premium-gold shadow-2xl ring-4 ring-premium-gold/10">
+                                <img src={user.photoURL} alt="Premium User" className="w-full h-full object-cover" />
+                            </div>
+                        )}
+                        <span>Área <span className="text-premium-gold">Exclusiva</span></span>
                     </h1>
                     <p className="text-xs lg:text-sm text-white/50 mt-2 max-w-xs lg:max-w-md mx-auto relative z-10">
                         Análises táticas, bastidores e conteúdo exclusivo da Temporada 2026 do Botafogo.

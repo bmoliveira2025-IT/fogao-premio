@@ -30,7 +30,7 @@ export default function CompactNewsCard({ article }: any) {
                         {article.title?.replace(/\*\*/g, '')}
                     </h3>
 
-                    <div className="flex items-center gap-3 mt-auto">
+                    <div className="flex items-center gap-3 mt-3">
                         <div className="flex items-center gap-1.5">
                             <SourceIcon source={article.source || 'default'} className="w-3.5 h-3.5" />
                             <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">

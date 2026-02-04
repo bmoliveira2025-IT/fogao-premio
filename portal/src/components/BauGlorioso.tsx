@@ -78,12 +78,6 @@ export default function BauGlorioso() {
                                 {match.description}
                             </p>
 
-                            <button
-                                onClick={() => handleVideoSelect(match)}
-                                className="mt-auto w-full py-2.5 rounded-lg bg-white/5 hover:bg-premium-gold hover:text-black border border-white/10 hover:border-premium-gold transition-all duration-300 text-xs font-black uppercase tracking-widest text-center"
-                            >
-                                Assistir Jogo
-                            </button>
                         </div>
                     </div>
                 ))}

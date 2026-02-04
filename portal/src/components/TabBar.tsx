@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Home, FileText, Calendar, Play, Star } from "lucide-react";
+import { Home, FileText, Calendar, Play, Star, Crown, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 
@@ -33,7 +33,7 @@ const IconGames = ({ active, className }: { active: boolean, className?: string 
     />
 );
 
-// 4. Profile (User) - Keep existing Custom SVG
+// 4. Profile (User) - Keep existing Custom SVG but with Photo support
 const IconProfile = ({ active, className }: { active: boolean, className?: string }) => (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
         <path
@@ -43,7 +43,7 @@ const IconProfile = ({ active, className }: { active: boolean, className?: strin
             strokeWidth={active ? 2.5 : 1.5}
             strokeLinecap="round"
             strokeLinejoin="round"
-            fill="none" // Minimalist style usually avoids fill, or we can toggle it
+            fill="none"
         />
         <circle
             cx="12" cy="7" r="4"
@@ -58,7 +58,7 @@ const IconProfile = ({ active, className }: { active: boolean, className?: strin
 
 
 
-const tabs = [
+const navTabs = [
     { icon: IconHome, label: "INÍCIO", href: "/" },
     { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "PODCAST", href: "/podcasts" },
     { icon: IconGames, label: "JOGOS", href: "/matches" },
@@ -67,7 +67,7 @@ const tabs = [
 
 export default function TabBar() {
     const pathname = usePathname();
-    const { points } = useAuth();
+    const { user, isPremium, points } = useAuth();
     const searchParams = useSearchParams();
     const [mounted, setMounted] = useState(false);
 
@@ -78,6 +78,8 @@ export default function TabBar() {
     if (!mounted) {
         return <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background h-16 md:hidden border-t border-foreground/[0.08]" />;
     }
+
+    const tabs = [...navTabs];
 
     return (
         <nav className="fixed inset-x-0 bottom-0 z-[999] bg-background dark:bg-black border-t border-foreground/[0.08] dark:border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
@@ -111,7 +113,7 @@ export default function TabBar() {
                                 <Icon
                                     active={isActive}
                                     className={cn(
-                                        "w-[28px] h-[28px]", // Slightly larger for better reachability
+                                        "w-[28px] h-[28px]", // Consistent size
                                         isActive && "drop-shadow-[0_0_8px_rgba(40,40,40,0.1)] dark:drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
                                     )}
                                 />

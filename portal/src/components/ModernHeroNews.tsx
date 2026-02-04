@@ -55,8 +55,8 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
 
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-20 z-20">
-                {/* Badges (Top Left) */}
-                <div className="absolute top-6 md:top-10 left-6 md:left-10 z-30 flex gap-3">
+                {/* Badges (Top Right) */}
+                <div className="absolute top-6 md:top-10 right-6 md:right-10 z-30 flex gap-3">
                     {news.is_live && (
                         <div className="px-4 py-1.5 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
                             <div className="w-2 h-2 bg-white rounded-full" />
@@ -71,9 +71,9 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                             </div>
                         </div>
                     )}
-                    <div className="px-4 py-1.5 bg-premium-gold/90 dark:bg-premium-gold/90 light:bg-zinc-100 rounded-full shadow-lg flex items-center gap-2 border border-black/10">
-                        <TrendingUp size={14} className="text-black dark:text-black light:text-zinc-600" />
-                        <span className="text-[11px] font-black text-black dark:text-black light:text-zinc-900 uppercase tracking-widest">DESTAQUE</span>
+                    <div className="px-4 py-1.5 bg-black/40 backdrop-blur-md rounded-full shadow-lg flex items-center gap-2 border border-premium-gold/30">
+                        <Flame size={14} className="text-red-500 fill-red-500 animate-pulse" />
+                        <span className="text-[11px] font-black text-premium-gold uppercase tracking-widest">DESTAQUE</span>
                     </div>
                 </div>
 

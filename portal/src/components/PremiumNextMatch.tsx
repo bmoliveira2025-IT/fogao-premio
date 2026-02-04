@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Shield, MapPin, ChevronDown, TrendingUp, Zap } from 'lucide-react';
+import { Shield, MapPin, ChevronDown, TrendingUp, Zap, Tv } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { getSafeImageSrc } from '@/lib/images';
@@ -51,6 +51,11 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     display_time: data.display_time,
                     match_id: data.match_id,
                 } as MatchData);
+
+                // Data correction for today's match
+                if (data.away_team?.toLowerCase().includes('grêmio') || data.home_team?.toLowerCase().includes('grêmio')) {
+                    setLiveMatch(prev => prev ? { ...prev, transmission: "TV Globo, Premiere" } : null);
+                }
             }
         });
         return () => unsub();
@@ -227,31 +232,24 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                                 </div>
                             </div>
 
-                            <div className="text-center mt-4">
+                            <div className="flex flex-col items-center gap-3 mt-4">
                                 <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold opacity-70 bg-white/5 dark:bg-white/5 light:bg-zinc-100 px-5 py-2 rounded-full border border-white/5 dark:border-white/5 light:border-zinc-200 shadow-sm" style={{ color: 'var(--foreground)' }}>
                                     <MapPin size={12} className="text-premium-gold/70" />
                                     <span>{data.location}</span>
                                 </div>
+
+                                {data.transmission && (
+                                    <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold opacity-70 bg-green-500/5 dark:bg-green-500/5 light:bg-green-50 px-5 py-2 rounded-full border border-green-500/10 shadow-sm" style={{ color: 'var(--foreground)' }}>
+                                        <Tv size={12} className="text-green-500/70" />
+                                        <span>{data.transmission}</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-            {/* Modern Bottom Analysis Button - Always Visible for Finished Games */}
-            {isFinished && data.match_id && (
-                <div className="px-4 pb-4">
-                    <Link href={`/stats/${data.match_id}`} className="block">
-                        <div className="w-full py-3.5 bg-white/5 border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200 hover:border-premium-gold/50 dark:hover:border-premium-gold/50 light:hover:border-zinc-400 hover:bg-premium-gold/5 dark:hover:bg-premium-gold/5 light:hover:bg-zinc-100 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 group backdrop-blur-md">
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-premium-gold dark:text-premium-gold light:text-zinc-800 group-hover:text-white dark:group-hover:text-white light:group-hover:text-black transition-colors">
-                                Veja a Análise Completa
-                            </span>
-                            <div className="w-5 h-5 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-200 flex items-center justify-center group-hover:bg-premium-gold dark:group-hover:bg-premium-gold light:group-hover:bg-zinc-300 transition-all duration-300">
-                                <ChevronDown size={12} className="text-premium-gold dark:text-premium-gold light:text-zinc-600 group-hover:text-black -rotate-90 transition-colors" />
-                            </div>
-                        </div>
-                    </Link>
-                </div>
-            )}
-        </div>
+
+        </div >
     );
 }

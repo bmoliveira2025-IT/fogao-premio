@@ -72,7 +72,7 @@ h5,
 h6 {
   font-family: 'Outfit', sans-serif;
   letter-spacing: -0.02em;
-  /* Tighter for display feel */
+  font-style: normal;
 }
 
 /* Rest of utils... */

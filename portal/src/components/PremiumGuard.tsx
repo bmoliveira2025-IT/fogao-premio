@@ -47,7 +47,7 @@ export default function PremiumGuard({ children }: { children: React.ReactNode }
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-zinc-950/20 to-black pointer-events-none" />
 
                 <div className="relative z-10 flex flex-col items-center max-w-sm w-full bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/5 p-10 rounded-[2.5rem] shadow-2xl">
-                    <div className="w-20 h-20 bg-gradient-to-br from-premium-gold/30 to-premium-gold/5 rounded-3xl flex items-center justify-center mb-8 border border-premium-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.15)] transform -rotate-3">
+                    <div className="w-20 h-20 bg-gradient-to-br from-premium-gold/30 to-premium-gold/5 rounded-3xl flex items-center justify-center mb-8 border border-premium-gold/40 shadow-[0_0_40px_rgba(var(--premium-gold),0.15)] transform -rotate-3">
                         <Star size={40} className="text-premium-gold fill-premium-gold drop-shadow-lg" />
                     </div>
 

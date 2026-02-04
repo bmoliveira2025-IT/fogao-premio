@@ -31,7 +31,7 @@ export default function DesktopSidebar() {
                 </div>
                 <div className="flex flex-col leading-none text-center">
                     <h1 className="text-[21px] font-display font-black tracking-tight text-white leading-none">
-                        GLORIOSO <span className="font-light italic text-premium-gold">360</span>
+                        GLORIOSO <span className="font-light text-premium-gold">360</span>
                     </h1>
                 </div>
             </div>

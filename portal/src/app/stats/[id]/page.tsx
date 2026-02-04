@@ -123,7 +123,7 @@ export default function MatchStatsPage() {
 
                 <div className="relative h-3 w-full bg-white/20 rounded-full overflow-hidden flex shadow-inner">
                     <div
-                        className="h-full bg-premium-gold shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all duration-1000 ease-out"
+                        className="h-full bg-premium-gold shadow-[0_0_20px_rgba(var(--premium-gold),0.5)] transition-all duration-1000 ease-out"
                         style={{ width: `${homePercent}%` }}
                     />
                 </div>

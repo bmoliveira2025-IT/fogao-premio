@@ -81,7 +81,7 @@ export default function LoginPage() {
 
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-premium-gold to-[#B8860B] shadow-[0_0_30px_rgba(212,175,55,0.4)] mb-4 transform hover:scale-105 transition-transform duration-500">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-premium-gold to-premium-gold/80 shadow-[0_0_30px_rgba(var(--premium-gold),0.4)] mb-4 transform hover:scale-105 transition-transform duration-500">
                         <Star className="text-black fill-black" size={24} />
                     </div>
                     <h1 className="text-2xl font-black text-white tracking-tight mb-1">
@@ -173,7 +173,7 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-premium-gold text-black font-black uppercase tracking-widest h-12 rounded-xl text-xs hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 shadow-[0_0_20px_rgba(212,175,55,0.15)]"
+                            className="w-full bg-premium-gold text-black font-black uppercase tracking-widest h-12 rounded-xl text-xs hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center space-x-2 shadow-[0_0_20px_rgba(var(--premium-gold),0.15)]"
                         >
                             {loading ? <Loader2 className="animate-spin" size={16} /> : (
                                 <>

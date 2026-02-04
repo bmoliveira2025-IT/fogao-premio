@@ -17,9 +17,12 @@ export default function DesktopHeader() {
         { href: '/', label: 'Início' },
         { href: '/news', label: 'Notícias' },
         { href: '/matches', label: 'Jogos' },
-        { href: '/premium', label: 'Premium' },
         { href: '/profile', label: 'Perfil' },
     ];
+
+    if (isPremium) {
+        navLinks.splice(3, 0, { href: '/premium', label: 'Premium' });
+    }
 
     return (
         <header className="hidden lg:flex fixed top-0 left-0 right-0 z-50 bg-background dark:bg-black backdrop-blur-xl border-b border-foreground/5 dark:border-white/10 h-20 items-center justify-between px-8 shadow-2xl">
@@ -31,7 +34,7 @@ export default function DesktopHeader() {
                     </div>
                     <div className="flex flex-col leading-none">
                         <h1 className="text-2xl font-display font-black tracking-tight text-foreground leading-none group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors flex items-center gap-2">
-                            GLORIOSO <span className="font-light italic text-premium-gold dark:text-premium-gold light:text-zinc-400">360</span>
+                            GLORIOSO <span className="font-light text-premium-gold dark:text-premium-gold light:text-zinc-400">360</span>
                             {isPremium && (
                                 <Crown size={16} className="text-premium-gold dark:text-premium-gold light:text-zinc-400 fill-premium-gold/20 ml-1.5 self-start -mt-0.5" strokeWidth={2.5} />
                             )}
@@ -47,7 +50,7 @@ export default function DesktopHeader() {
                             className={cn(
                                 "text-[15px] font-bold transition-all duration-300 tracking-widest uppercase relative font-sans",
                                 isActive(link.href)
-                                    ? "text-premium-gold drop-shadow-[0_0_8px_rgba(212,175,55,0.4)] scale-105"
+                                    ? "text-premium-gold drop-shadow-[0_0_8px_rgb(var(--premium-gold)/0.4)] scale-105"
                                     : "text-foreground/60 dark:text-white/60 hover:text-foreground dark:hover:text-white"
                             )}
                         >
