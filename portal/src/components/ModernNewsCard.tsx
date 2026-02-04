@@ -74,11 +74,6 @@ export default function ModernNewsCard({ article }: any) {
                     </h3>
                 </Link>
 
-                <div className="flex items-center justify-between mt-2 pt-4 border-t border-white/5 opacity-50">
-                    <div className="flex gap-4">
-                        <Share2 size={16} className="text-zinc-500 cursor-pointer hover:text-white transition-colors" />
-                    </div>
-                </div>
             </div>
         </div>
     );
