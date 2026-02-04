@@ -67,9 +67,15 @@ export default function RootLayout({
       <body className="antialiased overflow-x-hidden selection:bg-premium-gold/30">
         <ThemeProvider>
           <AuthProvider>
-            <AutoRefresh />
-            <NotificationManager />
-            <InstallPrompt />
+            <Suspense fallback={null}>
+              <AutoRefresh />
+            </Suspense>
+            <Suspense fallback={null}>
+              <NotificationManager />
+            </Suspense>
+            <Suspense fallback={null}>
+              <InstallPrompt />
+            </Suspense>
             <Suspense fallback={null}>
               <MorningBriefingPopup />
             </Suspense>
@@ -80,7 +86,9 @@ export default function RootLayout({
             </Suspense>
 
             <div className="hidden lg:block">
-              <DesktopSidebar />
+              <Suspense fallback={null}>
+                <DesktopSidebar />
+              </Suspense>
             </div>
 
             {/* Main Content Wrapper with Safe Area Handling */}
