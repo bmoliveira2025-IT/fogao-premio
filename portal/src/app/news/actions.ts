@@ -11,8 +11,8 @@ export async function fetchMoreNews(lastCreatedAt: string) {
         let query = db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
-            .startAfter(new Date(lastCreatedAt)) // Firestore admin needs Date object or Timestamp for cursors if the field is a Timestamp
-            .limit(2);
+            .startAfter(new Date(lastCreatedAt))
+            .limit(15);
 
         // Important: When passing a string date from client, we need to convert it back to what Firestore expects.
         // However, if we stored it as Timestamp, passing a Date object usually works for startAfter if using the Admin SDK.

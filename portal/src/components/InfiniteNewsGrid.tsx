@@ -43,45 +43,66 @@ export default function InfiniteNewsGrid({
     const observerRef = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
 
+    const [extraNews, setExtraNews] = useState<NewsItem[]>([]);
+    const [isFetching, setIsFetching] = useState(false);
+
     // Mix news and videos together
-    const mixMediaItems = useCallback((news: NewsItem[], videos: VideoItem[], startIndex: number = 0): MediaItem[] => {
-        // Only return news items, no videos in the feed
+    const mixMediaItems = useCallback((news: NewsItem[], videos: VideoItem[]): MediaItem[] => {
         const newsWithType = news.map(n => ({ ...n, type: 'news' as const }));
+        // In the future, we can add videos back here if needed
         return newsWithType;
     }, []);
 
     // Initialize with first 6 items
     useEffect(() => {
-        const mixed = mixMediaItems(initialNews, initialVideos);
-        setItems(mixed.slice(0, 6));
-    }, [initialNews, initialVideos, mixMediaItems]);
+        const allNews = [...initialNews, ...extraNews];
+        const mixed = mixMediaItems(allNews, initialVideos);
+        setItems(mixed.slice(0, 6 + (items.length > 6 ? items.length - 6 : 0)));
+    }, [initialNews, initialVideos, extraNews, mixMediaItems]);
 
-    // Load more items (1 by 1) with duplicate protection
-    const loadMore = useCallback(() => {
-        if (loading || !hasMore) return;
+    // Load more items
+    const loadMore = useCallback(async () => {
+        if (loading || isFetching || !hasMore) return;
 
-        setLoading(true);
+        const allNews = [...initialNews, ...extraNews];
+        const mixed = mixMediaItems(allNews, initialVideos);
 
-        // Deriving mixed inside to ensure we have the latest
-        const mixed = mixMediaItems(initialNews, initialVideos);
+        // If we still have local items to show
+        const nextLocalItem = mixed.find(m => !items.some(p => p.id === m.id));
 
-        setItems(prev => {
-            // Find the first item in mixed that is NOT already in prev
-            const nextItem = mixed.find(m => !prev.some(p => p.id === m.id));
+        if (nextLocalItem) {
+            setLoading(true);
+            setItems(prev => [...prev, nextLocalItem]);
+            setTimeout(() => setLoading(false), 50);
+            return;
+        }
 
-            if (!nextItem) {
+        // If local items are exhausted, fetch from server
+        if (allNews.length > 0) {
+            setIsFetching(true);
+            setLoading(true);
+            const lastDate = allNews[allNews.length - 1].created_at;
+
+            try {
+                const { fetchMoreNews } = await import('@/app/news/actions');
+                const moreNews = await fetchMoreNews(lastDate as string);
+
+                if (moreNews && moreNews.length > 0) {
+                    setExtraNews(prev => [...prev, ...moreNews]);
+                } else {
+                    setHasMore(false);
+                }
+            } catch (err) {
+                console.error("Error loading more news:", err);
                 setHasMore(false);
-                return prev;
+            } finally {
+                setIsFetching(false);
+                setLoading(false);
             }
-
-            return [...prev, nextItem];
-        });
-
-        // Small delay to prevent double-firing from the observer
-        setTimeout(() => {
-            setLoading(false);
-        }, 50);
-    }, [loading, hasMore, initialNews, initialVideos, mixMediaItems]);
+        } else {
+            setHasMore(false);
+        }
+    }, [loading, isFetching, hasMore, items, initialNews, extraNews, initialVideos, mixMediaItems]);
 
     // Intersection Observer for infinite scroll
     useEffect(() => {
