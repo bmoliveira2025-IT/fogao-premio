@@ -1,3 +1,5 @@
+"use client";
+
 import { Home, Video, Users, Trophy, Crown, Zap, User, Search, Star } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
