@@ -75,7 +75,9 @@ export default function RootLayout({
             </Suspense>
 
             {/* Premium Navigation Header */}
-            <ModernNavMenu />
+            <Suspense fallback={null}>
+              <ModernNavMenu />
+            </Suspense>
 
             <div className="hidden lg:block">
               <DesktopSidebar />
