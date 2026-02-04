@@ -37,7 +37,7 @@ export default function CompactNewsCard({ article }: any) {
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between min-h-[80px] md:min-h-[110px] py-1">
-                    <h3 className="text-base md:text-[1.1rem] font-bold leading-[1.2] text-white/90 group-hover:text-premium-gold transition-colors line-clamp-3">
+                    <h3 className="text-lg md:text-xl font-bold leading-[1.2] text-white/90 group-hover:text-premium-gold transition-colors line-clamp-3">
                         {article.title?.replace(/\*\*/g, '')}
                     </h3>
 
@@ -66,9 +66,9 @@ export default function CompactNewsCard({ article }: any) {
                         setLiked(!liked);
                         setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
                     }}
-                    className={`flex items-center gap-1.5 text-[10px] font-black transition-all active:scale-90 ${liked ? 'text-premium-gold' : 'text-zinc-600'}`}
+                    className={`flex items-center gap-2 text-[12px] font-black transition-all active:scale-90 ${liked ? 'text-premium-gold' : 'text-zinc-600'}`}
                 >
-                    <ThumbsUp size={12} className={liked ? 'fill-current' : ''} />
+                    <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
                     <span>{likesCount}</span>
                 </button>
             </div>

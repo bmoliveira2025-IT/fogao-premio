@@ -61,15 +61,15 @@ export default function ModernNewsCard({ article }: any) {
                             setLiked(!liked);
                             setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
                         }}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-full transition-all active:scale-90 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/5'}`}
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all active:scale-90 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/5'}`}
                     >
-                        <ThumbsUp size={14} className={liked ? 'fill-current' : ''} />
-                        <span className="text-[11px] font-black">{likesCount}</span>
+                        <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
+                        <span className="text-[13px] font-black">{likesCount}</span>
                     </button>
                 </div>
 
                 <Link href={`/news/${article.id}`}>
-                    <h3 className="text-xl md:text-2xl font-black font-sans text-white leading-tight uppercase italic tracking-tighter group-hover:text-premium-gold transition-colors duration-300">
+                    <h3 className="text-2xl md:text-3xl font-black font-sans text-white leading-tight uppercase italic tracking-tighter group-hover:text-premium-gold transition-colors duration-300">
                         {article.title?.replace(/\*\*/g, '')}
                     </h3>
                 </Link>
