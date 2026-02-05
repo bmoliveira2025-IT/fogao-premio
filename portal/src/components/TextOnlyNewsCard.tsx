@@ -26,43 +26,42 @@ export default function TextOnlyNewsCard({ article }: any) {
     };
 
     return (
-        <div className="group flex flex-col mb-6 animate-in fade-in duration-500">
-            <Link href={`/news/${article.id}`} className="flex flex-col gap-3">
-                <h3 className="text-[19px] md:text-xl font-bold text-white/90 group-hover:text-premium-gold transition-colors line-clamp-2 normal-case">
+        <div className="group flex flex-col mb-10 glass-puro crystal-border crystal-shine rounded-[2.5rem] p-8 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+            <Link href={`/news/${article.id}`} className="flex flex-col gap-5">
+                <h3 className="text-[24px] md:text-4xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
                     {toSentenceCase(article.title)}
                 </h3>
 
-                <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5">
-                        <SourceIcon source={article.source || 'default'} className="w-3.5 h-3.5" />
-                        <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
-                            {article.source || 'FOGÃO'}
-                        </span>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                            <SourceIcon source={article.source || 'default'} className="w-5 h-5 text-premium-gold" />
+                            <span className="text-[12px] font-athletic text-white">
+                                {article.source || 'FOGÃO PRÊMIO'}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 bg-black/40 px-5 py-2.5 rounded-full border border-white/10">
+                            <Clock size={16} className="text-zinc-400" />
+                            <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">
+                                {timeAgo(article.created_at)}
+                            </span>
+                        </div>
                     </div>
-                    <span className="text-zinc-700 font-bold text-[10px]">•</span>
-                    <div className="flex items-center gap-1 text-[10px] font-bold text-zinc-500">
-                        <Clock size={10} />
-                        <span>{timeAgo(article.created_at)}</span>
-                    </div>
+
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setLiked(!liked);
+                            setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
+                        }}
+                        className={`flex items-center gap-2.5 px-6 py-3 rounded-full transition-all active:scale-95 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/10 font-athletic'}`}
+                    >
+                        <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
+                        <span className="text-[14px] font-athletic">{likesCount}</span>
+                    </button>
                 </div>
             </Link>
-
-            <div className="flex items-center gap-4 mt-3 pl-1">
-                <button
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setLiked(!liked);
-                        setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
-                    }}
-                    className={`flex items-center gap-2 text-[12px] font-black transition-all active:scale-90 ${liked ? 'text-premium-gold' : 'text-zinc-600'}`}
-                >
-                    <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
-                    <span>{likesCount}</span>
-                </button>
-            </div>
-
-            <div className="h-[1px] w-full bg-white/5 mt-6" />
         </div>
     );
 }

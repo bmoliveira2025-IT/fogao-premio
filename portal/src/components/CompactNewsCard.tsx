@@ -28,43 +28,42 @@ export default function CompactNewsCard({ article }: any) {
     };
 
     return (
-        <div className="group flex flex-col mb-8 animate-in fade-in duration-500">
+        <div className="group flex flex-col mb-10 glass-puro crystal-border crystal-shine rounded-[2.5rem] p-5 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
                 {/* Content */}
-                <div className="flex-1 flex flex-col justify-between min-h-[80px] md:min-h-[110px] py-1">
-                    <h3 className="text-[19px] md:text-xl font-bold text-white/90 group-hover:text-premium-gold transition-colors line-clamp-3 normal-case">
+                <div className="flex-1 flex flex-col justify-between min-h-[100px] md:min-h-[140px] py-1">
+                    <h3 className="text-[22px] md:text-3xl font-athletic text-white/90 group-hover:text-premium-gold transition-colors leading-tight">
                         {toSentenceCase(article.title)}
                     </h3>
 
-                    <div className="flex items-center gap-3 mt-3">
-                        <div className="flex items-center gap-1.5">
-                            <SourceIcon source={article.source || 'default'} className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                    <div className="flex items-center gap-3 mt-4">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-full border border-white/10">
+                            <SourceIcon source={article.source || 'default'} className="w-4 h-4 text-premium-gold" />
+                            <span className="text-[12px] font-athletic text-white">
                                 {article.source || 'FOGÃO'}
                             </span>
                         </div>
-                        <span className="text-zinc-700 font-bold text-[10px]">•</span>
-                        <div className="flex items-center gap-1 text-[10px] font-bold text-zinc-500">
-                            <Clock size={10} />
+                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-2">
+                            <Clock size={12} />
                             <span>{timeAgo(article.created_at)}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Compact Image (Right Side) */}
-                <div className="relative w-32 h-20 md:w-48 md:h-32 flex-shrink-0 rounded-2xl md:rounded-3xl overflow-hidden border border-white/5 bg-zinc-900 shadow-lg">
+                <div className="relative w-32 h-24 md:w-56 md:h-36 flex-shrink-0 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-900 shadow-xl self-center">
                     <Image
                         src={getSafeImageSrc(article.image)}
                         alt={article.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
                         unoptimized={true}
                     />
                 </div>
             </Link>
 
             {/* Interaction Row (Below) */}
-            <div className="flex items-center gap-4 mt-3 pl-1">
+            <div className="flex items-center justify-between mt-4 border-t border-white/5 pt-4">
                 <button
                     onClick={(e) => {
                         e.preventDefault();
@@ -72,15 +71,12 @@ export default function CompactNewsCard({ article }: any) {
                         setLiked(!liked);
                         setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
                     }}
-                    className={`flex items-center gap-2 text-[12px] font-black transition-all active:scale-90 ${liked ? 'text-premium-gold' : 'text-zinc-600'}`}
+                    className={`flex items-center gap-2.5 px-6 py-3 rounded-full transition-all active:scale-95 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/10 font-athletic'}`}
                 >
                     <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
-                    <span>{likesCount}</span>
+                    <span className="text-[14px] font-athletic">{likesCount}</span>
                 </button>
             </div>
-
-            {/* Divider */}
-            <div className="h-[1px] w-full bg-white/5 mt-6" />
         </div>
     );
 }

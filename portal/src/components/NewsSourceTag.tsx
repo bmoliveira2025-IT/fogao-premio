@@ -32,9 +32,9 @@ export default function NewsSourceTag({
     if (variant === 'compact') {
         return (
             <div className={`flex items-center gap-2 text-xs ${className}`}>
-                <div className="flex items-center gap-1.5 text-premium-gold dark:text-premium-gold light:text-zinc-600">
-                    <SourceIcon source={source} className="w-3 h-3" />
-                    <span className="font-bold uppercase tracking-wide">{source}</span>
+                <div className="flex items-center gap-2 text-premium-gold bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
+                    <SourceIcon source={source} className="w-3.5 h-3.5" />
+                    <span className="font-athletic text-[11px] uppercase">{source}</span>
                 </div>
                 {timestamp && (
                     <>
@@ -50,9 +50,9 @@ export default function NewsSourceTag({
 
     return (
         <div className={`flex items-center gap-3 flex-wrap ${className}`}>
-            <div className="flex items-center gap-2 bg-white/90 dark:bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-zinc-200 dark:border-white/20 shadow-sm">
-                <SourceIcon source={source} className="w-3.5 h-3.5 text-premium-gold dark:text-premium-gold light:text-zinc-400" />
-                <span className="text-[10px] md:text-xs font-black text-zinc-900 dark:text-white uppercase tracking-widest">
+            <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg">
+                <SourceIcon source={source} className="w-4 h-4 text-premium-gold" />
+                <span className="text-[12px] font-athletic text-white uppercase">
                     {source}
                 </span>
             </div>
