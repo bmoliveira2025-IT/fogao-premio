@@ -1,35 +1,35 @@
 {
-    "active": false,
-    "ge_url": "https://ge.globo.com/rj/futebol/campeonato-carioca/jogo/01-02-2026/botafogo-fluminense.ghtml",
-    "match_id": "bot_v_flu_2026_02_01",
-    "home_team": "Botafogo",
-    "away_team": "Fluminense",
-    "home_score": 0,
-    "away_score": 1,
+    "active": true,
+    "is_premium": true,
+    "ge_url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/04-02-2026/gremio-botafogo.ghtml",
+    "match_id": "gre_v_bot_2026_02_04",
+    "home_team": "Grêmio",
+    "away_team": "Botafogo",
+    "home_score": 5,
+    "away_score": 3,
     "status": "ENCERRADA",
-    "display_time": "",
-    "date": "2026-02-01T20:30:00-03:00",
+    "date": "2026-02-04T21:30:00-03:00",
     "championship": "Brasileirão Betano",
     "stats": {
         "possession": {
-            "home": 48,
-            "away": 52
+            "home": 45,
+            "away": 55
         },
         "shots": {
-            "home": 14,
-            "away": 13
+            "home": 18,
+            "away": 22
         },
         "shots_on_target": {
-            "home": 4,
-            "away": 5
+            "home": 9,
+            "away": 8
         },
         "corners": {
             "home": 6,
-            "away": 4
+            "away": 7
         },
         "fouls": {
-            "home": 15,
-            "away": 14
+            "home": 12,
+            "away": 15
         },
         "yellow_cards": {
             "home": 2,
@@ -43,46 +43,46 @@
     "player_stats": {
         "home": [
             {
-                "name": "Kadir Barría",
+                "name": "Luis Suárez",
                 "position": "ATA",
-                "rating": 7.0,
-                "goals": 0,
-                "assists": 0
+                "rating": 9.5,
+                "goals": 3,
+                "assists": 1
             },
             {
-                "name": "Matheus Martins",
-                "position": "ATA",
-                "rating": 6.5,
-                "goals": 0,
-                "assists": 0
+                "name": "Cristaldo",
+                "position": "MEI",
+                "rating": 8.5,
+                "goals": 1,
+                "assists": 2
             },
             {
-                "name": "Goleiro",
+                "name": "Marchesín",
                 "position": "GOL",
-                "rating": 6.0,
+                "rating": 7.0,
                 "goals": 0,
                 "assists": 0
             }
         ],
         "away": [
             {
-                "name": "John Kennedy",
+                "name": "Kadir Barría",
                 "position": "ATA",
-                "rating": 8.5,
-                "goals": 1,
+                "rating": 8.0,
+                "goals": 2,
                 "assists": 0
             },
             {
-                "name": "Lucho Acosta",
-                "position": "MEI",
-                "rating": 8.0,
-                "goals": 0,
+                "name": "Matheus Martins",
+                "position": "ATA",
+                "rating": 7.5,
+                "goals": 1,
                 "assists": 1
             },
             {
-                "name": "Lima",
-                "position": "MEI",
-                "rating": 7.5,
+                "name": "John Victor",
+                "position": "GOL",
+                "rating": 6.0,
                 "goals": 0,
                 "assists": 0
             }
@@ -90,62 +90,52 @@
     },
     "events": [
         {
-            "time": "68'",
+            "time": "12'",
             "type": "GOAL",
-            "player": "John Kennedy",
-            "team": "Fluminense"
+            "player": "Luis Suárez",
+            "team": "Grêmio"
+        },
+        {
+            "time": "25'",
+            "type": "GOAL",
+            "player": "Kadir Barría",
+            "team": "Botafogo"
+        },
+        {
+            "time": "38'",
+            "type": "GOAL",
+            "player": "Luis Suárez",
+            "team": "Grêmio"
+        },
+        {
+            "time": "44'",
+            "type": "GOAL",
+            "player": "Matheus Martins",
+            "team": "Botafogo"
+        },
+        {
+            "time": "55'",
+            "type": "GOAL",
+            "player": "Luis Suárez",
+            "team": "Grêmio"
+        },
+        {
+            "time": "62'",
+            "type": "GOAL",
+            "player": "Kadir Barría",
+            "team": "Botafogo"
+        },
+        {
+            "time": "78'",
+            "type": "GOAL",
+            "player": "Cristaldo",
+            "team": "Grêmio"
+        },
+        {
+            "time": "89'",
+            "type": "GOAL",
+            "player": "Ferreira",
+            "team": "Grêmio"
         }
-    ],
-    "motm_data": {
-        "name": "Kadir Barría",
-        "rating": 7.0,
-        "position": "ATA",
-        "contribution": "Teve uma atuação sólida."
-    },
-    "goalkeeper_stats": {
-        "name": "Goleiro",
-        "saves": 4,
-        "saves_inside_box": 3,
-        "punched_clear": 0,
-        "high_claims": 5,
-        "clean_sheet": false
-    },
-    "pass_stats": {
-        "accurate_passes": {
-            "home": 345,
-            "away": 353,
-            "home_total": 384,
-            "away_total": 416
-        },
-        "sideways_passes": {
-            "home": 115,
-            "away": 124,
-            "home_total": 384,
-            "away_total": 416
-        },
-        "final_third_entries": {
-            "home": 57,
-            "away": 41,
-            "home_total": 384,
-            "away_total": 416
-        },
-        "final_third_accuracy": {
-            "home": 82,
-            "away": 70,
-            "home_total": 100,
-            "away_total": 100
-        },
-        "long_passes": {
-            "home": 19,
-            "away": 33,
-            "home_total": 384,
-            "away_total": 416
-        },
-        "crosses": {
-            "home": 18,
-            "away": 12,
-            "home_total": 0,
-            "away_total": 0
-        }
-    }
+    ]
 }

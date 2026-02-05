@@ -179,7 +179,7 @@ export default function ProfilePage() {
                         {/* Preferences */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Conteúdo</h4>
-                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
+                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic">
                                 <ToggleItem
                                     icon={Smartphone}
                                     label="Notícias"
@@ -258,7 +258,7 @@ export default function ProfilePage() {
                         {/* Notifications */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Notificações</h4>
-                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
+                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic">
                                 <ToggleItem icon={Bell} label="Última Hora" checked={true} />
                                 <ToggleItem icon={Shield} label="Dia de Jogo" checked={true} />
                             </div>
@@ -266,7 +266,7 @@ export default function ProfilePage() {
 
                         {/* Account */}
                         <div className="space-y-2 lg:col-span-2 lg:mt-16">
-                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg">
+                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic">
                                 <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left">
                                     <div className="flex items-center space-x-3">
                                         <Settings size={18} className="text-white/70" />

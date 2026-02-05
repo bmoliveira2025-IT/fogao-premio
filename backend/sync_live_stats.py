@@ -309,8 +309,11 @@ def sync_botafogo_live():
             except Exception as e:
                 print(f"Error checking manual data staleness: {e}")
                 
+            # Define match ID from manual data early
+            m_id = manual_data.get("match_id", "manual_match")
+            
             if found_live: # Only proceed if we decided it's live
-                m_id = manual_data.get("match_id", "manual_match")
+                pass # m_id is already set above
             # Ensure timestamp
             manual_data["last_sync"] = datetime.now(timezone.utc).isoformat()
             
