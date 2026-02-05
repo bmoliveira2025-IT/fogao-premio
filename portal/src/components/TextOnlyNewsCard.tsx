@@ -28,7 +28,7 @@ export default function TextOnlyNewsCard({ article }: any) {
     return (
         <div className="group flex flex-col mb-10 glass-puro crystal-border crystal-shine rounded-[2.5rem] p-8 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             <Link href={`/news/${article.id}`} className="flex flex-col gap-5">
-                <h3 className="text-[24px] md:text-4xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
+                <h3 className="text-[20px] md:text-3xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
                     {toSentenceCase(article.title)}
                 </h3>
 

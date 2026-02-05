@@ -32,7 +32,7 @@ export default function CompactNewsCard({ article }: any) {
             <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between min-h-[100px] md:min-h-[140px] py-1">
-                    <h3 className="text-[22px] md:text-3xl font-athletic text-white/90 group-hover:text-premium-gold transition-colors leading-tight">
+                    <h3 className="text-[18px] md:text-2xl font-athletic text-white/90 group-hover:text-premium-gold transition-colors leading-tight">
                         {toSentenceCase(article.title)}
                     </h3>
 

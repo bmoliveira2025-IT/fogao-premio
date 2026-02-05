@@ -247,7 +247,7 @@ export default async function Home() {
 
                 {/* INFINITE NEWS GRID - Mixed with Videos */}
                 <div className="px-4 md:px-0">
-                  <h2 className="text-4xl md:text-6xl font-athletic text-zinc-900 dark:text-white mb-10 flex items-center gap-5">
+                  <h2 className="text-3xl md:text-5xl font-athletic text-zinc-900 dark:text-white mb-10 flex items-center gap-5">
                     <div className="w-2.5 h-12 bg-premium-gold rounded-full shadow-[0_0_20px_rgba(var(--premium-gold),0.6)]" />
                     Últimas Notícias
                   </h2>

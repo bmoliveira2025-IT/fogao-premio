@@ -77,7 +77,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
                 {/* Video Info */}
                 <div className="px-8 pb-8 pt-2">
-                    <h3 className="text-[22px] md:text-3xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
+                    <h3 className="text-[18px] md:text-2xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
                         {toSentenceCase(item.title)}
                     </h3>
 
@@ -114,7 +114,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                     )}
 
                     {/* Title */}
-                    <h3 className="text-[24px] md:text-4xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight pr-24">
+                    <h3 className="text-[20px] md:text-3xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight pr-24">
                         {toSentenceCase(item.title)}
                     </h3>
 
@@ -165,7 +165,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
             </Link>
 
             <div className="px-8 pb-8 pt-2">
-                <h3 className="text-[24px] md:text-4xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
+                <h3 className="text-[20px] md:text-3xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
                     {toSentenceCase(item.title)}
                 </h3>
 

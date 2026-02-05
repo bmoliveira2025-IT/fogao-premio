@@ -85,7 +85,7 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                     </div>
 
                     <div className="max-w-7xl space-y-4 md:space-y-6">
-                        <h1 className="text-[28px] md:text-5xl lg:text-7xl font-athletic text-white drop-shadow-2xl group-hover:text-premium-gold transition-colors duration-500 leading-tight">
+                        <h1 className="text-[24px] md:text-4xl lg:text-6xl font-athletic text-white drop-shadow-2xl group-hover:text-premium-gold transition-colors duration-500 leading-tight">
                             {toSentenceCase(news.title)}
                         </h1>
 
