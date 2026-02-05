@@ -44,7 +44,7 @@ export default function LastMatchStatsCard() {
 
     return (
         <div
-            className="w-full relative overflow-hidden bg-black border border-white/5 shadow-2xl rounded-[2.5rem] cursor-pointer group"
+            className="w-full relative overflow-hidden bg-black border border-white/5 shadow-2xl rounded-2xl cursor-pointer group"
             onClick={handleAction}
         >
             {/* Gloss Overlay */}
