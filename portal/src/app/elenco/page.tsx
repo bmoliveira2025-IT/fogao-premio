@@ -67,7 +67,7 @@ export default async function ElencoPage() {
                 </h1>
             </div>
 
-            <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
+            <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
                 {ORDER.map(posCode => {
                     const groupTitle = POSITION_MAP[posCode];
                     const groupPlayers = groupedPlayers[posCode];

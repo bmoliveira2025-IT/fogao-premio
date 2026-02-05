@@ -79,7 +79,7 @@ export default function ProfilePage() {
 
                 {/* Header Area - Wrapped for Mobile Hiding/Desktop Styling */}
                 <div className="lg:col-span-4">
-                    <div className="mb-6 pt-4 pb-4 px-5 bg-gradient-to-b from-card to-background border-b border-premium-gold/15 lg:rounded-2xl lg:border lg:shadow-lg lg:bg-card lg:mb-0">
+                    <div className="mb-4 pt-4 pb-4 px-5 bg-gradient-to-b from-card to-background border-b border-premium-gold/15 lg:rounded-xl lg:border lg:shadow-lg lg:bg-card lg:mb-0">
                         <h1 className="text-xl font-display font-black text-foreground mb-3 text-center lg:hidden">Perfil</h1>
 
                         <div className="flex items-center lg:flex-col lg:text-center space-x-3 lg:space-x-0 lg:space-y-4">
@@ -120,7 +120,7 @@ export default function ProfilePage() {
                     </div>
                 </div>
 
-                <div className="px-5 space-y-6 lg:col-span-8 lg:px-0 lg:space-y-8">
+                <div className="px-5 space-y-4 lg:col-span-8 lg:px-0 lg:space-y-4">
 
                     {/* Points Card */}
                     <div className="flex items-center justify-between p-5 bg-zinc-900/50 border border-premium-gold/20 rounded-xl overflow-hidden relative group">
@@ -146,7 +146,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Subscription Card */}
-                    <div className="relative group overflow-hidden rounded-xl border border-premium-gold/15 bg-card p-5 shadow-lg">
+                    <div className="relative group overflow-hidden rounded-xl border border-premium-gold/15 bg-card p-4 shadow-lg">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/5 blur-[60px] rounded-full pointer-events-none" />
 
                         <div className="relative z-10">
@@ -174,7 +174,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Settings Sections */}
-                    <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
+                    <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
 
                         {/* Preferences */}
                         <div className="space-y-2 lg:col-span-2">

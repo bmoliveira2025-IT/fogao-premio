@@ -234,7 +234,7 @@ export default function MatchStatsPage() {
 
             <div className="px-4 pt-0 pb-12 max-w-xl mx-auto space-y-2">
                 {/* Scoreboard - Ultra Compact */}
-                <div className="p-6 bg-gradient-to-b from-white/[0.03] to-transparent rounded-[2.5rem] border border-white/[0.02] flex flex-col items-center">
+                <div className="p-4 bg-gradient-to-b from-white/[0.03] to-transparent rounded-xl border border-white/[0.02] flex flex-col items-center">
                     <span className="text-[12px] font-black text-premium-gold/50 uppercase tracking-[0.4em] mb-2">{match.championship || "Brasileirão Betano"}</span>
                     <div className="flex items-center justify-center gap-8 translate-x-1">
                         <div className="flex flex-col items-center gap-1">
@@ -259,7 +259,7 @@ export default function MatchStatsPage() {
 
                 {/* Jogador da Partida (MOTM) - NEW */}
                 {match.motm_data && (
-                    <div className="bg-[#080808] border border-premium-gold/20 rounded-[2rem] p-6 shadow-2xl relative overflow-hidden group">
+                    <div className="bg-[#080808] border border-premium-gold/20 rounded-xl p-6 shadow-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-premium-gold/5 blur-3xl rounded-full" />
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
@@ -289,7 +289,7 @@ export default function MatchStatsPage() {
 
                 {/* Goalkeeper Highlight - COMPACT 4x1 GRID */}
                 {match.goalkeeper_stats && (
-                    <div className="bg-[#080808] border border-white/5 rounded-[2rem] p-5 shadow-2xl relative overflow-hidden">
+                    <div className="bg-[#080808] border border-white/5 rounded-xl p-5 shadow-2xl relative overflow-hidden">
                         <div className="flex items-center justify-between mb-5 px-1">
                             <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20">
@@ -363,7 +363,7 @@ export default function MatchStatsPage() {
                     </div>
 
                     {match.stats.tackles_won && (
-                        <div className="bg-[#080808] border border-white/5 rounded-[2rem] p-6 shadow-xl space-y-6">
+                        <div className="bg-[#080808] border border-white/5 rounded-xl p-6 shadow-xl space-y-4">
                             <div className="flex items-center gap-3">
                                 <Shield size={14} className="text-premium-gold" />
                                 <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Combate</h2>
@@ -379,13 +379,13 @@ export default function MatchStatsPage() {
 
                 {/* Pass Analytics - NEW PROFESSIONAL VIEW */}
                 {match.pass_stats && (
-                    <div className="bg-[#080808] border border-white/5 rounded-[2.5rem] p-8 shadow-2xl space-y-10">
+                    <div className="bg-[#080808] border border-white/5 rounded-xl p-8 shadow-2xl space-y-5">
                         <div className="flex items-center gap-3">
                             <TrendingUp size={14} className="text-premium-gold" />
                             <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Passes</h2>
                         </div>
 
-                        <div className="space-y-8">
+                        <div className="space-y-4">
                             {/* Volume Rows */}
                             <PassVolumeRow label="Passes certos" home={match.pass_stats.accurate_passes.home} away={match.pass_stats.accurate_passes.away} />
                             <PassVolumeRow label="Laterais" home={match.pass_stats.sideways_passes.home} away={match.pass_stats.sideways_passes.away} />

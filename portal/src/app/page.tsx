@@ -266,7 +266,7 @@ export default async function Home() {
             </div>
 
             {/* --- RIGHT COLUMN (Widgets - Desktop Only) --- */}
-            <div className="hidden lg:flex lg:col-span-4 flex-col gap-8 mt-8">
+            <div className="hidden lg:flex lg:col-span-4 flex-col gap-4 mt-8">
               <StaggeredEntry delay={0.2} staggerDelay={0.1}>
                 {/* Next Match Card */}
                 <PremiumNextMatch match={nextMatch} />
@@ -315,7 +315,7 @@ export default async function Home() {
                 </Link>
 
                 {/* Sidebar News Feed */}
-                <div className="glass-puro crystal-border rounded-[2rem] p-8 soft-shadow-cinematic">
+                <div className="glass-puro crystal-border rounded-xl p-6 soft-shadow-cinematic">
                   <h3 className="text-sm font-athletic text-premium-gold mb-8 flex items-center gap-3">
                     <div className="w-1.5 h-5 bg-premium-gold rounded-full" />
                     Últimas do Esporte

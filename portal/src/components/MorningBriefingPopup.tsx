@@ -254,7 +254,7 @@ export default function MorningBriefingPopup() {
         ...(briefing.indicators ? [{
             type: 'content',
             content: (
-                <div className="flex flex-col h-full justify-center space-y-6 px-6">
+                <div className="flex flex-col h-full justify-center space-y-4 px-6">
                     <div className="flex flex-col space-y-1">
                         <div className="flex items-center gap-2">
                             <div className="h-px w-8 bg-blue-400/50" />
@@ -267,7 +267,7 @@ export default function MorningBriefingPopup() {
 
                     <div className="grid grid-cols-1 gap-3">
                         {briefing.indicators.next_match && (
-                            <div className="bg-white/5 backdrop-blur-xl p-5 rounded-3xl border border-white/10 relative overflow-hidden group">
+                            <div className="bg-white/5 backdrop-blur-xl p-5 rounded-xl border border-white/10 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                                     <Trophy size={48} className="text-premium-gold" />
                                 </div>
@@ -338,7 +338,7 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-10 relative z-10 px-6">
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-5 relative z-10 px-6">
                     <motion.div
                         initial={{ scale: 0.5, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
@@ -346,7 +346,7 @@ export default function MorningBriefingPopup() {
                         className="relative"
                     >
                         <div className="absolute inset-0 bg-premium-gold blur-3xl opacity-20 rounded-full scale-150" />
-                        <div className="w-32 h-32 bg-white/5 backdrop-blur-2xl rounded-[40px] border border-white/10 flex items-center justify-center shadow-2xl relative z-10 p-6">
+                        <div className="w-32 h-32 bg-white/5 backdrop-blur-2xl rounded-xl border border-white/10 flex items-center justify-center shadow-2xl relative z-10 p-6">
                             <CheckCircle size={64} className="text-premium-gold" />
                         </div>
                     </motion.div>

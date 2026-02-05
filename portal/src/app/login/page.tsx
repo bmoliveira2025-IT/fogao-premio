@@ -77,10 +77,10 @@ export default function LoginPage() {
             </div>
 
             {/* Glass Card */}
-            <div className="relative z-20 w-full max-w-md bg-black/40 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl ring-1 ring-white/5">
+            <div className="relative z-20 w-full max-w-md bg-black/40 backdrop-blur-xl border border-white/10 p-6 rounded-xl shadow-2xl ring-1 ring-white/5">
 
                 {/* Header */}
-                <div className="text-center mb-8">
+                <div className="text-center mb-6">
                     <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-premium-gold to-premium-gold/80 shadow-[0_0_30px_rgba(var(--premium-gold),0.4)] mb-4 transform hover:scale-105 transition-transform duration-500">
                         <Star className="text-black fill-black" size={24} />
                     </div>
