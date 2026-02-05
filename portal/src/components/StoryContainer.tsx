@@ -97,10 +97,10 @@ export default function StoryContainer({
                 </div>
 
                 {/* Navigation Touch Zones - Edges Only (z-50) */}
-                <>
+                <div className="absolute inset-0 pointer-events-none z-50">
                     {/* Left Zone (Prev) */}
                     <div
-                        className="absolute top-0 left-0 bottom-0 w-[20%] z-50 cursor-pointer"
+                        className="absolute top-0 left-0 bottom-0 w-[15%] cursor-pointer pointer-events-auto"
                         onClick={(e) => { e.stopPropagation(); onPrev(); }}
                         onTouchStart={() => setIsPaused(true)}
                         onTouchEnd={() => setIsPaused(false)}
@@ -111,7 +111,7 @@ export default function StoryContainer({
 
                     {/* Right Zone (Next) */}
                     <div
-                        className="absolute top-0 right-0 bottom-0 w-[20%] z-50 cursor-pointer"
+                        className="absolute top-0 right-0 bottom-0 w-[15%] cursor-pointer pointer-events-auto"
                         onClick={(e) => { e.stopPropagation(); onNext(); }}
                         onTouchStart={() => setIsPaused(true)}
                         onTouchEnd={() => setIsPaused(false)}
@@ -119,7 +119,7 @@ export default function StoryContainer({
                         onMouseUp={() => setIsPaused(false)}
                         aria-label="Next Slide Helper"
                     />
-                </>
+                </div>
 
                 {/* Bottom Controls - Super Compact & Floating Higher */}
                 <div className="absolute bottom-8 md:bottom-12 left-0 right-0 z-[110] flex justify-center items-center gap-6 pointer-events-none">

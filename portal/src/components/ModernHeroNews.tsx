@@ -44,75 +44,77 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
     if (!news) return null;
 
     return (
-        <Link
-            href={`/news/${news.id}`}
-            className={`relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block rounded-none md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.002] hover:shadow-premium-gold/10 ${className}`}
-        >
-            {/* Image */}
-            <img
-                src={getSafeImageSrc(news.image)}
-                alt={news.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-            />
+        <div className="px-4 md:px-0">
+            <Link
+                href={`/news/${news.id}`}
+                className={`relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block rounded-[2rem] md:rounded-[3.5rem] soft-shadow-cinematic crystal-shine transition-all duration-700 hover:scale-[1.002] hover:shadow-premium-gold/20 ${className}`}
+            >
+                {/* Image */}
+                <img
+                    src={getSafeImageSrc(news.image)}
+                    alt={news.title}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                />
 
-            {/* Cinematic Overlay - Deeper and more nuanced */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-90 transition-opacity group-hover:opacity-85" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent opacity-60" />
+                {/* Cinematic Overlay - Deeper and more nuanced */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-95 transition-opacity group-hover:opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent opacity-70" />
 
-            {/* Content */}
-            <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-20 z-20">
-                {/* Badges (Top Right) */}
-                <div className="absolute top-6 md:top-10 right-6 md:right-10 z-30 flex gap-3">
-                    {news.is_live && (
-                        <div className="px-4 py-1.5 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
-                            <div className="w-2 h-2 bg-white rounded-full" />
-                            <span className="text-[11px] font-black text-white uppercase tracking-widest">AO VIVO</span>
+                {/* Content */}
+                <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-20 z-20">
+                    {/* Badges (Top Right) */}
+                    <div className="absolute top-6 md:top-12 right-6 md:right-12 z-30 flex gap-3">
+                        {news.is_live && (
+                            <div className="px-5 py-2 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
+                                <div className="w-2.5 h-2.5 bg-white rounded-full" />
+                                <span className="text-[12px] font-athletic text-white">AO VIVO</span>
+                            </div>
+                        )}
+                        {news.is_breaking && (
+                            <div className="px-5 py-2 bg-premium-gold rounded-full shadow-lg flex items-center gap-2 border border-black/10">
+                                <div className="flex items-center gap-2">
+                                    <Flame size={16} className="text-black fill-current" />
+                                    <span className="text-[12px] font-athletic text-black">URGENTE</span>
+                                </div>
+                            </div>
+                        )}
+                        <div className="px-5 py-2 bg-black/50 backdrop-blur-xl rounded-full shadow-lg flex items-center gap-2 border border-premium-gold/40">
+                            <Flame size={16} className="text-premium-gold fill-premium-gold animate-pulse" />
+                            <span className="text-[12px] font-athletic text-premium-gold">DESTAQUE</span>
                         </div>
-                    )}
-                    {news.is_breaking && (
-                        <div className="px-4 py-1.5 bg-premium-gold dark:bg-premium-gold light:bg-zinc-800 rounded-full shadow-lg flex items-center gap-2 border border-black/10">
-                            <div className="flex items-center gap-2">
-                                <Flame size={14} className="text-black dark:text-black light:text-white fill-current" />
-                                <span className="text-[11px] font-black text-black dark:text-black light:text-white uppercase tracking-widest">URGENTE</span>
+                    </div>
+
+                    <div className="max-w-7xl space-y-4 md:space-y-6">
+                        <h1 className="text-[28px] md:text-5xl lg:text-7xl font-athletic text-white drop-shadow-2xl group-hover:text-premium-gold transition-colors duration-500 leading-tight">
+                            {toSentenceCase(news.title)}
+                        </h1>
+
+                        {/* Summary - Desktop Only */}
+                        {news.summary && (
+                            <p className="hidden md:block text-base lg:text-lg text-zinc-200 line-clamp-2 max-w-4xl font-medium leading-relaxed">
+                                {news.summary}
+                            </p>
+                        )}
+
+                        {/* Source & Time Row */}
+                        <div className="flex items-center gap-4 flex-wrap">
+                            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl px-4 py-2 rounded-full border border-white/20 shadow-xl">
+                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
+                                <span className="text-xs md:text-sm font-athletic text-white">
+                                    {news.source || 'FOGÃO PRÊMIO'}
+                                </span>
+                            </div>
+
+                            <div className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10">
+                                <Clock size={16} className="text-zinc-400" />
+                                <span className="text-xs md:text-sm font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                    {getRelativeTime(news.created_at)}
+                                </span>
                             </div>
                         </div>
-                    )}
-                    <div className="px-4 py-1.5 bg-black/40 backdrop-blur-md rounded-full shadow-lg flex items-center gap-2 border border-premium-gold/30">
-                        <Flame size={14} className="text-red-500 fill-red-500 animate-pulse" />
-                        <span className="text-[11px] font-black text-premium-gold uppercase tracking-widest">DESTAQUE</span>
                     </div>
                 </div>
-
-                <div className="max-w-7xl space-y-4 md:space-y-6">
-                    <h1 className="text-[25.5px] md:text-4xl lg:text-6xl font-black font-sans text-white drop-shadow-xl group-hover:text-premium-gold transition-colors duration-500 normal-case">
-                        {toSentenceCase(news.title)}
-                    </h1>
-
-                    {/* Summary - Desktop Only */}
-                    {news.summary && (
-                        <p className="hidden md:block text-base lg:text-lg text-zinc-200 line-clamp-2 max-w-4xl font-medium leading-relaxed">
-                            {news.summary}
-                        </p>
-                    )}
-
-                    {/* Source & Time Row */}
-                    <div className="flex items-center gap-4 flex-wrap">
-                        <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl px-4 py-2 rounded-full border border-white/20 shadow-xl">
-                            <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                            <span className="text-xs md:text-sm font-black text-white uppercase tracking-widest">
-                                {news.source || 'FOGÃO PRÊMIO'}
-                            </span>
-                        </div>
-
-                        <div className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10">
-                            <Clock size={16} className="text-zinc-400" />
-                            <span className="text-xs md:text-sm font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
-                                {getRelativeTime(news.created_at)}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </Link>
+            </Link>
+        </div>
     );
 }

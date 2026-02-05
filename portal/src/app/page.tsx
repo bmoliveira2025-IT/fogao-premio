@@ -9,6 +9,7 @@ import MatchDayPopup from '@/components/MatchDayPopup';
 import ModernNavMenu from '@/components/ModernNavMenu';
 import ModernHeroNews from '@/components/ModernHeroNews';
 import InfiniteNewsGrid from '@/components/InfiniteNewsGrid';
+import StaggeredEntry from '@/components/StaggeredEntry';
 
 import { ChevronRight, Users, Trophy } from 'lucide-react';
 import Link from 'next/link';
@@ -224,107 +225,108 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-12">
 
             {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-6 lg:space-y-12 animate-fade-in-up">
+            <div className="lg:col-span-8 space-y-6 lg:space-y-12">
 
-              {/* HERO NEWS - First News Highlight */}
-              {heroNews && (
-                <div className="px-0 md:px-0 mt-0 md:mt-8">
-                  <ModernHeroNews news={heroNews} />
+              <StaggeredEntry staggerDelay={0.15}>
+                {/* HERO NEWS - First News Highlight */}
+                {heroNews && (
+                  <ModernHeroNews news={heroNews} className="mt-0 md:mt-8" />
+                )}
+
+                {/* NEXT MATCH - Mobile Only (After Hero) */}
+                {nextMatch && (
+                  <div className="lg:hidden">
+                    <PremiumNextMatch match={nextMatch} />
+                  </div>
+                )}
+
+                {/* GLORIOSO TV (BOTAFOGO TV CAROUSEL) */}
+                <div className="px-0 md:px-0">
+                  <BotafogoTVCarousel videos={videos} />
                 </div>
-              )}
 
-              {/* NEXT MATCH - Mobile Only (After Hero) */}
-              {nextMatch && (
-                <div className="lg:hidden px-4 md:px-0">
-                  <PremiumNextMatch match={nextMatch} />
+                {/* INFINITE NEWS GRID - Mixed with Videos */}
+                <div className="px-4 md:px-0">
+                  <h2 className="text-4xl md:text-6xl font-athletic text-zinc-900 dark:text-white mb-10 flex items-center gap-5">
+                    <div className="w-2.5 h-12 bg-premium-gold rounded-full shadow-[0_0_20px_rgba(var(--premium-gold),0.6)]" />
+                    Últimas Notícias
+                  </h2>
+                  <InfiniteNewsGrid
+                    initialNews={remainingNews}
+                    initialVideos={videos}
+                  />
                 </div>
-              )}
 
-              {/* GLORIOSO TV (BOTAFOGO TV CAROUSEL) */}
-              <div className="px-0 md:px-0">
-                <BotafogoTVCarousel videos={videos} />
-              </div>
-
-              {/* INFINITE NEWS GRID - Mixed with Videos */}
-              <div className="px-4 md:px-0">
-                <h2 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white uppercase mb-6 flex items-center gap-3">
-                  <div className="w-1.5 h-8 bg-premium-gold rounded-full" />
-                  Últimas Notícias
-                </h2>
-                <InfiniteNewsGrid
-                  initialNews={remainingNews}
-                  initialVideos={videos}
-                />
-              </div>
-
-              {/* QUOTE BANNER */}
-              <div className="px-4 md:px-0 mt-8 mb-8 lg:mb-0">
-                <QuoteBanner />
-              </div>
+                {/* QUOTE BANNER */}
+                <div className="px-4 md:px-0 mt-8 mb-8 lg:mb-0">
+                  <QuoteBanner />
+                </div>
+              </StaggeredEntry>
 
             </div>
 
             {/* --- RIGHT COLUMN (Widgets - Desktop Only) --- */}
             <div className="hidden lg:flex lg:col-span-4 flex-col gap-8 mt-8">
+              <StaggeredEntry delay={0.2} staggerDelay={0.1}>
+                {/* Next Match Card */}
+                <PremiumNextMatch match={nextMatch} />
 
-              {/* Next Match Card */}
-              <PremiumNextMatch match={nextMatch} />
+                {/* Premium Widget */}
+                <PremiumWidget news={premiumNews} />
 
-              {/* Premium Widget */}
-              <PremiumWidget news={premiumNews} />
-
-              {/* Elenco Banner */}
-              <Link href="/elenco" className="block group">
-                <div className="relative overflow-hidden rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-6 flex items-center justify-between shadow-lg hover:shadow-premium-gold/10">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
-                      <Users size={24} />
+                {/* Elenco Banner */}
+                <Link href="/elenco" className="block group">
+                  <div className="relative overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-8 flex items-center justify-between shadow-xl hover:shadow-premium-gold/10">
+                    <div className="flex items-center gap-5">
+                      <div className="p-4 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
+                        <Users size={28} />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-athletic text-zinc-900 dark:text-white group-hover:text-premium-gold transition-colors">
+                          Elenco 2026
+                        </h4>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium tracking-widest uppercase">
+                          Plantel Completo
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-black text-zinc-900 dark:text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
-                        Elenco 2026
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium tracking-wide">
-                        Plantel Completo
-                      </p>
-                    </div>
+                    <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
                   </div>
-                  <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
-                </div>
-              </Link>
+                </Link>
 
-              {/* Standings Banner */}
-              <Link href="/tabela" className="block group">
-                <div className="relative overflow-hidden rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-6 flex items-center justify-between shadow-lg hover:shadow-premium-gold/10">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
-                      <Trophy size={24} />
+                {/* Standings Banner */}
+                <Link href="/tabela" className="block group">
+                  <div className="relative overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-8 flex items-center justify-between shadow-xl hover:shadow-premium-gold/10">
+                    <div className="flex items-center gap-5">
+                      <div className="p-4 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
+                        <Trophy size={28} />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-athletic text-zinc-900 dark:text-white group-hover:text-premium-gold transition-colors">
+                          Classificação
+                        </h4>
+                        <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium tracking-widest uppercase">
+                          Tabela Carioca 2026
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-black text-zinc-900 dark:text-white uppercase tracking-widest group-hover:text-premium-gold transition-colors">
-                        Classificação
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 dark:text-zinc-400 font-medium tracking-wide">
-                        Tabela Carioca 2026
-                      </p>
-                    </div>
+                    <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
                   </div>
-                  <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={20} />
-                </div>
-              </Link>
+                </Link>
 
-              {/* Sidebar News Feed */}
-              <div className="bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-white/5 rounded-2xl p-6 backdrop-blur-sm">
-                <h3 className="text-xs font-bold text-premium-gold uppercase tracking-widest mb-6 flex items-center gap-2">
-                  <div className="w-1 h-4 bg-premium-gold rounded-full" />
-                  Últimas do Esporte
-                </h3>
-                <div className="space-y-4">
-                  {news.slice(10, 16).map(article => (
-                    <CompactNewsRow key={article.id} article={article} />
-                  ))}
+                {/* Sidebar News Feed */}
+                <div className="glass-puro crystal-border rounded-[2rem] p-8 soft-shadow-cinematic">
+                  <h3 className="text-sm font-athletic text-premium-gold mb-8 flex items-center gap-3">
+                    <div className="w-1.5 h-5 bg-premium-gold rounded-full" />
+                    Últimas do Esporte
+                  </h3>
+                  <div className="space-y-6">
+                    {news.slice(10, 16).map(article => (
+                      <CompactNewsRow key={article.id} article={article} />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </StaggeredEntry>
             </div>
 
           </div>

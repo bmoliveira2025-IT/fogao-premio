@@ -109,150 +109,147 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     const showScore = isLive || hasScore; // Removed isFinished
 
     return (
-        <div
-            className={cn("w-full transition-all duration-300 overflow-hidden bg-transparent border-y md:border rounded-none md:rounded-xl shadow-2xl relative z-[100]", className)}
-            style={{
-                borderColor: 'var(--border-color)'
-            }}
-        >
-            {/* Gold Top & Bottom Borders */}
+        <div className="px-4 md:px-0">
             <div
-                className="absolute top-0 left-0 w-full h-[2px] opacity-70 z-20 bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-300 to-transparent"
-            />
-            <div
-                className="absolute bottom-0 left-0 w-full h-[2px] opacity-70 z-20 bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-300 to-transparent"
-            />
-            {/* Header Style (Clickable to Toggle) */}
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full relative flex items-center justify-between p-4 border-b hover:bg-white/5 dark:hover:bg-white/5 transition-colors"
-                style={{
-                    borderColor: 'rgba(184, 134, 11, 0.2)'
-                }}
+                className={cn("w-full transition-all duration-300 overflow-hidden glass-puro crystal-border crystal-shine rounded-[2rem] soft-shadow-cinematic relative z-[100]", className)}
             >
-                <div className="flex items-center space-x-3 text-left opacity-0 pointer-events-none">
-                    {/* Spacer to maintain layout if needed, or remove */}
-                    <div className="w-10 h-10" />
-                </div>
+                {/* Gold Top & Bottom Borders */}
+                <div
+                    className="absolute top-0 left-0 w-full h-[2px] opacity-70 z-20 bg-gradient-to-r from-transparent via-premium-gold to-transparent"
+                />
+                <div
+                    className="absolute bottom-0 left-0 w-full h-[2px] opacity-70 z-20 bg-gradient-to-r from-transparent via-premium-gold to-transparent"
+                />
+                {/* Header Style (Clickable to Toggle) */}
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-full relative flex items-center justify-between p-4 border-b hover:bg-white/5 transition-colors"
+                    style={{
+                        borderColor: 'rgba(255, 255, 255, 0.05)'
+                    }}
+                >
+                    <div className="flex items-center space-x-3 text-left opacity-0 pointer-events-none">
+                        <div className="w-10 h-10" />
+                    </div>
 
-                {/* Centered Teams Text - Absolute Positioning for Perfect Center */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center leading-tight pointer-events-none">
-                    <span className="text-sm md:text-lg font-black uppercase tracking-widest whitespace-nowrap text-foreground">
-                        {data.home_team} <span className="text-premium-gold dark:text-premium-gold light:text-zinc-400 mx-0.5">X</span> {data.away_team}
-                    </span>
-                    <span className="text-[11px] md:text-[13px] font-bold opacity-60 capitalize mt-1" style={{ color: 'var(--foreground)' }}>
-                        {data.championship}
-                        {isLive && <span className="ml-2 text-red-500 font-bold animate-pulse">• AO VIVO</span>}
-                    </span>
-                </div>
+                    {/* Centered Teams Text - Absolute Positioning for Perfect Center */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center leading-tight pointer-events-none">
+                        <span className="text-sm md:text-2xl font-athletic text-foreground">
+                            {data.home_team} <span className="text-premium-gold mx-2">X</span> {data.away_team}
+                        </span>
+                        <span className="text-[10px] md:text-[12px] font-bold opacity-70 uppercase tracking-[0.2em] mt-1" style={{ color: 'var(--foreground)' }}>
+                            {data.championship}
+                            {isLive && <span className="ml-2 text-red-500 font-athletic animate-pulse">• AO VIVO</span>}
+                        </span>
+                    </div>
 
-                <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    <ChevronDown
-                        size={16}
-                        className={cn("text-premium-gold dark:text-premium-gold light:text-zinc-400 transition-transform duration-300", isOpen ? "rotate-180" : "rotate-0")}
-                    />
-                </div>
-            </button>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                        <ChevronDown
+                            size={16}
+                            className={cn("text-premium-gold dark:text-premium-gold light:text-zinc-400 transition-transform duration-300", isOpen ? "rotate-180" : "rotate-0")}
+                        />
+                    </div>
+                </button>
 
 
-            {/* Content Style (AnimatePresence for smooth expand/collapse) */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    >
-                        <div className="px-4 pb-5 pt-4">
-                            {/* Match Meta - Integrated Top Bar */}
-                            <div className="flex items-center justify-center gap-4 mb-6 opacity-60 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--foreground)' }}>
-                                <div className="flex items-center gap-1.5">
-                                    <MapPin size={12} className="text-premium-gold" />
-                                    <span>{data.location}</span>
-                                </div>
-                                {data.transmission && (
-                                    <>
-                                        <span className="w-1 h-1 rounded-full bg-foreground/20" />
-                                        <div className="flex items-center gap-1.5 text-green-500">
-                                            <Tv size={12} className="fill-current" />
-                                            <span>{data.transmission}</span>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-
-                            <div className="flex items-center py-4 relative h-20">
-                                {/* Home Logo */}
-                                <div className="absolute left-6">
-                                    <div className="w-12 h-12 relative drop-shadow-md">
-                                        {data.home_team_logo ? (
-                                            <img src={getSafeImageSrc(data.home_team_logo)} alt={data.home_team} className="w-full h-full object-contain" />
-                                        ) : (
-                                            <Shield size={32} className="text-white/20" />
-                                        )}
+                {/* Content Style (AnimatePresence for smooth expand/collapse) */}
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        >
+                            <div className="px-4 pb-5 pt-4">
+                                {/* Match Meta - Integrated Top Bar */}
+                                <div className="flex items-center justify-center gap-4 mb-6 opacity-60 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--foreground)' }}>
+                                    <div className="flex items-center gap-1.5">
+                                        <MapPin size={12} className="text-premium-gold" />
+                                        <span>{data.location}</span>
                                     </div>
+                                    {data.transmission && (
+                                        <>
+                                            <span className="w-1 h-1 rounded-full bg-foreground/20" />
+                                            <div className="flex items-center gap-1.5 text-green-500">
+                                                <Tv size={12} className="fill-current" />
+                                                <span>{data.transmission}</span>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
 
-                                {/* CENTER: Date & Time OR Score */}
-                                <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
-                                    {isFinished ? (
-                                        <Link href={`/stats/${data.match_id}`} className="group cursor-pointer">
-                                            <div className="flex flex-col items-center group-hover:scale-105 transition-transform duration-200">
-                                                <div className="flex items-center gap-4 text-3xl font-black italic font-display leading-none group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
-                                                    <span>{data.home_score}</span>
-                                                    <span className="text-premium-gold/50 text-xl">x</span>
-                                                    <span>{data.away_score}</span>
-                                                </div>
-                                                <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20 group-hover:bg-premium-gold group-hover:text-black transition-colors">
-                                                    {data.display_time || data.status}
-                                                </span>
-                                            </div>
-                                        </Link>
-                                    ) : (
-                                        <div className="flex flex-col items-center">
-                                            {showScore ? (
-                                                <div className="flex flex-col items-center">
-                                                    <div className="flex items-center gap-4 text-3xl font-black italic font-display leading-none" style={{ color: 'var(--foreground)' }}>
+                                <div className="flex items-center py-4 relative h-20">
+                                    {/* Home Logo */}
+                                    <div className="absolute left-6">
+                                        <div className="w-12 h-12 relative drop-shadow-md">
+                                            {data.home_team_logo ? (
+                                                <img src={getSafeImageSrc(data.home_team_logo)} alt={data.home_team} className="w-full h-full object-contain" />
+                                            ) : (
+                                                <Shield size={32} className="text-white/20" />
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* CENTER: Date & Time OR Score */}
+                                    <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+                                        {isFinished ? (
+                                            <Link href={`/stats/${data.match_id}`} className="group cursor-pointer">
+                                                <div className="flex flex-col items-center group-hover:scale-105 transition-transform duration-200">
+                                                    <div className="flex items-center gap-4 text-3xl font-black italic font-display leading-none group-hover:text-premium-gold transition-colors" style={{ color: 'var(--foreground)' }}>
                                                         <span>{data.home_score}</span>
                                                         <span className="text-premium-gold/50 text-xl">x</span>
                                                         <span>{data.away_score}</span>
                                                     </div>
-                                                    <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20">
+                                                    <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20 group-hover:bg-premium-gold group-hover:text-black transition-colors">
                                                         {data.display_time || data.status}
                                                     </span>
                                                 </div>
+                                            </Link>
+                                        ) : (
+                                            <div className="flex flex-col items-center">
+                                                {showScore ? (
+                                                    <div className="flex flex-col items-center">
+                                                        <div className="flex items-center gap-4 text-3xl font-black italic font-display leading-none" style={{ color: 'var(--foreground)' }}>
+                                                            <span>{data.home_score}</span>
+                                                            <span className="text-premium-gold/50 text-xl">x</span>
+                                                            <span>{data.away_score}</span>
+                                                        </div>
+                                                        <span className="mt-2 text-[10px] font-bold text-premium-gold uppercase tracking-widest bg-premium-gold/10 px-2 py-0.5 rounded border border-premium-gold/20">
+                                                            {data.display_time || data.status}
+                                                        </span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex flex-col items-center bg-transparent border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
+                                                        <span className="text-[10px] font-black text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase tracking-[0.2em] mb-1">
+                                                            {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
+                                                        </span>
+                                                        <div className="h-px w-8 bg-premium-gold/30 dark:bg-premium-gold/30 light:bg-zinc-300 mb-1" />
+                                                        <span className="text-sm font-mono font-bold tracking-widest text-foreground">
+                                                            {timeString}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Away Logo */}
+                                    <div className="absolute right-6">
+                                        <div className="w-12 h-12 relative drop-shadow-md">
+                                            {data.away_team_logo ? (
+                                                <img src={getSafeImageSrc(data.away_team_logo)} alt={data.away_team} className="w-full h-full object-contain" />
                                             ) : (
-                                                <div className="flex flex-col items-center bg-transparent border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200 rounded-xl px-4 py-2 shadow-lg backdrop-blur-sm">
-                                                    <span className="text-[10px] font-black text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase tracking-[0.2em] mb-1">
-                                                        {matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '').toUpperCase()}
-                                                    </span>
-                                                    <div className="h-px w-8 bg-premium-gold/30 dark:bg-premium-gold/30 light:bg-zinc-300 mb-1" />
-                                                    <span className="text-sm font-mono font-bold tracking-widest text-foreground">
-                                                        {timeString}
-                                                    </span>
-                                                </div>
+                                                <Shield size={32} className="text-white/20" />
                                             )}
                                         </div>
-                                    )}
-                                </div>
-
-                                {/* Away Logo */}
-                                <div className="absolute right-6">
-                                    <div className="w-12 h-12 relative drop-shadow-md">
-                                        {data.away_team_logo ? (
-                                            <img src={getSafeImageSrc(data.away_team_logo)} alt={data.away_team} className="w-full h-full object-contain" />
-                                        ) : (
-                                            <Shield size={32} className="text-white/20" />
-                                        )}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-
-        </div >
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </div>
     );
 }

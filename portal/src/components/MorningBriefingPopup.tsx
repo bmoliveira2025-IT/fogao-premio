@@ -103,40 +103,42 @@ export default function MorningBriefingPopup() {
         }
 
         return (
-            <div className="space-y-4">
+            <div className="space-y-6">
                 {abertura && (
-                    <div className="bg-gradient-to-br from-premium-gold/20 to-transparent p-4 rounded-2xl border border-premium-gold/20 shadow-lg relative overflow-hidden">
-                        <Quote className="absolute top-4 right-4 text-premium-gold/20 w-8 h-8" />
-                        <h4 className="text-premium-gold font-bold uppercase text-xs tracking-wider mb-2 flex items-center gap-2">
+                    <div className="glass-puro crystal-border crystal-shine p-6 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+                        <Quote className="absolute top-4 right-4 text-premium-gold/10 w-10 h-10 transition-transform duration-700 group-hover:scale-110" />
+                        <h4 className="text-premium-gold font-athletic text-[14px] mb-3 flex items-center gap-2">
                             Panorama
                         </h4>
-                        <p className="text-[15px] text-white font-medium leading-relaxed italic">"{abertura}"</p>
+                        <p className="text-[17px] md:text-xl text-white font-medium leading-relaxed italic drop-shadow-sm">"{abertura}"</p>
                     </div>
                 )}
 
                 {destaques.length > 0 && (
-                    <div className="space-y-2">
-                        <h4 className="text-white/60 font-bold uppercase text-xs tracking-wider ml-1 flex items-center gap-2">
-                            <Star size={12} className="text-premium-gold" />
+                    <div className="space-y-3">
+                        <h4 className="text-white/60 font-athletic text-[12px] ml-2 flex items-center gap-2">
+                            <Star size={14} className="text-premium-gold fill-premium-gold" />
                             Destaques do Dia
                         </h4>
-                        {destaques.map((d, i) => (
-                            <div key={i} className="flex items-start gap-3 bg-white/5 p-3 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
-                                <div className="min-w-1.5 h-1.5 rounded-full bg-premium-gold mt-2" />
-                                <p className="text-white/90 text-sm font-medium leading-snug">{d}</p>
-                            </div>
-                        ))}
+                        <div className="space-y-3">
+                            {destaques.map((d, i) => (
+                                <div key={i} className="flex items-start gap-4 bg-white/5 backdrop-blur-md p-4 rounded-[1.5rem] border border-white/5 hover:border-premium-gold/30 transition-all duration-300">
+                                    <div className="min-w-2 h-2 rounded-full bg-premium-gold mt-2.5 shadow-[0_0_10px_rgba(var(--premium-gold),0.5)]" />
+                                    <p className="text-white/90 text-[15px] font-medium leading-relaxed">{d}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
 
                 {radar && (
-                    <div className="bg-zinc-900/40 p-3 rounded-xl border-l-2 border-blue-400 flex items-start gap-4">
-                        <div className="bg-blue-500/20 p-2 rounded-lg">
-                            <Activity size={18} className="text-blue-400" />
+                    <div className="glass-puro crystal-border border-l-4 border-l-blue-500 p-5 rounded-[1.5rem] flex items-start gap-5 shadow-xl">
+                        <div className="bg-blue-500/20 p-3 rounded-xl">
+                            <Activity size={22} className="text-blue-400" />
                         </div>
                         <div>
-                            <span className="text-blue-400 font-bold uppercase text-[11px] tracking-wider block mb-1">Radar Rápido</span>
-                            <p className="text-white/80 text-sm font-medium leading-snug">{radar}</p>
+                            <span className="text-blue-400 font-athletic text-[12px] block mb-1">Radar Rápido</span>
+                            <p className="text-white/90 text-[15px] font-medium leading-relaxed">{radar}</p>
                         </div>
                     </div>
                 )}
@@ -183,11 +185,12 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col h-full px-6 pt-24">
-                    <div className="flex-1 overflow-y-auto scrollbar-hide">
+                <div className="flex flex-col h-full overflow-hidden relative z-40">
+                    <div
+                        className="flex-1 overflow-y-scroll px-6 pt-24 pb-48 scroll-smooth"
+                        style={{ touchAction: 'pan-y' }}
+                    >
                         {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
-                        {/* Explicit Spacer for scrolling past bottom controls */}
-                        <div className="h-48 w-full shrink-0" />
                     </div>
                 </div>
             )
