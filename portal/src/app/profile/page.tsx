@@ -123,7 +123,7 @@ export default function ProfilePage() {
                 <div className="px-5 space-y-4 lg:col-span-8 lg:px-0 lg:space-y-4">
 
                     {/* Points Card */}
-                    <div className="flex items-center justify-between p-5 bg-zinc-900/50 border border-premium-gold/20 rounded-xl overflow-hidden relative group">
+                    <div className="flex items-center justify-between p-5 glass-puro crystal-border crystal-shine rounded-xl overflow-hidden relative group soft-shadow-cinematic">
                         <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="flex items-center space-x-4 relative z-10">
                             <div className="w-12 h-12 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/30">
@@ -146,7 +146,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Subscription Card */}
-                    <div className="relative group overflow-hidden rounded-xl border border-premium-gold/15 bg-card p-4 shadow-lg">
+                    <div className="relative group overflow-hidden rounded-xl glass-puro crystal-border crystal-shine p-4 soft-shadow-cinematic">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/5 blur-[60px] rounded-full pointer-events-none" />
 
                         <div className="relative z-10">
@@ -207,7 +207,7 @@ export default function ProfilePage() {
                         {/* Audio Preferences */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Áudio</h4>
-                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg p-4 space-y-4">
+                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic p-4 space-y-4">
 
                                 {/* Speed Control */}
                                 <div className="space-y-2">
@@ -231,7 +231,7 @@ export default function ProfilePage() {
                         {/* Appearance (Existing) */}
                         <div className="space-y-2">
                             <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Aparência</h4>
-                            <div className="bg-[#121212] border border-premium-gold/15 rounded-xl overflow-hidden shadow-lg h-full">
+                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic h-full">
                                 <div className="flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 h-full">
                                     <div className="flex items-center space-x-3">
                                         <Moon size={18} className="text-white/70" />
