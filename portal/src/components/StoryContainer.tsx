@@ -97,10 +97,10 @@ export default function StoryContainer({
                 </div>
 
                 {/* Navigation Touch Zones - Edges Only (z-50) */}
-                <div className="absolute inset-0 pointer-events-none z-50">
+                <div className="absolute inset-x-0 top-0 bottom-24 pointer-events-none z-50">
                     {/* Left Zone (Prev) */}
                     <div
-                        className="absolute top-0 left-0 bottom-0 w-[15%] cursor-pointer pointer-events-auto"
+                        className="absolute top-0 left-0 bottom-0 w-[12%] cursor-pointer pointer-events-auto"
                         onClick={(e) => { e.stopPropagation(); onPrev(); }}
                         onTouchStart={() => setIsPaused(true)}
                         onTouchEnd={() => setIsPaused(false)}
@@ -111,7 +111,7 @@ export default function StoryContainer({
 
                     {/* Right Zone (Next) */}
                     <div
-                        className="absolute top-0 right-0 bottom-0 w-[15%] cursor-pointer pointer-events-auto"
+                        className="absolute top-0 right-0 bottom-0 w-[12%] cursor-pointer pointer-events-auto"
                         onClick={(e) => { e.stopPropagation(); onNext(); }}
                         onTouchStart={() => setIsPaused(true)}
                         onTouchEnd={() => setIsPaused(false)}

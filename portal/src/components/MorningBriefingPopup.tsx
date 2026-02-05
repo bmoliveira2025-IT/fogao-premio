@@ -185,16 +185,15 @@ export default function MorningBriefingPopup() {
         {
             type: 'content',
             content: (
-                <div className="flex flex-col h-full overflow-hidden relative z-40">
-                    <div
-                        className="flex-1 overflow-y-scroll premium-scrollbar px-6 pt-24 pb-64 scroll-smooth"
-                        style={{ touchAction: 'pan-y' }}
-                    >
-                        {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
+                <div
+                    className="absolute inset-x-0 top-0 bottom-0 overflow-y-auto premium-scrollbar px-6 pt-28 pb-80 scroll-smooth overscroll-contain z-50 pointer-events-auto"
+                    style={{ WebkitOverflowScrolling: 'touch' }}
+                >
+                    {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
 
-                        <div className="mt-8 flex justify-center opacity-40 animate-bounce">
-                            <TrendingUp className="text-premium-gold rotate-180" size={20} />
-                        </div>
+                    <div className="mt-12 flex flex-col items-center gap-2 opacity-30 pb-20">
+                        <TrendingUp className="text-premium-gold rotate-180" size={24} />
+                        <span className="text-[10px] font-athletic text-white">Fim do Panorama</span>
                     </div>
                 </div>
             )
@@ -402,15 +401,7 @@ export default function MorningBriefingPopup() {
                         isActive={currentSlide === idx}
                         type={slide.type as any}
                     >
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
-                            className="h-full w-full"
-                        >
-                            {slide.content}
-                        </motion.div>
+                        {slide.content}
                     </StorySlide>
                 ))}
             </AnimatePresence>
