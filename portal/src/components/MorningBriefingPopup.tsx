@@ -103,28 +103,28 @@ export default function MorningBriefingPopup() {
         }
 
         return (
-            <div className="space-y-6">
+            <div className="space-y-4">
                 {abertura && (
-                    <div className="glass-puro crystal-border crystal-shine p-6 rounded-[2rem] shadow-2xl relative overflow-hidden group">
-                        <Quote className="absolute top-4 right-4 text-premium-gold/10 w-10 h-10 transition-transform duration-700 group-hover:scale-110" />
-                        <h4 className="text-premium-gold font-athletic text-[14px] mb-3 flex items-center gap-2">
+                    <div className="glass-puro crystal-border crystal-shine p-5 rounded-[1.5rem] shadow-2xl relative overflow-hidden group">
+                        <Quote className="absolute top-3 right-3 text-premium-gold/10 w-8 h-8 transition-transform duration-700 group-hover:scale-110" />
+                        <h4 className="text-premium-gold font-athletic text-[12px] mb-2 flex items-center gap-2">
                             Panorama
                         </h4>
-                        <p className="text-[17px] md:text-xl text-white font-medium leading-relaxed italic drop-shadow-sm">"{abertura}"</p>
+                        <p className="text-[16px] md:text-lg text-white font-medium leading-relaxed italic drop-shadow-sm">"{abertura}"</p>
                     </div>
                 )}
 
                 {destaques.length > 0 && (
-                    <div className="space-y-3">
-                        <h4 className="text-white/60 font-athletic text-[12px] ml-2 flex items-center gap-2">
-                            <Star size={14} className="text-premium-gold fill-premium-gold" />
+                    <div className="space-y-2">
+                        <h4 className="text-white/60 font-athletic text-[11px] ml-1 flex items-center gap-2 uppercase tracking-widest">
+                            <Star size={12} className="text-premium-gold fill-premium-gold" />
                             Destaques do Dia
                         </h4>
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             {destaques.map((d, i) => (
-                                <div key={i} className="flex items-start gap-4 bg-white/5 backdrop-blur-md p-4 rounded-[1.5rem] border border-white/5 hover:border-premium-gold/30 transition-all duration-300">
-                                    <div className="min-w-2 h-2 rounded-full bg-premium-gold mt-2.5 shadow-[0_0_10px_rgba(var(--premium-gold),0.5)]" />
-                                    <p className="text-white/90 text-[15px] font-medium leading-relaxed">{d}</p>
+                                <div key={i} className="flex items-start gap-3 bg-white/5 backdrop-blur-md p-3.5 rounded-[1.2rem] border border-white/5 hover:border-premium-gold/30 transition-all duration-300">
+                                    <div className="min-w-1.5 h-1.5 rounded-full bg-premium-gold mt-2 shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
+                                    <p className="text-white/90 text-[14px] font-medium leading-snug">{d}</p>
                                 </div>
                             ))}
                         </div>
@@ -132,13 +132,13 @@ export default function MorningBriefingPopup() {
                 )}
 
                 {radar && (
-                    <div className="glass-puro crystal-border border-l-4 border-l-blue-500 p-5 rounded-[1.5rem] flex items-start gap-5 shadow-xl">
-                        <div className="bg-blue-500/20 p-3 rounded-xl">
-                            <Activity size={22} className="text-blue-400" />
+                    <div className="glass-puro crystal-border border-l-4 border-l-blue-500 p-4 rounded-[1.2rem] flex items-start gap-4 shadow-xl">
+                        <div className="bg-blue-500/20 p-2.5 rounded-lg shrink-0">
+                            <Activity size={20} className="text-blue-400" />
                         </div>
                         <div>
-                            <span className="text-blue-400 font-athletic text-[12px] block mb-1">Radar Rápido</span>
-                            <p className="text-white/90 text-[15px] font-medium leading-relaxed">{radar}</p>
+                            <span className="text-blue-400 font-athletic text-[11px] block mb-0.5 uppercase">Radar Rápido</span>
+                            <p className="text-white/90 text-[14px] font-medium leading-relaxed">{radar}</p>
                         </div>
                     </div>
                 )}
@@ -187,10 +187,14 @@ export default function MorningBriefingPopup() {
             content: (
                 <div className="flex flex-col h-full overflow-hidden relative z-40">
                     <div
-                        className="flex-1 overflow-y-scroll px-6 pt-24 pb-48 scroll-smooth"
+                        className="flex-1 overflow-y-scroll premium-scrollbar px-6 pt-24 pb-64 scroll-smooth"
                         style={{ touchAction: 'pan-y' }}
                     >
                         {parseEditorial(briefing.editorial_summary || briefing.general_summary || "")}
+
+                        <div className="mt-8 flex justify-center opacity-40 animate-bounce">
+                            <TrendingUp className="text-premium-gold rotate-180" size={20} />
+                        </div>
                     </div>
                 </div>
             )
