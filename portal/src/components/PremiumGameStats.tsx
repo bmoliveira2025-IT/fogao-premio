@@ -85,7 +85,7 @@ export default function PremiumGameStats() {
 
     const currentMatch = matches[activeMatchIndex];
 
-    const StatRow = ({ label, stats, icon: Icon, unit = "" }: { label: string, stats: TeamStat, icon: any, unit?: string }) => {
+    const StatRow = ({ label, stats, icon: Icon, unit = "", homeTeam, awayTeam }: { label: string, stats: TeamStat, icon: any, unit?: string, homeTeam: string, awayTeam: string }) => {
         const total = stats.home + stats.away;
         const homePercent = total > 0 ? (stats.home / total) * 100 : 50;
 
@@ -110,8 +110,14 @@ export default function PremiumGameStats() {
                 </div>
 
                 <div className="flex justify-between items-center text-xs font-black font-mono">
-                    <span className="text-white">{stats.home}{unit}</span>
-                    <span className="text-white/30">{stats.away}{unit}</span>
+                    <div className="flex flex-col">
+                        <span className="text-white">{stats.home}{unit}</span>
+                        <span className="text-[8px] text-white/20 uppercase tracking-tighter">{homeTeam.split(' ')[0]}</span>
+                    </div>
+                    <div className="flex flex-col items-end">
+                        <span className="text-white/30">{stats.away}{unit}</span>
+                        <span className="text-[8px] text-white/10 uppercase tracking-tighter">{awayTeam.split(' ')[0]}</span>
+                    </div>
                 </div>
             </div>
         );
@@ -169,10 +175,10 @@ export default function PremiumGameStats() {
 
                         {/* Stats Grid */}
                         <div className="space-y-6">
-                            <StatRow label="Posse de Bola" stats={currentMatch.stats.possession} icon={Zap} unit="%" />
-                            <StatRow label="Finalizações" stats={currentMatch.stats.shots} icon={TrendingUp} />
-                            <StatRow label="No Alvo" stats={currentMatch.stats.shots_on_target} icon={Award} />
-                            <StatRow label="Precisão de Passe" stats={currentMatch.stats.pass_accuracy} icon={ChevronRight} unit="%" />
+                            <StatRow label="Posse de Bola" stats={currentMatch.stats.possession} icon={Zap} unit="%" homeTeam={currentMatch.home_team} awayTeam={currentMatch.away_team} />
+                            <StatRow label="Finalizações" stats={currentMatch.stats.shots} icon={TrendingUp} homeTeam={currentMatch.home_team} awayTeam={currentMatch.away_team} />
+                            <StatRow label="No Alvo" stats={currentMatch.stats.shots_on_target} icon={Award} homeTeam={currentMatch.home_team} awayTeam={currentMatch.away_team} />
+                            <StatRow label="Precisão de Passe" stats={currentMatch.stats.pass_accuracy} icon={ChevronRight} unit="%" homeTeam={currentMatch.home_team} awayTeam={currentMatch.away_team} />
                         </div>
                     </div>
                 </div>

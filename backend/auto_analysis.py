@@ -21,13 +21,20 @@ def analyze_match_data(data):
 
     print("Generating Post-Match Analysis...")
 
-    # 1. Determine MOTM (Man of the Match)
-    home_players = data.get("player_stats", {}).get("home", [])
-    if home_players:
+    # 1. Determine which team is Botafogo
+    home_team_name = data.get("home_team", "").upper()
+    away_team_name = data.get("away_team", "").upper()
+    
+    is_botafogo_home = "BOTAFOGO" in home_team_name
+    botafogo_side = "home" if is_botafogo_home else "away"
+    rival_side = "away" if is_botafogo_home else "home"
+
+    # 2. Determine MOTM (Man of the Match) - Always from Botafogo
+    players = data.get("player_stats", {}).get(botafogo_side, [])
+    if players:
         # Sort by rating (descending)
-        # Handle cases where rating might be None or missing
         sorted_players = sorted(
-            [p for p in home_players if p.get("rating") is not None], 
+            [p for p in players if p.get("rating") is not None], 
             key=lambda x: float(x.get("rating", 0)), 
             reverse=True
         )
@@ -54,23 +61,22 @@ def analyze_match_data(data):
                 "contribution": contribution_text
             }
     
-    # 2. Generate GK Stats
-    # Safely get nested keys
+    # 3. Generate GK Stats - Always for Botafogo's Keeper
     stats = data.get("stats", {})
     shots_on_target = stats.get("shots_on_target", {})
-    away_shots = int(shots_on_target.get("away", 0))
-    away_score = int(data.get("away_score", 0))
+    # Rival's shots on target (which Botafogo's keeper must save)
+    rival_shots = int(shots_on_target.get(rival_side, 0))
+    # Rival's score (goals conceded by Botafogo)
+    rival_score = int(data.get(f"{rival_side}_score", 0))
     
-    saves = max(0, away_shots - away_score) 
+    saves = max(0, rival_shots - rival_score) 
     
-    # Correction: If shots < score (e.g. missing stats), assume shots = score + saves
-    if away_shots < away_score:
-        # If we have no shot data, assume at least equal to goals + some saves
-        away_shots = away_score + 2
+    if rival_shots < rival_score:
+        rival_shots = rival_score + 2
         saves = 2
     
-    # Find home GK
-    gk = next((p for p in home_players if p.get("position") == "GOL"), {"name": "Goleiro"})
+    # Find Botafogo GK
+    gk = next((p for p in players if p.get("position") == "GOL"), {"name": "Goleiro"})
     
     data["goalkeeper_stats"] = {
         "name": gk.get("name", "Goleiro"),
@@ -78,16 +84,17 @@ def analyze_match_data(data):
         "saves_inside_box": max(0, saves - 1),
         "punched_clear": random.randint(0, 3),
         "high_claims": random.randint(1, 5),
-        "clean_sheet": away_score == 0
+        "clean_sheet": rival_score == 0
     }
 
-    # 3. Generate Pass Stats
+    # 4. Generate Pass Stats
     # Estimate based on possession
     possession = stats.get("possession", {})
     poss_home = int(possession.get("home", 50))
+    poss_away = int(possession.get("away", 50))
     
-    base_passes_home = poss_home * 8 # approx 480 for 60%
-    base_passes_away = (100 - poss_home) * 8
+    base_passes_home = poss_home * 8
+    base_passes_away = poss_away * 8
     
     corners = stats.get("corners", {})
     home_corners = int(corners.get("home", 0))
@@ -115,7 +122,7 @@ def analyze_match_data(data):
         },
         "crosses": {
             "home": home_corners * 3, "away": away_corners * 3,
-            "home_total": 0, "away_total": 0
+            "home_total": (home_corners * 3) + random.randint(5, 10), "away_total": (away_corners * 3) + random.randint(5, 10)
         }
     }
 

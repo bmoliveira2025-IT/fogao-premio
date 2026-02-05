@@ -106,8 +106,15 @@ export default function MatchStatsPage() {
         window.scrollTo(0, 0);
     }, [params.id]);
 
-    const StatRow = ({ label, stats, icon: Icon, unit = "" }: { label: string, stats: TeamStat, icon: any, unit?: string }) => {
+    const StatRow = ({ label, stats, icon: Icon, unit = "", homeTeam, awayTeam }: { label: string, stats: TeamStat, icon: any, unit?: string, homeTeam: string, awayTeam: string }) => {
         if (!stats) return null;
+
+        const isBotafogoHome = homeTeam.toUpperCase().includes("BOTAFOGO");
+        const botafogoLabel = isBotafogoHome ? homeTeam.split(' ')[0] : awayTeam.split(' ')[0];
+        const rivalLabel = isBotafogoHome ? awayTeam.split(' ')[0] : homeTeam.split(' ')[0];
+        const botafogoVal = isBotafogoHome ? stats.home : stats.away;
+        const rivalVal = isBotafogoHome ? stats.away : stats.home;
+
         const total = stats.home + stats.away;
         const homePercent = total === 0 ? 50 : (stats.home / total) * 100;
 
@@ -131,11 +138,11 @@ export default function MatchStatsPage() {
                 <div className="flex justify-between items-center text-sm font-black font-mono">
                     <div className="flex flex-col gap-0.5">
                         <span className="text-white text-xl leading-none">{stats.home}</span>
-                        <span className="text-[14px] text-white/50 uppercase tracking-tighter">Botafogo</span>
+                        <span className="text-[14px] text-white/50 uppercase tracking-tighter">{homeTeam.split(' ')[0]}</span>
                     </div>
                     <div className="flex flex-col items-end gap-0.5">
                         <span className="text-white/80 text-xl leading-none">{stats.away}</span>
-                        <span className="text-[14px] text-white/30 uppercase tracking-tighter">Rival</span>
+                        <span className="text-[14px] text-white/30 uppercase tracking-tighter">{awayTeam.split(' ')[0]}</span>
                     </div>
                 </div>
             </div>
@@ -180,7 +187,7 @@ export default function MatchStatsPage() {
         );
     };
 
-    const PassVolumeRow = ({ label, home, away, homeColor = "#22c55e", awayColor = "#818cf8" }: { label: string, home: number, away: number, homeColor?: string, awayColor?: string }) => {
+    const PassVolumeRow = ({ label, home, away, homeTeam, awayTeam, homeColor = "#22c55e", awayColor = "#818cf8" }: { label: string, home: number, away: number, homeTeam: string, awayTeam: string, homeColor?: string, awayColor?: string }) => {
         const total = home + away;
         const homeWidth = total === 0 ? 50 : (home / total) * 100;
         const awayWidth = 100 - homeWidth;
@@ -334,10 +341,10 @@ export default function MatchStatsPage() {
                             <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Scout Técnico</h2>
                         </div>
                         <div className="space-y-6">
-                            <StatRow label="Posse de Bola" stats={match.stats.possession} icon={Zap} unit="%" />
-                            {match.stats.pass_accuracy && <StatRow label="Precisão Passe" stats={match.stats.pass_accuracy} icon={Award} unit="%" />}
+                            <StatRow label="Posse de Bola" stats={match.stats.possession} icon={Zap} unit="%" homeTeam={match.home_team} awayTeam={match.away_team} />
+                            {match.stats.pass_accuracy && <StatRow label="Precisão Passe" stats={match.stats.pass_accuracy} icon={Award} unit="%" homeTeam={match.home_team} awayTeam={match.away_team} />}
                             <div className="space-y-4 pt-2">
-                                <StatRow label="Finalizações Totais" stats={match.stats.shots} icon={TrendingUp} />
+                                <StatRow label="Finalizações Totais" stats={match.stats.shots} icon={TrendingUp} homeTeam={match.home_team} awayTeam={match.away_team} />
                                 {match.stats.shots_on_target && (
                                     <div className="grid grid-cols-3 gap-3 pl-4 border-l border-white/10">
                                         <div className="flex flex-col gap-1">
@@ -369,9 +376,9 @@ export default function MatchStatsPage() {
                                 <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/50">Combate</h2>
                             </div>
                             <div className="space-y-6">
-                                <StatRow label="Desarmes Ganhos" stats={match.stats.tackles_won} icon={Award} />
-                                <StatRow label="Intercepções" stats={match.stats.interceptions!} icon={Zap} />
-                                <StatRow label="Duelos (%)" stats={match.stats.duels_won_percent!} icon={TrendingUp} unit="%" />
+                                <StatRow label="Desarmes Ganhos" stats={match.stats.tackles_won} icon={Award} homeTeam={match.home_team} awayTeam={match.away_team} />
+                                <StatRow label="Intercepções" stats={match.stats.interceptions!} icon={Zap} homeTeam={match.home_team} awayTeam={match.away_team} />
+                                <StatRow label="Duelos (%)" stats={match.stats.duels_won_percent!} icon={TrendingUp} unit="%" homeTeam={match.home_team} awayTeam={match.away_team} />
                             </div>
                         </div>
                     )}
@@ -387,9 +394,9 @@ export default function MatchStatsPage() {
 
                         <div className="space-y-4">
                             {/* Volume Rows */}
-                            <PassVolumeRow label="Passes certos" home={match.pass_stats.accurate_passes.home} away={match.pass_stats.accurate_passes.away} />
-                            <PassVolumeRow label="Laterais" home={match.pass_stats.sideways_passes.home} away={match.pass_stats.sideways_passes.away} />
-                            <PassVolumeRow label="Entradas no terço final" home={match.pass_stats.final_third_entries.home} away={match.pass_stats.final_third_entries.away} />
+                            <PassVolumeRow label="Passes certos" home={match.pass_stats.accurate_passes.home} away={match.pass_stats.accurate_passes.away} homeTeam={match.home_team} awayTeam={match.away_team} />
+                            <PassVolumeRow label="Laterais" home={match.pass_stats.sideways_passes.home} away={match.pass_stats.sideways_passes.away} homeTeam={match.home_team} awayTeam={match.away_team} />
+                            <PassVolumeRow label="Entradas no terço final" home={match.pass_stats.final_third_entries.home} away={match.pass_stats.final_third_entries.away} homeTeam={match.home_team} awayTeam={match.away_team} />
 
                             {/* Accuracy Circles Rows */}
                             {[

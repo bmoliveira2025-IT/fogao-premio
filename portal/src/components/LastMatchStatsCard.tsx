@@ -111,7 +111,9 @@ export default function LastMatchStatsCard() {
                             <Zap size={15} className="text-premium-gold group-hover/stat:scale-110 transition-transform" />
                         </div>
                         <span className="text-3xl font-black text-white font-mono leading-none">
-                            {lastMatch.stats?.possession?.home || 0}%
+                            {(lastMatch.home_team?.toUpperCase().includes("BOTAFOGO")
+                                ? lastMatch.stats?.possession?.home
+                                : lastMatch.stats?.possession?.away) || 0}%
                         </span>
                     </div>
                     <div className="bg-white/10 border border-white/10 rounded-[1.5rem] p-4 flex flex-col items-start gap-1 group/stat shadow-xl backdrop-blur-sm">
@@ -120,7 +122,9 @@ export default function LastMatchStatsCard() {
                             <TrendingUp size={15} className="text-premium-gold group-hover/stat:scale-110 transition-transform" />
                         </div>
                         <span className="text-3xl font-black text-white font-mono leading-none">
-                            {lastMatch.stats?.shots?.home || 0}
+                            {(lastMatch.home_team?.toUpperCase().includes("BOTAFOGO")
+                                ? lastMatch.stats?.shots?.home
+                                : lastMatch.stats?.shots?.away) || 0}
                         </span>
                     </div>
                 </div>

@@ -16,16 +16,16 @@
             "away": 55
         },
         "shots": {
-            "home": 18,
-            "away": 22
-        },
-        "shots_on_target": {
-            "home": 9,
+            "home": 14,
             "away": 8
         },
+        "shots_on_target": {
+            "home": 8,
+            "away": 5
+        },
         "corners": {
-            "home": 6,
-            "away": 7
+            "home": 3,
+            "away": 2
         },
         "fouls": {
             "home": 12,
@@ -43,46 +43,60 @@
     "player_stats": {
         "home": [
             {
-                "name": "Luis Suárez",
+                "name": "Carlos Vinícius",
                 "position": "ATA",
-                "rating": 9.5,
+                "rating": 9.8,
                 "goals": 3,
+                "assists": 0
+            },
+            {
+                "name": "Tetê",
+                "position": "ATA",
+                "rating": 8.0,
+                "goals": 1,
                 "assists": 1
             },
             {
-                "name": "Cristaldo",
+                "name": "Edenílson",
                 "position": "MEI",
-                "rating": 8.5,
+                "rating": 7.8,
                 "goals": 1,
-                "assists": 2
-            },
-            {
-                "name": "Marchesín",
-                "position": "GOL",
-                "rating": 7.0,
-                "goals": 0,
                 "assists": 0
             }
         ],
         "away": [
             {
-                "name": "Kadir Barría",
-                "position": "ATA",
-                "rating": 8.0,
+                "name": "Danilo",
+                "position": "VOL",
+                "rating": 8.2,
                 "goals": 2,
                 "assists": 0
             },
             {
-                "name": "Matheus Martins",
+                "name": "Francis Amuzu",
+                "position": "ATA",
+                "rating": 7.8,
+                "goals": 0,
+                "assists": 2
+            },
+            {
+                "name": "Arthur Cabral",
                 "position": "ATA",
                 "rating": 7.5,
                 "goals": 1,
+                "assists": 0
+            },
+            {
+                "name": "Jefferson Savarino",
+                "position": "MEI",
+                "rating": 7.2,
+                "goals": 0,
                 "assists": 1
             },
             {
                 "name": "John Victor",
                 "position": "GOL",
-                "rating": 6.0,
+                "rating": 6.2,
                 "goals": 0,
                 "assists": 0
             }
@@ -90,52 +104,104 @@
     },
     "events": [
         {
-            "time": "12'",
+            "time": "15'",
             "type": "GOAL",
-            "player": "Luis Suárez",
-            "team": "Grêmio"
-        },
-        {
-            "time": "25'",
-            "type": "GOAL",
-            "player": "Kadir Barría",
+            "player": "Arthur Cabral",
             "team": "Botafogo"
         },
         {
-            "time": "38'",
+            "time": "28'",
             "type": "GOAL",
-            "player": "Luis Suárez",
+            "player": "Carlos Vinícius",
             "team": "Grêmio"
         },
         {
-            "time": "44'",
+            "time": "42'",
             "type": "GOAL",
-            "player": "Matheus Martins",
+            "player": "Danilo",
             "team": "Botafogo"
         },
         {
-            "time": "55'",
+            "time": "52'",
             "type": "GOAL",
-            "player": "Luis Suárez",
+            "player": "Carlos Vinícius",
             "team": "Grêmio"
         },
         {
-            "time": "62'",
+            "time": "65'",
             "type": "GOAL",
-            "player": "Kadir Barría",
+            "player": "Carlos Vinícius",
+            "team": "Grêmio"
+        },
+        {
+            "time": "72'",
+            "type": "GOAL",
+            "player": "Tetê",
+            "team": "Grêmio"
+        },
+        {
+            "time": "81'",
+            "type": "GOAL",
+            "player": "Danilo",
             "team": "Botafogo"
         },
         {
-            "time": "78'",
+            "time": "88'",
             "type": "GOAL",
-            "player": "Cristaldo",
-            "team": "Grêmio"
-        },
-        {
-            "time": "89'",
-            "type": "GOAL",
-            "player": "Ferreira",
+            "player": "Edenílson",
             "team": "Grêmio"
         }
-    ]
+    ],
+    "motm_data": {
+        "name": "Danilo",
+        "rating": 8.2,
+        "position": "VOL",
+        "contribution": "Lutou até o fim e marcou dois gols em Porto Alegre."
+    },
+    "goalkeeper_stats": {
+        "name": "John Victor",
+        "saves": 3,
+        "saves_inside_box": 2,
+        "punched_clear": 1,
+        "high_claims": 1,
+        "clean_sheet": false
+    },
+    "pass_stats": {
+        "accurate_passes": {
+            "home": 271,
+            "away": 361,
+            "home_total": 297,
+            "away_total": 390
+        },
+        "sideways_passes": {
+            "home": 90,
+            "away": 140,
+            "home_total": 297,
+            "away_total": 390
+        },
+        "final_third_entries": {
+            "home": 45,
+            "away": 52,
+            "home_total": 297,
+            "away_total": 390
+        },
+        "final_third_accuracy": {
+            "home": 78,
+            "away": 74,
+            "home_total": 100,
+            "away_total": 100
+        },
+        "long_passes": {
+            "home": 15,
+            "away": 28,
+            "home_total": 297,
+            "away_total": 390
+        },
+        "crosses": {
+            "home": 12,
+            "away": 18,
+            "home_total": 20,
+            "away_total": 25
+        }
+    }
 }
