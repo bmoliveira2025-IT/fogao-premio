@@ -37,12 +37,12 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
     return (
         <div className={cn("w-full", className)}>
 
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
                 {news.map((item) => (
                     <Link
                         key={item.id}
                         href={`/news/${item.id}`}
-                        className="group relative w-full h-[320px] md:h-[420px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
+                        className="group relative w-full h-[320px] md:h-[420px] overflow-hidden rounded-xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
                     >
                         {/* Full Background Image */}
                         <img

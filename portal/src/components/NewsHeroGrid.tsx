@@ -36,7 +36,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
             {/* Main Story (Takes 3/4 width on desktop) */}
             <Link
                 href={`/news/${mainStory.id}`}
-                className="lg:col-span-3 relative h-[450px] md:h-[650px] rounded-[3rem] overflow-hidden group border border-white/5 hover:border-premium-gold/40 transition-all duration-700 shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
+                className="lg:col-span-3 relative h-[450px] md:h-[650px] rounded-2xl overflow-hidden group border border-white/5 hover:border-premium-gold/40 transition-all duration-700 shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
             >
                 <div className="absolute inset-0">
                     <Image
@@ -85,7 +85,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                     <Link
                         key={story.id}
                         href={`/news/${story.id}`}
-                        className="relative flex-1 min-h-[220px] md:min-h-[300px] rounded-[2rem] overflow-hidden group border border-white/5 hover:border-premium-gold/40 transition-all duration-500 shadow-xl"
+                        className="relative flex-1 min-h-[220px] md:min-h-[300px] rounded-xl overflow-hidden group border border-white/5 hover:border-premium-gold/40 transition-all duration-500 shadow-xl"
                     >
                         <Image
                             src={getSafeImageSrc(story.image, 'https://placehold.co/400x300')}

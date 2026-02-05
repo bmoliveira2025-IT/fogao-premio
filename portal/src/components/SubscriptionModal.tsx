@@ -41,7 +41,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-zinc-950 border border-premium-gold/15 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]"
+                            className="bg-zinc-950 border border-premium-gold/15 w-full max-w-md rounded-xl overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]"
                         >
                             {/* Close Button */}
                             <button
@@ -74,12 +74,12 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                             </div>
 
                             {/* Content Area */}
-                            <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-6">
+                            <div className="flex-1 overflow-y-auto p-4 pt-4 space-y-3">
 
                                 {activeTab === 'card' && (
-                                    <div className="space-y-6 animate-in slide-in-from-left-4 fade-in duration-300">
+                                    <div className="space-y-3 animate-in slide-in-from-left-4 fade-in duration-300">
                                         {/* Digital Card */}
-                                        <div className="aspect-[1.586/1] w-full rounded-2xl relative overflow-hidden shadow-2xl group perspective-1000">
+                                        <div className="aspect-[1.586/1] w-full rounded-xl relative overflow-hidden shadow-2xl group perspective-1000">
                                             {/* Card Background */}
                                             <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-black to-zinc-900 animate-gradient-xy">
                                                 <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
@@ -88,7 +88,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                                             </div>
 
                                             {/* Card Content */}
-                                            <div className="relative z-10 h-full p-6 flex flex-col justify-between border border-premium-gold/30 rounded-2xl">
+                                            <div className="relative z-10 h-full p-4 flex flex-col justify-between border border-premium-gold/30 rounded-xl">
                                                 <div className="flex justify-between items-start">
                                                     <div>
                                                         <GloriosoLogo size={40} />
@@ -124,7 +124,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                                 )}
 
                                 {activeTab === 'details' && (
-                                    <div className="space-y-6 animate-in slide-in-from-right-4 fade-in duration-300">
+                                    <div className="space-y-3 animate-in slide-in-from-right-4 fade-in duration-300">
 
                                         {/* Plan Status */}
                                         <div className="bg-white/5 border border-premium-gold/15 rounded-xl p-4 flex items-center justify-between">
