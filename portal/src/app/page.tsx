@@ -222,10 +222,10 @@ export default async function Home() {
       <div className="w-full transition-all duration-300 pb-20 lg:pb-10">
         <div className="container mx-auto px-0 md:px-4 lg:px-12 max-w-[1600px]">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-4">
 
             {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-4 lg:space-y-6">
+            <div className="lg:col-span-8 space-y-2 lg:space-y-4">
 
               <StaggeredEntry staggerDelay={0.15}>
                 {/* HERO NEWS - First News Highlight */}
@@ -247,7 +247,7 @@ export default async function Home() {
 
                 {/* INFINITE NEWS GRID - Mixed with Videos */}
                 <div className="px-4 md:px-0">
-                  <h2 className="text-3xl md:text-5xl font-athletic text-zinc-900 dark:text-white mb-6 flex items-center gap-5">
+                  <h2 className="text-3xl md:text-5xl font-athletic text-zinc-900 dark:text-white mb-3 flex items-center gap-5">
                     <div className="w-2.5 h-12 bg-premium-gold rounded-full shadow-[0_0_20px_rgba(var(--premium-gold),0.6)]" />
                     Últimas Notícias
                   </h2>

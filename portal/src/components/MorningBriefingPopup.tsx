@@ -105,7 +105,7 @@ export default function MorningBriefingPopup() {
         return (
             <div className="space-y-4">
                 {abertura && (
-                    <div className="glass-puro crystal-border crystal-shine p-5 rounded-[1.5rem] shadow-2xl relative overflow-hidden group">
+                    <div className="glass-puro crystal-border crystal-shine p-4 rounded-xl shadow-2xl relative overflow-hidden group">
                         <Quote className="absolute top-3 right-3 text-premium-gold/10 w-8 h-8 transition-transform duration-700 group-hover:scale-110" />
                         <h4 className="text-premium-gold font-athletic text-[12px] mb-2 flex items-center gap-2">
                             Panorama
@@ -122,7 +122,7 @@ export default function MorningBriefingPopup() {
                         </h4>
                         <div className="space-y-2">
                             {destaques.map((d, i) => (
-                                <div key={i} className="flex items-start gap-3 bg-white/5 backdrop-blur-md p-3.5 rounded-[1.2rem] border border-white/5 hover:border-premium-gold/30 transition-all duration-300">
+                                <div key={i} className="flex items-start gap-2 bg-white/5 backdrop-blur-md p-3 rounded-xl border border-white/5 hover:border-premium-gold/30 transition-all duration-300">
                                     <div className="min-w-1.5 h-1.5 rounded-full bg-premium-gold mt-2 shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
                                     <p className="text-white/90 text-[14px] font-medium leading-snug">{d}</p>
                                 </div>
@@ -132,7 +132,7 @@ export default function MorningBriefingPopup() {
                 )}
 
                 {radar && (
-                    <div className="glass-puro crystal-border border-l-4 border-l-blue-500 p-4 rounded-[1.2rem] flex items-start gap-4 shadow-xl">
+                    <div className="glass-puro crystal-border border-l-4 border-l-blue-500 p-3 rounded-xl flex items-start gap-3 shadow-xl">
                         <div className="bg-blue-500/20 p-2.5 rounded-lg shrink-0">
                             <Activity size={20} className="text-blue-400" />
                         </div>
@@ -151,7 +151,7 @@ export default function MorningBriefingPopup() {
         {
             type: 'cover',
             content: (
-                <div className="flex flex-col items-center justify-center h-full text-center space-y-8 relative z-10 px-6">
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-4 relative z-10 px-6">
                     <div className="relative">
                         <div className="absolute inset-0 bg-premium-gold blur-3xl opacity-20 rounded-full scale-150" />
                         <img
@@ -202,7 +202,7 @@ export default function MorningBriefingPopup() {
         ...(briefing.top_stories && briefing.top_stories.length > 0 ? [{
             type: 'content',
             content: (
-                <div className="flex flex-col h-full justify-center space-y-8 px-6">
+                <div className="flex flex-col h-full justify-center space-y-4 px-6">
                     <div className="flex flex-col space-y-1">
                         <div className="flex items-center gap-2">
                             <div className="h-px w-8 bg-premium-gold/50" />
@@ -220,7 +220,7 @@ export default function MorningBriefingPopup() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-                                className="group relative bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10 hover:border-premium-gold/30 transition-all duration-500 active:scale-[0.98] overflow-hidden"
+                                className="group relative bg-white/5 backdrop-blur-xl p-5 rounded-xl border border-white/10 hover:border-premium-gold/30 transition-all duration-500 active:scale-[0.98] overflow-hidden"
                             >
                                 {/* Number Indicator - Modern & Subtle */}
                                 <div className="absolute -top-2 -right-2 text-white/5 font-black text-8xl transition-colors duration-500 group-hover:text-premium-gold/10">

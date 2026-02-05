@@ -28,7 +28,7 @@ export default function CompactNewsCard({ article }: any) {
     };
 
     return (
-        <div className="group flex flex-col mb-6 glass-puro crystal-border crystal-shine rounded-xl p-4 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+        <div className="group flex flex-col mb-3 glass-puro crystal-border crystal-shine rounded-xl p-4 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between min-h-[100px] md:min-h-[140px] py-1">

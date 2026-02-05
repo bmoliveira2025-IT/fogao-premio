@@ -54,7 +54,7 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
 
                 {/* Full Widget Mode */}
                 {!isCompact && (
-                    <div className="bg-[#121212] rounded-[2rem] p-6 relative overflow-hidden border border-premium-gold/15 shadow-2xl group mx-auto">
+                    <div className="bg-[#121212] rounded-xl p-4 md:p-6 relative overflow-hidden border border-premium-gold/15 shadow-2xl group mx-auto">
                         {/* Ambient Glow */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-premium-gold/5 rounded-full blur-[80px]" />
 

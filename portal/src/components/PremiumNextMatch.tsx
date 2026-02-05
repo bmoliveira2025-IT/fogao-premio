@@ -111,7 +111,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     return (
         <div className="px-4 md:px-0">
             <div
-                className={cn("w-full transition-all duration-300 overflow-hidden glass-puro crystal-border crystal-shine rounded-[2rem] soft-shadow-cinematic relative z-[100]", className)}
+                className={cn("w-full transition-all duration-300 overflow-hidden glass-puro crystal-border crystal-shine rounded-xl soft-shadow-cinematic relative z-[100]", className)}
             >
                 {/* Gold Top & Bottom Borders */}
                 <div

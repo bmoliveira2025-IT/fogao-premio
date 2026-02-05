@@ -31,7 +31,7 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
     return (
         <div className="px-4 md:px-0">
             <section className={cn(
-                "relative overflow-hidden rounded-[2rem] glass-puro crystal-border crystal-shine soft-shadow-cinematic group/widget w-full",
+                "relative overflow-hidden rounded-xl glass-puro crystal-border crystal-shine soft-shadow-cinematic group/widget w-full",
                 className
             )}>
                 {/* Background Effects */}
