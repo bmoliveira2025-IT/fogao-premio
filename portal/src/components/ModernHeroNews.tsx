@@ -47,7 +47,7 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
         <div className="px-4 md:px-0">
             <Link
                 href={`/news/${news.id}`}
-                className={`relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block rounded-[2rem] md:rounded-[3.5rem] soft-shadow-cinematic crystal-shine transition-all duration-700 hover:scale-[1.002] hover:shadow-premium-gold/20 ${className}`}
+                className={`relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block rounded-xl md:rounded-2xl soft-shadow-cinematic crystal-shine transition-all duration-700 hover:scale-[1.002] hover:shadow-premium-gold/20 ${className}`}
             >
                 {/* Image */}
                 <img
@@ -61,7 +61,7 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent opacity-70" />
 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-20 z-20">
+                <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-12 z-20">
                     {/* Badges (Top Right) */}
                     <div className="absolute top-6 md:top-12 right-6 md:right-12 z-30 flex gap-3">
                         {news.is_live && (

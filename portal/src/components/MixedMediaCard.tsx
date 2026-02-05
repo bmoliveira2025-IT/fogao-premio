@@ -49,10 +49,10 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group relative overflow-hidden rounded-[2.5rem] glass-puro crystal-border crystal-shine transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-10 ${className}`}
+                className={`group relative overflow-hidden rounded-xl glass-puro crystal-border crystal-shine transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-6 ${className}`}
             >
                 {/* Video Thumbnail */}
-                <div className="relative aspect-video overflow-hidden rounded-[1.5rem] md:rounded-[2rem] m-5 shadow-2xl">
+                <div className="relative aspect-video overflow-hidden rounded-lg md:rounded-xl m-5 shadow-2xl">
                     <img
                         src={getSafeImageSrc(item.thumbnail)}
                         alt={item.title}
@@ -76,7 +76,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                 </div>
 
                 {/* Video Info */}
-                <div className="px-8 pb-8 pt-2">
+                <div className="px-6 pb-6 pt-2">
                     <h3 className="text-[18px] md:text-2xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
                         {toSentenceCase(item.title)}
                     </h3>
@@ -102,7 +102,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
         return (
             <Link
                 href={`/news/${item.id}`}
-                className={`group relative overflow-hidden rounded-[2.5rem] glass-puro crystal-border crystal-shine p-8 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-10 ${className}`}
+                className={`group relative overflow-hidden rounded-xl glass-puro crystal-border crystal-shine p-6 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-6 ${className}`}
             >
                 {/* Content */}
                 <div className="relative">
@@ -147,9 +147,9 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
     // Standard News Card with Image
     return (
-        <div className="group flex flex-col mb-10 glass-puro crystal-border crystal-shine rounded-[2.5rem] transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+        <div className="group flex flex-col mb-6 glass-puro crystal-border crystal-shine rounded-xl transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             <Link href={`/news/${item.id}`} className="block p-5">
-                <div className="relative aspect-video w-full overflow-hidden rounded-[1.5rem] md:rounded-[2rem] shadow-2xl">
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg md:rounded-xl shadow-2xl">
                     <img
                         src={getSafeImageSrc(item.image)}
                         alt={item.title}
@@ -164,7 +164,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                 </div>
             </Link>
 
-            <div className="px-8 pb-8 pt-2">
+            <div className="px-6 pb-6 pt-2">
                 <h3 className="text-[20px] md:text-3xl font-athletic text-white group-hover:text-premium-gold transition-colors leading-tight">
                     {toSentenceCase(item.title)}
                 </h3>

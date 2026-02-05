@@ -28,7 +28,7 @@ export default function CompactNewsCard({ article }: any) {
     };
 
     return (
-        <div className="group flex flex-col mb-10 glass-puro crystal-border crystal-shine rounded-[2.5rem] p-5 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+        <div className="group flex flex-col mb-6 glass-puro crystal-border crystal-shine rounded-xl p-4 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between min-h-[100px] md:min-h-[140px] py-1">
@@ -51,7 +51,7 @@ export default function CompactNewsCard({ article }: any) {
                 </div>
 
                 {/* Compact Image (Right Side) */}
-                <div className="relative w-32 h-24 md:w-56 md:h-36 flex-shrink-0 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-900 shadow-xl self-center">
+                <div className="relative w-32 h-24 md:w-56 md:h-36 flex-shrink-0 rounded-lg md:rounded-xl overflow-hidden border border-white/10 bg-zinc-900 shadow-xl self-center">
                     <Image
                         src={getSafeImageSrc(article.image)}
                         alt={article.title}

@@ -29,10 +29,10 @@ export default function ModernNewsCard({ article }: any) {
     };
 
     return (
-        <div className="group flex flex-col mb-10 glass-puro crystal-border crystal-shine rounded-[2rem] overflow-hidden transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+        <div className="group flex flex-col mb-6 glass-puro crystal-border crystal-shine rounded-xl overflow-hidden transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             {/* Top Image Container - Independent Rounded Block */}
             <Link href={`/news/${article.id}`} className="block p-5">
-                <div className="relative aspect-video w-full overflow-hidden rounded-[1.5rem] shadow-lg">
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg">
                     <Image
                         src={getSafeImageSrc(article.image)}
                         alt={article.title}
@@ -45,7 +45,7 @@ export default function ModernNewsCard({ article }: any) {
             </Link>
 
             {/* Content Area */}
-            <div className="px-8 pb-8 pt-2 flex flex-col gap-5">
+            <div className="px-6 pb-6 pt-2 flex flex-col gap-5">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <SourceIcon source={article.source || 'FOGÃO'} className="w-6 h-6 text-premium-gold" />
