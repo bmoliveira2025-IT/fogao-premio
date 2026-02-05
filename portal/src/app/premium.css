@@ -198,3 +198,23 @@
     background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
     pointer-events: none;
 }
+/* Premium Scrollbar for specific containers */
+.premium-scrollbar::-webkit-scrollbar {
+    display: block !important;
+    width: 3px !important;
+}
+
+.premium-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 10px !important;
+}
+
+.premium-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.3) !important;
+    border-radius: 10px !important;
+}
+
+.premium-scrollbar {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(255, 215, 0, 0.3) rgba(255, 255, 255, 0.03) !important;
+}
