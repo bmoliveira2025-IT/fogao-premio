@@ -88,13 +88,13 @@ function PlayerIcon({ player, team }: { player: Player; team: 'home' | 'away' })
         >
             <div className="relative flex flex-col items-center">
                 {/* Glow Background */}
-                <div className={`absolute inset-0 rounded-full blur-md opacity-0 group-hover:opacity-60 transition-opacity ${team === 'home' ? 'bg-premium-gold' : 'bg-white'}`}
+                <div className={`absolute inset-0 rounded-full blur-md opacity-0 group-hover:opacity-60 transition-opacity ${team === 'home' ? 'bg-[#005BA3]' : 'bg-premium-gold'}`}
                     style={{ margin: '-4px' }} />
 
                 {/* Circle with Number */}
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 shadow-lg transition-transform group-hover:scale-110 ${team === 'home'
-                        ? 'bg-black border-premium-gold text-premium-gold'
-                        : 'bg-white border-black text-black'
+                    ? 'bg-white border-[#005BA3] text-[#005BA3]'
+                    : 'bg-black border-premium-gold text-premium-gold'
                     }`}>
                     <span className="text-xs font-black">{player.number}</span>
                 </div>
@@ -107,8 +107,8 @@ function PlayerIcon({ player, team }: { player: Player; team: 'home' | 'away' })
                 {/* Rating Badge */}
                 {player.rating && (
                     <div className={`absolute -top-2 -right-2 px-1 rounded-sm text-[8px] font-black border border-black/50 shadow-sm ${player.rating >= 8.0 ? 'bg-green-500 text-white' :
-                            player.rating >= 7.0 ? 'bg-premium-gold text-black' :
-                                'bg-zinc-600 text-white'
+                        player.rating >= 7.0 ? 'bg-premium-gold text-black' :
+                            'bg-zinc-600 text-white'
                         }`}>
                         {player.rating.toFixed(1)}
                     </div>
