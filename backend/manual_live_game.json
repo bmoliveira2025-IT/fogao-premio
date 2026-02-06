@@ -1,15 +1,16 @@
 {
     "active": true,
     "is_premium": true,
-    "ge_url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/04-02-2026/gremio-botafogo.ghtml",
-    "match_id": "gre_v_bot_2026_02_04",
+    "ge_url": "https://ge.globo.com/rs/futebol/brasileirao-serie-a/jogo/06-02-2026/gremio-botafogo.ghtml",
+    "match_id": "gre_v_bot_2026_02_06",
     "home_team": "Grêmio",
     "away_team": "Botafogo",
     "home_score": 5,
     "away_score": 3,
     "status": "ENCERRADA",
-    "date": "2026-02-04T21:30:00-03:00",
+    "date": "2026-02-06T20:30:00-03:00",
     "championship": "Brasileirão Betano",
+    "location": "Arena do Grêmio",
     "stats": {
         "possession": {
             "home": 45,
@@ -17,15 +18,15 @@
         },
         "shots": {
             "home": 14,
-            "away": 8
+            "away": 12
         },
         "shots_on_target": {
             "home": 8,
-            "away": 5
+            "away": 6
         },
         "corners": {
-            "home": 3,
-            "away": 2
+            "home": 4,
+            "away": 4
         },
         "fouls": {
             "home": 12,
@@ -38,6 +39,22 @@
         "red_cards": {
             "home": 0,
             "away": 0
+        },
+        "big_chances": {
+            "home": 6,
+            "away": 4
+        },
+        "tackles_won": {
+            "home": 14,
+            "away": 16
+        },
+        "interceptions": {
+            "home": 10,
+            "away": 11
+        },
+        "duels_won_percent": {
+            "home": 49,
+            "away": 51
         }
     },
     "player_stats": {
@@ -52,14 +69,14 @@
             {
                 "name": "Tetê",
                 "position": "ATA",
-                "rating": 8.0,
+                "rating": 7.3,
                 "goals": 1,
                 "assists": 1
             },
             {
-                "name": "Edenílson",
-                "position": "MEI",
-                "rating": 7.8,
+                "name": "Monsalve",
+                "position": "VOL",
+                "rating": 6.8,
                 "goals": 1,
                 "assists": 0
             }
@@ -68,140 +85,276 @@
             {
                 "name": "Danilo",
                 "position": "VOL",
-                "rating": 8.2,
+                "rating": 8.6,
                 "goals": 2,
                 "assists": 0
             },
             {
-                "name": "Francis Amuzu",
-                "position": "ATA",
-                "rating": 7.8,
-                "goals": 0,
-                "assists": 2
-            },
-            {
                 "name": "Arthur Cabral",
                 "position": "ATA",
-                "rating": 7.5,
+                "rating": 8.0,
                 "goals": 1,
                 "assists": 0
             },
             {
-                "name": "Jefferson Savarino",
-                "position": "MEI",
-                "rating": 7.2,
+                "name": "A. Montoro",
+                "position": "ATA",
+                "rating": 6.7,
                 "goals": 0,
                 "assists": 1
-            },
-            {
-                "name": "John Victor",
-                "position": "GOL",
-                "rating": 6.2,
-                "goals": 0,
-                "assists": 0
             }
         ]
     },
     "events": [
         {
-            "time": "15'",
-            "type": "GOAL",
-            "player": "Arthur Cabral",
-            "team": "Botafogo"
-        },
-        {
-            "time": "28'",
-            "type": "GOAL",
-            "player": "Carlos Vinícius",
-            "team": "Grêmio"
-        },
-        {
-            "time": "42'",
+            "time": "12'",
             "type": "GOAL",
             "player": "Danilo",
-            "team": "Botafogo"
+            "team": "away"
         },
         {
-            "time": "52'",
+            "time": "18'",
             "type": "GOAL",
             "player": "Carlos Vinícius",
-            "team": "Grêmio"
+            "team": "home"
         },
         {
-            "time": "65'",
-            "type": "GOAL",
-            "player": "Carlos Vinícius",
-            "team": "Grêmio"
-        },
-        {
-            "time": "72'",
+            "time": "32'",
             "type": "GOAL",
             "player": "Tetê",
-            "team": "Grêmio"
+            "team": "home"
         },
         {
-            "time": "81'",
+            "time": "45'",
+            "type": "GOAL",
+            "player": "Carlos Vinícius",
+            "team": "home"
+        },
+        {
+            "time": "55'",
+            "type": "GOAL",
+            "player": "Arthur Cabral",
+            "team": "away"
+        },
+        {
+            "time": "64'",
             "type": "GOAL",
             "player": "Danilo",
-            "team": "Botafogo"
+            "team": "away"
         },
         {
-            "time": "88'",
+            "time": "75'",
             "type": "GOAL",
-            "player": "Edenílson",
-            "team": "Grêmio"
+            "player": "Monsalve",
+            "team": "home"
+        },
+        {
+            "time": "82'",
+            "type": "GOAL",
+            "player": "Carlos Vinícius",
+            "team": "home"
         }
     ],
     "motm_data": {
-        "name": "Danilo",
-        "rating": 8.2,
-        "position": "VOL",
-        "contribution": "Lutou até o fim e marcou dois gols em Porto Alegre."
+        "name": "Carlos Vinícius",
+        "rating": 9.8,
+        "position": "ATA",
+        "contribution": "Hat-trick histórico em Porto Alegre, decidindo a partida com oportunismo e força física em 2026."
     },
     "goalkeeper_stats": {
-        "name": "John Victor",
+        "name": "Weverton",
         "saves": 3,
         "saves_inside_box": 2,
         "punched_clear": 1,
         "high_claims": 1,
         "clean_sheet": false
     },
-    "pass_stats": {
-        "accurate_passes": {
-            "home": 271,
-            "away": 361,
-            "home_total": 297,
-            "away_total": 390
+    "lineups": {
+        "home": {
+            "formation": "4-2-3-1",
+            "players": [
+                {
+                    "name": "Weverton",
+                    "position": "GOL",
+                    "number": 1,
+                    "x": 50,
+                    "y": 90,
+                    "rating": 6.2
+                },
+                {
+                    "name": "J. Pedro",
+                    "position": "LD",
+                    "number": 18,
+                    "x": 85,
+                    "y": 75,
+                    "rating": 6.1
+                },
+                {
+                    "name": "F. Balbuena",
+                    "position": "ZAG",
+                    "number": 2,
+                    "x": 65,
+                    "y": 75,
+                    "rating": 6.1
+                },
+                {
+                    "name": "W. Leonardo",
+                    "position": "ZAG",
+                    "number": 3,
+                    "x": 35,
+                    "y": 75,
+                    "rating": 6.0
+                },
+                {
+                    "name": "Marlon",
+                    "position": "LE",
+                    "number": 23,
+                    "x": 15,
+                    "y": 75,
+                    "rating": 6.3
+                },
+                {
+                    "name": "Noriega",
+                    "position": "VOL",
+                    "number": 19,
+                    "x": 60,
+                    "y": 60,
+                    "rating": 7.0
+                },
+                {
+                    "name": "Monsalve",
+                    "position": "VOL",
+                    "number": 11,
+                    "x": 40,
+                    "y": 60,
+                    "rating": 6.8
+                },
+                {
+                    "name": "Pavón",
+                    "position": "MEI",
+                    "number": 7,
+                    "x": 80,
+                    "y": 45,
+                    "rating": 6.5
+                },
+                {
+                    "name": "Arthur",
+                    "position": "MEI",
+                    "number": 29,
+                    "x": 50,
+                    "y": 45,
+                    "rating": 6.9
+                },
+                {
+                    "name": "Tetê",
+                    "position": "MEI",
+                    "number": 21,
+                    "x": 20,
+                    "y": 45,
+                    "rating": 7.3
+                },
+                {
+                    "name": "C. Vinícius",
+                    "position": "ATA",
+                    "number": 95,
+                    "x": 50,
+                    "y": 30,
+                    "rating": 9.8
+                }
+            ]
         },
-        "sideways_passes": {
-            "home": 90,
-            "away": 140,
-            "home_total": 297,
-            "away_total": 390
-        },
-        "final_third_entries": {
-            "home": 45,
-            "away": 52,
-            "home_total": 297,
-            "away_total": 390
-        },
-        "final_third_accuracy": {
-            "home": 78,
-            "away": 74,
-            "home_total": 100,
-            "away_total": 100
-        },
-        "long_passes": {
-            "home": 15,
-            "away": 28,
-            "home_total": 297,
-            "away_total": 390
-        },
-        "crosses": {
-            "home": 12,
-            "away": 18,
-            "home_total": 20,
-            "away_total": 25
+        "away": {
+            "formation": "3-4-3",
+            "players": [
+                {
+                    "name": "Neto",
+                    "position": "GOL",
+                    "number": 22,
+                    "x": 50,
+                    "y": 10,
+                    "rating": 6.4
+                },
+                {
+                    "name": "M. Ponte",
+                    "position": "ZAG",
+                    "number": 4,
+                    "x": 75,
+                    "y": 25,
+                    "rating": 5.8
+                },
+                {
+                    "name": "Newton",
+                    "position": "ZAG",
+                    "number": 28,
+                    "x": 50,
+                    "y": 25,
+                    "rating": 6.2
+                },
+                {
+                    "name": "A. Barboza",
+                    "position": "ZAG",
+                    "number": 20,
+                    "x": 25,
+                    "y": 25,
+                    "rating": 6.4
+                },
+                {
+                    "name": "Vitinho",
+                    "position": "LD",
+                    "number": 2,
+                    "x": 85,
+                    "y": 40,
+                    "rating": 6.2
+                },
+                {
+                    "name": "Allan",
+                    "position": "VOL",
+                    "number": 25,
+                    "x": 60,
+                    "y": 40,
+                    "rating": 6.2
+                },
+                {
+                    "name": "Danilo",
+                    "position": "VOL",
+                    "number": 8,
+                    "x": 40,
+                    "y": 40,
+                    "rating": 8.6
+                },
+                {
+                    "name": "A. Telles",
+                    "position": "LE",
+                    "number": 13,
+                    "x": 15,
+                    "y": 40,
+                    "rating": 5.6
+                },
+                {
+                    "name": "Rodriguez",
+                    "position": "MEI",
+                    "number": 23,
+                    "x": 75,
+                    "y": 55,
+                    "rating": 6.5
+                },
+                {
+                    "name": "A. Cabral",
+                    "position": "ATA",
+                    "number": 19,
+                    "x": 50,
+                    "y": 55,
+                    "rating": 8.0
+                },
+                {
+                    "name": "Montoro",
+                    "position": "ATA",
+                    "number": 10,
+                    "x": 25,
+                    "y": 55,
+                    "rating": 6.7
+                }
+            ]
         }
     }
 }

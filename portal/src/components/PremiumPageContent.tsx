@@ -95,7 +95,11 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                     <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
                         {premiumNews.length > 0 ? (
                             premiumNews.map((item: any) => (
-                                <Link href={`/news/${item.id}`} key={item.id} className="block">
+                                <Link
+                                    href={item.match_id ? `/stats/${item.match_id}` : `/news/${item.id}`}
+                                    key={item.id}
+                                    className="block"
+                                >
                                     <div className="group relative bg-zinc-900/50 border border-white/5 hover:border-premium-gold/30 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-lg hover:shadow-premium-gold/5 h-full">
                                         {/* Image */}
                                         <div className="h-48 w-full relative overflow-hidden">
