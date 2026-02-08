@@ -51,7 +51,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                     : "border-white/5 shadow-xl"
             )}>
                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                    <div className="flex items-center justify-between h-16">
+                    <div className="flex items-center justify-between h-14">
                         {/* Logo Section with Glow Effect */}
                         <Link href="/" className="flex items-center gap-3 group relative">
                             {/* Animated Glow Background */}
@@ -170,7 +170,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="overflow-hidden border-t border-white/5"
                         >
-                            <div className="py-3 pb-4">
+                            <div className="py-2">
                                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                                     <div className="flex items-center justify-center lg:justify-start gap-2 overflow-x-auto scrollbar-hide">
                                         {menuItems.map((item, index) => {

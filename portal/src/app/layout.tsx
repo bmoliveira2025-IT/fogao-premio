@@ -92,7 +92,7 @@ export default function RootLayout({
             </div>
 
             {/* Main Content Wrapper with Safe Area Handling */}
-            <main className="min-h-screen bg-background lg:pl-64 flex flex-col pt-[104px] lg:pt-0">
+            <main className="min-h-screen bg-background lg:pl-64 flex flex-col pt-[120px] lg:pt-0">
               <div className="flex-1">
                 {children}
               </div>
