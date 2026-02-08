@@ -72,7 +72,7 @@ def seed_matches():
         { "date": "2026-02-01T20:30:00-03:00", "championship": "Campeonato Carioca", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Fluminense", "round": "Rodada 5", "status": "ENCERRADA", "home_score": 0, "away_score": 1, "display_time": "FIM DE JOGO" },
         { "date": "2026-02-04T21:30:00-03:00", "championship": "Brasileirão 2026", "location": "Arena do Grêmio", "home_team": "Grêmio", "away_team": "Botafogo", "round": "Rodada 2" },
         { "date": "2026-02-08T18:00:00-03:00", "championship": "Campeonato Carioca", "location": "São Januário", "home_team": "Vasco", "away_team": "Botafogo", "round": "Rodada 6" },
-        { "date": "2026-02-12T19:30:00-03:00", "championship": "Campeonato Carioca", "location": "Maracanã", "home_team": "Fluminense", "away_team": "Botafogo", "round": "Rodada 7" },
+        { "date": "2026-02-12T19:30:00-03:00", "championship": "Brasileirão", "location": "Maracanã", "home_team": "Fluminense", "away_team": "Botafogo", "round": "Rodada 7" },
         { "date": "2026-02-18T21:30:00-03:00", "championship": "Libertadores", "location": "Víctor Ugarte", "home_team": "Nacional Potosí", "away_team": "Botafogo", "round": "Fase Preliminar" },
         { "date": "2026-02-25T21:30:00-03:00", "championship": "Libertadores", "location": "Nilton Santos", "home_team": "Botafogo", "away_team": "Nacional Potosí", "round": "Fase Preliminar" },
         # MARÇO 2026

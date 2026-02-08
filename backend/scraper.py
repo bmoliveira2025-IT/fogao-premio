@@ -652,54 +652,84 @@ def fetch_youtube_videos():
             print(f"Error fetching videos for {channel['name']}: {e}")
 
 def update_next_match():
+    print("Searching for next match...")
     try:
-        # Get current time in ISO format for comparison
-        # Note: Matches in DB vary between UTC and Local, but generally are ISO strings.
-        # We'll use a string comparison which works for ISO8601
-        now_iso = datetime.now().isoformat()
-        
-        print(f"Looking for matches after: {now_iso}")
-        
-        # Query matches collection
-        # We'll get a batch of future matches to ensure accurate sorting
+        # Get current time in Sao Paulo
+        tz = pytz.timezone('America/Sao_Paulo')
+        now = datetime.now(tz)
+        print(f"Current Time: {now}")
+
+        # Get all matches
         matches_ref = db.collection('matches')
-        query = matches_ref.where('date', '>=', now_iso).order_by('date').limit(5)
-        docs = query.stream()
+        docs = matches_ref.stream()
         
-        next_match_doc = None
+        future_matches = []
+        
         for doc in docs:
             if doc.id == 'next_match': continue
-            next_match_doc = doc
-            break
             
-        if not next_match_doc:
-            print("No future matches found in 'matches' collection.")
+            data = doc.to_dict()
+            if 'date' not in data: continue
+            
+            match_date_raw = data['date']
+            try:
+                if isinstance(match_date_raw, str):
+                    clean_date = match_date_raw.replace('Z', '+00:00')
+                    match_date = datetime.fromisoformat(clean_date)
+                else:
+                    match_date = match_date_raw
+                
+                if match_date.tzinfo is None:
+                    match_date = match_date.replace(tzinfo=pytz.UTC)
+            except Exception as e:
+                print(f"Date parse error {match_date_raw}: {e}")
+                continue
+
+            match_date_sp = match_date.astimezone(tz)
+            
+            # Include matches that started in the last 2.5 hours
+            if match_date_sp > (now - timedelta(hours=2.5)):
+                data['match_id'] = doc.id
+                future_matches.append((match_date_sp, data))
+
+        # Sort by date
+        future_matches.sort(key=lambda x: x[0])
+        
+        if not future_matches:
+            print("No future matches found.")
             return
 
-        data = next_match_doc.to_dict()
-        match_id = next_match_doc.id
-        print(f"Found next match: {data.get('home_team')} x {data.get('away_team')} ({data.get('date')})")
+        # Pick the absolute next match
+        next_match = future_matches[0][1]
         
-        # Prepare valid MatchData structure
-        match_data = {
-            "match_id": match_id,
-            "home_team": data.get('home_team', 'Botafogo'),
-            "away_team": data.get('away_team', 'Adversário'),
-            "home_team_logo": data.get('home_team_logo', ''),
-            "away_team_logo": data.get('away_team_logo', ''),
-            "home_score": data.get('home_score', 0),
-            "away_score": data.get('away_score', 0),
-            "date": data.get('date'),
-            "location": data.get('location', 'A definir'),
-            "championship": data.get('championship', ''),
-            "status": "AGENDADO", # Force status to scheduled for future games
-            "transmission": data.get('transmission', ''),
-            "stadium": data.get('stadium', '')
-        }
-        
-        # Update the 'next_match' singleton document
-        db.collection('matches').document('next_match').set(match_data)
-        print("Successfully updated 'matches/next_match' with dynamic data.")
+        # Check current next_match
+        current_next = db.collection('matches').document('next_match').get()
+        if current_next.exists:
+            current_data = current_next.to_dict()
+            current_date_raw = current_data.get('date')
+            
+            if current_date_raw:
+                try:
+                    if isinstance(current_date_raw, str):
+                        current_match_dt = datetime.fromisoformat(current_date_raw.replace('Z', '+00:00'))
+                    else:
+                        current_match_dt = current_date_raw
+                    
+                    if current_match_dt.tzinfo is None:
+                        current_match_dt = current_match_dt.replace(tzinfo=pytz.UTC)
+                        
+                    current_match_sp = current_match_dt.astimezone(tz)
+                    
+                    # If current match is today AND hasn't finished (allow 3h), KEEP IT
+                    if current_match_sp.date() == now.date() and now < (current_match_sp + timedelta(hours=3)):
+                        print(f"KEEPING TODAY'S MATCH: {current_data.get('home_team')} x {current_data.get('away_team')}")
+                        return
+                except:
+                    pass
+
+        print(f"SELECTED NEXT MATCH: {next_match['home_team']} x {next_match['away_team']} at {next_match['date']}")
+        db.collection('matches').document('next_match').set(next_match)
+        print("Successfully updated 'matches/next_match'")
 
     except Exception as e:
         print(f"Error in update_next_match: {e}")
