@@ -49,10 +49,15 @@ def update_next_match():
         
         try:
             if isinstance(match_date_raw, str):
-                match_date = datetime.fromisoformat(match_date_raw.replace('Z', '+00:00'))
+                # Handle various ISO formats
+                clean_date = match_date_raw.replace('Z', '+00:00')
+                match_date = datetime.fromisoformat(clean_date)
             else:
                 # Firestore Timestamp
-                match_date = match_date_raw.replace(tzinfo=pytz.UTC) # Assuming stored as UTC
+                match_date = match_date_raw
+            
+            if match_date.tzinfo is None:
+                match_date = match_date.replace(tzinfo=pytz.UTC)
         except Exception as e:
             print(f"Date parse error {match_date_raw}: {e}")
             continue
@@ -60,7 +65,13 @@ def update_next_match():
         # Convert to SP time for comparison
         match_date_sp = match_date.astimezone(tz)
         
-        if match_date_sp > now:
+        # LOGGING
+        print(f"Checking {data.get('home_team')} x {data.get('away_team')}: {match_date_sp}")
+
+        # Check if match is upcoming (future)
+        # We also include matches that started very recently (last 2 hours)
+        from datetime import timedelta
+        if match_date_sp > (now - timedelta(hours=2)):
             data['match_id'] = doc.id
             future_matches.append((match_date_sp, data))
 
@@ -71,10 +82,7 @@ def update_next_match():
         print("No future matches found.")
         return
 
-    # IMPROVED LOGIC: Check if there's already a next_match document
-    # If it exists and hasn't started yet (within 24h window before start), keep it
-    # Only switch to truly "next" match if current one has started or is very far in future
-    
+    # Check current next_match
     try:
         current_next = db.collection('matches').document('next_match').get()
         if current_next.exists:
@@ -82,51 +90,35 @@ def update_next_match():
             current_date_raw = current_data.get('date')
             
             if current_date_raw:
-                # Parse current next_match date
                 if isinstance(current_date_raw, str):
                     current_match_date = datetime.fromisoformat(current_date_raw.replace('Z', '+00:00'))
                 else:
-                    current_match_date = current_date_raw.replace(tzinfo=pytz.UTC)
+                    current_match_date = current_date_raw
                 
+                if current_match_date.tzinfo is None:
+                    current_match_date = current_match_date.replace(tzinfo=pytz.UTC)
+                    
                 current_match_sp = current_match_date.astimezone(tz)
                 
-                # Check if current match is still upcoming (hasn't started yet)
-                # Give 15 minute grace period AFTER start time to account for delays
-                grace_period_minutes = 15
-                from datetime import timedelta
-                match_start_threshold = current_match_sp + timedelta(minutes=grace_period_minutes)
-                
-                # If we haven't reached start time + grace period, keep showing current match
-                if now < match_start_threshold:
-                    print(f"Current next_match ({current_data.get('home_team')} x {current_data.get('away_team')}) hasn't started yet.")
-                    print(f"Match time: {current_match_sp}, Current time: {now}")
-                    print(f"Keeping current next_match until at least {match_start_threshold}")
-                    return  # Don't update, keep current match
+                # If current match is today AND hasn't finished yet, KEEP IT
+                # A match is "finished" in this context if we are 3 hours past start time
+                if current_match_sp.date() == now.date() and now < (current_match_sp + timedelta(hours=3)):
+                    print(f"KEEPING TODAY'S MATCH: {current_data.get('home_team')} x {current_data.get('away_team')}")
+                    return
+
     except Exception as e:
         print(f"Error checking current next_match: {e}")
-        # Continue with update if check fails
 
+    # Pick the absolute next match
     next_match = future_matches[0][1]
-    print(f"Found next match: {next_match['home_team']} x {next_match['away_team']} at {next_match['date']}")
+    print(f"SELECTED NEXT MATCH: {next_match['home_team']} x {next_match['away_team']} at {next_match['date']}")
     
     # Update next_match doc
-    update_data = {
-        "home_team": next_match.get('home_team'),
-        "away_team": next_match.get('away_team'),
-        "home_score": 0, # Reset score
-        "away_score": 0, # Reset score
-        "date": next_match.get('date'),
-        "location": next_match.get('location'),
-        "championship": next_match.get('championship'),
-        "status": "Agendado", # Reset status
-        "display_time": "", # Reset display time
-        "home_team_logo": next_match.get('home_team_logo'),
-        "away_team_logo": next_match.get('away_team_logo'),
-        "match_id": next_match.get('match_id')
-    }
-    
-    db.collection('matches').document('next_match').set(update_data)
+    db.collection('matches').document('next_match').set(next_match)
     print("Successfully updated matches/next_match")
+
+if __name__ == "__main__":
+    update_next_match()
 
 if __name__ == "__main__":
     update_next_match()
