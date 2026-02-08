@@ -71,6 +71,41 @@ def update_next_match():
         print("No future matches found.")
         return
 
+    # IMPROVED LOGIC: Check if there's already a next_match document
+    # If it exists and hasn't started yet (within 24h window before start), keep it
+    # Only switch to truly "next" match if current one has started or is very far in future
+    
+    try:
+        current_next = db.collection('matches').document('next_match').get()
+        if current_next.exists:
+            current_data = current_next.to_dict()
+            current_date_raw = current_data.get('date')
+            
+            if current_date_raw:
+                # Parse current next_match date
+                if isinstance(current_date_raw, str):
+                    current_match_date = datetime.fromisoformat(current_date_raw.replace('Z', '+00:00'))
+                else:
+                    current_match_date = current_date_raw.replace(tzinfo=pytz.UTC)
+                
+                current_match_sp = current_match_date.astimezone(tz)
+                
+                # Check if current match is still upcoming (hasn't started yet)
+                # Give 15 minute grace period AFTER start time to account for delays
+                grace_period_minutes = 15
+                from datetime import timedelta
+                match_start_threshold = current_match_sp + timedelta(minutes=grace_period_minutes)
+                
+                # If we haven't reached start time + grace period, keep showing current match
+                if now < match_start_threshold:
+                    print(f"Current next_match ({current_data.get('home_team')} x {current_data.get('away_team')}) hasn't started yet.")
+                    print(f"Match time: {current_match_sp}, Current time: {now}")
+                    print(f"Keeping current next_match until at least {match_start_threshold}")
+                    return  # Don't update, keep current match
+    except Exception as e:
+        print(f"Error checking current next_match: {e}")
+        # Continue with update if check fails
+
     next_match = future_matches[0][1]
     print(f"Found next match: {next_match['home_team']} x {next_match['away_team']} at {next_match['date']}")
     

@@ -52,10 +52,6 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                     match_id: data.match_id,
                 } as MatchData);
 
-                // Data correction for today's match
-                if (data.away_team?.toLowerCase().includes('grêmio') || data.home_team?.toLowerCase().includes('grêmio')) {
-                    setLiveMatch(prev => prev ? { ...prev, transmission: "TV Globo, Premiere" } : null);
-                }
             }
         });
         return () => unsub();

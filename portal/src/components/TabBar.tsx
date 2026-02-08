@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Home, FileText, Calendar, Play, Star, Crown, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
+import { motion } from "framer-motion";
 
 // 1. Home - Lucide Home
 const IconHome = ({ active, className }: { active: boolean, className?: string }) => (
@@ -82,64 +83,95 @@ export default function TabBar() {
     const tabs = [...navTabs];
 
     return (
-        <nav className="fixed inset-x-0 bottom-0 z-[999] bg-background dark:bg-black border-t border-foreground/[0.08] dark:border-white/[0.08] pb-safe pt-1 px-2 shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.1)] dark:shadow-[0_-15px_40px_-5px_rgba(0,0,0,0.8)] md:hidden">
-            <div className="flex items-center justify-between relative">
-                {/* Premium Gold Line */}
-                <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-16 h-[2px] bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-400 to-transparent opacity-80" />
+        <nav className="fixed inset-x-0 bottom-0 z-[999] glass-ultra border-t border-white/10 pb-safe pt-1 px-2 shadow-[0_-20px_60px_-10px_rgba(0,0,0,0.9)] md:hidden">
+            {/* Animated Gold Gradient Line on Top */}
+            <div className="absolute -top-[2px] left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-90 animate-shimmer-gold"
+                style={{ backgroundSize: '200% 100%' }}
+            />
 
-                {tabs.map((tab) => {
+            <div className="flex items-center justify-between relative">
+                {tabs.map((tab, index) => {
                     const isActive = pathname === tab.href;
                     const Icon = tab.icon;
 
                     return (
-                        <Link
+                        <motion.div
                             key={tab.label}
-                            href={tab.href}
-                            className="relative flex flex-col items-center justify-center flex-1 h-16 group outline-none"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
                         >
-                            {/* Active Indicator Light - Subtle Glow behind icon */}
-                            {isActive && (
-                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                    <div className="w-12 h-12 rounded-full bg-premium-gold/15 dark:bg-premium-gold/15 light:bg-zinc-200/50 blur-xl" />
-                                </div>
-                            )}
-
-                            <div className={cn(
-                                "relative flex items-center justify-center transition-all duration-300",
-                                isActive
-                                    ? "text-premium-gold dark:text-premium-gold light:text-zinc-900 -translate-y-1.5"
-                                    : "text-zinc-500 group-hover:text-foreground dark:group-hover:text-white"
-                            )}>
-                                <Icon
-                                    active={isActive}
-                                    className={cn(
-                                        "w-[28px] h-[28px]", // Consistent size
-                                        isActive && "drop-shadow-[0_0_8px_rgba(40,40,40,0.1)] dark:drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]"
-                                    )}
-                                />
-
-                                {/* Points Badge for Profile */}
-                                {tab.label === "PERFIL" && points > 0 && (
-                                    <div className="absolute -top-1 -right-1 bg-premium-gold dark:bg-premium-gold light:bg-zinc-900 text-black dark:text-black light:text-white text-[9px] font-black px-1 rounded-full min-w-[14px] h-[14px] flex items-center justify-center border border-black dark:border-black light:border-white shadow-lg">
-                                        {points > 999 ? "1k+" : points}
-                                    </div>
-                                )}
-
-                                {/* Active Dot */}
+                            <Link
+                                href={tab.href}
+                                className="relative flex flex-col items-center justify-center w-20 h-16 group outline-none"
+                            >
+                                {/* Active Indicator - Enhanced Glow */}
                                 {isActive && (
-                                    <div className="absolute -bottom-1.5 w-1.5 h-1.5 rounded-full bg-premium-gold dark:bg-premium-gold light:bg-zinc-900" />
-                                )}
-                            </div>
+                                    <>
+                                        <motion.div
+                                            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                                            initial={{ scale: 0.8, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            transition={{ type: "spring", stiffness: 300 }}
+                                        >
+                                            <div className="w-14 h-14 rounded-full bg-premium-gold/20 blur-xl animate-glow-pulse" />
+                                        </motion.div>
 
-                            <span className={cn(
-                                "text-[11px] font-black mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap",
-                                isActive
-                                    ? "opacity-100 scale-100 text-premium-gold dark:text-premium-gold light:text-zinc-900"
-                                    : "opacity-40 scale-90 text-zinc-500 light:text-zinc-400 group-hover:opacity-70"
-                            )}>
-                                {tab.label}
-                            </span>
-                        </Link>
+                                        {/* Glassmorphic Background */}
+                                        <div className="absolute inset-0 mx-2 rounded-2xl glass-ultra border border-premium-gold/20" />
+                                    </>
+                                )}
+
+                                <motion.div
+                                    className={cn(
+                                        "relative flex items-center justify-center transition-all duration-300 z-10",
+                                        isActive
+                                            ? "text-premium-gold -translate-y-1"
+                                            : "text-zinc-400 group-hover:text-white group-active:scale-95"
+                                    )}
+                                    whileTap={{ scale: 0.9 }}
+                                >
+                                    <Icon
+                                        active={isActive}
+                                        className={cn(
+                                            "w-[28px] h-[28px]",
+                                            isActive && "drop-shadow-[0_0_12px_rgba(255,215,0,0.6)] animate-float"
+                                        )}
+                                    />
+
+                                    {/* Points Badge for Profile */}
+                                    {tab.label === "PERFIL" && points > 0 && (
+                                        <motion.div
+                                            className="absolute -top-1 -right-1 bg-premium-gold text-black text-[9px] font-black px-1 rounded-full min-w-[14px] h-[14px] flex items-center justify-center border border-black shadow-gold-glow"
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ type: "spring", delay: 0.2 }}
+                                        >
+                                            {points > 999 ? "1k+" : points}
+                                        </motion.div>
+                                    )}
+
+                                    {/* Active Dot - Enhanced */}
+                                    {isActive && (
+                                        <motion.div
+                                            className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-premium-gold shadow-[0_0_8px_rgba(255,215,0,0.8)]"
+                                            layoutId="activeTab"
+                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                                        />
+                                    )}
+                                </motion.div>
+
+                                {/* Label - VERY BRIGHT TEXT */}
+                                <span className={cn(
+                                    "text-[11px] font-black mt-1 tracking-tight uppercase transition-all duration-300 font-sans whitespace-nowrap relative z-10",
+                                    isActive
+                                        ? "opacity-100 scale-105 text-premium-gold font-extrabold drop-shadow-[0_0_8px_rgba(255,215,0,0.6)]"
+                                        : "opacity-90 scale-100 text-white font-bold group-hover:text-premium-gold group-hover:opacity-100"
+                                )}>
+                                    {tab.label}
+                                </span>
+                            </Link>
+                        </motion.div>
                     );
                 })}
             </div>

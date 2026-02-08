@@ -19,6 +19,7 @@ interface MatchData {
     home_team_logo?: string;
     away_team_logo?: string;
     match_id?: string;
+    display_time?: string;
 }
 
 export default function MatchesAccordion({ matches, title = "Próximos Jogos" }: { matches: MatchData[], title?: string }) {
@@ -45,6 +46,22 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                 const dateString = matchDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).toUpperCase();
                 const timeString = matchDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
+                const status = match.status?.toUpperCase().trim() || 'AGENDADO';
+                const displayTime = match.display_time?.toUpperCase().trim() || '';
+
+                // Strict ALLOWLIST for showing scores - use exact matching for status
+                const liveStatuses = ['AO_VIVO', 'AO VIVO', 'EM ANDAMENTO', 'INTERVALO', 'INT'];
+                const finishedStatuses = ['ENCERRADA', 'FINALIZADO', 'FIM', 'FIM DE JOGO', 'TERMINADO', 'CONCLUÍDO', 'FIM_DE_JOGO'];
+
+                const isLive = liveStatuses.includes(status) || displayTime.includes("'") || displayTime === 'INT';
+                const isFinished = finishedStatuses.includes(status) || displayTime === 'FIM DE JOGO';
+
+                // Only show score if it's explicitly Live or Finished
+                const isLiveOrFinished = isLive || isFinished;
+
+                const homeScore = match.home_score ?? 0;
+                const awayScore = match.away_score ?? 0;
+
                 return (
                     <div
                         key={match.id}
@@ -66,11 +83,11 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                 <div className="flex flex-col items-start">
                                     <span className={`text-sm md:text-base font-black uppercase tracking-widest ${isOpen ? 'text-white' : 'text-white/80'}`}>
                                         {match.home_team} <span className="text-premium-gold mx-1">
-                                            {match.home_score !== undefined && match.home_score !== null ? `${match.home_score} x ${match.away_score}` : 'x'}
+                                            {isLiveOrFinished ? `${homeScore} x ${awayScore}` : 'x'}
                                         </span> {match.away_team}
                                     </span>
                                     <span className="text-[11px] md:text-[12px] font-bold text-white/50 capitalize mt-1">
-                                        {match.championship} • {match.status === 'AO_VIVO' ? 'AO VIVO' : match.status === 'ENCERRADA' ? 'Finalizado' : timeString}
+                                        {match.championship} • {status === 'AO_VIVO' || status === 'AO VIVO' ? 'AO VIVO' : isFinished ? 'Finalizado' : timeString}
                                     </span>
                                 </div>
                             </div>
@@ -106,12 +123,13 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                             {/* Time/Score or Action */}
                                             <div className="flex flex-col items-center w-1/3 space-y-2">
                                                 <span className="text-xs font-mono font-bold text-premium-gold bg-premium-gold/10 px-2 py-1 rounded">
-                                                    {match.home_score !== undefined ? `${match.home_score} - ${match.away_score}` : timeString}
+                                                    {isOpen && isLiveOrFinished ? `${homeScore} - ${awayScore}` : timeString}
                                                 </span>
                                             </div>
 
                                             {/* Away Logo */}
                                             <div className="flex flex-col items-center w-1/3">
+
                                                 <div className="w-12 h-12 relative mb-2 drop-shadow-md">
                                                     {match.away_team_logo ? (
                                                         <img src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} className="w-full h-full object-contain" />

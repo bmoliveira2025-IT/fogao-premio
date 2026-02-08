@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Share2, Crown, Star, Shield } from 'lucide-react';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { cn } from '@/lib/utils';
-
+import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 
 export default function DesktopHeader() {
@@ -25,60 +25,166 @@ export default function DesktopHeader() {
     }
 
     return (
-        <header className="hidden lg:flex fixed top-0 left-0 right-0 z-50 bg-background dark:bg-black backdrop-blur-xl border-b border-foreground/5 dark:border-white/10 h-20 items-center justify-between px-8 shadow-2xl">
+        <header className="hidden lg:flex fixed top-0 left-0 right-0 z-50 glass-ultra h-20 items-center justify-between px-8 shadow-2xl border-b border-white/10">
+            {/* Animated Gradient Border Bottom */}
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold/30 to-transparent" />
+
             <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
-                <Link href="/" className="flex items-center space-x-3 group">
-                    <div className="relative group cursor-pointer w-12 h-12 min-w-[3rem] flex-shrink-0 flex items-center justify-center">
-                        <div className="absolute inset-0 bg-premium-gold/20 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
+                {/* Logo Section with Premium Effects */}
+                <Link href="/" className="flex items-center space-x-3 group relative">
+                    {/* Glow Effect Background */}
+                    <div className="absolute -inset-4 bg-gradient-radial from-premium-gold/20 via-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-700 rounded-full" />
+
+                    <motion.div
+                        className="relative w-12 h-12 min-w-[3rem] flex-shrink-0 flex items-center justify-center"
+                        whileHover={{
+                            scale: 1.1,
+                            rotateY: 15,
+                        }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                        <div className="absolute inset-0 bg-premium-gold/20 blur-xl opacity-20 group-hover:opacity-60 transition-opacity duration-500 rounded-full animate-glow-pulse" />
                         <GloriosoLogo size={48} className="relative z-10 drop-shadow-2xl" />
-                    </div>
+                    </motion.div>
+
                     <div className="flex flex-col leading-none">
-                        <h1 className="text-2xl font-display font-black tracking-tight text-foreground leading-none group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors flex items-center gap-2">
-                            GLORIOSO <span className="font-light text-premium-gold dark:text-premium-gold light:text-zinc-400">360</span>
+                        <motion.h1
+                            className="text-2xl font-display font-black tracking-tight text-foreground leading-none transition-colors flex items-center gap-2"
+                            whileHover={{
+                                textShadow: "0 0 20px rgba(255, 215, 0, 0.5)"
+                            }}
+                        >
+                            <span className="group-hover:text-premium-gold transition-colors duration-300">
+                                GLORIOSO
+                            </span>
+                            <span className="font-light text-premium-gold animate-glow-pulse">
+                                360
+                            </span>
                             {isPremium && (
-                                <Crown size={16} className="text-premium-gold dark:text-premium-gold light:text-zinc-400 fill-premium-gold/20 ml-1.5 self-start -mt-0.5" strokeWidth={2.5} />
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.2, type: "spring" }}
+                                >
+                                    <Crown
+                                        size={16}
+                                        className="text-premium-gold fill-premium-gold/20 ml-1.5 self-start -mt-0.5 animate-glow-pulse"
+                                        strokeWidth={2.5}
+                                    />
+                                </motion.div>
                             )}
-                        </h1>
+                        </motion.h1>
                     </div>
                 </Link>
 
+                {/* Navigation Links with Glassmorphic Hover */}
                 <div className="flex items-center space-x-8">
-                    {navLinks.map((link) => (
-                        <Link
+                    {navLinks.map((link, index) => (
+                        <motion.div
                             key={link.href}
-                            href={link.href}
-                            className={cn(
-                                "text-[15px] font-bold transition-all duration-300 tracking-widest uppercase relative font-sans",
-                                isActive(link.href)
-                                    ? "text-premium-gold drop-shadow-[0_0_8px_rgb(var(--premium-gold)/0.4)] scale-105"
-                                    : "text-foreground/60 dark:text-white/60 hover:text-foreground dark:hover:text-white"
-                            )}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
                         >
-                            {link.label}
-                            {isActive(link.href) && (
-                                <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-premium-gold dark:via-premium-gold light:via-zinc-400 to-transparent opacity-80" />
-                            )}
-                        </Link>
+                            <Link
+                                href={link.href}
+                                className={cn(
+                                    "relative text-[15px] font-bold transition-all duration-300 tracking-widest uppercase font-sans px-4 py-2 rounded-lg group",
+                                    isActive(link.href)
+                                        ? "text-premium-gold"
+                                        : "text-foreground/60 hover:text-foreground"
+                                )}
+                            >
+                                {/* Glassmorphic Background on Hover */}
+                                <div className={cn(
+                                    "absolute inset-0 glass-ultra opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg",
+                                    !isActive(link.href) && "group-hover:shadow-gold-glow"
+                                )} />
+
+                                {/* Gradient Background for Active */}
+                                {isActive(link.href) && (
+                                    <div className="absolute inset-0 bg-gradient-gold rounded-lg" />
+                                )}
+
+                                {/* Text */}
+                                <span className="relative z-10">{link.label}</span>
+
+                                {/* Animated Underline */}
+                                {isActive(link.href) && (
+                                    <motion.span
+                                        className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent"
+                                        initial={{ scaleX: 0 }}
+                                        animate={{ scaleX: 1 }}
+                                        transition={{ duration: 0.3 }}
+                                    />
+                                )}
+
+                                {/* Hover Glow Line */}
+                                {!isActive(link.href) && (
+                                    <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent group-hover:w-full transition-all duration-300" />
+                                )}
+                            </Link>
+                        </motion.div>
                     ))}
                 </div>
 
-                {/* Points & Rank Display */}
-                <div className="flex items-center space-x-4 pl-6 border-l border-white/10">
+                {/* Points & Rank Display with Premium Effects */}
+                <motion.div
+                    className="flex items-center space-x-4 pl-6 border-l border-white/10"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                >
                     <div className="flex flex-col items-end">
-                        <div className="flex items-center space-x-1.5 bg-zinc-100 dark:bg-zinc-900 px-3 py-1 rounded-full border border-foreground/10 dark:border-premium-gold/20 shadow-[0_0_15px_rgba(0,0,0,0.05)]">
-                            <Star size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-400 fill-premium-gold dark:fill-premium-gold light:fill-zinc-400" />
-                            <span className="text-sm font-black font-sans text-foreground dark:text-white tracking-widest">{points}</span>
-                        </div>
-                        <span className={cn(
-                            "text-[10px] font-bold uppercase tracking-widest mt-1",
-                            rank === "Platina" ? "text-blue-500" :
-                                rank === "Ouro" ? "text-premium-gold dark:text-premium-gold light:text-zinc-600" :
-                                    rank === "Prata" ? "text-zinc-400 dark:text-zinc-300" : "text-zinc-500"
-                        )}>
+                        <motion.div
+                            className="relative flex items-center space-x-1.5 glass-ultra px-4 py-2 rounded-full border border-premium-gold/20 shadow-gold-glow overflow-hidden group cursor-pointer"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ type: "spring", stiffness: 400 }}
+                        >
+                            {/* Animated Shimmer Background */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-premium-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                            <motion.div
+                                animate={{
+                                    rotate: [0, 360],
+                                }}
+                                transition={{
+                                    duration: 3,
+                                    repeat: Infinity,
+                                    ease: "linear"
+                                }}
+                            >
+                                <Star
+                                    size={16}
+                                    className="text-premium-gold fill-premium-gold relative z-10"
+                                />
+                            </motion.div>
+
+                            <span className="text-sm font-black font-sans text-white tracking-widest relative z-10">
+                                {points}
+                            </span>
+                        </motion.div>
+
+                        <motion.span
+                            className={cn(
+                                "text-[10px] font-bold uppercase tracking-widest mt-1.5",
+                                rank === "Platina" ? "text-blue-500" :
+                                    rank === "Ouro" ? "text-premium-gold" :
+                                        rank === "Prata" ? "text-zinc-400" : "text-zinc-500"
+                            )}
+                            animate={{
+                                textShadow: [
+                                    "0 0 5px rgba(255, 215, 0, 0.3)",
+                                    "0 0 10px rgba(255, 215, 0, 0.5)",
+                                    "0 0 5px rgba(255, 215, 0, 0.3)",
+                                ]
+                            }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                        >
                             Torcedor {rank}
-                        </span>
+                        </motion.span>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </header>
     );
