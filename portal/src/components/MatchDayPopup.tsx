@@ -62,7 +62,7 @@ export default function MatchDayPopup({ nextMatch }: MatchDayPopupProps) {
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center px-4">
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}

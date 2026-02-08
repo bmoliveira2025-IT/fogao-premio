@@ -167,7 +167,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
     const RelatedNewsWidget = ({ sidebar = false }: { sidebar?: boolean }) => (relatedNews && relatedNews.length > 0) ? (
         <section className={`mt-8 ${sidebar ? '' : 'pt-8 border-t border-premium-gold/15 mb-8'} px-0`}>
-            <h3 className="text-sm font-black text-premium-gold uppercase tracking-widest mb-6 border-l-4 border-premium-gold pl-3">
+            <h3 className="text-sm font-semibold text-premium-gold uppercase tracking-widest mb-6 border-l-4 border-premium-gold pl-3">
                 {sidebar ? 'Mais Notícias' : 'Veja Também'}
             </h3>
             <div className="space-y-3">
