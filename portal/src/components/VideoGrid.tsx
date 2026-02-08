@@ -94,9 +94,6 @@ export default function VideoGrid({ videos }: VideoGridProps) {
                         {/* Content */}
                         <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                             <div className="flex items-center gap-2 mb-2">
-                                <span className="px-1.5 py-0.5 rounded-md bg-white/10 backdrop-blur-md border border-white/10 text-[9px] font-bold text-premium-gold uppercase tracking-wider">
-                                    {video.source || 'Botafogo TV'}
-                                </span>
                                 {video.published_at && (
                                     <span className="text-[10px] text-zinc-400 flex items-center gap-1">
                                         <Calendar size={10} />

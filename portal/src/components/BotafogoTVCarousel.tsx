@@ -16,6 +16,7 @@ interface VideoItem {
     thumbnail: string;
     published_at: string;
     is_live?: boolean;
+    source?: string;
 }
 
 interface BotafogoTVCarouselProps {
@@ -26,14 +27,32 @@ interface BotafogoTVCarouselProps {
 export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCarouselProps) {
     const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
 
+    // Filter out GE/Globo Esporte videos - multiple variations
+    const filteredVideos = videos.filter(v => {
+        const source = v.source?.toUpperCase() || '';
+        return !source.includes('GE') && !source.includes('GLOBO ESPORTE');
+    });
+
     // Sort: Live first, then by date (if date strings are comparable)
-    const sortedVideos = [...videos].sort((a, b) => {
+    const sortedVideos = [...filteredVideos].sort((a, b) => {
         if (a.is_live && !b.is_live) return -1;
         if (!a.is_live && b.is_live) return 1;
         return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
     });
 
-    const hasLive = videos.some(v => v.is_live);
+    // Limit "Setor Visitante" to only 1 video
+    const finalVideos = sortedVideos.filter((v, index, arr) => {
+        const isSetorVisitante = v.title?.toUpperCase().includes('SETOR VISITANTE');
+        if (!isSetorVisitante) return true;
+
+        // Only keep the first "Setor Visitante" video
+        const firstSetorIndex = arr.findIndex(video =>
+            video.title?.toUpperCase().includes('SETOR VISITANTE')
+        );
+        return index === firstSetorIndex;
+    });
+
+    const hasLive = filteredVideos.some(v => v.is_live);
 
     // Robust Video ID extraction (YouTube & GloboPlay)
     const getVideoId = (url: string) => {
@@ -74,51 +93,29 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
             "relative w-full mb-6 pt-4",
             className
         )}>
-            {/* Premium Header with Glassmorphism & Animated Border */}
-            <div className="flex items-center justify-between px-4 lg:px-0 mb-8">
-                <motion.div
-                    className="relative inline-flex items-center gap-3 px-6 py-3 rounded-2xl glass-ultra border border-white/10 shadow-2xl overflow-hidden group"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                >
-                    {/* Animated Gradient Background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/10 via-premium-gold/20 to-premium-gold/10 opacity-50 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer-gold"
-                        style={{ backgroundSize: '200% 100%' }}
-                    />
+            {/* Clean Modern Header */}
+            <div className="flex items-center justify-between px-4 lg:px-0 mb-6">
+                <div className="flex items-center gap-2.5">
+                    {/* Live Indicator - Simple */}
+                    {hasLive && (
+                        <div className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+                        </div>
+                    )}
 
-                    {/* Animated Top Border */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-80" />
-
-                    {/* Live Indicator - Enhanced */}
-                    <div className="relative flex h-3 w-3 z-10">
-                        {hasLive && (
-                            <>
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                                <span className="absolute inline-flex h-full w-full rounded-full bg-red-500/30 blur-md"></span>
-                            </>
-                        )}
-                        <span className={cn(
-                            "relative inline-flex rounded-full h-3 w-3 shadow-[0_0_10px_rgba(239,68,68,0.6)]",
-                            hasLive ? "bg-red-600" : "bg-zinc-700"
-                        )}></span>
-                    </div>
-
-                    {/* Title with Glow Effect */}
-                    <span className="relative text-sm md:text-base font-black text-white tracking-[0.2em] uppercase z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
-                        GLORIOSO <span className="text-premium-gold drop-shadow-[0_0_10px_rgba(255,215,0,0.6)]">TV</span>
-                    </span>
-
-                    {/* Sparkle Icon */}
-                    <Sparkles size={16} className="text-premium-gold z-10 animate-glow-pulse" />
-                </motion.div>
+                    {/* Simple Title */}
+                    <h2 className="text-base md:text-lg font-bold text-white">
+                        GLORIOSO <span className="text-premium-gold">TV</span>
+                    </h2>
+                </div>
 
                 <Link
                     href="/videos"
-                    className="relative flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black text-zinc-400 uppercase tracking-widest hover:text-premium-gold transition-all duration-300 group overflow-hidden glass-ultra hover:border-premium-gold/20 border border-transparent"
+                    className="flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-premium-gold transition-colors"
                 >
-                    <div className="absolute inset-0 bg-gradient-glow opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="relative z-10">Ver todos</span>
-                    <MonitorPlay size={16} className="relative z-10 group-hover:scale-110 transition-transform" />
+                    <span>Ver todos</span>
+                    <MonitorPlay size={14} />
                 </Link>
             </div>
 
@@ -128,8 +125,8 @@ export default function BotafogoTVCarousel({ videos, className }: BotafogoTVCaro
                 <DragHint />
 
                 <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4 lg:px-0 gap-6 pb-8">
-                    {sortedVideos.length > 0 ? (
-                        sortedVideos.map((video, index) => (
+                    {finalVideos.length > 0 ? (
+                        finalVideos.map((video, index) => (
                             <motion.div
                                 key={video.id}
                                 initial={{ opacity: 0, y: 20 }}
