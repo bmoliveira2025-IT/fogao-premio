@@ -127,20 +127,20 @@ export default function LikeDislikeButtons({
 
     // Size settings
     const iconSize = isHero ? 18 : 14;
-    const buttonPadding = isHero ? "px-6 py-2.5" : (isFull ? "px-5 py-2.5" : "px-2.5 py-1.5");
+    const buttonPadding = isHero ? "px-6 py-2.5" : (isFull ? "px-3 md:px-5 py-2.5" : "px-2.5 py-1.5");
     const textSize = isHero ? "text-sm" : "text-[11px]";
 
     return (
         <div className={`flex items-center gap-2 ${className}`}>
             {recentLiker && (
-                <div className={`${isHero ? 'w-8 h-8' : 'w-6 h-6'} rounded-full bg-premium-gold flex items-center justify-center border border-background text-black font-black ${isHero ? 'text-xs' : 'text-[10px]'} shadow-sm`}>
+                <div className={`${isHero ? 'w-8 h-8' : 'w-6 h-6'} rounded-full bg-zinc-800 dark:bg-white/10 flex items-center justify-center border border-white/10 text-premium-gold dark:text-white font-black ${isHero ? 'text-xs' : 'text-[10px]'} shadow-sm`}>
                     {recentLiker.initial}
                 </div>
             )}
             <div className={`flex items-center ${isHero ? 'bg-black/40' : (isFull ? 'bg-black/5 dark:bg-white/5 h-10' : 'bg-white/5')} backdrop-blur-sm border border-white/10 rounded-full overflow-hidden`}>
                 <button
                     onClick={(e) => handleAction('like', e)}
-                    className={`flex items-center gap-1.5 ${buttonPadding} transition-all active:scale-95 border-r border-white/10 h-full ${liked ? 'bg-premium-gold text-black' : 'text-zinc-400 hover:text-white'}`}
+                    className={`flex items-center gap-1.5 ${buttonPadding} transition-all active:scale-95 border-r border-white/10 h-full ${liked ? 'bg-white/10 text-premium-gold' : 'text-zinc-400 hover:text-white'}`}
                 >
                     <ThumbsUp size={iconSize} className={liked ? 'fill-current' : ''} />
                     <span className={`${textSize} font-athletic font-bold`}>{likesCount}</span>

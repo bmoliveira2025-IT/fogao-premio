@@ -209,7 +209,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         </div>
 
                         {/* Action Bar */}
-                        <div className="flex flex-wrap items-center gap-3 mb-8">
+                        <div className="flex items-center gap-2 md:gap-4 mb-8">
                             <LikeDislikeButtons
                                 articleId={article.id}
                                 initialLikes={article.likes_count}
@@ -217,12 +217,12 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 variant="full"
                                 onLike={handleLikePoints}
                                 showPoints={true}
-                                className="mr-auto"
+                                className="flex-shrink-0"
                             />
 
                             <button
                                 onClick={() => setShowVoice(!showVoice)}
-                                className={`flex items-center justify-center w-10 h-10 rounded-xl border transition-all ${showVoice
+                                className={`flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl border transition-all ${showVoice
                                     ? 'bg-premium-gold/10 border-premium-gold/50 text-premium-gold'
                                     : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20'
                                     }`}
@@ -233,7 +233,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                             <button
                                 onClick={handleShare}
-                                className="flex items-center justify-center w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all"
+                                className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all"
                                 title="Compartilhar"
                             >
                                 <Share2 size={16} />
