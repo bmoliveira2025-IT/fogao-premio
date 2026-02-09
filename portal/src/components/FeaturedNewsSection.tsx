@@ -122,15 +122,16 @@ function HeroCard({ news }: { news: NewsItem }) {
 }
 
 // Secondary Card Component (Grid Items)
+// Secondary Card Component (Horizontal List Item)
 function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
     return (
         <motion.div variants={itemVariants}>
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex flex-col h-full bg-zinc-900/60 backdrop-blur-sm border border-white/5 rounded-2xl overflow-hidden hover:border-premium-gold/30 transition-all duration-500 hover:shadow-lg hover:shadow-premium-gold/10"
+                className="group relative flex gap-4 bg-zinc-900/40 backdrop-blur-sm border border-white/5 rounded-xl p-3 hover:border-premium-gold/30 transition-all duration-500 hover:shadow-lg hover:shadow-premium-gold/5"
             >
                 {/* Image */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden">
+                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-lg overflow-hidden">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
@@ -138,26 +139,28 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent opacity-70" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
 
-                    {/* Trending Badge */}
-                    <div className="absolute top-3 left-3">
-                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-sm rounded-full border border-white/10">
-                            <TrendingUp size={10} className="text-premium-gold" />
-                            <span className="text-[10px] font-bold text-white uppercase">#{index + 2}</span>
+                    {/* Compact Trending Badge */}
+                    <div className="absolute top-1.5 left-1.5">
+                        <div className="flex items-center gap-1.5 px-1.5 py-0.5 bg-black/70 backdrop-blur-sm rounded-md border border-white/10">
+                            <TrendingUp size={8} className="text-premium-gold" />
+                            <span className="text-[8px] font-bold text-white uppercase">#{index + 2}</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col justify-between p-4">
-                    <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-3">
+                <div className="flex-1 flex flex-col justify-between py-0.5">
+                    <h3 className="text-sm md:text-base font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2 md:line-clamp-3">
                         {toSentenceCase(news.title)}
                     </h3>
 
-                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/5">
-                        <SourceIcon source={news.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
-                        <span className="text-[10px] font-bold text-zinc-400 uppercase">{news.source || 'Fogão'}</span>
+                    <div className="flex items-center gap-2 mt-2">
+                        <div className="flex items-center gap-1.5">
+                            <SourceIcon source={news.source || 'default'} className="w-3 h-3 text-premium-gold" />
+                            <span className="text-[10px] font-bold text-zinc-400 uppercase">{news.source || 'Fogão'}</span>
+                        </div>
                         <span className="text-zinc-600">•</span>
                         <span className="text-[10px] font-bold text-zinc-500 uppercase" suppressHydrationWarning>
                             {getRelativeTime(news.created_at)}
@@ -188,10 +191,10 @@ export default function FeaturedNewsSection({ news, className = '' }: FeaturedNe
                 <HeroCard news={heroNews} />
             </div>
 
-            {/* Secondary Grid */}
+            {/* Secondary Grid - Horizontal List */}
             {secondaryNews.length > 0 && (
                 <div className="px-4 md:px-0">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
                         {secondaryNews.map((item, index) => (
                             <SecondaryCard key={item.id} news={item} index={index} />
                         ))}
