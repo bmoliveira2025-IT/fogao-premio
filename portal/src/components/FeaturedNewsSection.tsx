@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Flame, TrendingUp, Clock, Newspaper } from 'lucide-react';
+import { Flame, TrendingUp, Clock, Newspaper, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
 
@@ -52,13 +53,56 @@ const containerVariants = {
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 0 },
     visible: {
         opacity: 1,
         y: 0,
         transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] as const }
     }
 };
+
+// Like/Dislike Action Component
+function LikeActions({ className = "" }: { className?: string }) {
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
+
+    const handleLike = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setLiked(!liked);
+        if (!liked) setDisliked(false);
+    };
+
+    const handleDislike = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDisliked(!disliked);
+        if (!disliked) setLiked(false);
+    };
+
+    return (
+        <div className={`flex items-center gap-2 ${className}`}>
+            <button
+                onClick={handleLike}
+                className={`flex items-center justify-center p-2 rounded-full transition-all duration-300 ${liked
+                    ? 'bg-premium-gold text-black scale-110 shadow-lg shadow-premium-gold/20'
+                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                    }`}
+            >
+                <ThumbsUp size={16} className={liked ? 'fill-current' : ''} />
+            </button>
+            <button
+                onClick={handleDislike}
+                className={`flex items-center justify-center p-2 rounded-full transition-all duration-300 ${disliked
+                    ? 'bg-red-500 text-white scale-110 shadow-lg shadow-red-500/20'
+                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                    }`}
+            >
+                <ThumbsDown size={16} className={disliked ? 'fill-current' : ''} />
+            </button>
+        </div>
+    );
+}
 
 // Hero Card Component (Main Featured)
 function HeroCard({ news }: { news: NewsItem }) {
@@ -113,6 +157,8 @@ function HeroCard({ news }: { news: NewsItem }) {
                                     {getRelativeTime(news.created_at)}
                                 </span>
                             </div>
+
+                            <LikeActions className="ml-auto" />
                         </div>
                     </div>
                 </div>
@@ -166,6 +212,8 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                             {getRelativeTime(news.created_at)}
                         </span>
                     </div>
+
+                    <LikeActions className="mt-3" />
                 </div>
             </Link>
         </motion.div>

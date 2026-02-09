@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock, Flame, TrendingUp, BookOpen, Loader2 } from 'lucide-react';
+import { Clock, Flame, TrendingUp, BookOpen, Loader2, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
 
@@ -51,6 +51,49 @@ const itemVariants = {
     }
 };
 
+// Like/Dislike Action Component
+function LikeActions({ className = "" }: { className?: string }) {
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
+
+    const handleLike = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setLiked(!liked);
+        if (!liked) setDisliked(false);
+    };
+
+    const handleDislike = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDisliked(!disliked);
+        if (!disliked) setLiked(false);
+    };
+
+    return (
+        <div className={`flex items-center gap-2 ${className}`}>
+            <button
+                onClick={handleLike}
+                className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 ${liked
+                    ? 'bg-premium-gold text-black scale-110 shadow-lg shadow-premium-gold/20'
+                    : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white'
+                    }`}
+            >
+                <ThumbsUp size={14} className={liked ? 'fill-current' : ''} />
+            </button>
+            <button
+                onClick={handleDislike}
+                className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 ${disliked
+                    ? 'bg-red-500 text-white scale-110 shadow-lg shadow-red-500/20'
+                    : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white'
+                    }`}
+            >
+                <ThumbsDown size={14} className={disliked ? 'fill-current' : ''} />
+            </button>
+        </div>
+    );
+}
+
 // Large Card with Full Image
 function LargeCard({ news }: { news: NewsItem }) {
     return (
@@ -85,12 +128,13 @@ function LargeCard({ news }: { news: NewsItem }) {
                             <span className="text-xs font-bold text-zinc-300 uppercase">{news.source || 'Fogão'}</span>
                         </div>
                         <span className="text-zinc-600">•</span>
-                        <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1.5 leading-none">
                             <Clock size={12} className="text-zinc-500" />
                             <span className="text-xs font-bold text-zinc-500 uppercase" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
+                        <LikeActions className="ml-auto" />
                     </div>
                 </div>
             </Link>
@@ -129,6 +173,7 @@ function CompactCard({ news }: { news: NewsItem }) {
                             {getRelativeTime(news.created_at)}
                         </span>
                     </div>
+                    <LikeActions className="mt-2" />
                 </div>
             </Link>
         </motion.div>
@@ -157,6 +202,7 @@ function TextCard({ news }: { news: NewsItem }) {
                             <span className="text-[10px] font-bold text-zinc-500" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
+                            <LikeActions className="ml-2" />
                         </div>
                     </div>
                 </div>
