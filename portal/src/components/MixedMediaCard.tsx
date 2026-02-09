@@ -1,10 +1,12 @@
 "use client";
 
-import { Play, ThumbsUp } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { getSafeImageSrc } from '@/lib/images';
 import NewsSourceTag from './NewsSourceTag';
+import { useAuth } from '@/context/AuthContext';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 interface NewsItem {
     id: string;
@@ -14,6 +16,8 @@ interface NewsItem {
     summary?: string;
     created_at?: string;
     is_premium?: boolean;
+    likes_count?: number;
+    dislikes_count?: number;
 }
 
 interface VideoItem {
@@ -33,8 +37,7 @@ interface MixedMediaCardProps {
 }
 
 export default function MixedMediaCard({ item, index = 0, className = '' }: MixedMediaCardProps) {
-    const [liked, setLiked] = useState(false);
-    const [likesCount, setLikesCount] = useState(0);
+    const { user } = useAuth();
 
     const toSentenceCase = (str: string) => {
         if (!str) return '';
@@ -131,14 +134,14 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                             source={item.source}
                             timestamp={item.created_at}
                             variant="compact"
+                            showText={false}
                         />
-                        <button
-                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); setLikesCount(prev => liked ? prev - 1 : prev + 1); }}
-                            className={`flex items-center gap-2.5 px-6 py-3 rounded-full transition-all active:scale-95 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/10 font-athletic'}`}
-                        >
-                            <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
-                            <span className="text-[14px] font-athletic">{likesCount > 0 ? likesCount : ''}</span>
-                        </button>
+                        <LikeDislikeButtons
+                            articleId={item.id}
+                            initialLikes={item.likes_count}
+                            initialDislikes={item.dislikes_count}
+                            className="flex-shrink-0 ml-2 min-w-0 scale-[0.85] origin-right"
+                        />
                     </div>
                 </div>
             </Link>
@@ -180,14 +183,14 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                         source={item.source}
                         timestamp={item.created_at}
                         variant="compact"
+                        showText={false}
                     />
-                    <button
-                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setLiked(!liked); setLikesCount(prev => liked ? prev - 1 : prev + 1); }}
-                        className={`flex items-center gap-2.5 px-6 py-3 rounded-full transition-all active:scale-95 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/10 font-athletic'}`}
-                    >
-                        <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
-                        <span className="text-[14px] font-athletic">{likesCount > 0 ? likesCount : ''}</span>
-                    </button>
+                    <LikeDislikeButtons
+                        articleId={item.id}
+                        initialLikes={item.likes_count}
+                        initialDislikes={item.dislikes_count}
+                        className="flex-shrink-0 ml-2 min-w-0 scale-[0.85] origin-right"
+                    />
                 </div>
             </div>
         </div>

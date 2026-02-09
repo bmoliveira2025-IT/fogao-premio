@@ -3,22 +3,32 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ThumbsUp, Clock } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
 import { getSafeImageSrc } from '@/lib/images';
+import { useAuth } from '@/context/AuthContext';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 export default function CompactNewsCard({ article }: any) {
-    const [liked, setLiked] = useState(false);
-    const [likesCount, setLikesCount] = useState(article.likes || Math.floor(Math.random() * 20));
+    const { user } = useAuth();
 
     const timeAgo = (dateStr: string) => {
         if (!dateStr) return '';
         const date = new Date(dateStr);
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-        return `${Math.floor(diffInSeconds / 86400)}d`;
+
+        if (diffInSeconds < 60) return 'agora mesmo';
+        if (diffInSeconds < 3600) {
+            const minutes = Math.floor(diffInSeconds / 60);
+            return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+        }
+        if (diffInSeconds < 86400) {
+            const hours = Math.floor(diffInSeconds / 3600);
+            return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+        }
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -37,13 +47,10 @@ export default function CompactNewsCard({ article }: any) {
                     </h3>
 
                     <div className="flex items-center gap-3 mt-4">
-                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-full border border-white/10">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-full border border-white/10 group-hover:border-premium-gold/40 transition-colors">
                             <SourceIcon source={article.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                            <span className="text-[12px] font-athletic text-white">
-                                {article.source || 'FOGÃO'}
-                            </span>
                         </div>
-                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-2">
+                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-2 whitespace-nowrap flex-shrink-0">
                             <Clock size={12} />
                             <span>{timeAgo(article.created_at)}</span>
                         </div>
@@ -62,20 +69,12 @@ export default function CompactNewsCard({ article }: any) {
                 </div>
             </Link>
 
-            {/* Interaction Row (Below) */}
-            <div className="flex items-center justify-between mt-4 border-t border-white/5 pt-4">
-                <button
-                    onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setLiked(!liked);
-                        setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
-                    }}
-                    className={`flex items-center gap-2.5 px-6 py-3 rounded-full transition-all active:scale-95 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/10 font-athletic'}`}
-                >
-                    <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
-                    <span className="text-[14px] font-athletic">{likesCount}</span>
-                </button>
+            <div className="flex items-center justify-end mt-4 border-t border-white/5 pt-4">
+                <LikeDislikeButtons
+                    articleId={article.id}
+                    initialLikes={article.likes_count}
+                    initialDislikes={article.dislikes_count}
+                />
             </div>
         </div>
     );

@@ -25,10 +25,17 @@ function getRelativeTime(dateString?: string) {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-    return `${Math.floor(diffInSeconds / 86400)}d`;
+    if (diffInSeconds < 60) return 'agora';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 }
 
 export default function VisualNewsGrid({ news, className }: VisualNewsGridProps) {
@@ -68,7 +75,7 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
                                 </div>
                                 <span className="text-[11px] font-bold text-zinc-300 flex items-center gap-2 drop-shadow-md" suppressHydrationWarning>
                                     <Clock size={12} className="text-premium-gold" />
-                                    {getRelativeTime(item.created_at)} atrás
+                                    {getRelativeTime(item.created_at)}
                                 </span>
                             </div>
 

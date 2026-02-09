@@ -4,6 +4,9 @@ import { Clock, Flame, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
+import { useAuth } from '@/context/AuthContext';
+import { useState } from 'react';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 interface NewsItem {
     id: string;
@@ -28,10 +31,17 @@ function getRelativeTime(dateString?: string) {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora mesmo';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutos atrás`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} horas atrás`;
-    return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
+    if (diffInSeconds < 60) return 'agora mesmo';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 }
 
 const toSentenceCase = (str: string) => {
@@ -41,13 +51,15 @@ const toSentenceCase = (str: string) => {
 };
 
 export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsProps) {
+    const { user } = useAuth();
+
     if (!news) return null;
 
     return (
         <div className="px-4 md:px-0">
             <Link
                 href={`/news/${news.id}`}
-                className={`relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block rounded-xl md:rounded-2xl soft-shadow-cinematic crystal-shine transition-all duration-700 hover:scale-[1.002] hover:shadow-premium-gold/20 ${className}`}
+                className={`relative w-full aspect-[16/18] md:aspect-[16/9] group overflow-hidden block rounded-xl md:rounded-2xl soft-shadow-cinematic crystal-shine transition-all duration-700 hover:scale-[1.002] hover:shadow-premium-gold/20 ${className}`}
             >
                 {/* Image */}
                 <img
@@ -61,9 +73,9 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent opacity-70" />
 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-12 z-20">
-                    {/* Badges (Top Right) */}
-                    <div className="absolute top-6 md:top-12 right-6 md:right-12 z-30 flex gap-3">
+                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12 z-20">
+                    {/* Badges - Inside flex flow to prevent overlap */}
+                    <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                         {news.is_live && (
                             <div className="px-5 py-2 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
                                 <div className="w-2.5 h-2.5 bg-white rounded-full" />
@@ -111,6 +123,12 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                                     {getRelativeTime(news.created_at)}
                                 </span>
                             </div>
+
+                            <LikeDislikeButtons
+                                articleId={news.id}
+                                initialLikes={(news as any).likes_count}
+                                initialDislikes={(news as any).dislikes_count}
+                            />
                         </div>
                     </div>
                 </div>

@@ -26,6 +26,8 @@ interface NewsItem {
   is_premium?: boolean;
   summary?: string;
   content?: string;
+  likes_count?: number;
+  dislikes_count?: number;
 }
 
 export interface MatchData {
@@ -101,6 +103,8 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         is_premium: data.is_premium,
         summary: data.summary,
         content: data.content,
+        likes_count: data.likes_count || 0,
+        dislikes_count: data.dislikes_count || 0,
         created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
       } as NewsItem;
     }).filter(item => {
@@ -123,6 +127,8 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         source: data.source,
         is_premium: data.is_premium,
         summary: data.summary,
+        likes_count: data.likes_count || 0,
+        dislikes_count: data.dislikes_count || 0,
         created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
       } as NewsItem;
     });

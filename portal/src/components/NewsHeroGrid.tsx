@@ -26,9 +26,18 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
     const timeAgo = (dateStr: string) => {
         if (!dateStr) return '';
         const diffInSeconds = Math.floor((new Date().getTime() - new Date(dateStr).getTime()) / 1000);
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min atrás`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
-        return `${Math.floor(diffInSeconds / 86400)}d atrás`;
+
+        if (diffInSeconds < 60) return 'agora';
+        if (diffInSeconds < 3600) {
+            const minutes = Math.floor(diffInSeconds / 60);
+            return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+        }
+        if (diffInSeconds < 86400) {
+            const hours = Math.floor(diffInSeconds / 3600);
+            return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+        }
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
     };
 
     return (
@@ -50,13 +59,14 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                 </div>
 
-                <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 rounded-full bg-premium-gold text-black text-[10px] md:text-xs font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
-                        <TrendingUp size={12} /> Destaque
-                    </span>
-                </div>
+                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 z-20">
+                    {/* Badges - Inside flex flow */}
+                    <div className="flex mb-4">
+                        <span className="px-3 py-1 rounded-full bg-premium-gold text-black text-[10px] md:text-xs font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
+                            <TrendingUp size={12} /> Destaque
+                        </span>
+                    </div>
 
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
                     {/* Source & Time */}
                     <div className="flex items-center gap-3 mb-3 text-zinc-300 text-xs font-bold uppercase tracking-wider">
                         <span className="text-premium-gold">{mainStory.source || 'FOGÃONET'}</span>

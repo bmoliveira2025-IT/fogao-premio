@@ -16,6 +16,8 @@ interface NewsItem {
     summary?: string;
     created_at?: string;
     is_premium?: boolean;
+    likes_count?: number;
+    dislikes_count?: number;
 }
 
 interface FeaturedNewsSectionProps {
@@ -23,16 +25,25 @@ interface FeaturedNewsSectionProps {
     className?: string;
 }
 
+import LikeDislikeButtons from './LikeDislikeButtons';
+
 const getRelativeTime = (dateString?: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-    return `${Math.floor(diffInSeconds / 86400)}d`;
+    if (diffInSeconds < 60) return 'agora';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 };
 
 const toSentenceCase = (str: string) => {
@@ -61,56 +72,13 @@ const itemVariants = {
     }
 };
 
-// Like/Dislike Action Component
-function LikeActions({ className = "" }: { className?: string }) {
-    const [liked, setLiked] = useState(false);
-    const [disliked, setDisliked] = useState(false);
-
-    const handleLike = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setLiked(!liked);
-        if (!liked) setDisliked(false);
-    };
-
-    const handleDislike = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDisliked(!disliked);
-        if (!disliked) setLiked(false);
-    };
-
-    return (
-        <div className={`flex items-center gap-2 ${className}`}>
-            <button
-                onClick={handleLike}
-                className={`flex items-center justify-center p-2 rounded-full transition-all duration-300 ${liked
-                    ? 'bg-premium-gold text-black scale-110 shadow-lg shadow-premium-gold/20'
-                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
-                    }`}
-            >
-                <ThumbsUp size={16} className={liked ? 'fill-current' : ''} />
-            </button>
-            <button
-                onClick={handleDislike}
-                className={`flex items-center justify-center p-2 rounded-full transition-all duration-300 ${disliked
-                    ? 'bg-red-500 text-white scale-110 shadow-lg shadow-red-500/20'
-                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
-                    }`}
-            >
-                <ThumbsDown size={16} className={disliked ? 'fill-current' : ''} />
-            </button>
-        </div>
-    );
-}
-
 // Hero Card Component (Main Featured)
 function HeroCard({ news }: { news: NewsItem }) {
     return (
         <motion.div variants={itemVariants}>
             <Link
                 href={`/news/${news.id}`}
-                className="relative w-full aspect-[16/10] md:aspect-[21/9] group overflow-hidden block rounded-2xl md:rounded-3xl shadow-2xl"
+                className="relative w-full aspect-[16/18] md:aspect-[16/9] group overflow-hidden block rounded-2xl md:rounded-3xl shadow-2xl"
             >
                 <Image
                     src={getSafeImageSrc(news.image)}
@@ -158,7 +126,13 @@ function HeroCard({ news }: { news: NewsItem }) {
                                 </span>
                             </div>
 
-                            <LikeActions className="ml-auto" />
+                            <LikeDislikeButtons
+                                articleId={news.id}
+                                initialLikes={news.likes_count}
+                                initialDislikes={news.dislikes_count}
+                                variant="hero"
+                                className="ml-auto"
+                            />
                         </div>
                     </div>
                 </div>
@@ -202,18 +176,24 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                         {toSentenceCase(news.title)}
                     </h3>
 
-                    <div className="flex items-center gap-2 mt-2">
-                        <div className="flex items-center gap-1.5">
-                            <SourceIcon source={news.source || 'default'} className="w-3 h-3 text-premium-gold" />
-                            <span className="text-[10px] font-bold text-zinc-400 uppercase">{news.source || 'Fogão'}</span>
+                    <div className="flex items-center justify-between mt-3 min-w-0">
+                        <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink flex-grow-0 overflow-hidden">
+                            <div className="flex items-center gap-1 flex-shrink-0">
+                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
+                            </div>
+                            <span className="text-zinc-600 flex-shrink-0">•</span>
+                            <span className="text-[10px] font-bold text-zinc-500 uppercase whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
+                                {getRelativeTime(news.created_at)}
+                            </span>
                         </div>
-                        <span className="text-zinc-600">•</span>
-                        <span className="text-[10px] font-bold text-zinc-500 uppercase" suppressHydrationWarning>
-                            {getRelativeTime(news.created_at)}
-                        </span>
-                    </div>
 
-                    <LikeActions className="mt-3" />
+                        <LikeDislikeButtons
+                            articleId={news.id}
+                            initialLikes={news.likes_count}
+                            initialDislikes={news.dislikes_count}
+                            className="flex-shrink-0 ml-2 scale-[0.9] origin-right"
+                        />
+                    </div>
                 </div>
             </Link>
         </motion.div>

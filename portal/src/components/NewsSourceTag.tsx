@@ -7,6 +7,7 @@ interface NewsSourceTagProps {
     source?: string;
     timestamp?: string;
     variant?: 'default' | 'compact';
+    showText?: boolean;
     className?: string;
 }
 
@@ -16,16 +17,24 @@ function getRelativeTime(dateString?: string) {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}min`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-    return `${Math.floor(diffInSeconds / 86400)}d`;
+    if (diffInSeconds < 60) return 'agora mesmo';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 }
 
 export default function NewsSourceTag({
     source = 'FOGÃO PRÊMIO',
     timestamp,
     variant = 'default',
+    showText = true,
     className = ''
 }: NewsSourceTagProps) {
 
@@ -34,12 +43,12 @@ export default function NewsSourceTag({
             <div className={`flex items-center gap-2 text-xs ${className}`}>
                 <div className="flex items-center gap-2 text-premium-gold bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
                     <SourceIcon source={source} className="w-3.5 h-3.5" />
-                    <span className="font-athletic text-[11px] uppercase">{source}</span>
+                    {showText && <span className="font-athletic text-[11px] uppercase">{source}</span>}
                 </div>
                 {timestamp && (
                     <>
-                        <span className="text-zinc-400 dark:text-zinc-500">•</span>
-                        <span className="text-zinc-500 dark:text-zinc-400 font-medium" suppressHydrationWarning>
+                        <span className="text-zinc-400 dark:text-zinc-500 flex-shrink-0">•</span>
+                        <span className="text-zinc-500 dark:text-zinc-400 font-medium whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                             {getRelativeTime(timestamp)}
                         </span>
                     </>

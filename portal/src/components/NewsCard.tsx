@@ -11,10 +11,17 @@ export default function NewsCard({ article }: any) {
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        if (diffInSeconds < 60) return 'Agora mesmo';
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min atrás`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
-        return `${Math.floor(diffInSeconds / 86400)}d atrás`;
+        if (diffInSeconds < 60) return 'agora mesmo';
+        if (diffInSeconds < 3600) {
+            const minutes = Math.floor(diffInSeconds / 60);
+            return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+        }
+        if (diffInSeconds < 86400) {
+            const hours = Math.floor(diffInSeconds / 3600);
+            return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+        }
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
     };
 
     return (

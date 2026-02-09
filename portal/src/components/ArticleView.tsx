@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, Share2, Bookmark, Volume2, Clock, Heart, Plus, Minus } from 'lucide-react';
+import { ChevronLeft, Share2, Bookmark, Volume2, Clock, ThumbsUp, ThumbsDown, Plus, Minus } from 'lucide-react';
 import TabBar from '@/components/TabBar';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
@@ -15,6 +15,7 @@ import PremiumGuard from './PremiumGuard';
 import DesktopHeader from '@/components/DesktopHeader';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 const toSentenceCase = (str: string) => {
     if (!str) return '';
@@ -23,8 +24,7 @@ const toSentenceCase = (str: string) => {
 };
 
 export default function ArticleView({ article, nextMatch, relatedNews = [] }: { article: any, nextMatch: any, relatedNews?: any[] }) {
-    const { addPoints } = useAuth();
-    const [liked, setLiked] = useState(false);
+    const { user, addPoints } = useAuth();
     const [pointsAwarded, setPointsAwarded] = useState(false);
     const [fontSize, setFontSize] = useState(100);
 
@@ -35,22 +35,8 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         document.documentElement.style.setProperty('--font-scale', `${newSize / 100}`);
     };
 
-    useEffect(() => {
-        // Check if already liked this article in this session/browser
-        const hasLiked = localStorage.getItem(`liked_${article.id}`);
-        if (hasLiked) {
-            setLiked(true);
-            setPointsAwarded(true);
-        }
-    }, [article.id]);
-
-    const handleLike = async () => {
-        if (liked) return;
-
-        setLiked(true);
-        localStorage.setItem(`liked_${article.id}`, 'true');
-
-        if (!pointsAwarded) {
+    const handleLikePoints = async () => {
+        if (!pointsAwarded && user) {
             await addPoints(5);
             setPointsAwarded(true);
         }
@@ -224,17 +210,15 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                         {/* Action Bar */}
                         <div className="flex flex-wrap items-center gap-3 mb-8">
-                            <button
-                                onClick={handleLike}
-                                className={`flex items-center justify-center w-auto h-10 gap-1.5 px-3 rounded-xl border transition-all ${liked
-                                    ? 'bg-red-500/10 border-red-500/50 text-red-500'
-                                    : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-foreground/60 dark:text-white/60 hover:bg-black/10 dark:hover:bg-white/10 hover:border-black/20 dark:hover:border-white/20'
-                                    }`}
-                                title={liked ? 'Curtiu' : 'Curtir'}
-                            >
-                                <Heart size={16} className={liked ? 'fill-current' : ''} />
-                                {!liked && <span className="text-[10px] bg-premium-gold/20 dark:bg-premium-gold/20 light:bg-zinc-100 text-premium-gold dark:text-premium-gold light:text-zinc-900 px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>}
-                            </button>
+                            <LikeDislikeButtons
+                                articleId={article.id}
+                                initialLikes={article.likes_count}
+                                initialDislikes={article.dislikes_count}
+                                variant="full"
+                                onLike={handleLikePoints}
+                                showPoints={true}
+                                className="mr-auto"
+                            />
 
                             <button
                                 onClick={() => setShowVoice(!showVoice)}

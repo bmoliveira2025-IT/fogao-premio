@@ -16,6 +16,8 @@ interface NewsItem {
     summary?: string;
     created_at?: string;
     is_premium?: boolean;
+    likes_count?: number;
+    dislikes_count?: number;
 }
 
 interface SmartNewsFeedProps {
@@ -23,16 +25,25 @@ interface SmartNewsFeedProps {
     className?: string;
 }
 
+import LikeDislikeButtons from './LikeDislikeButtons';
+
 const getRelativeTime = (dateString?: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-    return `${Math.floor(diffInSeconds / 86400)}d`;
+    if (diffInSeconds < 60) return 'agora';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 };
 
 const toSentenceCase = (str: string) => {
@@ -50,49 +61,6 @@ const itemVariants = {
         transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] as const }
     }
 };
-
-// Like/Dislike Action Component
-function LikeActions({ className = "" }: { className?: string }) {
-    const [liked, setLiked] = useState(false);
-    const [disliked, setDisliked] = useState(false);
-
-    const handleLike = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setLiked(!liked);
-        if (!liked) setDisliked(false);
-    };
-
-    const handleDislike = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDisliked(!disliked);
-        if (!disliked) setLiked(false);
-    };
-
-    return (
-        <div className={`flex items-center gap-2 ${className}`}>
-            <button
-                onClick={handleLike}
-                className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 ${liked
-                    ? 'bg-premium-gold text-black scale-110 shadow-lg shadow-premium-gold/20'
-                    : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white'
-                    }`}
-            >
-                <ThumbsUp size={14} className={liked ? 'fill-current' : ''} />
-            </button>
-            <button
-                onClick={handleDislike}
-                className={`flex items-center justify-center p-1.5 rounded-full transition-all duration-300 ${disliked
-                    ? 'bg-red-500 text-white scale-110 shadow-lg shadow-red-500/20'
-                    : 'bg-white/5 text-white/40 hover:bg-white/10 hover:text-white'
-                    }`}
-            >
-                <ThumbsDown size={14} className={disliked ? 'fill-current' : ''} />
-            </button>
-        </div>
-    );
-}
 
 // Large Card with Full Image
 function LargeCard({ news }: { news: NewsItem }) {
@@ -134,7 +102,12 @@ function LargeCard({ news }: { news: NewsItem }) {
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
-                        <LikeActions className="ml-auto" />
+                        <LikeDislikeButtons
+                            articleId={news.id}
+                            initialLikes={news.likes_count}
+                            initialDislikes={news.dislikes_count}
+                            className="ml-auto"
+                        />
                     </div>
                 </div>
             </Link>
@@ -165,15 +138,23 @@ function CompactCard({ news }: { news: NewsItem }) {
                         {toSentenceCase(news.title)}
                     </h3>
 
-                    <div className="flex items-center gap-2 mt-2">
-                        <SourceIcon source={news.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
-                        <span className="text-[10px] font-bold text-zinc-400 uppercase">{news.source || 'Fogão'}</span>
-                        <span className="text-zinc-600">•</span>
-                        <span className="text-[10px] font-bold text-zinc-500" suppressHydrationWarning>
-                            {getRelativeTime(news.created_at)}
-                        </span>
+                    <div className="flex items-center justify-between mt-2.5 min-w-0">
+                        <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
+                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
+                            </div>
+                            <span className="text-zinc-600 flex-shrink-0">•</span>
+                            <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
+                                {getRelativeTime(news.created_at)}
+                            </span>
+                        </div>
+                        <LikeDislikeButtons
+                            articleId={news.id}
+                            initialLikes={news.likes_count}
+                            initialDislikes={news.dislikes_count}
+                            className="flex-shrink-0 ml-2 scale-[0.85] origin-right"
+                        />
                     </div>
-                    <LikeActions className="mt-2" />
                 </div>
             </Link>
         </motion.div>
@@ -196,13 +177,20 @@ function TextCard({ news }: { news: NewsItem }) {
                         <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
                             {toSentenceCase(news.title)}
                         </h3>
-                        <div className="flex items-center gap-2 mt-2">
-                            <span className="text-[10px] font-bold text-zinc-400 uppercase">{news.source || 'Fogão'}</span>
-                            <span className="text-zinc-600">•</span>
-                            <span className="text-[10px] font-bold text-zinc-500" suppressHydrationWarning>
-                                {getRelativeTime(news.created_at)}
-                            </span>
-                            <LikeActions className="ml-2" />
+                        <div className="flex items-center justify-between mt-2.5 min-w-0">
+                            <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
+                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold flex-shrink-0" />
+                                <span className="text-zinc-600 flex-shrink-0">•</span>
+                                <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
+                                    {getRelativeTime(news.created_at)}
+                                </span>
+                            </div>
+                            <LikeDislikeButtons
+                                articleId={news.id}
+                                initialLikes={news.likes_count}
+                                initialDislikes={news.dislikes_count}
+                                className="flex-shrink-0 ml-2 scale-[0.85] origin-right"
+                            />
                         </div>
                     </div>
                 </div>

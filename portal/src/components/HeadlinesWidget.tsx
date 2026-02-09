@@ -46,10 +46,17 @@ function getRelativeTime(dateString?: string) {
     const now = new Date();
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (diffInSeconds < 60) return 'Agora mesmo';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutos atrás`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} horas atrás`;
-    return `${Math.floor(diffInSeconds / 86400)} dias atrás`;
+    if (diffInSeconds < 60) return 'agora';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 }
 
 export default function HeadlinesWidget({ news, nextMatch, className = "" }: HeadlinesWidgetProps) {
@@ -72,7 +79,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                 {topStory && (
                     <Link
                         href={`/news/${topStory.id}`}
-                        className="relative w-full aspect-[16/18] md:aspect-[21/10] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10"
+                        className="relative w-full aspect-[16/18] md:aspect-[16/9] group overflow-hidden block md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 hover:scale-[1.005] hover:shadow-premium-gold/10"
                     >
                         {/* Image */}
                         <img
@@ -86,9 +93,9 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent opacity-60" />
 
                         {/* Content */}
-                        <div className="absolute inset-0 flex flex-col justify-end p-7 md:p-20 z-20">
-                            {/* Badges (Top Left) */}
-                            <div className="absolute top-6 md:top-10 left-6 md:left-10 z-30 flex gap-3">
+                        <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-20 z-20">
+                            {/* Badges - Now part of the flex flow to prevent overlap */}
+                            <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                                 {topStory.is_live && (
                                     <div className="px-4 py-1.5 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
                                         <div className="w-2 h-2 bg-white rounded-full" />
@@ -99,7 +106,7 @@ export default function HeadlinesWidget({ news, nextMatch, className = "" }: Hea
                                     <div className="px-4 py-1.5 bg-premium-gold rounded-full shadow-lg flex items-center gap-2 border border-black/10">
                                         <div className="flex items-center gap-2">
                                             <Flame size={14} className="text-black fill-current" />
-                                            <span className="text-[11px] font-black text-black uppercase tracking-widest">URGENTE</span>
+                                            <span className="text-[11px] font-black text-black uppercase tracking-widest">DESTAQUE</span>
                                         </div>
                                     </div>
                                 )}

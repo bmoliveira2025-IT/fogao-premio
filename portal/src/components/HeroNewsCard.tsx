@@ -1,10 +1,16 @@
+"use client";
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
 import { getSafeImageSrc } from '@/lib/images';
+import { useAuth } from '@/context/AuthContext';
+import { useState } from 'react';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 export default function HeroNewsCard({ article }: { article: any }) {
+    const { user } = useAuth();
+
     if (!article) return null;
 
     const timeAgo = (dateStr: string) => {
@@ -53,6 +59,12 @@ export default function HeroNewsCard({ article }: { article: any }) {
                     </div>
 
                     {/* Date Moved Here */}
+                    <LikeDislikeButtons
+                        articleId={article.id}
+                        initialLikes={article.likes_count}
+                        initialDislikes={article.dislikes_count}
+                    />
+
                     <div className="flex items-center gap-1.5 text-zinc-300 drop-shadow-md bg-black/40 px-2 py-1 rounded-md backdrop-blur-sm border border-white/5">
                         <Clock size={12} className="md:w-3 md:h-3 w-2.5 h-2.5" />
                         <span className="text-[11px] md:text-[13px] font-medium uppercase tracking-wider" suppressHydrationWarning>

@@ -4,19 +4,29 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ThumbsUp, Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
+import { useAuth } from '@/context/AuthContext';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 export default function TextOnlyNewsCard({ article }: any) {
-    const [liked, setLiked] = useState(false);
-    const [likesCount, setLikesCount] = useState(article.likes || Math.floor(Math.random() * 15));
+    const { user } = useAuth();
 
     const timeAgo = (dateStr: string) => {
         if (!dateStr) return '';
         const date = new Date(dateStr);
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-        return `${Math.floor(diffInSeconds / 86400)}d`;
+
+        if (diffInSeconds < 60) return 'agora';
+        if (diffInSeconds < 3600) {
+            const minutes = Math.floor(diffInSeconds / 60);
+            return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+        }
+        if (diffInSeconds < 86400) {
+            const hours = Math.floor(diffInSeconds / 3600);
+            return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+        }
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -48,18 +58,11 @@ export default function TextOnlyNewsCard({ article }: any) {
                         </div>
                     </div>
 
-                    <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setLiked(!liked);
-                            setLikesCount((prev: number) => liked ? prev - 1 : prev + 1);
-                        }}
-                        className={`flex items-center gap-2.5 px-6 py-3 rounded-full transition-all active:scale-95 ${liked ? 'bg-premium-gold text-black' : 'bg-white/5 text-zinc-400 border border-white/10 font-athletic'}`}
-                    >
-                        <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
-                        <span className="text-[14px] font-athletic">{likesCount}</span>
-                    </button>
+                    <LikeDislikeButtons
+                        articleId={article.id}
+                        initialLikes={article.likes_count}
+                        initialDislikes={article.dislikes_count}
+                    />
                 </div>
             </Link>
         </div>
