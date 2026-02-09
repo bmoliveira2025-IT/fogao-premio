@@ -75,7 +75,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(20); // Increased for featured section (7) + feed (8+)
+      .limit(100); // Higher limit to account for deduplication
 
     const nextMatchRef = db.collection('matches').doc('next_match');
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
@@ -90,6 +90,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       briefingRef.get()
     ]);
 
+    const seenImages = new Set<string>();
     const news = newsSnap.docs.map(doc => {
       const data = doc.data();
       return {
@@ -102,7 +103,16 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         content: data.content,
         created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
       } as NewsItem;
-    }).filter(item => !item.is_premium);
+    }).filter(item => {
+      // 1. Remove Premium (already done in main query but double checking)
+      if (item.is_premium) return false;
+
+      // 2. Deduplicate by image URL
+      if (!item.image) return true; // Keep text-only or default-image news
+      if (seenImages.has(item.image)) return false;
+      seenImages.add(item.image);
+      return true;
+    });
 
     const premiumNews = premiumSnap.docs.map(doc => {
       const data = doc.data();
