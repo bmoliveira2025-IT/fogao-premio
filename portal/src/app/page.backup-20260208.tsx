@@ -1,4 +1,4 @@
-// Forced update - 2026-02-08 - Redesigned Homepage with Featured News
+// Forced update - 2026-02-03 - Modern Homepage
 import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
@@ -7,8 +7,8 @@ import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
 import QuoteBanner from '@/components/QuoteBanner';
 import MatchDayPopup from '@/components/MatchDayPopup';
 import ModernNavMenu from '@/components/ModernNavMenu';
-import FeaturedNewsSection from '@/components/FeaturedNewsSection';
-import SmartNewsFeed from '@/components/SmartNewsFeed';
+import ModernHeroNews from '@/components/ModernHeroNews';
+import InfiniteNewsGrid from '@/components/InfiniteNewsGrid';
 import StaggeredEntry from '@/components/StaggeredEntry';
 
 import { ChevronRight, Users, Trophy } from 'lucide-react';
@@ -52,22 +52,7 @@ interface VideoItem {
   published_at: string;
 }
 
-interface NotificationItem {
-  id: string;
-  type: 'MATCH' | 'PREMIUM' | 'BRIEFING';
-  title: string;
-  message: string;
-  timestamp: string;
-  link?: string;
-}
-
-interface Briefing {
-  id: string;
-  created_at: string;
-  [key: string]: any; // Allow for other fields from Firestore
-}
-
-async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
+async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: any }> {
   try {
     const timeLimit = new Date();
     timeLimit.setHours(timeLimit.getHours() - 24); // 24h window
@@ -75,7 +60,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(20); // Increased for featured section (7) + feed (8+)
+      .limit(12); // Reduced for faster initial load
 
     const nextMatchRef = db.collection('matches').doc('next_match');
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
@@ -156,7 +141,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       id: briefingSnap.docs[0].id,
       created_at: briefingSnap.docs[0].data().created_at?.toDate().toISOString() || new Date().toISOString(),
       ...briefingSnap.docs[0].data()
-    } as Briefing : null;
+    } : null;
 
     return { news, matches, videos, premiumNews, briefing };
 
@@ -173,7 +158,7 @@ export default async function Home() {
   const nextMatch = matches.length > 0 ? matches[0] : null;
 
   // CHECK FOR NOTIFICATIONS
-  const notifications: NotificationItem[] = [];
+  const notifications = [];
   const isMatchDay = nextMatch ? new Date(nextMatch.date).toDateString() === new Date().toDateString() : false;
 
   if (isMatchDay && nextMatch) {
@@ -221,11 +206,11 @@ export default async function Home() {
     }
   }
 
-  notifications.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+  notifications.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
-  // Separate featured news (first 7) for the featured section
-  const featuredNews = news.slice(0, 7);
-  const feedNews = news.slice(7);
+  // Separate first news for hero
+  const heroNews = news[0];
+  const remainingNews = news.slice(1);
 
   return (
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-white dark:bg-black">
@@ -243,12 +228,12 @@ export default async function Home() {
             <div className="lg:col-span-8 space-y-2 lg:space-y-4">
 
               <StaggeredEntry staggerDelay={0.15}>
-                {/* FEATURED NEWS SECTION - 1 Hero + 6 Secondary */}
-                {featuredNews.length > 0 && (
-                  <FeaturedNewsSection news={featuredNews} className="mt-0 md:mt-8" />
+                {/* HERO NEWS - First News Highlight */}
+                {heroNews && (
+                  <ModernHeroNews news={heroNews} className="mt-0 md:mt-8" />
                 )}
 
-                {/* NEXT MATCH - Mobile Only (After Featured) */}
+                {/* NEXT MATCH - Mobile Only (After Hero) */}
                 {nextMatch && (
                   <div className="lg:hidden">
                     <PremiumNextMatch match={nextMatch} />
@@ -260,8 +245,17 @@ export default async function Home() {
                   <BotafogoTVCarousel videos={videos} />
                 </div>
 
-                {/* SMART NEWS FEED - Lazy Loading 8+1 */}
-                <SmartNewsFeed initialNews={feedNews} className="mt-4" />
+                {/* INFINITE NEWS GRID - Mixed with Videos */}
+                <div className="px-4 md:px-0">
+                  <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
+                    <div className="w-1 h-8 bg-premium-gold rounded-full" />
+                    Últimas Notícias
+                  </h2>
+                  <InfiniteNewsGrid
+                    initialNews={remainingNews}
+                    initialVideos={videos}
+                  />
+                </div>
 
                 {/* QUOTE BANNER */}
                 <div className="px-4 md:px-0 mt-8 mb-8 lg:mb-0">
