@@ -22,7 +22,7 @@ export default function LeagueTable() {
     const [tableData, setTableData] = useState<TeamStats[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
-    const [currentChampionship, setCurrentChampionship] = useState<'carioca_2026' | 'brasileirao_2026'>('carioca_2026');
+    const [currentChampionship, setCurrentChampionship] = useState<'libertadores_2026' | 'brasileirao_2026'>('libertadores_2026');
 
     useEffect(() => {
         setLoading(true);
@@ -71,7 +71,7 @@ export default function LeagueTable() {
     }
 
     const championships = [
-        { id: 'carioca_2026', name: 'Carioca 2026' },
+        { id: 'libertadores_2026', name: 'Copa Libertadores 2026' },
         { id: 'brasileirao_2026', name: 'Brasileirão 2026' },
     ] as const;
 
@@ -94,106 +94,132 @@ export default function LeagueTable() {
                 ))}
             </div>
 
-            <div className="space-y-8">
-                {sortedGroups.map((groupName) => (
-                    <div key={groupName} className="bg-card rounded-2xl overflow-hidden shadow-xl">
-                        {/* Header - Clickable for Dropdown */}
-                        <div
-                            onClick={() => toggleGroup(groupName)}
-                            className="bg-muted p-4 flex items-center justify-between cursor-pointer hover:bg-foreground/5 transition-colors"
-                        >
-                            <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 flex items-center justify-center border border-premium-gold/20">
-                                    <Shield size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-600" />
-                                </div>
-                                <div>
-                                    <h2 className="text-sm font-black text-foreground uppercase tracking-widest font-display">
-                                        {groupName === 'Geral' ? championships.find(c => c.id === currentChampionship)?.name : groupName}
-                                    </h2>
-                                    <span className="text-[10px] text-foreground/40 font-mono">2026 • Temporada Oficial</span>
-                                </div>
-                            </div>
-                            <div className="text-premium-gold/50 dark:text-premium-gold/50 light:text-zinc-400">
-                                {expandedGroups[groupName] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            {currentChampionship === 'libertadores_2026' ? (
+                <div className="bg-card rounded-3xl p-12 text-center border border-white/[0.05] shadow-2xl relative overflow-hidden group">
+                    {/* Background Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent pointer-events-none" />
+
+                    <div className="relative z-10 space-y-6">
+                        <div className="w-24 h-24 mx-auto bg-premium-gold/10 rounded-full flex items-center justify-center border border-premium-gold/20 group-hover:scale-110 transition-transform duration-700">
+                            <Shield size={40} className="text-premium-gold animate-pulse" />
+                        </div>
+
+                        <div className="space-y-2">
+                            <h3 className="text-2xl font-black text-foreground uppercase tracking-tighter">
+                                Copa Libertadores
+                            </h3>
+                            <div className="inline-block px-4 py-1 rounded-full bg-premium-gold text-black text-[10px] font-black uppercase tracking-widest animate-bounce">
+                                Em Breve
                             </div>
                         </div>
 
-                        {/* Collapsible Content */}
-                        {expandedGroups[groupName] && (
-                            <>
-                                {/* Table Header */}
-                                <div className="grid grid-cols-12 gap-2 p-3 bg-muted/50 text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
-                                    <div className="col-span-1 text-center">Pos</div>
-                                    <div className="col-span-5 pl-2">Time</div>
-                                    <div className="col-span-1 text-center text-foreground">Pts</div>
-                                    <div className="col-span-1 text-center">J</div>
-                                    <div className="col-span-1 text-center">V</div>
-                                    <div className="col-span-1 text-center">E</div>
-                                    <div className="col-span-1 text-center">D</div>
-                                    <div className="col-span-1 text-center">SG</div>
-                                </div>
-
-                                {/* Rows */}
-                                <div className="divide-y divide-white/[0.02]">
-                                    {groupedData[groupName].sort((a, b) => a.position - b.position).map((team) => {
-                                        const isBotafogo = team.team === "Botafogo";
-                                        return (
-                                            <div
-                                                key={team.team}
-                                                className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-300 hover:bg-foreground/[0.07] group
-                                            ${isBotafogo ? 'bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 relative overflow-hidden backdrop-blur-sm shadow-[inset_0_0_20px_rgba(0,0,0,0.02)]' : ''}`}
-                                            >
-                                                {/* Highlight Bar for Botafogo */}
-                                                {isBotafogo && (
-                                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-premium-gold animate-pulse" />
-                                                )}
-
-                                                {/* Position */}
-                                                <div className="col-span-1 flex justify-center">
-                                                    <span className={`w-5 h-5 flex items-center justify-center rounded-full font-bold text-[10px] 
-                                                ${team.position <= 4 ? 'bg-blue-500/20 text-blue-500 dark:text-blue-400' : 'text-foreground/40'}`}>
-                                                        {team.position}
-                                                    </span>
-                                                </div>
-
-                                                {/* Team */}
-                                                <div className="col-span-5 pl-2 flex items-center space-x-3">
-                                                    {team.logo ? (
-                                                        <div className="w-6 h-6 flex-shrink-0 relative bg-muted rounded-full p-0.5 group-hover:scale-110 transition-transform">
-                                                            <img
-                                                                src={team.logo}
-                                                                alt=""
-                                                                className="w-full h-full object-contain"
-                                                            />
-                                                        </div>
-                                                    ) : (
-                                                        <div className="w-6 h-6 flex-shrink-0 bg-muted rounded-full flex items-center justify-center p-1 border border-foreground/10">
-                                                            <Shield size={12} className="text-foreground/20" />
-                                                        </div>
-                                                    )}
-                                                    <span className={`font-bold truncate ${isBotafogo ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase tracking-wide' : 'text-foreground/80'}`}>
-                                                        {team.team}
-                                                    </span>
-                                                </div>
-
-                                                {/* Pts - Highlighted */}
-                                                <div className="col-span-1 text-center font-black text-foreground">{team.points}</div>
-
-                                                {/* Stats */}
-                                                <div className="col-span-1 text-center text-foreground/50 font-mono">{team.games}</div>
-                                                <div className="col-span-1 text-center text-foreground/50 font-mono">{team.wins}</div>
-                                                <div className="col-span-1 text-center text-foreground/50 font-mono">{team.draws}</div>
-                                                <div className="col-span-1 text-center text-foreground/50 font-mono">{team.losses}</div>
-                                                <div className="col-span-1 text-center text-foreground/50 font-mono">{team.goal_diff}</div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </>
-                        )}
+                        <p className="text-foreground/40 text-sm max-w-xs mx-auto font-medium">
+                            A maior competição do continente está chegando. Fique atento para a atualização da tabela.
+                        </p>
                     </div>
-                ))}
-            </div>
+                </div>
+            ) : (
+                <div className="space-y-8">
+                    {sortedGroups.map((groupName) => (
+                        <div key={groupName} className="bg-card rounded-2xl overflow-hidden shadow-xl">
+                            {/* Header - Clickable for Dropdown */}
+                            <div
+                                onClick={() => toggleGroup(groupName)}
+                                className="bg-muted p-4 flex items-center justify-between cursor-pointer hover:bg-foreground/5 transition-colors"
+                            >
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-8 h-8 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 flex items-center justify-center border border-premium-gold/20">
+                                        <Shield size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-600" />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-sm font-black text-foreground uppercase tracking-widest font-display">
+                                            {groupName === 'Geral' ? championships.find(c => c.id === currentChampionship)?.name : groupName}
+                                        </h2>
+                                        <span className="text-[10px] text-foreground/40 font-mono">2026 • Temporada Oficial</span>
+                                    </div>
+                                </div>
+                                <div className="text-premium-gold/50 dark:text-premium-gold/50 light:text-zinc-400">
+                                    {expandedGroups[groupName] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                                </div>
+                            </div>
+
+                            {/* Collapsible Content */}
+                            {expandedGroups[groupName] && (
+                                <>
+                                    {/* Table Header */}
+                                    <div className="grid grid-cols-12 gap-2 p-3 bg-muted/50 text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
+                                        <div className="col-span-1 text-center">Pos</div>
+                                        <div className="col-span-5 pl-2">Time</div>
+                                        <div className="col-span-1 text-center text-foreground">Pts</div>
+                                        <div className="col-span-1 text-center">J</div>
+                                        <div className="col-span-1 text-center">V</div>
+                                        <div className="col-span-1 text-center">E</div>
+                                        <div className="col-span-1 text-center">D</div>
+                                        <div className="col-span-1 text-center">SG</div>
+                                    </div>
+
+                                    {/* Rows */}
+                                    <div className="divide-y divide-white/[0.02]">
+                                        {groupedData[groupName].sort((a, b) => a.position - b.position).map((team) => {
+                                            const isBotafogo = team.team === "Botafogo";
+                                            return (
+                                                <div
+                                                    key={team.team}
+                                                    className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-300 hover:bg-foreground/[0.07] group
+                                                ${isBotafogo ? 'bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 relative overflow-hidden backdrop-blur-sm shadow-[inset_0_0_20px_rgba(0,0,0,0.02)]' : ''}`}
+                                                >
+                                                    {/* Highlight Bar for Botafogo */}
+                                                    {isBotafogo && (
+                                                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-premium-gold animate-pulse" />
+                                                    )}
+
+                                                    {/* Position */}
+                                                    <div className="col-span-1 flex justify-center">
+                                                        <span className={`w-5 h-5 flex items-center justify-center rounded-full font-bold text-[10px] 
+                                                    ${team.position <= 4 ? 'bg-blue-500/20 text-blue-500 dark:text-blue-400' : 'text-foreground/40'}`}>
+                                                            {team.position}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Team */}
+                                                    <div className="col-span-5 pl-2 flex items-center space-x-3">
+                                                        {team.logo ? (
+                                                            <div className="w-6 h-6 flex-shrink-0 relative bg-muted rounded-full p-0.5 group-hover:scale-110 transition-transform">
+                                                                <img
+                                                                    src={team.logo}
+                                                                    alt=""
+                                                                    className="w-full h-full object-contain"
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="w-6 h-6 flex-shrink-0 bg-muted rounded-full flex items-center justify-center p-1 border border-foreground/10">
+                                                                <Shield size={12} className="text-foreground/20" />
+                                                            </div>
+                                                        )}
+                                                        <span className={`font-bold truncate ${isBotafogo ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase tracking-wide' : 'text-foreground/80'}`}>
+                                                            {team.team}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Pts - Highlighted */}
+                                                    <div className="col-span-1 text-center font-black text-foreground">{team.points}</div>
+
+                                                    {/* Stats */}
+                                                    <div className="col-span-1 text-center text-foreground/50 font-mono">{team.games}</div>
+                                                    <div className="col-span-1 text-center text-foreground/50 font-mono">{team.wins}</div>
+                                                    <div className="col-span-1 text-center text-foreground/50 font-mono">{team.draws}</div>
+                                                    <div className="col-span-1 text-center text-foreground/50 font-mono">{team.losses}</div>
+                                                    <div className="col-span-1 text-center text-foreground/50 font-mono">{team.goal_diff}</div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
 
             {/* Legend/Footer */}
             <div className="p-3 bg-muted/50 flex flex-wrap gap-3 justify-center border-t border-foreground/5 rounded-full mx-auto w-fit">

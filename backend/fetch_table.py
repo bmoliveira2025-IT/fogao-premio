@@ -77,9 +77,20 @@ def fetch_table():
         # The structure is data['grupos'] which is a list of groups
         groups = data.get('grupos', [])
         
+        # If top-level groups is empty, look into fases (new GE structure)
+        if not groups and 'fases' in data:
+            for fase in data.get('fases', []):
+                fase_groups = fase.get('grupos', [])
+                if fase_groups:
+                    groups = fase_groups
+                    break
+        
+        print(f"Processing {len(groups)} groups...")
         for group in groups:
             group_name = group.get('nome_grupo', 'Geral')
-            for team in group.get('classificacao', []):
+            teams = group.get('classificacao', [])
+            print(f"Group: {group_name}, Teams found: {len(teams)}")
+            for team in teams:
                 standings.append({
                     "position": team.get('ordem'),
                     "team": team.get('nome_popular'),
