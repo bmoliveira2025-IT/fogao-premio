@@ -83,7 +83,7 @@ export default function TabBar() {
     const tabs = [...navTabs];
 
     return (
-        <nav className="fixed inset-x-0 bottom-0 z-[999] glass-ultra border-t border-white/10 pb-safe pt-1 px-2 shadow-[0_-20px_60px_-10px_rgba(0,0,0,0.9)] md:hidden">
+        <nav className="fixed inset-x-0 bottom-0 z-[999] bg-[#0a0a0a] border-t border-white/10 pb-safe pt-1 px-2 shadow-[0_-20px_60px_-10px_rgba(0,0,0,0.9)] md:hidden">
             {/* Animated Gold Gradient Line on Top */}
             <div className="absolute -top-[2px] left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-90 animate-shimmer-gold"
                 style={{ backgroundSize: '200% 100%' }}
