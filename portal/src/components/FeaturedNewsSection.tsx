@@ -93,17 +93,16 @@ function HeroCard({ news }: { news: NewsItem }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
 
-                {/* Badge */}
-                <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10">
-                    <div className="flex items-center gap-2 px-4 py-2 bg-premium-gold rounded-full shadow-lg">
-                        <Flame size={14} className="text-black fill-current" />
-                        <span className="text-xs font-bold text-black uppercase tracking-wider">Destaque</span>
-                    </div>
-                </div>
-
                 {/* Content */}
                 <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-10 z-10">
                     <div className="max-w-4xl space-y-3 md:space-y-4">
+                        {/* Badge - Inside flex flow */}
+                        <div className="flex mb-2">
+                            <div className="flex items-center gap-2 px-4 py-2 bg-premium-gold rounded-full shadow-lg">
+                                <Flame size={14} className="text-black fill-current" />
+                                <span className="text-xs font-bold text-black uppercase tracking-wider">Destaque</span>
+                            </div>
+                        </div>
                         <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
                             {toSentenceCase(news.title)}
                         </h2>
