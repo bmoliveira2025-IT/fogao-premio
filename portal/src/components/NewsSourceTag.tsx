@@ -34,7 +34,7 @@ export default function NewsSourceTag({
     source = 'FOGÃO PRÊMIO',
     timestamp,
     variant = 'default',
-    showText = true,
+    showText = false,
     className = ''
 }: NewsSourceTagProps) {
 
@@ -43,11 +43,9 @@ export default function NewsSourceTag({
             <div className={`flex items-center gap-2 text-xs ${className}`}>
                 <div className="flex items-center gap-2 text-premium-gold bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
                     <SourceIcon source={source} className="w-3.5 h-3.5" />
-                    {showText && <span className="font-athletic text-[11px] uppercase">{source}</span>}
                 </div>
                 {timestamp && (
                     <>
-                        <span className="text-zinc-400 dark:text-zinc-500 flex-shrink-0">•</span>
                         <span className="text-zinc-500 dark:text-zinc-400 font-medium whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                             {getRelativeTime(timestamp)}
                         </span>
@@ -61,9 +59,6 @@ export default function NewsSourceTag({
         <div className={`flex items-center gap-3 flex-wrap ${className}`}>
             <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 shadow-lg">
                 <SourceIcon source={source} className="w-4 h-4 text-premium-gold" />
-                <span className="text-[12px] font-athletic text-white uppercase">
-                    {source}
-                </span>
             </div>
 
             {timestamp && (

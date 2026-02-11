@@ -12,7 +12,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import CompactNewsRow from './CompactNewsRow';
 import QuoteBanner from './QuoteBanner';
 import PremiumGuard from './PremiumGuard';
-import DesktopHeader from '@/components/DesktopHeader';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 import LikeDislikeButtons from './LikeDislikeButtons';
@@ -152,11 +151,11 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     ) : null;
 
     const RelatedNewsWidget = ({ sidebar = false }: { sidebar?: boolean }) => (relatedNews && relatedNews.length > 0) ? (
-        <section className={`mt-8 ${sidebar ? '' : 'pt-8 border-t border-premium-gold/15 mb-8'} px-0`}>
+        <section className={`mt-8 ${sidebar ? 'pt-0' : 'pt-8 border-t border-premium-gold/15 mb-8'} px-0`}>
             <h3 className="text-sm font-semibold text-premium-gold uppercase tracking-widest mb-6 border-l-4 border-premium-gold pl-3">
                 {sidebar ? 'Mais Notícias' : 'Veja Também'}
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
                 {relatedNews.map((item: any) => (
                     <CompactNewsRow key={item.id} article={item} />
                 ))}
@@ -197,7 +196,6 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                             </h1>
 
                             <div className="flex flex-wrap items-center gap-y-2 gap-x-3 text-[11px] lg:text-xs text-foreground/60 font-medium tracking-wide leading-none">
-                                <span className="text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase font-black bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 px-2 py-1 rounded border border-premium-gold/20 dark:border-premium-gold/20 light:border-zinc-200">{article.source || 'Botafogo'}</span>
                                 <div className="flex items-center gap-2">
                                     <span>Por Redação</span>
                                     <span className="w-0.5 h-0.5 bg-foreground/30 rounded-full" />

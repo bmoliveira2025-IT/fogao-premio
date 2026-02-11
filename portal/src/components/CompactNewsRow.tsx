@@ -62,15 +62,9 @@ export default function CompactNewsRow({ article }: any) {
                 {/* Metadata Pill */}
                 <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
-                        <SourceIcon source={article.source} className="w-3 h-3 text-[11px] transition-all grayscale group-hover:grayscale-0" />
+                        <SourceIcon source={article.source} className="w-4 h-4 text-premium-gold" />
 
-                        <span className="text-[11px] md:text-[12px] font-bold text-premium-gold/90 dark:text-premium-gold/90 light:text-zinc-900 uppercase tracking-widest leading-none px-1.5 py-0.5 rounded bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 border border-premium-gold/10 dark:border-premium-gold/10 light:border-zinc-200">
-                            {article.source || 'FOGÃO'}
-                        </span>
-
-                        <span className="text-[10px] text-foreground/20">•</span>
-
-                        <span className="text-[11px] md:text-[12px] text-foreground/40 font-bold tabular-nums">
+                        <span className="text-[11px] md:text-[12px] text-foreground/60 font-black tracking-widest uppercase">
                             {timeAgo(article.created_at)}
                         </span>
                     </div>

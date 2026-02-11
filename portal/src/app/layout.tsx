@@ -80,9 +80,9 @@ export default function RootLayout({
               <MorningBriefingPopup />
             </Suspense>
 
-            {/* Premium Navigation Header */}
+            {/* Premium Navigation Header - Hidden on desktop as it has its own Sidebar */}
             <Suspense fallback={null}>
-              <ModernNavMenu />
+              <ModernNavMenu className="lg:hidden" />
             </Suspense>
 
             <div className="hidden lg:block">

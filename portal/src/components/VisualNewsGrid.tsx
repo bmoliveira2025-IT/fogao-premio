@@ -69,9 +69,6 @@ export default function VisualNewsGrid({ news, className }: VisualNewsGridProps)
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/40 transition-colors">
                                     <SourceIcon source={item.source || 'default'} className="w-3.5 h-3.5 text-premium-gold" />
-                                    <span className="text-[10px] font-black text-white/90 uppercase tracking-[0.15em]">
-                                        {item.source || 'FOGÃO'}
-                                    </span>
                                 </div>
                                 <span className="text-[11px] font-bold text-zinc-300 flex items-center gap-2 drop-shadow-md" suppressHydrationWarning>
                                     <Clock size={12} className="text-premium-gold" />

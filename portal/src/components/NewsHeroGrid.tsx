@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, TrendingUp } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
+import SourceIcon from './SourceIcon';
+import { cn } from '@/lib/utils';
 
 interface NewsItem {
     id: string;
@@ -69,7 +71,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
 
                     {/* Source & Time */}
                     <div className="flex items-center gap-3 mb-3 text-zinc-300 text-xs font-bold uppercase tracking-wider">
-                        <span className="text-premium-gold">{mainStory.source || 'FOGÃONET'}</span>
+                        <SourceIcon source={mainStory.source || 'default'} className="w-4 h-4 text-premium-gold" />
                         <span>•</span>
                         <div className="flex items-center gap-1" suppressHydrationWarning>
                             <Clock size={12} />
@@ -109,7 +111,7 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
 
                         <div className="absolute bottom-0 left-0 right-0 p-4">
                             <div className="flex items-center gap-2 mb-2 text-[10px] font-bold text-premium-gold uppercase">
-                                {story.source || 'FOGÃONET'}
+                                <SourceIcon source={story.source || 'default'} className="w-3 h-3" />
                                 <span className="text-zinc-500">•</span>
                                 <span className="text-zinc-400" suppressHydrationWarning>{timeAgo(story.created_at)}</span>
                             </div>

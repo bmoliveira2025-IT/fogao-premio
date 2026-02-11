@@ -116,7 +116,6 @@ function HeroCard({ news }: { news: NewsItem }) {
                         <div className="flex items-center gap-3 flex-wrap">
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
                                 <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                                <span className="text-xs font-bold text-white uppercase">{news.source || 'Fogão'}</span>
                             </div>
                             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full">
                                 <Clock size={12} className="text-zinc-400" />
@@ -180,7 +179,6 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                             <div className="flex items-center gap-1 flex-shrink-0">
                                 <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
                             </div>
-                            <span className="text-zinc-600 flex-shrink-0">•</span>
                             <span className="text-[10px] font-bold text-zinc-500 uppercase whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>

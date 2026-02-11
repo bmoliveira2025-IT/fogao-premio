@@ -93,9 +93,7 @@ function LargeCard({ news }: { news: NewsItem }) {
                     <div className="flex items-center gap-3 pt-2 border-t border-white/5">
                         <div className="flex items-center gap-2">
                             <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                            <span className="text-xs font-bold text-zinc-300 uppercase">{news.source || 'Fogão'}</span>
                         </div>
-                        <span className="text-zinc-600">•</span>
                         <div className="flex items-center gap-1.5 leading-none">
                             <Clock size={12} className="text-zinc-500" />
                             <span className="text-xs font-bold text-zinc-500 uppercase" suppressHydrationWarning>
@@ -143,7 +141,6 @@ function CompactCard({ news }: { news: NewsItem }) {
                             <div className="flex items-center gap-1.5 flex-shrink-0">
                                 <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
                             </div>
-                            <span className="text-zinc-600 flex-shrink-0">•</span>
                             <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
@@ -180,7 +177,6 @@ function TextCard({ news }: { news: NewsItem }) {
                         <div className="flex items-center justify-between mt-2.5 min-w-0">
                             <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
                                 <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold flex-shrink-0" />
-                                <span className="text-zinc-600 flex-shrink-0">•</span>
                                 <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                     {getRelativeTime(news.created_at)}
                                 </span>

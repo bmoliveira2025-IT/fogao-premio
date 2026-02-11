@@ -53,10 +53,7 @@ export default function NewsCard({ article }: any) {
                     {/* Meta Badges */}
                     <div className="flex items-center gap-3 mb-3">
                         <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 group-hover:border-premium-gold/40 transition-colors">
-                            <SourceIcon source={article.source || 'default'} className="w-3 h-3 text-premium-gold" />
-                            <span className="text-[9px] font-black text-white/90 uppercase tracking-[0.15em]">
-                                {article.source || 'FOGÃO'}
-                            </span>
+                            <SourceIcon source={article.source || 'default'} className="w-4 h-4 text-premium-gold" />
                         </div>
                         <span className="text-[10px] font-bold text-zinc-300 flex items-center gap-1.5 drop-shadow-md" suppressHydrationWarning>
                             <Clock size={11} className="text-premium-gold" />

@@ -46,9 +46,6 @@ export default function TextOnlyNewsCard({ article }: any) {
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
                             <SourceIcon source={article.source || 'default'} className="w-5 h-5 text-premium-gold" />
-                            <span className="text-[12px] font-athletic text-white">
-                                {article.source || 'FOGÃO PRÊMIO'}
-                            </span>
                         </div>
                         <div className="flex items-center gap-2.5 bg-black/40 px-5 py-2.5 rounded-full border border-white/10">
                             <Clock size={16} className="text-zinc-400" />

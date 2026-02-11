@@ -59,11 +59,8 @@ export default function ModernNewsCard({ article }: any) {
             <div className="px-6 pb-6 pt-2 flex flex-col gap-5">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <SourceIcon source={article.source || 'FOGÃO'} className="w-6 h-6 text-premium-gold" />
+                        <SourceIcon source={article.source} className="w-6 h-6 text-premium-gold" />
                         <div className="flex flex-col">
-                            <span className="text-[12px] font-athletic text-white">
-                                {article.source || 'FOGÃO PRÊMIO'}
-                            </span>
                             <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mt-1">
                                 {timeAgo(article.created_at)}
                             </span>

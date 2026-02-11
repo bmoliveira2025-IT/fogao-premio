@@ -112,9 +112,6 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                         <div className="flex items-center gap-4 flex-wrap">
                             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-xl px-4 py-2 rounded-full border border-white/20 shadow-xl">
                                 <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                                <span className="text-xs md:text-sm font-athletic text-white">
-                                    {news.source || 'FOGÃO PRÊMIO'}
-                                </span>
                             </div>
 
                             <div className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/10">

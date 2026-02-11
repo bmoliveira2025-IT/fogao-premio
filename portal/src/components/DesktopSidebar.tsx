@@ -17,7 +17,7 @@ const menuItems = [
 ];
 
 export default function DesktopSidebar() {
-    const { user, isPremium, logout } = useAuth();
+    const { user, isPremium, points, logout } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -107,12 +107,20 @@ export default function DesktopSidebar() {
                                 <p className="text-[13px] font-bold text-white truncate">
                                     {user.displayName || 'Torcedor'}
                                 </p>
-                                <p className={cn(
-                                    "text-[11px] uppercase tracking-wider font-bold",
-                                    isPremium ? "text-premium-gold" : "text-zinc-500"
-                                )}>
-                                    {isPremium ? 'Membro Premium' : 'Plano Gratuito'}
-                                </p>
+                                <div className="flex items-center gap-1.5 mt-0.5">
+                                    <span className={cn(
+                                        "text-[10px] uppercase tracking-wider font-bold px-1.5 py-0.5 rounded-md bg-white/5",
+                                        isPremium ? "text-premium-gold border border-premium-gold/20" : "text-zinc-500 border border-white/10"
+                                    )}>
+                                        {isPremium ? 'PREMIUM' : 'FREE'}
+                                    </span>
+                                    {points !== undefined && (
+                                        <span className="text-[10px] font-bold text-premium-gold flex items-center gap-1">
+                                            <Star size={10} className="fill-premium-gold" />
+                                            {points}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Logout Action */}

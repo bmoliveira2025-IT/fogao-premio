@@ -52,9 +52,6 @@ export default function HeroNewsCard({ article }: { article: any }) {
                         {/* Source Moved Here */}
                         <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-md border border-premium-gold/15">
                             <SourceIcon source={article.source} className="w-3.5 h-3.5 text-premium-gold" />
-                            <span className="text-[11px] font-bold text-white uppercase tracking-wider">
-                                {article.source}
-                            </span>
                         </div>
                     </div>
 
