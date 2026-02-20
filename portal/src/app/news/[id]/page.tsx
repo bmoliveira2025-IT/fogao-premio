@@ -101,7 +101,8 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
             id: doc.id,
             ...matchData,
             // Serialize Date objects
-            date: matchData.date instanceof Date ? matchData.date.toISOString() : matchData.date
+            date: matchData.date instanceof Date ? matchData.date.toISOString() : matchData.date,
+            updated_at: matchData.updated_at?.toDate?.()?.toISOString() || matchData.updated_at
         };
     }
 
