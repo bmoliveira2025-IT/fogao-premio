@@ -251,12 +251,12 @@ export default async function Home() {
 
       {/* MAIN CONTENT WRAPPER */}
       <div className="w-full transition-all duration-300 pb-20 lg:pb-10">
-        <div className="container mx-auto px-0 md:px-4 lg:px-12 max-w-[1600px]">
+        <div className="container mx-auto px-3 md:px-4 lg:px-12 max-w-[1600px]">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-8">
 
             {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-2 lg:space-y-4">
+            <div className="lg:col-span-8 space-y-6 lg:space-y-10">
 
               <StaggeredEntry staggerDelay={0.15}>
                 {/* FEATURED NEWS SECTION - 1 Hero + 6 Secondary */}
@@ -288,7 +288,7 @@ export default async function Home() {
             </div>
 
             {/* --- RIGHT COLUMN (Widgets - Desktop Only) --- */}
-            <div className="hidden lg:flex lg:col-span-4 flex-col gap-4 mt-8">
+            <div className="hidden lg:flex lg:col-span-4 flex-col gap-6 lg:gap-8 mt-8">
               <StaggeredEntry delay={0.2} staggerDelay={0.1}>
                 {/* Next Match Card */}
                 <PremiumNextMatch match={nextMatch} />
@@ -298,46 +298,46 @@ export default async function Home() {
 
                 {/* Elenco Banner */}
                 <Link href="/elenco" className="block group">
-                  <div className="relative overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-8 flex items-center justify-between shadow-xl hover:shadow-premium-gold/10">
+                  <div className="relative overflow-hidden rounded-[2rem] bg-card/60 backdrop-blur-xl border border-white/[0.04] hover:border-premium-gold/40 transition-all duration-500 ease-out p-8 flex items-center justify-between shadow-premium hover:shadow-card-hover group-hover:-translate-y-1">
                     <div className="flex items-center gap-5">
                       <div className="p-4 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
                         <Users size={28} />
                       </div>
                       <div>
-                        <h4 className="text-lg font-athletic text-zinc-900 dark:text-white group-hover:text-premium-gold transition-colors">
+                        <h4 className="text-lg font-athletic text-white group-hover:text-premium-gold transition-colors">
                           Elenco 2026
                         </h4>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium tracking-widest uppercase">
+                        <p className="text-xs text-zinc-400 font-medium tracking-widest uppercase">
                           Plantel Completo
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
+                    <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
                   </div>
                 </Link>
 
                 {/* Standings Banner */}
                 <Link href="/tabela" className="block group">
-                  <div className="relative overflow-hidden rounded-[2rem] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 transition-all p-8 flex items-center justify-between shadow-xl hover:shadow-premium-gold/10">
+                  <div className="relative overflow-hidden rounded-[2rem] bg-card/60 backdrop-blur-xl border border-white/[0.04] hover:border-premium-gold/40 transition-all duration-500 ease-out p-8 flex items-center justify-between shadow-premium hover:shadow-card-hover group-hover:-translate-y-1">
                     <div className="flex items-center gap-5">
                       <div className="p-4 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
                         <Trophy size={28} />
                       </div>
                       <div>
-                        <h4 className="text-lg font-athletic text-zinc-900 dark:text-white group-hover:text-premium-gold transition-colors">
+                        <h4 className="text-lg font-athletic text-white group-hover:text-premium-gold transition-colors">
                           Classificação
                         </h4>
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium tracking-widest uppercase">
+                        <p className="text-xs text-zinc-400 font-medium tracking-widest uppercase">
                           Tabela Carioca 2026
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="text-zinc-400 dark:text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
+                    <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
                   </div>
                 </Link>
 
                 {/* Sidebar News Feed */}
-                <div className="glass-puro crystal-border rounded-xl p-6 soft-shadow-cinematic">
+                <div className="glass-ultra border border-white/[0.04] rounded-[2rem] p-6 shadow-premium">
                   <h3 className="text-sm font-athletic text-premium-gold mb-8 flex items-center gap-3">
                     <div className="w-1.5 h-5 bg-premium-gold rounded-full" />
                     Últimas do Esporte

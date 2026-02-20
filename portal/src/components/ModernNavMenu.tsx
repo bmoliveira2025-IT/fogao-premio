@@ -43,12 +43,11 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
             "fixed top-0 inset-x-0 z-50 transition-all duration-500",
             className
         )}>
-            {/* Main Navigation Bar with Ultra Glassmorphism */}
             <div className={cn(
                 "glass-ultra border-b transition-all duration-500",
                 scrolled
-                    ? "border-white/10 shadow-2xl"
-                    : "border-white/5 shadow-xl"
+                    ? "border-white/[0.08] shadow-2xl"
+                    : "border-transparent shadow-xl"
             )}>
                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                     <div className="flex items-center justify-between h-14">

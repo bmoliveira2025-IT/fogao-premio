@@ -23,7 +23,7 @@ export default function BrandingHeader() {
     const showPremiumUI = mounted && isPremium;
 
     return (
-        <header className="fixed top-0 left-0 right-0 z-[999] w-full glass-ultra border-b border-white/10 lg:hidden pt-[env(safe-area-inset-top)] shadow-2xl">
+        <header className="fixed top-0 left-0 right-0 z-[999] w-full glass-ultra border-b border-white/[0.04] lg:hidden pt-[env(safe-area-inset-top)] shadow-premium">
             {/* Animated Gradient Border Bottom */}
             <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent opacity-90 animate-shimmer-gold"
                 style={{ backgroundSize: '200% 100%' }}

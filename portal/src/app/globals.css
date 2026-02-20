@@ -7,31 +7,35 @@
 
 :root {
   /* Default: Tema Glorioso (Dark Mode with Gold) */
-  --background: #0a0a0a;
-  --foreground: #FFFFFF;
-  --premium-gold: 255 215 0;
-  --card-bg: rgba(18, 18, 18, 0.4);
-  --graphite: #1A1A1A;
-  --border-color: rgba(255, 255, 255, 0.08);
+  --background: #09090b;
+  /* Deep Zinc Black */
+  --foreground: #FAFAFA;
+  /* Off-white for softer contrast */
+  --premium-gold: 212 175 55;
+  /* Champagne/Metallic Gold */
+  --card-bg: rgba(18, 18, 20, 0.4);
+  --graphite: #18181b;
+  --border-color: rgba(255, 255, 255, 0.05);
+  /* Thinner/lighter borders */
 
   /* New Design Tokens */
-  --radius-ultra: 12px;
-  --glass-blur: 24px;
-  --glass-opacity: 0.15;
-  --crystal-glow: rgba(255, 255, 255, 0.15);
+  --radius-ultra: 16px;
+  --glass-blur: 32px;
+  --glass-opacity: 0.1;
+  --crystal-glow: rgba(255, 255, 255, 0.12);
 }
 
 /* Tema Glorioso (Dark Mode - Gold Accent) */
 .glorioso,
 .dark {
-  --background: #0a0a0a;
-  /* Matte Black */
-  --foreground: #FFFFFF;
-  --premium-gold: 255 215 0;
-  /* #FFD700 - Gold */
-  --card-bg: #121212;
-  --graphite: #1A1A1A;
-  --border-color: rgba(255, 255, 255, 0.1);
+  --background: #09090b;
+  /* Matte Zinc Black */
+  --foreground: #FAFAFA;
+  --premium-gold: 212 175 55;
+  /* #D4AF37 - Metallic Gold */
+  --card-bg: #121214;
+  --graphite: #18181b;
+  --border-color: rgba(255, 255, 255, 0.06);
 }
 
 /* Tema Gloriosa (Dark Mode - Pink Accent) */
@@ -81,9 +85,11 @@ h6 {
 
 /* Rest of utils... */
 .glass-panel {
-  background: rgba(18, 18, 18, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(18, 18, 20, 0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .gold-text {
@@ -93,7 +99,7 @@ h6 {
 .shimmer {
   position: relative;
   overflow: hidden;
-  background: #1a1a1a;
+  background: #18181b;
 }
 
 .shimmer::after {
@@ -317,11 +323,11 @@ h6 {
 /* Ultra Glassmorphism */
 .glass-ultra {
   background: linear-gradient(135deg,
-      rgba(18, 18, 18, 0.7) 0%,
-      rgba(10, 10, 10, 0.8) 100%);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+      rgba(18, 18, 20, 0.6) 0%,
+      rgba(9, 9, 11, 0.7) 100%);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .glass-border {

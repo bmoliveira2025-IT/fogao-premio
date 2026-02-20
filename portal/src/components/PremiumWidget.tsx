@@ -35,10 +35,10 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                 className
             )}>
                 {/* Background Effects */}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-premium-gold/5 dark:from-black/40 dark:to-premium-gold/5" />
+                <div className="absolute inset-0 bg-gradient-to-br from-background/60 via-background/20 to-premium-gold/5" />
 
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/5 bg-gradient-to-r from-premium-gold/10 to-transparent">
+                <div className="flex items-center justify-between p-6 border-b border-white/[0.04] bg-gradient-to-r from-premium-gold/10 to-transparent">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-full bg-premium-gold text-black shadow-lg shadow-premium-gold/30">
                             <Crown size={18} fill="currentColor" />
@@ -90,10 +90,10 @@ export default function PremiumWidget({ news, className }: { news: NewsItem[], c
                             <Link
                                 key={item.id}
                                 href={`/news/${item.id}`}
-                                className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border hover:bg-white/10 hover:border-premium-gold/30 transition-all group/item"
+                                className="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border hover:bg-white/[0.04] hover:border-premium-gold/30 transition-all group/item"
                                 style={{ borderColor: 'var(--border-color)' }}
                             >
-                                <div className="relative w-16 h-12 rounded bg-zinc-900 overflow-hidden shrink-0 border border-white/10 group-hover:border-premium-gold/30 transition-colors">
+                                <div className="relative w-16 h-12 rounded bg-background overflow-hidden shrink-0 border border-white/[0.04] group-hover:border-premium-gold/30 transition-colors">
                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                     {/* Mini Lock for List Items */}
                                     <div className="absolute inset-0 flex items-center justify-center bg-black/40">

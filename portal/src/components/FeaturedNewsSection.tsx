@@ -63,6 +63,16 @@ const containerVariants = {
     }
 };
 
+const getSourceColor = (source?: string) => {
+    if (!source) return { text: 'text-premium-gold', bg: 'bg-premium-gold' };
+    const s = source.toLowerCase();
+    if (s.includes('globo')) return { text: 'text-emerald-400', bg: 'bg-emerald-500' };
+    if (s.includes('fogaonet') || s.includes('fogãonet')) return { text: 'text-amber-400', bg: 'bg-amber-500' };
+    if (s.includes('lance') || s.includes('cnn')) return { text: 'text-rose-500', bg: 'bg-rose-500' };
+    if (s.includes('oficial')) return { text: 'text-white', bg: 'bg-white' };
+    return { text: 'text-premium-gold', bg: 'bg-premium-gold' };
+};
+
 const itemVariants = {
     hidden: { opacity: 0, y: 0 },
     visible: {
@@ -74,64 +84,69 @@ const itemVariants = {
 
 // Hero Card Component (Main Featured)
 function HeroCard({ news }: { news: NewsItem }) {
+    const colors = getSourceColor(news.source);
+
     return (
         <motion.div variants={itemVariants}>
             <Link
                 href={`/news/${news.id}`}
-                className="relative w-full aspect-[16/18] md:aspect-[16/9] group overflow-hidden block rounded-2xl md:rounded-3xl shadow-2xl"
+                className="group relative block w-full overflow-hidden rounded-3xl md:rounded-[2rem] shadow-premium bg-card/60 backdrop-blur-3xl border border-white/[0.04] hover:border-premium-gold/40 hover:shadow-gold-glow transition-all duration-700 hover:-translate-y-1"
             >
-                <Image
-                    src={getSafeImageSrc(news.image)}
-                    alt={news.title}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    unoptimized
-                    priority
-                />
+                {/* Top Image Section */}
+                <div className="relative w-full aspect-[16/10] md:h-[400px] lg:h-[480px] overflow-hidden">
+                    <Image
+                        src={getSafeImageSrc(news.image)}
+                        alt={news.title}
+                        fill
+                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                        unoptimized
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+                </div>
 
-                {/* Gradient Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+                {/* Bottom Content Section (Solid Block) */}
+                <div className="p-6 md:p-8 space-y-4">
+                    <div className="flex items-center gap-3 mb-2 flex-wrap">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
+                            <Flame size={14} className="text-premium-gold fill-current" />
+                            <span className="text-xs font-bold text-premium-gold uppercase tracking-wider">Destaque</span>
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
+                            <div className={`w-2 h-2 rounded-full ${colors.bg}`} />
+                            <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>{news.source || 'Botafogo'}</span>
+                        </div>
+                    </div>
 
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-5 md:p-10 z-10">
-                    <div className="max-w-4xl space-y-3 md:space-y-4">
-                        {/* Badge - Inside flex flow */}
-                        <div className="flex mb-2">
-                            <div className="flex items-center gap-2 px-4 py-2 bg-premium-gold rounded-full shadow-lg">
-                                <Flame size={14} className="text-black fill-current" />
-                                <span className="text-xs font-bold text-black uppercase tracking-wider">Destaque</span>
+                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
+                        {toSentenceCase(news.title)}
+                    </h2>
+
+                    {news.summary && (
+                        <div className="pt-2">
+                            <div className="flex items-start gap-3 text-zinc-300 group-hover:text-white transition-colors duration-300">
+                                <div className={`mt-2 flex-shrink-0 w-1.5 h-1.5 rounded-full ${colors.bg}`} />
+                                <p className="text-base md:text-lg font-medium leading-relaxed max-w-4xl line-clamp-2 md:line-clamp-3">
+                                    {Array.isArray(news.summary) ? news.summary[0] : news.summary}
+                                </p>
                             </div>
                         </div>
-                        <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
-                            {toSentenceCase(news.title)}
-                        </h2>
+                    )}
 
-                        {news.summary && (
-                            <p className="hidden md:block text-base lg:text-lg text-zinc-200 line-clamp-2 max-w-3xl">
-                                {news.summary}
-                            </p>
-                        )}
-
-                        <div className="flex items-center gap-3 flex-wrap">
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                            </div>
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full">
-                                <Clock size={12} className="text-zinc-400" />
-                                <span className="text-xs font-bold text-zinc-300 uppercase" suppressHydrationWarning>
-                                    {getRelativeTime(news.created_at)}
-                                </span>
-                            </div>
-
-                            <LikeDislikeButtons
-                                articleId={news.id}
-                                initialLikes={news.likes_count}
-                                initialDislikes={news.dislikes_count}
-                                variant="hero"
-                                className="ml-auto"
-                            />
+                    <div className="flex items-center gap-3 flex-wrap pt-4 mt-2 border-t border-white/5">
+                        <div className="flex items-center gap-1.5 leading-none">
+                            <Clock size={14} className="text-zinc-500" />
+                            <span className="text-xs font-bold text-zinc-500 uppercase" suppressHydrationWarning>
+                                {getRelativeTime(news.created_at)}
+                            </span>
                         </div>
+
+                        <LikeDislikeButtons
+                            articleId={news.id}
+                            initialLikes={news.likes_count}
+                            initialDislikes={news.dislikes_count}
+                            className="ml-auto"
+                        />
                     </div>
                 </div>
             </Link>
@@ -142,19 +157,21 @@ function HeroCard({ news }: { news: NewsItem }) {
 // Secondary Card Component (Grid Items)
 // Secondary Card Component (Horizontal List Item)
 function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
+    const colors = getSourceColor(news.source);
+
     return (
         <motion.div variants={itemVariants}>
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex gap-4 bg-zinc-900/40 backdrop-blur-sm border border-white/5 rounded-xl p-3 hover:border-premium-gold/30 transition-all duration-500 hover:shadow-lg hover:shadow-premium-gold/5"
+                className="group relative flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover"
             >
                 {/* Image */}
-                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-lg group-hover:shadow-premium-gold/10 transition-shadow">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                         unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
@@ -170,15 +187,18 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between py-0.5">
-                    <h3 className="text-sm md:text-base font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2 md:line-clamp-3">
-                        {toSentenceCase(news.title)}
-                    </h3>
+                    <div className="flex flex-col gap-1.5">
+                        <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text}`}>
+                            {news.source || 'Portal'}
+                        </span>
+                        <h3 className="text-sm md:text-base font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
+                            {toSentenceCase(news.title)}
+                        </h3>
+                    </div>
 
                     <div className="flex items-center justify-between mt-3 min-w-0">
                         <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink flex-grow-0 overflow-hidden">
-                            <div className="flex items-center gap-1 flex-shrink-0">
-                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                            </div>
+                            <Clock size={12} className="text-zinc-500 flex-shrink-0" />
                             <span className="text-[10px] font-bold text-zinc-500 uppercase whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>

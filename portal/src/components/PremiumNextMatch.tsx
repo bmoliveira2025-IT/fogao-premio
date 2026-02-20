@@ -107,7 +107,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
     return (
         <div className="px-4 md:px-0">
             <div
-                className={cn("w-full transition-all duration-300 overflow-hidden glass-puro crystal-border crystal-shine rounded-xl soft-shadow-cinematic relative z-[110]", className)}
+                className={cn("w-full transition-all duration-500 overflow-hidden glass-ultra border border-white/[0.04] rounded-2xl shadow-premium hover:shadow-card-hover relative z-[110]", className)}
             >
                 {/* Gold Top & Bottom Borders */}
                 <div
@@ -119,10 +119,7 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                 {/* Header Style (Clickable to Toggle) */}
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-full relative flex items-center justify-between p-4 border-b hover:bg-white/5 transition-colors"
-                    style={{
-                        borderColor: 'rgba(255, 255, 255, 0.05)'
-                    }}
+                    className="w-full relative flex items-center justify-between p-4 border-b border-white/[0.04] hover:bg-white/5 transition-colors"
                 >
                     <div className="flex items-center space-x-3 text-left opacity-0 pointer-events-none">
                         <div className="w-10 h-10" />

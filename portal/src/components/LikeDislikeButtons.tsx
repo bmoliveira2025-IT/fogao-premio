@@ -137,10 +137,10 @@ export default function LikeDislikeButtons({
                     {recentLiker.initial}
                 </div>
             )}
-            <div className={`flex items-center ${isHero ? 'bg-black/40' : (isFull ? 'bg-black/5 dark:bg-white/5 h-10' : 'bg-white/5')} backdrop-blur-sm border border-white/10 rounded-full overflow-hidden`}>
+            <div className={`flex items-center ${isHero ? 'bg-black/40' : (isFull ? 'bg-black/5 dark:bg-white/5 h-11' : 'bg-white/5')} backdrop-blur-sm border border-white/10 rounded-full overflow-hidden`}>
                 <button
                     onClick={(e) => handleAction('like', e)}
-                    className={`flex items-center gap-1.5 ${buttonPadding} transition-all active:scale-95 border-r border-white/10 h-full ${liked ? 'bg-white/10 text-premium-gold' : 'text-zinc-400 hover:text-white'}`}
+                    className={`flex items-center justify-center gap-1.5 min-w-[44px] sm:min-w-auto ${buttonPadding} transition-all duration-300 active:scale-90 border-r border-white/10 h-full ${liked ? 'bg-white/10 text-premium-gold' : 'text-zinc-400 hover:text-white'}`}
                 >
                     <ThumbsUp size={iconSize} className={liked ? 'fill-current' : ''} />
                     <span className={`${textSize} font-athletic font-bold`}>{likesCount}</span>
@@ -150,7 +150,7 @@ export default function LikeDislikeButtons({
                 </button>
                 <button
                     onClick={(e) => handleAction('dislike', e)}
-                    className={`flex items-center gap-1.5 ${buttonPadding} transition-all active:scale-95 h-full ${disliked ? 'bg-red-600 text-white' : 'text-zinc-400 hover:text-white'}`}
+                    className={`flex items-center justify-center gap-1.5 min-w-[44px] sm:min-w-auto ${buttonPadding} transition-all duration-300 active:scale-90 h-full ${disliked ? 'bg-red-600 text-white' : 'text-zinc-400 hover:text-white'}`}
                 >
                     <ThumbsDown size={iconSize} className={disliked ? 'fill-current' : ''} />
                     <span className={`${textSize} font-athletic font-bold`}>{dislikesCount}</span>

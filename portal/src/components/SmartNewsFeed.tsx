@@ -62,38 +62,61 @@ const itemVariants = {
     }
 };
 
+const getSourceColor = (source?: string) => {
+    if (!source) return { text: 'text-premium-gold', bg: 'bg-premium-gold' };
+    const s = source.toLowerCase();
+    if (s.includes('globo')) return { text: 'text-emerald-400', bg: 'bg-emerald-500' };
+    if (s.includes('fogaonet') || s.includes('fogãonet')) return { text: 'text-amber-400', bg: 'bg-amber-500' };
+    if (s.includes('lance') || s.includes('cnn')) return { text: 'text-rose-500', bg: 'bg-rose-500' };
+    if (s.includes('oficial')) return { text: 'text-white', bg: 'bg-white' };
+    return { text: 'text-premium-gold', bg: 'bg-premium-gold' };
+};
+
 // Large Card with Full Image
 function LargeCard({ news }: { news: NewsItem }) {
+    const colors = getSourceColor(news.source);
+
     return (
         <motion.div variants={itemVariants} initial="hidden" animate="visible">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative block bg-zinc-900/70 backdrop-blur-sm border border-white/5 rounded-2xl overflow-hidden hover:border-premium-gold/30 transition-all duration-500 hover:shadow-xl hover:shadow-premium-gold/10"
+                className="group relative block bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
             >
                 <div className="relative aspect-[16/9] w-full overflow-hidden">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
                 </div>
 
-                <div className="p-5 space-y-3">
-                    <h3 className="text-lg md:text-xl font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
+                <div className="p-5 md:p-6 space-y-3">
+                    <div className="flex items-center gap-2 mb-1">
+                        <div className={`w-1.5 h-1.5 rounded-full ${colors.bg}`} />
+                        <span className={`text-[10px] md:text-xs font-black uppercase tracking-wider ${colors.text}`}>
+                            {news.source || 'Portal'}
+                        </span>
+                    </div>
+
+                    <h3 className="text-lg md:text-2xl font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
                         {toSentenceCase(news.title)}
                     </h3>
 
                     {news.summary && (
-                        <p className="text-sm text-zinc-400 line-clamp-2">{news.summary}</p>
+                        <div className="pt-1.5">
+                            <div className="flex items-start gap-2.5 text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
+                                <div className={`mt-2 flex-shrink-0 w-1 h-1 rounded-full ${colors.bg} opacity-80`} />
+                                <p className="text-sm md:text-base leading-relaxed line-clamp-3">
+                                    {Array.isArray(news.summary) ? news.summary[0] : news.summary}
+                                </p>
+                            </div>
+                        </div>
                     )}
 
-                    <div className="flex items-center gap-3 pt-2 border-t border-white/5">
-                        <div className="flex items-center gap-2">
-                            <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                        </div>
+                    <div className="flex items-center gap-3 pt-4 mt-2 border-t border-white/5">
                         <div className="flex items-center gap-1.5 leading-none">
                             <Clock size={12} className="text-zinc-500" />
                             <span className="text-xs font-bold text-zinc-500 uppercase" suppressHydrationWarning>
@@ -115,32 +138,37 @@ function LargeCard({ news }: { news: NewsItem }) {
 
 // Compact Card with Small Image
 function CompactCard({ news }: { news: NewsItem }) {
+    const colors = getSourceColor(news.source);
+
     return (
         <motion.div variants={itemVariants} initial="hidden" animate="visible">
             <Link
                 href={`/news/${news.id}`}
-                className="group flex gap-4 bg-zinc-900/50 backdrop-blur-sm border border-white/5 rounded-xl p-4 hover:border-premium-gold/30 transition-all duration-500 hover:shadow-lg hover:shadow-premium-gold/5"
+                className="group flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-[2rem] p-3 md:p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
             >
-                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md group-hover:shadow-premium-gold/10 transition-shadow">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                         unoptimized
                     />
                 </div>
 
                 <div className="flex-1 flex flex-col justify-between py-1">
-                    <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
-                        {toSentenceCase(news.title)}
-                    </h3>
+                    <div className="flex flex-col gap-1.5">
+                        <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text}`}>
+                            {news.source || 'Portal'}
+                        </span>
+                        <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
+                            {toSentenceCase(news.title)}
+                        </h3>
+                    </div>
 
                     <div className="flex items-center justify-between mt-2.5 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                            <div className="flex items-center gap-1.5 flex-shrink-0">
-                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                            </div>
+                            <Clock size={12} className="text-zinc-500 flex-shrink-0" />
                             <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
@@ -160,23 +188,34 @@ function CompactCard({ news }: { news: NewsItem }) {
 
 // Text Only Card (no image)
 function TextCard({ news }: { news: NewsItem }) {
+    const colors = getSourceColor(news.source);
+
     return (
         <motion.div variants={itemVariants} initial="hidden" animate="visible">
             <Link
                 href={`/news/${news.id}`}
-                className="group block bg-zinc-900/40 backdrop-blur-sm border-l-4 border-l-premium-gold border border-white/5 rounded-lg p-4 hover:bg-zinc-900/60 transition-all duration-300"
+                className="group block bg-card/60 backdrop-blur-xl border border-white/[0.04] p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 ease-out hover:border-premium-gold/40 hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90 relative overflow-hidden"
             >
-                <div className="flex items-start gap-3">
-                    <div className="p-2 bg-premium-gold/10 rounded-lg">
-                        <BookOpen size={16} className="text-premium-gold" />
+                {/* Dynamic colored side glow */}
+                <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${colors.text.replace('text-', 'from-')} to-transparent opacity-30 group-hover:opacity-100 transition-opacity`} />
+
+                <div className="flex items-start gap-4">
+                    <div className={`p-3 ${colors.bg.replace('bg-', 'bg-')}/10 rounded-xl shadow-inner border border-white/5 group-hover:border-white/10 transition-colors`}>
+                        <BookOpen size={20} className={colors.text} />
                     </div>
                     <div className="flex-1">
-                        <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
-                            {toSentenceCase(news.title)}
-                        </h3>
+                        <div className="flex flex-col gap-1.5 mb-1.5">
+                            <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text}`}>
+                                {news.source || 'Portal'}
+                            </span>
+                            <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
+                                {toSentenceCase(news.title)}
+                            </h3>
+                        </div>
+
                         <div className="flex items-center justify-between mt-2.5 min-w-0">
                             <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                                <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold flex-shrink-0" />
+                                <Clock size={12} className="text-zinc-500 flex-shrink-0" />
                                 <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                     {getRelativeTime(news.created_at)}
                                 </span>
