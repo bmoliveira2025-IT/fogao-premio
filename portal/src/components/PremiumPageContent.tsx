@@ -27,15 +27,6 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
 
                     <GloriosoLogo size={34} className="drop-shadow-[0_0_15px_rgba(255,215,0,0.4)] relative z-10" />
 
-                    <div className="flex flex-col leading-none ml-0.5">
-                        <span className="font-display font-black text-[17px] text-white tracking-tight">
-                            GLORIOSO{' '}
-                            <span className="text-premium-gold font-light animate-pulse inline-block" style={{ textShadow: "0 0 10px rgba(255,215,0,0.4)" }}>
-                                360
-                            </span>
-                        </span>
-                    </div>
-
                 </Link>
 
                 <div className="flex items-center gap-2">
@@ -57,10 +48,6 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                     )}
                 </div>
             </header>
-
-            <DesktopHeader />
-            <div className="lg:hidden h-4"></div>
-            <div className="hidden lg:block h-24"></div>
 
             <div className="px-4 lg:max-w-5xl lg:mx-auto">
                 <div className="mb-12 text-center relative">

@@ -88,7 +88,7 @@ export default function TabBar() {
                 {/* Subtle internal gradient glow */}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
 
-                <div className="flex items-center justify-between relative">
+                <div className="flex items-center justify-between w-full px-2 relative">
                     {tabs.map((tab, index) => {
                         const isActive = pathname === tab.href;
                         const Icon = tab.icon;

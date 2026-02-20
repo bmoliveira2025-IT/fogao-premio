@@ -75,42 +75,7 @@ export default function BrandingHeader() {
                         )}
                     </AnimatePresence>
 
-                    <div className="flex flex-col leading-none">
-                        <motion.span
-                            className="font-display font-black text-[19px] text-white tracking-tight"
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.1 }}
-                        >
-                            GLORIOSO{' '}
-                            <motion.span
-                                className="text-premium-gold font-light"
-                                animate={{
-                                    textShadow: [
-                                        "0 0 10px rgba(255, 215, 0, 0.3)",
-                                        "0 0 20px rgba(255, 215, 0, 0.6)",
-                                        "0 0 10px rgba(255, 215, 0, 0.3)",
-                                    ]
-                                }}
-                                transition={{ duration: 2, repeat: Infinity }}
-                            >
-                                360
-                            </motion.span>
-                            {isPremium && (
-                                <motion.span
-                                    initial={{ opacity: 0, scale: 0, rotate: -180 }}
-                                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                                    transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-                                >
-                                    <Crown
-                                        size={15}
-                                        className="text-premium-gold fill-premium-gold/30 ml-1.5 self-start -mt-0.5 inline-block animate-glow-pulse drop-shadow-[0_0_8px_rgba(255,215,0,0.6)]"
-                                        strokeWidth={2.5}
-                                    />
-                                </motion.span>
-                            )}
-                        </motion.span>
-                    </div>
+
                 </div>
 
                 {/* Actions with Staggered Animations */}

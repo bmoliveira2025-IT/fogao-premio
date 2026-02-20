@@ -26,26 +26,26 @@ export const PREMIUM_WALLPAPERS = [
     {
         id: 'wp-5',
         title: 'Mosaico da Torcida',
-        url: '/wallpapers/mosaico.jpg',
-        thumbnail: '/wallpapers/mosaico.jpg'
+        url: '/wallpapers/mosaico.png',
+        thumbnail: '/wallpapers/mosaico.png'
     },
     {
         id: 'wp-6',
         title: 'Vestiário VIP',
-        url: '/wallpapers/vestiario.jpg',
-        thumbnail: '/wallpapers/vestiario.jpg'
+        url: '/wallpapers/vestiario.png',
+        thumbnail: '/wallpapers/vestiario.png'
     },
     {
         id: 'wp-7',
         title: 'Gramado Sagrado',
-        url: '/wallpapers/gramado.jpg',
-        thumbnail: '/wallpapers/gramado.jpg'
+        url: '/wallpapers/gramado.png',
+        thumbnail: '/wallpapers/gramado.png'
     },
     {
         id: 'wp-8',
         title: 'A Taça Libertadores',
-        url: '/wallpapers/taca.jpg',
-        thumbnail: '/wallpapers/taca.jpg'
+        url: '/wallpapers/taca.png',
+        thumbnail: '/wallpapers/taca.png'
     }
 ];
 

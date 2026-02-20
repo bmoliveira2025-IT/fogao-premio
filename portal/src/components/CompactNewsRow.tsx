@@ -16,17 +16,17 @@ export default function CompactNewsRow({ article }: any) {
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        if (diffInSeconds < 60) return 'agora mesmo';
+        if (diffInSeconds < 60) return 'agora';
         if (diffInSeconds < 3600) {
             const minutes = Math.floor(diffInSeconds / 60);
-            return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+            return `${minutes} min`;
         }
         if (diffInSeconds < 86400) {
             const hours = Math.floor(diffInSeconds / 3600);
-            return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
+            return `${hours}h atrás`;
         }
         const days = Math.floor(diffInSeconds / 86400);
-        return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
+        return `${days}d atrás`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -38,33 +38,33 @@ export default function CompactNewsRow({ article }: any) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group flex gap-4 md:gap-6 items-center p-4 md:p-6 rounded-2xl hover:bg-white/5 border transition-all hover:scale-[1.01]"
+            className="group flex gap-4 items-center p-3 md:p-6 rounded-2xl hover:bg-white/5 border transition-all hover:scale-[1.01]"
             style={{ borderColor: 'var(--border-color)' }}
         >
             {/* Thumbnail */}
-            <div className="relative w-24 h-24 md:w-32 md:h-32 flex-shrink-0 rounded-xl md:rounded-2xl overflow-hidden bg-white/5 border border-white/5 shadow-lg">
+            <div className="relative w-20 h-20 md:w-32 md:h-32 flex-shrink-0 rounded-xl md:rounded-2xl overflow-hidden bg-white/5 border border-white/5 shadow-lg">
                 <Image
                     src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
                     alt={article.title}
                     fill
-                    sizes="(max-width: 768px) 96px, 128px"
+                    sizes="(max-width: 768px) 80px, 128px"
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                     unoptimized={true}
                 />
             </div>
 
             {/* Info */}
-            <div className="flex flex-col flex-grow min-w-0 justify-center gap-3">
-                <h4 className="text-[18px] md:text-[21px] font-semibold text-foreground group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors">
+            <div className="flex flex-col flex-grow min-w-0 justify-center gap-2 md:gap-3">
+                <h4 className="text-[15px] md:text-[21px] leading-tight font-semibold text-foreground group-hover:text-premium-gold dark:group-hover:text-premium-gold light:group-hover:text-zinc-600 transition-colors line-clamp-2 md:line-clamp-3">
                     {toSentenceCase(article.title)}
                 </h4>
 
                 {/* Metadata Pill */}
                 <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-2">
-                        <SourceIcon source={article.source} className="w-4 h-4 text-premium-gold" />
+                    <div className="flex items-center gap-1.5 md:gap-2">
+                        <SourceIcon source={article.source} className="w-3.5 h-3.5 md:w-4 md:h-4 text-premium-gold" />
 
-                        <span className="text-[11px] md:text-[12px] text-foreground/60 font-black tracking-widest uppercase">
+                        <span className="text-[10px] md:text-[12px] text-foreground/60 font-black tracking-wider md:tracking-widest uppercase whitespace-nowrap">
                             {timeAgo(article.created_at)}
                         </span>
                     </div>

@@ -955,6 +955,32 @@ def generate_daily_briefing(force=False):
         articles_map[article_id] = data
         articles_text += f"[ID {article_id}] {data.get('title')}: {data.get('summary', [''])[0]}\n"
 
+    # Fetch next match dynamic info
+    try:
+        match_snap = db.collection('matches').document('next_match').get()
+        if match_snap.exists:
+            m_data = match_snap.to_dict()
+            home_team = m_data.get('home_team', 'Botafogo')
+            away_team = m_data.get('away_team', 'Adversário')
+            display_time = m_data.get('display_time', 'A definir')
+            championship = m_data.get('championship', 'Campeonato')
+            stadium = m_data.get('location', 'Indefinido')
+            transmission = m_data.get('transmission', 'A definir')
+            
+            next_match_str = f"{display_time} vs {away_team if home_team == 'Botafogo' else home_team}"
+            context_match = f"- Próximo Jogo: {home_team} vs {away_team}, {display_time}.\n    - Competição: {championship}.\n    - Local: {stadium}.\n    - Transmissão (Onde Assistir): {transmission}."
+        else:
+            next_match_str = "A definir"
+            context_match = "- Próximo Jogo: A definir"
+            stadium = "A definir"
+            transmission = "A definir"
+    except Exception as e:
+        print(f"Error fetching next match for briefing context: {e}")
+        next_match_str = "A definir"
+        context_match = "- Próximo Jogo: A definir"
+        stadium = "A definir"
+        transmission = "A definir"
+
     # 4. Prompt AI
     prompt = f"""
     Atue como Editor-Chefe de Conteúdo Esportivo Premium do Botafogo.
@@ -970,14 +996,11 @@ def generate_daily_briefing(force=False):
     Entregar um resumo objetivo, criativo, direto e de alto padrão, sem excesso de opinião, sem sensacionalismo e sem repetição.
     
     CONTEXTO OBRIGATÓRIO (Use para Próximo Jogo/Indicadores):
-    - Próximo Jogo: Botafogo vs Fluminense, Domingo (01/02) às 20h30.
-    - Competição: Campeonato Carioca.
-    - Local: Estádio Nilton Santos (Casa).
-    - Transmissão (Onde Assistir): CazéTV e Band.
+    {context_match}
 
     INSTRUÇÃO ESPECIAL PARA O PRÓXIMO JOGO:
     - Se encontrar notícias sobre um jogo MAIS PRÓXIMO ou MAIS RELEVANTE de qualquer competição (Libertadores, Brasileirão, Carioca, Copa do Brasil, etc.), PRIORIZE os dados das notícias para os campos "next_match", "location" e "transmission".
-    - Mantenha o formato: "Dia (DD/MM), HHhMM vs Adversário".
+    - Mantenha o formato exato: "{next_match_str}"
 
     ESTRUTURA DE SAÍDA (JSON):
     Você deve retornar um JSON com os campos abaixo. 
@@ -990,9 +1013,9 @@ def generate_daily_briefing(force=False):
        (Se houver informações sobre jogos da Libertadores ou Brasileirão nas notícias, inclua-as no Radar ou Destaques).
 
     2. "indicators": Preencha com os dados do próximo jogo e mercado.
-        - next_match: "Dom (01/02), 20h30 vs Fluminense"
-        - location: "Nilton Santos (Casa)"
-        - transmission: "CazéTV e Band" 
+        - next_match: "{next_match_str}"
+        - location: "{stadium}"
+        - transmission: "{transmission}" 
        - dm: Situação médica breve ou "Sem novidades"
        - market: Status rápido de transferências
 
