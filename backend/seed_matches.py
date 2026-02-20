@@ -309,7 +309,7 @@ Botafogo
         doc.delete()
 
     print(f"Seeding {len(matches)} matches...")
-    now_iso = "2026-02-03T00:00:00-03:00" # Approximate "now" for seeding logic
+    now_iso = "2026-02-21T00:00:00-03:00" # Approximate "now" for seeding logic
     next_match = None
 
     for m in matches:

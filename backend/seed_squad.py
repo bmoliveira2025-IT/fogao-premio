@@ -33,7 +33,6 @@ def seed_squad():
       {"name":"Neto","position":"Goleiro","image":"https://img.a.transfermarkt.technology/portrait/medium/111819-1725051877.jpg?lm=1"},
       {"name":"Cristhian Loor","position":"Goleiro","image":"https://img.a.transfermarkt.technology/portrait/medium/1074501-1739213776.png?lm=1"},
       {"name":"Raul","position":"Goleiro","image":"https://img.a.transfermarkt.technology/portrait/medium/520093-1660833546.jpg?lm=1"},
-      {"name":"David Ricardo","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/985172-1674750485.jpg?lm=1"},
       {"name":"Alexander Barboza","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/379752-1680009523.jpg?lm=1"},
       {"name":"Kaio","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/523363-1721724314.png?lm=1"},
       {"name":"Bastos","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/195810-1633193060.png?lm=1"},

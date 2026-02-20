@@ -1,12 +1,12 @@
 ============================================================
 CURRENT next_match DOCUMENT:
 ============================================================
-Home Team: Fluminense
+Home Team: Grêmio
 Away Team: Botafogo
-Date: 2026-02-12T19:30:00-03:00
+Date: 2026-02-08T18:00:00-03:00
 Championship: Campeonato Carioca
-Stadium: 
-Location: Maracanã
-Transmission: 
-Status: AGENDADO
+Stadium: São Januário
+Location: São Januário
+Transmission: Globo e Premier
+Status: ENCERRADA
 ============================================================

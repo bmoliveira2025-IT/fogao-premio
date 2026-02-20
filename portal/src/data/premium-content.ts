@@ -26,26 +26,26 @@ export const PREMIUM_WALLPAPERS = [
     {
         id: 'wp-5',
         title: 'Mosaico da Torcida',
-        url: 'https://picsum.photos/seed/bfr5/1200/1600',
-        thumbnail: 'https://picsum.photos/seed/bfr5/600/800'
+        url: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop'
     },
     {
         id: 'wp-6',
         title: 'Vestiário VIP',
-        url: 'https://picsum.photos/seed/bfr6/1200/1600',
-        thumbnail: 'https://picsum.photos/seed/bfr6/600/800'
+        url: 'https://images.unsplash.com/photo-1518091043644-c1d44570d221?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1518091043644-c1d44570d221?q=80&w=600&auto=format&fit=crop'
     },
     {
         id: 'wp-7',
         title: 'Gramado Sagrado',
-        url: 'https://picsum.photos/seed/bfr7/1200/1600',
-        thumbnail: 'https://picsum.photos/seed/bfr7/600/800'
+        url: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?q=80&w=600&auto=format&fit=crop'
     },
     {
         id: 'wp-8',
         title: 'A Taça Libertadores',
-        url: 'https://picsum.photos/seed/bfr8/1200/1600',
-        thumbnail: 'https://picsum.photos/seed/bfr8/600/800'
+        url: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=600&auto=format&fit=crop'
     }
 ];
 
