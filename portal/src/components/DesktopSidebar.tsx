@@ -29,11 +29,6 @@ export default function DesktopSidebar() {
                     <div className="absolute inset-0 bg-premium-gold/20 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full"></div>
                     <GloriosoLogo size={56} className="relative z-10 drop-shadow-2xl" />
                 </div>
-                <div className="flex flex-col leading-none text-center">
-                    <h1 className="text-[21px] font-display font-black tracking-tight text-white leading-none">
-                        GLORIOSO <span className="font-light text-premium-gold">360</span>
-                    </h1>
-                </div>
             </div>
 
             {/* Navigation */}
@@ -140,7 +135,7 @@ export default function DesktopSidebar() {
                     </Link>
                 )}
             </div>
-        </aside>
+        </aside >
     );
 }
 

@@ -46,35 +46,6 @@ export default function DesktopHeader() {
                         <div className="absolute inset-0 bg-premium-gold/20 blur-xl opacity-20 group-hover:opacity-60 transition-opacity duration-500 rounded-full animate-glow-pulse" />
                         <GloriosoLogo size={48} className="relative z-10 drop-shadow-2xl" />
                     </motion.div>
-
-                    <div className="flex flex-col leading-none">
-                        <motion.h1
-                            className="text-2xl font-display font-black tracking-tight text-foreground leading-none transition-colors flex items-center gap-2"
-                            whileHover={{
-                                textShadow: "0 0 20px rgba(255, 215, 0, 0.5)"
-                            }}
-                        >
-                            <span className="group-hover:text-premium-gold transition-colors duration-300">
-                                GLORIOSO
-                            </span>
-                            <span className="font-light text-premium-gold animate-glow-pulse">
-                                360
-                            </span>
-                            {isPremium && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.2, type: "spring" }}
-                                >
-                                    <Crown
-                                        size={16}
-                                        className="text-premium-gold fill-premium-gold/20 ml-1.5 self-start -mt-0.5 animate-glow-pulse"
-                                        strokeWidth={2.5}
-                                    />
-                                </motion.div>
-                            )}
-                        </motion.h1>
-                    </div>
                 </Link>
 
                 {/* Navigation Links with Glassmorphic Hover */}

@@ -26,26 +26,26 @@ export const PREMIUM_WALLPAPERS = [
     {
         id: 'wp-5',
         title: 'Mosaico da Torcida',
-        url: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=600&auto=format&fit=crop'
+        url: '/wallpapers/mosaico.jpg',
+        thumbnail: '/wallpapers/mosaico.jpg'
     },
     {
         id: 'wp-6',
         title: 'Vestiário VIP',
-        url: 'https://images.unsplash.com/photo-1540324835619-3fbc7bb61ee3?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1540324835619-3fbc7bb61ee3?q=80&w=600&auto=format&fit=crop'
+        url: '/wallpapers/vestiario.jpg',
+        thumbnail: '/wallpapers/vestiario.jpg'
     },
     {
         id: 'wp-7',
         title: 'Gramado Sagrado',
-        url: 'https://images.unsplash.com/photo-1529900965798-2404d1617bd2?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1529900965798-2404d1617bd2?q=80&w=600&auto=format&fit=crop'
+        url: '/wallpapers/gramado.jpg',
+        thumbnail: '/wallpapers/gramado.jpg'
     },
     {
         id: 'wp-8',
         title: 'A Taça Libertadores',
-        url: 'https://images.unsplash.com/photo-1614605151528-910a2fbd9a17?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1614605151528-910a2fbd9a17?q=80&w=600&auto=format&fit=crop'
+        url: '/wallpapers/taca.jpg',
+        thumbnail: '/wallpapers/taca.jpg'
     }
 ];
 
