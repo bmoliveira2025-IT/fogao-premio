@@ -26,26 +26,26 @@ export const PREMIUM_WALLPAPERS = [
     {
         id: 'wp-5',
         title: 'Mosaico da Torcida',
-        url: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop'
+        url: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?q=80&w=600&auto=format&fit=crop'
     },
     {
         id: 'wp-6',
         title: 'Vestiário VIP',
-        url: 'https://images.unsplash.com/photo-1518091043644-c1d44570d221?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1518091043644-c1d44570d221?q=80&w=600&auto=format&fit=crop'
+        url: 'https://images.unsplash.com/photo-1540324835619-3fbc7bb61ee3?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1540324835619-3fbc7bb61ee3?q=80&w=600&auto=format&fit=crop'
     },
     {
         id: 'wp-7',
         title: 'Gramado Sagrado',
-        url: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1459865264687-595d652de67e?q=80&w=600&auto=format&fit=crop'
+        url: 'https://images.unsplash.com/photo-1529900965798-2404d1617bd2?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1529900965798-2404d1617bd2?q=80&w=600&auto=format&fit=crop'
     },
     {
         id: 'wp-8',
         title: 'A Taça Libertadores',
-        url: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=2600&auto=format&fit=crop',
-        thumbnail: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=600&auto=format&fit=crop'
+        url: 'https://images.unsplash.com/photo-1614605151528-910a2fbd9a17?q=80&w=2600&auto=format&fit=crop',
+        thumbnail: 'https://images.unsplash.com/photo-1614605151528-910a2fbd9a17?q=80&w=600&auto=format&fit=crop'
     }
 ];
 
