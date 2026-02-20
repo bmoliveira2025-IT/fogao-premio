@@ -88,7 +88,7 @@ export default async function ElencoPage() {
                                 {groupPlayers.map(player => (
                                     <div
                                         key={player.id}
-                                        className="group relative aspect-[0.7] overflow-hidden rounded-xl bg-gradient-to-b from-zinc-800 to-black border border-white/10 hover:border-premium-gold shadow-lg hover:shadow-[0_0_25px_rgba(255,215,0,0.2)] transition-all duration-300 transform hover:-translate-y-2"
+                                        className="group relative aspect-[0.7] overflow-hidden rounded-xl glass-panel border border-white/[0.04] hover:border-premium-gold/40 hover:shadow-card-hover transition-all duration-500 transform hover:-translate-y-2"
                                     >
                                         {/* Background Texture/Effect */}
                                         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
@@ -105,7 +105,7 @@ export default async function ElencoPage() {
                                                     sizes="(max-width: 768px) 50vw, 20vw"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-zinc-800 to-black">
+                                                <div className="absolute inset-0 flex items-center justify-center glass-ultra">
                                                     <div className="flex items-center justify-center relative">
                                                         <Shield size={64} strokeWidth={1} className="text-white/5" />
                                                         <User size={32} className="absolute text-premium-gold/20" />
@@ -116,7 +116,7 @@ export default async function ElencoPage() {
 
                                         {/* Golden Top Shield/Badge for Number */}
                                         {player.number && (
-                                            <div className="absolute top-0 right-4 w-10 h-12 bg-gradient-to-b from-premium-gold to-yellow-700 clip-path-ribbon flex items-center justify-center shadow-lg z-20">
+                                            <div className="absolute top-0 right-4 w-10 h-12 bg-gradient-gold clip-path-ribbon flex items-center justify-center shadow-lg z-20">
                                                 <span className="text-xl font-black text-black drop-shadow-sm font-mono mt-[-4px]">
                                                     {player.number}
                                                 </span>
@@ -124,10 +124,10 @@ export default async function ElencoPage() {
                                         )}
 
                                         {/* Bottom Data Overlay */}
-                                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/90 to-transparent pt-12 pb-4 px-3 z-10">
+                                        <div className="absolute bottom-0 inset-x-0 glass-ultra pt-8 pb-3 px-3 z-10 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                             <div className="flex flex-col items-center text-center">
                                                 {/* Name */}
-                                                <h3 className="text-white text-[10px] md:text-xs font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-300">
+                                                <h3 className="text-white text-[10px] md:text-xs font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-500">
                                                     {player.name}
                                                 </h3>
 
@@ -144,7 +144,7 @@ export default async function ElencoPage() {
                                         </div>
 
                                         {/* Shiny Border Effect on Hover */}
-                                        <div className="absolute inset-0 border border-white/0 group-hover:border-premium-gold/50 rounded-xl transition-all duration-300 pointer-events-none" />
+                                        <div className="absolute inset-0 border border-white/0 group-hover:border-premium-gold/30 rounded-xl transition-all duration-500 pointer-events-none" />
                                     </div>
                                 ))}
                             </div>

@@ -22,6 +22,30 @@ export const PREMIUM_WALLPAPERS = [
         title: 'Atmosfera Gloriosa',
         url: '/wallpapers/atmosphere.png',
         thumbnail: '/wallpapers/atmosphere.png'
+    },
+    {
+        id: 'wp-5',
+        title: 'Mosaico da Torcida',
+        url: 'https://picsum.photos/seed/bfr5/1200/1600',
+        thumbnail: 'https://picsum.photos/seed/bfr5/600/800'
+    },
+    {
+        id: 'wp-6',
+        title: 'Vestiário VIP',
+        url: 'https://picsum.photos/seed/bfr6/1200/1600',
+        thumbnail: 'https://picsum.photos/seed/bfr6/600/800'
+    },
+    {
+        id: 'wp-7',
+        title: 'Gramado Sagrado',
+        url: 'https://picsum.photos/seed/bfr7/1200/1600',
+        thumbnail: 'https://picsum.photos/seed/bfr7/600/800'
+    },
+    {
+        id: 'wp-8',
+        title: 'A Taça Libertadores',
+        url: 'https://picsum.photos/seed/bfr8/1200/1600',
+        thumbnail: 'https://picsum.photos/seed/bfr8/600/800'
     }
 ];
 
