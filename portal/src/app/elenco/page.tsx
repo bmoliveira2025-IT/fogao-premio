@@ -127,16 +127,16 @@ export default async function ElencoPage() {
                                         <div className="absolute bottom-0 inset-x-0 glass-ultra pt-8 pb-3 px-3 z-10 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                             <div className="flex flex-col items-center text-center">
                                                 {/* Name */}
-                                                <h3 className="text-white text-[10px] md:text-xs font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-500">
+                                                <h3 className="text-white text-xs md:text-sm font-black uppercase tracking-wider leading-none mb-1 group-hover:text-premium-gold transition-colors duration-500">
                                                     {player.name}
                                                 </h3>
 
                                                 {/* Meta Info */}
-                                                <div className="flex items-center gap-1 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                                                    <div className="px-1 py-0.5 rounded bg-white/10 backdrop-blur-sm text-[7px] font-bold text-premium-gold uppercase">
+                                                <div className="flex items-center gap-1.5 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
+                                                    <div className="px-1.5 py-0.5 rounded bg-white/10 backdrop-blur-sm text-[9px] font-bold text-premium-gold uppercase tracking-wider shadow-sm">
                                                         {player.country.substring(0, 3)}
                                                     </div>
-                                                    <span className="text-[8px] text-zinc-400 font-mono">
+                                                    <span className="text-[10px] text-zinc-300 font-mono font-medium">
                                                         {player.age}
                                                     </span>
                                                 </div>
