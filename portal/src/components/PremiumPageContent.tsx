@@ -16,20 +16,26 @@ import BauGlorioso from '@/components/BauGlorioso';
 export default function PremiumPageContent({ premiumNews }: { premiumNews: any[] }) {
     const { user, isPremium } = useAuth();
     return (
-        <main className="min-h-screen bg-black text-white font-sans selection:bg-premium-gold selection:text-black pb-32">
+        <main className="min-h-screen bg-background text-white font-sans selection:bg-premium-gold selection:text-black pb-32">
 
-            {/* HEADER - MOBILE */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-premium-gold/30 h-16 flex items-center justify-between px-4">
-                <Link href="/" className="flex items-center gap-2">
-                    <GloriosoLogo size={28} />
-                    <div className="flex flex-col -space-y-1 font-sans">
-                        <span className="text-[14px] font-black text-white tracking-tighter leading-none">
-                            GLORIOSO
-                        </span>
-                        <span className="text-[11px] font-black text-premium-gold tracking-tighter leading-none">
-                            360<span className="text-[6px] ml-0.5 font-bold">º</span>
+            {/* HEADER - MOBILE (Aligned with BrandingHeader.tsx) */}
+            <header className="lg:hidden fixed top-0 left-0 right-0 z-[999] glass-ultra border-b border-white/[0.04] h-16 flex items-center justify-between px-4 pt-[env(safe-area-inset-top)] shadow-premium">
+                <Link href="/" className="flex items-center gap-2 group relative">
+                    {/* Multi-layer Glow Effect matching BrandingHeader */}
+                    <div className="absolute -inset-2 bg-gradient-radial from-premium-gold/30 to-transparent opacity-0 group-active:opacity-100 blur-xl transition-opacity duration-300 rounded-full" />
+                    <div className="absolute -inset-1 bg-premium-gold/20 opacity-30 blur-md rounded-full animate-glow-pulse" />
+
+                    <GloriosoLogo size={34} className="drop-shadow-[0_0_15px_rgba(255,215,0,0.4)] relative z-10" />
+
+                    <div className="flex flex-col leading-none ml-0.5">
+                        <span className="font-display font-black text-[17px] text-white tracking-tight">
+                            GLORIOSO{' '}
+                            <span className="text-premium-gold font-light animate-pulse inline-block" style={{ textShadow: "0 0 10px rgba(255,215,0,0.4)" }}>
+                                360
+                            </span>
                         </span>
                     </div>
+
                 </Link>
 
                 <div className="flex items-center gap-2">
@@ -98,9 +104,9 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                                 <Link
                                     href={item.match_id ? `/stats/${item.match_id}` : `/news/${item.id}`}
                                     key={item.id}
-                                    className="block"
+                                    className="block group"
                                 >
-                                    <div className="group relative bg-zinc-900/50 border border-white/5 hover:border-premium-gold/30 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-lg hover:shadow-premium-gold/5 h-full">
+                                    <div className="relative glass-panel border border-white/[0.04] p-0 rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] hover:border-premium-gold/40 h-full flex flex-col">
                                         {/* Image */}
                                         <div className="h-48 w-full relative overflow-hidden">
                                             <div className="absolute top-3 left-3 z-10 bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-premium-gold/30 flex items-center space-x-1">
@@ -110,9 +116,9 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
                                             <img
                                                 src={getSafeImageSrc(item.image, 'https://placehold.co/800x400')}
                                                 alt={item.title}
-                                                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                                                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1.5s] ease-cinematic"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent pointer-events-none"></div>
                                         </div>
 
                                         {/* Content */}
@@ -149,6 +155,6 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
             <div className="lg:hidden">
                 <TabBar />
             </div>
-        </main>
+        </main >
     );
 }

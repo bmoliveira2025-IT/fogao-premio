@@ -78,7 +78,7 @@ export default function LeagueTable() {
     return (
         <div className="w-full space-y-6">
             {/* Championship Selector */}
-            <div className="flex bg-muted p-1.5 rounded-2xl backdrop-blur-md w-full max-w-md mx-auto mb-8 shadow-inner">
+            <div className="flex glass-ultra border border-white/[0.04] shadow-premium p-1.5 rounded-2xl w-full max-w-md mx-auto mb-8">
                 {championships.map((champ) => (
                     <button
                         key={champ.id}
@@ -95,7 +95,7 @@ export default function LeagueTable() {
             </div>
 
             {currentChampionship === 'libertadores_2026' ? (
-                <div className="bg-card rounded-3xl p-12 text-center border border-white/[0.05] shadow-2xl relative overflow-hidden group">
+                <div className="glass-ultra rounded-3xl p-12 text-center border border-white/[0.04] shadow-premium relative overflow-hidden group">
                     {/* Background Glow */}
                     <div className="absolute inset-0 bg-gradient-to-br from-premium-gold/5 to-transparent pointer-events-none" />
 
@@ -121,11 +121,11 @@ export default function LeagueTable() {
             ) : (
                 <div className="space-y-8">
                     {sortedGroups.map((groupName) => (
-                        <div key={groupName} className="bg-card rounded-2xl overflow-hidden shadow-xl">
+                        <div key={groupName} className="glass-ultra rounded-[1.5rem] overflow-hidden shadow-premium border border-white/[0.04]">
                             {/* Header - Clickable for Dropdown */}
                             <div
                                 onClick={() => toggleGroup(groupName)}
-                                className="bg-muted p-4 flex items-center justify-between cursor-pointer hover:bg-foreground/5 transition-colors"
+                                className="glass-panel p-4 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors duration-500"
                             >
                                 <div className="flex items-center space-x-3">
                                     <div className="w-8 h-8 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 flex items-center justify-center border border-premium-gold/20">
@@ -147,7 +147,7 @@ export default function LeagueTable() {
                             {expandedGroups[groupName] && (
                                 <>
                                     {/* Table Header */}
-                                    <div className="grid grid-cols-12 gap-2 p-3 bg-muted/50 text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
+                                    <div className="grid grid-cols-12 gap-2 p-3 bg-black/20 border-y border-white/[0.02] text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
                                         <div className="col-span-1 text-center">Pos</div>
                                         <div className="col-span-5 pl-2">Time</div>
                                         <div className="col-span-1 text-center text-foreground">Pts</div>
@@ -165,7 +165,7 @@ export default function LeagueTable() {
                                             return (
                                                 <div
                                                     key={team.team}
-                                                    className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-300 hover:bg-foreground/[0.07] group
+                                                    className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-500 hover:bg-white/5 group border-b border-white/[0.01] last:border-0 hover:-translate-y-px hover:shadow-card-hover relative
                                                 ${isBotafogo ? 'bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 relative overflow-hidden backdrop-blur-sm shadow-[inset_0_0_20px_rgba(0,0,0,0.02)]' : ''}`}
                                                 >
                                                     {/* Highlight Bar for Botafogo */}
@@ -222,8 +222,8 @@ export default function LeagueTable() {
             )}
 
             {/* Legend/Footer */}
-            <div className="p-3 bg-muted/50 flex flex-wrap gap-3 justify-center border-t border-foreground/5 rounded-full mx-auto w-fit">
-                <div className="flex items-center space-x-1.5">
+            <div className="p-3 glass-panel flex flex-wrap gap-3 justify-center border border-white/[0.04] rounded-full mx-auto w-fit shadow-premium mt-8">
+                <div className="flex items-center space-x-1.5 focus:outline-none px-4">
                     <div className="w-2 h-2 rounded-full bg-blue-500/50"></div>
                     <span className="text-[9px] text-foreground/40 uppercase">Classificação</span>
                 </div>
