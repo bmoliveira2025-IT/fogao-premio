@@ -38,7 +38,7 @@ def seed_squad():
       {"name":"Kaio","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/523363-1721724314.png?lm=1"},
       {"name":"Bastos","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/195810-1633193060.png?lm=1"},
       {"name":"Kawan","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/996691-1747446491.jpg?lm=1"},
-      {"name":"Ythallo","position":"Zagueiro","image":""},
+      {"name":"Ythallo","position":"Zagueiro","image":"/players/ythallo.png"},
       {"name":"Alex Telles","position":"Lateral Esq.","image":"https://img.a.transfermarkt.technology/portrait/medium/255755-1659559306.jpg?lm=1"},
       {"name":"Marçal","position":"Lateral Esq.","image":"https://img.a.transfermarkt.technology/portrait/medium/137745-1682960861.jpg?lm=1"},
       {"name":"Vitinho","position":"Lateral Dir.","image":"https://img.a.transfermarkt.technology/portrait/medium/468249-1626767682.jpg?lm=1"},
