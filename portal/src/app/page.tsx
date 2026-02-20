@@ -152,7 +152,6 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         transmission: data.transmission,
         display_time: data.display_time,
         match_id: data.match_id,
-        updated_at: data.updated_at?.toDate?.()?.toISOString() || data.updated_at,
       });
     }
 

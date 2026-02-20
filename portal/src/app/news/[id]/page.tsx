@@ -99,10 +99,20 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
         const matchData = doc.data();
         nextMatch = {
             id: doc.id,
-            ...matchData,
-            // Serialize Date objects
+            home_team: matchData.home_team,
+            away_team: matchData.away_team,
+            home_score: matchData.home_score,
+            away_score: matchData.away_score,
+            location: matchData.location,
+            championship: matchData.championship,
+            status: matchData.status,
+            home_team_logo: matchData.home_team_logo,
+            away_team_logo: matchData.away_team_logo,
+            stadium: matchData.stadium,
+            transmission: matchData.transmission,
+            display_time: matchData.display_time,
+            match_id: matchData.match_id,
             date: matchData.date instanceof Date ? matchData.date.toISOString() : matchData.date,
-            updated_at: matchData.updated_at?.toDate?.()?.toISOString() || matchData.updated_at
         };
     }
 
