@@ -35,7 +35,6 @@ def seed_squad():
       {"name":"Raul","position":"Goleiro","image":"https://img.a.transfermarkt.technology/portrait/medium/520093-1660833546.jpg?lm=1"},
       {"name":"David Ricardo","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/985172-1674750485.jpg?lm=1"},
       {"name":"Alexander Barboza","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/379752-1680009523.jpg?lm=1"},
-      {"name":"Lucas Halter","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/468302-1733187832.jpg?lm=1"},
       {"name":"Kaio","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/523363-1721724314.png?lm=1"},
       {"name":"Bastos","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/195810-1633193060.png?lm=1"},
       {"name":"Kawan","position":"Zagueiro","image":"https://img.a.transfermarkt.technology/portrait/medium/996691-1747446491.jpg?lm=1"},
@@ -53,13 +52,11 @@ def seed_squad():
       {"name":"Kauan Lindes","position":"Meia Ofensivo","image":"https://img.a.transfermarkt.technology/portrait/medium/1222625-1739971195.jpg?lm=1"},
       {"name":"Matheus Martins","position":"Ponta Esquerda","image":"https://img.a.transfermarkt.technology/portrait/medium/668228-1671029844.jpg?lm=1"},
       {"name":"Jeffinho","position":"Ponta Esquerda","image":"https://img.a.transfermarkt.technology/portrait/medium/884072-1668287183.jpg?lm=1"},
-      {"name":"Diego Hernández","position":"Ponta Esquerda","image":"https://img.a.transfermarkt.technology/portrait/medium/800732-1685126232.jpg?lm=1"},
       {"name":"Artur","position":"Ponta Direita","image":"https://img.a.transfermarkt.technology/portrait/medium/440658-1759774159.jpg?lm=1"},
       {"name":"Nathan Fernandes","position":"Ponta Direita","image":"https://img.a.transfermarkt.technology/portrait/medium/1083600-1708125134.jpg?lm=1"},
       {"name":"Lucas Villalba","position":"Ponta Direita","image":"https://img.a.transfermarkt.technology/portrait/medium/874844-1724301713.jpg?lm=1"},
       {"name":"Joaquín Correa","position":"Seg. Atacante","image":"https://img.a.transfermarkt.technology/portrait/medium/227081-1724826843.jpg?lm=1"},
       {"name":"Arthur Cabral","position":"Centroavante","image":"https://img.a.transfermarkt.technology/portrait/medium/390638-1701333640.jpg?lm=1"},
-      {"name":"Matheus Nascimento","position":"Centroavante","image":"https://img.a.transfermarkt.technology/portrait/medium/743594-1740776484.jpg?lm=1"},
       {"name":"Chris Ramos","position":"Centroavante","image":"https://img.a.transfermarkt.technology/portrait/medium/538810-1681583076.jpg?lm=1"},
       {"name":"Kadir Barría","position":"Centroavante","image":"https://img.a.transfermarkt.technology/portrait/medium/1464878-1763605872.jpg?lm=1"}
     ]
