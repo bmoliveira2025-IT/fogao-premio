@@ -96,7 +96,7 @@ export default function MorningBriefingPopup() {
         // Fallback for old format (simple string)
         if (!abertura && destaques.length === 0 && !radar) {
             return (
-                <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-lg">
+                <div className="glass-panel p-6 rounded-[1.5rem] border border-white/[0.04] shadow-premium">
                     <p className="text-lg text-white/90 leading-relaxed font-medium">{text}</p>
                 </div>
             );
@@ -105,9 +105,9 @@ export default function MorningBriefingPopup() {
         return (
             <div className="space-y-4">
                 {abertura && (
-                    <div className="glass-puro crystal-border crystal-shine p-4 rounded-xl shadow-2xl relative overflow-hidden group">
+                    <div className="glass-ultra border border-white/[0.04] p-5 md:p-6 rounded-[1.5rem] shadow-premium relative overflow-hidden group">
                         <Quote className="absolute top-3 right-3 text-premium-gold/10 w-8 h-8 transition-transform duration-700 group-hover:scale-110" />
-                        <h4 className="text-premium-gold font-athletic text-[12px] mb-2 flex items-center gap-2">
+                        <h4 className="text-premium-gold font-athletic text-[12px] mb-2 flex items-center gap-2 tracking-widest">
                             Panorama
                         </h4>
                         <p className="text-[16px] md:text-lg text-white font-medium leading-relaxed italic drop-shadow-sm">"{abertura}"</p>
@@ -115,16 +115,16 @@ export default function MorningBriefingPopup() {
                 )}
 
                 {destaques.length > 0 && (
-                    <div className="space-y-2">
+                    <div className="space-y-2 mt-6">
                         <h4 className="text-white/60 font-athletic text-[11px] ml-1 flex items-center gap-2 uppercase tracking-widest">
                             <Star size={12} className="text-premium-gold fill-premium-gold" />
                             Destaques do Dia
                         </h4>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                             {destaques.map((d, i) => (
-                                <div key={i} className="flex items-start gap-2 bg-white/5 backdrop-blur-md p-3 rounded-xl border border-white/5 hover:border-premium-gold/30 transition-all duration-300">
-                                    <div className="min-w-1.5 h-1.5 rounded-full bg-premium-gold mt-2 shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
-                                    <p className="text-white/90 text-[14px] font-medium leading-snug">{d}</p>
+                                <div key={i} className="flex items-start gap-3 glass-panel p-4 rounded-xl border border-white/[0.04] hover:shadow-gold-glow hover:-translate-y-0.5 transition-all duration-500">
+                                    <div className="min-w-2 h-2 rounded-full bg-premium-gold mt-1.5 shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
+                                    <p className="text-white/90 text-[14px] md:text-[15px] font-medium leading-snug">{d}</p>
                                 </div>
                             ))}
                         </div>
@@ -132,13 +132,13 @@ export default function MorningBriefingPopup() {
                 )}
 
                 {radar && (
-                    <div className="glass-puro crystal-border border-l-4 border-l-blue-500 p-3 rounded-xl flex items-start gap-3 shadow-xl">
-                        <div className="bg-blue-500/20 p-2.5 rounded-lg shrink-0">
+                    <div className="glass-panel border border-white/[0.04] border-l-4 border-l-blue-500 p-4 rounded-xl flex items-start gap-3 shadow-premium mt-6 group">
+                        <div className="bg-blue-500/10 p-2.5 rounded-lg shrink-0 group-hover:bg-blue-500/20 transition-colors duration-500">
                             <Activity size={20} className="text-blue-400" />
                         </div>
                         <div>
-                            <span className="text-blue-400 font-athletic text-[11px] block mb-0.5 uppercase">Radar Rápido</span>
-                            <p className="text-white/90 text-[14px] font-medium leading-relaxed">{radar}</p>
+                            <span className="text-blue-400 font-athletic text-[11px] block mb-1 uppercase tracking-wider">Radar Rápido</span>
+                            <p className="text-white/90 text-[14px] md:text-[15px] font-medium leading-relaxed">{radar}</p>
                         </div>
                     </div>
                 )}
@@ -220,10 +220,10 @@ export default function MorningBriefingPopup() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-                                className="group relative bg-white/5 backdrop-blur-xl p-5 rounded-xl border border-white/10 hover:border-premium-gold/30 transition-all duration-500 active:scale-[0.98] overflow-hidden"
+                                className="group relative glass-ultra border border-white/[0.04] p-5 md:p-6 rounded-[1.5rem] hover:border-premium-gold/40 transition-all duration-500 hover:shadow-card-hover active:scale-[0.98] overflow-hidden"
                             >
                                 {/* Number Indicator - Modern & Subtle */}
-                                <div className="absolute -top-2 -right-2 text-white/5 font-black text-8xl transition-colors duration-500 group-hover:text-premium-gold/10">
+                                <div className="absolute -top-2 -right-2 text-white/[0.03] font-black text-8xl transition-colors duration-500 group-hover:text-premium-gold/10">
                                     {i + 1}
                                 </div>
 
@@ -265,10 +265,10 @@ export default function MorningBriefingPopup() {
                         </h3>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3">
+                    <div className="grid grid-cols-1 gap-4">
                         {briefing.indicators.next_match && (
-                            <div className="bg-white/5 backdrop-blur-xl p-5 rounded-xl border border-white/10 relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <div className="glass-ultra border border-white/[0.04] p-5 rounded-[1.5rem] shadow-premium hover:shadow-gold-glow transition-all duration-500 relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 p-4 opacity-[0.05] group-hover:opacity-20 transition-opacity duration-500">
                                     <Trophy size={48} className="text-premium-gold" />
                                 </div>
                                 <div className="relative z-10">
@@ -293,13 +293,13 @@ export default function MorningBriefingPopup() {
                             </div>
                         )}
 
-                        <div className="grid grid-cols-1 gap-3">
+                        <div className="grid grid-cols-1 gap-4 mt-1">
                             {briefing.indicators.market && (
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.2, duration: 0.5 }}
-                                    className="bg-white/5 backdrop-blur-xl p-4 rounded-3xl border border-white/10 group"
+                                    className="glass-panel border border-white/[0.04] p-4 md:p-5 rounded-[1.5rem] shadow-premium group hover:border-blue-500/30 transition-all duration-500"
                                 >
                                     <div className="flex items-center gap-2 mb-2">
                                         <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400">
@@ -316,7 +316,7 @@ export default function MorningBriefingPopup() {
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.3, duration: 0.5 }}
-                                    className="bg-white/5 backdrop-blur-xl p-4 rounded-3xl border border-white/10 group"
+                                    className="glass-panel border border-white/[0.04] p-4 md:p-5 rounded-[1.5rem] shadow-premium group hover:border-red-500/30 transition-all duration-500"
                                 >
                                     <div className="flex items-center gap-2 mb-2">
                                         <div className="p-1.5 rounded-lg bg-red-500/10 text-red-400">
@@ -346,7 +346,7 @@ export default function MorningBriefingPopup() {
                         className="relative"
                     >
                         <div className="absolute inset-0 bg-premium-gold blur-3xl opacity-20 rounded-full scale-150" />
-                        <div className="w-32 h-32 bg-white/5 backdrop-blur-2xl rounded-xl border border-white/10 flex items-center justify-center shadow-2xl relative z-10 p-6">
+                        <div className="w-32 h-32 glass-panel border border-white/[0.04] rounded-full flex items-center justify-center shadow-gold-glow relative z-10 p-6">
                             <CheckCircle size={64} className="text-premium-gold" />
                         </div>
                     </motion.div>
@@ -376,7 +376,7 @@ export default function MorningBriefingPopup() {
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.7 }}
                         onClick={handleClose}
-                        className="w-full py-5 bg-gradient-to-r from-premium-gold to-yellow-400 text-black font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_10px_30px_rgba(255,215,0,0.2)] pointer-events-auto relative z-30"
+                        className="w-full py-5 bg-gradient-to-r from-premium-gold to-yellow-400 text-black font-black uppercase tracking-[0.2em] text-[13px] rounded-[1.5rem] hover:-translate-y-1 hover:shadow-card-hover active:scale-90 transition-all duration-500 pointer-events-auto relative z-30 shadow-premium"
                     >
                         Voltar ao Portal
                     </motion.button>

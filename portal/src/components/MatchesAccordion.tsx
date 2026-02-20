@@ -65,7 +65,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                 return (
                     <div
                         key={match.id}
-                        className={`rounded-xl border transition-all duration-300 overflow-hidden ${isOpen ? 'bg-[#1A1A1A] border-premium-gold/30 shadow-2xl scale-[1.02]' : 'bg-[#111] border-premium-gold/15'}`}
+                        className={`rounded-[1.5rem] border transition-all duration-500 overflow-hidden ${isOpen ? 'glass-panel border-premium-gold/40 shadow-gold-glow scale-[1.02]' : 'glass-ultra border-white/[0.04] hover:border-premium-gold/20 hover:shadow-premium hover:-translate-y-0.5'}`}
                     >
                         {/* Header (Always Visible) */}
                         <button
@@ -141,8 +141,8 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                         </div>
 
                                         <div className="text-center">
-                                            <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold text-white/60 bg-white/5 px-4 py-2 rounded-full mb-4 border border-white/10">
-                                                <MapPin size={12} className="text-premium-gold/80" />
+                                            <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold text-zinc-400 bg-white/5 px-4 py-2 rounded-full mb-4 border border-white/5">
+                                                <MapPin size={12} className="text-premium-gold" />
                                                 <span>{match.location}</span>
                                             </div>
 

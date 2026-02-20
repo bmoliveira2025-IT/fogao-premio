@@ -86,7 +86,7 @@ export default function PodcastsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-black text-zinc-900 dark:text-white">
+        <div className="min-h-screen bg-background text-foreground pb-32">
 
             {/* HERO SECTION - Featured Podcast */}
             {featuredPodcast && !loading && (
@@ -98,33 +98,34 @@ export default function PodcastsPage() {
                             alt={featuredPodcast.title}
                             className="w-full h-full object-cover"
                         />
-                        {/* Gradient Overlays */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent dark:from-black dark:via-black/40" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/80 via-transparent to-transparent dark:from-black/80" />
+                        {/* Gradient Overlays suited for the deeply dark premium background */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent opacity-80" />
                     </div>
 
                     {/* Content */}
                     <div className="relative h-full container mx-auto px-4 md:px-12 max-w-[1600px] flex flex-col justify-end pb-12 md:pb-20">
                         {/* Badge */}
                         <div className="flex items-center gap-2 mb-4">
-                            <div className="px-4 py-1.5 bg-premium-gold rounded-full flex items-center gap-2 shadow-lg">
+                            <div className="px-4 py-1.5 bg-premium-gold rounded-full flex items-center gap-2 shadow-gold-glow">
                                 <TrendingUp size={14} className="text-black" />
                                 <span className="text-xs font-black text-black uppercase tracking-widest">Mais Recente</span>
                             </div>
-                            <div className="px-4 py-1.5 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full border border-zinc-200 dark:border-white/10">
-                                <span className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
+                                <Clock size={12} className="text-zinc-400" />
+                                <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-wide">
                                     {getTimeAgo(featuredPodcast.pubDate)}
                                 </span>
                             </div>
                         </div>
 
                         {/* Title */}
-                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-zinc-900 dark:text-white leading-tight max-w-4xl mb-4 uppercase tracking-tight">
+                        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight max-w-4xl mb-4 uppercase tracking-tight">
                             {featuredPodcast.title}
                         </h1>
 
                         {/* Description */}
-                        <p className="text-base md:text-lg text-zinc-700 dark:text-zinc-300 max-w-3xl mb-6 line-clamp-2 leading-relaxed">
+                        <p className="text-base md:text-lg text-zinc-300 max-w-3xl mb-6 line-clamp-2 leading-relaxed">
                             {featuredPodcast.description}
                         </p>
 
@@ -132,7 +133,7 @@ export default function PodcastsPage() {
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => togglePlay(featuredPodcast.audioUrl)}
-                                className="group flex items-center gap-3 px-8 py-4 bg-premium-gold hover:bg-premium-gold/90 rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                                className="group flex items-center gap-3 px-8 py-4 bg-premium-gold hover:bg-white rounded-full shadow-premium hover:shadow-gold-glow transition-all duration-300 active:scale-90"
                             >
                                 {isPlaying === featuredPodcast.audioUrl ? (
                                     <>
@@ -150,10 +151,10 @@ export default function PodcastsPage() {
                             <a
                                 href={featuredPodcast.audioUrl}
                                 download
-                                className="p-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm border border-zinc-200 dark:border-white/10 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all"
+                                className="p-4 bg-white/10 backdrop-blur-md border border-white/10 rounded-full hover:bg-white/20 hover:border-white/30 transition-all duration-300 active:scale-90"
                                 title="Download"
                             >
-                                <Download size={20} className="text-zinc-900 dark:text-white" />
+                                <Download size={20} className="text-white" />
                             </a>
                         </div>
                     </div>
@@ -166,22 +167,22 @@ export default function PodcastsPage() {
                 {/* Section Header */}
                 <div className="flex items-center justify-between mb-8 md:mb-12">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 bg-premium-gold/10 rounded-xl border border-premium-gold/20">
+                        <div className="p-3 bg-premium-gold/10 rounded-xl shadow-inner border border-premium-gold/20">
                             <Mic size={24} className="text-premium-gold" />
                         </div>
                         <div>
-                            <h2 className="text-2xl md:text-3xl font-black text-zinc-900 dark:text-white uppercase tracking-tight">
+                            <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight shadow-sm">
                                 Todos os Episódios
                             </h2>
-                            <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">
+                            <p className="text-sm text-zinc-400 font-medium">
                                 GE Botafogo - Glorioso 360
                             </p>
                         </div>
                     </div>
 
-                    <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-zinc-900 rounded-full border border-zinc-200 dark:border-white/5">
+                    <div className="hidden md:flex items-center gap-2 px-4 py-2 glass-panel border border-white/5 rounded-full">
                         <Headphones size={16} className="text-premium-gold" />
-                        <span className="text-sm font-bold text-zinc-600 dark:text-zinc-400">
+                        <span className="text-sm font-bold text-zinc-300">
                             {podcasts.length} episódios
                         </span>
                     </div>
@@ -195,29 +196,29 @@ export default function PodcastsPage() {
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         {podcasts.slice(1).map((pod, index) => (
                             <div
                                 key={pod.audioUrl}
-                                className="group relative bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/5 hover:border-premium-gold/40 rounded-2xl overflow-hidden transition-all hover:shadow-2xl hover:shadow-premium-gold/5"
+                                className="group relative glass-ultra border border-white/[0.04] hover:border-premium-gold/40 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90 flex flex-col"
                                 style={{ animationDelay: `${index * 50}ms` }}
                             >
                                 {/* Image */}
-                                <div className="relative h-64 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                                <div className="relative h-56 md:h-64 overflow-hidden bg-zinc-900 w-full flex-shrink-0">
                                     <img
                                         src={pod.imageUrl || "https://s2-ge.glbimg.com/filters:format(jpg)/https://s2.glbimg.com/w1i2X45b1k82y9k1245b1k82y9k=/0x0:1080x1080/1080x1080/s.glbimg.com/es/ge/f/original/2019/07/26/ge_botafogo.jpg"}
                                         alt={pod.title}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                                     />
 
                                     {/* Gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
 
                                     {/* Play Button Overlay */}
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/20 transition-colors">
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-colors duration-500">
                                         <button
                                             onClick={() => togglePlay(pod.audioUrl)}
-                                            className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 ${isPlaying === pod.audioUrl
+                                            className={`w-16 h-16 rounded-full flex items-center justify-center shadow-premium transform transition-all duration-500 active:scale-90 ${isPlaying === pod.audioUrl
                                                 ? 'bg-premium-gold scale-100 ring-4 ring-premium-gold/30'
                                                 : 'bg-premium-gold/90 scale-90 group-hover:scale-100'
                                                 }`}
@@ -231,26 +232,27 @@ export default function PodcastsPage() {
                                     </div>
 
                                     {/* Date Badge */}
-                                    <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full border border-zinc-200 dark:border-white/10">
+                                    <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
                                         <Calendar size={12} className="text-premium-gold" />
-                                        <span className="text-xs font-bold text-zinc-900 dark:text-white">
+                                        <span className="text-[10px] uppercase font-bold text-zinc-300">
                                             {formatDate(pod.pubDate)}
                                         </span>
                                     </div>
                                 </div>
 
-                                {/* Content */}
-                                <div className="p-5">
-                                    <h3 className="text-base font-bold text-zinc-900 dark:text-white leading-tight mb-3 line-clamp-2 group-hover:text-premium-gold transition-colors">
-                                        {pod.title}
-                                    </h3>
+                                <div className="p-5 md:p-6 flex flex-col justify-between h-[200px]">
+                                    <div>
+                                        <h3 className="text-base md:text-lg font-bold text-white leading-tight mb-3 line-clamp-2 group-hover:text-premium-gold transition-colors duration-300">
+                                            {pod.title}
+                                        </h3>
 
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-relaxed mb-4">
-                                        {pod.description}
-                                    </p>
+                                        <p className="text-sm text-zinc-400 line-clamp-2 leading-relaxed mb-4">
+                                            {pod.description}
+                                        </p>
+                                    </div>
 
                                     {/* Footer */}
-                                    <div className="flex items-center justify-between pt-4 border-t border-zinc-200 dark:border-white/5">
+                                    <div className="flex items-center justify-between pt-4 border-t border-white/5">
                                         <span className="text-xs font-black text-premium-gold uppercase tracking-wider flex items-center gap-1.5">
                                             <Headphones size={12} />
                                             Ouvir
@@ -258,10 +260,10 @@ export default function PodcastsPage() {
                                         <a
                                             href={pod.audioUrl}
                                             download
-                                            className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                                            className="p-2 hover:bg-white/10 rounded-lg transition-colors active:scale-90"
                                             onClick={(e) => e.stopPropagation()}
                                         >
-                                            <Download size={14} className="text-zinc-500 dark:text-zinc-400" />
+                                            <Download size={14} className="text-zinc-400" />
                                         </a>
                                     </div>
                                 </div>

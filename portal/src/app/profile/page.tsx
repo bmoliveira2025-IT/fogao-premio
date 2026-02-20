@@ -8,7 +8,6 @@ import { useRouter } from 'next/navigation';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
-import { useTheme } from '@/components/ThemeProvider';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import SubscriptionModal from '@/components/SubscriptionModal';
@@ -17,7 +16,6 @@ export default function ProfilePage() {
     const router = useRouter();
     const { user, isPremium, points, rank } = useAuth(); // Use real auth context
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
-    const { theme, setTheme } = useTheme();
 
     // Preferences State
     const [preferences, setPreferences] = useState({
@@ -77,10 +75,10 @@ export default function ProfilePage() {
         <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 pb-32">
             <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
 
-                {/* Header Area - Wrapped for Mobile Hiding/Desktop Styling */}
+                {/* Header Area */}
                 <div className="lg:col-span-4">
-                    <div className="mb-4 pt-4 pb-4 px-5 bg-gradient-to-b from-card to-background border-b border-premium-gold/15 lg:rounded-xl lg:border lg:shadow-lg lg:bg-card lg:mb-0">
-                        <h1 className="text-xl font-display font-black text-foreground mb-3 text-center lg:hidden">Perfil</h1>
+                    <div className="mb-4 pt-4 pb-4 px-5 glass-ultra border-b border-white/[0.04] lg:rounded-[2rem] lg:border lg:shadow-premium lg:mb-0">
+                        <h1 className="text-xl font-display font-black text-white mb-3 text-center lg:hidden">Perfil</h1>
 
                         <div className="flex items-center lg:flex-col lg:text-center space-x-3 lg:space-x-0 lg:space-y-4">
                             <div className="w-14 h-14 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-foreground/10 to-transparent border border-premium-gold/15 flex items-center justify-center relative">
@@ -123,10 +121,10 @@ export default function ProfilePage() {
                 <div className="px-5 space-y-4 lg:col-span-8 lg:px-0 lg:space-y-4">
 
                     {/* Points Card */}
-                    <div className="flex items-center justify-between p-5 glass-puro crystal-border crystal-shine rounded-xl overflow-hidden relative group soft-shadow-cinematic">
+                    <div className="flex items-center justify-between p-5 glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden relative group shadow-premium hover:shadow-gold-glow transition-all duration-500">
                         <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="flex items-center space-x-4 relative z-10">
-                            <div className="w-12 h-12 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/30">
+                            <div className="w-12 h-12 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/30 group-hover:bg-premium-gold/20 transition-colors">
                                 <Star size={24} className="text-premium-gold fill-premium-gold" />
                             </div>
                             <div>
@@ -146,8 +144,8 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Subscription Card */}
-                    <div className="relative group overflow-hidden rounded-xl glass-puro crystal-border crystal-shine p-4 soft-shadow-cinematic">
-                        <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/5 blur-[60px] rounded-full pointer-events-none" />
+                    <div className="relative group overflow-hidden rounded-[1.5rem] glass-panel border border-white/[0.04] p-5 shadow-premium hover:border-premium-gold/40 transition-all duration-500">
+                        <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-premium-gold/20 transition-colors" />
 
                         <div className="relative z-10">
                             <div className="flex items-start justify-between mb-4">
@@ -166,7 +164,7 @@ export default function ProfilePage() {
 
                             <button
                                 onClick={() => isPremium ? setShowSubscriptionModal(true) : null}
-                                className="w-full py-2.5 bg-transparent border border-premium-gold/15 rounded-lg text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:bg-premium-gold hover:text-black transition-all"
+                                className="w-full py-3 bg-transparent border border-white/10 rounded-xl text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:border-premium-gold/50 hover:bg-premium-gold/10 transition-all duration-300 active:scale-[0.98]"
                             >
                                 {isPremium ? 'Gerenciar Assinatura' : 'Assinar Agora'}
                             </button>
@@ -178,8 +176,8 @@ export default function ProfilePage() {
 
                         {/* Preferences */}
                         <div className="space-y-2 lg:col-span-2">
-                            <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Conteúdo</h4>
-                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic">
+                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Preferências de Conteúdo</h4>
+                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
                                 <ToggleItem
                                     icon={Smartphone}
                                     label="Notícias"
@@ -205,9 +203,9 @@ export default function ProfilePage() {
                         </div>
 
                         {/* Audio Preferences */}
-                        <div className="space-y-2">
-                            <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Preferências de Áudio</h4>
-                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic p-4 space-y-4">
+                        <div className="space-y-2 lg:col-span-2">
+                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Acessibilidade de Áudio</h4>
+                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium p-5 space-y-4">
 
                                 {/* Speed Control */}
                                 <div className="space-y-2">
@@ -228,45 +226,20 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        {/* Appearance (Existing) */}
-                        <div className="space-y-2">
-                            <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Aparência</h4>
-                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic h-full">
-                                <div className="flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 h-full">
-                                    <div className="flex items-center space-x-3">
-                                        <Moon size={18} className="text-white/70" />
-                                        <span className="text-sm font-medium text-white/90">Tema</span>
-                                    </div>
-                                    <div className="flex bg-black rounded-lg p-0.5 border border-premium-gold/15 gap-0.5">
-                                        <button
-                                            onClick={() => setTheme('glorioso')}
-                                            className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'glorioso' ? 'bg-[#1A1A1A] text-[#D4AF37] shadow-sm ring-1 ring-[#D4AF37]/50' : 'text-white/40 hover:text-[#D4AF37]'}`}
-                                        >
-                                            Glorioso
-                                        </button>
-                                        <button
-                                            onClick={() => setTheme('gloriosa')}
-                                            className={`px-2.5 py-1 text-[10px] font-bold rounded-md transition-all ${theme === 'gloriosa' ? 'bg-pink-500 text-white shadow-sm ring-1 ring-pink-400' : 'text-white/40 hover:text-pink-400'}`}
-                                        >
-                                            Gloriosa
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {/* Appearances section removed as theme is strictly set to 2026 Premium Dark Theme */}
 
                         {/* Notifications */}
-                        <div className="space-y-2">
-                            <h4 className="text-xs font-bold text-foreground/40 uppercase tracking-widest px-1">Notificações</h4>
-                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic">
+                        <div className="space-y-2 lg:col-span-2">
+                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Notificações</h4>
+                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
                                 <ToggleItem icon={Bell} label="Última Hora" checked={true} />
                                 <ToggleItem icon={Shield} label="Dia de Jogo" checked={true} />
                             </div>
                         </div>
 
                         {/* Account */}
-                        <div className="space-y-2 lg:col-span-2 lg:mt-16">
-                            <div className="glass-puro crystal-border crystal-shine rounded-xl overflow-hidden soft-shadow-cinematic">
+                        <div className="space-y-2 lg:col-span-2 lg:mt-6">
+                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
                                 <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left">
                                     <div className="flex items-center space-x-3">
                                         <Settings size={18} className="text-white/70" />
@@ -320,7 +293,7 @@ function ToggleItem({ icon: Icon, label, checked, onChange, disabled }: { icon: 
 
     return (
         <div
-            className={`flex items-center justify-between p-4 border-b border-premium-gold/15 last:border-0 hover:bg-white/5 transition-colors cursor-pointer ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
+            className={`flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors duration-300 cursor-pointer ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
             onClick={handleClick}
         >
             <div className="flex items-center space-x-3">
