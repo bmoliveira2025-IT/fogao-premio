@@ -51,7 +51,6 @@ def seed_squad():
       {"name":"Jordan Barrera","position":"Meia Ofensivo","image":"https://img.a.transfermarkt.technology/portrait/medium/1087334-1748210461.jpg?lm=1"},
       {"name":"Kauan Lindes","position":"Meia Ofensivo","image":"https://img.a.transfermarkt.technology/portrait/medium/1222625-1739971195.jpg?lm=1"},
       {"name":"Matheus Martins","position":"Ponta Esquerda","image":"https://img.a.transfermarkt.technology/portrait/medium/668228-1671029844.jpg?lm=1"},
-      {"name":"Jeffinho","position":"Ponta Esquerda","image":"https://img.a.transfermarkt.technology/portrait/medium/884072-1668287183.jpg?lm=1"},
       {"name":"Artur","position":"Ponta Direita","image":"https://img.a.transfermarkt.technology/portrait/medium/440658-1759774159.jpg?lm=1"},
       {"name":"Nathan Fernandes","position":"Ponta Direita","image":"https://img.a.transfermarkt.technology/portrait/medium/1083600-1708125134.jpg?lm=1"},
       {"name":"Lucas Villalba","position":"Ponta Direita","image":"https://img.a.transfermarkt.technology/portrait/medium/874844-1724301713.jpg?lm=1"},
