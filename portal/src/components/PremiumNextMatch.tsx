@@ -156,19 +156,19 @@ export default function PremiumNextMatch({ match, className }: { match?: MatchDa
                         >
                             <div className="px-4 pb-5 pt-4">
                                 {/* Match Meta - Integrated Top Bar */}
-                                <div className="flex items-center justify-center gap-4 mb-6 opacity-60 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--foreground)' }}>
-                                    <div className="flex items-center gap-1.5">
-                                        <MapPin size={12} className="text-premium-gold" />
+                                <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-6 opacity-60 text-[10px] md:text-[11px] font-black uppercase tracking-[0.15em] text-center" style={{ color: 'var(--foreground)' }}>
+                                    <div className="flex items-center gap-1.5 whitespace-nowrap">
+                                        <MapPin size={12} className="text-premium-gold shrink-0" />
                                         <span>{data.location}</span>
                                     </div>
                                     {data.transmission && (
-                                        <>
-                                            <span className="w-1 h-1 rounded-full bg-foreground/20" />
-                                            <div className="flex items-center gap-1.5 text-green-500">
-                                                <Tv size={12} className="fill-current" />
+                                        <div className="flex items-center gap-4">
+                                            <span className="w-1 h-1 rounded-full bg-foreground/20 hidden md:block" />
+                                            <div className="flex items-center gap-1.5 text-green-500 whitespace-nowrap">
+                                                <Tv size={12} className="fill-current shrink-0" />
                                                 <span>{data.transmission}</span>
                                             </div>
-                                        </>
+                                        </div>
                                     )}
                                 </div>
 
