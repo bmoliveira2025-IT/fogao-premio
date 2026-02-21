@@ -75,8 +75,8 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
                                 {/* Home */}
                                 <div className="flex flex-col items-center w-1/3">
                                     <div className="w-16 h-16 relative mb-3 group-hover:scale-110 transition-transform duration-300">
-                                        {data.home_team_logo ? (
-                                            <img src={data.home_team_logo} alt={data.home_team} className="w-full h-full object-contain drop-shadow-lg" />
+                                        {data.home_team_logo || (data as any).home_logo ? (
+                                            <img src={data.home_team_logo || (data as any).home_logo} alt={data.home_team} className="w-full h-full object-contain drop-shadow-lg" />
                                         ) : (
                                             <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border border-premium-gold/15 shadow-lg">
                                                 <Shield size={32} className="text-white" />
@@ -106,8 +106,8 @@ export default function StickyMatchWidget({ match }: { match?: MatchData | null 
                                 {/* Away */}
                                 <div className="flex flex-col items-center w-1/3">
                                     <div className="w-16 h-16 relative mb-3 group-hover:scale-110 transition-transform duration-300">
-                                        {data.away_team_logo ? (
-                                            <img src={data.away_team_logo} alt={data.away_team} className="w-full h-full object-contain drop-shadow-lg" />
+                                        {data.away_team_logo || (data as any).away_logo ? (
+                                            <img src={data.away_team_logo || (data as any).away_logo} alt={data.away_team} className="w-full h-full object-contain drop-shadow-lg" />
                                         ) : (
                                             <div className="w-full h-full bg-gradient-to-br from-gray-800 to-black rounded-full flex items-center justify-center border border-premium-gold/15 shadow-lg opacity-60">
                                                 <Shield size={32} className="text-white/50" />

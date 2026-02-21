@@ -49,8 +49,8 @@ function serializeMatches(snapshot: any) {
             location: data.location,
             championship: data.championship,
             status: data.status,
-            home_team_logo: data.home_team_logo,
-            away_team_logo: data.away_team_logo,
+            home_team_logo: data.home_team_logo || data.home_logo,
+            away_team_logo: data.away_team_logo || data.away_logo,
             display_time: data.display_time,
             match_id: data.match_id
         };
