@@ -146,8 +146,8 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       const matchDate = data.date?.toDate?.() || new Date(data.date);
       const isFinished = data.status?.toLowerCase() === 'finalizado';
 
-      // Keep match if it's not finished, or finished within the last 3 hours
-      if (!isFinished || (now.getTime() - matchDate.getTime()) < 3 * 3600 * 1000) {
+      // Strict check: if finished, don't show in upcoming/next match
+      if (!isFinished) {
         matches.push({
           id: data.match_id || nextMatchSnap.id,
           home_team: data.home_team,

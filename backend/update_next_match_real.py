@@ -70,8 +70,10 @@ def update_next_match():
 
         # Check if match is upcoming (future)
         # We also include matches that started very recently (last 2 hours)
+        # UNLESS they are already marked as Finalizado
         from datetime import timedelta
-        if match_date_sp > (now - timedelta(hours=2)):
+        is_finished = data.get('status', '').lower() == 'finalizado'
+        if match_date_sp > (now - timedelta(hours=2)) and not is_finished:
             data['match_id'] = doc.id
             future_matches.append((match_date_sp, data))
 

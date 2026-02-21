@@ -14,11 +14,12 @@ export async function GET() {
 
         const data = snapshot.docs[0].data();
         return NextResponse.json(data);
-    } catch (error) {
+    } catch (error: any) {
+        if (error?.message?.includes('Quota exceeded') || error?.code === 8) {
+            console.warn("Firestore Quota Exceeded for daily-briefing. Returning empty fallback.");
+            return NextResponse.json(null);
+        }
         console.error("Error fetching daily briefing from API:", error);
-        return NextResponse.json({
-            error: 'Internal Server Error',
-            details: error instanceof Error ? error.message : String(error)
-        }, { status: 500 });
+        return NextResponse.json(null, { status: 200 }); // Fail gracefully for UI
     }
 }
