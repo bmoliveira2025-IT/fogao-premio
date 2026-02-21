@@ -16,6 +16,8 @@ from cleanup import cleanup_old_news # Import cleanup logic
 from fetch_podcasts import fetch_podcasts # Import Podcast logic
 from fetch_brasileirao import fetch_brasileirao # Import Brasileirão logic
 from fetch_table import fetch_table # Import Carioca logic
+import subprocess
+import pytz
 
 # Load environment variables
 load_dotenv()
@@ -651,6 +653,100 @@ def fetch_youtube_videos():
         except Exception as e:
             print(f"Error fetching videos for {channel['name']}: {e}")
 
+def fetch_ge_next_match():
+    url = "https://ge.globo.com/futebol/times/botafogo/agenda-de-jogos-do-botafogo/"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    try:
+        response = requests.get(url, headers=headers, timeout=15)
+        response.raise_for_status()
+        
+        match = re.search(r'window\.dataSportsSchedule\s*=\s*({.*?});', response.text, re.DOTALL)
+        if not match:
+            match = re.search(r'dataSportsSchedule\s*=\s*({.*?});', response.text, re.DOTALL)
+            
+        if not match:
+            print("GE Scraper: Could not find dataSportsSchedule in page.")
+            return None
+            
+        js_content = match.group(0)
+        
+        backend_dir = os.path.dirname(__file__)
+        temp_js = os.path.join(backend_dir, "temp_ge_data.js")
+        parse_script = os.path.join(backend_dir, "parse_ge.js")
+        
+        with open(temp_js, "w", encoding="utf-8") as f:
+            f.write(js_content)
+        
+        result = subprocess.run(['node', parse_script, temp_js], capture_output=True, text=True, encoding="utf-8")
+        
+        if os.path.exists(temp_js):
+            os.remove(temp_js)
+            
+        if result.returncode != 0:
+            print(f"GE Scraper: Node helper error: {result.stderr}")
+            return None
+            
+        data = json.loads(result.stdout)
+        future_matches = data.get('scheduleTeam', {}).get('teamAgenda', {}).get('future', [])
+        if not future_matches:
+            print("GE Scraper: No future matches found.")
+            return None
+            
+        next_m = future_matches[0]
+        m = next_m.get('match', {})
+        
+        home_team = m.get('firstContestant', {}).get('popularName', 'A definir')
+        away_team = m.get('secondContestant', {}).get('popularName', 'A definir')
+        start_date = m.get('startDate', '')
+        start_time = m.get('startHour', '')
+        stadium = m.get('location', {}).get('popularName', 'A definir')
+        championship = m.get('phase', {}).get('championshipEdition', {}).get('championship', {}).get('name', '')
+        
+        transmissions = []
+        sources = m.get('liveWatchSources', [])
+        if sources:
+            for src in sources:
+                name = src.get('name', '')
+                desc = src.get('description', '')
+                if desc:
+                    transmissions.append(f"{name} ({desc})")
+                else:
+                    transmissions.append(name)
+        
+        transmission_str = ", ".join(transmissions) if transmissions else "A definir"
+        
+        # Format display time
+        display_time = "A definir"
+        dt_obj = None
+        if start_date and start_time:
+            try:
+                dt_str = f"{start_date} {start_time}"
+                dt_obj = datetime.strptime(dt_str, '%Y-%m-%d %H:%M:%S')
+                # Add timezone info (assuming it's BRT/local)
+                tz = pytz.timezone('America/Sao_Paulo')
+                dt_obj = tz.localize(dt_obj)
+                display_time = dt_obj.strftime('%d/%m às %H:%M')
+            except:
+                display_time = f"{start_date} {start_time}"
+
+        return {
+            'home_team': home_team,
+            'away_team': away_team,
+            'date': dt_obj if dt_obj else start_date,
+            'display_time': display_time,
+            'stadium': stadium,
+            'location': stadium, # For compatibility
+            'championship': championship,
+            'transmission': transmission_str,
+            'status': 'upcoming'
+        }
+
+    except Exception as e:
+        print(f"GE Scraper: Error: {e}")
+        return None
+
 def update_next_match():
     print("Searching for next match...")
     try:
@@ -738,7 +834,16 @@ def update_next_match():
                     except:
                         pass
 
-        print(f"SELECTED NEXT MATCH: {next_match.get('home_team')} x {next_match.get('away_team')} at {next_match.get('date')}")
+        # 2. ALSO fetch from GE for live transmission info
+        ge_match = fetch_ge_next_match()
+        if ge_match:
+            print(f"GE Match Found: {ge_match['home_team']} x {ge_match['away_team']}")
+            # If GE match matches our next candidate's teams, we can merge/enrich
+            # Or just use GE as source of truth for next_match
+            next_match = ge_match
+        else:
+            print("Falling back to Firestore matches collection for next_match")
+
         db.collection('matches').document('next_match').set(next_match)
         print("Successfully updated 'matches/next_match'")
 

@@ -611,3 +611,12 @@ h6 {
   position: relative;
   z-index: 1;
 }
+
+/* Squad Page Utilities */
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #B8860B 100%);
+}
+
+.clip-path-ribbon {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 85%, 0% 100%);
+}

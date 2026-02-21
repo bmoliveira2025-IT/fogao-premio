@@ -14,7 +14,11 @@ async function getUpcomingMatches() {
         const snapshot = await matchesRef.get();
         const matches = serializeMatches(snapshot);
         // Exclude truly finished matches from upcoming list
-        return matches.filter(m => m.status?.toLowerCase() !== 'finalizado');
+        const finishedStatus = ['finalizado', 'finalizado', 'encerrada', 'finalizado']; // Wait, let's be more robust
+        return matches.filter(m => {
+            const status = m.status?.toLowerCase();
+            return status !== 'finalizado' && status !== 'encerrada' && status !== 'finalizado';
+        });
     } catch (e) { return []; }
 }
 
