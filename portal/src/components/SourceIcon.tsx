@@ -10,7 +10,7 @@ const SOURCE_ICONS: Record<string, string> = {
     'GLOBO': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAPFBMVEVHcEwGq0kGsEsGrEkGq0gFqkcHrEkKrkoApjk1tGBmw4Xg9Oj////M6taa16/t+fKz4cNIum+M0aNawHsT8aATAAAAB3RSTlMAbb7k9v9JOomd4gAAAOtJREFUeAF9kwUCxCAMBKnkCM2i/f9fL6XGCZ0KMriYjWGcZmqYp3EwOy9r6QdrX7ujv1TbcWq1v74czEhdRjP15WTmvpzNHjI5R+SsxqzGmCq75EUAH+CZQgRk4UYuACKgMqmKwNLICMmuqMzAypwgt8xAZmIPHxBTSh5wl1wRt461zwTs5LbmetYUl7O+TZ+CuOS09xmISoz2lhmVfbQxAolvyS6JhKSSigAS2kVYHSuCwHWtLDfSRqRSZB9jQ114F1Ep/LXwU61avEha+XvL9s3mjd/Nfjwmpi/vo2n/Hc3mUNv2293DdXgDUjYUtfn+5vMAAAAASUVORK5CYII=',
 };
 
-const getSourceColor = (source: string) => {
+const getSourceColor = (source?: string) => {
     const s = source?.toLowerCase() || '';
     if (s.includes('globo')) return 'bg-green-600';
     if (s.includes('botafogo')) return 'bg-black';
@@ -23,7 +23,7 @@ const getSourceColor = (source: string) => {
 };
 
 interface SourceIconProps {
-    source: string;
+    source?: string;
     size?: number; // Tailwind class size equivalent or pixel logic if needed, but here using purely for container
     className?: string; // For explicit width/height classes
 }
@@ -38,7 +38,7 @@ export default function SourceIcon({ source, className = "w-4 h-4" }: SourceIcon
             <div className={`${className} relative flex-shrink-0 rounded overflow-hidden`}>
                 <Image
                     src={iconUrl}
-                    alt={source}
+                    alt={source || 'Source'}
                     fill
                     className="object-cover"
                 />
