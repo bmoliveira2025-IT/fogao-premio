@@ -1,0 +1,41 @@
+
+Total matches found: 37
+ID                   | Date (SP)            | Match                                    | Competition
+--------------------------------------------------------------------------------------------------------------
+d6c654c7-2dd6-4821-8 | 2026-02-21 21:06     | Boavista x Botafogo                      | Campeonato Carioca
+wq6ZgThcqAGKdmC0hsDc | 2026-02-25 21:30     | Botafogo x Nacional Potosí               | N/A
+05abbe12-f988-40ed-8 | 2026-02-28 19:36     | Botafogo x Boavista                      | Campeonato Carioca
+lqq57n0kMZ13EZNkV5VW | 2026-03-11 19:06     | Athletico-PR x Botafogo                  | Brasileirão
+WzHOpk3yCHInqeCVpvmQ | 2026-03-14 20:36     | Botafogo x Flamengo                      | Brasileirão
+QH3U406ZMnCoyOv4WfNU | 2026-03-18 19:06     | Palmeiras x Botafogo                     | Brasileirão
+GowfHWra3U0T6YWryh3e | 2026-03-21 16:06     | Bragantino x Botafogo                    | Brasileirão
+KvOK9K4IN4NHcnJxQBhs | 2026-04-01 13:00     | Botafogo x Mirassol                      | N/A
+QY0jloFAjHlbW2TUzp3K | 2026-04-05 13:00     | Vasco x Botafogo                         | N/A
+zkBcQKS1Ynvf0gOmx5tE | 2026-04-12 13:00     | Botafogo x Coritiba                      | N/A
+Dgu0H0Y6xfhTKzYSMwll | 2026-04-19 13:00     | Chapecoense x Botafogo                   | N/A
+3wyJbaMSZxDeAoTMVbd1 | 2026-04-26 13:00     | Botafogo x Internacional                 | N/A
+i37Qq67ZznYFcMIr63Ki | 2026-05-03 13:00     | Botafogo x Remo                          | N/A
+3j6yXLbstr9PXjYXzTuX | 2026-05-10 13:00     | Atlético-MG x Botafogo                   | N/A
+Kj5fBSTIQB1mObiPrVWk | 2026-05-17 13:00     | Botafogo x Corinthians                   | N/A
+pKa2vW6ftvRlgDgBMfAs | 2026-05-24 13:00     | São Paulo x Botafogo                     | N/A
+4QlLRC8jKl2HjhzkaB7J | 2026-05-31 13:00     | Bahia x Botafogo                         | N/A
+f3Y4HW7YyYNnoWx7gb5z | 2026-07-22 13:00     | Botafogo x Santos                        | N/A
+tDo7CHZPXvhOYOa49vM0 | 2026-07-26 13:00     | Cruzeiro x Botafogo                      | N/A
+v1AuPkSUlkiWzpEVNiVu | 2026-07-29 13:00     | Botafogo x Grêmio                        | N/A
+wfUbXyFQQcIsU8WTMyCs | 2026-08-09 13:00     | Botafogo x Fluminense                    | N/A
+lYanHO6owq1gaK9PTf3M | 2026-08-16 13:00     | Vitória x Botafogo                       | N/A
+GXyInSK0KYQjCagFLkwZ | 2026-08-23 13:00     | Botafogo x Athletico-PR                  | N/A
+3kkEJmI2jHMdIpsMtpVv | 2026-08-30 13:00     | Flamengo x Botafogo                      | N/A
+7uZhM9NpKKxn5UYPZN0S | 2026-09-06 13:00     | Botafogo x Palmeiras                     | N/A
+CLsUeMdxvMRbWbhYxCsW | 2026-09-13 13:00     | Botafogo x Bragantino                    | N/A
+fa8KNh7jSHEgrzzwR8IW | 2026-09-20 13:00     | Mirassol x Botafogo                      | N/A
+9MO3QUnujBzUqCPvGX98 | 2026-10-07 13:00     | Botafogo x Vasco                         | N/A
+yYid6Jd5qVeeLLF3bVy7 | 2026-10-11 13:00     | Coritiba x Botafogo                      | N/A
+vCB7Lud8A6Z9jJgSAA4V | 2026-10-18 13:00     | Botafogo x Chapecoense                   | N/A
+6GNe99eGOs2VHS1oaAql | 2026-10-25 13:00     | Internacional x Botafogo                 | N/A
+s5I2SwwocgvbpoFuwDCo | 2026-10-28 13:00     | Remo x Botafogo                          | N/A
+aklGQBaPi3MB2JFfSXLH | 2026-11-04 13:00     | Botafogo x Atlético-MG                   | N/A
+KFr3s33l8PYd1KRDGZ1o | 2026-11-18 13:00     | Corinthians x Botafogo                   | N/A
+42Esi95ZduINNMWKvQHl | 2026-11-22 13:00     | Botafogo x São Paulo                     | N/A
+c5bdzjxozJMZrOIbzOqM | 2026-11-29 13:00     | Botafogo x Bahia                         | N/A
+o94cdSgcvuK7st6g1yyE | 2026-12-02 13:00     | Santos x Botafogo                        | N/A
