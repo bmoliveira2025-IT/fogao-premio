@@ -1,0 +1,240 @@
+ID: 05abbe12-f988-40ed-825a-797b20a775e9
+  Match: Botafogo vs Boavista
+  Date: 2026-02-28T19:30:00-03:00
+  Status: None
+  Match ID: None
+--------------------
+ID: 3j6yXLbstr9PXjYXzTuX
+  Match: Atlético-MG vs Botafogo
+  Date: 2026-05-10T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 3kkEJmI2jHMdIpsMtpVv
+  Match: Flamengo vs Botafogo
+  Date: 2026-08-30T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 3wyJbaMSZxDeAoTMVbd1
+  Match: Botafogo vs Internacional
+  Date: 2026-04-26T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 42Esi95ZduINNMWKvQHl
+  Match: Botafogo vs São Paulo
+  Date: 2026-11-22T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 4QlLRC8jKl2HjhzkaB7J
+  Match: Bahia vs Botafogo
+  Date: 2026-05-31T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 6GNe99eGOs2VHS1oaAql
+  Match: Internacional vs Botafogo
+  Date: 2026-10-25T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 7uZhM9NpKKxn5UYPZN0S
+  Match: Botafogo vs Palmeiras
+  Date: 2026-09-06T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: 9MO3QUnujBzUqCPvGX98
+  Match: Botafogo vs Vasco
+  Date: 2026-10-07T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: CLsUeMdxvMRbWbhYxCsW
+  Match: Botafogo vs Bragantino
+  Date: 2026-09-13T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: Dgu0H0Y6xfhTKzYSMwll
+  Match: Chapecoense vs Botafogo
+  Date: 2026-04-19T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: GXyInSK0KYQjCagFLkwZ
+  Match: Botafogo vs Athletico-PR
+  Date: 2026-08-23T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: GowfHWra3U0T6YWryh3e
+  Match: Bragantino vs Botafogo
+  Date: 2026-03-21T16:00:00-03:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: KFr3s33l8PYd1KRDGZ1o
+  Match: Corinthians vs Botafogo
+  Date: 2026-11-18T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: Kj5fBSTIQB1mObiPrVWk
+  Match: Botafogo vs Corinthians
+  Date: 2026-05-17T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: KvOK9K4IN4NHcnJxQBhs
+  Match: Botafogo vs Mirassol
+  Date: 2026-04-01T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: QH3U406ZMnCoyOv4WfNU
+  Match: Palmeiras vs Botafogo
+  Date: 2026-03-18T19:00:00-03:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: QY0jloFAjHlbW2TUzp3K
+  Match: Vasco vs Botafogo
+  Date: 2026-04-05T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: WzHOpk3yCHInqeCVpvmQ
+  Match: Botafogo vs Flamengo
+  Date: 2026-03-14T20:30:00-03:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: aklGQBaPi3MB2JFfSXLH
+  Match: Botafogo vs Atlético-MG
+  Date: 2026-11-04T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: c5bdzjxozJMZrOIbzOqM
+  Match: Botafogo vs Bahia
+  Date: 2026-11-29T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: d6c654c7-2dd6-4821-80d3-834c48a47984
+  Match: Boavista vs Botafogo
+  Date: 2026-02-21T21:00:00-03:00
+  Status: None
+  Match ID: None
+--------------------
+ID: f3Y4HW7YyYNnoWx7gb5z
+  Match: Botafogo vs Santos
+  Date: 2026-07-22T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: fa8KNh7jSHEgrzzwR8IW
+  Match: Mirassol vs Botafogo
+  Date: 2026-09-20T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: gre_v_bot_2026_02_06
+  Match: Grêmio vs Botafogo
+  Date: None
+  Status: ENCERRADA
+  Match ID: gre_v_bot_2026_02_06
+--------------------
+ID: i37Qq67ZznYFcMIr63Ki
+  Match: Botafogo vs Remo
+  Date: 2026-05-03T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: lYanHO6owq1gaK9PTf3M
+  Match: Vitória vs Botafogo
+  Date: 2026-08-16T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: lqq57n0kMZ13EZNkV5VW
+  Match: Athletico-PR vs Botafogo
+  Date: 2026-03-11T19:00:00-03:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: next_match
+  Match: Grêmio vs Botafogo
+  Date: 2026-02-21T21:00:00-03:00
+  Status: ENCERRADA
+  Match ID: gre_v_bot_2026_02_06
+--------------------
+ID: o94cdSgcvuK7st6g1yyE
+  Match: Santos vs Botafogo
+  Date: 2026-12-02T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: pKa2vW6ftvRlgDgBMfAs
+  Match: São Paulo vs Botafogo
+  Date: 2026-05-24T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: s5I2SwwocgvbpoFuwDCo
+  Match: Remo vs Botafogo
+  Date: 2026-10-28T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: tDo7CHZPXvhOYOa49vM0
+  Match: Cruzeiro vs Botafogo
+  Date: 2026-07-26T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: v1AuPkSUlkiWzpEVNiVu
+  Match: Botafogo vs Grêmio
+  Date: 2026-07-29T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: vCB7Lud8A6Z9jJgSAA4V
+  Match: Botafogo vs Chapecoense
+  Date: 2026-10-18T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: wfUbXyFQQcIsU8WTMyCs
+  Match: Botafogo vs Fluminense
+  Date: 2026-08-09T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: wq6ZgThcqAGKdmC0hsDc
+  Match: Botafogo vs Nacional Potosí
+  Date: 2026-02-25T21:30:00-03:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: yYid6Jd5qVeeLLF3bVy7
+  Match: Coritiba vs Botafogo
+  Date: 2026-10-11T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+ID: zkBcQKS1Ynvf0gOmx5tE
+  Match: Botafogo vs Coritiba
+  Date: 2026-04-12T16:00:00
+  Status: AGENDADO
+  Match ID: None
+--------------------
+
+Checking next_match document:
+Home: Grêmio
+Away: Botafogo
+Date: 2026-02-21T21:00:00-03:00
+Status: ENCERRADA

@@ -699,35 +699,46 @@ def update_next_match():
             print("No future matches found.")
             return
 
-        # Pick the absolute next match
-        next_match = future_matches[0][1]
+        # Pick the absolute next match (that isn't already finished)
+        next_match_candidates = [m for _, m in future_matches if m.get('status') not in ['ENCERRADA', 'Finalizado', 'FINALIZADO']]
+        
+        if not next_match_candidates:
+            print("No upcoming (non-finished) matches found.")
+            return
+
+        next_match = next_match_candidates[0]
         
         # Check current next_match
         current_next = db.collection('matches').document('next_match').get()
         if current_next.exists:
             current_data = current_next.to_dict()
-            current_date_raw = current_data.get('date')
             
-            if current_date_raw:
-                try:
-                    if isinstance(current_date_raw, str):
-                        current_match_dt = datetime.fromisoformat(current_date_raw.replace('Z', '+00:00'))
-                    else:
-                        current_match_dt = current_date_raw
-                    
-                    if current_match_dt.tzinfo is None:
-                        current_match_dt = current_match_dt.replace(tzinfo=pytz.UTC)
+            # If current next_match is ALREADY FINISHED, we MUST update it
+            if current_data.get('status') in ['ENCERRADA', 'Finalizado', 'FINALIZADO']:
+                print(f"Current next_match ({current_data.get('home_team')} x {current_data.get('away_team')}) is already finished. Updating...")
+            else:
+                current_date_raw = current_data.get('date')
+                if current_date_raw:
+                    try:
+                        if isinstance(current_date_raw, str):
+                            current_match_dt = datetime.fromisoformat(current_date_raw.replace('Z', '+00:00'))
+                        else:
+                            current_match_dt = current_date_raw
                         
-                    current_match_sp = current_match_dt.astimezone(tz)
-                    
-                    # If current match is today AND hasn't finished (allow 3h), KEEP IT
-                    if current_match_sp.date() == now.date() and now < (current_match_sp + timedelta(hours=3)):
-                        print(f"KEEPING TODAY'S MATCH: {current_data.get('home_team')} x {current_data.get('away_team')}")
-                        return
-                except:
-                    pass
+                        if current_match_dt.tzinfo is None:
+                            current_match_dt = current_match_dt.replace(tzinfo=pytz.UTC)
+                            
+                        current_match_sp = current_match_dt.astimezone(tz)
+                        
+                        # If current match is today AND hasn't finished (allow 3h), KEEP IT
+                        if current_match_sp.date() == now.date() and now < (current_match_sp + timedelta(hours=3.5)):
+                            print(f"KEEPING TODAY'S MATCH: {current_data.get('home_team')} x {current_data.get('away_team')}")
+                            # BUT, even then, we should check if it just finished
+                            return
+                    except:
+                        pass
 
-        print(f"SELECTED NEXT MATCH: {next_match['home_team']} x {next_match['away_team']} at {next_match['date']}")
+        print(f"SELECTED NEXT MATCH: {next_match.get('home_team')} x {next_match.get('away_team')} at {next_match.get('date')}")
         db.collection('matches').document('next_match').set(next_match)
         print("Successfully updated 'matches/next_match'")
 
