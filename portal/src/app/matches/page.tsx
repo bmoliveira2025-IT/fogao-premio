@@ -6,24 +6,26 @@ export const revalidate = 0;
 async function getUpcomingMatches() {
     try {
         const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 3); // Include games just finished
+        threshold.setHours(threshold.getHours() - 3);
         const matchesRef = db.collection('matches')
             .where('date', '>=', threshold.toISOString())
             .orderBy('date', 'asc')
             .limit(10);
         const snapshot = await matchesRef.get();
-        return serializeMatches(snapshot);
+        const matches = serializeMatches(snapshot);
+        // Exclude truly finished matches from upcoming list
+        return matches.filter(m => m.status?.toLowerCase() !== 'finalizado');
     } catch (e) { return []; }
 }
 
 async function getPastMatches() {
     try {
         const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 3);
+        threshold.setHours(threshold.getHours() - 1); // Only very recent or past games
         const matchesRef = db.collection('matches')
             .where('date', '<', threshold.toISOString())
             .orderBy('date', 'desc')
-            .limit(1);
+            .limit(5); // Show more than just 1
         const snapshot = await matchesRef.get();
         return serializeMatches(snapshot);
     } catch (e) { return []; }
@@ -90,17 +92,20 @@ export default async function MatchesPage() {
 
 
                 {/* UPCOMING MATCHES */}
-                {upcoming.length > 0 ? (
+                {upcoming.length > 0 && (
                     <MatchesAccordion matches={upcoming} title="Próximos Jogos" />
-                ) : (
-                    <div className="text-center py-20 text-foreground/30 text-sm">
-
-                    </div>
                 )}
 
                 {upcoming.length === 0 && (
-                    <div className="text-center py-5 text-foreground/30 text-sm">
+                    <div className="text-center py-10 text-foreground/30 text-sm">
                         Nenhum jogo futuro agendado no momento.
+                    </div>
+                )}
+
+                {/* PAST MATCHES */}
+                {past.length > 0 && (
+                    <div className="mt-12 opacity-80">
+                        <MatchesAccordion matches={past} title="Jogos Anteriores" />
                     </div>
                 )}
             </div>

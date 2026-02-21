@@ -93,7 +93,7 @@ function HeroCard({ news }: { news: NewsItem }) {
                 className="group relative block w-full overflow-hidden rounded-3xl md:rounded-[2rem] shadow-premium bg-card/60 backdrop-blur-3xl border border-white/[0.04] hover:border-premium-gold/40 hover:shadow-gold-glow transition-all duration-700 hover:-translate-y-1"
             >
                 {/* Top Image Section */}
-                <div className="relative w-full aspect-[16/10] md:h-[400px] lg:h-[480px] overflow-hidden">
+                <div className="relative w-full aspect-[16/10] md:h-[450px] lg:h-[520px] overflow-hidden">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
@@ -102,41 +102,38 @@ function HeroCard({ news }: { news: NewsItem }) {
                         unoptimized
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
                 </div>
 
                 {/* Bottom Content Section (Solid Block) */}
-                <div className="p-6 md:p-8 space-y-4">
+                <div className="p-6 md:p-10 space-y-5">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
                             <Flame size={14} className="text-premium-gold fill-current" />
-                            <span className="text-xs font-bold text-premium-gold uppercase tracking-wider">Destaque</span>
+                            <span className="text-[10px] font-bold text-premium-gold uppercase tracking-[0.2em]">Destaque</span>
                         </div>
                         <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
-                            <div className={`w-2 h-2 rounded-full ${colors.bg}`} />
-                            <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>{news.source || 'Botafogo'}</span>
+                            <SourceIcon source={news.source} className="w-4 h-4 text-premium-gold" />
+                            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${colors.text}`}>{news.source || 'Botafogo'}</span>
                         </div>
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-athletic text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
                         {toSentenceCase(news.title)}
                     </h2>
 
                     {news.summary && (
                         <div className="pt-2">
-                            <div className="flex items-start gap-3 text-zinc-300 group-hover:text-white transition-colors duration-300">
-                                <div className={`mt-2 flex-shrink-0 w-1.5 h-1.5 rounded-full ${colors.bg}`} />
-                                <p className="text-base md:text-lg font-medium leading-relaxed max-w-4xl line-clamp-2 md:line-clamp-3">
-                                    {Array.isArray(news.summary) ? news.summary[0] : news.summary}
-                                </p>
-                            </div>
+                            <p className="text-base md:text-xl font-medium text-zinc-400 leading-relaxed max-w-4xl line-clamp-3">
+                                {Array.isArray(news.summary) ? news.summary[0] : news.summary}
+                            </p>
                         </div>
                     )}
 
-                    <div className="flex items-center gap-3 flex-wrap pt-4 mt-2 border-t border-white/5">
-                        <div className="flex items-center gap-1.5 leading-none">
+                    <div className="flex items-center gap-3 flex-wrap pt-6 mt-4 border-t border-white/5">
+                        <div className="flex items-center gap-2 leading-none">
                             <Clock size={14} className="text-zinc-500" />
-                            <span className="text-xs font-bold text-zinc-500 uppercase" suppressHydrationWarning>
+                            <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
@@ -165,41 +162,24 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                 href={`/news/${news.id}`}
                 className="group relative flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover"
             >
-                {/* Image */}
-                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-lg group-hover:shadow-premium-gold/10 transition-shadow">
-                    <Image
-                        src={getSafeImageSrc(news.image)}
-                        alt={news.title}
-                        fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
-                        unoptimized
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
-
-                    {/* Compact Trending Badge */}
-                    <div className="absolute top-1.5 left-1.5">
-                        <div className="flex items-center gap-1.5 px-1.5 py-0.5 bg-black/70 backdrop-blur-sm rounded-md border border-white/10">
-                            <TrendingUp size={8} className="text-premium-gold" />
-                            <span className="text-[8px] font-bold text-white uppercase">#{index + 2}</span>
-                        </div>
-                    </div>
-                </div>
-
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-between py-0.5">
-                    <div className="flex flex-col gap-1.5">
-                        <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text}`}>
-                            {news.source || 'Portal'}
-                        </span>
-                        <h3 className="text-sm md:text-base font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                            <SourceIcon source={news.source} className="w-3.5 h-3.5 text-premium-gold" />
+                            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${colors.text}`}>
+                                {news.source || 'Botafogo'}
+                            </span>
+                        </div>
+                        <h3 className="text-[17px] md:text-2xl font-athletic text-white/90 leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
                             {toSentenceCase(news.title)}
                         </h3>
                     </div>
 
-                    <div className="flex items-center justify-between mt-3 min-w-0">
+                    <div className="flex items-center justify-between mt-4 min-w-0">
                         <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink flex-grow-0 overflow-hidden">
                             <Clock size={12} className="text-zinc-500 flex-shrink-0" />
-                            <span className="text-[10px] font-bold text-zinc-500 uppercase whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
+                            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
@@ -211,6 +191,18 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                             className="flex-shrink-0 ml-2 scale-[0.9] origin-right"
                         />
                     </div>
+                </div>
+
+                {/* Image */}
+                <div className="relative w-28 h-20 md:w-52 md:h-32 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-premium-gold/10 transition-shadow">
+                    <Image
+                        src={getSafeImageSrc(news.image)}
+                        alt={news.title}
+                        fill
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                        unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
                 </div>
             </Link>
         </motion.div>

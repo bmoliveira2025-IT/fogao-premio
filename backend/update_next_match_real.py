@@ -102,7 +102,9 @@ def update_next_match():
                 
                 # If current match is today AND hasn't finished yet, KEEP IT
                 # A match is "finished" in this context if we are 3 hours past start time
-                if current_match_sp.date() == now.date() and now < (current_match_sp + timedelta(hours=3)):
+                # OR if it's explicitly marked as Finalizado
+                is_finished = current_data.get('status', '').lower() == 'finalizado'
+                if current_match_sp.date() == now.date() and now < (current_match_sp + timedelta(hours=3)) and not is_finished:
                     print(f"KEEPING TODAY'S MATCH: {current_data.get('home_team')} x {current_data.get('away_team')}")
                     return
 

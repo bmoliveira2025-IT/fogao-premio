@@ -80,9 +80,9 @@ function LargeCard({ news }: { news: NewsItem }) {
         <motion.div variants={itemVariants} initial="hidden" animate="visible">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative block bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
+                className="group relative block bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-[2.5rem] overflow-hidden hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-gold-glow active:scale-[0.98]"
             >
-                <div className="relative aspect-[16/9] w-full overflow-hidden">
+                <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
@@ -90,36 +90,25 @@ function LargeCard({ news }: { news: NewsItem }) {
                         className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent" />
                 </div>
 
-                <div className="p-5 md:p-6 space-y-3">
-                    <div className="flex items-center gap-2 mb-1">
-                        <div className={`w-1.5 h-1.5 rounded-full ${colors.bg}`} />
-                        <span className={`text-[10px] md:text-xs font-black uppercase tracking-wider ${colors.text}`}>
-                            {news.source || 'Portal'}
+                <div className="p-6 md:p-10 space-y-4">
+                    <div className="flex items-center gap-3">
+                        <SourceIcon source={news.source} className="w-4 h-4 text-premium-gold" />
+                        <span className={`text-[11px] font-black uppercase tracking-[0.2em] ${colors.text}`}>
+                            {news.source || 'Botafogo'}
                         </span>
                     </div>
 
-                    <h3 className="text-lg md:text-2xl font-bold text-white leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
+                    <h3 className="text-2xl md:text-5xl font-athletic text-white leading-[1.1] group-hover:text-premium-gold transition-colors duration-300">
                         {toSentenceCase(news.title)}
                     </h3>
 
-                    {news.summary && (
-                        <div className="pt-1.5">
-                            <div className="flex items-start gap-2.5 text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
-                                <div className={`mt-2 flex-shrink-0 w-1 h-1 rounded-full ${colors.bg} opacity-80`} />
-                                <p className="text-sm md:text-base leading-relaxed line-clamp-3">
-                                    {Array.isArray(news.summary) ? news.summary[0] : news.summary}
-                                </p>
-                            </div>
-                        </div>
-                    )}
-
-                    <div className="flex items-center gap-3 pt-4 mt-2 border-t border-white/5">
+                    <div className="flex items-center gap-4 pt-6 mt-2 border-t border-white/5">
                         <div className="flex items-center gap-1.5 leading-none">
-                            <Clock size={12} className="text-zinc-500" />
-                            <span className="text-xs font-bold text-zinc-500 uppercase" suppressHydrationWarning>
+                            <Clock size={14} className="text-zinc-500" />
+                            <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
@@ -146,30 +135,23 @@ function CompactCard({ news }: { news: NewsItem }) {
                 href={`/news/${news.id}`}
                 className="group flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-[2rem] p-3 md:p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
             >
-                <div className="relative w-24 h-24 md:w-32 md:h-24 flex-shrink-0 rounded-xl overflow-hidden shadow-md group-hover:shadow-premium-gold/10 transition-shadow">
-                    <Image
-                        src={getSafeImageSrc(news.image)}
-                        alt={news.title}
-                        fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
-                        unoptimized
-                    />
-                </div>
-
                 <div className="flex-1 flex flex-col justify-between py-1">
                     <div className="flex flex-col gap-1.5">
-                        <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text}`}>
-                            {news.source || 'Portal'}
-                        </span>
-                        <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
+                        <div className="flex items-center gap-2 mb-0.5">
+                            <SourceIcon source={news.source} className="w-3.5 h-3.5 text-premium-gold" />
+                            <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${colors.text}`}>
+                                {news.source || 'Botafogo'}
+                            </span>
+                        </div>
+                        <h3 className="text-[17px] md:text-2xl font-athletic text-white/90 leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
                             {toSentenceCase(news.title)}
                         </h3>
                     </div>
 
                     <div className="flex items-center justify-between mt-2.5 min-w-0">
                         <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                            <Clock size={12} className="text-zinc-500 flex-shrink-0" />
-                            <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
+                            <Clock size={11} className="text-zinc-500 flex-shrink-0" />
+                            <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0 uppercase tracking-widest" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
@@ -177,9 +159,19 @@ function CompactCard({ news }: { news: NewsItem }) {
                             articleId={news.id}
                             initialLikes={news.likes_count}
                             initialDislikes={news.dislikes_count}
-                            className="flex-shrink-0 ml-2 scale-[0.85] origin-right"
+                            className="flex-shrink-0 ml-2 scale-[0.8] origin-right"
                         />
                     </div>
+                </div>
+
+                <div className="relative w-28 h-20 md:w-52 md:h-32 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-premium-gold/10 transition-shadow">
+                    <Image
+                        src={getSafeImageSrc(news.image)}
+                        alt={news.title}
+                        fill
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                        unoptimized
+                    />
                 </div>
             </Link>
         </motion.div>

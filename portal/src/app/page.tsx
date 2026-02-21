@@ -46,6 +46,8 @@ export interface MatchData {
   away_logo?: string;
   stadium?: string;
   transmission?: string;
+  display_time?: string;
+  match_id?: string;
 }
 
 interface VideoItem {
@@ -135,26 +137,35 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       } as NewsItem;
     });
 
-    const matches = [];
+    // Transform and filter matches
+    const matches: MatchData[] = [];
+    const now = new Date();
+
     if (nextMatchSnap.exists) {
       const data = nextMatchSnap.data()!;
-      matches.push({
-        id: data.match_id || nextMatchSnap.id,
-        home_team: data.home_team || '',
-        away_team: data.away_team || '',
-        home_score: data.home_score || 0,
-        away_score: data.away_score || 0,
-        date: data.date instanceof Date ? data.date.toISOString() : data.date,
-        location: data.location || 'Estádio Nilton Santos',
-        championship: data.championship || '',
-        status: data.status || 'Agendado',
-        home_team_logo: data.home_team_logo || data.home_logo,
-        away_team_logo: data.away_team_logo || data.away_logo,
-        stadium: data.stadium,
-        transmission: data.transmission,
-        display_time: data.display_time,
-        match_id: data.match_id,
-      });
+      const matchDate = data.date?.toDate?.() || new Date(data.date);
+      const isFinished = data.status?.toLowerCase() === 'finalizado';
+
+      // Keep match if it's not finished, or finished within the last 3 hours
+      if (!isFinished || (now.getTime() - matchDate.getTime()) < 3 * 3600 * 1000) {
+        matches.push({
+          id: data.match_id || nextMatchSnap.id,
+          home_team: data.home_team,
+          away_team: data.away_team,
+          home_score: data.home_score,
+          away_score: data.away_score,
+          date: matchDate.toISOString(),
+          location: data.location,
+          championship: data.championship || 'Carioca Série A',
+          status: data.status,
+          home_team_logo: data.home_team_logo || data.home_logo,
+          away_team_logo: data.away_team_logo || data.away_logo,
+          stadium: data.stadium,
+          transmission: data.transmission,
+          display_time: data.display_time,
+          match_id: data.match_id,
+        });
+      }
     }
 
     const videos = videosSnap.docs.map(doc => {
