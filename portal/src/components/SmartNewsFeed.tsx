@@ -133,8 +133,19 @@ function CompactCard({ news }: { news: NewsItem }) {
         <motion.div variants={itemVariants} initial="hidden" animate="visible">
             <Link
                 href={`/news/${news.id}`}
-                className="group flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-[2rem] p-3 md:p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
+                className="group flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-[2rem] p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
             >
+                <div className="relative w-28 h-20 md:w-52 md:h-32 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-premium-gold/10 transition-shadow">
+                    <Image
+                        src={getSafeImageSrc(news.image)}
+                        alt={news.title}
+                        fill
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                        unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
+                </div>
+
                 <div className="flex-1 flex flex-col justify-between py-1">
                     <div className="flex flex-col gap-1.5">
                         <div className="flex items-center gap-2 mb-0.5">
@@ -162,16 +173,6 @@ function CompactCard({ news }: { news: NewsItem }) {
                             className="flex-shrink-0 ml-2 scale-[0.8] origin-right"
                         />
                     </div>
-                </div>
-
-                <div className="relative w-28 h-20 md:w-52 md:h-32 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-premium-gold/10 transition-shadow">
-                    <Image
-                        src={getSafeImageSrc(news.image)}
-                        alt={news.title}
-                        fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
-                        unoptimized
-                    />
                 </div>
             </Link>
         </motion.div>
