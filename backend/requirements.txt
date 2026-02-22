@@ -8,3 +8,4 @@ python-dotenv
 requests
 lxml<5.2.0
 lxml_html_clean
+pytz

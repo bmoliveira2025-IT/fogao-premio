@@ -94,13 +94,15 @@ if not GEMINI_API_KEY:
 else:
     genai.configure(api_key=GEMINI_API_KEY)
 
-# Use a specific model that might have better free tier limits or just be consistent
-# The user seems to be hitting a 20-req/day limit on gemini-2.5-flash? 
-# Let's stick to gemini-1.5-flash which is standard.
+# Quota and Model Management
+# Note: gemini-2.5-flash has a 20 req/day limit. gemini-2.0-flash is available with higher quotas.
+DEFAULT_MODEL_NAME = 'gemini-2.5-flash'
+quota_exhausted = False
+
+
 try:
-    # Using 1.5-flash for stability. 
-    # Note: If 429 errors occur, the daily quota (20 reqs/day) might have been reached.
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    model = genai.GenerativeModel(DEFAULT_MODEL_NAME)
+    print(f"Gemini model initialized: {DEFAULT_MODEL_NAME}")
 except Exception as e:
     print(f"Error initializing Gemini model: {e}")
     model = None
@@ -208,6 +210,17 @@ def process_with_ai(original_title, original_content):
     }}
     """
     
+    global quota_exhausted
+    if quota_exhausted:
+         print("Skipping AI processing: Quota already exhausted in this run.")
+         return {
+            "title": original_title,
+            "summary": [original_content[:200] + "..."],
+            "content": original_content,
+            "tags": ["Botafogo"],
+            "sentiment": "Neutro"
+        }
+
     try:
         max_retries = 3
         for attempt in range(max_retries):
@@ -229,13 +242,17 @@ def process_with_ai(original_title, original_content):
                 # Check for Quota/Rate Limit Errors
                 error_str = str(e).lower()
                 if "429" in error_str or "quota" in error_str or "resource exhausted" in error_str:
-                     print("Quota exceeded. Waiting 60s before retry...")
-                     time.sleep(60)
+                     print("CRITICAL: Quota exceeded. Turning off AI features for this session.")
+                     quota_exhausted = True
+                     break # Exit retry loop
                 else:
                      if not check_connectivity():
                           print("Network check failed: Internet seems to be down.")
                      print("Retrying in 10s...")
                      time.sleep(10)
+        
+        if quota_exhausted:
+             raise Exception("Quota exhausted during retries")
     
         content = response.text
         # Basic cleanup just in case, though response_mime_type handles most
@@ -1163,6 +1180,11 @@ def generate_daily_briefing(force=False):
     """
 
     
+    global quota_exhausted
+    if quota_exhausted:
+         print("Skipping Daily Briefing generation: Quota exhausted.")
+         return
+
     try:
         max_retries = 3
         for attempt in range(max_retries):
@@ -1178,11 +1200,21 @@ def generate_daily_briefing(force=False):
                 if attempt == max_retries - 1: raise e
                 
                 print(f"Gemini API (Briefing) connection failed (Attempt {attempt+1}/{max_retries}). Error: {e}")
+                
+                error_str = str(e).lower()
+                if "429" in error_str or "quota" in error_str or "resource exhausted" in error_str:
+                     print("CRITICAL: Quota exceeded during briefing. Turning off AI features.")
+                     quota_exhausted = True
+                     break
+                
                 if not check_connectivity():
                      print("Network check failed: Internet seems to be down.")
                 
                 print("Retrying in 5s...")
                 time.sleep(5)
+        
+        if quota_exhausted:
+             return
         
         content = response.text
         briefing_data = json.loads(content)

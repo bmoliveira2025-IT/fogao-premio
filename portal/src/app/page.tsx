@@ -259,8 +259,9 @@ export default async function Home() {
   return (
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-white dark:bg-black">
 
-      {/* MATCH DAY POPUP */}
-      <MatchDayPopup nextMatch={nextMatch} />
+      {/* MATCH DAY POPUP - Disabled due to invalid date issues */}
+      {/* <MatchDayPopup nextMatch={nextMatch} /> */}
+
 
       {/* MAIN CONTENT WRAPPER */}
       <div className="w-full transition-all duration-300 pb-20 lg:pb-10">
@@ -277,12 +278,13 @@ export default async function Home() {
                   <FeaturedNewsSection news={featuredNews} className="mt-0 md:mt-8" />
                 )}
 
-                {/* NEXT MATCH - Mobile Only (After Featured) */}
-                {nextMatch && (
+                {/* NEXT MATCH - Mobile Only - Disabled per user request */}
+                {/* {nextMatch && (
                   <div className="lg:hidden">
                     <PremiumNextMatch match={nextMatch} />
                   </div>
-                )}
+                )} */}
+
 
                 {/* GLORIOSO TV (BOTAFOGO TV CAROUSEL) */}
                 <div className="px-0 md:px-0">
@@ -303,8 +305,9 @@ export default async function Home() {
             {/* --- RIGHT COLUMN (Widgets - Desktop Only) --- */}
             <div className="hidden lg:flex lg:col-span-4 flex-col gap-6 lg:gap-8 mt-8">
               <StaggeredEntry delay={0.2} staggerDelay={0.1}>
-                {/* Next Match Card */}
-                <PremiumNextMatch match={nextMatch} />
+                {/* Next Match Card - Disabled per user request */}
+                {/* <PremiumNextMatch match={nextMatch} /> */}
+
 
                 {/* Premium Widget */}
                 <PremiumWidget news={premiumNews} />
