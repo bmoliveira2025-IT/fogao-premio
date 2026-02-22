@@ -192,13 +192,7 @@ export default function ProfilePage() {
                                     onChange={() => handleToggle('podcasts')}
                                     disabled={loadingPreferences}
                                 />
-                                <ToggleItem
-                                    icon={CreditCard}
-                                    label="Vídeos Exclusivos"
-                                    checked={preferences.videos}
-                                    onChange={() => handleToggle('videos')}
-                                    disabled={loadingPreferences}
-                                />
+
                             </div>
                         </div>
 
