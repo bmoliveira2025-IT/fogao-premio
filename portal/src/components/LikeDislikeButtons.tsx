@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
 import { doc, updateDoc, arrayUnion, arrayRemove, increment, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -28,10 +28,30 @@ export default function LikeDislikeButtons({
     showPoints = false
 }: LikeDislikeButtonsProps) {
     const { user } = useAuth();
+
+    // Deterministically generate "fake" base stats based on articleId
+    const { fakeLikes, fakeDislikes } = useMemo(() => {
+        if (!articleId) return { fakeLikes: 0, fakeDislikes: 0 };
+
+        let hash = 0;
+        for (let i = 0; i < articleId.length; i++) {
+            hash = ((hash << 5) - hash) + articleId.charCodeAt(i);
+            hash |= 0;
+        }
+
+        const absHash = Math.abs(hash);
+        // Generates between 15 and 286 fake likes depending on article ID
+        const likes = (absHash % 271) + 15;
+        // Generates between 0 and 4 fake dislikes
+        const dislikes = (absHash % 5);
+
+        return { fakeLikes: likes, fakeDislikes: dislikes };
+    }, [articleId]);
+
     const [liked, setLiked] = useState(false);
     const [disliked, setDisliked] = useState(false);
-    const [likesCount, setLikesCount] = useState(initialLikes);
-    const [dislikesCount, setDislikesCount] = useState(initialDislikes);
+    const [likesCount, setLikesCount] = useState(initialLikes + fakeLikes);
+    const [dislikesCount, setDislikesCount] = useState(initialDislikes + fakeDislikes);
     const [recentLiker, setRecentLiker] = useState<any>(null);
     const [pointsAwarded, setPointsAwarded] = useState(false);
 
@@ -42,8 +62,8 @@ export default function LikeDislikeButtons({
         const unsubscribe = onSnapshot(newsRef, (docSnap) => {
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                setLikesCount(data.likes_count || 0);
-                setDislikesCount(data.dislikes_count || 0);
+                setLikesCount((data.likes_count || 0) + fakeLikes);
+                setDislikesCount((data.dislikes_count || 0) + fakeDislikes);
 
                 if (user) {
                     const likedBy = data.liked_by || [];
@@ -132,11 +152,6 @@ export default function LikeDislikeButtons({
 
     return (
         <div className={`flex items-center gap-2 ${className}`}>
-            {recentLiker && (
-                <div className={`${isHero ? 'w-8 h-8' : 'w-6 h-6'} rounded-full bg-zinc-800 dark:bg-white/10 flex items-center justify-center border border-white/10 text-premium-gold dark:text-white font-black ${isHero ? 'text-xs' : 'text-[10px]'} shadow-sm`}>
-                    {recentLiker.initial}
-                </div>
-            )}
             <div className={`flex items-center ${isHero ? 'bg-black/40' : (isFull ? 'bg-black/5 dark:bg-white/5 h-11' : 'bg-white/5')} backdrop-blur-sm border border-white/10 rounded-full overflow-hidden`}>
                 <button
                     onClick={(e) => handleAction('like', e)}

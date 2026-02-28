@@ -29,6 +29,7 @@ const config: Config = {
             fontFamily: {
                 sans: ["Inter", "Roboto", "Open Sans", "sans-serif"],
                 display: ["Outfit", "sans-serif"],
+                serif: ["Playfair Display", "serif"],
             },
             keyframes: {
                 fadeIn: {

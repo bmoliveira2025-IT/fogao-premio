@@ -44,10 +44,10 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
             className
         )}>
             <div className={cn(
-                "glass-ultra border-b transition-all duration-500",
+                "glass-ultra border-b transition-all duration-500 safe-pt",
                 scrolled
-                    ? "border-white/[0.08] shadow-2xl"
-                    : "border-transparent shadow-xl"
+                    ? "border-white/[0.08] shadow-2xl bg-background/90"
+                    : "border-transparent shadow-xl bg-background/50"
             )}>
                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                     <div className="flex items-center justify-between h-14">
@@ -190,8 +190,8 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                                                     <Link
                                                         href={item.href}
                                                         className={cn(
-                                                            "relative flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-bold whitespace-nowrap transition-all duration-300 group overflow-hidden",
-                                                            "text-zinc-400 hover:text-white",
+                                                            "relative flex items-center gap-2.5 px-5 py-2 rounded-full text-[13px] font-bold whitespace-nowrap transition-all duration-300 group overflow-hidden border border-white/5",
+                                                            "text-zinc-400 bg-black/40 hover:text-white hover:bg-white/10",
                                                             isAlwaysHiddenOnMobile && "hidden lg:flex"
                                                         )}
                                                     >

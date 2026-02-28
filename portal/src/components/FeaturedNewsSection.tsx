@@ -108,17 +108,17 @@ function HeroCard({ news }: { news: NewsItem }) {
                 {/* Bottom Content Section (Solid Block) */}
                 <div className="p-6 md:p-10 space-y-5">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
-                        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-background/50 backdrop-blur-md rounded-full border border-white/5">
                             <Flame size={14} className="text-premium-gold fill-current" />
                             <span className="text-[10px] font-bold text-premium-gold uppercase tracking-[0.2em]">Destaque</span>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/5">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-background/50 backdrop-blur-md rounded-full border border-white/5">
                             <SourceIcon source={news.source} className="w-4 h-4 text-premium-gold" />
                             <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${colors.text}`}>{news.source || 'Botafogo'}</span>
                         </div>
                     </div>
 
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-athletic text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
+                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-black text-white leading-tight lg:leading-[1.1] group-hover:text-premium-gold transition-colors duration-300 tracking-tight">
                         {toSentenceCase(news.title)}
                     </h2>
 
@@ -151,57 +151,51 @@ function HeroCard({ news }: { news: NewsItem }) {
     );
 }
 
-// Secondary Card Component (Grid Items)
-// Secondary Card Component (Horizontal List Item)
+// Square Secondary Card Component (Bento Grid)
 function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
     const colors = getSourceColor(news.source);
 
     return (
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="h-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover"
+                className="group relative flex flex-col h-full bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-3xl overflow-hidden hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 shadow-lg"
             >
-                {/* Image */}
-                <div className="relative w-28 h-20 md:w-52 md:h-32 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-premium-gold/10 transition-shadow">
+                {/* Image Background */}
+                <div className="absolute inset-0 w-full h-full">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 flex flex-col justify-between py-0.5">
-                    <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2">
-                            <SourceIcon source={news.source} className="w-3.5 h-3.5 text-premium-gold" />
-                            <span className={`text-[10px] font-bold uppercase tracking-[0.2em] ${colors.text}`}>
-                                {news.source || 'Botafogo'}
-                            </span>
-                        </div>
-                        <h3 className="text-[17px] md:text-2xl font-athletic text-white/90 leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
-                            {toSentenceCase(news.title)}
-                        </h3>
+                {/* Content Overlay */}
+                <div className="relative flex-1 flex flex-col justify-between p-4 z-10 w-full h-full">
+                    {/* Source Badge at TOP */}
+                    <div className="flex justify-start">
+                        <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] ${colors.text} bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-md border border-white/10`}>
+                            {news.source || 'Botafogo'}
+                        </span>
                     </div>
 
-                    <div className="flex items-center justify-between mt-4 min-w-0">
-                        <div className="flex items-center gap-1.5 md:gap-2 min-w-0 flex-shrink flex-grow-0 overflow-hidden">
-                            <Clock size={12} className="text-zinc-500 flex-shrink-0" />
-                            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
-                                {getRelativeTime(news.created_at)}
-                            </span>
-                        </div>
+                    {/* Bottom Content */}
+                    <div className="flex flex-col mt-auto pt-4 md:pt-10">
+                        <h3 className="text-[14px] md:text-[17px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-premium-gold transition-colors line-clamp-3 mb-3 drop-shadow-md">
+                            {toSentenceCase(news.title)}
+                        </h3>
 
-                        <LikeDislikeButtons
-                            articleId={news.id}
-                            initialLikes={news.likes_count}
-                            initialDislikes={news.dislikes_count}
-                            className="flex-shrink-0 ml-2 scale-[0.9] origin-right"
-                        />
+                        <div className="flex h-[32px] items-center justify-between min-w-0 pt-3 border-t border-white/10">
+                            <div className="flex items-center gap-1.5 min-w-0">
+                                <Clock size={12} className="text-white/40 flex-shrink-0" />
+                                <span className="text-[9px] md:text-[10px] font-bold text-white/50 uppercase tracking-widest whitespace-nowrap" suppressHydrationWarning>
+                                    {getRelativeTime(news.created_at)}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Link>
@@ -223,21 +217,21 @@ export default function FeaturedNewsSection({ news, className = '' }: FeaturedNe
             animate="visible"
         >
 
-            {/* Hero Card */}
+            {/* Bento Grid */}
             <div className="px-4 md:px-0">
-                <HeroCard news={heroNews} />
-            </div>
-
-            {/* Secondary Grid - Horizontal List */}
-            {secondaryNews.length > 0 && (
-                <div className="px-4 md:px-0">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
-                        {secondaryNews.map((item, index) => (
-                            <SecondaryCard key={item.id} news={item} index={index} />
-                        ))}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                    {/* Hero Card - Spans full width on mobile, 2 columns on desktop */}
+                    <div className="col-span-2 md:col-span-4 lg:col-span-2 lg:row-span-2 h-full">
+                        <HeroCard news={heroNews} />
                     </div>
+                    {/* Secondary Cards */}
+                    {secondaryNews.map((item, index) => (
+                        <div key={item.id} className="col-span-1 md:col-span-2 lg:col-span-1 aspect-square md:aspect-auto md:h-64 lg:h-auto lg:min-h-[220px]">
+                            <SecondaryCard news={item} index={index} />
+                        </div>
+                    ))}
                 </div>
-            )}
+            </div>
         </motion.section>
     );
 }

@@ -1,0 +1,505 @@
+﻿scrape	UNKNOWN STEP	´╗┐2026-02-22T00:59:00.5727086Z Current runner version: '2.331.0'
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5761107Z ##[group]Runner Image Provisioner
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5763553Z Hosted Compute Agent
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5764756Z Version: 20260123.484
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5766213Z Commit: 6bd6555ca37d84114959e1c76d2c01448ff61c5d
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5767680Z Build Date: 2026-01-23T19:41:17Z
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5769295Z Worker ID: ***b97b208f-9770-4bc6-967a-78a70942a9a9***
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5770763Z Azure Region: eastus
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5772262Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5775079Z ##[group]Operating System
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5776492Z Ubuntu
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5777486Z 24.04.3
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5778645Z LTS
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5779744Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5780964Z ##[group]Runner Image
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5782539Z Image: ubuntu-24.04
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5783814Z Version: 20260201.15.1
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5786179Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260201.15/images/ubuntu/Ubuntu2404-Readme.md
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5789207Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260201.15
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5791138Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5793789Z ##[group]GITHUB_TOKEN Permissions
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5797261Z Contents: write
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5798513Z Metadata: read
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5799678Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5803173Z Secret source: Actions
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.5805142Z Prepare workflow directory
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.6271535Z Prepare all required actions
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.6327514Z Getting action download info
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.8786651Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+scrape	UNKNOWN STEP	2026-02-22T00:59:00.9736983Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.1516731Z Complete job name: scrape
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2209566Z ##[group]Run actions/checkout@v4
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2210535Z with:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2211111Z   repository: bmoliveira2025-IT/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2212196Z   token: ***
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2212727Z   ssh-strict: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2213262Z   ssh-user: git
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2213806Z   persist-credentials: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2214387Z   clean: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2214940Z   sparse-checkout-cone-mode: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2215558Z   fetch-depth: 1
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2216087Z   fetch-tags: false
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2216620Z   show-progress: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2217163Z   lfs: false
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2217666Z   submodules: false
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2218210Z   set-safe-directory: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.2219041Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3279170Z Syncing repository: bmoliveira2025-IT/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3281430Z ##[group]Getting Git version info
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3282405Z Working directory is '/home/runner/work/fogao-premio/fogao-premio'
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3283606Z [command]/usr/bin/git version
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3348631Z git version 2.52.0
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3374272Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3388237Z Temporarily overriding HOME='/home/runner/work/_temp/f593921a-eee4-4a6c-8b32-754eae7179ce' before making global git config changes
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3390940Z Adding repository directory to the temporary git global config as a safe directory
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3401752Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fogao-premio/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3439476Z Deleting the contents of '/home/runner/work/fogao-premio/fogao-premio'
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3443404Z ##[group]Initializing the repository
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3448207Z [command]/usr/bin/git init /home/runner/work/fogao-premio/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3570859Z hint: Using 'master' as the name for the initial branch. This default branch name
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3572607Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3574071Z hint: to use in all of your new repositories, which will suppress this warning,
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3575480Z hint: call:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3576381Z hint:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3577504Z hint: 	git config --global init.defaultBranch <name>
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3578827Z hint:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3580089Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3582270Z hint: 'development'. The just-created branch can be renamed via this command:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3583765Z hint:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3584660Z hint: 	git branch -m <name>
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3585742Z hint:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3587088Z hint: Disable this message with "git config set advice.defaultBranchName false"
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3589296Z Initialized empty Git repository in /home/runner/work/fogao-premio/fogao-premio/.git/
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3592788Z [command]/usr/bin/git remote add origin https://github.com/bmoliveira2025-IT/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3623669Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3625289Z ##[group]Disabling automatic garbage collection
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3628100Z [command]/usr/bin/git config --local gc.auto 0
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3657093Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3658710Z ##[group]Setting up auth
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3664678Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.3695343Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4034307Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4064036Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4280234Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4310084Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4534849Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4568001Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4569659Z ##[group]Fetching the repository
+scrape	UNKNOWN STEP	2026-02-22T00:59:01.4577563Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9dba184eb3bdca285b7c5b40364a4b4068814c4c:refs/remotes/origin/main
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0656227Z From https://github.com/bmoliveira2025-IT/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0658425Z  * [new ref]         9dba184eb3bdca285b7c5b40364a4b4068814c4c -> origin/main
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0692687Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0694390Z ##[group]Determining the checkout info
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0696613Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0698145Z [command]/usr/bin/git sparse-checkout disable
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0740665Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0767703Z ##[group]Checking out the ref
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.0772249Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.1679357Z Switched to a new branch 'main'
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.1681352Z branch 'main' set up to track 'origin/main'.
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.1697039Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.1734370Z [command]/usr/bin/git log -1 --format=%H
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.1757190Z 9dba184eb3bdca285b7c5b40364a4b4068814c4c
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2152821Z ##[group]Run actions/setup-python@v5
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2154274Z with:
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2155384Z   python-version: 3.11
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2156585Z   cache: pip
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2157701Z   check-latest: false
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2159165Z   token: ***
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2160280Z   update-environment: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2161719Z   allow-prereleases: false
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2162994Z   freethreaded: false
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.2164157Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.3840307Z ##[group]Installed versions
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.3952978Z Successfully set up CPython (3.11.14)
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.3954219Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.4819128Z [command]/opt/hostedtoolcache/Python/3.11.14/x64/bin/pip cache dir
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.7850722Z /home/runner/.cache/pip
+scrape	UNKNOWN STEP	2026-02-22T00:59:02.8796459Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.14-pip-58a035e3900e5e54112b8b99e7e04cc78e4aa14cec4f32925682e1e67bd92352
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.4187317Z Received 74020461 of 74020461 (100.0%), 155.5 MBs/sec
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.4188140Z Cache Size: ~71 MB (74020461 B)
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.4215482Z [command]/usr/bin/tar -xf /home/runner/work/_temp/628b6319-cd44-41a8-a911-fcf7f9d29270/cache.tzst -P -C /home/runner/work/fogao-premio/fogao-premio --use-compress-program unzstd
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.5792861Z Cache restored successfully
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.5936084Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.11.14-pip-58a035e3900e5e54112b8b99e7e04cc78e4aa14cec4f32925682e1e67bd92352
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6108235Z ##[group]Run python -m pip install --upgrade pip
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6108785Z [36;1mpython -m pip install --upgrade pip[0m
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6109354Z [36;1mif [ -f backend/requirements.txt ]; then pip install -r backend/requirements.txt; fi[0m
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6148055Z shell: /usr/bin/bash -e ***0***
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6148390Z env:
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6148715Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6149220Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6149721Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6150175Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6150639Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6151122Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+scrape	UNKNOWN STEP	2026-02-22T00:59:03.6151681Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.1815852Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.14/x64/lib/python3.11/site-packages (26.0)
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.2812045Z Collecting pip
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.3403804Z   Downloading pip-26.0.1-py3-none-any.whl.metadata (4.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.3486658Z Downloading pip-26.0.1-py3-none-any.whl (1.8 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.3961109Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 1.8/1.8 MB 74.7 MB/s  0:00:00
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.4169983Z Installing collected packages: pip
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.4171809Z   Attempting uninstall: pip
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.4185666Z     Found existing installation: pip 26.0
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.4667916Z     Uninstalling pip-26.0:
+scrape	UNKNOWN STEP	2026-02-22T00:59:04.4725421Z       Successfully uninstalled pip-26.0
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.2689340Z Successfully installed pip-26.0.1
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.8110967Z Collecting fastapi (from -r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.8648020Z   Downloading fastapi-0.129.2-py3-none-any.whl.metadata (30 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9051101Z Collecting uvicorn (from -r backend/requirements.txt (line 2))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9090068Z   Downloading uvicorn-0.41.0-py3-none-any.whl.metadata (6.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9266034Z Collecting firebase-admin (from -r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9279956Z   Using cached firebase_admin-7.1.0-py3-none-any.whl.metadata (1.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9448178Z Collecting newspaper3k (from -r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9463108Z   Using cached newspaper3k-0.2.8-py3-none-any.whl.metadata (11 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9564708Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9578308Z   Using cached google_generativeai-0.8.6-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9717346Z Collecting beautifulsoup4 (from -r backend/requirements.txt (line 6))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9731948Z   Using cached beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9875729Z Collecting python-dotenv (from -r backend/requirements.txt (line 7))
+scrape	UNKNOWN STEP	2026-02-22T00:59:05.9889445Z   Using cached python_dotenv-1.2.1-py3-none-any.whl.metadata (25 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.0102478Z Collecting requests (from -r backend/requirements.txt (line 8))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.0116095Z   Using cached requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.1694394Z Collecting lxml<5.2.0 (from -r backend/requirements.txt (line 9))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.1709686Z   Using cached lxml-5.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.5 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.1802508Z Collecting lxml_html_clean (from -r backend/requirements.txt (line 10))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.1815989Z   Using cached lxml_html_clean-0.4.3-py3-none-any.whl.metadata (2.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.2026783Z Collecting starlette<1.0.0,>=0.40.0 (from fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.2094854Z   Downloading starlette-0.52.1-py3-none-any.whl.metadata (6.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3044236Z Collecting pydantic>=2.7.0 (from fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3057421Z   Using cached pydantic-2.12.5-py3-none-any.whl.metadata (90 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3207459Z Collecting typing-extensions>=4.8.0 (from fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3220231Z   Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3300714Z Collecting typing-inspection>=0.4.2 (from fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3313724Z   Using cached typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3384533Z Collecting annotated-doc>=0.0.2 (from fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3398089Z   Using cached annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3544868Z Collecting anyio<5,>=3.6.2 (from starlette<1.0.0,>=0.40.0->fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3558107Z   Using cached anyio-4.12.1-py3-none-any.whl.metadata (4.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3679811Z Collecting idna>=2.8 (from anyio<5,>=3.6.2->starlette<1.0.0,>=0.40.0->fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3693168Z   Using cached idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3839705Z Collecting click>=7.0 (from uvicorn->-r backend/requirements.txt (line 2))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3853325Z   Using cached click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3938196Z Collecting h11>=0.8 (from uvicorn->-r backend/requirements.txt (line 2))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.3952783Z   Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4057032Z Collecting cachecontrol>=0.14.3 (from firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4070324Z   Using cached cachecontrol-0.14.4-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4299625Z Collecting google-api-core<3.0.0dev,>=2.25.1 (from google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4337780Z   Downloading google_api_core-2.30.0-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4509863Z Collecting google-cloud-firestore>=2.21.0 (from firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4563726Z   Downloading google_cloud_firestore-2.23.0-py3-none-any.whl.metadata (10 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4769348Z Collecting google-cloud-storage>=3.1.1 (from firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4808454Z   Downloading google_cloud_storage-3.9.0-py3-none-any.whl.metadata (15 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.4984877Z Collecting pyjwt>=2.10.1 (from pyjwt[crypto]>=2.10.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5025275Z   Downloading pyjwt-2.11.0-py3-none-any.whl.metadata (4.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5347852Z Collecting httpx==0.28.1 (from httpx[http2]==0.28.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5362341Z   Using cached httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5533986Z Collecting certifi (from httpx==0.28.1->httpx[http2]==0.28.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5547746Z   Using cached certifi-2026.1.4-py3-none-any.whl.metadata (2.5 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5676697Z Collecting httpcore==1.* (from httpx==0.28.1->httpx[http2]==0.28.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5689572Z   Using cached httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5820755Z Collecting h2<5,>=3 (from httpx[http2]==0.28.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.5833581Z   Using cached h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.6003447Z Collecting googleapis-common-protos<2.0.0,>=1.56.3 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.6015870Z   Using cached googleapis_common_protos-1.72.0-py3-none-any.whl.metadata (9.4 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.7306523Z Collecting protobuf<7.0.0,>=4.25.8 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.7344168Z   Downloading protobuf-6.33.5-cp39-abi3-manylinux2014_x86_64.whl.metadata (593 bytes)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.7497434Z Collecting proto-plus<2.0.0,>=1.22.3 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.7534136Z   Downloading proto_plus-1.27.1-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.7819206Z Collecting google-auth<3.0.0,>=2.14.1 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.7856486Z   Downloading google_auth-2.48.0-py3-none-any.whl.metadata (6.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.8600446Z Collecting charset_normalizer<4,>=2 (from requests->-r backend/requirements.txt (line 8))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.8614662Z   Using cached charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.8835330Z Collecting urllib3<3,>=1.21.1 (from requests->-r backend/requirements.txt (line 8))
+scrape	UNKNOWN STEP	2026-02-22T00:59:06.8849052Z   Using cached urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.3439024Z Collecting grpcio<2.0.0,>=1.33.2 (from google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.3480593Z   Downloading grpcio-1.78.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.8 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.3810799Z Collecting grpcio-status<2.0.0,>=1.33.2 (from google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.3848024Z   Downloading grpcio_status-1.78.1-py3-none-any.whl.metadata (1.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.4071727Z Collecting pyasn1-modules>=0.2.1 (from google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.4084038Z   Using cached pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.5998518Z Collecting cryptography>=38.0.3 (from google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6040456Z   Downloading cryptography-46.0.5-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6206404Z Collecting rsa<5,>=3.1.4 (from google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6219651Z   Using cached rsa-4.9.1-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6517626Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]==0.28.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6530859Z   Using cached hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6610636Z Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]==0.28.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6624072Z   Using cached hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6885673Z Collecting pyasn1>=0.1.3 (from rsa<5,>=3.1.4->google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.6930001Z   Downloading pyasn1-0.6.2-py3-none-any.whl.metadata (8.4 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.8461791Z Collecting Pillow>=3.3.0 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.8505710Z   Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.8862277Z Collecting PyYAML>=3.11 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.8875491Z   Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.8979513Z Collecting cssselect>=0.9.2 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9019278Z   Downloading cssselect-1.4.0-py3-none-any.whl.metadata (2.4 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9187624Z Collecting nltk>=3.2.1 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9200403Z   Using cached nltk-3.9.2-py3-none-any.whl.metadata (3.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9331467Z Collecting feedparser>=5.2.1 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9344010Z   Using cached feedparser-6.0.12-py3-none-any.whl.metadata (2.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9471105Z Collecting tldextract>=2.0.1 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9484291Z   Using cached tldextract-5.3.1-py3-none-any.whl.metadata (7.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9566014Z Collecting feedfinder2>=0.0.4 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9567617Z   Using cached feedfinder2-0.0.4-py3-none-any.whl
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9662599Z Collecting jieba3k>=0.35.1 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9664187Z   Using cached jieba3k-0.35.1-py3-none-any.whl
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9760278Z Collecting python-dateutil>=2.5.3 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9773333Z   Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9846607Z Collecting tinysegmenter==0.3 (from newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9848554Z   Using cached tinysegmenter-0.3-py3-none-any.whl
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9971098Z Collecting google-ai-generativelanguage==0.6.15 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:07.9984844Z   Using cached google_ai_generativelanguage-0.6.15-py3-none-any.whl.metadata (5.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.0940242Z Collecting google-api-python-client (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.0983737Z   Downloading google_api_python_client-2.190.0-py3-none-any.whl.metadata (7.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1337051Z Collecting tqdm (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1377959Z   Downloading tqdm-4.67.3-py3-none-any.whl.metadata (57 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1528891Z Collecting google-auth<3.0.0,>=2.14.1 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1571482Z   Downloading google_auth-2.49.0.dev0-py3-none-any.whl.metadata (6.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1676948Z INFO: pip is looking at multiple versions of google-ai-generativelanguage to determine which version is compatible with other requirements. This could take a while.
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1684331Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1698190Z   Using cached google_generativeai-0.8.5-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1744159Z   Using cached google_generativeai-0.8.4-py3-none-any.whl.metadata (4.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1789362Z   Using cached google_generativeai-0.8.3-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1816337Z Collecting google-ai-generativelanguage==0.6.10 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1830077Z   Using cached google_ai_generativelanguage-0.6.10-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1868132Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1881843Z   Using cached google_generativeai-0.8.2-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1926188Z   Using cached google_generativeai-0.8.1-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1949783Z Collecting google-ai-generativelanguage==0.6.9 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1963612Z   Using cached google_ai_generativelanguage-0.6.9-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.1996954Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2010761Z   Using cached google_generativeai-0.8.0-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2055676Z   Using cached google_generativeai-0.7.2-py3-none-any.whl.metadata (4.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2079443Z Collecting google-ai-generativelanguage==0.6.6 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2094837Z   Using cached google_ai_generativelanguage-0.6.6-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2171865Z INFO: pip is still looking at multiple versions of google-ai-generativelanguage to determine which version is compatible with other requirements. This could take a while.
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2178614Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2191776Z   Using cached google_generativeai-0.7.1-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2236148Z   Using cached google_generativeai-0.7.0-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2259180Z Collecting google-ai-generativelanguage==0.6.5 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2272460Z   Using cached google_ai_generativelanguage-0.6.5-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2305251Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2318300Z   Using cached google_generativeai-0.6.0-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2341792Z Collecting google-ai-generativelanguage==0.6.4 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2354789Z   Using cached google_ai_generativelanguage-0.6.4-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2388384Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2401645Z   Using cached google_generativeai-0.5.4-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2446031Z   Using cached google_generativeai-0.5.3-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2469341Z Collecting google-ai-generativelanguage==0.6.3 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2482628Z   Using cached google_ai_generativelanguage-0.6.3-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2511090Z INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2518011Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2530970Z   Using cached google_generativeai-0.5.2-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2554732Z Collecting google-ai-generativelanguage==0.6.2 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2567717Z   Using cached google_ai_generativelanguage-0.6.2-py3-none-any.whl.metadata (5.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2600631Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2613956Z   Using cached google_generativeai-0.5.1-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2658661Z   Using cached google_generativeai-0.5.0-py3-none-any.whl.metadata (3.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2682122Z Collecting google-ai-generativelanguage==0.6.1 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2695084Z   Using cached google_ai_generativelanguage-0.6.1-py3-none-any.whl.metadata (5.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2729515Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2742247Z   Using cached google_generativeai-0.4.1-py3-none-any.whl.metadata (6.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2767391Z Collecting google-ai-generativelanguage==0.4.0 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2780125Z   Using cached google_ai_generativelanguage-0.4.0-py3-none-any.whl.metadata (5.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2816114Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2828941Z   Using cached google_generativeai-0.4.0-py3-none-any.whl.metadata (6.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2873967Z   Using cached google_generativeai-0.3.2-py3-none-any.whl.metadata (5.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2918380Z   Using cached google_generativeai-0.3.1-py3-none-any.whl.metadata (5.9 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.2963294Z   Using cached google_generativeai-0.3.0-py3-none-any.whl.metadata (5.8 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3009505Z   Using cached google_generativeai-0.2.2-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3033131Z Collecting google-ai-generativelanguage==0.3.3 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3046850Z   Using cached google_ai_generativelanguage-0.3.3-py3-none-any.whl.metadata (5.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3100706Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3114591Z   Using cached google_generativeai-0.2.1-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3163175Z   Using cached google_generativeai-0.2.0-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3187073Z Collecting google-ai-generativelanguage==0.3.2 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3200794Z   Using cached google_ai_generativelanguage-0.3.2-py3-none-any.whl.metadata (5.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3231959Z Collecting google-generativeai (from -r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3245891Z   Using cached google_generativeai-0.1.0-py3-none-any.whl.metadata (3.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3271108Z Collecting google-ai-generativelanguage==0.2.0 (from google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3285012Z   Using cached google_ai_generativelanguage-0.2.0-py3-none-any.whl.metadata (5.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3320560Z Collecting proto-plus<2.0.0,>=1.22.3 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3333896Z   Using cached proto_plus-1.27.0-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.3824349Z   Using cached proto_plus-1.26.1-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4313847Z   Using cached proto_plus-1.26.0-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4360893Z INFO: pip is looking at multiple versions of proto-plus to determine which version is compatible with other requirements. This could take a while.
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4376931Z   Using cached proto_plus-1.25.0-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4403607Z   Using cached proto_plus-1.24.0-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4431131Z   Using cached proto_plus-1.23.0-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4492570Z   Using cached proto_plus-1.22.3-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4515338Z Collecting grpcio-status<2.0.0,>=1.33.2 (from google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.4556445Z   Downloading grpcio_status-1.78.0-py3-none-any.whl.metadata (1.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.6115357Z INFO: pip is still looking at multiple versions of proto-plus to determine which version is compatible with other requirements. This could take a while.
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.6137619Z   Using cached grpcio_status-1.76.0-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.7687968Z INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.7709681Z   Using cached grpcio_status-1.75.1-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:08.9266074Z   Using cached grpcio_status-1.75.0-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.0842374Z   Using cached grpcio_status-1.74.0-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.2445374Z   Using cached grpcio_status-1.73.1-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.4344667Z   Using cached grpcio_status-1.73.0-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.5936604Z   Using cached grpcio_status-1.72.2-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.7530929Z   Using cached grpcio_status-1.72.1-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.9128106Z   Using cached grpcio_status-1.71.2-py3-none-any.whl.metadata (1.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.9220109Z Collecting protobuf<7.0.0,>=4.25.8 (from google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.9260129Z   Downloading protobuf-5.29.6-cp38-abi3-manylinux2014_x86_64.whl.metadata (592 bytes)
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.9712259Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->-r backend/requirements.txt (line 6))
+scrape	UNKNOWN STEP	2026-02-22T00:59:09.9753247Z   Downloading soupsieve-2.8.3-py3-none-any.whl.metadata (4.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.0388564Z Collecting msgpack<2.0.0,>=0.5.2 (from cachecontrol>=0.14.3->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.0403266Z   Using cached msgpack-1.1.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1299578Z Collecting cffi>=2.0.0 (from cryptography>=38.0.3->google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1313507Z   Using cached cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1426069Z Collecting pycparser (from cffi>=2.0.0->cryptography>=38.0.3->google-auth<3.0.0,>=2.14.1->google-api-core<3.0.0dev,>=2.25.1->google-api-core[grpc]<3.0.0dev,>=2.25.1; platform_python_implementation != "PyPy"->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1477768Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1609605Z Collecting six (from feedfinder2>=0.0.4->newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1623298Z   Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1701455Z Collecting sgmllib3k (from feedparser>=5.2.1->newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1702578Z   Using cached sgmllib3k-1.0.0-py3-none-any.whl
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1841780Z Collecting google-cloud-core<3.0.0,>=1.4.1 (from google-cloud-firestore>=2.21.0->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.1856046Z   Using cached google_cloud_core-2.5.0-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.2224642Z Collecting google-resumable-media<3.0.0,>=2.7.2 (from google-cloud-storage>=3.1.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.2237733Z   Using cached google_resumable_media-2.8.0-py3-none-any.whl.metadata (2.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.2664481Z Collecting google-crc32c<2.0.0,>=1.1.3 (from google-cloud-storage>=3.1.1->firebase-admin->-r backend/requirements.txt (line 3))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.2678718Z   Using cached google_crc32c-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (1.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.2885913Z Collecting joblib (from nltk>=3.2.1->newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.2899681Z   Using cached joblib-1.5.3-py3-none-any.whl.metadata (5.5 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.6555521Z Collecting regex>=2021.8.3 (from nltk>=3.2.1->newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.6598677Z   Downloading regex-2026.2.19-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.6756999Z Collecting annotated-types>=0.6.0 (from pydantic>=2.7.0->fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:10.6769805Z   Using cached annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3024396Z Collecting pydantic-core==2.41.5 (from pydantic>=2.7.0->fastapi->-r backend/requirements.txt (line 1))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3039963Z   Using cached pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3331087Z Collecting requests-file>=1.4 (from tldextract>=2.0.1->newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3344066Z   Using cached requests_file-3.0.1-py2.py3-none-any.whl.metadata (1.7 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3528672Z Collecting filelock>=3.0.8 (from tldextract>=2.0.1->newspaper3k->-r backend/requirements.txt (line 4))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3565628Z   Downloading filelock-3.24.3-py3-none-any.whl.metadata (2.0 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3754907Z Collecting httplib2<1.0.0,>=0.19.0 (from google-api-python-client->google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3798108Z   Downloading httplib2-0.31.2-py3-none-any.whl.metadata (2.2 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3944906Z Collecting google-auth-httplib2<1.0.0,>=0.2.0 (from google-api-python-client->google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.3958197Z   Using cached google_auth_httplib2-0.3.0-py3-none-any.whl.metadata (3.1 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4040063Z Collecting uritemplate<5,>=3.0.1 (from google-api-python-client->google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4053653Z   Using cached uritemplate-4.2.0-py3-none-any.whl.metadata (2.6 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4262366Z Collecting pyparsing<4,>=3.1 (from httplib2<1.0.0,>=0.19.0->google-api-python-client->google-generativeai->-r backend/requirements.txt (line 5))
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4302350Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4400662Z Using cached lxml-5.1.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.1 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4474358Z Downloading fastapi-0.129.2-py3-none-any.whl (103 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4538881Z Downloading starlette-0.52.1-py3-none-any.whl (74 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4574304Z Using cached anyio-4.12.1-py3-none-any.whl (113 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4614392Z Downloading uvicorn-0.41.0-py3-none-any.whl (68 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4649501Z Using cached firebase_admin-7.1.0-py3-none-any.whl (137 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4663426Z Using cached httpx-0.28.1-py3-none-any.whl (73 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4702013Z Downloading google_api_core-2.30.0-py3-none-any.whl (173 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4742486Z Using cached requests-2.32.5-py3-none-any.whl (64 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4756641Z Using cached charset_normalizer-3.4.4-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (151 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4792651Z Downloading google_auth-2.48.0-py3-none-any.whl (236 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4833356Z Using cached googleapis_common_protos-1.72.0-py3-none-any.whl (297 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.4874132Z Downloading grpcio-1.78.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (6.7 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5202608Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 6.7/6.7 MB 215.3 MB/s  0:00:00
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5217060Z Using cached grpcio_status-1.71.2-py3-none-any.whl (14 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5258147Z Downloading proto_plus-1.27.1-py3-none-any.whl (50 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5317782Z Downloading protobuf-5.29.6-cp38-abi3-manylinux2014_x86_64.whl (320 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5370800Z Using cached h2-4.3.0-py3-none-any.whl (61 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5384582Z Using cached hpack-4.1.0-py3-none-any.whl (34 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5397841Z Using cached httpcore-1.0.9-py3-none-any.whl (78 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5411367Z Using cached hyperframe-6.1.0-py3-none-any.whl (13 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5424399Z Using cached idna-3.11-py3-none-any.whl (71 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5437553Z Using cached rsa-4.9.1-py3-none-any.whl (34 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5450821Z Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5475930Z Using cached urllib3-2.6.3-py3-none-any.whl (131 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5485616Z Using cached newspaper3k-0.2.8-py3-none-any.whl (211 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5499944Z Using cached google_generativeai-0.8.6-py3-none-any.whl (155 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5514201Z Using cached google_ai_generativelanguage-0.6.15-py3-none-any.whl (1.3 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5536608Z Using cached beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5551928Z Using cached python_dotenv-1.2.1-py3-none-any.whl (21 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5565644Z Using cached lxml_html_clean-0.4.3-py3-none-any.whl (14 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5578710Z Using cached annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5591984Z Using cached cachecontrol-0.14.4-py3-none-any.whl (22 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5605814Z Using cached msgpack-1.1.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (426 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5621699Z Using cached certifi-2026.1.4-py3-none-any.whl (152 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5635684Z Using cached click-8.3.1-py3-none-any.whl (108 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5677959Z Downloading cryptography-46.0.5-cp311-abi3-manylinux_2_34_x86_64.whl (4.5 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5905330Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 4.5/4.5 MB 206.8 MB/s  0:00:00
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5919388Z Using cached cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5957613Z Downloading cssselect-1.4.0-py3-none-any.whl (18 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.5993352Z Using cached feedparser-6.0.12-py3-none-any.whl (81 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6030304Z Downloading google_cloud_firestore-2.23.0-py3-none-any.whl (411 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6078664Z Using cached google_cloud_core-2.5.0-py3-none-any.whl (29 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6114855Z Downloading google_cloud_storage-3.9.0-py3-none-any.whl (321 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6161621Z Using cached google_crc32c-1.8.0-cp311-cp311-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (33 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6174955Z Using cached google_resumable_media-2.8.0-py3-none-any.whl (81 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6188693Z Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6202305Z Using cached nltk-3.9.2-py3-none-any.whl (1.5 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6253365Z Downloading pillow-12.1.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6582396Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 7.0/7.0 MB 223.2 MB/s  0:00:00
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6621400Z Downloading pyasn1-0.6.2-py3-none-any.whl (83 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6656824Z Using cached pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6671361Z Using cached pydantic-2.12.5-py3-none-any.whl (463 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6687964Z Using cached pydantic_core-2.41.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6714940Z Using cached annotated_types-0.7.0-py3-none-any.whl (13 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6754651Z Downloading pyjwt-2.11.0-py3-none-any.whl (28 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6789368Z Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6804682Z Using cached pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6848531Z Downloading regex-2026.2.19-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (800 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6917765Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 800.6/800.6 kB 117.1 MB/s  0:00:00
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6931561Z Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.6970303Z Downloading soupsieve-2.8.3-py3-none-any.whl (37 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7003744Z Using cached tldextract-5.3.1-py3-none-any.whl (105 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7040485Z Downloading filelock-3.24.3-py3-none-any.whl (24 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7076578Z Using cached requests_file-3.0.1-py2.py3-none-any.whl (4.5 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7090030Z Using cached typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7128198Z Downloading google_api_python_client-2.190.0-py3-none-any.whl (14.7 MB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7802612Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 14.7/14.7 MB 221.9 MB/s  0:00:00
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7817011Z Using cached google_auth_httplib2-0.3.0-py3-none-any.whl (9.5 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7865221Z Downloading httplib2-0.31.2-py3-none-any.whl (91 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7927296Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7965541Z Using cached uritemplate-4.2.0-py3-none-any.whl (11 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.7978856Z Using cached joblib-1.5.3-py3-none-any.whl (309 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.8020457Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.8084483Z Downloading tqdm-4.67.3-py3-none-any.whl (78 kB)
+scrape	UNKNOWN STEP	2026-02-22T00:59:11.9890214Z Installing collected packages: tinysegmenter, sgmllib3k, jieba3k, urllib3, uritemplate, typing-extensions, tqdm, soupsieve, six, regex, PyYAML, python-dotenv, pyparsing, pyjwt, pycparser, pyasn1, protobuf, Pillow, msgpack, lxml, joblib, idna, hyperframe, hpack, h11, google-crc32c, filelock, feedparser, cssselect, click, charset_normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, rsa, requests, python-dateutil, pydantic-core, pyasn1-modules, proto-plus, nltk, lxml_html_clean, httplib2, httpcore, h2, grpcio, googleapis-common-protos, google-resumable-media, cffi, beautifulsoup4, anyio, starlette, requests-file, pydantic, httpx, grpcio-status, feedfinder2, cryptography, cachecontrol, tldextract, google-auth, fastapi, newspaper3k, google-auth-httplib2, google-api-core, google-cloud-core, google-api-python-client, google-cloud-storage, google-cloud-firestore, google-ai-generativelanguage, google-generativeai, firebase-admin
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.1063462Z 
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.1100051Z Successfully installed Pillow-12.1.1 PyYAML-6.0.3 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.12.1 beautifulsoup4-4.14.3 cachecontrol-0.14.4 certifi-2026.1.4 cffi-2.0.0 charset_normalizer-3.4.4 click-8.3.1 cryptography-46.0.5 cssselect-1.4.0 fastapi-0.129.2 feedfinder2-0.0.4 feedparser-6.0.12 filelock-3.24.3 firebase-admin-7.1.0 google-ai-generativelanguage-0.6.15 google-api-core-2.30.0 google-api-python-client-2.190.0 google-auth-2.48.0 google-auth-httplib2-0.3.0 google-cloud-core-2.5.0 google-cloud-firestore-2.23.0 google-cloud-storage-3.9.0 google-crc32c-1.8.0 google-generativeai-0.8.6 google-resumable-media-2.8.0 googleapis-common-protos-1.72.0 grpcio-1.78.1 grpcio-status-1.71.2 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httplib2-0.31.2 httpx-0.28.1 hyperframe-6.1.0 idna-3.11 jieba3k-0.35.1 joblib-1.5.3 lxml-5.1.1 lxml_html_clean-0.4.3 msgpack-1.1.2 newspaper3k-0.2.8 nltk-3.9.2 proto-plus-1.27.1 protobuf-5.29.6 pyasn1-0.6.2 pyasn1-modules-0.4.2 pycparser-3.0 pydantic-2.12.5 pydantic-core-2.41.5 pyjwt-2.11.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 python-dotenv-1.2.1 regex-2026.2.19 requests-2.32.5 requests-file-3.0.1 rsa-4.9.1 sgmllib3k-1.0.0 six-1.17.0 soupsieve-2.8.3 starlette-0.52.1 tinysegmenter-0.3 tldextract-5.3.1 tqdm-4.67.3 typing-extensions-4.15.0 typing-inspection-0.4.2 uritemplate-4.2.0 urllib3-2.6.3 uvicorn-0.41.0
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6456599Z ##[group]Run python backend/scraper.py
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6456989Z [36;1mpython backend/scraper.py[0m
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6490747Z shell: /usr/bin/bash -e ***0***
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6491047Z env:
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6491608Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6492099Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6492583Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6493019Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6493444Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6493871Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6494332Z   GEMINI_API_KEY: ***
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6503872Z   FIREBASE_CREDENTIALS_JSON: ***
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6504188Z   GITHUB_ACTIONS: true
+scrape	UNKNOWN STEP	2026-02-22T00:59:19.6504446Z ##[endgroup]
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6320998Z /home/runner/work/fogao-premio/fogao-premio/backend/scraper.py:8: FutureWarning: 
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6321806Z 
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6322348Z All support for the `google.generativeai` package has ended. It will no longer be receiving 
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6323481Z updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6324290Z See README for more details:
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6324601Z 
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6325096Z https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6325748Z 
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6325963Z   import google.generativeai as genai
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6844378Z Traceback (most recent call last):
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6853315Z   File "/home/runner/work/fogao-premio/fogao-premio/backend/scraper.py", line 20, in <module>
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6854198Z     import pytz
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.6854643Z ModuleNotFoundError: No module named 'pytz'
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.7885294Z ##[error]Process completed with exit code 1.
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.8021637Z Post job cleanup.
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9047004Z [command]/usr/bin/git version
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9082231Z git version 2.52.0
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9125375Z Temporarily overriding HOME='/home/runner/work/_temp/88bf07fb-5074-4ddf-996e-1c498e7539a6' before making global git config changes
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9126887Z Adding repository directory to the temporary git global config as a safe directory
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9138377Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fogao-premio/fogao-premio
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9172673Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9205275Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9443097Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9463070Z http.https://github.com/.extraheader
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9475769Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9506849Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9729992Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+scrape	UNKNOWN STEP	2026-02-22T00:59:20.9759634Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+scrape	UNKNOWN STEP	2026-02-22T00:59:21.0089761Z Cleaning up orphan processes

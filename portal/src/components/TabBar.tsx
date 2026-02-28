@@ -83,8 +83,8 @@ export default function TabBar() {
     const tabs = [...navTabs];
 
     return (
-        <div className="fixed inset-x-0 bottom-6 z-[999] px-4 md:hidden pb-safe-offset">
-            <nav className="relative mx-auto max-w-sm w-full glass-ultra rounded-[2rem] border border-white/[0.04] shadow-premium flex items-center justify-between px-2 h-[72px] overflow-hidden">
+        <div className="fixed inset-x-0 bottom-0 z-[999] md:hidden bg-[#121214]/90 backdrop-blur-xl border-t border-white/5 safe-pb">
+            <nav className="relative mx-auto max-w-md w-full flex items-center justify-between px-2 h-[64px]">
                 {/* Subtle internal gradient glow */}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent pointer-events-none" />
 

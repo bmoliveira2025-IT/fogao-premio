@@ -1,0 +1,5 @@
+﻿023d9cf Fix: Remove Exclusive Videos from profile preferences
+de2af86 Scraper Run: Sun Feb 22 01:31:06 UTC 2026
+1f85296 Fix: Scraper failure, Quota circuit breaker and UI adjustments
+9dba184 Merge branch 'main' of https://github.com/bmoliveira2025-IT/fogao-premio
+f6f4c3f fix: squad UI, roster numbering and nationalities

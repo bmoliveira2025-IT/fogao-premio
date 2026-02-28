@@ -2,63 +2,23 @@
 import { useEffect, useState } from 'react';
 import {
     User, Settings, Bell, Shield, ChevronRight, LogOut,
-    Moon, Smartphone, Volume2, Star, CreditCard, Crown
+    Star, Crown
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { auth, db } from '@/lib/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/components/ThemeProvider';
 import { cn } from '@/lib/utils';
 import SubscriptionModal from '@/components/SubscriptionModal';
+import Link from 'next/link';
 
 export default function ProfilePage() {
     const router = useRouter();
     const { user, isPremium, points, rank } = useAuth(); // Use real auth context
+    const { theme, setTheme } = useTheme();
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
-    // Preferences State
-    const [preferences, setPreferences] = useState({
-        news: true,
-        podcasts: false,
-        videos: true
-    });
-    const [loadingPreferences, setLoadingPreferences] = useState(true);
-
-    // Load Preferences
-    useEffect(() => {
-        async function loadPreferences() {
-            if (!user) return;
-            try {
-                const userRef = doc(db, 'users', user.uid);
-                const userSnap = await getDoc(userRef);
-                if (userSnap.exists() && userSnap.data().preferences) {
-                    setPreferences(userSnap.data().preferences);
-                }
-            } catch (error) {
-                console.error("Error loading preferences:", error);
-            } finally {
-                setLoadingPreferences(false);
-            }
-        }
-        loadPreferences();
-    }, [user]);
-
-    // Save Preference
-    const handleToggle = async (key: keyof typeof preferences) => {
-        if (!user) return;
-
-        const newPreferences = { ...preferences, [key]: !preferences[key] };
-        setPreferences(newPreferences); // Optimistic update
-
-        try {
-            const userRef = doc(db, 'users', user.uid);
-            await setDoc(userRef, { preferences: newPreferences }, { merge: true });
-        } catch (error) {
-            console.error("Error saving preference:", error);
-            setPreferences(preferences); // Revert on error
-        }
-    };
 
     useEffect(() => {
         if (!user) {
@@ -174,28 +134,6 @@ export default function ProfilePage() {
                     {/* Settings Sections */}
                     <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
 
-                        {/* Preferences */}
-                        <div className="space-y-2 lg:col-span-2">
-                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Preferências de Conteúdo</h4>
-                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
-                                <ToggleItem
-                                    icon={Smartphone}
-                                    label="Notícias"
-                                    checked={preferences.news}
-                                    onChange={() => handleToggle('news')}
-                                    disabled={loadingPreferences}
-                                />
-                                <ToggleItem
-                                    icon={Volume2}
-                                    label="Podcasts"
-                                    checked={preferences.podcasts}
-                                    onChange={() => handleToggle('podcasts')}
-                                    disabled={loadingPreferences}
-                                />
-
-                            </div>
-                        </div>
-
                         {/* Audio Preferences */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Acessibilidade de Áudio</h4>
@@ -220,27 +158,67 @@ export default function ProfilePage() {
                             </div>
                         </div>
 
-                        {/* Appearances section removed as theme is strictly set to 2026 Premium Dark Theme */}
+                        {/* Appearances */}
+                        <div className="space-y-2 lg:col-span-2">
+                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Aparência</h4>
+                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium p-5 space-y-4">
+                                <div className="space-y-2">
+                                    <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Tema do Aplicativo</span>
+                                    <div className="flex bg-black rounded-lg p-1 border border-white/5">
+                                        <button
+                                            onClick={() => setTheme('glorioso')}
+                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'glorioso' ? 'bg-zinc-800 text-premium-gold shadow-lg border border-premium-gold/20' : 'text-white/40 hover:text-white'}`}
+                                        >
+                                            <Star size={14} className={theme === 'glorioso' ? 'fill-premium-gold' : ''} />
+                                            Glorioso (Ouro)
+                                        </button>
+                                        <button
+                                            onClick={() => setTheme('gloriosa')}
+                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'gloriosa' ? 'bg-zinc-800 text-pink-500 shadow-lg border border-pink-500/20' : 'text-white/40 hover:text-white'}`}
+                                        >
+                                            <Crown size={14} className={theme === 'gloriosa' ? 'fill-pink-500' : ''} />
+                                            Gloriosa (Rosa)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         {/* Notifications */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Notificações</h4>
                             <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
-                                <ToggleItem icon={Bell} label="Última Hora" checked={true} />
-                                <ToggleItem icon={Shield} label="Dia de Jogo" checked={true} />
+                                <div className="flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors duration-300">
+                                    <div className="flex items-center space-x-3">
+                                        <Bell size={18} className="text-white/70" />
+                                        <span className="text-sm font-medium text-white/90">Última Hora</span>
+                                    </div>
+                                    <div className="w-10 h-6 rounded-full p-1 transition-colors duration-300 bg-premium-gold">
+                                        <div className="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 translate-x-4" />
+                                    </div>
+                                </div>
+                                <div className="flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors duration-300">
+                                    <div className="flex items-center space-x-3">
+                                        <Shield size={18} className="text-white/70" />
+                                        <span className="text-sm font-medium text-white/90">Dia de Jogo</span>
+                                    </div>
+                                    <div className="w-10 h-6 rounded-full p-1 transition-colors duration-300 bg-premium-gold">
+                                        <div className="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 translate-x-4" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         {/* Account */}
                         <div className="space-y-2 lg:col-span-2 lg:mt-6">
                             <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
-                                <button className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left">
+                                <Link href="/settings" className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left block">
                                     <div className="flex items-center space-x-3">
                                         <Settings size={18} className="text-white/70" />
                                         <span className="text-sm font-medium text-white/90">Configurações da Conta</span>
                                     </div>
                                     <ChevronRight size={14} className="text-white/30" />
-                                </button>
+                                </Link>
                                 <button onClick={handleLogout} className="w-full flex items-center justify-between p-4 hover:bg-red-500/10 transition-colors text-left group">
                                     <div className="flex items-center space-x-3">
                                         <LogOut size={18} className="text-red-500/70 group-hover:text-red-500" />
@@ -267,45 +245,12 @@ export default function ProfilePage() {
 }
 
 
-function ToggleItem({ icon: Icon, label, checked, onChange, disabled }: { icon: any, label: string, checked: boolean, onChange?: () => void, disabled?: boolean }) {
-    const [internalChecked, setInternalChecked] = useState(checked);
-
-    useEffect(() => {
-        setInternalChecked(checked);
-    }, [checked]);
-
-    const handleClick = () => {
-        if (disabled) return;
-        if (onChange) {
-            onChange();
-        } else {
-            setInternalChecked(!internalChecked);
-        }
-    };
-
-    const isOn = onChange ? checked : internalChecked;
-
-    return (
-        <div
-            className={`flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors duration-300 cursor-pointer ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
-            onClick={handleClick}
-        >
-            <div className="flex items-center space-x-3">
-                <Icon size={18} className="text-white/70" />
-                <span className="text-sm font-medium text-white/90">{label}</span>
-            </div>
-            <div className={`w-10 h-6 rounded-full p-1 transition-colors duration-300 ${isOn ? 'bg-premium-gold' : 'bg-white/10'}`}>
-                <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 ${isOn ? 'translate-x-4' : 'translate-x-0'}`} />
-            </div>
-        </div>
-    );
-}
-
 function AudioSpeedButton({ speed }: { speed: number }) {
     const [currentSpeed, setCurrentSpeed] = useState(1);
 
     useEffect(() => {
         const saved = localStorage.getItem('voiceSpeed');
+        // eslint-disable-next-line
         if (saved) setCurrentSpeed(parseFloat(saved));
     }, []);
 
@@ -332,9 +277,11 @@ function VoiceSelector() {
         const loadVoices = () => {
             const available = window.speechSynthesis.getVoices();
             const ptVoices = available.filter(v => v.lang.includes('pt') || v.lang.includes('PT'));
+            // eslint-disable-next-line
             setVoices(ptVoices.length > 0 ? ptVoices : available);
 
             const saved = localStorage.getItem('voiceName');
+            // eslint-disable-next-line
             if (saved) setSelectedVoice(saved);
         };
 

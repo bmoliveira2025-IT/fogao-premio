@@ -973,6 +973,29 @@ def scrape_squad():
             batch.set(doc_ref, player_doc)
             count += 1
 
+        # MANUAL OVERRIDES (Players missing from Transfermarkt default page)
+        arthur_cabral = {
+            "name": "Arthur Cabral",
+            "group": "Atacantes", 
+            "position": "A", 
+            "specific_position": "Centroavante",
+            "number": "99",
+            "age": "26",
+            "country": "Brasil",
+            "image": "https://img.a.transfermarkt.technology/portrait/medium/390638-1701333640.jpg?lm=1",
+            "source": "manual",
+            "updated_at": firestore.SERVER_TIMESTAMP
+        }
+        batch.set(db.collection('squad').document('arthur-cabral'), arthur_cabral)
+        count += 1
+        
+        # Override Cristian Medina's number
+        medina = db.collection('squad').document('cristian-medina').get()
+        if medina.exists:
+             medina_data = medina.to_dict()
+             medina_data['number'] = "5"
+             batch.set(db.collection('squad').document('cristian-medina'), medina_data)
+
         batch.commit()
         
         # Update metadata for next run
