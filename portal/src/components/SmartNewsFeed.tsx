@@ -366,14 +366,14 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
             )}
 
             {/* Intersection Observer Target */}
-            <div ref={loadMoreRef} className="h-1 mt-8" />
+            <div ref={loadMoreRef} className="h-px mt-2" />
 
             {/* End Message */}
             {!hasMore && displayedNews.length > 0 && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-center py-8 px-4 mt-8"
+                    className="text-center py-4 px-4 mt-2"
                 >
                     <p className="text-zinc-500 text-sm font-medium tracking-wide uppercase px-6 py-3 rounded-full border border-white/5 bg-white/[0.02] inline-block">
                         Você leu todas as notícias por hoje
