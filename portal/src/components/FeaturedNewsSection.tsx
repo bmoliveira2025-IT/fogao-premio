@@ -161,39 +161,38 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
         <motion.div variants={itemVariants} className="h-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex flex-col h-full bg-zinc-950 border border-white/5 rounded-2xl md:rounded-[1.75rem] overflow-hidden hover:border-premium-gold/30 transition-all duration-500 ease-out hover:-translate-y-1 shadow-2xl"
+                className="group flex flex-col h-full bg-zinc-950/40 backdrop-blur-xl border border-white/5 rounded-2xl md:rounded-[1.75rem] overflow-hidden hover:border-premium-gold/30 transition-all duration-500 ease-out hover:-translate-y-1 shadow-2xl block"
             >
-                {/* Image Background */}
-                <div className="absolute inset-0 w-full h-full bg-zinc-900">
+                {/* Image Top Half */}
+                <div className="relative w-full aspect-[16/10] overflow-hidden bg-zinc-900 shrink-0 border-b border-white/[0.02]">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                        className="object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-500" />
                 </div>
 
                 {/* Content Overlay */}
-                <div className="relative flex-1 flex flex-col justify-between p-4 md:p-5 z-10 w-full h-full">
+                <div className="flex-1 flex flex-col justify-between p-4 md:p-5 z-10 w-full h-full">
                     {/* Source Badge at TOP */}
-                    <div className="flex justify-start">
+                    <div className="flex justify-start mb-3">
                         <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] ${colors.text} bg-zinc-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/5`}>
                             {news.source || 'Botafogo'}
                         </span>
                     </div>
 
                     {/* Bottom Content */}
-                    <div className="flex flex-col mt-auto pt-16">
-                        <h3 className="text-[15px] md:text-[17px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-white transition-colors line-clamp-3 mb-4 drop-shadow-lg">
+                    <div className="flex flex-col mt-auto">
+                        <h3 className="text-[15px] md:text-[17px] font-display font-medium text-white/95 leading-[1.3] group-hover:text-premium-gold transition-colors line-clamp-3 mb-4 drop-shadow-lg">
                             {toSentenceCase(news.title)}
                         </h3>
 
-                        <div className="flex items-center min-w-0 pt-3.5 border-t border-white/10 mt-auto">
+                        <div className="flex items-center min-w-0 pt-3.5 border-t border-white/5 mt-auto">
                             <div className="flex items-center gap-1.5 min-w-0 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                                <Clock size={12} className="text-white flex-shrink-0" />
-                                <span className="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest whitespace-nowrap" suppressHydrationWarning>
+                                <Clock size={12} className="text-zinc-500 flex-shrink-0" />
+                                <span className="text-[9px] md:text-[10px] font-bold text-zinc-500 uppercase tracking-widest whitespace-nowrap" suppressHydrationWarning>
                                     {getRelativeTime(news.created_at)}
                                 </span>
                             </div>

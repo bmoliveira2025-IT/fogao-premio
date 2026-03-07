@@ -1,6 +1,7 @@
 'use server';
 
 import { db } from '@/lib/firebase-admin';
+import { Timestamp } from 'firebase-admin/firestore';
 
 export async function fetchMoreNews(lastCreatedAt: string) {
     // 36 hours window to match the homepage policy
@@ -11,7 +12,7 @@ export async function fetchMoreNews(lastCreatedAt: string) {
         let query = db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
-            .startAfter(new Date(lastCreatedAt))
+            .startAfter(Timestamp.fromDate(new Date(lastCreatedAt)))
             .limit(15);
 
         // Important: When passing a string date from client, we need to convert it back to what Firestore expects.
