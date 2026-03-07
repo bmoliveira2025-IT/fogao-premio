@@ -167,11 +167,11 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="overflow-hidden border-t border-white/5"
+                            className="overflow-hidden border-t border-white/[0.03]"
                         >
-                            <div className="py-2">
+                            <div className="py-2.5">
                                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                                    <div className="flex items-center justify-center lg:justify-start gap-2 overflow-x-auto scrollbar-hide">
+                                    <div className="flex items-center justify-center lg:justify-start gap-2.5 overflow-x-auto scrollbar-hide">
                                         {menuItems.map((item, index) => {
                                             const Icon = item.icon;
                                             const isActive = pathname === item.href;
@@ -179,42 +179,45 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                                             if (isActive) return null;
 
                                             const isAlwaysHiddenOnMobile = item.label === 'INÍCIO' || item.label === 'PODCAST';
+                                            const isPremiumItem = item.label === 'PREMIUM';
 
                                             return (
                                                 <motion.div
                                                     key={item.href}
-                                                    initial={{ opacity: 0, y: -10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: index * 0.05 }}
+                                                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    transition={{ delay: index * 0.06, type: "spring", stiffness: 300, damping: 20 }}
                                                 >
                                                     <Link
                                                         href={item.href}
                                                         className={cn(
-                                                            "relative flex items-center gap-2.5 px-5 py-2 rounded-full text-[13px] font-bold whitespace-nowrap transition-all duration-300 group overflow-hidden border border-white/5",
-                                                            "text-zinc-400 bg-black/40 hover:text-white hover:bg-white/10",
+                                                            "relative flex items-center justify-center gap-2 min-w-[100px] px-4 py-2 rounded-xl text-[12px] font-semibold tracking-wide whitespace-nowrap transition-all duration-400 group overflow-hidden",
+                                                            isPremiumItem
+                                                                ? "bg-gradient-to-r from-premium-gold/15 to-premium-gold/5 border border-premium-gold/20 text-premium-gold hover:from-premium-gold/25 hover:to-premium-gold/10 hover:border-premium-gold/40 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]"
+                                                                : "bg-white/[0.04] border border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/[0.12] hover:shadow-lg",
                                                             isAlwaysHiddenOnMobile && "hidden lg:flex"
                                                         )}
                                                     >
-                                                        {/* Animated Background on Hover */}
-                                                        <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/0 via-premium-gold/10 to-premium-gold/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                                        <div className="absolute inset-0 glass-ultra opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                                        {/* Icon with Slide Animation */}
-                                                        <motion.div
-                                                            className="relative z-10"
-                                                            whileHover={{ x: -2 }}
-                                                            transition={{ type: "spring", stiffness: 400 }}
-                                                        >
-                                                            <Icon size={17} className="group-hover:text-premium-gold transition-colors duration-300" />
-                                                        </motion.div>
+                                                        {/* Icon */}
+                                                        <Icon
+                                                            size={14}
+                                                            className={cn(
+                                                                "relative z-10 transition-all duration-300",
+                                                                isPremiumItem
+                                                                    ? "text-premium-gold group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+                                                                    : "text-zinc-500 group-hover:text-premium-gold"
+                                                            )}
+                                                        />
 
                                                         {/* Label */}
-                                                        <span className="relative z-10 group-hover:text-premium-gold transition-colors duration-300 group-hover:drop-shadow-[0_0_10px_rgba(255,215,0,0.6)] text-[15px]">
+                                                        <span className={cn(
+                                                            "relative z-10 transition-all duration-300",
+                                                            isPremiumItem
+                                                                ? "group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]"
+                                                                : "group-hover:text-premium-gold"
+                                                        )}>
                                                             {item.label}
                                                         </span>
-
-                                                        {/* Enhanced Bottom Glow on Hover */}
-                                                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-gradient-to-r from-transparent via-premium-gold to-transparent group-hover:w-full transition-all duration-300 shadow-[0_0_10px_rgba(255,215,0,0.8)]" />
                                                     </Link>
                                                 </motion.div>
                                             );

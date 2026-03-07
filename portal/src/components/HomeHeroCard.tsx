@@ -54,7 +54,7 @@ export default function HomeHeroCard({ article }: { article: NewsItem }) {
         >
             <Link
                 href={`/news/${article.id}`}
-                className="group relative block w-full aspect-[16/9] overflow-hidden rounded-2xl md:rounded-3xl"
+                className="group relative block w-full aspect-[4/3] md:aspect-[16/8] overflow-hidden rounded-2xl md:rounded-3xl"
             >
                 {/* Image */}
                 <Image
@@ -84,7 +84,7 @@ export default function HomeHeroCard({ article }: { article: NewsItem }) {
                     </div>
 
                     {/* Title */}
-                    <h1 className="text-xl md:text-4xl lg:text-5xl font-black text-white leading-[1.1] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] group-hover:text-premium-gold transition-colors duration-500 line-clamp-3">
+                    <h1 className="text-lg md:text-2xl lg:text-3xl font-black text-white leading-[1.15] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] group-hover:text-premium-gold transition-colors duration-500">
                         {article.title?.replace(/\*\*/g, '')}
                     </h1>
 
