@@ -1,11 +1,9 @@
 "use client";
 
 import Link from 'next/link';
-import { ChevronLeft, Lock, Star, Zap, Crown } from 'lucide-react';
-import GloriosoLogo from '@/components/GloriosoLogo';
+import { Lock, Star, Zap } from 'lucide-react';
 import TabBar from '@/components/TabBar';
 import PremiumGuard from '@/components/PremiumGuard';
-import DesktopHeader from '@/components/DesktopHeader';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 
@@ -17,37 +15,6 @@ export default function PremiumPageContent({ premiumNews }: { premiumNews: any[]
     const { user, isPremium } = useAuth();
     return (
         <main className="min-h-screen bg-background text-white font-sans selection:bg-premium-gold selection:text-black pb-32">
-
-            {/* HEADER - MOBILE (Aligned with BrandingHeader.tsx) */}
-            <header className="lg:hidden fixed top-0 left-0 right-0 z-[999] glass-ultra border-b border-white/[0.04] h-16 flex items-center justify-between px-4 pt-[env(safe-area-inset-top)] shadow-premium">
-                <Link href="/" className="flex items-center gap-2 group relative">
-                    {/* Multi-layer Glow Effect matching BrandingHeader */}
-                    <div className="absolute -inset-2 bg-gradient-radial from-premium-gold/30 to-transparent opacity-0 group-active:opacity-100 blur-xl transition-opacity duration-300 rounded-full" />
-                    <div className="absolute -inset-1 bg-premium-gold/20 opacity-30 blur-md rounded-full animate-glow-pulse" />
-
-                    <GloriosoLogo size={34} className="drop-shadow-[0_0_15px_rgba(255,215,0,0.4)] relative z-10" />
-
-                </Link>
-
-                <div className="flex items-center gap-2">
-                    {isPremium && (
-                        <Link href="/premium" className="p-2 text-premium-gold hover:scale-110 active:scale-95 transition-all">
-                            <Crown size={22} className="fill-premium-gold/20" />
-                        </Link>
-                    )}
-                    <Link href="?briefing=true" className="p-2 text-zinc-400 hover:text-premium-gold transition-colors">
-                        <Zap size={20} className="fill-current" />
-                    </Link>
-
-                    {user?.photoURL ? (
-                        <Link href="/profile" className="w-8 h-8 rounded-full overflow-hidden border border-premium-gold/50 shadow-lg shadow-premium-gold/20">
-                            <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
-                        </Link>
-                    ) : (
-                        <div className="w-6"></div>
-                    )}
-                </div>
-            </header>
 
             <div className="px-4 lg:max-w-5xl lg:mx-auto">
                 <div className="mb-12 text-center relative">

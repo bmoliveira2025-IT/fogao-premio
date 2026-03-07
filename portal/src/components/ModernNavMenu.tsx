@@ -88,7 +88,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                         </Link>
 
                         {/* Action Icons with Staggered Animations */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-3.5">
                             {isPremium && (
                                 <motion.div
                                     initial={{ opacity: 0, x: 10 }}
