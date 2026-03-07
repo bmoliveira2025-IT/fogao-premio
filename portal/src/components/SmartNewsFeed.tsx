@@ -84,50 +84,47 @@ function EditorialShowcaseCard({ news }: { news: NewsItem }) {
         <motion.div variants={itemVariants} className="w-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex flex-col w-full min-h-[450px] md:min-h-[550px] bg-zinc-950 border border-white/5 rounded-2xl md:rounded-[2.5rem] overflow-hidden hover:border-white/10 transition-all duration-700 ease-out hover:-translate-y-1 shadow-2xl"
+                className="group flex flex-col w-full rounded-2xl md:rounded-[2.5rem] overflow-hidden bg-zinc-950/40 backdrop-blur-xl border border-white/5 transition-all duration-700 hover:-translate-y-1 shadow-2xl hover:border-white/10"
             >
-                {/* Full Image Background */}
-                <div className="absolute inset-0 w-full h-full bg-zinc-900 overflow-hidden">
+                {/* Cinematic Image Top */}
+                <div className="relative w-full aspect-[4/3] md:aspect-[21/10] bg-zinc-900 overflow-hidden shrink-0">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
+                        className="object-cover object-top transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
                         unoptimized
                     />
-                    {/* Subtle tint for depth ONLY */}
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-700" />
+                    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors duration-700" />
                 </div>
 
-                {/* Floating Glass Content Overlay */}
-                <div className="absolute inset-x-3 bottom-3 md:inset-x-8 md:bottom-8 z-20 flex flex-col justify-end">
-                    <div className="bg-zinc-950/70 backdrop-blur-3xl border border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 md:pr-12 max-w-4xl shadow-2xl transition-all duration-500 group-hover:bg-zinc-950/80 group-hover:border-white/20">
-                        {/* Top Badges */}
-                        <div className="flex gap-2 mb-4 md:mb-5">
-                            <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-white bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shadow-sm">
-                                {news.source || 'Botafogo'}
-                            </span>
-                        </div>
+                {/* Content Panel Bottom */}
+                <div className="flex flex-col flex-1 p-6 md:p-10 justify-center relative">
+                    {/* Top Badges */}
+                    <div className="flex gap-2 mb-4 md:mb-5">
+                        <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-premium-gold bg-premium-gold/10 border border-premium-gold/20 px-3.5 py-1.5 rounded-full shadow-sm">
+                            {news.source || 'Botafogo'}
+                        </span>
+                    </div>
 
-                        {/* Title & Metadata */}
-                        <div className="flex flex-col space-y-3 md:space-y-4">
-                            <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-black text-white leading-[1.15] group-hover:text-premium-gold transition-colors duration-500 tracking-tight">
-                                {toSentenceCase(news.title)}
-                            </h3>
+                    {/* Title & Metadata */}
+                    <div className="flex flex-col space-y-3 md:space-y-4 max-w-4xl">
+                        <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-black text-white leading-[1.15] group-hover:text-premium-gold transition-colors duration-500 tracking-tight">
+                            {toSentenceCase(news.title)}
+                        </h3>
 
-                            {news.summary && (
-                                <p className="text-sm md:text-lg text-zinc-300 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed opacity-90 hidden md:block">
-                                    {news.summary}
-                                </p>
-                            )}
+                        {news.summary && (
+                            <p className="text-sm md:text-lg text-zinc-400 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed opacity-90 hidden md:block">
+                                {news.summary}
+                            </p>
+                        )}
 
-                            <div className="flex items-center gap-4 pt-4 mt-1 border-t border-white/5">
-                                <div className="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
-                                    <Clock size={12} className="text-zinc-400" />
-                                    <span className="text-[10px] md:text-[11px] font-bold text-zinc-400 uppercase tracking-widest" suppressHydrationWarning>
-                                        {getRelativeTime(news.created_at)}
-                                    </span>
-                                </div>
+                        <div className="flex items-center gap-4 pt-4 mt-1 border-t border-white/5">
+                            <div className="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
+                                <Clock size={12} className="text-zinc-500" />
+                                <span className="text-[10px] md:text-[11px] font-bold text-zinc-500 uppercase tracking-widest" suppressHydrationWarning>
+                                    {getRelativeTime(news.created_at)}
+                                </span>
                             </div>
                         </div>
                     </div>
