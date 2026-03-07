@@ -628,3 +628,63 @@ h6 {
 .clip-path-ribbon {
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 85%, 0% 100%);
 }
+
+/* ============================================
+   HOME PAGE — HERO & NEWS GRID
+   ============================================ */
+
+/* Hero card dark gradient for text over image */
+.home-hero-gradient {
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.55) 35%,
+      rgba(0, 0, 0, 0.15) 60%,
+      transparent 100%);
+}
+
+/* News card hover — elevation + shadow */
+.home-news-card-hover {
+  transition:
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.4s ease;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 0 0 0 rgb(var(--premium-gold) / 0);
+}
+
+.home-news-card-hover:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.45),
+    0 0 20px rgb(var(--premium-gold) / 0.06);
+}
+
+/* Responsive news grid */
+.home-news-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .home-news-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-news-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Wide card spans 2 columns on tablet+ */
+@media (min-width: 640px) {
+  .home-grid-wide {
+    grid-column: span 2;
+  }
+}

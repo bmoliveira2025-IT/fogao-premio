@@ -1,4 +1,4 @@
-// Forced update - 2026-02-08 - Redesigned Homepage with Featured News
+// Redesigned Homepage - 2026-03-07 - Hero + Dynamic Grid
 import { db } from '@/lib/firebase-admin';
 import PremiumNextMatch from '@/components/PremiumNextMatch';
 import PremiumWidget from '@/components/PremiumWidget';
@@ -7,8 +7,8 @@ import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
 import QuoteBanner from '@/components/QuoteBanner';
 import MatchDayPopup from '@/components/MatchDayPopup';
 import ModernNavMenu from '@/components/ModernNavMenu';
-import NewsHeroGrid from '@/components/NewsHeroGrid';
-import SmartNewsFeed from '@/components/SmartNewsFeed';
+import HomeHeroCard from '@/components/HomeHeroCard';
+import HomeNewsGrid from '@/components/HomeNewsGrid';
 import StaggeredEntry from '@/components/StaggeredEntry';
 
 import { ChevronRight, Users, Trophy } from 'lucide-react';
@@ -254,9 +254,9 @@ export default async function Home() {
 
   notifications.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
-  // Separate featured news (first 7) for the featured section
-  const featuredNews = news.slice(0, 7);
-  const feedNews = news.slice(7);
+  // Hero = first news, grid = remaining
+  const heroNews = news[0] || null;
+  const gridNews = news.slice(1);
 
   return (
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-white dark:bg-black">
@@ -275,28 +275,22 @@ export default async function Home() {
             <div className="lg:col-span-8 space-y-6 lg:space-y-10">
 
               <StaggeredEntry staggerDelay={0.15}>
-                {/* HERO NEWS GRID - Premium Editorial Hero */}
-                {featuredNews.length > 0 && (
+                {/* HERO NEWS - First story full-width 16:9 */}
+                {heroNews && (
                   <div className="mt-0 md:mt-8">
-                    <NewsHeroGrid news={featuredNews.slice(0, 4)} />
+                    <HomeHeroCard article={heroNews} />
                   </div>
                 )}
-
-                {/* NEXT MATCH - Mobile Only - Disabled per user request */}
-                {/* {nextMatch && (
-                  <div className="lg:hidden">
-                    <PremiumNextMatch match={nextMatch} />
-                  </div>
-                )} */}
-
 
                 {/* GLORIOSO TV (BOTAFOGO TV CAROUSEL) */}
                 <div className="px-0 md:px-0">
                   <BotafogoTVCarousel videos={videos} />
                 </div>
 
-                {/* SMART NEWS FEED - Lazy Loading 8+1 */}
-                <SmartNewsFeed initialNews={feedNews} className="mt-4" />
+                {/* NEWS GRID - Shuffled cards */}
+                {gridNews.length > 0 && (
+                  <HomeNewsGrid news={gridNews} className="mt-4" />
+                )}
 
                 {/* QUOTE BANNER */}
                 <div className="px-4 md:px-0 mt-8 mb-8 lg:mb-0">
