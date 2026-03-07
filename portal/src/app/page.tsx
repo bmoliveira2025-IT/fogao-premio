@@ -76,7 +76,7 @@ interface Briefing {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 24); // 24h window
+    timeLimit.setHours(timeLimit.getHours() - 48); // 48h window
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
