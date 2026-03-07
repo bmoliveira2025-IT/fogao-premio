@@ -379,7 +379,7 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
                     className="text-center py-8 px-4 mt-8"
                 >
                     <p className="text-zinc-500 text-sm font-medium tracking-wide uppercase px-6 py-3 rounded-full border border-white/5 bg-white/[0.02] inline-block">
-                        Você chegou ao fim do feed
+                        Você leu todas as notícias por hoje
                     </p>
                 </motion.div>
             )}
