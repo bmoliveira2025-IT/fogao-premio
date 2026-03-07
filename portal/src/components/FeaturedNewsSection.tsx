@@ -159,10 +159,10 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
         <motion.div variants={itemVariants} className="h-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex flex-col h-full bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-3xl overflow-hidden hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 shadow-lg"
+                className="group relative flex flex-col h-full bg-zinc-950 border border-white/5 rounded-2xl md:rounded-[1.75rem] overflow-hidden hover:border-premium-gold/30 transition-all duration-500 ease-out hover:-translate-y-1 shadow-2xl"
             >
                 {/* Image Background */}
-                <div className="absolute inset-0 w-full h-full">
+                <div className="absolute inset-0 w-full h-full bg-zinc-900">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
@@ -170,28 +170,28 @@ function SecondaryCard({ news, index }: { news: NewsItem; index: number }) {
                         className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-500" />
                 </div>
 
                 {/* Content Overlay */}
-                <div className="relative flex-1 flex flex-col justify-between p-4 z-10 w-full h-full">
+                <div className="relative flex-1 flex flex-col justify-between p-4 md:p-5 z-10 w-full h-full">
                     {/* Source Badge at TOP */}
                     <div className="flex justify-start">
-                        <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] ${colors.text} bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-md border border-white/10`}>
+                        <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] ${colors.text} bg-zinc-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/5`}>
                             {news.source || 'Botafogo'}
                         </span>
                     </div>
 
                     {/* Bottom Content */}
-                    <div className="flex flex-col mt-auto pt-4 md:pt-10">
-                        <h3 className="text-[14px] md:text-[17px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-premium-gold transition-colors line-clamp-3 mb-3 drop-shadow-md">
+                    <div className="flex flex-col mt-auto pt-16">
+                        <h3 className="text-[15px] md:text-[17px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-white transition-colors line-clamp-3 mb-4 drop-shadow-lg">
                             {toSentenceCase(news.title)}
                         </h3>
 
-                        <div className="flex h-[32px] items-center justify-between min-w-0 pt-3 border-t border-white/10">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                                <Clock size={12} className="text-white/40 flex-shrink-0" />
-                                <span className="text-[9px] md:text-[10px] font-bold text-white/50 uppercase tracking-widest whitespace-nowrap" suppressHydrationWarning>
+                        <div className="flex items-center min-w-0 pt-3.5 border-t border-white/10 mt-auto">
+                            <div className="flex items-center gap-1.5 min-w-0 opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+                                <Clock size={12} className="text-white flex-shrink-0" />
+                                <span className="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest whitespace-nowrap" suppressHydrationWarning>
                                     {getRelativeTime(news.created_at)}
                                 </span>
                             </div>

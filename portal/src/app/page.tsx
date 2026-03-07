@@ -7,7 +7,7 @@ import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
 import QuoteBanner from '@/components/QuoteBanner';
 import MatchDayPopup from '@/components/MatchDayPopup';
 import ModernNavMenu from '@/components/ModernNavMenu';
-import FeaturedNewsSection from '@/components/FeaturedNewsSection';
+import NewsHeroGrid from '@/components/NewsHeroGrid';
 import SmartNewsFeed from '@/components/SmartNewsFeed';
 import StaggeredEntry from '@/components/StaggeredEntry';
 
@@ -273,9 +273,11 @@ export default async function Home() {
             <div className="lg:col-span-8 space-y-6 lg:space-y-10">
 
               <StaggeredEntry staggerDelay={0.15}>
-                {/* FEATURED NEWS SECTION - 1 Hero + 6 Secondary */}
+                {/* HERO NEWS GRID - Premium Editorial Hero */}
                 {featuredNews.length > 0 && (
-                  <FeaturedNewsSection news={featuredNews} className="mt-0 md:mt-8" />
+                  <div className="mt-0 md:mt-8">
+                    <NewsHeroGrid news={featuredNews.slice(0, 4)} />
+                  </div>
                 )}
 
                 {/* NEXT MATCH - Mobile Only - Disabled per user request */}

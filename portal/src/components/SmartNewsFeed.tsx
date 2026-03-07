@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock, Flame, TrendingUp, BookOpen, Loader2, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Clock, Flame, TrendingUp, BookOpen, Loader2, ThumbsUp, ThumbsDown, Newspaper } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
 
@@ -72,52 +72,59 @@ const getSourceColor = (source?: string) => {
     return { text: 'text-premium-gold', bg: 'bg-premium-gold' };
 };
 
-// Large Card with Full Image
-function LargeCard({ news }: { news: NewsItem }) {
+// Editorial Showcase Card (Large visual impact for every 1st item)
+function EditorialShowcaseCard({ news }: { news: NewsItem }) {
     const colors = getSourceColor(news.source);
 
     return (
-        <motion.div variants={itemVariants} initial="hidden" animate="visible">
+        <motion.div variants={itemVariants} className="w-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative block bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-[2.5rem] overflow-hidden hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-gold-glow active:scale-[0.98]"
+                className="group relative flex flex-col w-full h-[400px] md:h-[500px] bg-zinc-950 border border-white/5 rounded-2xl md:rounded-[2rem] overflow-hidden hover:border-premium-gold/30 transition-all duration-700 ease-out hover:-translate-y-1 shadow-2xl"
             >
-                <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden">
+                {/* Image Background */}
+                <div className="absolute inset-0 w-full h-full bg-zinc-900">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105"
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-transparent" />
+                    {/* Deep gradient for max readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-60" />
                 </div>
 
-                <div className="p-6 md:p-10 space-y-4">
-                    <div className="flex items-center gap-3">
-                        <SourceIcon source={news.source} className="w-4 h-4 text-premium-gold" />
-                        <span className={`text-[11px] font-black uppercase tracking-[0.2em] ${colors.text}`}>
+                {/* Content Overlay */}
+                <div className="relative flex-1 flex flex-col justify-end p-6 md:p-10 z-10 w-full h-full">
+                    {/* Top Badges */}
+                    <div className="absolute top-6 left-6 md:top-8 md:left-8 flex gap-2">
+                        <span className={`text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] ${colors.text} bg-zinc-950/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/5 shadow-xl`}>
                             {news.source || 'Botafogo'}
                         </span>
                     </div>
 
-                    <h3 className="text-2xl md:text-5xl font-athletic text-white leading-[1.1] group-hover:text-premium-gold transition-colors duration-300">
-                        {toSentenceCase(news.title)}
-                    </h3>
+                    {/* Bottom Metadata & Title */}
+                    <div className="flex flex-col max-w-4xl space-y-4">
+                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-black text-white leading-[1.15] group-hover:text-premium-gold transition-colors duration-500 drop-shadow-2xl">
+                            {toSentenceCase(news.title)}
+                        </h3>
 
-                    <div className="flex items-center gap-4 pt-6 mt-2 border-t border-white/5">
-                        <div className="flex items-center gap-1.5 leading-none">
-                            <Clock size={14} className="text-zinc-500" />
-                            <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest" suppressHydrationWarning>
-                                {getRelativeTime(news.created_at)}
-                            </span>
+                        {news.summary && (
+                            <p className="text-base md:text-lg text-zinc-300 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed drop-shadow-lg hidden md:block">
+                                {news.summary}
+                            </p>
+                        )}
+
+                        <div className="flex items-center gap-4 pt-4 border-t border-white/10 mt-2">
+                            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                                <Clock size={14} className="text-zinc-400" />
+                                <span className="text-[11px] md:text-[12px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
+                                    {getRelativeTime(news.created_at)}
+                                </span>
+                            </div>
                         </div>
-                        <LikeDislikeButtons
-                            articleId={news.id}
-                            initialLikes={news.likes_count}
-                            initialDislikes={news.dislikes_count}
-                            className="ml-auto"
-                        />
                     </div>
                 </div>
             </Link>
@@ -125,123 +132,114 @@ function LargeCard({ news }: { news: NewsItem }) {
     );
 }
 
-// Compact Card with Small Image
-function CompactCard({ news }: { news: NewsItem }) {
+// Editorial Row Card (Reading-optimized list view for 2nd, 3rd, 4th items)
+function EditorialRowCard({ news }: { news: NewsItem }) {
     const colors = getSourceColor(news.source);
 
     return (
-        <motion.div variants={itemVariants} initial="hidden" animate="visible">
+        <motion.div variants={itemVariants} className="w-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group flex gap-4 bg-card/60 backdrop-blur-xl border border-white/[0.04] rounded-2xl md:rounded-[2rem] p-4 hover:border-premium-gold/40 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90"
+                className="group flex flex-col md:flex-row gap-5 md:gap-8 items-start md:items-center p-4 md:p-6 bg-transparent hover:bg-zinc-900/40 rounded-2xl md:rounded-[2rem] border border-transparent hover:border-white/5 transition-all duration-500 hover:shadow-2xl"
             >
-                <div className="relative w-28 h-20 md:w-52 md:h-32 flex-shrink-0 rounded-xl overflow-hidden shadow-2xl group-hover:shadow-premium-gold/10 transition-shadow">
+                {/* Visual Thumbnail (16:9) */}
+                <div className="relative w-full md:w-[320px] lg:w-[400px] aspect-[16/10] flex-shrink-0 rounded-xl md:rounded-[1.5rem] overflow-hidden bg-zinc-950 border border-white/5 shadow-xl">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/60 to-transparent opacity-40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+
+                    {/* Badge pinned to image on mobile */}
+                    <div className="absolute bottom-3 left-3 md:hidden">
+                        <span className={`text-[9px] font-black uppercase tracking-wider ${colors.text} bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/10`}>
+                            {news.source || 'Botafogo'}
+                        </span>
+                    </div>
                 </div>
 
-                <div className="flex-1 flex flex-col justify-between py-1">
-                    <div className="flex flex-col gap-1.5">
-                        <div className="flex items-center gap-2 mb-0.5">
-                            <SourceIcon source={news.source} className="w-3.5 h-3.5 text-premium-gold" />
-                            <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${colors.text}`}>
-                                {news.source || 'Botafogo'}
-                            </span>
-                        </div>
-                        <h3 className="text-[17px] md:text-2xl font-athletic text-white/90 leading-tight group-hover:text-premium-gold transition-colors line-clamp-2">
-                            {toSentenceCase(news.title)}
-                        </h3>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-2.5 min-w-0">
-                        <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                            <Clock size={11} className="text-zinc-500 flex-shrink-0" />
-                            <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0 uppercase tracking-widest" suppressHydrationWarning>
+                {/* Editorial Content */}
+                <div className="flex flex-col flex-grow min-w-0 py-2">
+                    <div className="hidden md:flex items-center gap-3 mb-4">
+                        <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
+                        <span className={`text-[11px] font-black uppercase tracking-[0.2em] ${colors.text}`}>
+                            {news.source || 'Botafogo'}
+                        </span>
+                        <div className="w-1 h-1 rounded-full bg-zinc-600" />
+                        <div className="flex items-center gap-1.5 text-zinc-500">
+                            <Clock size={12} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest" suppressHydrationWarning>
                                 {getRelativeTime(news.created_at)}
                             </span>
                         </div>
-                        <LikeDislikeButtons
-                            articleId={news.id}
-                            initialLikes={news.likes_count}
-                            initialDislikes={news.dislikes_count}
-                            className="flex-shrink-0 ml-2 scale-[0.8] origin-right"
-                        />
                     </div>
+
+                    <h3 className="text-[18px] md:text-[22px] lg:text-[26px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-premium-gold transition-colors duration-400 drop-shadow-md mb-3 md:mb-4">
+                        {toSentenceCase(news.title)}
+                    </h3>
+
+                    {/* Meta for mobile since badge is on image */}
+                    <div className="flex md:hidden items-center gap-2 text-zinc-500 mb-3">
+                        <Clock size={12} />
+                        <span className="text-[10px] font-bold uppercase tracking-widest" suppressHydrationWarning>
+                            {getRelativeTime(news.created_at)}
+                        </span>
+                    </div>
+
+                    {news.summary && (
+                        <p className="text-sm md:text-base text-zinc-400/90 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed mt-auto">
+                            {news.summary}
+                        </p>
+                    )}
                 </div>
             </Link>
         </motion.div>
     );
 }
 
-// Text Only Card (no image)
-function TextCard({ news }: { news: NewsItem }) {
-    const colors = getSourceColor(news.source);
+// Skeleton Loader for Editorial Layout
+function SkeletonCard({ index }: { index: number }) {
+    const isShowcase = index % 4 === 0;
+
+    if (isShowcase) {
+        return (
+            <div className="animate-pulse bg-zinc-950/50 border border-white/5 rounded-2xl md:rounded-[2rem] w-full h-[400px] md:h-[500px] p-6 md:p-10 flex flex-col justify-end">
+                <div className="w-24 h-8 bg-zinc-900 rounded-xl mb-4" />
+                <div className="h-8 bg-zinc-900 rounded-md w-3/4 mb-4" />
+                <div className="h-8 bg-zinc-900 rounded-md w-1/2 mb-6" />
+                <div className="h-4 bg-zinc-900 rounded-md w-full mb-2" />
+                <div className="h-4 bg-zinc-900 rounded-md w-5/6" />
+            </div>
+        );
+    }
 
     return (
-        <motion.div variants={itemVariants} initial="hidden" animate="visible">
-            <Link
-                href={`/news/${news.id}`}
-                className="group block bg-card/60 backdrop-blur-xl border border-white/[0.04] p-5 md:p-6 rounded-[1.5rem] md:rounded-[2rem] transition-all duration-500 ease-out hover:border-premium-gold/40 hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98] active:opacity-90 relative overflow-hidden"
-            >
-                {/* Dynamic colored side glow */}
-                <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${colors.text.replace('text-', 'from-')} to-transparent opacity-30 group-hover:opacity-100 transition-opacity`} />
-
-                <div className="flex items-start gap-4">
-                    <div className={`p-3 ${colors.bg.replace('bg-', 'bg-')}/10 rounded-xl shadow-inner border border-white/5 group-hover:border-white/10 transition-colors`}>
-                        <BookOpen size={20} className={colors.text} />
-                    </div>
-                    <div className="flex-1">
-                        <div className="flex flex-col gap-1.5 mb-1.5">
-                            <span className={`text-[10px] font-black uppercase tracking-wider ${colors.text}`}>
-                                {news.source || 'Portal'}
-                            </span>
-                            <h3 className="text-sm md:text-base font-bold text-white leading-snug group-hover:text-premium-gold transition-colors line-clamp-2">
-                                {toSentenceCase(news.title)}
-                            </h3>
-                        </div>
-
-                        <div className="flex items-center justify-between mt-2.5 min-w-0">
-                            <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                                <Clock size={12} className="text-zinc-500 flex-shrink-0" />
-                                <span className="text-[10px] font-bold text-zinc-500 whitespace-nowrap flex-shrink-0" suppressHydrationWarning>
-                                    {getRelativeTime(news.created_at)}
-                                </span>
-                            </div>
-                            <LikeDislikeButtons
-                                articleId={news.id}
-                                initialLikes={news.likes_count}
-                                initialDislikes={news.dislikes_count}
-                                className="flex-shrink-0 ml-2 scale-[0.85] origin-right"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </Link>
-        </motion.div>
-    );
-}
-
-// Skeleton Loader
-function SkeletonCard() {
-    return (
-        <div className="animate-pulse bg-zinc-900/50 rounded-xl p-4">
-            <div className="flex gap-4">
-                <div className="w-24 h-20 bg-zinc-800 rounded-lg" />
-                <div className="flex-1 space-y-3">
-                    <div className="h-4 bg-zinc-800 rounded w-3/4" />
-                    <div className="h-4 bg-zinc-800 rounded w-1/2" />
-                    <div className="h-3 bg-zinc-800 rounded w-1/4" />
-                </div>
+        <div className="animate-pulse flex flex-col md:flex-row gap-5 md:gap-8 items-start md:items-center p-4 md:p-6 w-full">
+            <div className="w-full md:w-[320px] lg:w-[400px] aspect-[16/10] bg-zinc-950/50 rounded-xl md:rounded-[1.5rem] border border-white/5" />
+            <div className="flex flex-col flex-grow py-2 w-full">
+                <div className="w-32 h-4 bg-zinc-900 rounded-md mb-4 hidden md:block" />
+                <div className="h-6 bg-zinc-900 rounded-md w-full mb-3" />
+                <div className="h-6 bg-zinc-900 rounded-md w-4/5 mb-4" />
+                <div className="h-4 bg-zinc-900 rounded-md w-24 mb-3 md:hidden" />
+                <div className="h-4 bg-zinc-900 rounded-md w-full mb-2" />
+                <div className="h-4 bg-zinc-900 rounded-md w-2/3" />
             </div>
         </div>
     );
 }
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
 
 export default function SmartNewsFeed({ initialNews, className = '' }: SmartNewsFeedProps) {
     const INITIAL_COUNT = 8;
@@ -286,7 +284,11 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
                 const moreNews = await fetchMoreNews(lastDate as string);
 
                 if (moreNews && moreNews.length > 0) {
-                    setExtraNews(prev => [...prev, ...moreNews]);
+                    setExtraNews(prev => {
+                        const existingIds = new Set([...initialNews.map(n => n.id), ...prev.map(n => n.id)]);
+                        const unique = moreNews.filter((n: NewsItem) => !existingIds.has(n.id));
+                        return [...prev, ...unique];
+                    });
                 } else {
                     setHasMore(false);
                 }
@@ -321,79 +323,76 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
         return () => {
             if (observerRef.current) observerRef.current.disconnect();
         };
-    }, [hasMore, loading, loadMore]);
+    }, [loadMore, hasMore, loading]);
 
-    // Get card type based on index pattern (Large, Compact, Compact, Text, repeat)
-    const getCardComponent = (news: NewsItem, index: number) => {
-        const pattern = index % 4;
-
-        switch (pattern) {
-            case 0:
-                return <LargeCard key={news.id} news={news} />;
-            case 1:
-            case 2:
-                return <CompactCard key={news.id} news={news} />;
-            case 3:
-                return <TextCard key={news.id} news={news} />;
-            default:
-                return <CompactCard key={news.id} news={news} />;
-        }
-    };
+    if (!displayedNews || displayedNews.length === 0) return null;
 
     return (
-        <section className={`space-y-4 ${className}`}>
-            {/* Section Header */}
-            <div className="flex items-center gap-3 px-4 md:px-0">
-                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-zinc-800/80 to-transparent rounded-full border border-white/10">
-                    <TrendingUp size={16} className="text-premium-gold" />
-                    <span className="text-sm font-bold text-white uppercase tracking-wider">Últimas Notícias</span>
+        <div className={className}>
+            <div className="flex items-center gap-3 mb-6 pl-2">
+                <div className="p-2 rounded-xl bg-premium-gold/10 border border-premium-gold/20 shadow-lg shadow-premium-gold/5 hidden md:block">
+                    <Newspaper className="text-premium-gold" size={24} strokeWidth={2.5} />
                 </div>
-                <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent" />
+                <div>
+                    <h2 className="text-2xl md:text-3xl font-display font-black text-white uppercase tracking-tight">
+                        Últimas Notícias
+                    </h2>
+                </div>
             </div>
 
-            {/* News Feed */}
-            <div className="px-4 md:px-0 space-y-3">
+            {/* Editorial Feed Implementation */}
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="flex flex-col gap-6 md:gap-8 lg:gap-12"
+            >
                 <AnimatePresence mode="popLayout">
-                    {displayedNews.map((news, index) => (
-                        <div key={news.id}>
-                            {getCardComponent(news, index)}
-                        </div>
-                    ))}
-                </AnimatePresence>
-            </div>
+                    {displayedNews.map((item, index) => {
+                        const isShowcase = index % 4 === 0;
 
-            {/* Loading Skeleton */}
-            {loading && (
-                <div className="px-4 md:px-0">
-                    <SkeletonCard />
-                </div>
-            )}
+                        return (
+                            <motion.div key={item.id} layout>
+                                {isShowcase ? (
+                                    <EditorialShowcaseCard news={item} />
+                                ) : (
+                                    <EditorialRowCard news={item} />
+                                )}
+                            </motion.div>
+                        );
+                    })}
+                </AnimatePresence>
+
+                {/* Loading Skeletons */}
+                {loading && (
+                    <div className="flex flex-col gap-6 md:gap-8 lg:gap-12 mt-4">
+                        <SkeletonCard index={displayedNews.length} />
+                    </div>
+                )}
+            </motion.div>
 
             {/* Loader Spinner */}
             {loading && (
-                <div className="flex justify-center py-4">
+                <div className="flex justify-center py-4 mt-4">
                     <Loader2 className="w-6 h-6 text-premium-gold animate-spin" />
                 </div>
             )}
 
             {/* Intersection Observer Target */}
-            <div ref={loadMoreRef} className="h-1" />
+            <div ref={loadMoreRef} className="h-1 mt-8" />
 
             {/* End Message */}
             {!hasMore && displayedNews.length > 0 && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-center py-8 px-4"
+                    className="text-center py-8 px-4 mt-8"
                 >
-                    <div className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900/50 rounded-full border border-white/5">
-                        <Flame size={14} className="text-premium-gold" />
-                        <span className="text-sm text-zinc-400">
-                            Você viu todas as notícias das últimas 24 horas
-                        </span>
-                    </div>
+                    <p className="text-zinc-500 text-sm font-medium tracking-wide uppercase px-6 py-3 rounded-full border border-white/5 bg-white/[0.02] inline-block">
+                        Você chegou ao fim do feed
+                    </p>
                 </motion.div>
             )}
-        </section>
+        </div>
     );
 }
