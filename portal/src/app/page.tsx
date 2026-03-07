@@ -76,12 +76,12 @@ interface Briefing {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 48); // 48h window
+    timeLimit.setHours(timeLimit.getHours() - 36); // 36h window
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(100); // Higher limit to account for deduplication
+      .limit(500); // Massive limit to ensure we cover the entire 36h window natively
 
     const nextMatchRef = db.collection('matches').doc('next_match');
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
