@@ -339,7 +339,14 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
                         const isShowcase = index % 4 === 0;
 
                         return (
-                            <motion.div key={item.id} layout>
+                            <motion.div
+                                key={item.id}
+                                layout
+                                variants={itemVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="hidden"
+                            >
                                 {isShowcase ? (
                                     <EditorialShowcaseCard news={item} />
                                 ) : (
