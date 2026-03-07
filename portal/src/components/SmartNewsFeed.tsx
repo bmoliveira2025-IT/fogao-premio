@@ -80,55 +80,54 @@ const getSourceColor = (source?: string) => {
 
 // Editorial Showcase Card (Large visual impact for every 1st item)
 function EditorialShowcaseCard({ news }: { news: NewsItem }) {
-    const colors = getSourceColor(news.source);
-
     return (
         <motion.div variants={itemVariants} className="w-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group relative flex flex-col w-full h-[400px] md:h-[500px] bg-zinc-950 border border-white/5 rounded-2xl md:rounded-[2rem] overflow-hidden hover:border-premium-gold/30 transition-all duration-700 ease-out hover:-translate-y-1 shadow-2xl"
+                className="group relative flex flex-col w-full min-h-[450px] md:min-h-[550px] bg-zinc-950 border border-white/5 rounded-2xl md:rounded-[2.5rem] overflow-hidden hover:border-white/10 transition-all duration-700 ease-out hover:-translate-y-1 shadow-2xl"
             >
-                {/* Image Background */}
-                <div className="absolute inset-0 w-full h-full bg-zinc-900">
+                {/* Full Image Background */}
+                <div className="absolute inset-0 w-full h-full bg-zinc-900 overflow-hidden">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                        className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
                         unoptimized
                     />
-                    {/* Deep gradient for max readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent transition-opacity duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent opacity-60" />
+                    {/* Subtle tint for depth ONLY */}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-700" />
                 </div>
 
-                {/* Content Overlay */}
-                <div className="relative flex-1 flex flex-col justify-end p-6 md:p-10 z-10 w-full h-full">
-                    {/* Top Badges */}
-                    <div className="absolute top-6 left-6 md:top-8 md:left-8 flex gap-2">
-                        <span className={`text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] ${colors.text} bg-zinc-950/80 backdrop-blur-md px-4 py-2 rounded-xl border border-white/5 shadow-xl`}>
-                            {news.source || 'Botafogo'}
-                        </span>
-                    </div>
+                {/* Floating Glass Content Overlay */}
+                <div className="absolute inset-x-3 bottom-3 md:inset-x-8 md:bottom-8 z-20 flex flex-col justify-end">
+                    <div className="bg-zinc-950/70 backdrop-blur-3xl border border-white/10 rounded-2xl md:rounded-[2rem] p-6 md:p-8 md:pr-12 max-w-4xl shadow-2xl transition-all duration-500 group-hover:bg-zinc-950/80 group-hover:border-white/20">
+                        {/* Top Badges */}
+                        <div className="flex gap-2 mb-4 md:mb-5">
+                            <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.15em] text-white bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shadow-sm">
+                                {news.source || 'Botafogo'}
+                            </span>
+                        </div>
 
-                    {/* Bottom Metadata & Title */}
-                    <div className="flex flex-col max-w-4xl space-y-4">
-                        <h3 className="text-2xl md:text-3xl lg:text-4xl font-display font-black text-white leading-[1.15] group-hover:text-premium-gold transition-colors duration-500 drop-shadow-2xl">
-                            {toSentenceCase(news.title)}
-                        </h3>
+                        {/* Title & Metadata */}
+                        <div className="flex flex-col space-y-3 md:space-y-4">
+                            <h3 className="text-2xl md:text-4xl lg:text-5xl font-display font-black text-white leading-[1.15] group-hover:text-premium-gold transition-colors duration-500 tracking-tight">
+                                {toSentenceCase(news.title)}
+                            </h3>
 
-                        {news.summary && (
-                            <p className="text-base md:text-lg text-zinc-300 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed drop-shadow-lg hidden md:block">
-                                {news.summary}
-                            </p>
-                        )}
+                            {news.summary && (
+                                <p className="text-sm md:text-lg text-zinc-300 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed opacity-90 hidden md:block">
+                                    {news.summary}
+                                </p>
+                            )}
 
-                        <div className="flex items-center gap-4 pt-4 border-t border-white/10 mt-2">
-                            <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-                                <Clock size={14} className="text-zinc-400" />
-                                <span className="text-[11px] md:text-[12px] font-bold text-zinc-300 uppercase tracking-widest" suppressHydrationWarning>
-                                    {getRelativeTime(news.created_at)}
-                                </span>
+                            <div className="flex items-center gap-4 pt-4 mt-1 border-t border-white/5">
+                                <div className="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
+                                    <Clock size={12} className="text-zinc-400" />
+                                    <span className="text-[10px] md:text-[11px] font-bold text-zinc-400 uppercase tracking-widest" suppressHydrationWarning>
+                                        {getRelativeTime(news.created_at)}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -140,66 +139,49 @@ function EditorialShowcaseCard({ news }: { news: NewsItem }) {
 
 // Editorial Row Card (Reading-optimized list view for 2nd, 3rd, 4th items)
 function EditorialRowCard({ news }: { news: NewsItem }) {
-    const colors = getSourceColor(news.source);
-
     return (
         <motion.div variants={itemVariants} className="w-full">
             <Link
                 href={`/news/${news.id}`}
-                className="group flex flex-col md:flex-row gap-5 md:gap-8 items-start md:items-center p-4 md:p-6 bg-transparent hover:bg-zinc-900/40 rounded-2xl md:rounded-[2rem] border border-transparent hover:border-white/5 transition-all duration-500 hover:shadow-2xl"
+                className="group flex flex-col md:flex-row gap-5 md:gap-8 items-start md:items-center p-4 md:p-6 bg-zinc-950/50 backdrop-blur-xl border border-white/5 hover:border-white/10 rounded-2xl md:rounded-[2rem] transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 overflow-hidden"
             >
-                {/* Visual Thumbnail (16:9) */}
-                <div className="relative w-full md:w-[320px] lg:w-[400px] aspect-[16/10] flex-shrink-0 rounded-xl md:rounded-[1.5rem] overflow-hidden bg-zinc-950 border border-white/5 shadow-xl">
+                {/* Visual Thumbnail */}
+                <div className="relative w-full md:w-[260px] lg:w-[320px] aspect-[16/10] md:aspect-[4/3] flex-shrink-0 rounded-xl md:rounded-[1.25rem] overflow-hidden bg-zinc-900 border border-white/5 shadow-lg">
                     <Image
                         src={getSafeImageSrc(news.image)}
                         alt={news.title}
                         fill
-                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                        className="object-cover transition-transform duration-[1.5s] group-hover:scale-105 opacity-90 group-hover:opacity-100"
                         unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
-
-                    {/* Badge pinned to image on mobile */}
-                    <div className="absolute bottom-3 left-3 md:hidden">
-                        <span className={`text-[9px] font-black uppercase tracking-wider ${colors.text} bg-black/80 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/10`}>
-                            {news.source || 'Botafogo'}
-                        </span>
-                    </div>
                 </div>
 
                 {/* Editorial Content */}
-                <div className="flex flex-col flex-grow min-w-0 py-2">
-                    <div className="hidden md:flex items-center gap-3 mb-4">
-                        <SourceIcon source={news.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                        <span className={`text-[11px] font-black uppercase tracking-[0.2em] ${colors.text}`}>
-                            {news.source || 'Botafogo'}
-                        </span>
-                        <div className="w-1 h-1 rounded-full bg-zinc-600" />
-                        <div className="flex items-center gap-1.5 text-zinc-500">
-                            <Clock size={12} />
-                            <span className="text-[10px] font-bold uppercase tracking-widest" suppressHydrationWarning>
-                                {getRelativeTime(news.created_at)}
+                <div className="flex flex-col flex-grow min-w-0 py-1 md:py-3 h-full justify-between">
+                    <div>
+                        <div className="flex items-center gap-2 mb-3 md:mb-4">
+                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] text-zinc-400 bg-white/5 px-2.5 py-1 rounded-md border border-white/5">
+                                {news.source || 'Botafogo'}
                             </span>
                         </div>
+
+                        <h3 className="text-[18px] md:text-[22px] lg:text-[28px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-premium-gold transition-colors duration-500 tracking-tight mb-3 md:mb-4">
+                            {toSentenceCase(news.title)}
+                        </h3>
+
+                        {news.summary && (
+                            <p className="text-sm md:text-base text-zinc-400/90 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed mb-4">
+                                {news.summary}
+                            </p>
+                        )}
                     </div>
 
-                    <h3 className="text-[18px] md:text-[22px] lg:text-[26px] font-display font-bold text-white/95 leading-[1.3] group-hover:text-premium-gold transition-colors duration-400 drop-shadow-md mb-3 md:mb-4">
-                        {toSentenceCase(news.title)}
-                    </h3>
-
-                    {/* Meta for mobile since badge is on image */}
-                    <div className="flex md:hidden items-center gap-2 text-zinc-500 mb-3">
+                    <div className="flex items-center gap-1.5 text-zinc-500 opacity-80 group-hover:opacity-100 transition-opacity mt-auto">
                         <Clock size={12} />
                         <span className="text-[10px] font-bold uppercase tracking-widest" suppressHydrationWarning>
                             {getRelativeTime(news.created_at)}
                         </span>
                     </div>
-
-                    {news.summary && (
-                        <p className="text-sm md:text-base text-zinc-400/90 font-medium line-clamp-2 md:line-clamp-3 leading-relaxed mt-auto">
-                            {news.summary}
-                        </p>
-                    )}
                 </div>
             </Link>
         </motion.div>

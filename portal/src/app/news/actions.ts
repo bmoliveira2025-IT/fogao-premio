@@ -3,9 +3,9 @@
 import { db } from '@/lib/firebase-admin';
 
 export async function fetchMoreNews(lastCreatedAt: string) {
-    // 48 hours window to match the homepage policy
+    // 36 hours window to match the homepage policy
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 48);
+    timeLimit.setHours(timeLimit.getHours() - 36);
 
     try {
         let query = db.collection('news')

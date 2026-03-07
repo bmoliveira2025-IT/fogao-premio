@@ -96,6 +96,8 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       briefingRef.get()
     ]);
 
+    console.log(`[DEBUG] Fetched ${newsSnap.docs.length} news items from the last 36 hours.`);
+
     const seenImages = new Set<string>();
     const news = newsSnap.docs.map(doc => {
       const data = doc.data();
