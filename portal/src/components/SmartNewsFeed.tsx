@@ -242,7 +242,8 @@ const containerVariants = {
 };
 
 export default function SmartNewsFeed({ initialNews, className = '' }: SmartNewsFeedProps) {
-    const INITIAL_COUNT = 8;
+    const INITIAL_COUNT = 20;
+    const LOAD_AMOUNT = 2;
     const [displayedNews, setDisplayedNews] = useState<NewsItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -250,7 +251,7 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
     const observerRef = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
 
-    // Initialize with first 8 items
+    // Initialize with first 20 items
     useEffect(() => {
         const allNews = [...initialNews, ...extraNews];
         if (displayedNews.length === 0) {
@@ -258,7 +259,7 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
         }
     }, [initialNews, extraNews]);
 
-    // Load one more item
+    // Load two more items
     const loadMore = useCallback(async () => {
         if (loading || !hasMore) return;
 
@@ -269,7 +270,8 @@ export default function SmartNewsFeed({ initialNews, className = '' }: SmartNews
         if (currentCount < allNews.length) {
             setLoading(true);
             await new Promise(resolve => setTimeout(resolve, 150)); // Small delay for animation
-            setDisplayedNews(prev => [...prev, allNews[currentCount]]);
+            const nextNews = allNews.slice(currentCount, currentCount + LOAD_AMOUNT);
+            setDisplayedNews(prev => [...prev, ...nextNews]);
             setLoading(false);
             return;
         }
