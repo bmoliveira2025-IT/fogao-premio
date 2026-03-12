@@ -30,14 +30,14 @@ function getRelativeTime(dateString: string): string {
     if (diffInSeconds < 60) return 'agora';
     if (diffInSeconds < 3600) {
         const minutes = Math.floor(diffInSeconds / 60);
-        return `${minutes}min`;
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
     }
     if (diffInSeconds < 86400) {
         const hours = Math.floor(diffInSeconds / 3600);
-        return `${hours}h`;
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
     }
     const days = Math.floor(diffInSeconds / 86400);
-    return `${days}d`;
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 }
 
 interface HomeNewsCardProps {
@@ -108,8 +108,8 @@ export default function HomeNewsCard({ article, index, isWide = false }: HomeNew
 
                     {/* Footer */}
                     <div className="flex items-center gap-1.5 mt-auto pt-3" suppressHydrationWarning>
-                        <Clock size={11} className="text-zinc-600" />
-                        <span className="text-[10px] font-semibold text-zinc-600 uppercase tracking-wider" suppressHydrationWarning>
+                        <Clock size={11} className="text-premium-gold/80" />
+                        <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-wider" suppressHydrationWarning>
                             {getRelativeTime(article.created_at)}
                         </span>
                     </div>

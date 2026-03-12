@@ -30,14 +30,14 @@ function getRelativeTime(dateString: string): string {
     if (diffInSeconds < 60) return 'agora';
     if (diffInSeconds < 3600) {
         const minutes = Math.floor(diffInSeconds / 60);
-        return `${minutes}min`;
+        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
     }
     if (diffInSeconds < 86400) {
         const hours = Math.floor(diffInSeconds / 3600);
-        return `${hours}h`;
+        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
     }
     const days = Math.floor(diffInSeconds / 86400);
-    return `${days}d`;
+    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
 }
 
 export default function HomeHeroCard({ article }: { article: NewsItem }) {
@@ -97,8 +97,8 @@ export default function HomeHeroCard({ article }: { article: NewsItem }) {
 
                     {/* Time */}
                     <div className="flex items-center gap-1.5 mt-3 md:mt-4" suppressHydrationWarning>
-                        <Clock size={13} className="text-white/50" />
-                        <span className="text-[11px] md:text-xs font-semibold text-white/50 uppercase tracking-wider" suppressHydrationWarning>
+                        <Clock size={13} className="text-premium-gold/90" />
+                        <span className="text-[11px] md:text-xs font-bold text-white uppercase tracking-wider" suppressHydrationWarning>
                             {getRelativeTime(article.created_at)}
                         </span>
                     </div>
