@@ -1,19 +1,14 @@
 // Redesigned Homepage - 2026-03-07 - Hero + Dynamic Grid
 import { db } from '@/lib/firebase-admin';
-import PremiumNextMatch from '@/components/PremiumNextMatch';
-import PremiumWidget from '@/components/PremiumWidget';
-import CompactNewsRow from '@/components/CompactNewsRow';
-import BotafogoTVCarousel from '@/components/BotafogoTVCarousel';
-import QuoteBanner from '@/components/QuoteBanner';
-import MatchDayPopup from '@/components/MatchDayPopup';
-import ModernNavMenu from '@/components/ModernNavMenu';
-import HomeHeroCard from '@/components/HomeHeroCard';
-import HomeNewsGrid from '@/components/HomeNewsGrid';
-import StaggeredEntry from '@/components/StaggeredEntry';
+import ModernFullWidthHero from '@/components/ModernFullWidthHero';
+import ModernFullWidthRow from '@/components/ModernFullWidthRow';
+import ModernMatchCard from '@/components/ModernMatchCard';
+import ModernVideoCard from '@/components/ModernVideoCard';
+import LeagueTable from '@/components/LeagueTable';
+import ModernInfiniteNews from '@/components/ModernInfiniteNews';
 
 import { ChevronRight, Users, Trophy } from 'lucide-react';
 import Link from 'next/link';
-
 
 export const revalidate = 60; // Enable ISR (60s) for better TTFB
 
@@ -76,21 +71,26 @@ interface Briefing {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 36); // 36h window
+    timeLimit.setHours(timeLimit.getHours() - 48); // 48h window explicitly requested
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
       .limit(500); // Massive limit to ensure we cover the entire 36h window natively
 
-    const nextMatchRef = db.collection('matches').doc('next_match');
+    const matchThreshold = new Date();
+    matchThreshold.setHours(matchThreshold.getHours() - 3);
+    const upcomingMatchesRef = db.collection('matches')
+      .where('date', '>=', matchThreshold.toISOString())
+      .orderBy('date', 'asc')
+      .limit(5);
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
     const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);
 
-    const [newsSnap, nextMatchSnap, videosSnap, premiumSnap, briefingSnap] = await Promise.all([
+    const [newsSnap, upcomingMatchesSnap, videosSnap, premiumSnap, briefingSnap] = await Promise.all([
       newsRef.get(),
-      nextMatchRef.get(),
+      upcomingMatchesRef.get(),
       videosRef.get(),
       premiumRef.get(),
       briefingRef.get()
@@ -143,30 +143,34 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     const matches: MatchData[] = [];
     const now = new Date();
 
-    if (nextMatchSnap.exists) {
-      const data = nextMatchSnap.data()!;
-      const matchDate = data.date?.toDate?.() || new Date(data.date);
-      const isFinished = data.status?.toLowerCase() === 'finalizado';
+    if (!upcomingMatchesSnap.empty) {
+      for (const doc of upcomingMatchesSnap.docs) {
+        if (doc.id === 'next_match') continue; // Avoid the static old document if it's there
+        const data = doc.data();
+        const matchDate = data.date?.toDate?.() || new Date(data.date);
+        const status = data.status?.toLowerCase() || '';
 
-      // Strict check: if finished, don't show in upcoming/next match
-      if (!isFinished) {
-        matches.push({
-          id: data.match_id || nextMatchSnap.id,
-          home_team: data.home_team,
-          away_team: data.away_team,
-          home_score: data.home_score,
-          away_score: data.away_score,
-          date: matchDate.toISOString(),
-          location: data.location,
-          championship: data.championship || 'Carioca Série A',
-          status: data.status,
-          home_team_logo: data.home_team_logo || data.home_logo,
-          away_team_logo: data.away_team_logo || data.away_logo,
-          stadium: data.stadium,
-          transmission: data.transmission,
-          display_time: data.display_time,
-          match_id: data.match_id,
-        });
+        // Strict check: if finished, don't show in upcoming/next match
+        if (status !== 'finalizado' && status !== 'encerrada') {
+          matches.push({
+            id: data.match_id || doc.id,
+            home_team: data.home_team,
+            away_team: data.away_team,
+            home_score: data.home_score || 0,
+            away_score: data.away_score || 0,
+            date: matchDate.toISOString(),
+            location: data.location || 'A definir',
+            championship: data.championship || 'Campeonato',
+            status: data.status || 'Agendado',
+            home_team_logo: data.home_team_logo || data.home_logo,
+            away_team_logo: data.away_team_logo || data.away_logo,
+            stadium: data.stadium,
+            transmission: data.transmission,
+            display_time: data.display_time,
+            match_id: data.match_id || doc.id,
+          });
+          break; // We only need the next valid match for the homepage
+        }
       }
     }
 
@@ -254,115 +258,57 @@ export default async function Home() {
 
   notifications.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
-  // Hero = first news, grid = remaining
+  // Hero = first news
   const heroNews = news[0] || null;
-  const gridNews = news.slice(1);
+  const secondNews = news[1] || null;
+  const thirdNews = news[2] || null;
+  const fourthNews = news[3] || null;
+  const fifthNews = news[4] || null;
+  const sixthNews = news[5] || null;
+  const latestVideo = videos[0] || null;
+  const remainingNews = news.slice(6); // Pass the rest for infinite scroll
 
   return (
-    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-white dark:bg-black">
-
-      {/* MATCH DAY POPUP - Disabled due to invalid date issues */}
-      {/* <MatchDayPopup nextMatch={nextMatch} /> */}
-
+    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#0a0a0a]">
 
       {/* MAIN CONTENT WRAPPER */}
-      <div className="w-full transition-all duration-300 pb-24 lg:pb-12">
-        <div className="container mx-auto px-3 md:px-4 lg:px-12 max-w-[1600px]">
+      <div className="w-full transition-all duration-300 pb-24 lg:pb-12 bg-black">
+        <div className="container mx-auto max-w-[1600px] flex justify-center">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-8">
+          {/* SINGLE COLUMN MOBILE-FIRST FEED LAYOUT (matching screenshot) */}
+          <div className="w-full max-w-2xl flex flex-col pt-2 bg-[#111] min-h-screen">
 
-            {/* --- CENTER COLUMN (Main Feed) --- */}
-            <div className="lg:col-span-8 space-y-6 lg:space-y-10">
+            {/* HERO NEWS (Botafogo Assume a Liderança) */}
+            {heroNews && <ModernFullWidthHero article={heroNews} />}
 
-              <StaggeredEntry staggerDelay={0.15}>
-                {/* HERO NEWS - First story full-width 16:9 */}
-                {heroNews && (
-                  <div className="mt-0 md:mt-8">
-                    <HomeHeroCard article={heroNews} />
-                  </div>
-                )}
+            {/* SECONDARY NEWS (Gatito Fernández) */}
+            {secondNews && <ModernFullWidthRow article={secondNews} />}
 
-                {/* GLORIOSO TV (BOTAFOGO TV CAROUSEL) */}
-                <div className="px-0 md:px-0">
-                  <BotafogoTVCarousel videos={videos} />
-                </div>
+            {/* NEXT MATCH CARD */}
+            <ModernMatchCard match={nextMatch} />
 
-                {/* NEWS GRID - Shuffled cards */}
-                {gridNews.length > 0 && (
-                  <HomeNewsGrid news={gridNews} className="mt-4" />
-                )}
+            {/* VIDEO CARD (Hat-Trick Tiquinho) */}
+            {/* MORE NEWS (To complete 6 initial items) */}
+            {thirdNews && <ModernFullWidthRow article={thirdNews} />}
+            {fourthNews && <ModernFullWidthRow article={fourthNews} />}
+            {fifthNews && <ModernFullWidthRow article={fifthNews} />}
+            {sixthNews && <ModernFullWidthRow article={sixthNews} />}
 
-                {/* QUOTE BANNER */}
-                <div className="px-4 md:px-0 mt-8 mb-8 lg:mb-0">
-                  <QuoteBanner />
-                </div>
-              </StaggeredEntry>
-
+            {/* LEAGUE TABLE WIDGET */}
+            <div className="px-3 md:px-0 mt-6 mb-8">
+              <div className="bg-[#111] border-t border-x border-white/5 rounded-t-lg p-3">
+                  <h2 className="text-sm md:text-base font-bold text-white tracking-wide" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                      Tabela do Brasileirão
+                  </h2>
+              </div>
+              <div className="bg-[#151515] rounded-b-lg border border-white/10 overflow-hidden shadow-2xl">
+                 <LeagueTable />
+              </div>
             </div>
 
-            {/* --- RIGHT COLUMN (Widgets - Desktop Only) --- */}
-            <div className="hidden lg:flex lg:col-span-4 flex-col gap-6 lg:gap-8 mt-8">
-              <StaggeredEntry delay={0.2} staggerDelay={0.1}>
-                {/* Next Match Card - Disabled per user request */}
-                {/* <PremiumNextMatch match={nextMatch} /> */}
-
-
-                {/* Premium Widget */}
-                <PremiumWidget news={premiumNews} />
-
-                {/* Elenco Banner */}
-                <Link href="/elenco" className="block group">
-                  <div className="relative overflow-hidden rounded-[2rem] bg-card/60 backdrop-blur-xl border border-white/[0.04] hover:border-premium-gold/40 transition-all duration-500 ease-out p-8 flex items-center justify-between shadow-premium hover:shadow-card-hover group-hover:-translate-y-1">
-                    <div className="flex items-center gap-5">
-                      <div className="p-4 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
-                        <Users size={28} />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-athletic text-white group-hover:text-premium-gold transition-colors">
-                          Elenco 2026
-                        </h4>
-                        <p className="text-xs text-zinc-400 font-medium tracking-widest uppercase">
-                          Plantel Completo
-                        </p>
-                      </div>
-                    </div>
-                    <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
-                  </div>
-                </Link>
-
-                {/* Standings Banner */}
-                <Link href="/tabela" className="block group">
-                  <div className="relative overflow-hidden rounded-[2rem] bg-card/60 backdrop-blur-xl border border-white/[0.04] hover:border-premium-gold/40 transition-all duration-500 ease-out p-8 flex items-center justify-between shadow-premium hover:shadow-card-hover group-hover:-translate-y-1">
-                    <div className="flex items-center gap-5">
-                      <div className="p-4 rounded-full bg-premium-gold/10 text-premium-gold border border-premium-gold/20">
-                        <Trophy size={28} />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-athletic text-white group-hover:text-premium-gold transition-colors">
-                          Classificação
-                        </h4>
-                        <p className="text-xs text-zinc-400 font-medium tracking-widest uppercase">
-                          Tabela Carioca 2026
-                        </p>
-                      </div>
-                    </div>
-                    <ChevronRight className="text-zinc-600 group-hover:text-premium-gold transition-colors" size={24} />
-                  </div>
-                </Link>
-
-                {/* Sidebar News Feed */}
-                <div className="glass-ultra border border-white/[0.04] rounded-[2rem] p-6 shadow-premium">
-                  <h3 className="text-sm font-athletic text-premium-gold mb-8 flex items-center gap-3">
-                    <div className="w-1.5 h-5 bg-premium-gold rounded-full" />
-                    Últimas do Esporte
-                  </h3>
-                  <div className="space-y-6">
-                    {news.slice(10, 16).map(article => (
-                      <CompactNewsRow key={article.id} article={article} />
-                    ))}
-                  </div>
-                </div>
-              </StaggeredEntry>
+            {/* Remaining News Feed (Infinite Load 2 by 2) */}
+            <div className="mt-4">
+              <ModernInfiniteNews initialNews={remainingNews} />
             </div>
 
           </div>

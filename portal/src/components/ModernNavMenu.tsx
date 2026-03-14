@@ -13,11 +13,7 @@ interface ModernNavMenuProps {
     className?: string;
 }
 
-const navItems = [
-    { href: '/podcasts', label: 'PODCAST', icon: Video },
-    { href: '/elenco', label: 'ELENCO', icon: Users },
-    { href: '/tabela', label: 'TABELA', icon: Trophy },
-];
+
 
 export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
     const pathname = usePathname();
@@ -33,10 +29,7 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const menuItems = [...navItems];
-    if (isPremium) {
-        menuItems.push({ href: '/premium', label: 'PREMIUM', icon: Zap });
-    }
+
 
     return (
         <nav className={cn(
@@ -159,75 +152,6 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                     </div>
                 </div>
 
-                {/* Bottom Navigation Bar - Collapsible with Smooth Animation */}
-                <AnimatePresence>
-                    {!scrolled && (
-                        <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="overflow-hidden border-t border-white/[0.03]"
-                        >
-                            <div className="py-2.5">
-                                <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                                    <div className="flex items-center justify-center lg:justify-start gap-2.5 overflow-x-auto scrollbar-hide">
-                                        {menuItems.map((item, index) => {
-                                            const Icon = item.icon;
-                                            const isActive = pathname === item.href;
-
-                                            if (isActive) return null;
-
-                                            const isAlwaysHiddenOnMobile = item.label === 'INÍCIO' || item.label === 'PODCAST';
-                                            const isPremiumItem = item.label === 'PREMIUM';
-
-                                            return (
-                                                <motion.div
-                                                    key={item.href}
-                                                    initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                    transition={{ delay: index * 0.06, type: "spring", stiffness: 300, damping: 20 }}
-                                                >
-                                                    <Link
-                                                        href={item.href}
-                                                        className={cn(
-                                                            "relative flex items-center justify-center gap-2 min-w-[100px] px-4 py-2 rounded-xl text-[12px] font-semibold tracking-wide whitespace-nowrap transition-all duration-400 group overflow-hidden",
-                                                            isPremiumItem
-                                                                ? "bg-gradient-to-r from-premium-gold/15 to-premium-gold/5 border border-premium-gold/20 text-premium-gold hover:from-premium-gold/25 hover:to-premium-gold/10 hover:border-premium-gold/40 hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]"
-                                                                : "bg-white/[0.04] border border-white/[0.06] text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/[0.12] hover:shadow-lg",
-                                                            isAlwaysHiddenOnMobile && "hidden lg:flex"
-                                                        )}
-                                                    >
-                                                        {/* Icon */}
-                                                        <Icon
-                                                            size={14}
-                                                            className={cn(
-                                                                "relative z-10 transition-all duration-300",
-                                                                isPremiumItem
-                                                                    ? "text-premium-gold group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
-                                                                    : "text-zinc-500 group-hover:text-premium-gold"
-                                                            )}
-                                                        />
-
-                                                        {/* Label */}
-                                                        <span className={cn(
-                                                            "relative z-10 transition-all duration-300",
-                                                            isPremiumItem
-                                                                ? "group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]"
-                                                                : "group-hover:text-premium-gold"
-                                                        )}>
-                                                            {item.label}
-                                                        </span>
-                                                    </Link>
-                                                </motion.div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
             </div>
         </nav>
     );

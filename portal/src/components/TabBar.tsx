@@ -61,7 +61,7 @@ const IconProfile = ({ active, className }: { active: boolean, className?: strin
 
 const navTabs = [
     { icon: IconHome, label: "INÍCIO", href: "/" },
-    { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "PODCAST", href: "/podcasts" },
+    { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "VÍDEOS", href: "/videos" },
     { icon: IconGames, label: "JOGOS", href: "/matches" },
     { icon: IconProfile, label: "PERFIL", href: "/profile" },
 ];

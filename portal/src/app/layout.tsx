@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import ModernNavMenu from "@/components/ModernNavMenu";
 import TabBar from "@/components/TabBar";
 import DesktopSidebar from "@/components/DesktopSidebar";
+import ModernNavTabs from "@/components/ModernNavTabs";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -85,6 +86,11 @@ export default function RootLayout({
               <ModernNavMenu className="lg:hidden" />
             </Suspense>
 
+            {/* Global Top Tabs for Mobile */}
+            <Suspense fallback={null}>
+              <ModernNavTabs />
+            </Suspense>
+
             <div className="hidden lg:block">
               <Suspense fallback={null}>
                 <DesktopSidebar />
@@ -92,7 +98,7 @@ export default function RootLayout({
             </div>
 
             {/* Main Content Wrapper with Safe Area Handling */}
-            <main className="min-h-screen bg-background lg:pl-64 flex flex-col pt-[140px] lg:pt-0">
+            <main className="min-h-screen bg-[#0a0a0a] lg:pl-64 flex flex-col pt-[104px] lg:pt-0">
               <div className="flex-1">
                 {children}
               </div>
