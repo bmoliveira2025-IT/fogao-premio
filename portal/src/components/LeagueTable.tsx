@@ -18,7 +18,7 @@ interface TeamStats {
     group?: string;
 }
 
-export default function LeagueTable() {
+export default function LeagueTable({ defaultExpanded = true }: { defaultExpanded?: boolean }) {
     const [tableData, setTableData] = useState<TeamStats[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
@@ -31,9 +31,9 @@ export default function LeagueTable() {
                 const data = doc.data().standings as TeamStats[];
                 setTableData(data);
 
-                // Initialize groups as expanded
+                // Initialize groups based on defaultExpanded
                 const groups = Array.from(new Set(data.map(t => t.group || 'Geral')));
-                const initialExpanded = groups.reduce((acc, group) => ({ ...acc, [group]: true }), {});
+                const initialExpanded = groups.reduce((acc, group) => ({ ...acc, [group]: defaultExpanded }), {});
                 setExpandedGroups(initialExpanded);
             } else {
                 setTableData([]);

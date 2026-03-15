@@ -302,7 +302,7 @@ export default async function Home() {
                   </h2>
               </div>
               <div className="bg-[#151515] rounded-b-lg border border-white/10 overflow-hidden shadow-2xl">
-                 <LeagueTable />
+                 <LeagueTable defaultExpanded={false} />
               </div>
             </div>
 
