@@ -36,7 +36,8 @@ def fix_logos():
         "vitoria": "/logos/vitoria.png",
         "volta-redonda": "/logos/volta-redonda.png",
         "portuguesa-rj": "/logos/portuguesa-rj.png",
-        "sampaio-correa-rj": "/logos/sampaio-correa-rj.png"
+        "sampaio-correa-rj": "/logos/sampaio-correa-rj.png",
+        "palmeiras": "/logos/palmeiras.png"
     }
 
     def get_local_logo(team_name, current_logo):
