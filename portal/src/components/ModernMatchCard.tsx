@@ -41,8 +41,8 @@ export default function ModernMatchCard({ match }: { match: any }) {
                                 </span>
                              </div>
                              {/* Date & Time */}
-                             <span className="text-[15px] md:text-[17px] font-bold text-white tracking-widest pl-1">
-                                {new Date(match.date).toLocaleDateString('pt-BR')} • {new Date(match.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit'})}
+                             <span className="text-[15px] md:text-[17px] font-bold text-white tracking-widest pl-1" suppressHydrationWarning>
+                                {new Date(match.date).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' })} • {new Date(match.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })}
                              </span>
                         </div>
                     </div>
