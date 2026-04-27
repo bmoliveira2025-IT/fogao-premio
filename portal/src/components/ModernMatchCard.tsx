@@ -28,7 +28,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
                     
                     {/* Header: "Próximo Jogo" and Match Details */}
                     <div className={compact ? 'mb-4' : 'mb-8'}>
-                        <h2 className={`${compact ? 'text-[24px] md:text-[28px]' : 'text-[36px] md:text-[48px]'} font-black text-white tracking-wide leading-none drop-shadow-md mb-3`} style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <h2 className={`${compact ? 'text-[18px] md:text-[22px]' : 'text-[28px] md:text-[36px]'} font-black text-white tracking-wide leading-none drop-shadow-md mb-3`} style={{ fontFamily: 'Outfit, sans-serif' }}>
                             Próximo Jogo
                         </h2>
                         
@@ -56,7 +56,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
                                         <Image src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} fill className="object-contain p-2" unoptimized />
                                     )}
                                 </div>
-                                <span className={`${compact ? 'text-[20px] md:text-[24px]' : 'text-[30px] md:text-[36px]'} font-bold text-white tracking-tight leading-none truncate`} style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                <span className={`${compact ? 'text-[16px] md:text-[18px]' : 'text-[22px] md:text-[28px]'} font-bold text-white tracking-tight leading-none truncate`} style={{ fontFamily: 'Outfit, sans-serif' }}>
                                     {match.home_team}
                                 </span>
                             </div>
@@ -78,7 +78,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
                                         <Image src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} fill className="object-contain p-2" unoptimized />
                                     )}
                                 </div>
-                                <span className={`${compact ? 'text-[20px] md:text-[24px]' : 'text-[30px] md:text-[36px]'} font-bold text-white tracking-tight leading-none truncate`} style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                <span className={`${compact ? 'text-[16px] md:text-[18px]' : 'text-[22px] md:text-[28px]'} font-bold text-white tracking-tight leading-none truncate`} style={{ fontFamily: 'Outfit, sans-serif' }}>
                                     {match.away_team}
                                 </span>
                             </div>

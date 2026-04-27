@@ -95,7 +95,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                         )}
 
                         {/* Huge Editorial Title */}
-                        <h1 className="text-[28px] md:text-[42px] lg:text-[56px] font-[900] text-white leading-[1.1] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <h1 className="text-[22px] md:text-[32px] lg:text-[42px] font-[900] text-white leading-[1.1] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             {article.title?.replace(/\*\*/g, '')}
                         </h1>
 
