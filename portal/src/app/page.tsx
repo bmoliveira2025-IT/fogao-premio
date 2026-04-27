@@ -1,13 +1,13 @@
-// Redesigned Homepage - 2026-03-07 - Hero + Dynamic Grid
+// Redesigned Homepage - Magazine Layout with Mixed Cards
 import { db } from '@/lib/firebase-admin';
 import ModernFullWidthHero from '@/components/ModernFullWidthHero';
-import ModernFullWidthRow from '@/components/ModernFullWidthRow';
+import FeaturedCard from '@/components/FeaturedCard';
+import CompactNewsCard from '@/components/CompactNewsCard';
 import ModernMatchCard from '@/components/ModernMatchCard';
-import ModernVideoCard from '@/components/ModernVideoCard';
 import LeagueTable from '@/components/LeagueTable';
 import ModernInfiniteNews from '@/components/ModernInfiniteNews';
+import BreakingNewsTicker from '@/components/BreakingNewsTicker';
 
-import { ChevronRight, Users, Trophy } from 'lucide-react';
 import Link from 'next/link';
 
 export const revalidate = 60; // Enable ISR (60s) for better TTFB
@@ -207,107 +207,87 @@ export default async function Home() {
 
   const nextMatch = matches.length > 0 ? matches[0] : null;
 
-  // CHECK FOR NOTIFICATIONS
-  const notifications: NotificationItem[] = [];
-  const isMatchDay = nextMatch ? new Date(nextMatch.date).toDateString() === new Date().toDateString() : false;
-
-  if (isMatchDay && nextMatch) {
-    const time = new Date(nextMatch.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    notifications.push({
-      id: `match-${nextMatch.id}`,
-      type: 'MATCH' as const,
-      title: 'Hoje tem Fogão!',
-      message: `${nextMatch.home_team} x ${nextMatch.away_team} às ${time}`,
-      timestamp: new Date().toISOString()
-    });
-  }
-
-  const recentPremium = premiumNews.filter(item => {
-    const created = new Date(item.created_at);
-    const now = new Date();
-    const diff = now.getTime() - created.getTime();
-    return diff < 86400000; // 24 hours
-  });
-
-  recentPremium.forEach(item => {
-    notifications.push({
-      id: `premium-${item.id}`,
-      type: 'PREMIUM' as const,
-      title: 'Novo Conteúdo Exclusivo',
-      message: item.title,
-      timestamp: item.created_at,
-      link: `/news/${item.id}`
-    });
-  });
-
-  if (briefing) {
-    const briefingDate = new Date(briefing.created_at).toLocaleDateString('pt-BR');
-    const today = new Date().toLocaleDateString('pt-BR');
-
-    if (briefingDate === today) {
-      notifications.push({
-        id: `briefing-${briefing.id}`,
-        type: 'BRIEFING' as const,
-        title: 'Resumo do Dia',
-        message: 'Confira os destaques de hoje no Fogão Prêmio',
-        timestamp: briefing.created_at,
-        link: '?briefing=true'
-      });
-    }
-  }
-
-  notifications.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-
-  // Hero = first news
+  // Slice news into sections
   const heroNews = news[0] || null;
-  const secondNews = news[1] || null;
-  const thirdNews = news[2] || null;
-  const fourthNews = news[3] || null;
-  const fifthNews = news[4] || null;
-  const sixthNews = news[5] || null;
-  const latestVideo = videos[0] || null;
-  const remainingNews = news.slice(6); // Pass the rest for infinite scroll
+  const featuredPair = news.slice(1, 3); // Two featured cards side by side
+  const compactBlock = news.slice(3, 7); // 4 compact cards
+  const secondFeatured = news[7] || null; // Another featured card after match
+  const remainingNews = news.slice(8); // Rest for infinite scroll
+
+  // Ticker: take first 5 news for breaking ticker
+  const tickerItems = news.slice(0, 6).map(n => ({ id: n.id, title: n.title }));
 
   return (
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#0a0a0a]">
 
       {/* MAIN CONTENT WRAPPER */}
-      <div className="w-full transition-all duration-300 pb-24 lg:pb-12 bg-black">
+      <div className="w-full transition-all duration-300 pb-24 lg:pb-12 bg-[#0a0a0a]">
         <div className="container mx-auto max-w-[1600px] flex justify-center">
 
-          {/* SINGLE COLUMN MOBILE-FIRST FEED LAYOUT (matching screenshot) */}
-          <div className="w-full max-w-2xl flex flex-col pt-2 bg-[#111] min-h-screen">
+          {/* SINGLE COLUMN MOBILE-FIRST FEED LAYOUT */}
+          <div className="w-full max-w-2xl flex flex-col bg-[#0d0d0d] min-h-screen">
 
-            {/* HERO NEWS (Botafogo Assume a Liderança) */}
+            {/* BREAKING NEWS TICKER */}
+            <BreakingNewsTicker items={tickerItems} />
+
+            {/* HERO NEWS (Main Story) */}
             {heroNews && <ModernFullWidthHero article={heroNews} />}
 
-            {/* SECONDARY NEWS (Gatito Fernández) */}
-            {secondNews && <ModernFullWidthRow article={secondNews} />}
+            {/* FEATURED PAIR — Two medium cards side by side */}
+            {featuredPair.length > 0 && (
+              <div className="px-3 md:px-0 mt-3">
+                <div className="grid grid-cols-2 gap-2.5">
+                  {featuredPair.map((article) => (
+                    <FeaturedCard key={article.id} article={article} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* SECTION: Últimas Notícias (Compact List) */}
+            {compactBlock.length > 0 && (
+              <div className="mt-5">
+                <div className="px-4 md:px-0 mb-2 flex items-center gap-3">
+                  <div className="w-1 h-5 bg-gradient-to-b from-[#d4af37] to-[#d4af37]/20 rounded-full" />
+                  <h2 className="text-[13px] md:text-[14px] font-[800] text-white/80 uppercase tracking-[0.1em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    Últimas Notícias
+                  </h2>
+                  <div className="h-px flex-1 bg-gradient-to-r from-white/[0.06] to-transparent" />
+                </div>
+
+                <div className="bg-[#111]/60 rounded-xl md:rounded-none overflow-hidden">
+                  {compactBlock.map((article) => (
+                    <CompactNewsCard key={article.id} article={article} />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* NEXT MATCH CARD */}
             <ModernMatchCard match={nextMatch} />
 
-            {/* VIDEO CARD (Hat-Trick Tiquinho) */}
-            {/* MORE NEWS (To complete 6 initial items) */}
-            {thirdNews && <ModernFullWidthRow article={thirdNews} />}
-            {fourthNews && <ModernFullWidthRow article={fourthNews} />}
-            {fifthNews && <ModernFullWidthRow article={fifthNews} />}
-            {sixthNews && <ModernFullWidthRow article={sixthNews} />}
+            {/* SECOND FEATURED — Break the monotony */}
+            {secondFeatured && (
+              <div className="px-3 md:px-0 mt-3 mb-2">
+                <FeaturedCard article={secondFeatured} />
+              </div>
+            )}
 
             {/* LEAGUE TABLE WIDGET */}
-            <div className="px-3 md:px-0 mt-6 mb-8">
-              <div className="bg-[#111] border-t border-x border-white/5 rounded-t-lg p-3">
-                  <h2 className="text-sm md:text-base font-bold text-white tracking-wide" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                      Tabela do Brasileirão
-                  </h2>
+            <div className="px-3 md:px-0 mt-6 mb-6">
+              <div className="bg-[#0d0d0d] border-t border-x border-white/[0.04] rounded-t-xl p-3 flex items-center gap-3">
+                <div className="w-1 h-4 bg-gradient-to-b from-[#d4af37] to-[#d4af37]/20 rounded-full" />
+                <h2 className="text-[13px] md:text-[14px] font-[800] text-white/80 uppercase tracking-[0.1em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Tabela do Brasileirão
+                </h2>
               </div>
-              <div className="bg-[#151515] rounded-b-lg border border-white/10 overflow-hidden shadow-2xl">
-                 <LeagueTable defaultExpanded={false} />
+              <div className="bg-[#111] rounded-b-xl border border-white/[0.04] overflow-hidden shadow-2xl">
+                <LeagueTable defaultExpanded={false} />
               </div>
             </div>
 
-            {/* Remaining News Feed (Infinite Load 2 by 2) */}
-            <div className="mt-4">
+            {/* Remaining News Feed (Infinite Load — Mixed Layout) */}
+            <div className="mt-2">
               <ModernInfiniteNews initialNews={remainingNews} />
             </div>
 

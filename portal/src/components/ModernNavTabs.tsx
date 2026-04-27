@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export default function ModernNavTabs() {
   const pathname = usePathname();
@@ -14,36 +15,34 @@ export default function ModernNavTabs() {
   ];
 
   return (
-    <div className="w-full bg-[#111] border-b border-white/10 fixed top-[56px] left-0 right-0 z-40 lg:hidden shadow-md">
-      <div className="container mx-auto px-4 max-w-[1600px] overflow-x-auto scrollbar-hide">
-        <div className="flex items-center min-w-max pt-2 bg-[#0d0d0d]">
-          {tabs.map((tab, index) => {
-        const isActive = tab.href === pathname || (tab.href !== '/' && pathname.startsWith(tab.href));
+    <div className="w-full bg-[#0d0d0d]/95 backdrop-blur-xl border-b border-white/[0.06] fixed top-[56px] left-0 right-0 z-40 lg:hidden">
+      <div className="container mx-auto px-3 max-w-[1600px] overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-1 min-w-max">
+          {tabs.map((tab) => {
+            const isActive = tab.href === pathname || (tab.href !== '/' && pathname.startsWith(tab.href));
 
-        return (
-          <div key={tab.name} className="flex items-center whitespace-nowrap">
-            <Link
-              href={tab.href}
-              className={`relative px-4 py-4 text-[16px] transition-colors ${
-                isActive
-                  ? 'text-white font-bold'
-                  : 'text-zinc-400 font-medium hover:text-white'
-              }`}
-              style={{ fontFamily: 'Outfit, sans-serif' }}
-            >
-              {tab.name}
-              {isActive && (
-                <div className="absolute bottom-0 left-0 w-full h-[3px] bg-[#d4af37]" />
-              )}
-            </Link>
-            
-            {/* Thick Dark Gold Vertical Divider (Except for the last item) */}
-            {index < tabs.length - 1 && (
-              <div className="h-[24px] w-[5px] bg-[#8c6a0f] mx-2" />
-            )}
-          </div>
-        );
-      })}
+            return (
+              <Link
+                key={tab.name}
+                href={tab.href}
+                className="relative px-4 py-3.5 text-[13px] font-bold tracking-wide uppercase transition-colors whitespace-nowrap"
+                style={{ fontFamily: 'Outfit, sans-serif' }}
+              >
+                <span className={isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}>
+                  {tab.name}
+                </span>
+
+                {/* Animated underline indicator */}
+                {isActive && (
+                  <motion.div
+                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-gradient-to-r from-[#d4af37] via-[#d4af37] to-[#d4af37]/50 rounded-full"
+                    layoutId="navTabIndicator"
+                    transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

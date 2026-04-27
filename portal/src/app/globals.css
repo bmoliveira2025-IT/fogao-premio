@@ -688,3 +688,101 @@ h6 {
     grid-column: span 2;
   }
 }
+
+/* ============================================
+   BREAKING NEWS TICKER ANIMATION
+   ============================================ */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* ============================================
+   REFINED DESIGN UTILITIES
+   ============================================ */
+
+/* Section header accent bar */
+.section-accent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-accent::before {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 18px;
+  background: linear-gradient(to bottom, #d4af37, rgba(212, 175, 55, 0.15));
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Compact card hover accent */
+.compact-card-accent {
+  position: relative;
+}
+
+.compact-card-accent::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #d4af37, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.compact-card-accent:hover::before {
+  opacity: 1;
+}
+
+/* Staggered fade-in for dynamically loaded content */
+@keyframes staggerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-in {
+  animation: staggerFadeIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* Modern divider line */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.15), transparent);
+}
+
+/* Category badge base styles */
+.category-badge {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}

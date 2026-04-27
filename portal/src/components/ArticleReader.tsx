@@ -29,18 +29,26 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
     // 2. Logic: Show lock if Premium AND (Loading OR Not Logged In)
     const showLock = isPremium && (!user || loading);
 
-    return (
-        <div className="prose dark:prose-invert prose-p:text-foreground/80 prose-p:leading-relaxed prose-p:mb-6 prose-headings:text-foreground prose-a:text-premium-gold prose-strong:text-premium-gold prose-strong:font-bold font-light relative">
+    const formatParagraph = (text: string) => {
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#d4af37] font-semibold">$1</strong>')
+            .replace(/__(.*?)__/g, '<u>$1</u>')
+            .replace(/Botafogo/g, '<strong class="text-[#d4af37] font-semibold">Botafogo</strong>');
+    };
 
-            {/* Intro */}
+    return (
+        <div className="article-body relative">
+            {/* Intro paragraphs */}
             {introParams.map((p, i) => (
-                <div key={i} className="mb-6">
+                <div key={i} className="mb-5">
                     <p
-                        style={{ fontSize: 'calc(24px * var(--font-scale, 1))' }}
-                        className={`transition-all duration-500 ease-in-out leading-[1.8] text-foreground/90 font-sans tracking-wide
-                        ${i === 0 ? 'first-letter:text-5xl first-letter:font-black first-letter:text-premium-gold dark:first-letter:text-premium-gold light:first-letter:text-zinc-900 first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]' : ''}
-                        ${activeParagraphIndex === i ? 'bg-premium-gold/10 !text-foreground border-l-4 border-premium-gold shadow-md pl-4 py-2 -ml-4 rounded-r-xl' : ''}`}
-                        dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold dark:text-premium-gold light:text-black font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>').replace(/Botafogo/g, '<strong class="text-premium-gold dark:text-premium-gold light:text-black font-bold">Botafogo</strong>') }}
+                        style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
+                        className={`
+                            leading-[1.75] text-zinc-200 font-normal tracking-[0.01em] transition-all duration-300
+                            ${i === 0 ? 'first-letter:text-[2.8em] first-letter:font-[900] first-letter:text-[#d4af37] first-letter:mr-2 first-letter:float-left first-letter:leading-[0.75] first-letter:mt-1' : ''}
+                            ${activeParagraphIndex === i ? 'bg-[#d4af37]/[0.06] text-white border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                        `}
+                        dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                     />
                 </div>
             ))}
@@ -52,20 +60,33 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                 <>
                     {remainingParams.map((p, i) => {
                         const actualIndex = i + 3;
+
+                        // Add a pull-quote every ~4 paragraphs for editorial feel
+                        const showPullQuote = i > 0 && i % 4 === 0 && p.length > 80;
+
                         return (
-                            <div key={`rem-${i}`} className="mb-6">
-                                <p
-                                    style={{ fontSize: 'calc(24px * var(--font-scale, 1))' }}
-                                    className={`transition-all duration-500 ease-in-out leading-[1.8] text-foreground/80 font-sans tracking-wide
-                                    ${activeParagraphIndex === actualIndex ? 'bg-premium-gold/10 !text-foreground border-l-4 border-premium-gold shadow-md pl-4 py-2 -ml-4 rounded-r-xl' : ''}`}
-                                    dangerouslySetInnerHTML={{ __html: p.replace(/\*\*(.*?)\*\*/g, '<strong class="text-premium-gold dark:text-premium-gold light:text-black font-bold">$1</strong>').replace(/__(.*?)__/g, '<u>$1</u>').replace(/Botafogo/g, '<strong class="text-premium-gold dark:text-premium-gold light:text-black font-bold">Botafogo</strong>') }}
-                                />
+                            <div key={`rem-${i}`}>
+                                {showPullQuote && (
+                                    <blockquote className="my-8 py-4 px-5 border-l-[3px] border-[#d4af37]/40 bg-[#d4af37]/[0.03] rounded-r-lg">
+                                        <p className="text-[15px] md:text-[17px] font-medium text-zinc-300 italic leading-[1.6]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                            "{p.slice(0, Math.min(p.indexOf('.', 50) + 1 || 120, 150))}"
+                                        </p>
+                                    </blockquote>
+                                )}
+
+                                <div className="mb-5">
+                                    <p
+                                        style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
+                                        className={`
+                                            leading-[1.75] text-zinc-300 font-normal tracking-[0.01em] transition-all duration-300
+                                            ${activeParagraphIndex === actualIndex ? 'bg-[#d4af37]/[0.06] text-white border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                                        `}
+                                        dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
+                                    />
+                                </div>
                             </div>
                         );
                     })}
-
-                    {/* Footer Insert */}
-
                 </>
             )}
         </div>

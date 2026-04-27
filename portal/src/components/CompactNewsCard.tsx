@@ -1,81 +1,115 @@
 "use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ThumbsUp, ThumbsDown, Clock } from 'lucide-react';
-import SourceIcon from './SourceIcon';
+import Link from 'next/link';
+import { Clock } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
-import { useAuth } from '@/context/AuthContext';
-import LikeDislikeButtons from './LikeDislikeButtons';
+import SourceIcon from './SourceIcon';
 
-export default function CompactNewsCard({ article }: any) {
-    const { user } = useAuth();
+interface NewsItem {
+    id: string;
+    title: string;
+    image?: string;
+    source?: string;
+    summary?: string;
+    created_at: string;
+}
 
-    const timeAgo = (dateStr: string) => {
-        if (!dateStr) return '';
-        const date = new Date(dateStr);
-        const now = new Date();
-        const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+function timeAgo(dateStr: string) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        if (diffInSeconds < 60) return 'agora mesmo';
-        if (diffInSeconds < 3600) {
-            const minutes = Math.floor(diffInSeconds / 60);
-            return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
-        }
-        if (diffInSeconds < 86400) {
-            const hours = Math.floor(diffInSeconds / 3600);
-            return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
-        }
-        const days = Math.floor(diffInSeconds / 86400);
-        return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
-    };
+    if (diffInSeconds < 60) return 'agora';
+    if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes}min`;
+    }
+    if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours}h`;
+    }
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days}d`;
+}
 
-    const toSentenceCase = (str: string) => {
-        if (!str) return '';
-        const cleanStr = str.replace(/\*\*/g, '').trim();
-        return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
-    };
+// Category detection from title keywords
+function detectCategory(title: string): { label: string; color: string } | null {
+    const t = title.toLowerCase();
+    if (t.includes('transferência') || t.includes('contrat') || t.includes('reforço') || t.includes('negocia'))
+        return { label: 'MERCADO', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' };
+    if (t.includes('análise') || t.includes('tática') || t.includes('desempenho'))
+        return { label: 'ANÁLISE', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' };
+    if (t.includes('lesão') || t.includes('lesionad') || t.includes('departamento médico'))
+        return { label: 'MÉDICO', color: 'bg-red-500/20 text-red-400 border-red-500/30' };
+    if (t.includes('gol') || t.includes('resultado') || t.includes('vitória') || t.includes('derrota') || t.includes('empat'))
+        return { label: 'RESULTADO', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' };
+    if (t.includes('treino') || t.includes('preparação'))
+        return { label: 'TREINO', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' };
+    return null;
+}
+
+export default function CompactNewsCard({ article }: { article: NewsItem }) {
+    if (!article) return null;
+
+    const category = detectCategory(article.title || '');
 
     return (
-        <div className="group flex flex-col mb-3 glass-puro crystal-border crystal-shine rounded-xl p-4 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
-            <Link href={`/news/${article.id}`} className="flex gap-5 items-start justify-between">
-                {/* Content */}
-                <div className="flex-1 flex flex-col justify-between min-h-[100px] md:min-h-[140px] py-1">
-                    <h3 className="text-[18px] md:text-2xl font-athletic text-white/90 group-hover:text-premium-gold transition-colors leading-tight">
-                        {toSentenceCase(article.title)}
-                    </h3>
-
-                    <div className="flex items-center gap-3 mt-4">
-                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-full border border-white/10 group-hover:border-premium-gold/40 transition-colors">
-                            <SourceIcon source={article.source || 'default'} className="w-4 h-4 text-premium-gold" />
-                        </div>
-                        <div className="flex items-center gap-1.5 text-[11px] font-bold text-zinc-500 uppercase tracking-widest pl-2 whitespace-nowrap flex-shrink-0">
-                            <Clock size={12} />
-                            <span>{timeAgo(article.created_at)}</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Compact Image (Right Side) */}
-                <div className="relative w-32 h-24 md:w-56 md:h-36 flex-shrink-0 rounded-lg md:rounded-xl overflow-hidden border border-white/10 bg-zinc-900 shadow-xl self-center">
-                    <Image
-                        src={getSafeImageSrc(article.image)}
-                        alt={article.title}
-                        fill
-                        className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                        unoptimized={true}
-                    />
-                </div>
-            </Link>
-
-            <div className="flex items-center justify-end mt-4 border-t border-white/5 pt-4">
-                <LikeDislikeButtons
-                    articleId={article.id}
-                    initialLikes={article.likes_count}
-                    initialDislikes={article.dislikes_count}
+        <Link
+            href={`/news/${article.id}`}
+            className="group flex items-start gap-4 p-4 bg-[#111]/80 hover:bg-[#1a1a1a] border-b border-white/[0.04] transition-all duration-300 active:scale-[0.99]"
+        >
+            {/* Thumbnail */}
+            <div className="relative w-[88px] h-[88px] md:w-[100px] md:h-[100px] flex-shrink-0 rounded-xl overflow-hidden bg-[#1a1a1a]">
+                <Image
+                    src={getSafeImageSrc(article.image)}
+                    alt={article.title}
+                    fill
+                    sizes="100px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    unoptimized
                 />
+                {/* Subtle border overlay */}
+                <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-white/[0.15] transition-all" />
             </div>
-        </div>
+
+            {/* Text Content */}
+            <div className="flex-1 min-w-0 py-0.5 flex flex-col justify-between h-[88px] md:h-[100px]">
+                <div>
+                    {/* Category Badge + Time */}
+                    <div className="flex items-center gap-2 mb-1.5">
+                        {category && (
+                            <span className={`text-[9px] font-black tracking-[0.1em] px-1.5 py-0.5 rounded border ${category.color}`}>
+                                {category.label}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-[14px] md:text-[15px] font-bold text-white/95 leading-[1.3] line-clamp-3 group-hover:text-white transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        {article.title?.replace(/\*\*/g, '')}
+                    </h3>
+                </div>
+
+                {/* Meta Row */}
+                <div className="flex items-center gap-2 mt-auto">
+                    {article.source && (
+                        <div className="flex items-center gap-1.5">
+                            <SourceIcon source={article.source} className="w-3 h-3 text-zinc-500" />
+                            <span className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">{article.source}</span>
+                        </div>
+                    )}
+                    <span className="text-[10px] text-zinc-600" suppressHydrationWarning>•</span>
+                    <span className="text-[10px] font-medium text-zinc-500 flex items-center gap-1" suppressHydrationWarning>
+                        <Clock size={9} className="text-zinc-600" />
+                        {timeAgo(article.created_at)}
+                    </span>
+                </div>
+            </div>
+
+            {/* Hover accent line */}
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#d4af37] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </Link>
     );
 }
