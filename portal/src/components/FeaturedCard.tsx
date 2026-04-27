@@ -75,9 +75,15 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
                     </div>
                 )}
 
-                <h3 className="text-[14px] md:text-[15px] font-[900] text-white leading-[1.2] tracking-tight line-clamp-3 group-hover:text-premium-gold transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <h3 className="text-[14px] md:text-[18px] lg:text-[22px] font-[900] text-white leading-[1.2] tracking-tight line-clamp-2 group-hover:text-premium-gold transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
                     {article.title?.replace(/\*\*/g, '')}
                 </h3>
+
+                {article.summary && (
+                    <p className="mt-2 text-[12px] md:text-[13px] text-zinc-400 line-clamp-2 leading-relaxed hidden md:block">
+                        {article.summary}
+                    </p>
+                )}
 
                 {/* Meta row */}
                 <div className="flex items-center gap-2 mt-3 opacity-60">

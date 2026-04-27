@@ -4,6 +4,7 @@ import ModernFullWidthHero from '@/components/ModernFullWidthHero';
 import FeaturedCard from '@/components/FeaturedCard';
 import CompactNewsCard from '@/components/CompactNewsCard';
 import ModernMatchCard from '@/components/ModernMatchCard';
+import SmartNewsFeed from '@/components/SmartNewsFeed';
 import LeagueTable from '@/components/LeagueTable';
 import ModernInfiniteNews from '@/components/ModernInfiniteNews';
 import BreakingNewsTicker from '@/components/BreakingNewsTicker';
@@ -147,29 +148,38 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       for (const doc of upcomingMatchesSnap.docs) {
         if (doc.id === 'next_match') continue; // Avoid the static old document if it's there
         const data = doc.data();
-        const matchDate = data.date?.toDate?.() || new Date(data.date);
-        const status = data.status?.toLowerCase() || '';
+        if (data && data.date) {
+          let matchDate;
+          try {
+            matchDate = data.date?.toDate?.() || new Date(data.date);
+            if (isNaN(matchDate.getTime())) throw new Error('Invalid date');
+          } catch (e) {
+            continue; // Skip invalid dates
+          }
+          
+          const status = data.status?.toLowerCase() || '';
 
-        // Strict check: if finished, don't show in upcoming/next match
-        if (status !== 'finalizado' && status !== 'encerrada') {
-          matches.push({
-            id: data.match_id || doc.id,
-            home_team: data.home_team,
-            away_team: data.away_team,
-            home_score: data.home_score || 0,
-            away_score: data.away_score || 0,
-            date: matchDate.toISOString(),
-            location: data.location || 'A definir',
-            championship: data.championship || 'Campeonato',
-            status: data.status || 'Agendado',
-            home_team_logo: data.home_team_logo || data.home_logo,
-            away_team_logo: data.away_team_logo || data.away_logo,
-            stadium: data.stadium,
-            transmission: data.transmission,
-            display_time: data.display_time,
-            match_id: data.match_id || doc.id,
-          });
-          break; // We only need the next valid match for the homepage
+          // Strict check: if finished, don't show in upcoming/next match
+          if (status !== 'finalizado' && status !== 'encerrada') {
+            matches.push({
+              id: data.match_id || doc.id,
+              home_team: data.home_team,
+              away_team: data.away_team,
+              home_score: data.home_score || 0,
+              away_score: data.away_score || 0,
+              date: matchDate.toISOString(),
+              location: data.location || 'A definir',
+              championship: data.championship || 'Campeonato',
+              status: data.status || 'Agendado',
+              home_team_logo: data.home_team_logo || data.home_logo,
+              away_team_logo: data.away_team_logo || data.away_logo,
+              stadium: data.stadium,
+              transmission: data.transmission,
+              display_time: data.display_time,
+              match_id: data.match_id || doc.id,
+            });
+            break; // We only need the next valid match for the homepage
+          }
         }
       }
     }
@@ -210,9 +220,9 @@ export default async function Home() {
   // Slice news into sections for the new grid layout
   const heroNews = news[0] || null;
   const topFeatured = news.slice(1, 5); // 4 cards for the row below hero
-  const mainFeedNews = news.slice(5, 15); // Main list
-  const sidebarNews = news.slice(15, 20); // Extra for sidebar
-  const remainingNews = news.slice(20);
+  const mainFeedNews = news.slice(5, 30); // Main list
+  const sidebarNews = news.slice(30, 36); // Extra for sidebar
+  const remainingNews = news.slice(36);
 
   // Ticker items
   const tickerItems = news.slice(0, 6).map(n => ({ id: n.id, title: n.title }));
@@ -247,29 +257,7 @@ export default async function Home() {
             )}
 
             {/* MAIN LIST WITH TABS (Editorial Order) */}
-            <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                <div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar">
-                  <button className="text-[12px] md:text-[14px] font-black text-premium-gold border-b-2 border-premium-gold pb-4 -mb-4.5 whitespace-nowrap">ÚLTIMAS</button>
-                  <button className="text-[12px] md:text-[14px] font-black text-zinc-500 hover:text-white transition-colors whitespace-nowrap">TENDÊNCIAS</button>
-                  <button className="text-[12px] md:text-[14px] font-black text-zinc-500 hover:text-white transition-colors whitespace-nowrap">PARA VOCÊ</button>
-                </div>
-              </div>
-
-              {/* One Large News below tabs (Matching reference) */}
-              {mainFeedNews[0] && (
-                <div className="mb-8">
-                  <FeaturedCard article={mainFeedNews[0]} />
-                </div>
-              )}
-
-              {/* Remaining Compact List */}
-              <div className="bg-[#111]/40 rounded-3xl overflow-hidden border border-white/5 shadow-xl">
-                {mainFeedNews.slice(1).map(article => (
-                  <CompactNewsCard key={article.id} article={article} />
-                ))}
-              </div>
-            </div>
+            <SmartNewsFeed news={mainFeedNews} />
 
             {/* INFINITE SCROLL */}
             <div className="pt-4 border-t border-white/5">
@@ -285,7 +273,7 @@ export default async function Home() {
               <div className="relative z-10">
                 <h3 className="text-[20px] font-black text-white leading-tight mb-2">Personalize sua experiência</h3>
                 <p className="text-[12px] text-white/90 font-medium mb-4">Acompanhe apenas o que te interessa e receba notificações em tempo real.</p>
-                <button className="px-5 py-2 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-lg hover:scale-105 transition-all">Entrar agora</button>
+                <Link href="/login" className="inline-block px-5 py-2 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-lg hover:scale-105 transition-all">Entrar agora</Link>
               </div>
               {/* Abstract shape background */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500" />

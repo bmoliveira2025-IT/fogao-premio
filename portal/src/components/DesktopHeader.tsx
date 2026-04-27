@@ -2,15 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Share2, Crown, Star, Shield } from 'lucide-react';
+import { Star } from 'lucide-react';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 
 export default function DesktopHeader() {
     const pathname = usePathname();
-    const { isPremium, points, rank } = useAuth();
+    const { user, points } = useAuth();
     const isActive = (path: string) => pathname === path;
 
     const navLinks = [
@@ -27,7 +26,7 @@ export default function DesktopHeader() {
                 
                 {/* LOGO */}
                 <Link href="/" className="flex items-center gap-3 group">
-                    <GloriosoLogo size={44} className="drop-shadow-lg group-hover:scale-105 transition-transform" />
+                    <GloriosoLogo size={40} className="drop-shadow-lg group-hover:scale-105 transition-transform" />
                 </Link>
 
                 {/* NAVIGATION - CENTERED */}
@@ -53,19 +52,16 @@ export default function DesktopHeader() {
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </button>
 
-                    {/* Sign In / Profile Button (Green as per reference) */}
+                    {/* Sign In / Profile Button */}
                     <Link 
-                        href="/login"
+                        href={user ? "/profile" : "/login"}
                         className="px-6 py-2 bg-[#22c55e] hover:bg-[#16a34a] text-white text-[11px] font-black uppercase tracking-widest rounded-md shadow-lg transition-all hover:scale-105 active:scale-95"
                     >
-                        Entrar
+                        {user ? "Perfil" : "Entrar"}
                     </Link>
                 </div>
 
             </div>
         </header>
-    );
-}
-
     );
 }

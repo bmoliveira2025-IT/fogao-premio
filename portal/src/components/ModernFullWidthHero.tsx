@@ -83,7 +83,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                 <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
 
                 {/* Content Container */}
-                <div className="absolute inset-0 p-6 md:p-12 lg:p-16 flex flex-col justify-end z-20">
+                <div className="absolute inset-0 p-6 md:p-12 lg:p-16 flex flex-col justify-end z-20 pt-24 md:pt-32">
                     <div className="max-w-4xl">
                         {/* Category Label */}
                         {category && (
@@ -95,7 +95,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                         )}
 
                         {/* Huge Editorial Title */}
-                        <h1 className="text-[28px] md:text-[48px] lg:text-[64px] font-[900] text-white leading-[1] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <h1 className="text-[28px] md:text-[42px] lg:text-[56px] font-[900] text-white leading-[1.1] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             {article.title?.replace(/\*\*/g, '')}
                         </h1>
 

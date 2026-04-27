@@ -9,7 +9,7 @@ import MorningBriefingPopup from "@/components/MorningBriefingPopup";
 import { Suspense } from "react";
 import ModernNavMenu from "@/components/ModernNavMenu";
 import TabBar from "@/components/TabBar";
-import DesktopSidebar from "@/components/DesktopSidebar";
+import DesktopHeader from "@/components/DesktopHeader";
 import ModernNavTabs from "@/components/ModernNavTabs";
 
 export const viewport: Viewport = {
@@ -81,7 +81,11 @@ export default function RootLayout({
               <MorningBriefingPopup />
             </Suspense>
 
-            {/* Premium Navigation Header - Hidden on desktop as it has its own Sidebar */}
+            <Suspense fallback={null}>
+              <DesktopHeader />
+            </Suspense>
+
+            {/* Mobile Header */}
             <Suspense fallback={null}>
               <ModernNavMenu className="lg:hidden" />
             </Suspense>
@@ -91,14 +95,8 @@ export default function RootLayout({
               <ModernNavTabs />
             </Suspense>
 
-            <div className="hidden lg:block">
-              <Suspense fallback={null}>
-                <DesktopSidebar />
-              </Suspense>
-            </div>
-
             {/* Main Content Wrapper with Safe Area Handling */}
-            <main className="min-h-screen bg-[#0a0a0a] lg:pl-64 flex flex-col pt-[104px] lg:pt-0">
+            <main className="min-h-screen bg-[#0a0a0a] flex flex-col pt-[110px] lg:pt-16">
               <div className="flex-1">
                 {children}
               </div>
