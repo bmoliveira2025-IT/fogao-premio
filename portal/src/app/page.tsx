@@ -12,6 +12,7 @@ import PersonalizeBanner from '@/components/PersonalizeBanner';
 import MobileLiveMatches from '@/components/MobileLiveMatches';
 import { botafogoSchedule } from '@/data/schedule';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 export const revalidate = 60; // Enable ISR (60s) for better TTFB
@@ -266,7 +267,8 @@ export default async function Home() {
             {/* PERSONALIZE BANNER (Green as per reference) */}
             <PersonalizeBanner />
 
-            {/* TABELA DO BRASILEIRÃO */}
+            {/* PRÓXIMO JOGO */}
+            {nextMatch && <ModernMatchCard match={nextMatch} compact />}
 
             {/* TABELA DO BRASILEIRÃO */}
             <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
@@ -278,6 +280,20 @@ export default async function Home() {
               </div>
             </div>
 
+            {/* MAIS NOTÍCIAS */}
+            {sidebarNews.length > 0 && (
+              <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+                <div className="p-5 border-b border-white/5">
+                  <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">MAIS NOTÍCIAS</h3>
+                </div>
+                <div>
+                  {sidebarNews.map(article => (
+                    <CompactNewsCard key={article.id} article={article} />
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* VIDEOS RECENTES - HIDDEN ON MOBILE */}
             <div className="hidden lg:block space-y-4">
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
@@ -287,7 +303,7 @@ export default async function Home() {
               <div className="grid grid-cols-1 gap-4">
                 {videos.slice(0, 3).map(video => (
                   <div key={video.id} className="group relative rounded-xl overflow-hidden aspect-video bg-zinc-900 border border-white/5">
-                    <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" />
+                    <Image src={video.thumbnail} alt={video.title} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" unoptimized />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-10 h-10 rounded-full bg-premium-gold/90 flex items-center justify-center text-black shadow-lg">
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>

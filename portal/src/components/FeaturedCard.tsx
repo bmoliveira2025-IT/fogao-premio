@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
-import SourceIcon from './SourceIcon';
+import { timeAgo, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -15,36 +15,10 @@ interface NewsItem {
     created_at?: string;
 }
 
-function timeAgo(dateStr: string | undefined) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    if (diffInSeconds < 60) return 'agora';
-    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}min`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-    return `${Math.floor(diffInSeconds / 86400)}d`;
-}
-
-function detectCategory(title: string): { label: string; color: string } | null {
-    const t = title.toLowerCase();
-    if (t.includes('transferência') || t.includes('contrat') || t.includes('reforço') || t.includes('negocia'))
-        return { label: 'MERCADO', color: 'bg-emerald-500/90 text-white' };
-    if (t.includes('análise') || t.includes('tática') || t.includes('desempenho'))
-        return { label: 'ANÁLISE', color: 'bg-blue-500/90 text-white' };
-    if (t.includes('lesão') || t.includes('lesionad') || t.includes('departamento médico'))
-        return { label: 'MÉDICO', color: 'bg-red-500/90 text-white' };
-    if (t.includes('gol') || t.includes('resultado') || t.includes('vitória') || t.includes('derrota'))
-        return { label: 'RESULTADO', color: 'bg-amber-500/90 text-black' };
-    if (t.includes('treino') || t.includes('preparação'))
-        return { label: 'TREINO', color: 'bg-purple-500/90 text-white' };
-    return null;
-}
-
 export default function FeaturedCard({ article }: { article: NewsItem }) {
     if (!article) return null;
 
-    const category = detectCategory(article.title || '');
+    const categoryKey = detectCategoryKey(article.title || '');
 
     return (
         <Link
@@ -66,11 +40,11 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
 
             {/* Content overlay */}
             <div className="absolute inset-0 p-4 flex flex-col justify-end z-20">
-                {/* Category Label (Subtle) */}
-                {category && (
+                {/* Category Label */}
+                {categoryKey && (
                     <div className="mb-2">
-                        <span className={`${category.color} text-[8px] font-black tracking-[0.15em] px-2 py-1 rounded-[2px] uppercase shadow-lg`}>
-                            {category.label}
+                        <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[8px] font-black tracking-[0.15em] px-2 py-1 rounded-[2px] uppercase shadow-lg`}>
+                            {CATEGORY_LABELS[categoryKey]}
                         </span>
                     </div>
                 )}

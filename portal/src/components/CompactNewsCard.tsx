@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
+import { timeAgo, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SUBTLE } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -15,45 +16,10 @@ interface NewsItem {
     created_at?: string;
 }
 
-function timeAgo(dateStr: string | undefined) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-    if (diffInSeconds < 60) return 'agora';
-    if (diffInSeconds < 3600) {
-        const minutes = Math.floor(diffInSeconds / 60);
-        return `${minutes}min`;
-    }
-    if (diffInSeconds < 86400) {
-        const hours = Math.floor(diffInSeconds / 3600);
-        return `${hours}h`;
-    }
-    const days = Math.floor(diffInSeconds / 86400);
-    return `${days}d`;
-}
-
-// Category detection from title keywords
-function detectCategory(title: string): { label: string; color: string } | null {
-    const t = title.toLowerCase();
-    if (t.includes('transferência') || t.includes('contrat') || t.includes('reforço') || t.includes('negocia'))
-        return { label: 'MERCADO', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' };
-    if (t.includes('análise') || t.includes('tática') || t.includes('desempenho'))
-        return { label: 'ANÁLISE', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' };
-    if (t.includes('lesão') || t.includes('lesionad') || t.includes('departamento médico'))
-        return { label: 'MÉDICO', color: 'bg-red-500/20 text-red-400 border-red-500/30' };
-    if (t.includes('gol') || t.includes('resultado') || t.includes('vitória') || t.includes('derrota') || t.includes('empat'))
-        return { label: 'RESULTADO', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' };
-    if (t.includes('treino') || t.includes('preparação'))
-        return { label: 'TREINO', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' };
-    return null;
-}
-
 export default function CompactNewsCard({ article }: { article: NewsItem }) {
     if (!article) return null;
 
-    const category = detectCategory(article.title || '');
+    const categoryKey = detectCategoryKey(article.title || '');
 
     return (
         <Link
@@ -77,11 +43,11 @@ export default function CompactNewsCard({ article }: { article: NewsItem }) {
             {/* Text Content */}
             <div className="flex-1 min-w-0 py-0.5 flex flex-col justify-between h-[88px] md:h-[100px]">
                 <div>
-                    {/* Category Badge + Time */}
+                    {/* Category Badge */}
                     <div className="flex items-center gap-2 mb-1.5">
-                        {category && (
-                            <span className={`text-[9px] font-black tracking-[0.1em] px-1.5 py-0.5 rounded border ${category.color}`}>
-                                {category.label}
+                        {categoryKey && (
+                            <span className={`text-[9px] font-black tracking-[0.1em] px-1.5 py-0.5 rounded border ${CATEGORY_COLORS_SUBTLE[categoryKey]}`}>
+                                {CATEGORY_LABELS[categoryKey]}
                             </span>
                         )}
                     </div>

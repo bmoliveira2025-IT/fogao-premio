@@ -15,6 +15,7 @@ import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 import LikeDislikeButtons from './LikeDislikeButtons';
 import SourceIcon from './SourceIcon';
+import { timeAgoVerbose, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
 
 const toSentenceCase = (str: string) => {
     if (!str) return '';
@@ -22,40 +23,6 @@ const toSentenceCase = (str: string) => {
     return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
 };
 
-function timeAgo(dateStr: string) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    if (diffInSeconds < 60) return 'agora mesmo';
-    if (diffInSeconds < 3600) {
-        const min = Math.floor(diffInSeconds / 60);
-        return `há ${min} min`;
-    }
-    if (diffInSeconds < 86400) {
-        const hours = Math.floor(diffInSeconds / 3600);
-        return `há ${hours}h`;
-    }
-    const days = Math.floor(diffInSeconds / 86400);
-    return `há ${days}d`;
-}
-
-function detectCategory(title: string): { label: string; color: string } | null {
-    const t = title.toLowerCase();
-    if (t.includes('transferência') || t.includes('contrat') || t.includes('reforço') || t.includes('negocia'))
-        return { label: 'MERCADO', color: 'bg-emerald-500 text-white' };
-    if (t.includes('análise') || t.includes('tática') || t.includes('desempenho'))
-        return { label: 'ANÁLISE', color: 'bg-blue-500 text-white' };
-    if (t.includes('lesão') || t.includes('lesionad'))
-        return { label: 'MÉDICO', color: 'bg-red-500 text-white' };
-    if (t.includes('gol') || t.includes('resultado') || t.includes('vitória') || t.includes('derrota'))
-        return { label: 'RESULTADO', color: 'bg-amber-500 text-black' };
-    if (t.includes('treino') || t.includes('preparação'))
-        return { label: 'TREINO', color: 'bg-purple-500 text-white' };
-    if (t.includes('entrevista') || t.includes('coletiva'))
-        return { label: 'BASTIDORES', color: 'bg-cyan-500 text-white' };
-    return null;
-}
 
 export default function ArticleView({ article, nextMatch, relatedNews = [] }: { article: any, nextMatch: any, relatedNews?: any[] }) {
     const { user, addPoints } = useAuth();
@@ -105,7 +72,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     };
 
     const activeParagraphIndex = getActiveParagraphIndex(readingCharIndex);
-    const category = detectCategory(article.title || '');
+    const categoryKey = detectCategoryKey(article.title || '');
 
     const handleShare = async () => {
         if (typeof window === 'undefined') return;
@@ -211,10 +178,10 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         </Link>
 
                         {/* Category badge on image */}
-                        {category && (
+                        {categoryKey && (
                             <div className="absolute top-4 right-4 z-30">
-                                <span className={`${category.color} text-[9px] font-black tracking-[0.12em] px-2.5 py-1 rounded-[4px] shadow-lg`}>
-                                    {category.label}
+                                <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[9px] font-black tracking-[0.12em] px-2.5 py-1 rounded-[4px] shadow-lg`}>
+                                    {CATEGORY_LABELS[categoryKey]}
                                 </span>
                             </div>
                         )}

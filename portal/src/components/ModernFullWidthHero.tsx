@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Clock, ChevronRight } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
+import { timeAgoVerbose, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -15,45 +16,10 @@ interface NewsItem {
     created_at?: string;
 }
 
-function timeAgo(dateStr: string | undefined) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-    if (diffInSeconds < 60) return 'agora mesmo';
-    if (diffInSeconds < 3600) {
-        const min = Math.floor(diffInSeconds / 60);
-        return `há ${min} min`;
-    }
-    if (diffInSeconds < 86400) {
-        const hours = Math.floor(diffInSeconds / 3600);
-        return `há ${hours}h`;
-    }
-    const days = Math.floor(diffInSeconds / 86400);
-    return `há ${days}d`;
-}
-
-function detectCategory(title: string): { label: string; color: string } | null {
-    const t = title.toLowerCase();
-    if (t.includes('transferência') || t.includes('contrat') || t.includes('reforço') || t.includes('negocia'))
-        return { label: 'MERCADO', color: 'bg-emerald-500' };
-    if (t.includes('análise') || t.includes('tática') || t.includes('desempenho'))
-        return { label: 'ANÁLISE', color: 'bg-blue-500' };
-    if (t.includes('lesão') || t.includes('lesionad') || t.includes('departamento médico'))
-        return { label: 'MÉDICO', color: 'bg-red-500' };
-    if (t.includes('gol') || t.includes('resultado') || t.includes('vitória') || t.includes('derrota'))
-        return { label: 'RESULTADO', color: 'bg-amber-500' };
-    if (t.includes('treino') || t.includes('preparação'))
-        return { label: 'TREINO', color: 'bg-purple-500' };
-    if (t.includes('entrevista') || t.includes('coletiva') || t.includes('declarou'))
-        return { label: 'BASTIDORES', color: 'bg-cyan-500' };
-    return null;
-}
-
 export default function HeroNewsCard({ article }: { article: NewsItem }) {
     if (!article) return null;
 
-    const category = detectCategory(article.title || '');
+    const categoryKey = detectCategoryKey(article.title || '');
 
     return (
         <div className="relative">
@@ -75,7 +41,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                 {/* Dramatic cinematic gradients */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
                 <div className="absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
-                
+
                 {/* Vignette */}
                 <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.6)]" />
 
@@ -86,10 +52,10 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                 <div className="absolute inset-0 p-6 md:p-12 lg:p-16 flex flex-col justify-end z-20 pt-24 md:pt-32">
                     <div className="max-w-4xl">
                         {/* Category Label */}
-                        {category && (
+                        {categoryKey && (
                             <div className="mb-6">
-                                <span className={`${category.color} text-white text-[10px] md:text-[11px] font-black tracking-[0.2em] px-3 py-1.5 rounded-sm shadow-xl uppercase`}>
-                                    {category.label}
+                                <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[10px] md:text-[11px] font-black tracking-[0.2em] px-3 py-1.5 rounded-sm shadow-xl uppercase`}>
+                                    {CATEGORY_LABELS[categoryKey]}
                                 </span>
                             </div>
                         )}
@@ -110,7 +76,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                         <div className="mt-8 flex items-center gap-6">
                             <span className="text-[11px] md:text-[12px] font-black text-white/60 flex items-center gap-2 uppercase tracking-widest" suppressHydrationWarning>
                                 <Clock size={14} className="text-[#d4af37]" />
-                                {timeAgo(article.created_at)}
+                                {timeAgoVerbose(article.created_at)}
                             </span>
 
                             {article.source && (
