@@ -15,7 +15,7 @@ import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
 import LikeDislikeButtons from './LikeDislikeButtons';
 import SourceIcon from './SourceIcon';
-import { timeAgoVerbose, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
+import { timeAgo, timeAgoVerbose, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
 
 const toSentenceCase = (str: string) => {
     if (!str) return '';
