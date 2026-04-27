@@ -12,7 +12,7 @@ interface NewsItem {
     image?: string;
     source?: string;
     summary?: string;
-    created_at: string;
+    created_at?: string;
 }
 
 function timeAgo(dateStr: string) {
