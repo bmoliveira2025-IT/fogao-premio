@@ -16,7 +16,7 @@ export default function PremiumWallpapers() {
             </h3>
 
             {/* Gallery Track */}
-            <div className="overflow-x-auto pb-6 -mx-4 px-4 no-scrollbar snap-x snap-mandatory">
+            <div className="overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide snap-x snap-mandatory">
                 <div className="flex gap-4">
                     {PREMIUM_WALLPAPERS.map((wp) => (
                         <div

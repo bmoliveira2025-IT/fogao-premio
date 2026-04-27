@@ -7,7 +7,7 @@ export default function FilterPills() {
     const [active, setActive] = useState("TUDO");
 
     return (
-        <div className="w-full overflow-x-auto pb-4 pt-2 no-scrollbar pl-4">
+        <div className="w-full overflow-x-auto pb-4 pt-2 scrollbar-hide pl-4">
             <div className="flex space-x-3">
                 {filters.map((filter) => {
                     const isActive = active === filter;

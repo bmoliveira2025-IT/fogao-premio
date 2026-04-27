@@ -85,7 +85,7 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
         <div className="w-full space-y-4">
             {/* Championship Selector */}
             {championships.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
                     {championships.map((champ) => (
                         <button
                             key={champ.id}

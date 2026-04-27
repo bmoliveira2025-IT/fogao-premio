@@ -38,7 +38,7 @@ export default function SmartNewsFeed({ news }: SmartNewsFeedProps) {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                <div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar">
+                <div className="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide">
                     <button 
                         onClick={() => setActiveTab('LATEST')}
                         className={cn(

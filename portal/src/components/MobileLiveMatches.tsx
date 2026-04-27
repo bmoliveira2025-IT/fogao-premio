@@ -12,7 +12,7 @@ export default function MobileLiveMatches({ matches }: MobileLiveMatchesProps) {
     if (!matches || matches.length === 0) return null;
 
     return (
-        <div className="lg:hidden w-full overflow-x-auto no-scrollbar py-2 -mx-4 px-4">
+        <div className="lg:hidden w-full overflow-x-auto scrollbar-hide py-2 -mx-4 px-4">
             <div className="flex gap-3 min-w-max">
                 {matches.map((match) => (
                     <div 

@@ -99,7 +99,7 @@ export default function MatchesPage() {
                 </div>
 
                 {/* Tournament Filter */}
-                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-6 mb-8 justify-center">
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-6 mb-8 md:justify-center px-4">
                     {championships.map((champ) => (
                         <button
                             key={champ.id}
