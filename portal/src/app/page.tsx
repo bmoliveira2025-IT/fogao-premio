@@ -207,94 +207,136 @@ export default async function Home() {
 
   const nextMatch = matches.length > 0 ? matches[0] : null;
 
-  // Slice news into sections
+  // Slice news into sections for the new grid layout
   const heroNews = news[0] || null;
-  const featuredPair = news.slice(1, 3); // Two featured cards side by side
-  const compactBlock = news.slice(3, 7); // 4 compact cards
-  const secondFeatured = news[7] || null; // Another featured card after match
-  const remainingNews = news.slice(8); // Rest for infinite scroll
+  const topFeatured = news.slice(1, 5); // 4 cards for the row below hero
+  const mainFeedNews = news.slice(5, 15); // Main list
+  const sidebarNews = news.slice(15, 20); // Extra for sidebar
+  const remainingNews = news.slice(20);
 
-  // Ticker: take first 5 news for breaking ticker
+  // Ticker items
   const tickerItems = news.slice(0, 6).map(n => ({ id: n.id, title: n.title }));
 
   return (
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#0a0a0a]">
+      
+      {/* 1. TICKER - Full width always */}
+      <BreakingNewsTicker items={tickerItems} />
 
-      {/* MAIN CONTENT WRAPPER */}
-      <div className="w-full transition-all duration-300 pb-24 lg:pb-12 bg-[#0a0a0a]">
-        <div className="container mx-auto max-w-[1600px] flex justify-center">
+      {/* MAIN CONTENT WRAPPER - Responsive Container */}
+      <div className="container mx-auto max-w-[1400px] px-4 md:px-6 py-6 lg:py-10">
+        
+        {/* GRID SYSTEM: 12 Columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* LEFT COLUMN: MAIN FEED (8/12) */}
+          <div className="lg:col-span-8 space-y-8">
+            
+            {/* HERO SECTION */}
+            <div className="rounded-3xl overflow-hidden shadow-2xl">
+              {heroNews && <ModernFullWidthHero article={heroNews} />}
+            </div>
 
-          {/* SINGLE COLUMN MOBILE-FIRST FEED LAYOUT */}
-          <div className="w-full max-w-2xl flex flex-col bg-[#0d0d0d] min-h-screen">
-
-            {/* BREAKING NEWS TICKER */}
-            <BreakingNewsTicker items={tickerItems} />
-
-            {/* HERO NEWS (Main Story) */}
-            {heroNews && <ModernFullWidthHero article={heroNews} />}
-
-            {/* FEATURED PAIR — Two medium cards side by side */}
-            {featuredPair.length > 0 && (
-              <div className="px-3 md:px-0 mt-3">
-                <div className="grid grid-cols-2 gap-2.5">
-                  {featuredPair.map((article) => (
-                    <FeaturedCard key={article.id} article={article} />
-                  ))}
-                </div>
+            {/* TOP FEATURED GRID (Row of 2 or 4) */}
+            {topFeatured.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {topFeatured.map((article) => (
+                  <FeaturedCard key={article.id} article={article} />
+                ))}
               </div>
             )}
 
-            {/* SECTION: Últimas Notícias (Compact List) */}
-            {compactBlock.length > 0 && (
-              <div className="mt-5">
-                <div className="px-4 md:px-0 mb-2 flex items-center gap-3">
-                  <div className="w-1 h-5 bg-gradient-to-b from-[#d4af37] to-[#d4af37]/20 rounded-full" />
-                  <h2 className="text-[13px] md:text-[14px] font-[800] text-white/80 uppercase tracking-[0.1em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                    Últimas Notícias
-                  </h2>
-                  <div className="h-px flex-1 bg-gradient-to-r from-white/[0.06] to-transparent" />
-                </div>
-
-                <div className="bg-[#111]/60 rounded-xl md:rounded-none overflow-hidden">
-                  {compactBlock.map((article) => (
-                    <CompactNewsCard key={article.id} article={article} />
-                  ))}
+            {/* MAIN LIST WITH TABS (Simulated for now) */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                <div className="flex gap-8">
+                  <button className="text-[14px] font-black text-premium-gold border-b-2 border-premium-gold pb-4 -mb-4.5">MAIS RECENTES</button>
+                  <button className="text-[14px] font-black text-zinc-500 hover:text-white transition-colors">TENDÊNCIAS</button>
+                  <button className="text-[14px] font-black text-zinc-500 hover:text-white transition-colors">PARA VOCÊ</button>
                 </div>
               </div>
-            )}
 
-            {/* NEXT MATCH CARD */}
-            <ModernMatchCard match={nextMatch} />
-
-            {/* SECOND FEATURED — Break the monotony */}
-            {secondFeatured && (
-              <div className="px-3 md:px-0 mt-3 mb-2">
-                <FeaturedCard article={secondFeatured} />
+              {/* Mixed Feed: Large Card + Compact Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {mainFeedNews.slice(0, 2).map(article => (
+                  <FeaturedCard key={article.id} article={article} />
+                ))}
               </div>
-            )}
 
-            {/* LEAGUE TABLE WIDGET */}
-            <div className="px-3 md:px-0 mt-6 mb-6">
-              <div className="bg-[#0d0d0d] border-t border-x border-white/[0.04] rounded-t-xl p-3 flex items-center gap-3">
-                <div className="w-1 h-4 bg-gradient-to-b from-[#d4af37] to-[#d4af37]/20 rounded-full" />
-                <h2 className="text-[13px] md:text-[14px] font-[800] text-white/80 uppercase tracking-[0.1em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Tabela do Brasileirão
-                </h2>
+              <div className="bg-[#111]/40 rounded-3xl overflow-hidden border border-white/5 shadow-xl">
+                {mainFeedNews.slice(2).map(article => (
+                  <CompactNewsCard key={article.id} article={article} />
+                ))}
               </div>
-              <div className="bg-[#111] rounded-b-xl border border-white/[0.04] overflow-hidden shadow-2xl">
+            </div>
+
+            {/* INFINITE SCROLL */}
+            <div className="pt-4 border-t border-white/5">
+              <ModernInfiniteNews initialNews={remainingNews} />
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: SIDEBAR (4/12) */}
+          <aside className="lg:col-span-4 space-y-8 sticky top-24">
+            
+            {/* PERSONALIZE BANNER (Green as per reference) */}
+            <div className="bg-[#22c55e] rounded-3xl p-6 relative overflow-hidden group">
+              <div className="relative z-10">
+                <h3 className="text-[20px] font-black text-white leading-tight mb-2">Personalize sua experiência</h3>
+                <p className="text-[12px] text-white/90 font-medium mb-4">Acompanhe apenas o que te interessa e receba notificações em tempo real.</p>
+                <button className="px-5 py-2 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-lg hover:scale-105 transition-all">Entrar agora</button>
+              </div>
+              {/* Abstract shape background */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500" />
+            </div>
+
+            {/* PROXIMO JOGO */}
+            <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+              <div className="p-5 border-b border-white/5 flex items-center justify-between">
+                <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">PRÓXIMO JOGO</h3>
+                <Link href="/matches" className="text-[10px] font-bold text-premium-gold hover:underline">VER TODOS</Link>
+              </div>
+              <div className="scale-95 origin-top">
+                <ModernMatchCard match={nextMatch} />
+              </div>
+            </div>
+
+            {/* TABELA DO BRASILEIRÃO */}
+            <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+              <div className="p-5 border-b border-white/5">
+                <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">TABELA BRASILEIRÃO</h3>
+              </div>
+              <div className="p-2">
                 <LeagueTable defaultExpanded={false} />
               </div>
             </div>
 
-            {/* Remaining News Feed (Infinite Load — Mixed Layout) */}
-            <div className="mt-2">
-              <ModernInfiniteNews initialNews={remainingNews} />
+            {/* VIDEOS RECENTES */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">VÍDEOS</h3>
+                <Link href="/videos" className="text-[10px] font-bold text-premium-gold hover:underline">VER MAIS</Link>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                {videos.slice(0, 3).map(video => (
+                  <div key={video.id} className="group relative rounded-xl overflow-hidden aspect-video bg-zinc-900 border border-white/5">
+                    <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-full bg-premium-gold/90 flex items-center justify-center text-black shadow-lg">
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                      </div>
+                    </div>
+                    <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black to-transparent">
+                      <p className="text-xs font-bold text-white line-clamp-2">{video.title}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-          </div>
+          </aside>
         </div>
       </div>
-
     </div>
   );
 }

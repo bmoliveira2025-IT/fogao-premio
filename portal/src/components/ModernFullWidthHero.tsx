@@ -59,7 +59,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
         <div className="relative">
             <Link
                 href={`/news/${article.id}`}
-                className="group relative block w-full aspect-[4/3] md:aspect-[21/9] lg:aspect-[2.4/1] bg-[#0a0a0a] overflow-hidden"
+                className="group relative block w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2.2/1] bg-[#0a0a0a] overflow-hidden"
             >
                 {/* Full Background Image with Ken Burns effect */}
                 <Image
@@ -68,62 +68,68 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                     fill
                     priority
                     sizes="100vw"
-                    className="object-cover object-center transition-transform duration-[6s] ease-out group-hover:scale-[1.04]"
+                    className="object-cover object-center transition-transform duration-[8s] ease-out group-hover:scale-[1.08]"
                     unoptimized
                 />
 
-                {/* Multi-layer gradient for depth */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_80%_20%,transparent_20%,rgba(0,0,0,0.4)_60%,rgba(0,0,0,0.9)_100%)]" />
-                <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#0a0a0a] via-black/70 to-transparent" />
-                <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
+                {/* Dramatic cinematic gradients */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
+                <div className="absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
+                
+                {/* Vignette */}
+                <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.6)]" />
 
                 {/* Noise texture overlay for editorial feel */}
-                <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
+                <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
 
-                {/* Content */}
-                <div className="absolute inset-0 p-5 md:p-8 lg:px-12 lg:py-10 flex flex-col justify-end z-20">
-                    {/* Category + Time badge */}
-                    <div className="flex items-center gap-2.5 mb-3 md:mb-4">
+                {/* Content Container */}
+                <div className="absolute inset-0 p-6 md:p-12 lg:p-16 flex flex-col justify-end z-20">
+                    <div className="max-w-4xl">
+                        {/* Category Label */}
                         {category && (
-                            <span className={`${category.color} text-white text-[9px] md:text-[10px] font-black tracking-[0.12em] px-2.5 py-1 rounded-[4px] shadow-lg`}>
-                                {category.label}
-                            </span>
+                            <div className="mb-6">
+                                <span className={`${category.color} text-white text-[10px] md:text-[11px] font-black tracking-[0.2em] px-3 py-1.5 rounded-sm shadow-xl uppercase`}>
+                                    {category.label}
+                                </span>
+                            </div>
                         )}
-                        <span className="text-[10px] md:text-[11px] font-semibold text-white/70 flex items-center gap-1.5 backdrop-blur-sm bg-white/[0.06] px-2.5 py-1 rounded-[4px]" suppressHydrationWarning>
-                            <Clock size={10} className="text-white/50" />
-                            {timeAgo(article.created_at)}
-                        </span>
-                    </div>
 
-                    {/* Title */}
-                    <div className="max-w-[90%] md:max-w-[70%] lg:max-w-[55%]">
-                        <h1 className="text-[24px] md:text-[36px] lg:text-[44px] font-[900] text-white leading-[1.08] tracking-[-0.02em] drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        {/* Huge Editorial Title */}
+                        <h1 className="text-[28px] md:text-[48px] lg:text-[64px] font-[900] text-white leading-[1] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
                             {article.title?.replace(/\*\*/g, '')}
                         </h1>
 
+                        {/* Summary for Desktop */}
                         {article.summary && (
-                            <p className="mt-3 text-[13px] md:text-[15px] text-white/75 font-medium leading-[1.5] line-clamp-2 hidden md:block drop-shadow-md max-w-[90%]">
+                            <p className="mt-6 text-[15px] md:text-[18px] text-white/80 font-medium leading-[1.6] line-clamp-2 hidden md:block drop-shadow-md max-w-2xl">
                                 {article.summary}
                             </p>
                         )}
-                    </div>
 
-                    {/* CTA */}
-                    <div className="mt-4 md:mt-6 flex items-center gap-3">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 bg-[#d4af37] text-black text-[11px] md:text-[12px] font-[800] tracking-[0.08em] uppercase rounded-lg shadow-[0_4px_20px_rgba(212,175,55,0.3)] transition-all duration-300 group-hover:shadow-[0_4px_30px_rgba(212,175,55,0.5)] group-hover:brightness-110" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                            LER MATÉRIA
-                            <ChevronRight size={14} strokeWidth={3} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-                        </span>
+                        {/* Meta info row */}
+                        <div className="mt-8 flex items-center gap-6">
+                            <span className="text-[11px] md:text-[12px] font-black text-white/60 flex items-center gap-2 uppercase tracking-widest" suppressHydrationWarning>
+                                <Clock size={14} className="text-[#d4af37]" />
+                                {timeAgo(article.created_at)}
+                            </span>
 
-                        {article.source && (
-                            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/[0.06] backdrop-blur-sm">
-                                <SourceIcon source={article.source} className="w-3.5 h-3.5 text-zinc-400" />
-                                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">{article.source}</span>
-                            </div>
-                        )}
+                            {article.source && (
+                                <div className="flex items-center gap-2">
+                                    <div className="w-1 h-4 bg-[#d4af37]/30" />
+                                    <SourceIcon source={article.source} className="w-4 h-4 text-[#d4af37]" />
+                                    <span className="text-[11px] md:text-[12px] font-black text-white/60 uppercase tracking-widest">{article.source}</span>
+                                </div>
+                            )}
+
+                            <span className="hidden md:flex items-center gap-2 text-[11px] font-black text-premium-gold uppercase tracking-[0.15em]">
+                                <div className="w-2 h-2 rounded-full bg-premium-gold animate-pulse" />
+                                Ler Agora
+                            </span>
+                        </div>
                     </div>
                 </div>
             </Link>
+
         </div>
     );
 }
