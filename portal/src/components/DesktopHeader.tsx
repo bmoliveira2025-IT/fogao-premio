@@ -13,10 +13,10 @@ export default function DesktopHeader() {
     const isActive = (path: string) => pathname === path;
 
     const navLinks = [
-        { href: '/', label: 'Futebol' },
-        { href: '/news', label: 'Notícias' },
+        { href: '/', label: 'Destaques' },
+        { href: '/copa-do-brasil', label: 'Copa BR' },
+        { href: '/sulamericana', label: 'Sula' },
         { href: '/matches', label: 'Jogos' },
-        { href: '/videos', label: 'Vídeos' },
         { href: '/tabela', label: 'Tabela' },
     ];
 

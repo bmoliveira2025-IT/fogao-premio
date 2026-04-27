@@ -10,7 +10,8 @@ export default function ModernNavTabs() {
 
   const tabs = [
     { name: 'Destaques', href: '/' },
-    { name: 'Vídeos', href: '/videos' },
+    { name: 'Copa BR', href: '/copa-do-brasil' },
+    { name: 'Sula', href: '/sulamericana' },
     { name: 'Tabela', href: '/tabela' },
     { name: 'Jogos', href: '/matches' },
   ];

@@ -22,7 +22,13 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
     const [tableData, setTableData] = useState<TeamStats[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
-    const [currentChampionship] = useState<'brasileirao_2026'>('brasileirao_2026');
+    const [currentChampionship, setCurrentChampionship] = useState<'brasileirao_2026' | 'copa_do_brasil' | 'sulamericana'>('brasileirao_2026');
+
+    const championships = [
+        { id: 'brasileirao_2026', name: 'Brasileirão' },
+        { id: 'copa_do_brasil', name: 'Copa do Brasil' },
+        { id: 'sulamericana', name: 'Sulamericana' },
+    ] as const;
 
     useEffect(() => {
         setLoading(true);
@@ -42,7 +48,7 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
         });
 
         return () => unsub();
-    }, [currentChampionship]);
+    }, [currentChampionship, defaultExpanded]);
 
     const toggleGroup = (groupName: string) => {
         setExpandedGroups(prev => ({
@@ -64,18 +70,44 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
 
     if (loading) {
         return (
-            <div className="w-full h-96 bg-muted rounded-2xl flex items-center justify-center animate-pulse">
-                <Shield className="w-12 h-12 text-foreground/10" />
+            <div className="w-full space-y-4">
+                <div className="flex gap-2 mb-4">
+                    {[1, 2, 3].map(i => <div key={i} className="h-8 w-24 bg-white/5 rounded-full animate-pulse" />)}
+                </div>
+                <div className="w-full h-96 bg-muted rounded-2xl flex items-center justify-center animate-pulse">
+                    <Shield className="w-12 h-12 text-foreground/10" />
+                </div>
             </div>
         );
     }
 
-    const championshipName = 'Brasileirão 2026';
+    const currentName = championships.find(c => c.id === currentChampionship)?.name || 'Campeonato';
 
     return (
-        <div className="w-full space-y-6">
-            <div className="space-y-8">
-                {sortedGroups.map((groupName) => (
+        <div className="w-full space-y-4">
+            {/* Championship Selector */}
+            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                {championships.map((champ) => (
+                    <button
+                        key={champ.id}
+                        onClick={() => setCurrentChampionship(champ.id)}
+                        className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
+                        ${currentChampionship === champ.id 
+                            ? 'bg-premium-gold text-black border-premium-gold' 
+                            : 'bg-black text-zinc-500 border-white/10 hover:border-white/20'}`}
+                    >
+                        {champ.name}
+                    </button>
+                ))}
+            </div>
+
+            <div className="space-y-4">
+                {sortedGroups.length === 0 ? (
+                    <div className="text-center py-10 glass-ultra rounded-3xl border border-white/5">
+                        <Shield className="w-8 h-8 text-zinc-700 mx-auto mb-2" />
+                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Tabela ainda não disponível</p>
+                    </div>
+                ) : sortedGroups.map((groupName) => (
                     <div key={groupName} className="glass-ultra rounded-[1.5rem] overflow-hidden shadow-premium border border-white/[0.04]">
                         {/* Header - Clickable for Dropdown */}
                         <div
@@ -83,17 +115,17 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
                             className="glass-panel p-4 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors duration-500"
                         >
                             <div className="flex items-center space-x-3">
-                                <div className="w-8 h-8 rounded-full bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 flex items-center justify-center border border-premium-gold/20">
-                                    <Shield size={14} className="text-premium-gold dark:text-premium-gold light:text-zinc-600" />
+                                <div className="w-8 h-8 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20">
+                                    <Shield size={14} className="text-premium-gold" />
                                 </div>
                                 <div>
                                     <h2 className="text-sm font-black text-foreground uppercase tracking-widest font-display">
-                                        {groupName === 'Geral' ? championshipName : groupName}
+                                        {groupName === 'Geral' ? currentName : groupName}
                                     </h2>
-                                    <span className="text-[10px] text-foreground/40 font-mono">2026 • Temporada Oficial</span>
+                                    <span className="text-[10px] text-foreground/40 font-mono">Temporada 2026</span>
                                 </div>
                             </div>
-                            <div className="text-premium-gold/50 dark:text-premium-gold/50 light:text-zinc-400">
+                            <div className="text-premium-gold/50">
                                 {expandedGroups[groupName] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                             </div>
                         </div>
@@ -120,8 +152,8 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
                                         return (
                                             <div
                                                 key={team.team}
-                                                className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-500 hover:bg-white/5 group border-b border-white/[0.01] last:border-0 hover:-translate-y-px hover:shadow-card-hover relative
-                                                ${isBotafogo ? 'bg-premium-gold/10 dark:bg-premium-gold/10 light:bg-zinc-100 relative overflow-hidden backdrop-blur-sm shadow-[inset_0_0_20px_rgba(0,0,0,0.02)]' : ''}`}
+                                                className={`grid grid-cols-12 gap-2 p-3 items-center text-xs transition-all duration-500 hover:bg-white/5 group border-b border-white/[0.01] last:border-0 hover:-translate-y-px relative
+                                                ${isBotafogo ? 'bg-premium-gold/10 relative overflow-hidden backdrop-blur-sm' : ''}`}
                                             >
                                                 {/* Highlight Bar for Botafogo */}
                                                 {isBotafogo && (
@@ -131,7 +163,7 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
                                                 {/* Position */}
                                                 <div className="col-span-1 flex justify-center">
                                                     <span className={`w-5 h-5 flex items-center justify-center rounded-full font-bold text-[10px] 
-                                                    ${team.position <= 4 ? 'bg-blue-500/20 text-blue-500 dark:text-blue-400' : 'text-foreground/40'}`}>
+                                                    ${team.position <= 4 ? 'bg-blue-500/20 text-blue-500' : 'text-foreground/40'}`}>
                                                         {team.position}
                                                     </span>
                                                 </div>
@@ -151,7 +183,7 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
                                                             <Shield size={12} className="text-foreground/20" />
                                                         </div>
                                                     )}
-                                                    <span className={`font-bold truncate ${isBotafogo ? 'text-premium-gold dark:text-premium-gold light:text-zinc-900 uppercase tracking-wide' : 'text-foreground/80'}`}>
+                                                    <span className={`font-bold truncate ${isBotafogo ? 'text-premium-gold uppercase tracking-wide' : 'text-foreground/80'}`}>
                                                         {team.team}
                                                     </span>
                                                 </div>
@@ -176,8 +208,8 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
             </div>
 
             {/* Legend/Footer */}
-            <div className="p-3 glass-panel flex flex-wrap gap-3 justify-center border border-white/[0.04] rounded-full mx-auto w-fit shadow-premium mt-8">
-                <div className="flex items-center space-x-1.5 focus:outline-none px-4">
+            <div className="p-3 glass-panel flex flex-wrap gap-3 justify-center border border-white/[0.04] rounded-full mx-auto w-fit shadow-premium mt-4">
+                <div className="flex items-center space-x-1.5 px-4">
                     <div className="w-2 h-2 rounded-full bg-blue-500/50"></div>
                     <span className="text-[9px] text-foreground/40 uppercase">Classificação</span>
                 </div>
