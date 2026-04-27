@@ -15,7 +15,7 @@ interface NewsItem {
     created_at?: string;
 }
 
-function timeAgo(dateStr: string) {
+function timeAgo(dateStr: string | undefined) {
     if (!dateStr) return '';
     const date = new Date(dateStr);
     const now = new Date();
