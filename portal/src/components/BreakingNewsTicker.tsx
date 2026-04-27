@@ -21,18 +21,8 @@ export default function BreakingNewsTicker({ items }: { items: TickerItem[] }) {
     return (
         <div className="relative w-full bg-gradient-to-r from-[#0a0a0a] via-[#111] to-[#0a0a0a] border-b border-[#d4af37]/15 overflow-hidden">
             <div className="flex items-center h-9">
-                {/* LIVE Badge */}
-                <div className="flex-shrink-0 flex items-center gap-1.5 px-3 md:px-4 h-full bg-gradient-to-r from-[#d4af37] to-[#b8960f] z-10 relative">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
-                    <span className="text-[10px] font-black tracking-[0.15em] text-black uppercase whitespace-nowrap" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                        AO VIVO
-                    </span>
-                    {/* Arrow indicator */}
-                    <div className="absolute -right-[6px] top-0 bottom-0 w-3 bg-gradient-to-r from-[#b8960f] to-transparent" style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)' }} />
-                </div>
-
                 {/* Scrolling Ticker */}
-                <div className="flex-1 overflow-hidden relative ml-2">
+                <div className="flex-1 overflow-hidden relative">
                     {/* Fade edges */}
                     <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
                     <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10 pointer-events-none" />
