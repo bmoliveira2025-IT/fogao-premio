@@ -26,7 +26,6 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
 
     const championships = [
         { id: 'brasileirao_2026', name: 'Brasileirão' },
-        { id: 'copa_do_brasil', name: 'Copa do Brasil' },
         { id: 'sulamericana', name: 'Sulamericana' },
     ] as const;
 

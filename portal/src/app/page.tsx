@@ -74,19 +74,20 @@ interface Briefing {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 48); // 48h window explicitly requested
+    timeLimit.setHours(timeLimit.getHours() - 48);
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(500); // Massive limit to ensure we cover the entire 36h window natively
+      .limit(500);
 
     const matchThreshold = new Date();
     matchThreshold.setHours(matchThreshold.getHours() - 3);
     const upcomingMatchesRef = db.collection('matches')
       .where('date', '>=', matchThreshold.toISOString())
       .orderBy('date', 'asc')
-      .limit(5);
+      .limit(50); // Increased limit to find specific championships
+
     const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
     const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
     const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);
@@ -99,9 +100,6 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       briefingRef.get()
     ]);
 
-    console.log(`[DEBUG] Fetched ${newsSnap.docs.length} news items from the last 36 hours.`);
-
-    const seenImages = new Set<string>();
     const news = newsSnap.docs.map(doc => {
       const data = doc.data();
       return {
@@ -116,16 +114,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         dislikes_count: data.dislikes_count || 0,
         created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
       } as NewsItem;
-    }).filter(item => {
-      // 1. Remove Premium (already done in main query but double checking)
-      if (item.is_premium) return false;
-
-      // 2. Deduplicate by image URL
-      if (!item.image) return true; // Keep text-only or default-image news
-      if (seenImages.has(item.image)) return false;
-      seenImages.add(item.image);
-      return true;
-    });
+    }).filter(item => !item.is_premium);
 
     const premiumNews = premiumSnap.docs.map(doc => {
       const data = doc.data();
@@ -136,34 +125,30 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         source: data.source,
         is_premium: data.is_premium,
         summary: data.summary,
-        likes_count: data.likes_count || 0,
-        dislikes_count: data.dislikes_count || 0,
         created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
       } as NewsItem;
     });
 
-    // Transform and filter matches
-    const matches: MatchData[] = [];
-    const now = new Date();
+    // Advanced Match Logic: Brasileirão + (Sula or Copa)
+    let brasileiraoMatch: MatchData | null = null;
+    let cupMatch: MatchData | null = null;
 
     if (!upcomingMatchesSnap.empty) {
       for (const doc of upcomingMatchesSnap.docs) {
-        if (doc.id === 'next_match') continue; // Avoid the static old document if it's there
+        if (doc.id === 'next_match') continue;
         const data = doc.data();
         if (data && data.date) {
           let matchDate;
           try {
             matchDate = data.date?.toDate?.() || new Date(data.date);
-            if (isNaN(matchDate.getTime())) throw new Error('Invalid date');
-          } catch (e) {
-            continue; // Skip invalid dates
-          }
+            if (isNaN(matchDate.getTime())) continue;
+          } catch (e) { continue; }
           
           const status = data.status?.toLowerCase() || '';
-
-          // Strict check: if finished, don't show in upcoming/next match
+          const champ = (data.championship || '').toLowerCase();
+          
           if (status !== 'finalizado' && status !== 'encerrada') {
-            matches.push({
+            const matchObj = {
               id: data.match_id || doc.id,
               home_team: data.home_team,
               away_team: data.away_team,
@@ -175,16 +160,30 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
               status: data.status || 'Agendado',
               home_team_logo: data.home_team_logo || data.home_logo,
               away_team_logo: data.away_team_logo || data.away_logo,
-              stadium: data.stadium,
-              transmission: data.transmission,
-              display_time: data.display_time,
               match_id: data.match_id || doc.id,
-            });
-            break; // We only need the next valid match for the homepage
+            } as MatchData;
+
+            // Logic: Brasileirão fixed, others alternate by proximity
+            const isBotafogo = (matchObj.home_team?.includes('Botafogo') || matchObj.away_team?.includes('Botafogo'));
+            
+            if (isBotafogo) {
+              if (champ.includes('brasileir') && !brasileiraoMatch) {
+                brasileiraoMatch = matchObj;
+              } else if ((champ.includes('sul') || champ.includes('copa') || champ.includes('sula') || champ.includes('brasil')) && !cupMatch) {
+                if (!champ.includes('brasileir')) {
+                  cupMatch = matchObj;
+                }
+              }
+            }
           }
         }
+        if (brasileiraoMatch && cupMatch) break;
       }
     }
+
+    const matches: MatchData[] = [];
+    if (brasileiraoMatch) matches.push(brasileiraoMatch);
+    if (cupMatch) matches.push(cupMatch);
 
     const videos = videosSnap.docs.map(doc => {
       const data = doc.data();
@@ -193,9 +192,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
         title: data.title || '',
         url: data.url || '',
         thumbnail: data.thumbnail || '',
-        published_at: data.published_at && typeof data.published_at.toDate === 'function'
-          ? data.published_at.toDate().toISOString()
-          : (data.published_at || new Date().toISOString()),
+        published_at: data.published_at && typeof data.published_at.toDate === 'function' ? data.published_at.toDate().toISOString() : (data.published_at || new Date().toISOString()),
       } as VideoItem;
     });
 
@@ -279,13 +276,34 @@ export default async function Home() {
             <PersonalizeBanner />
 
             {/* PROXIMO JOGO */}
-            <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
-              <div className="p-5 border-b border-white/5 flex items-center justify-between">
-                <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">PRÓXIMO JOGO</h3>
-                <Link href="/matches" className="text-[10px] font-bold text-premium-gold hover:underline">VER TODOS</Link>
-              </div>
-              <div className="scale-95 origin-top">
-                <ModernMatchCard match={nextMatch} />
+            <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl p-5">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between px-2">
+                  <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-premium-gold animate-pulse" />
+                    Próximas Partidas do Glorioso
+                  </h3>
+                  <Link href="/matches" className="text-[10px] font-bold text-premium-gold hover:underline tracking-widest">VER TUDO</Link>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {matches.length > 0 ? (
+                    matches.map((match) => (
+                      <div key={match.id} className="w-full">
+                        <ModernMatchCard match={match} compact={true} />
+                      </div>
+                    ))
+                  ) : (
+                    <div className="col-span-full">
+                      <div className="glass-ultra rounded-3xl p-8 flex flex-col items-center justify-center border border-white/5 bg-white/[0.01]">
+                        <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center mb-3">
+                          <span className="text-zinc-600 font-black text-xl">!</span>
+                        </div>
+                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Nenhum jogo confirmado</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
