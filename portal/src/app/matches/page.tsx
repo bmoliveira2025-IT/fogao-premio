@@ -1,91 +1,89 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { db } from '@/lib/firebase';
-import { collection, query, where, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore';
+import { botafogoSchedule, MatchData } from '@/data/schedule';
 import MatchesAccordion from '@/components/MatchesAccordion';
-import { Shield } from 'lucide-react';
+import { Shield, Trophy, Calendar as CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
-
-interface MatchData {
-    id: string;
-    home_team: string;
-    away_team: string;
-    home_score: number;
-    away_score: number;
-    date: string;
-    location: string;
-    championship: string;
-    status: string;
-    home_team_logo?: string;
-    away_team_logo?: string;
-    match_id?: string;
-    display_time?: string;
-}
 
 export default function MatchesPage() {
     const [matches, setMatches] = useState<MatchData[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState<'ALL' | 'BRASILEIRAO' | 'COPA_DO_BRASIL' | 'SULAMERICANA'>('ALL');
+    const [filter, setFilter] = useState<'ALL' | 'BRASILEIRAO' | 'COPA_DO_BRASIL' | 'SULAMERICANA' | 'CARIOCA' | 'LIBERTADORES'>('ALL');
 
     const championships = [
         { id: 'ALL', name: 'Todos' },
         { id: 'BRASILEIRAO', name: 'Brasileirão' },
         { id: 'COPA_DO_BRASIL', name: 'Copa do Brasil' },
         { id: 'SULAMERICANA', name: 'Sulamericana' },
+        { id: 'LIBERTADORES', name: 'Libertadores' },
+        { id: 'CARIOCA', name: 'Carioca' },
     ] as const;
 
     useEffect(() => {
         setLoading(true);
-        const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 24); // Show games from last 24h onwards
+        
+        // We use the static schedule data provided
+        // In a real app, you might still want to sync this with Firebase
+        // but for this request, we'll use the complete 2026 schedule data.
+        setMatches(botafogoSchedule);
+        setLoading(false);
 
+        // Keeping the Firebase subscription logic commented out in case it's needed later
+        /*
+        const threshold = new Date();
+        threshold.setHours(threshold.getHours() - 3);
         let q = query(
             collection(db, 'matches'),
             where('date', '>=', threshold.toISOString()),
             orderBy('date', 'asc'),
             limit(20)
         );
-
         const unsub = onSnapshot(q, (snapshot) => {
             const matchesData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             })) as any[];
-            
-            // Basic serialization
-            const serialized = matchesData.map(data => ({
-                ...data,
-                date: data.date,
-                home_team_logo: data.home_team_logo || data.home_logo,
-                away_team_logo: data.away_team_logo || data.away_logo,
-            }));
-
+            // ... serialization ...
             setMatches(serialized);
-            setLoading(false);
         });
-
         return () => unsub();
+        */
     }, []);
 
-    const filteredMatches = filter === 'ALL' 
-        ? matches 
-        : matches.filter(m => {
-            const champ = m.championship?.toLowerCase() || '';
-            if (filter === 'BRASILEIRAO') return champ.includes('brasileir');
-            if (filter === 'COPA_DO_BRASIL') return champ.includes('copa') || champ.includes('brasil');
-            if (filter === 'SULAMERICANA') return champ.includes('sula');
-            return true;
-        });
-
-    const upcoming = filteredMatches.filter(m => {
-        const status = m.status?.toLowerCase();
-        return status !== 'finalizado' && status !== 'encerrada';
+    const filteredMatches = matches.filter(m => {
+        if (filter === 'ALL') return true;
+        const champ = m.championship?.toLowerCase() || '';
+        if (filter === 'BRASILEIRAO') return champ.includes('brasileiro');
+        if (filter === 'COPA_DO_BRASIL') return champ.includes('copa') && champ.includes('brasil');
+        if (filter === 'SULAMERICANA') return champ.includes('suda') || champ.includes('sula');
+        if (filter === 'LIBERTADORES') return champ.includes('libertadores');
+        if (filter === 'CARIOCA') return champ.includes('carioca');
+        return true;
     });
 
-    const past = filteredMatches.filter(m => {
-        const status = m.status?.toLowerCase();
-        return status === 'finalizado' || status === 'encerrada';
+    // Grouping logic
+    const groupedByChampionship = filteredMatches.reduce((acc, match) => {
+        const champ = match.championship || 'Outros';
+        if (!acc[champ]) acc[champ] = [];
+        acc[champ].push(match);
+        return acc;
+    }, {} as Record<string, MatchData[]>);
+
+    const championshipOrder = [
+        'CONMEBOL Libertadores',
+        'CONMEBOL Sudamericana',
+        'Campeonato Brasileiro',
+        'Copa do Brasil',
+        'Campeonato Carioca'
+    ];
+
+    const sortedChampionships = Object.keys(groupedByChampionship).sort((a, b) => {
+        const indexA = championshipOrder.findIndex(c => a.includes(c) || c.includes(a));
+        const indexB = championshipOrder.findIndex(c => b.includes(c) || b.includes(b));
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+        return indexA - indexB;
     });
 
     return (
@@ -106,7 +104,7 @@ export default function MatchesPage() {
                         <button
                             key={champ.id}
                             onClick={() => setFilter(champ.id)}
-                            className={`px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
+                            className={`px-6 py-3 rounded-full text-[12px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
                             ${filter === champ.id 
                                 ? 'bg-premium-gold text-black border-premium-gold shadow-[0_0_20px_rgba(212,175,55,0.3)]' 
                                 : 'bg-white/5 text-zinc-500 border-white/5 hover:border-white/20'}`}
@@ -122,23 +120,29 @@ export default function MatchesPage() {
                         <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Carregando jogos...</p>
                     </div>
                 ) : (
-                    <div className="space-y-12">
-                        {/* UPCOMING MATCHES */}
-                        <div>
-                            {upcoming.length > 0 ? (
-                                <MatchesAccordion matches={upcoming} title="Próximos Jogos" />
-                            ) : (
-                                <div className="text-center py-10 glass-ultra rounded-3xl border border-white/5">
-                                    <Shield className="w-8 h-8 text-zinc-700 mx-auto mb-2" />
-                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Nenhum jogo futuro para este filtro</p>
+                    <div className="space-y-16">
+                        {sortedChampionships.length > 0 ? (
+                            sortedChampionships.map((champName) => (
+                                <div key={champName} className="space-y-6">
+                                    <div className="flex items-center gap-3 px-2">
+                                        <div className="p-2 rounded-xl bg-premium-gold/10 border border-premium-gold/20">
+                                            <Trophy size={20} className="text-premium-gold" />
+                                        </div>
+                                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">
+                                            {champName}
+                                        </h2>
+                                        <div className="flex-1 h-[1px] bg-gradient-to-r from-premium-gold/20 to-transparent" />
+                                    </div>
+                                    <MatchesAccordion 
+                                        matches={groupedByChampionship[champName]} 
+                                        title={`${groupedByChampionship[champName].length} Jogos`} 
+                                    />
                                 </div>
-                            )}
-                        </div>
-
-                        {/* PAST MATCHES */}
-                        {past.length > 0 && (
-                            <div className="opacity-70">
-                                <MatchesAccordion matches={past} title="Jogos Recentes" />
+                            ))
+                        ) : (
+                            <div className="text-center py-20 glass-ultra rounded-3xl border border-white/5">
+                                <Shield className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
+                                <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">Nenhum jogo encontrado para este filtro</p>
                             </div>
                         )}
                     </div>
@@ -158,3 +162,4 @@ export default function MatchesPage() {
         </div>
     );
 }
+

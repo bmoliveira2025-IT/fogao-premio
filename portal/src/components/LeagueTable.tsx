@@ -26,7 +26,6 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
 
     const championships = [
         { id: 'brasileirao_2026', name: 'Brasileirão' },
-        { id: 'sulamericana', name: 'Sulamericana' },
     ] as const;
 
     useEffect(() => {
@@ -85,20 +84,22 @@ export default function LeagueTable({ defaultExpanded = true }: { defaultExpande
     return (
         <div className="w-full space-y-4">
             {/* Championship Selector */}
-            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-                {championships.map((champ) => (
-                    <button
-                        key={champ.id}
-                        onClick={() => setCurrentChampionship(champ.id)}
-                        className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
-                        ${currentChampionship === champ.id 
-                            ? 'bg-premium-gold text-black border-premium-gold' 
-                            : 'bg-black text-zinc-500 border-white/10 hover:border-white/20'}`}
-                    >
-                        {champ.name}
-                    </button>
-                ))}
-            </div>
+            {championships.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                    {championships.map((champ) => (
+                        <button
+                            key={champ.id}
+                            onClick={() => setCurrentChampionship(champ.id)}
+                            className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
+                            ${currentChampionship === champ.id 
+                                ? 'bg-premium-gold text-black border-premium-gold' 
+                                : 'bg-black text-zinc-500 border-white/10 hover:border-white/20'}`}
+                        >
+                            {champ.name}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             <div className="space-y-4">
                 {sortedGroups.length === 0 ? (

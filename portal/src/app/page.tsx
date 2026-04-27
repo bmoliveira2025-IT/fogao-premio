@@ -10,6 +10,7 @@ import ModernInfiniteNews from '@/components/ModernInfiniteNews';
 import BreakingNewsTicker from '@/components/BreakingNewsTicker';
 import PersonalizeBanner from '@/components/PersonalizeBanner';
 import MobileLiveMatches from '@/components/MobileLiveMatches';
+import { botafogoSchedule } from '@/data/schedule';
 
 import Link from 'next/link';
 
@@ -133,52 +134,42 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
     let brasileiraoMatch: MatchData | null = null;
     let cupMatch: MatchData | null = null;
 
-    if (!upcomingMatchesSnap.empty) {
-      for (const doc of upcomingMatchesSnap.docs) {
-        if (doc.id === 'next_match') continue;
-        const data = doc.data();
-        if (data && data.date) {
-          let matchDate;
-          try {
-            matchDate = data.date?.toDate?.() || new Date(data.date);
-            if (isNaN(matchDate.getTime())) continue;
-          } catch (e) { continue; }
-          
-          const status = data.status?.toLowerCase() || '';
-          const champ = (data.championship || '').toLowerCase();
-          
-          if (status !== 'finalizado' && status !== 'encerrada') {
-            const matchObj = {
-              id: data.match_id || doc.id,
-              home_team: data.home_team,
-              away_team: data.away_team,
-              home_score: data.home_score || 0,
-              away_score: data.away_score || 0,
-              date: matchDate.toISOString(),
-              location: data.location || 'A definir',
-              championship: data.championship || 'Campeonato',
-              status: data.status || 'Agendado',
-              home_team_logo: data.home_team_logo || data.home_logo,
-              away_team_logo: data.away_team_logo || data.away_logo,
-              match_id: data.match_id || doc.id,
-            } as MatchData;
+    // Use the comprehensive schedule from schedule.ts for better accuracy
+    const now = new Date();
+    
+    // Sort schedule by date to find upcoming ones
+    const sortedSchedule = [...botafogoSchedule].sort((a, b) => 
+        new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
 
-            // Logic: Brasileirão fixed, others alternate by proximity
-            const isBotafogo = (matchObj.home_team?.includes('Botafogo') || matchObj.away_team?.includes('Botafogo'));
-            
-            if (isBotafogo) {
-              if (champ.includes('brasileir') && !brasileiraoMatch) {
+    for (const m of sortedSchedule) {
+        const matchDate = new Date(m.date);
+        const champ = (m.championship || '').toLowerCase();
+        
+        // If match is today or in the future
+        if (matchDate >= new Date(now.setHours(0,0,0,0))) {
+            let displayChamp = m.championship;
+            if (champ.includes('brasileir')) displayChamp = 'BRASILEIRÃO';
+            else if (champ.includes('sula') || champ.includes('sudamericana')) displayChamp = 'SUDAMERICANA';
+            else if (champ.includes('libertadores')) displayChamp = 'LIBERTADORES';
+            else if (champ.includes('copa do brasil')) displayChamp = 'COPA DO BRASIL';
+            else if (champ.includes('carioca')) displayChamp = 'CARIOCÃO';
+
+            const matchObj: MatchData = {
+                ...m,
+                id: m.id || `${m.date}-${m.home_team}`,
+                championship: displayChamp,
+            };
+
+            if (champ.includes('brasileir') && !brasileiraoMatch) {
                 brasileiraoMatch = matchObj;
-              } else if ((champ.includes('sul') || champ.includes('copa') || champ.includes('sula') || champ.includes('brasil')) && !cupMatch) {
+            } else if ((champ.includes('sul') || champ.includes('copa') || champ.includes('sula') || champ.includes('brasil')) && !cupMatch) {
                 if (!champ.includes('brasileir')) {
-                  cupMatch = matchObj;
+                    cupMatch = matchObj;
                 }
-              }
             }
-          }
         }
         if (brasileiraoMatch && cupMatch) break;
-      }
     }
 
     const matches: MatchData[] = [];
@@ -275,37 +266,7 @@ export default async function Home() {
             {/* PERSONALIZE BANNER (Green as per reference) */}
             <PersonalizeBanner />
 
-            {/* PROXIMO JOGO */}
-            <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl p-5">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between px-2">
-                  <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-premium-gold animate-pulse" />
-                    Próximas Partidas do Glorioso
-                  </h3>
-                  <Link href="/matches" className="text-[10px] font-bold text-premium-gold hover:underline tracking-widest">VER TUDO</Link>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {matches.length > 0 ? (
-                    matches.map((match) => (
-                      <div key={match.id} className="w-full">
-                        <ModernMatchCard match={match} compact={true} />
-                      </div>
-                    ))
-                  ) : (
-                    <div className="col-span-full">
-                      <div className="glass-ultra rounded-3xl p-8 flex flex-col items-center justify-center border border-white/5 bg-white/[0.01]">
-                        <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center mb-3">
-                          <span className="text-zinc-600 font-black text-xl">!</span>
-                        </div>
-                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Nenhum jogo confirmado</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+            {/* TABELA DO BRASILEIRÃO */}
 
             {/* TABELA DO BRASILEIRÃO */}
             <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">

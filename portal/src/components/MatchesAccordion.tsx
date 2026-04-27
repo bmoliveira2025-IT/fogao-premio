@@ -81,7 +81,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
 
                                 {/* Teams Text */}
                                 <div className="flex flex-col items-start">
-                                    <span className={`text-sm md:text-base font-black uppercase tracking-widest ${isOpen ? 'text-white' : 'text-white/80'}`}>
+                                    <span className={`text-sm md:text-base font-black uppercase tracking-wider ${isOpen ? 'text-white' : 'text-white/80'}`}>
                                         {match.home_team} <span className="text-premium-gold mx-1">
                                             {isLiveOrFinished ? `${homeScore} x ${awayScore}` : 'x'}
                                         </span> {match.away_team}
@@ -111,7 +111,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                         <div className="flex justify-between items-center py-4">
                                             {/* Home Logo */}
                                             <div className="flex flex-col items-center w-1/3">
-                                                <div className="w-12 h-12 relative mb-2 drop-shadow-md">
+                                                <div className="w-12 h-12 md:w-16 md:h-16 relative mb-2 drop-shadow-md">
                                                     {match.home_team_logo ? (
                                                         <img src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} className="w-full h-full object-contain" />
                                                     ) : (
@@ -122,7 +122,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
 
                                             {/* Time/Score or Action */}
                                             <div className="flex flex-col items-center w-1/3 space-y-2">
-                                                <span className="text-xs font-mono font-bold text-premium-gold bg-premium-gold/10 px-2 py-1 rounded">
+                                                <span className="text-base md:text-xl font-mono font-black text-premium-gold bg-premium-gold/10 px-3 py-1.5 rounded-lg">
                                                     {isOpen && isLiveOrFinished ? `${homeScore} - ${awayScore}` : timeString}
                                                 </span>
                                             </div>
@@ -130,7 +130,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                             {/* Away Logo */}
                                             <div className="flex flex-col items-center w-1/3">
 
-                                                <div className="w-12 h-12 relative mb-2 drop-shadow-md">
+                                                <div className="w-12 h-12 md:w-16 md:h-16 relative mb-2 drop-shadow-md">
                                                     {match.away_team_logo ? (
                                                         <img src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} className="w-full h-full object-contain" />
                                                     ) : (

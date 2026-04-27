@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Star } from 'lucide-react';
-import GloriosoLogo from '@/components/GloriosoLogo';
+import { Star, Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 
@@ -25,8 +24,9 @@ export default function DesktopHeader() {
             <div className="container mx-auto max-w-[1400px] flex items-center justify-between px-6">
                 
                 {/* LOGO */}
-                <Link href="/" className="flex items-center gap-3 group">
-                    <GloriosoLogo size={40} className="drop-shadow-lg group-hover:scale-105 transition-transform" />
+                <Link href="/" className="flex items-center gap-1.5 group no-underline">
+                    <span className="text-xl font-black text-white tracking-tighter uppercase italic group-hover:text-premium-gold transition-colors">Fogão</span>
+                    <span className="text-xl font-black text-premium-gold tracking-tighter uppercase italic">360</span>
                 </Link>
 
                 {/* NAVIGATION - CENTERED */}
@@ -47,10 +47,22 @@ export default function DesktopHeader() {
 
                 {/* ACTIONS - RIGHT */}
                 <div className="flex items-center gap-6">
-                    {/* Search Icon */}
-                    <button className="text-zinc-400 hover:text-white transition-colors">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    </button>
+                    {/* Search Bar */}
+                    <div className="relative flex items-center h-10 px-3 bg-zinc-900/50 border border-white/5 rounded-full group focus-within:border-premium-gold/30 transition-all">
+                        <Search size={18} className="text-zinc-500 group-focus-within:text-premium-gold transition-colors" />
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            const q = (e.target as any).search.value;
+                            if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`;
+                        }}>
+                            <input 
+                                name="search"
+                                type="text" 
+                                placeholder="Pesquisar..." 
+                                className="bg-transparent border-none outline-none text-[12px] font-medium text-white px-2 w-32 focus:w-48 transition-all placeholder:text-zinc-600"
+                            />
+                        </form>
+                    </div>
 
                     {/* Sign In / Profile Button */}
                     <Link 

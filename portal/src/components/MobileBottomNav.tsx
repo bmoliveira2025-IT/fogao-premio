@@ -9,10 +9,10 @@ export default function MobileBottomNav() {
     const pathname = usePathname();
 
     const navItems = [
-        { icon: Home, label: 'Home', href: '/' },
-        { icon: Trophy, label: 'Score', href: '/matches' },
-        { icon: Play, label: 'Watch', href: '/videos' },
-        { icon: LayoutGrid, label: 'League', href: '/tabela' },
+        { icon: Home, label: 'Início', href: '/' },
+        { icon: Trophy, label: 'Jogos', href: '/matches' },
+        { icon: Play, label: 'Vídeos', href: '/videos' },
+        { icon: LayoutGrid, label: 'Tabela', href: '/tabela' },
     ];
 
     return (
