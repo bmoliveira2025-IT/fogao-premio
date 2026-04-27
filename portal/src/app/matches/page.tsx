@@ -1,117 +1,159 @@
-import { db } from '@/lib/firebase-admin';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { db } from '@/lib/firebase';
+import { collection, query, where, orderBy, limit, onSnapshot, Timestamp } from 'firebase/firestore';
 import MatchesAccordion from '@/components/MatchesAccordion';
+import { Shield } from 'lucide-react';
+import Link from 'next/link';
 
-export const revalidate = 0;
+interface MatchData {
+    id: string;
+    home_team: string;
+    away_team: string;
+    home_score: number;
+    away_score: number;
+    date: string;
+    location: string;
+    championship: string;
+    status: string;
+    home_team_logo?: string;
+    away_team_logo?: string;
+    match_id?: string;
+    display_time?: string;
+}
 
-async function getUpcomingMatches() {
-    try {
+export default function MatchesPage() {
+    const [matches, setMatches] = useState<MatchData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [filter, setFilter] = useState<'ALL' | 'BRASILEIRAO' | 'COPA_DO_BRASIL' | 'SULAMERICANA'>('ALL');
+
+    const championships = [
+        { id: 'ALL', name: 'Todos' },
+        { id: 'BRASILEIRAO', name: 'Brasileirão' },
+        { id: 'COPA_DO_BRASIL', name: 'Copa do Brasil' },
+        { id: 'SULAMERICANA', name: 'Sulamericana' },
+    ] as const;
+
+    useEffect(() => {
+        setLoading(true);
         const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 3);
-        const matchesRef = db.collection('matches')
-            .where('date', '>=', threshold.toISOString())
-            .orderBy('date', 'asc')
-            .limit(10);
-        const snapshot = await matchesRef.get();
-        const matches = serializeMatches(snapshot);
-        // Exclude truly finished matches from upcoming list
-        const finishedStatus = ['finalizado', 'finalizado', 'encerrada', 'finalizado']; // Wait, let's be more robust
-        return matches.filter(m => {
-            const status = m.status?.toLowerCase();
-            return status !== 'finalizado' && status !== 'encerrada' && status !== 'finalizado';
+        threshold.setHours(threshold.getHours() - 24); // Show games from last 24h onwards
+
+        let q = query(
+            collection(db, 'matches'),
+            where('date', '>=', threshold.toISOString()),
+            orderBy('date', 'asc'),
+            limit(20)
+        );
+
+        const unsub = onSnapshot(q, (snapshot) => {
+            const matchesData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as any[];
+            
+            // Basic serialization
+            const serialized = matchesData.map(data => ({
+                ...data,
+                date: data.date,
+                home_team_logo: data.home_team_logo || data.home_logo,
+                away_team_logo: data.away_team_logo || data.away_logo,
+            }));
+
+            setMatches(serialized);
+            setLoading(false);
         });
-    } catch (e) { return []; }
-}
 
-async function getPastMatches() {
-    try {
-        const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 1); // Only very recent or past games
-        const matchesRef = db.collection('matches')
-            .where('date', '<', threshold.toISOString())
-            .orderBy('date', 'desc')
-            .limit(5); // Show more than just 1
-        const snapshot = await matchesRef.get();
-        return serializeMatches(snapshot);
-    } catch (e) { return []; }
-}
+        return () => unsub();
+    }, []);
 
-function serializeMatches(snapshot: any) {
-    const matchesMap = new Map();
+    const filteredMatches = filter === 'ALL' 
+        ? matches 
+        : matches.filter(m => {
+            const champ = m.championship?.toLowerCase() || '';
+            if (filter === 'BRASILEIRAO') return champ.includes('brasileir');
+            if (filter === 'COPA_DO_BRASIL') return champ.includes('copa') || champ.includes('brasil');
+            if (filter === 'SULAMERICANA') return champ.includes('sula');
+            return true;
+        });
 
-    snapshot.docs.forEach((doc: any) => {
-        const data = doc.data();
-        const date = data.date && typeof data.date.toDate === 'function' ? data.date.toDate().toISOString() : (data.date instanceof Date ? data.date.toISOString() : data.date);
-        const home = data.home_team || '';
-        const away = data.away_team || '';
-        const key = `${home}_vs_${away}_${date.split('T')[0]}`;
-
-        const serialized = {
-            id: doc.id,
-            home_team: home,
-            away_team: away,
-            home_score: data.home_score,
-            away_score: data.away_score,
-            date: date,
-            location: data.location,
-            championship: data.championship,
-            status: data.status,
-            home_team_logo: data.home_team_logo || data.home_logo,
-            away_team_logo: data.away_team_logo || data.away_logo,
-            display_time: data.display_time,
-            match_id: data.match_id
-        };
-
-        // If we have a version with a match_id or a non-zero score, prioritize it
-        const existing = matchesMap.get(key);
-        if (!existing || (serialized.match_id && !existing.match_id) || (serialized.home_score > 0 || serialized.away_score > 0)) {
-            matchesMap.set(key, serialized);
-        }
+    const upcoming = filteredMatches.filter(m => {
+        const status = m.status?.toLowerCase();
+        return status !== 'finalizado' && status !== 'encerrada';
     });
 
-    return Array.from(matchesMap.values());
-}
-
-export default async function MatchesPage() {
-    const upcoming = await getUpcomingMatches();
-    const past = await getPastMatches();
+    const past = filteredMatches.filter(m => {
+        const status = m.status?.toLowerCase();
+        return status === 'finalizado' || status === 'encerrada';
+    });
 
     return (
-        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300">
-            <div className="p-4 md:p-6 lg:max-w-5xl lg:mx-auto mt-4 pb-32">
-                <div className="flex items-center space-x-4 mb-8 lg:mb-12">
-                    <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-white/10"></div>
-                    <div className="glass-ultra border border-white/[0.04] px-6 py-3 rounded-[2rem] shadow-premium">
-                        <h1 className="text-lg lg:text-3xl font-display font-black text-white uppercase tracking-[0.2em]">
-                            Calendário
-                        </h1>
-                    </div>
-                    <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-white/10"></div>
+        <div className="w-full min-h-screen bg-[#0a0a0a] text-foreground pt-20 lg:pt-24">
+            <div className="container mx-auto px-4 max-w-4xl pb-32">
+                
+                {/* Header Section */}
+                <div className="flex flex-col items-center mb-10">
+                    <h1 className="text-2xl md:text-4xl font-black text-white uppercase tracking-[0.2em] mb-4 text-center">
+                        Calendário <span className="text-premium-gold">2026</span>
+                    </h1>
+                    <div className="h-1 w-20 bg-premium-gold rounded-full" />
                 </div>
 
-                <div className="flex justify-center mb-10">
-                    <a href="/tabela" className="px-8 py-3 rounded-xl bg-premium-gold/10 border border-premium-gold/30 text-premium-gold text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-premium-gold hover:text-black hover:shadow-gold-glow transition-all duration-500 active:scale-90">
-                        Ver Classificação
-                    </a>
+                {/* Tournament Filter */}
+                <div className="flex gap-2 overflow-x-auto no-scrollbar pb-6 mb-8 justify-center">
+                    {championships.map((champ) => (
+                        <button
+                            key={champ.id}
+                            onClick={() => setFilter(champ.id)}
+                            className={`px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
+                            ${filter === champ.id 
+                                ? 'bg-premium-gold text-black border-premium-gold shadow-[0_0_20px_rgba(212,175,55,0.3)]' 
+                                : 'bg-white/5 text-zinc-500 border-white/5 hover:border-white/20'}`}
+                        >
+                            {champ.name}
+                        </button>
+                    ))}
                 </div>
 
+                {loading ? (
+                    <div className="flex flex-col items-center justify-center py-20 gap-4">
+                        <div className="w-10 h-10 border-4 border-premium-gold/20 border-t-premium-gold rounded-full animate-spin" />
+                        <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Carregando jogos...</p>
+                    </div>
+                ) : (
+                    <div className="space-y-12">
+                        {/* UPCOMING MATCHES */}
+                        <div>
+                            {upcoming.length > 0 ? (
+                                <MatchesAccordion matches={upcoming} title="Próximos Jogos" />
+                            ) : (
+                                <div className="text-center py-10 glass-ultra rounded-3xl border border-white/5">
+                                    <Shield className="w-8 h-8 text-zinc-700 mx-auto mb-2" />
+                                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Nenhum jogo futuro para este filtro</p>
+                                </div>
+                            )}
+                        </div>
 
-                {/* UPCOMING MATCHES */}
-                {upcoming.length > 0 && (
-                    <MatchesAccordion matches={upcoming} title="Próximos Jogos" />
-                )}
-
-                {upcoming.length === 0 && (
-                    <div className="text-center py-10 text-foreground/30 text-sm">
-                        Nenhum jogo futuro agendado no momento.
+                        {/* PAST MATCHES */}
+                        {past.length > 0 && (
+                            <div className="opacity-70">
+                                <MatchesAccordion matches={past} title="Jogos Recentes" />
+                            </div>
+                        )}
                     </div>
                 )}
 
-                {/* PAST MATCHES */}
-                {past.length > 0 && (
-                    <div className="mt-12 opacity-80">
-                        <MatchesAccordion matches={past} title="Jogos Anteriores" />
-                    </div>
-                )}
+                {/* Navigation Link */}
+                <div className="mt-16 flex justify-center">
+                    <Link 
+                        href="/tabela" 
+                        className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-premium-gold hover:text-black hover:border-premium-gold transition-all group"
+                    >
+                        Ver Classificação Completa
+                        <Shield size={16} className="group-hover:scale-110 transition-transform" />
+                    </Link>
+                </div>
             </div>
         </div>
     );

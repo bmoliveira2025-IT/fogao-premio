@@ -58,11 +58,10 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                         </Link>
 
                         {/* Logo Section (Centered) */}
-                        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-                            <GloriosoLogo size={28} className="drop-shadow-lg" />
-                            <span className="text-[18px] font-black text-white tracking-tighter italic" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                                sports
-                            </span>
+                        <div className="absolute left-1/2 -translate-x-1/2">
+                            <Link href="/">
+                                <GloriosoLogo size={36} className="drop-shadow-lg transition-transform active:scale-95" />
+                            </Link>
                         </div>
 
                         {/* Action Icons (Right) */}

@@ -10,8 +10,7 @@ export default function ModernNavTabs() {
 
   const tabs = [
     { name: 'Destaques', href: '/' },
-    { name: 'Copa BR', href: '/copa-do-brasil' },
-    { name: 'Sula', href: '/sulamericana' },
+    { name: 'Vídeos', href: '/videos' },
     { name: 'Tabela', href: '/tabela' },
     { name: 'Jogos', href: '/matches' },
   ];
@@ -27,15 +26,24 @@ export default function ModernNavTabs() {
               <Link
                 key={tab.name}
                 href={tab.href}
-                className={cn(
-                  "relative px-5 py-2 text-[12px] font-black tracking-widest uppercase transition-all whitespace-nowrap rounded-full border",
-                  isActive 
-                    ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]" 
-                    : "bg-black text-zinc-500 border-white/10 hover:border-white/30"
-                )}
+                className="relative px-4 py-4 text-[12px] font-black tracking-widest uppercase transition-all whitespace-nowrap"
                 style={{ fontFamily: 'Outfit, sans-serif' }}
               >
-                {tab.name}
+                <span className={cn(
+                  "transition-colors duration-300",
+                  isActive ? "text-premium-gold" : "text-zinc-500 hover:text-white"
+                )}>
+                  {tab.name}
+                </span>
+
+                {/* Premium gold underline indicator */}
+                {isActive && (
+                  <motion.div
+                    className="absolute bottom-0 left-2 right-2 h-[2.5px] bg-premium-gold rounded-full shadow-[0_0_10px_rgba(212,175,55,0.4)]"
+                    layoutId="navTabIndicator"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
               </Link>
             );
           })}
