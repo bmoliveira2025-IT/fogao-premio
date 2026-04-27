@@ -49,7 +49,7 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative block w-full aspect-[4/5] overflow-hidden rounded-2xl bg-[#111]"
+            className="group relative block w-full aspect-video md:aspect-[4/5] lg:aspect-video overflow-hidden rounded-2xl bg-[#111]"
         >
             {/* Background Image */}
             <Image

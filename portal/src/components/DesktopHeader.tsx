@@ -27,8 +27,7 @@ export default function DesktopHeader() {
                 
                 {/* LOGO */}
                 <Link href="/" className="flex items-center gap-3 group">
-                    <GloriosoLogo size={32} className="drop-shadow-lg group-hover:scale-105 transition-transform" />
-                    <span className="text-lg font-black tracking-tighter text-white">FOGÃO<span className="text-premium-gold">PRÊMIO</span></span>
+                    <GloriosoLogo size={44} className="drop-shadow-lg group-hover:scale-105 transition-transform" />
                 </Link>
 
                 {/* NAVIGATION - CENTERED */}
@@ -54,15 +53,9 @@ export default function DesktopHeader() {
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </button>
 
-                    {/* Points (Subtle) */}
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.05]">
-                        <Star size={12} className="text-premium-gold fill-premium-gold" />
-                        <span className="text-[11px] font-black text-white">{points}</span>
-                    </div>
-
                     {/* Sign In / Profile Button (Green as per reference) */}
                     <Link 
-                        href="/profile"
+                        href="/login"
                         className="px-6 py-2 bg-[#22c55e] hover:bg-[#16a34a] text-white text-[11px] font-black uppercase tracking-widest rounded-md shadow-lg transition-all hover:scale-105 active:scale-95"
                     >
                         Entrar

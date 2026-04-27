@@ -237,34 +237,35 @@ export default async function Home() {
               {heroNews && <ModernFullWidthHero article={heroNews} />}
             </div>
 
-            {/* TOP FEATURED GRID (Row of 2 or 4) */}
+            {/* TOP FEATURED GRID (Desktop Only - Matching reference density) */}
             {topFeatured.length > 0 && (
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="hidden md:grid grid-cols-4 gap-4">
                 {topFeatured.map((article) => (
                   <FeaturedCard key={article.id} article={article} />
                 ))}
               </div>
             )}
 
-            {/* MAIN LIST WITH TABS (Simulated for now) */}
+            {/* MAIN LIST WITH TABS (Editorial Order) */}
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                <div className="flex gap-8">
-                  <button className="text-[14px] font-black text-premium-gold border-b-2 border-premium-gold pb-4 -mb-4.5">MAIS RECENTES</button>
-                  <button className="text-[14px] font-black text-zinc-500 hover:text-white transition-colors">TENDÊNCIAS</button>
-                  <button className="text-[14px] font-black text-zinc-500 hover:text-white transition-colors">PARA VOCÊ</button>
+                <div className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar">
+                  <button className="text-[12px] md:text-[14px] font-black text-premium-gold border-b-2 border-premium-gold pb-4 -mb-4.5 whitespace-nowrap">ÚLTIMAS</button>
+                  <button className="text-[12px] md:text-[14px] font-black text-zinc-500 hover:text-white transition-colors whitespace-nowrap">TENDÊNCIAS</button>
+                  <button className="text-[12px] md:text-[14px] font-black text-zinc-500 hover:text-white transition-colors whitespace-nowrap">PARA VOCÊ</button>
                 </div>
               </div>
 
-              {/* Mixed Feed: Large Card + Compact Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {mainFeedNews.slice(0, 2).map(article => (
-                  <FeaturedCard key={article.id} article={article} />
-                ))}
-              </div>
+              {/* One Large News below tabs (Matching reference) */}
+              {mainFeedNews[0] && (
+                <div className="mb-8">
+                  <FeaturedCard article={mainFeedNews[0]} />
+                </div>
+              )}
 
+              {/* Remaining Compact List */}
               <div className="bg-[#111]/40 rounded-3xl overflow-hidden border border-white/5 shadow-xl">
-                {mainFeedNews.slice(2).map(article => (
+                {mainFeedNews.slice(1).map(article => (
                   <CompactNewsCard key={article.id} article={article} />
                 ))}
               </div>
