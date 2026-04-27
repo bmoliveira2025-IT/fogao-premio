@@ -8,6 +8,8 @@ import SmartNewsFeed from '@/components/SmartNewsFeed';
 import LeagueTable from '@/components/LeagueTable';
 import ModernInfiniteNews from '@/components/ModernInfiniteNews';
 import BreakingNewsTicker from '@/components/BreakingNewsTicker';
+import PersonalizeBanner from '@/components/PersonalizeBanner';
+import MobileLiveMatches from '@/components/MobileLiveMatches';
 
 import Link from 'next/link';
 
@@ -247,6 +249,9 @@ export default async function Home() {
               {heroNews && <ModernFullWidthHero article={heroNews} />}
             </div>
 
+            {/* MOBILE ONLY: LIVE MATCH TICKER */}
+            <MobileLiveMatches matches={matches} />
+
             {/* TOP FEATURED GRID (Desktop Only - Matching reference density) */}
             {topFeatured.length > 0 && (
               <div className="hidden md:grid grid-cols-4 gap-4">
@@ -260,24 +265,18 @@ export default async function Home() {
             <SmartNewsFeed news={mainFeedNews} />
 
             {/* INFINITE SCROLL */}
-            <div className="pt-4 border-t border-white/5">
-              <ModernInfiniteNews initialNews={remainingNews} />
-            </div>
+            {remainingNews.length > 0 && (
+              <div className="pt-4 border-t border-white/5">
+                <ModernInfiniteNews initialNews={remainingNews} />
+              </div>
+            )}
           </div>
 
           {/* RIGHT COLUMN: SIDEBAR (4/12) */}
           <aside className="lg:col-span-4 space-y-8 sticky top-24">
             
             {/* PERSONALIZE BANNER (Green as per reference) */}
-            <div className="bg-[#22c55e] rounded-3xl p-6 relative overflow-hidden group">
-              <div className="relative z-10">
-                <h3 className="text-[20px] font-black text-white leading-tight mb-2">Personalize sua experiência</h3>
-                <p className="text-[12px] text-white/90 font-medium mb-4">Acompanhe apenas o que te interessa e receba notificações em tempo real.</p>
-                <Link href="/login" className="inline-block px-5 py-2 bg-black text-white text-[11px] font-black uppercase tracking-widest rounded-lg hover:scale-105 transition-all">Entrar agora</Link>
-              </div>
-              {/* Abstract shape background */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500" />
-            </div>
+            <PersonalizeBanner />
 
             {/* PROXIMO JOGO */}
             <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
@@ -300,8 +299,8 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* VIDEOS RECENTES */}
-            <div className="space-y-4">
+            {/* VIDEOS RECENTES - HIDDEN ON MOBILE */}
+            <div className="hidden lg:block space-y-4">
               <div className="flex items-center justify-between border-b border-white/5 pb-2">
                 <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">VÍDEOS</h3>
                 <Link href="/videos" className="text-[10px] font-bold text-premium-gold hover:underline">VER MAIS</Link>

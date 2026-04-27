@@ -25,21 +25,15 @@ export default function ModernNavTabs() {
               <Link
                 key={tab.name}
                 href={tab.href}
-                className="relative px-4 py-3.5 text-[13px] font-bold tracking-wide uppercase transition-colors whitespace-nowrap"
+                className={cn(
+                  "relative px-5 py-2 text-[12px] font-black tracking-widest uppercase transition-all whitespace-nowrap rounded-full border",
+                  isActive 
+                    ? "bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]" 
+                    : "bg-black text-zinc-500 border-white/10 hover:border-white/30"
+                )}
                 style={{ fontFamily: 'Outfit, sans-serif' }}
               >
-                <span className={isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}>
-                  {tab.name}
-                </span>
-
-                {/* Animated underline indicator */}
-                {isActive && (
-                  <motion.div
-                    className="absolute bottom-0 left-2 right-2 h-[2px] bg-gradient-to-r from-[#d4af37] via-[#d4af37] to-[#d4af37]/50 rounded-full"
-                    layoutId="navTabIndicator"
-                    transition={{ type: "spring", stiffness: 400, damping: 35 }}
-                  />
-                )}
+                {tab.name}
               </Link>
             );
           })}

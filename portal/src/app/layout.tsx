@@ -11,6 +11,7 @@ import ModernNavMenu from "@/components/ModernNavMenu";
 import TabBar from "@/components/TabBar";
 import DesktopHeader from "@/components/DesktopHeader";
 import ModernNavTabs from "@/components/ModernNavTabs";
+import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -95,19 +96,20 @@ export default function RootLayout({
               <ModernNavTabs />
             </Suspense>
 
-            {/* Main Content Wrapper with Safe Area Handling */}
             <main className="min-h-screen bg-[#0a0a0a] flex flex-col pt-[110px] lg:pt-16">
               <div className="flex-1">
                 {children}
               </div>
             </main>
 
-            {/* Mobile TabBar & Navigation */}
-            <div className="lg:hidden">
-              <Suspense fallback={null}>
-                <TabBar />
-              </Suspense>
+            {/* Mobile Bottom Navigation (Native App Style) */}
+            <MobileBottomNav />
+
+            {/* Footer - Desktop/General */}
+            <div className="hidden lg:block">
+              {/* Optional footer content for PC */}
             </div>
+
           </AuthProvider>
         </ThemeProvider>
       </body>

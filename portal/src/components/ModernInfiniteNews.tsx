@@ -9,6 +9,8 @@ interface ModernInfiniteNewsProps {
 }
 
 export default function ModernInfiniteNews({ initialNews }: ModernInfiniteNewsProps) {
+    if (!initialNews || initialNews.length === 0) return null;
+
     const [page, setPage] = useState(1);
     const observer = useRef<IntersectionObserver | null>(null);
     const NEWS_PER_PAGE = 4; // Load 4 items at a time

@@ -44,53 +44,32 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
             )}>
                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
                     <div className="flex items-center justify-between h-14">
-                        {/* Logo Section */}
-                        <Link href="/" className="flex items-center gap-3 group relative">
-                            <motion.div
-                                className="relative"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            >
-                                <GloriosoLogo size={36} className="relative z-10 drop-shadow-xl" />
-                            </motion.div>
+                        {/* Profile Section (Left) */}
+                        <Link href={user ? "/profile" : "/login"} className="flex-shrink-0">
+                            <div className="w-9 h-9 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center overflow-hidden">
+                                {user?.photoURL ? (
+                                    <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full bg-gradient-to-br from-zinc-700 to-zinc-900 flex items-center justify-center">
+                                        <span className="text-zinc-400 text-[10px] font-black">{user ? 'MP' : '?'}</span>
+                                    </div>
+                                )}
+                            </div>
                         </Link>
 
-                        {/* Action Icons with Staggered Animations */}
-                        <div className="flex items-center gap-3">
-                            {!user ? (
-                                <Link 
-                                    href="/login"
-                                    className="px-4 py-1.5 bg-[#22c55e] text-white text-[10px] font-black uppercase tracking-widest rounded-md shadow-lg"
-                                >
-                                    Entrar
-                                </Link>
-                            ) : (
-                                <Link
-                                    href="/profile"
-                                    className={cn(
-                                        "relative w-9 h-9 rounded-full flex items-center justify-center overflow-hidden transition-all duration-300 ring-2",
-                                        isPremium ? "ring-premium-gold/50" : "ring-white/10"
-                                    )}
-                                >
-                                    {user.photoURL ? (
-                                        <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <User size={18} className="text-zinc-400" />
-                                    )}
-                                </Link>
-                            )}
-                            
-                            <Link
-                                href="?briefing=true"
-                                className={cn(
-                                    "p-2 rounded-xl transition-all duration-300",
-                                    searchParams.get('briefing') === 'true'
-                                        ? "text-premium-gold bg-premium-gold/10"
-                                        : "text-zinc-400 hover:text-white"
-                                )}
-                            >
-                                <Zap size={18} className={isPremium ? "animate-glow-pulse" : ""} />
-                            </Link>
+                        {/* Logo Section (Centered) */}
+                        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+                            <GloriosoLogo size={28} className="drop-shadow-lg" />
+                            <span className="text-[18px] font-black text-white tracking-tighter italic" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                sports
+                            </span>
+                        </div>
+
+                        {/* Action Icons (Right) */}
+                        <div className="flex items-center gap-2">
+                            <button className="p-2 text-zinc-400 hover:text-white transition-colors">
+                                <Search size={22} strokeWidth={2.5} />
+                            </button>
                         </div>
                     </div>
                 </div>
