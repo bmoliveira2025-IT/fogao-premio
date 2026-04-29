@@ -164,10 +164,12 @@ def get_ge_match_stats(match_url):
         return None, None
 
 def sync_botafogo_live():
-    # Primary tournaments to check
+    # All tournaments Botafogo participates in
     urls = [
+        "https://ge.globo.com/futebol/brasileirao-serie-a/",
+        "https://ge.globo.com/futebol/copa-sul-americana/",
+        "https://ge.globo.com/futebol/copa-do-brasil/",
         "https://ge.globo.com/rj/futebol/campeonato-carioca/",
-        "https://ge.globo.com/futebol/brasileirao-serie-a/"
     ]
     
     headers = {
@@ -250,11 +252,25 @@ def sync_botafogo_live():
             }
             if live_stats:
                 game_data["stats"] = live_stats
-            
-            # Upsert
+
+            # Upsert match_stats (detailed)
             m_id = m_info["id"]
             db.collection("match_stats").document(m_id).set(game_data, merge=True)
             print(f"Successfully synced match {m_id} ({m_info['home_team']} x {m_info['away_team']})")
+
+            # Also update matches collection so the frontend picks up the live/final score
+            matches_update = {
+                "home_team": m_info["home_team"],
+                "away_team": m_info["away_team"],
+                "home_score": m_info["home_score"],
+                "away_score": m_info["away_score"],
+                "status": m_info["status"],
+                "date": m_info["date"],
+                "match_id": m_id,
+                "updated_at": firestore.SERVER_TIMESTAMP,
+            }
+            db.collection("matches").document(m_id).set(matches_update, merge=True)
+            print(f"Updated matches/{m_id} with score {m_info['home_score']}-{m_info['away_score']} status={m_info['status']}")
             
             if m_info["status"] in ["AO_VIVO", "EM_ANDAMENTO"]:
                 found_live = True

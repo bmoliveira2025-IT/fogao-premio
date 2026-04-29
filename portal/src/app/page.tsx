@@ -4,6 +4,7 @@ import ModernFullWidthHero from '@/components/ModernFullWidthHero';
 import FeaturedCard from '@/components/FeaturedCard';
 import CompactNewsCard from '@/components/CompactNewsCard';
 import ModernMatchCard from '@/components/ModernMatchCard';
+import CupMatchCard from '@/components/CupMatchCard';
 import SmartNewsFeed from '@/components/SmartNewsFeed';
 import LeagueTable from '@/components/LeagueTable';
 import ModernInfiniteNews from '@/components/ModernInfiniteNews';
@@ -73,7 +74,7 @@ interface Briefing {
   [key: string]: any; // Allow for other fields from Firestore
 }
 
-async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
+async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copaMatch: MatchData | null; sulaMatch: MatchData | null; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
   try {
     const timeLimit = new Date();
     timeLimit.setHours(timeLimit.getHours() - 48);
@@ -131,51 +132,79 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       } as NewsItem;
     });
 
-    // Advanced Match Logic: Brasileirão + (Sula or Copa)
-    let brasileiraoMatch: MatchData | null = null;
-    let cupMatch: MatchData | null = null;
+    // Build set of matches already finished according to Firestore
+    const finishedMatchKeys = new Set<string>();
+    for (const doc of upcomingMatchesSnap.docs) {
+        const data = doc.data();
+        const status = (data.status || '').toUpperCase();
+        if (status === 'ENCERRADA' || status === 'FINALIZADO') {
+            let dateStr = '';
+            if (typeof data.date === 'string') {
+                dateStr = data.date.split('T')[0];
+            } else if (data.date?.toDate) {
+                dateStr = data.date.toDate().toISOString().split('T')[0];
+            }
+            if (dateStr && data.home_team && data.away_team) {
+                finishedMatchKeys.add(`${dateStr}|${data.home_team}|${data.away_team}`);
+            }
+        }
+    }
 
-    // Use the comprehensive schedule from schedule.ts for better accuracy
+    // Find next Brasileirão, next Copa do Brasil, and next Sulamericana separately
+    let brasileiraoMatch: MatchData | null = null;
+    let copaMatch: MatchData | null = null;
+    let sulaMatch: MatchData | null = null;
+
     const now = new Date();
-    
-    // Sort schedule by date to find upcoming ones
-    const sortedSchedule = [...botafogoSchedule].sort((a, b) => 
+    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const sortedSchedule = [...botafogoSchedule].sort((a, b) =>
         new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
     for (const m of sortedSchedule) {
         const matchDate = new Date(m.date);
+
+        // Skip games before today
+        if (matchDate < todayMidnight) continue;
+
+        // Skip games explicitly finished in schedule.ts
+        if (m.status === 'FINALIZADO') continue;
+
+        // Skip if Firestore already marked as finished
+        const matchDateStr = matchDate.toISOString().split('T')[0];
+        const firestoreKey = `${matchDateStr}|${m.home_team}|${m.away_team}`;
+        if (finishedMatchKeys.has(firestoreKey)) continue;
+
         const champ = (m.championship || '').toLowerCase();
-        
-        // If match is today or in the future
-        if (matchDate >= new Date(now.setHours(0,0,0,0))) {
-            let displayChamp = m.championship;
-            if (champ.includes('brasileir')) displayChamp = 'BRASILEIRÃO';
-            else if (champ.includes('sula') || champ.includes('sudamericana')) displayChamp = 'SUDAMERICANA';
-            else if (champ.includes('libertadores')) displayChamp = 'LIBERTADORES';
-            else if (champ.includes('copa do brasil')) displayChamp = 'COPA DO BRASIL';
-            else if (champ.includes('carioca')) displayChamp = 'CARIOCÃO';
+        const isBrasileirao = champ.includes('brasileir');
+        const isCopa = !isBrasileirao && champ.includes('copa') && champ.includes('brasil');
+        const isSula = champ.includes('sudamericana') || champ.includes('sul-americana') || champ.includes('sulamericana');
 
-            const matchObj: MatchData = {
-                ...m,
-                id: m.id || `${m.date}-${m.home_team}`,
-                championship: displayChamp,
-            };
+        // Only track the 3 main competitions
+        if (!isBrasileirao && !isCopa && !isSula) continue;
 
-            if (champ.includes('brasileir') && !brasileiraoMatch) {
-                brasileiraoMatch = matchObj;
-            } else if ((champ.includes('sul') || champ.includes('copa') || champ.includes('sula') || champ.includes('brasil')) && !cupMatch) {
-                if (!champ.includes('brasileir')) {
-                    cupMatch = matchObj;
-                }
-            }
-        }
-        if (brasileiraoMatch && cupMatch) break;
+        const displayChamp = isBrasileirao ? 'BRASILEIRÃO'
+                           : isCopa ? 'COPA DO BRASIL'
+                           : 'SUDAMERICANA';
+
+        const matchObj: MatchData = {
+            ...m,
+            id: m.id || `${m.date}-${m.home_team}`,
+            championship: displayChamp,
+        };
+
+        if (isBrasileirao && !brasileiraoMatch) brasileiraoMatch = matchObj;
+        else if (isCopa && !copaMatch) copaMatch = matchObj;
+        else if (isSula && !sulaMatch) sulaMatch = matchObj;
+
+        if (brasileiraoMatch && copaMatch && sulaMatch) break;
     }
 
     const matches: MatchData[] = [];
     if (brasileiraoMatch) matches.push(brasileiraoMatch);
-    if (cupMatch) matches.push(cupMatch);
+    if (sulaMatch) matches.push(sulaMatch);
+    if (copaMatch) matches.push(copaMatch);
 
     const videos = videosSnap.docs.map(doc => {
       const data = doc.data();
@@ -194,17 +223,17 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; vide
       ...briefingSnap.docs[0].data()
     } as Briefing : null;
 
-    return { news, matches, videos, premiumNews, briefing };
+    return { news, matches, copaMatch, sulaMatch, videos, premiumNews, briefing };
 
   } catch (error: any) {
     console.error("DATA FETCH ERROR DETAILS:", error);
-    return { news: [], matches: [], videos: [], premiumNews: [], briefing: null };
+    return { news: [], matches: [], copaMatch: null, sulaMatch: null, videos: [], premiumNews: [], briefing: null };
   }
 }
 
 
 export default async function Home() {
-  const { news, matches, videos, premiumNews, briefing } = await getData();
+  const { news, matches, copaMatch, sulaMatch, videos } = await getData();
 
   const nextMatch = matches.length > 0 ? matches[0] : null;
 
@@ -267,8 +296,11 @@ export default async function Home() {
             {/* PERSONALIZE BANNER (Green as per reference) */}
             <PersonalizeBanner />
 
-            {/* PRÓXIMO JOGO */}
+            {/* PRÓXIMO JOGO - BRASILEIRÃO */}
             {nextMatch && <ModernMatchCard match={nextMatch} compact />}
+
+            {/* PRÓXIMOS JOGOS - COPA DO BRASIL / SULAMERICANA (alternância automática) */}
+            {(copaMatch || sulaMatch) && <CupMatchCard copaMatch={copaMatch} sulaMatch={sulaMatch} />}
 
             {/* TABELA DO BRASILEIRÃO */}
             <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
