@@ -9,15 +9,13 @@ import Link from 'next/link';
 export default function MatchesPage() {
     const [matches, setMatches] = useState<MatchData[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState<'ALL' | 'BRASILEIRAO' | 'COPA_DO_BRASIL' | 'SULAMERICANA' | 'CARIOCA' | 'LIBERTADORES'>('ALL');
+    const [filter, setFilter] = useState<'ALL' | 'BRASILEIRAO' | 'COPA_DO_BRASIL' | 'SULAMERICANA'>('ALL');
 
     const championships = [
         { id: 'ALL', name: 'Todos' },
         { id: 'BRASILEIRAO', name: 'Brasileirão' },
         { id: 'COPA_DO_BRASIL', name: 'Copa do Brasil' },
         { id: 'SULAMERICANA', name: 'Sulamericana' },
-        { id: 'LIBERTADORES', name: 'Libertadores' },
-        { id: 'CARIOCA', name: 'Carioca' },
     ] as const;
 
     useEffect(() => {
@@ -57,8 +55,6 @@ export default function MatchesPage() {
         if (filter === 'BRASILEIRAO') return champ.includes('brasileiro');
         if (filter === 'COPA_DO_BRASIL') return champ.includes('copa') && champ.includes('brasil');
         if (filter === 'SULAMERICANA') return champ.includes('suda') || champ.includes('sula');
-        if (filter === 'LIBERTADORES') return champ.includes('libertadores');
-        if (filter === 'CARIOCA') return champ.includes('carioca');
         return true;
     });
 
