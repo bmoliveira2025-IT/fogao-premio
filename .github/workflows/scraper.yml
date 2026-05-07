@@ -47,6 +47,7 @@ jobs:
           git config --global user.email 'actions@github.com'
           date > last_scraper_run.txt
           git add last_scraper_run.txt
+          git add portal/src/data/schedule.ts
           git commit -m "Scraper Run: $(date)"
           git pull --rebase -X theirs
           git push

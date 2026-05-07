@@ -15,6 +15,7 @@ from datetime import datetime, timezone, timedelta
 from cleanup import cleanup_old_news # Import cleanup logic
 from fetch_podcasts import fetch_podcasts # Import Podcast logic
 from fetch_brasileirao import fetch_brasileirao # Import Brasileirão logic
+from update_results import update_schedule_results # Auto-update match results in schedule.ts
 from fetch_table import fetch_table # Import Carioca logic
 import subprocess
 import pytz
@@ -1281,6 +1282,7 @@ def generate_daily_briefing(force=False):
 if __name__ == "__main__":
     if os.getenv("GITHUB_ACTIONS") == "true" or os.getenv("SINGLE_RUN") == "true":
         print(f"Running in Single Execution Mode (Source: {'GitHub Actions' if os.getenv('GITHUB_ACTIONS') == 'true' else 'Scheduler/Env'})...")
+        update_schedule_results() # Fetch & write match results into schedule.ts
         update_next_match()
         fetch_brasileirao() # Fetch Brasileirão Table
         fetch_table() # Fetch Carioca Table
