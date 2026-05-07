@@ -44,13 +44,13 @@ const rawSchedule = [
   {"date": "18/04/2026", "homeTeam": "Chapecoense", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "result": "1 - 4"},
   {"date": "21/04/2026", "homeTeam": "Botafogo", "awayTeam": "Chapecoense", "competition": "Copa do Brasil", "result": "1 - 0"},
   {"date": "25/04/2026", "homeTeam": "Botafogo", "awayTeam": "Internacional", "competition": "Campeonato Brasileiro", "result": "2 - 2"},
-  {"date": "28/04/2026", "homeTeam": "Botafogo", "awayTeam": "Independiente Petrolero", "competition": "CONMEBOL Sudamericana", "result": "3 - 0"},
+  {"date": "28/04/2026", "homeTeam": "Botafogo", "awayTeam": "Ind. Petrolero", "competition": "CONMEBOL Sudamericana", "result": "3 - 0"},
   {"date": "02/05/2026", "homeTeam": "Botafogo", "awayTeam": "Remo", "competition": "Campeonato Brasileiro", "result": "1 - 2"},
   {"date": "06/05/2026", "homeTeam": "Botafogo", "awayTeam": "Racing Club", "competition": "CONMEBOL Sudamericana", "time": "21:30"},
   {"date": "10/05/2026", "homeTeam": "Atlético-MG", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "16:00"},
   {"date": "14/05/2026", "homeTeam": "Chapecoense", "awayTeam": "Botafogo", "competition": "Copa do Brasil", "time": "18:00"},
   {"date": "17/05/2026", "homeTeam": "Botafogo", "awayTeam": "Corinthians", "competition": "Campeonato Brasileiro", "time": "16:00"},
-  {"date": "20/05/2026", "homeTeam": "Independiente Petrolero", "awayTeam": "Botafogo", "competition": "CONMEBOL Sudamericana", "time": "21:00"},
+  {"date": "20/05/2026", "homeTeam": "Ind. Petrolero", "awayTeam": "Botafogo", "competition": "CONMEBOL Sudamericana", "time": "21:00"},
   {"date": "23/05/2026", "homeTeam": "São Paulo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "17:00"},
   {"date": "27/05/2026", "homeTeam": "Caracas FC", "awayTeam": "Botafogo", "competition": "CONMEBOL Sudamericana", "time": "19:00"},
   {"date": "30/05/2026", "homeTeam": "Bahia", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
@@ -132,7 +132,7 @@ export const botafogoSchedule: MatchData[] = rawSchedule.map((m, index) => {
             'Barcelona SC': '/logos/barcelona-sc.png',
             'Caracas FC': '/logos/caracas-fc.png',
             'Racing Club': '/logos/racing-club.png',
-            'Independiente Petrolero': '/logos/independiente-petrolero.png',
+            'Ind. Petrolero': '/logos/independiente-petrolero.png',
         };
         return map[name] || '';
     };
