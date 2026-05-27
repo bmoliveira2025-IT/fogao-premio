@@ -147,7 +147,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             </div>
 
             {/* WHITE OVERLAPPING CONTENT CARD */}
-            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] -mt-6 pt-8 px-5 pb-24 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] md:px-12">
+            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] -mt-6 pt-8 px-5 pb-40 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] md:px-12">
                 
                 {/* AUTHOR INFO (CNN Style) */}
                 <div className="flex items-center gap-3 mb-8">
