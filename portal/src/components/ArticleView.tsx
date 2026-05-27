@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, Share2, Volume2, Clock, Plus, Minus, ArrowLeft } from 'lucide-react';
+import { ChevronLeft, Share2, Volume2, Clock, Plus, Minus, ArrowLeft, MoreHorizontal } from 'lucide-react';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
@@ -147,7 +147,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     return (
         <div className="w-full min-h-screen bg-[#111] font-sans selection:bg-[#d4af37]/30 selection:text-black">
             {/* HERO IMAGE — Full-bleed */}
-            <div className="w-full h-[60vh] md:h-[70vh] min-h-[400px] max-h-[600px] relative overflow-hidden">
+            <div className="fixed top-0 left-0 w-full h-[60vh] z-0">
                 <Image
                     src={getSafeImageSrc(article.image)}
                     alt={article.title}
@@ -158,49 +158,64 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     unoptimized
                 />
                 
-                {/* Gradient for text readability overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111]/90 via-[#111]/30 to-transparent" />
-
-                {/* Back button */}
-                <Link
-                    href="/"
-                    className="absolute top-6 left-4 md:top-8 md:left-8 z-30 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/90 hover:bg-black/60 transition-colors"
-                >
-                    <ArrowLeft size={20} strokeWidth={2.5} />
-                </Link>
-
-                {/* Overlay Title & Meta */}
-                <div className="absolute bottom-16 md:bottom-20 left-0 right-0 px-5 md:px-8 z-20">
-                    <div className="max-w-4xl mx-auto">
-                        <h1
-                            className="text-white text-[28px] md:text-[42px] lg:text-[48px] font-bold leading-[1.1] mb-4"
-                            style={{ fontFamily: 'Outfit, sans-serif' }}
+                {/* Floating Navigation Buttons */}
+                <div className="absolute top-10 left-0 right-0 px-5 flex justify-between items-center z-10">
+                    <Link
+                        href="/"
+                        className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/60 transition-colors"
+                    >
+                        <ChevronLeft size={24} strokeWidth={2.5} />
+                    </Link>
+                    <div className="flex gap-3">
+                        <button 
+                            onClick={handleShare}
+                            className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/60 transition-colors"
                         >
-                            {toSentenceCase(article.title)}
-                        </h1>
-                        <p className="text-white/80 text-sm font-medium flex items-center gap-2">
-                            <span>Popular news: {timeAgo(article.created_at)}</span>
-                            {categoryKey && (
-                                <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[9px] font-black tracking-[0.12em] px-2 py-0.5 rounded-[4px] ml-2`}>
-                                    {CATEGORY_LABELS[categoryKey]}
-                                </span>
-                            )}
-                        </p>
+                            <Share2 size={20} strokeWidth={2.5} />
+                        </button>
+                        <button className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/60 transition-colors">
+                            <MoreHorizontal size={24} strokeWidth={2.5} />
+                        </button>
                     </div>
                 </div>
             </div>
 
             {/* WHITE CARD CONTENT */}
-            <div className="relative z-30 -mt-10 bg-white rounded-t-[32px] min-h-screen shadow-2xl">
-                <div className="max-w-4xl mx-auto px-6 md:px-10 pt-10 pb-24 text-zinc-900">
+            <div className="relative z-30 mt-[45vh] bg-white rounded-t-[32px] min-h-screen shadow-2xl">
+                {/* Drag Handle */}
+                <div className="w-full flex justify-center pt-4 pb-2">
+                    <div className="w-12 h-1.5 bg-zinc-200 rounded-full"></div>
+                </div>
+
+                <div className="max-w-4xl mx-auto px-6 md:px-10 pt-4 pb-24 text-zinc-900">
                     
                     {/* Header inside card */}
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3">
-                            <SourceIcon source={article.source || 'CNN'} className="w-10 h-10 text-[#CC0000] rounded-full bg-zinc-100 p-1.5" />
-                            <span className="text-zinc-900 font-bold text-lg md:text-xl">{article.source || 'CNN News'} <span className="text-blue-500 ml-1">✔</span></span>
+                    <div className="flex flex-col items-center text-center mb-10">
+                        {categoryKey ? (
+                            <div className="bg-blue-500 text-white text-[12px] font-semibold px-4 py-1.5 rounded-full mb-6 flex items-center gap-2">
+                                <span className="text-[14px]">🔥</span>
+                                {CATEGORY_LABELS[categoryKey]}
+                            </div>
+                        ) : (
+                            <div className="bg-blue-500 text-white text-[12px] font-semibold px-4 py-1.5 rounded-full mb-6 flex items-center gap-2">
+                                <span className="text-[14px]">🔥</span>
+                                Destaque
+                            </div>
+                        )}
+
+                        <h1
+                            className="text-zinc-900 text-[26px] md:text-[40px] font-medium leading-[1.2] mb-6 px-2"
+                            style={{ fontFamily: 'Outfit, sans-serif' }}
+                        >
+                            {toSentenceCase(article.title)}
+                        </h1>
+
+                        <div className="flex items-center gap-4 text-[13px] font-medium text-zinc-400">
+                            <span className="flex items-center gap-1">
+                                <span>🔥</span> Trending No.1
+                            </span>
+                            <span>{timeAgoVerbose(article.created_at) || timeAgo(article.created_at)}</span>
                         </div>
-                        <span className="text-zinc-500 font-medium text-sm md:text-base" suppressHydrationWarning>{timeAgoVerbose(article.created_at) || timeAgo(article.created_at)}</span>
                     </div>
 
                     {/* Article Body */}

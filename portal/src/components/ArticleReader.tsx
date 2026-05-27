@@ -31,9 +31,9 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
 
     const formatParagraph = (text: string) => {
         return text
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#d4af37] font-semibold">$1</strong>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-zinc-900 font-semibold">$1</strong>')
             .replace(/__(.*?)__/g, '<u>$1</u>')
-            .replace(/Botafogo/g, '<strong class="text-[#d4af37] font-semibold">Botafogo</strong>');
+            .replace(/Botafogo/g, '<strong class="text-zinc-900 font-semibold">Botafogo</strong>');
     };
 
     return (
@@ -44,9 +44,9 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                     <p
                         style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
                         className={`
-                            leading-[1.75] font-normal tracking-[0.01em] transition-all duration-300
-                            ${i === 0 ? 'first-letter:text-[2.8em] first-letter:font-[900] first-letter:text-[#d4af37] first-letter:mr-2 first-letter:float-left first-letter:leading-[0.75] first-letter:mt-1' : ''}
-                            ${activeParagraphIndex === i ? 'bg-[#d4af37]/[0.06] border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                            text-zinc-500 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
+                            ${i === 0 ? 'first-letter:text-[2.8em] first-letter:font-[900] first-letter:text-zinc-900 first-letter:mr-2 first-letter:float-left first-letter:leading-[0.75] first-letter:mt-1 text-zinc-600' : ''}
+                            ${activeParagraphIndex === i ? 'bg-blue-50 border-l-2 border-blue-500 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
                         `}
                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                     />
@@ -67,8 +67,8 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                         return (
                             <div key={`rem-${i}`}>
                                 {showPullQuote && (
-                                    <blockquote className="my-8 py-4 px-5 border-l-[3px] border-[#d4af37]/40 bg-[#d4af37]/[0.03] rounded-r-lg">
-                                        <p className="text-[15px] md:text-[17px] font-medium italic leading-[1.6] opacity-80" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                    <blockquote className="my-8 py-2 px-5 border-l-[3px] border-[#4285F4]">
+                                        <p className="text-[15px] md:text-[17px] font-medium italic leading-[1.6] text-zinc-800" style={{ fontFamily: 'Outfit, sans-serif' }}>
                                             "{p.slice(0, Math.min(p.indexOf('.', 50) + 1 || 120, 150))}"
                                         </p>
                                     </blockquote>
@@ -78,8 +78,8 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                                     <p
                                         style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
                                         className={`
-                                            leading-[1.75] font-normal tracking-[0.01em] transition-all duration-300
-                                            ${activeParagraphIndex === actualIndex ? 'bg-[#d4af37]/[0.06] border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                                            text-zinc-500 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
+                                            ${activeParagraphIndex === actualIndex ? 'bg-blue-50 border-l-2 border-blue-500 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
                                         `}
                                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                                     />
