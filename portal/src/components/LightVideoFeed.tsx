@@ -2,9 +2,10 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube, Settings, HelpCircle, LogOut } from 'lucide-react';
+import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube, Settings, HelpCircle, LogOut, Crown, Bookmark } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
+import { useAuth } from '@/context/AuthContext';
 
 interface VideoItem {
     id: string;
@@ -20,6 +21,7 @@ interface LightVideoFeedProps {
 }
 
 export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
+    const { user, logOut } = useAuth();
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
     const [subscribedChannels, setSubscribedChannels] = useState<Record<string, boolean>>({});
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -97,30 +99,44 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                     {showUserMenu && (
                         <div className="absolute top-12 right-0 w-64 bg-white rounded-xl shadow-xl border border-zinc-100 py-2 z-50 animate-in slide-in-from-top-2 fade-in duration-200">
                             <div className="px-4 py-3 border-b border-zinc-100 flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-zinc-800 text-white flex items-center justify-center text-lg font-bold">
-                                    B
-                                </div>
+                                {user?.photoURL ? (
+                                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                                        <Image src={user.photoURL} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" />
+                                    </div>
+                                ) : (
+                                    <div className="w-10 h-10 rounded-full bg-zinc-800 text-white flex items-center justify-center text-lg font-bold">
+                                        {(user?.displayName || 'B').charAt(0).toUpperCase()}
+                                    </div>
+                                )}
                                 <div className="flex flex-col">
-                                    <span className="text-[14px] font-semibold text-zinc-900">Botafogo Fan</span>
-                                    <span className="text-[12px] text-zinc-500">@botafogofan123</span>
+                                    <span className="text-[14px] font-semibold text-zinc-900 truncate w-36">{user?.displayName || 'Botafoguense'}</span>
+                                    <span className="text-[12px] text-zinc-500 truncate w-36">{user?.email || 'Nível: Ouro'}</span>
                                 </div>
                             </div>
                             <div className="py-2">
-                                <button onClick={() => { setShowUserMenu(false); alert('Seu canal'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                <button onClick={() => { setShowUserMenu(false); alert('Meu Perfil'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <User size={18} />
-                                    <span className="text-[14px]">Seu canal</span>
+                                    <span className="text-[14px]">Meu Perfil</span>
+                                </button>
+                                <button onClick={() => { setShowUserMenu(false); alert('Assinatura Premium'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                    <Crown size={18} className="text-[#d4af37]" />
+                                    <span className="text-[14px]">Plano Premium</span>
+                                </button>
+                                <button onClick={() => { setShowUserMenu(false); alert('Vídeos e Artigos Salvos'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                    <Bookmark size={18} />
+                                    <span className="text-[14px]">Itens Salvos</span>
                                 </button>
                                 <button onClick={() => { setShowUserMenu(false); alert('Configurações'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <Settings size={18} />
                                     <span className="text-[14px]">Configurações</span>
                                 </button>
-                                <button onClick={() => { setShowUserMenu(false); alert('Ajuda e feedback'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
-                                    <HelpCircle size={18} />
-                                    <span className="text-[14px]">Ajuda e feedback</span>
-                                </button>
                             </div>
                             <div className="py-2 border-t border-zinc-100">
-                                <button onClick={() => { setShowUserMenu(false); alert('Saindo da conta...'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                <button onClick={() => { 
+                                    setShowUserMenu(false); 
+                                    if(logOut) logOut(); 
+                                    else alert('Saindo...'); 
+                                }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <LogOut size={18} />
                                     <span className="text-[14px]">Sair</span>
                                 </button>
