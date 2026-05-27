@@ -31,8 +31,9 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     const [isSaved, setIsSaved] = useState(false);
 
     const paragraphs = article.content?.split('\n') || [article.summary || "Conteúdo não disponível."];
-    const titleLength = article.title.length + 2;
-    const fullText = `${article.title}. ${paragraphs.join('. ')}`;
+    const safeTitle = article.title || '';
+    const titleLength = safeTitle.length + 2;
+    const fullText = `${safeTitle}. ${paragraphs.join('. ')}`;
     const [readingCharIndex, setReadingCharIndex] = useState(-1);
     const readTime = Math.max(1, Math.round(paragraphs.join(' ').split(' ').length / 200));
 
