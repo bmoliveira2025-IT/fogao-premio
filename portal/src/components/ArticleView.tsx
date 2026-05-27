@@ -10,6 +10,7 @@ import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
 import { AnimatePresence } from 'framer-motion';
 import CompactNewsRow from './CompactNewsRow';
+import SourceIcon from './SourceIcon';
 import PremiumGuard from './PremiumGuard';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
@@ -149,16 +150,13 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             {/* WHITE OVERLAPPING CONTENT CARD */}
             <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] -mt-6 pt-8 px-5 pb-40 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] md:px-12">
                 
-                {/* AUTHOR INFO (CNN Style) */}
+                {/* AUTHOR INFO (Source) */}
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-11 h-11 rounded-full overflow-hidden bg-black flex-shrink-0 flex items-center justify-center border border-zinc-100">
-                        {/* Faking the red CNN logo with an F */}
-                        <div className="w-8 h-8 bg-[#CC0000] rounded-full flex items-center justify-center">
-                            <span className="text-white font-bold text-[18px]">F</span>
-                        </div>
+                    <div className="w-11 h-11 rounded-full overflow-hidden bg-zinc-100 flex-shrink-0 flex items-center justify-center border border-zinc-200">
+                        <SourceIcon source={article.source} className="w-8 h-8" />
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <span className="text-[17px] font-bold text-zinc-900 tracking-tight">Fogão Premium</span>
+                        <span className="text-[17px] font-bold text-zinc-900 tracking-tight">{article.source || 'Redação'}</span>
                         <div className="w-4 h-4 rounded-full bg-[#1A73E8] text-white flex items-center justify-center">
                             <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 fill-current"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
                         </div>
