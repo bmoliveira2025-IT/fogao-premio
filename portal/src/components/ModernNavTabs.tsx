@@ -16,7 +16,7 @@ export default function ModernNavTabs() {
   ];
 
   return (
-    <div className="w-full bg-[#0d0d0d]/95 backdrop-blur-xl border-b border-white/[0.06] fixed top-[56px] left-0 right-0 z-40 lg:hidden">
+    <div className="w-full bg-white/95 backdrop-blur-xl border-b border-zinc-200/80 fixed top-[56px] left-0 right-0 z-40 lg:hidden">
       <div className="container mx-auto px-3 max-w-[1600px] overflow-x-auto scrollbar-hide">
         <div className="flex items-center gap-1 min-w-max">
           {tabs.map((tab) => {
@@ -31,7 +31,7 @@ export default function ModernNavTabs() {
               >
                 <span className={cn(
                   "transition-colors duration-300",
-                  isActive ? "text-premium-gold" : "text-zinc-500 hover:text-white"
+                  isActive ? "text-premium-gold" : "text-zinc-500 hover:text-zinc-900"
                 )}>
                   {tab.name}
                 </span>

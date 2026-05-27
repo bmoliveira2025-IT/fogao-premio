@@ -13,6 +13,11 @@ import PersonalizeBanner from '@/components/PersonalizeBanner';
 import MobileLiveMatches from '@/components/MobileLiveMatches';
 import { botafogoSchedule } from '@/data/schedule';
 
+// Light Theme Components
+import MobileUserHeader from '@/components/MobileUserHeader';
+import LightHeroCard from '@/components/LightHeroCard';
+import LightNewsRow from '@/components/LightNewsRow';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -248,108 +253,135 @@ export default async function Home() {
   const tickerItems = news.slice(0, 6).map(n => ({ id: n.id, title: n.title }));
 
   return (
-    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#0a0a0a]">
+    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#f4f4f5] lg:bg-[#0a0a0a]">
       
-      {/* 1. TICKER - Full width always */}
-      <BreakingNewsTicker items={tickerItems} />
-
-      {/* MAIN CONTENT WRAPPER - Responsive Container */}
-      <div className="container mx-auto max-w-[1400px] px-4 md:px-6 py-6 lg:py-10">
-        
-        {/* GRID SYSTEM: 12 Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* MOBILE LIGHT THEME */}
+      <div className="block lg:hidden min-h-screen px-5 pt-safe">
+          <MobileUserHeader />
+          <div className="py-2">
+              <h1 className="text-zinc-900 text-[26px] font-[800] leading-[1.1] mb-6 pr-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                  Notícias Inteligentes para um Fogão Mais Forte
+              </h1>
+          </div>
           
-          {/* LEFT COLUMN: MAIN FEED (8/12) */}
-          <div className="lg:col-span-8 space-y-8">
-            
-            {/* HERO SECTION */}
-            <div className="rounded-3xl overflow-hidden shadow-2xl">
-              {heroNews && <ModernFullWidthHero article={heroNews} />}
-            </div>
-
-            {/* MOBILE ONLY: LIVE MATCH TICKER */}
-            <MobileLiveMatches matches={matches} />
-
-            {/* TOP FEATURED GRID (Desktop Only - Matching reference density) */}
-            {topFeatured.length > 0 && (
-              <div className="hidden md:grid grid-cols-4 gap-4">
-                {topFeatured.map((article) => (
-                  <FeaturedCard key={article.id} article={article} />
-                ))}
-              </div>
-            )}
-
-            {/* MAIN LIST WITH TABS (Editorial Order) */}
-            <SmartNewsFeed news={mainFeedNews} />
-
-            {/* INFINITE SCROLL */}
-            {remainingNews.length > 0 && (
-              <div className="pt-4 border-t border-white/5">
-                <ModernInfiniteNews initialNews={remainingNews} />
-              </div>
-            )}
+          <LightHeroCard article={heroNews} />
+          
+          {/* Filter Pills */}
+          <div className="flex gap-3 overflow-x-auto py-5 no-scrollbar -mx-5 px-5">
+              <button className="px-4 py-1.5 bg-green-700 text-white text-[13px] font-bold rounded-xl whitespace-nowrap shadow-sm">Para Você</button>
+              <button className="px-4 py-1.5 bg-transparent text-zinc-400 text-[13px] font-bold rounded-xl whitespace-nowrap">Mercado</button>
+              <button className="px-4 py-1.5 bg-transparent text-zinc-400 text-[13px] font-bold rounded-xl whitespace-nowrap">Jogos</button>
+              <button className="px-4 py-1.5 bg-transparent text-zinc-400 text-[13px] font-bold rounded-xl whitespace-nowrap">Clube</button>
           </div>
 
-          {/* RIGHT COLUMN: SIDEBAR (4/12) */}
-          <aside className="lg:col-span-4 space-y-8 sticky top-24">
+          {/* News List */}
+          <div className="space-y-1 pb-24">
+              {mainFeedNews.slice(0, 15).map(article => (
+                  <LightNewsRow key={article.id} article={article} />
+              ))}
+          </div>
+      </div>
+
+      {/* DESKTOP DARK THEME */}
+      <div className="hidden lg:block">
+        {/* 1. TICKER - Full width always */}
+        <BreakingNewsTicker items={tickerItems} />
+
+        {/* MAIN CONTENT WRAPPER - Responsive Container */}
+        <div className="container mx-auto max-w-[1400px] px-4 md:px-6 py-6 lg:py-10">
+          
+          {/* GRID SYSTEM: 12 Columns */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* PERSONALIZE BANNER (Green as per reference) */}
-            <PersonalizeBanner />
-
-            {/* PRÓXIMO JOGO - BRASILEIRÃO */}
-            {nextMatch && <ModernMatchCard match={nextMatch} compact />}
-
-            {/* PRÓXIMOS JOGOS - COPA DO BRASIL / SULAMERICANA (alternância automática) */}
-            {(copaMatch || sulaMatch) && <CupMatchCard copaMatch={copaMatch} sulaMatch={sulaMatch} />}
-
-            {/* TABELA DO BRASILEIRÃO */}
-            <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
-              <div className="p-5 border-b border-white/5">
-                <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">TABELA BRASILEIRÃO</h3>
+            {/* LEFT COLUMN: MAIN FEED (8/12) */}
+            <div className="lg:col-span-8 space-y-8">
+              
+              {/* HERO SECTION */}
+              <div className="rounded-3xl overflow-hidden shadow-2xl">
+                {heroNews && <ModernFullWidthHero article={heroNews} />}
               </div>
-              <div className="p-2">
-                <LeagueTable defaultExpanded={false} />
-              </div>
+
+              {/* TOP FEATURED GRID (Desktop Only - Matching reference density) */}
+              {topFeatured.length > 0 && (
+                <div className="hidden md:grid grid-cols-4 gap-4">
+                  {topFeatured.map((article) => (
+                    <FeaturedCard key={article.id} article={article} />
+                  ))}
+                </div>
+              )}
+
+              {/* MAIN LIST WITH TABS (Editorial Order) */}
+              <SmartNewsFeed news={mainFeedNews} />
+
+              {/* INFINITE SCROLL */}
+              {remainingNews.length > 0 && (
+                <div className="pt-4 border-t border-white/5">
+                  <ModernInfiniteNews initialNews={remainingNews} />
+                </div>
+              )}
             </div>
 
-            {/* MAIS NOTÍCIAS */}
-            {sidebarNews.length > 0 && (
+            {/* RIGHT COLUMN: SIDEBAR (4/12) */}
+            <aside className="lg:col-span-4 space-y-8 sticky top-24">
+              
+              {/* PERSONALIZE BANNER (Green as per reference) */}
+              <PersonalizeBanner />
+
+              {/* PRÓXIMO JOGO - BRASILEIRÃO */}
+              {nextMatch && <ModernMatchCard match={nextMatch} compact />}
+
+              {/* PRÓXIMOS JOGOS - COPA DO BRASIL / SULAMERICANA (alternância automática) */}
+              {(copaMatch || sulaMatch) && <CupMatchCard copaMatch={copaMatch} sulaMatch={sulaMatch} />}
+
+              {/* TABELA DO BRASILEIRÃO */}
               <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
                 <div className="p-5 border-b border-white/5">
-                  <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">MAIS NOTÍCIAS</h3>
+                  <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">TABELA BRASILEIRÃO</h3>
                 </div>
-                <div>
-                  {sidebarNews.map(article => (
-                    <CompactNewsCard key={article.id} article={article} />
+                <div className="p-2">
+                  <LeagueTable defaultExpanded={false} />
+                </div>
+              </div>
+
+              {/* MAIS NOTÍCIAS */}
+              {sidebarNews.length > 0 && (
+                <div className="bg-[#0d0d0d] rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+                  <div className="p-5 border-b border-white/5">
+                    <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">MAIS NOTÍCIAS</h3>
+                  </div>
+                  <div>
+                    {sidebarNews.map(article => (
+                      <CompactNewsCard key={article.id} article={article} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* VIDEOS RECENTES - HIDDEN ON MOBILE */}
+              <div className="hidden lg:block space-y-4">
+                <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                  <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">VÍDEOS</h3>
+                  <Link href="/videos" className="text-[10px] font-bold text-premium-gold hover:underline">VER MAIS</Link>
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  {videos.slice(0, 3).map(video => (
+                    <div key={video.id} className="group relative rounded-xl overflow-hidden aspect-video bg-zinc-900 border border-white/5">
+                      <Image src={video.thumbnail} alt={video.title} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" unoptimized />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-premium-gold/90 flex items-center justify-center text-black shadow-lg">
+                          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                      </div>
+                      <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black to-transparent">
+                        <p className="text-xs font-bold text-white line-clamp-2">{video.title}</p>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
-            )}
 
-            {/* VIDEOS RECENTES - HIDDEN ON MOBILE */}
-            <div className="hidden lg:block space-y-4">
-              <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                <h3 className="text-sm font-black text-white/90 uppercase tracking-widest">VÍDEOS</h3>
-                <Link href="/videos" className="text-[10px] font-bold text-premium-gold hover:underline">VER MAIS</Link>
-              </div>
-              <div className="grid grid-cols-1 gap-4">
-                {videos.slice(0, 3).map(video => (
-                  <div key={video.id} className="group relative rounded-xl overflow-hidden aspect-video bg-zinc-900 border border-white/5">
-                    <Image src={video.thumbnail} alt={video.title} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" unoptimized />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-10 h-10 rounded-full bg-premium-gold/90 flex items-center justify-center text-black shadow-lg">
-                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                      </div>
-                    </div>
-                    <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black to-transparent">
-                      <p className="text-xs font-bold text-white line-clamp-2">{video.title}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </aside>
+            </aside>
+          </div>
         </div>
       </div>
     </div>
