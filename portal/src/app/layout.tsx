@@ -86,14 +86,11 @@ export default function RootLayout({
               <DesktopHeader />
             </Suspense>
 
-            {/* Mobile Header */}
-            <Suspense fallback={null}>
-              <ModernNavMenu className="lg:hidden" />
-            </Suspense>
+            {/* Mobile Header - Removed as per user request */}
 
             {/* Global Top Tabs for Mobile - Removed as per user request to make it more compact */}
 
-            <main className="min-h-screen bg-[#0a0a0a] flex flex-col pt-[56px] lg:pt-16">
+            <main className="min-h-screen bg-[#0a0a0a] flex flex-col pt-0 lg:pt-16">
               <div className="flex-1">
                 {children}
               </div>
