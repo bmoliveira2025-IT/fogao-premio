@@ -11,6 +11,7 @@ interface VideoItem {
     url: string;
     thumbnail: string;
     published_at: string;
+    source?: string;
 }
 
 interface LightVideoPlayerProps {
