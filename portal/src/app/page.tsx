@@ -246,7 +246,7 @@ export default async function Home() {
   // Slice news into sections for the new grid layout
   const heroNews = news[0] || null;
   const topFeatured = news.slice(1, 5); // 4 cards for the row below hero
-  const mainFeedNews = news.slice(5, 30); // Main list
+  const mainFeedNews = news.slice(5); // Main list for desktop and mobile
   const sidebarNews = news.slice(30, 36); // Extra for sidebar
   const remainingNews = news.slice(36);
 
@@ -264,7 +264,7 @@ export default async function Home() {
           <LightHeroCard article={heroNews} />
           
           {/* Interactive Filter and News List */}
-          <LightNewsFilter news={mainFeedNews} />
+          <LightNewsFilter news={news.slice(1)} />
       </div>
 
       {/* DESKTOP DARK THEME */}

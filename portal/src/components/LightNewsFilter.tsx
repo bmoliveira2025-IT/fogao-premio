@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import LightNewsRow from "@/components/LightNewsRow";
 
@@ -22,9 +22,12 @@ interface LightNewsFilterProps {
 }
 
 const FILTERS = ['Para Você', 'Mercado', 'Jogos', 'Clube'];
+const ITEMS_PER_PAGE = 15;
 
 export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   const [activeFilter, setActiveFilter] = useState('Para Você');
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   // Simple keyword-based filtering since we don't have explicit categories
   const filteredNews = news.filter((article) => {
@@ -50,6 +53,26 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   // If a filter is too strict and returns no results, show all (fallback)
   const displayNews = filteredNews.length > 0 ? filteredNews : news;
 
+  // Reset visible count when filter changes
+  useEffect(() => {
+    setVisibleCount(ITEMS_PER_PAGE);
+  }, [activeFilter]);
+
+  // Intersection Observer for Infinite Scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setVisibleCount((prev) => Math.min(prev + ITEMS_PER_PAGE, displayNews.length));
+      }
+    }, { threshold: 0.1, rootMargin: '100px' });
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [displayNews.length]);
+
   return (
     <div>
       {/* Filter Pills */}
@@ -71,11 +94,23 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
       </div>
 
       {/* News List */}
-      <div className="space-y-1 pb-24">
-        {displayNews.slice(0, 15).map((article) => (
+      <div className="space-y-1 pb-4">
+        {displayNews.slice(0, visibleCount).map((article) => (
           <LightNewsRow key={article.id} article={article} />
         ))}
       </div>
+
+      {/* Load More Observer Target */}
+      {visibleCount < displayNews.length && (
+        <div ref={loadMoreRef} className="h-20 flex items-center justify-center pb-24">
+          <div className="w-6 h-6 border-2 border-green-700 border-t-transparent rounded-full animate-spin opacity-50"></div>
+        </div>
+      )}
+      
+      {/* Fallback padding if no more items */}
+      {visibleCount >= displayNews.length && (
+        <div className="h-24"></div>
+      )}
     </div>
   );
 }
