@@ -191,14 +191,18 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     {/* Header inside card */}
                     <div className="flex flex-col items-center text-center mb-10">
                         {categoryKey ? (
-                            <div className="bg-blue-500 text-white text-[12px] font-semibold px-4 py-1.5 rounded-full mb-6 flex items-center gap-2">
-                                <span className="text-[14px]">🔥</span>
-                                {CATEGORY_LABELS[categoryKey]}
+                            <div className="bg-[#4285F4] text-white text-[13px] font-medium pr-4 pl-1 py-1 rounded-full mb-6 flex items-center gap-2.5">
+                                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[13px]">
+                                    🔥
+                                </div>
+                                <span className="tracking-wide">{CATEGORY_LABELS[categoryKey]}</span>
                             </div>
                         ) : (
-                            <div className="bg-blue-500 text-white text-[12px] font-semibold px-4 py-1.5 rounded-full mb-6 flex items-center gap-2">
-                                <span className="text-[14px]">🔥</span>
-                                Destaque
+                            <div className="bg-[#4285F4] text-white text-[13px] font-medium pr-4 pl-1 py-1 rounded-full mb-6 flex items-center gap-2.5">
+                                <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[13px]">
+                                    🔥
+                                </div>
+                                <span className="tracking-wide">Destaque</span>
                             </div>
                         )}
 
