@@ -19,10 +19,9 @@ export default function ProfilePage() {
     const { theme, setTheme } = useTheme();
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
-
     useEffect(() => {
         if (!user) {
-            // Optional: Handle redirect if needed, but AuthContext handles initial load
+            // Optional: Handle redirect if needed
         }
     }, [user, router]);
 
@@ -32,31 +31,31 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="w-full text-foreground font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 pb-32">
+        <div className="w-full text-zinc-900 font-sans selection:bg-premium-gold selection:text-white transition-colors duration-300 pb-32">
             <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
 
                 {/* Header Area */}
                 <div className="lg:col-span-4">
-                    <div className="mb-4 pt-4 pb-4 px-5 glass-ultra border-b border-white/[0.04] lg:rounded-[2rem] lg:border lg:shadow-premium lg:mb-0">
-                        <h1 className="text-xl font-display font-black text-white mb-3 text-center lg:hidden">Perfil</h1>
+                    <div className="mb-4 pt-4 pb-4 px-5 bg-white border-b border-zinc-200 lg:rounded-[2rem] lg:border lg:shadow-sm lg:mb-0">
+                        <h1 className="text-xl font-display font-black text-zinc-900 mb-3 text-center lg:hidden">Perfil</h1>
 
                         <div className="flex items-center lg:flex-col lg:text-center space-x-3 lg:space-x-0 lg:space-y-4">
-                            <div className="w-14 h-14 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-foreground/10 to-transparent border border-premium-gold/15 flex items-center justify-center relative">
+                            <div className="w-14 h-14 lg:w-24 lg:h-24 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center relative overflow-hidden">
                                 {user?.photoURL ? (
                                     <img src={user.photoURL} alt="Avatar" className="w-full h-full rounded-full object-cover" />
                                 ) : (
-                                    <User size={28} className="text-foreground/50" />
+                                    <User size={28} className="text-zinc-400" />
                                 )}
                                 {isPremium && (
-                                    <div className="absolute -bottom-1 -right-1 w-5 h-5 lg:w-8 lg:h-8 bg-premium-gold rounded-full flex items-center justify-center border-2 border-background">
-                                        <Star size={10} className="text-black fill-black lg:w-4 lg:h-4" />
+                                    <div className="absolute -bottom-1 -right-1 w-5 h-5 lg:w-8 lg:h-8 bg-premium-gold rounded-full flex items-center justify-center border-2 border-white">
+                                        <Star size={10} className="text-white fill-white lg:w-4 lg:h-4" />
                                     </div>
                                 )}
                             </div>
 
                             <div>
-                                <h2 className="text-lg lg:text-xl font-bold text-foreground">{user?.displayName || 'Torcedor Alvinegro'}</h2>
-                                <p className="text-xs text-foreground/40">{user?.email || 'Convidado'}</p>
+                                <h2 className="text-lg lg:text-xl font-bold text-zinc-900">{user?.displayName || 'Torcedor Alvinegro'}</h2>
+                                <p className="text-xs text-zinc-500">{user?.email || 'Convidado'}</p>
 
                                 {isPremium ? (
                                     <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/20">
@@ -66,9 +65,9 @@ export default function ProfilePage() {
                                         </span>
                                     </div>
                                 ) : (
-                                    <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-zinc-800 border border-zinc-700">
-                                        <User size={10} className="text-zinc-400" />
-                                        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                                    <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-zinc-100 border border-zinc-200">
+                                        <User size={10} className="text-zinc-500" />
+                                        <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
                                             Torcedor {rank}
                                         </span>
                                     </div>
@@ -81,39 +80,39 @@ export default function ProfilePage() {
                 <div className="px-5 space-y-4 lg:col-span-8 lg:px-0 lg:space-y-4">
 
                     {/* Points Card */}
-                    <div className="flex items-center justify-between p-5 glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden relative group shadow-premium hover:shadow-gold-glow transition-all duration-500">
+                    <div className="flex items-center justify-between p-5 bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden relative group shadow-sm hover:shadow-md transition-all duration-500">
                         <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="flex items-center space-x-4 relative z-10">
                             <div className="w-12 h-12 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/30 group-hover:bg-premium-gold/20 transition-colors">
                                 <Star size={24} className="text-premium-gold fill-premium-gold" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-black text-white leading-none uppercase italic tracking-tighter">Fogão Points</h3>
-                                <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">Sua Pontuação de Lealdade</p>
+                                <h3 className="text-lg font-black text-zinc-900 leading-none uppercase italic tracking-tighter">Fogão Points</h3>
+                                <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest mt-1">Sua Pontuação de Lealdade</p>
                             </div>
                         </div>
                         <div className="text-right relative z-10">
                             <div className="text-3xl font-black text-premium-gold leading-none tracking-tighter">{points}</div>
                             <div className={cn(
                                 "text-[9px] font-bold uppercase tracking-widest mt-1",
-                                rank === "Platina" ? "text-blue-400" :
+                                rank === "Platina" ? "text-blue-500" :
                                     rank === "Ouro" ? "text-premium-gold" :
-                                        rank === "Prata" ? "text-zinc-300" : "text-zinc-500"
+                                        rank === "Prata" ? "text-zinc-400" : "text-zinc-500"
                             )}>Nível {rank}</div>
                         </div>
                     </div>
 
                     {/* Subscription Card */}
-                    <div className="relative group overflow-hidden rounded-[1.5rem] glass-panel border border-white/[0.04] p-5 shadow-premium hover:border-premium-gold/40 transition-all duration-500">
+                    <div className="relative group overflow-hidden rounded-[1.5rem] bg-white border border-zinc-200 p-5 shadow-sm hover:border-premium-gold/40 transition-all duration-500">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-premium-gold/20 transition-colors" />
 
                         <div className="relative z-10">
                             <div className="flex items-start justify-between mb-4">
                                 <div>
-                                    <h3 className="text-sm font-bold text-foreground mb-1">
+                                    <h3 className="text-sm font-bold text-zinc-900 mb-1">
                                         {isPremium ? 'Assinatura Premium Ativa' : 'Desbloqueie o Premium'}
                                     </h3>
-                                    <p className="text-[10px] text-foreground/50 max-w-[200px]">
+                                    <p className="text-[10px] text-zinc-500 max-w-[200px]">
                                         {isPremium
                                             ? 'Sua próxima renovação será em 15 de Outubro.'
                                             : 'Acesse análises táticas, vídeos exclusivos e mais.'}
@@ -124,7 +123,7 @@ export default function ProfilePage() {
 
                             <button
                                 onClick={() => isPremium ? setShowSubscriptionModal(true) : null}
-                                className="w-full py-3 bg-transparent border border-white/10 rounded-xl text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:border-premium-gold/50 hover:bg-premium-gold/10 transition-all duration-300 active:scale-[0.98]"
+                                className="w-full py-3 bg-white border border-zinc-200 rounded-xl text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:border-premium-gold/50 hover:bg-premium-gold/5 transition-all duration-300 active:scale-[0.98]"
                             >
                                 {isPremium ? 'Gerenciar Assinatura' : 'Assinar Agora'}
                             </button>
@@ -137,12 +136,12 @@ export default function ProfilePage() {
                         {/* Audio Preferences */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Acessibilidade de Áudio</h4>
-                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium p-5 space-y-4">
+                            <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm p-5 space-y-4">
 
                                 {/* Speed Control */}
                                 <div className="space-y-2">
-                                    <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Velocidade de Leitura</span>
-                                    <div className="flex bg-black rounded-lg p-1 border border-premium-gold/15">
+                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Velocidade de Leitura</span>
+                                    <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
                                         {[0.5, 1, 1.5, 2].map((s) => (
                                             <AudioSpeedButton key={s} speed={s} />
                                         ))}
@@ -151,7 +150,7 @@ export default function ProfilePage() {
 
                                 {/* Voice Control */}
                                 <div className="space-y-2">
-                                    <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Voz (PT-BR)</span>
+                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Voz (PT-BR)</span>
                                     <VoiceSelector />
                                 </div>
 
@@ -161,20 +160,20 @@ export default function ProfilePage() {
                         {/* Appearances */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Aparência</h4>
-                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium p-5 space-y-4">
+                            <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm p-5 space-y-4">
                                 <div className="space-y-2">
-                                    <span className="text-[10px] text-white/40 uppercase font-bold tracking-widest">Tema do Aplicativo</span>
-                                    <div className="flex bg-black rounded-lg p-1 border border-white/5">
+                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Tema do Aplicativo</span>
+                                    <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
                                         <button
                                             onClick={() => setTheme('glorioso')}
-                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'glorioso' ? 'bg-zinc-800 text-premium-gold shadow-lg border border-premium-gold/20' : 'text-white/40 hover:text-white'}`}
+                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'glorioso' ? 'bg-white text-premium-gold shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
                                         >
                                             <Star size={14} className={theme === 'glorioso' ? 'fill-premium-gold' : ''} />
                                             Glorioso (Ouro)
                                         </button>
                                         <button
                                             onClick={() => setTheme('gloriosa')}
-                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'gloriosa' ? 'bg-zinc-800 text-pink-500 shadow-lg border border-pink-500/20' : 'text-white/40 hover:text-white'}`}
+                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'gloriosa' ? 'bg-white text-pink-500 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
                                         >
                                             <Crown size={14} className={theme === 'gloriosa' ? 'fill-pink-500' : ''} />
                                             Gloriosa (Rosa)
@@ -187,20 +186,20 @@ export default function ProfilePage() {
                         {/* Notifications */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Notificações</h4>
-                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
-                                <div className="flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors duration-300">
+                            <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm">
+                                <div className="flex items-center justify-between p-4 border-b border-zinc-100 last:border-0 hover:bg-zinc-50 transition-colors duration-300">
                                     <div className="flex items-center space-x-3">
-                                        <Bell size={18} className="text-white/70" />
-                                        <span className="text-sm font-medium text-white/90">Última Hora</span>
+                                        <Bell size={18} className="text-zinc-600" />
+                                        <span className="text-sm font-medium text-zinc-900">Última Hora</span>
                                     </div>
                                     <div className="w-10 h-6 rounded-full p-1 transition-colors duration-300 bg-premium-gold">
                                         <div className="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 translate-x-4" />
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors duration-300">
+                                <div className="flex items-center justify-between p-4 border-b border-zinc-100 last:border-0 hover:bg-zinc-50 transition-colors duration-300">
                                     <div className="flex items-center space-x-3">
-                                        <Shield size={18} className="text-white/70" />
-                                        <span className="text-sm font-medium text-white/90">Dia de Jogo</span>
+                                        <Shield size={18} className="text-zinc-600" />
+                                        <span className="text-sm font-medium text-zinc-900">Dia de Jogo</span>
                                     </div>
                                     <div className="w-10 h-6 rounded-full p-1 transition-colors duration-300 bg-premium-gold">
                                         <div className="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 translate-x-4" />
@@ -211,24 +210,24 @@ export default function ProfilePage() {
 
                         {/* Account */}
                         <div className="space-y-2 lg:col-span-2 lg:mt-6">
-                            <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
-                                <Link href="/settings" className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors text-left block">
+                            <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm">
+                                <Link href="/settings" className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors text-left block">
                                     <div className="flex items-center space-x-3">
-                                        <Settings size={18} className="text-white/70" />
-                                        <span className="text-sm font-medium text-white/90">Configurações da Conta</span>
+                                        <Settings size={18} className="text-zinc-600" />
+                                        <span className="text-sm font-medium text-zinc-900">Configurações da Conta</span>
                                     </div>
-                                    <ChevronRight size={14} className="text-white/30" />
+                                    <ChevronRight size={14} className="text-zinc-400" />
                                 </Link>
-                                <button onClick={handleLogout} className="w-full flex items-center justify-between p-4 hover:bg-red-500/10 transition-colors text-left group">
+                                <button onClick={handleLogout} className="w-full flex items-center justify-between p-4 hover:bg-red-50 transition-colors text-left group">
                                     <div className="flex items-center space-x-3">
-                                        <LogOut size={18} className="text-red-500/70 group-hover:text-red-500" />
-                                        <span className="text-sm font-medium text-red-500/90 group-hover:text-red-500">Sair da Conta</span>
+                                        <LogOut size={18} className="text-red-500 group-hover:text-red-600" />
+                                        <span className="text-sm font-medium text-red-500 group-hover:text-red-600">Sair da Conta</span>
                                     </div>
                                 </button>
                             </div>
                         </div>
 
-                        <p className="text-center text-[10px] text-white/20 pt-4 lg:col-span-2">
+                        <p className="text-center text-[10px] text-zinc-400 pt-4 lg:col-span-2">
                             Versão 2.1.0 • Botafogo Premium
                         </p>
 
@@ -262,7 +261,7 @@ function AudioSpeedButton({ speed }: { speed: number }) {
     return (
         <button
             onClick={() => setSpeed(speed)}
-            className={`flex-1 py-1.5 rounded-md text-[10px] font-bold transition-all ${currentSpeed === speed ? 'bg-premium-gold text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
+            className={`flex-1 py-1.5 rounded-md text-[10px] font-bold transition-all ${currentSpeed === speed ? 'bg-white border-zinc-200 text-zinc-900 shadow-sm border' : 'text-zinc-500 hover:text-zinc-900'}`}
         >
             {speed}x
         </button>
@@ -300,12 +299,11 @@ function VoiceSelector() {
                 <button
                     key={voice.name}
                     onClick={() => handleSelect(voice.name)}
-                    className={`text-left px-3 py-2 rounded-lg text-[10px] font-medium transition-colors border ${selectedVoice === voice.name ? 'bg-white/10 text-premium-gold border-premium-gold/30' : 'border-transparent text-white/50 hover:bg-white/5'}`}
+                    className={`text-left px-3 py-2 rounded-lg text-[10px] font-medium transition-colors border ${selectedVoice === voice.name ? 'bg-white text-premium-gold border-premium-gold/30 shadow-sm' : 'border-transparent text-zinc-500 hover:bg-zinc-50'}`}
                 >
                     {voice.name}
                 </button>
-            )) : <p className="text-[10px] text-white/20 italic">Carregando vozes...</p>}
+            )) : <p className="text-[10px] text-zinc-400 italic">Carregando vozes...</p>}
         </div>
     );
 }
-

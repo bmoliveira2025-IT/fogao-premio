@@ -6,23 +6,23 @@
 @tailwind utilities;
 
 :root {
-  /* Default: Tema Glorioso (Dark Mode with Gold) */
-  --background: #09090b;
-  /* Deep Zinc Black */
-  --foreground: #FAFAFA;
-  /* Off-white for softer contrast */
+  /* Default: Tema Claro (Light Mode) */
+  --background: #FAFAFA;
+  /* Off-white light background */
+  --foreground: #09090b;
+  /* Deep Zinc Black text */
   --premium-gold: 212 175 55;
   /* Champagne/Metallic Gold */
-  --card-bg: rgba(18, 18, 20, 0.4);
-  --graphite: #18181b;
-  --border-color: rgba(255, 255, 255, 0.05);
-  /* Thinner/lighter borders */
+  --card-bg: #FFFFFF;
+  --graphite: #F4F4F5;
+  --border-color: rgba(0, 0, 0, 0.08);
+  /* Light borders */
 
   /* New Design Tokens */
   --radius-ultra: 16px;
   --glass-blur: 32px;
   --glass-opacity: 0.1;
-  --crystal-glow: rgba(255, 255, 255, 0.12);
+  --crystal-glow: rgba(0, 0, 0, 0.04);
 }
 
 /* Tema Glorioso (Dark Mode - Gold Accent) */
@@ -85,11 +85,11 @@ h6 {
 
 /* Rest of utils... */
 .glass-panel {
-  background: rgba(18, 18, 20, 0.5);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .gold-text {
@@ -331,11 +331,11 @@ h6 {
 /* Ultra Glassmorphism */
 .glass-ultra {
   background: linear-gradient(135deg,
-      rgba(18, 18, 20, 0.6) 0%,
-      rgba(9, 9, 11, 0.7) 100%);
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(250, 250, 250, 0.95) 100%);
   backdrop-filter: blur(32px) saturate(200%);
   -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .glass-border {

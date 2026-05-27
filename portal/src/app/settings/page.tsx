@@ -53,13 +53,13 @@ export default function SettingsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-background text-foreground font-sans selection:bg-premium-gold selection:text-black">
+        <div className="min-h-screen bg-white text-zinc-900 font-sans selection:bg-premium-gold selection:text-white">
             {/* Header */}
-            <div className="flex items-center gap-4 px-4 py-6 max-w-2xl mx-auto border-b border-white/5">
-                <button onClick={() => router.back()} className="p-2 -ml-2 hover:bg-white/5 rounded-full transition-colors group">
-                    <ChevronLeft className="text-foreground/70 group-hover:text-premium-gold transition-colors" />
+            <div className="flex items-center gap-4 px-4 py-6 max-w-2xl mx-auto border-b border-zinc-200">
+                <button onClick={() => router.back()} className="p-2 -ml-2 hover:bg-zinc-100 rounded-full transition-colors group">
+                    <ChevronLeft className="text-zinc-500 group-hover:text-premium-gold transition-colors" />
                 </button>
-                <h1 className="text-xl font-display font-black text-white">Configurações da Conta</h1>
+                <h1 className="text-xl font-display font-black text-zinc-900">Configurações da Conta</h1>
             </div>
 
             <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
@@ -67,23 +67,23 @@ export default function SettingsPage() {
                 {/* User Info */}
                 <div className="space-y-2">
                     <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Seus Dados</h4>
-                    <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
-                        <div className="p-5 flex items-center space-x-4 border-b border-white/5">
-                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                                <UserIcon size={24} className="text-white/50" />
+                    <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm">
+                        <div className="p-5 flex items-center space-x-4 border-b border-zinc-100">
+                            <div className="w-12 h-12 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200">
+                                <UserIcon size={24} className="text-zinc-400" />
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-white/90">{user?.displayName || 'Usuário Fogão'}</p>
-                                <p className="text-xs text-white/40">Nome de Exibição</p>
+                                <p className="text-sm font-bold text-zinc-900">{user?.displayName || 'Usuário Fogão'}</p>
+                                <p className="text-xs text-zinc-500">Nome de Exibição</p>
                             </div>
                         </div>
                         <div className="p-5 flex items-center space-x-4">
-                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
-                                <Mail size={24} className="text-white/50" />
+                            <div className="w-12 h-12 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-200">
+                                <Mail size={24} className="text-zinc-400" />
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-white/90">{user?.email || 'email@exemplo.com'}</p>
-                                <p className="text-xs text-white/40">Email Cadastrado</p>
+                                <p className="text-sm font-bold text-zinc-900">{user?.email || 'email@exemplo.com'}</p>
+                                <p className="text-xs text-zinc-500">Email Cadastrado</p>
                             </div>
                         </div>
                     </div>
@@ -92,11 +92,11 @@ export default function SettingsPage() {
                 {/* Security */}
                 <div className="space-y-2">
                     <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Segurança</h4>
-                    <div className="glass-panel border border-white/[0.04] rounded-[1.5rem] overflow-hidden shadow-premium">
+                    <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm">
                         <button
                             onClick={handlePasswordReset}
                             disabled={loading || resetSent}
-                            className="w-full p-5 flex items-center justify-between hover:bg-white/5 transition-colors text-left"
+                            className="w-full p-5 flex items-center justify-between hover:bg-zinc-50 transition-colors text-left"
                         >
                             <div className="flex items-center space-x-4">
                                 <div className="w-10 h-10 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20">
@@ -104,10 +104,10 @@ export default function SettingsPage() {
                                 </div>
                                 <div>
                                     <p className="text-sm font-bold text-premium-gold">Redefinir Senha</p>
-                                    <p className="text-[10px] text-white/40 uppercase tracking-widest mt-0.5">Enviaremos um email de redefinição</p>
+                                    <p className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">Enviaremos um email de redefinição</p>
                                 </div>
                             </div>
-                            {resetSent && <span className="text-xs text-green-400 font-bold">Enviado!</span>}
+                            {resetSent && <span className="text-xs text-green-500 font-bold">Enviado!</span>}
                         </button>
                     </div>
                 </div>
@@ -115,27 +115,27 @@ export default function SettingsPage() {
                 {/* Danger Zone */}
                 <div className="space-y-2 pt-6">
                     <h4 className="text-[10px] font-black text-red-500/50 uppercase tracking-widest px-1 mb-2">Zona de Perigo</h4>
-                    <div className="glass-panel border border-red-500/20 rounded-[1.5rem] overflow-hidden shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+                    <div className="bg-white border border-red-200 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                         <button
                             onClick={handleDeleteAccount}
                             disabled={loading}
-                            className="w-full p-5 flex items-center space-x-4 hover:bg-red-500/10 transition-colors text-left group"
+                            className="w-full p-5 flex items-center space-x-4 hover:bg-red-50 transition-colors text-left group"
                         >
-                            <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/30 group-hover:bg-red-500/20">
+                            <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center border border-red-200 group-hover:bg-red-100">
                                 <Trash2 size={18} className="text-red-500" />
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-red-500">Excluir Conta Permanentemente</p>
-                                <p className="text-[10px] text-red-500/50 uppercase tracking-widest mt-0.5">Esta ação não pode ser desfeita</p>
+                                <p className="text-sm font-bold text-red-600">Excluir Conta Permanentemente</p>
+                                <p className="text-[10px] text-red-500/70 uppercase tracking-widest mt-0.5">Esta ação não pode ser desfeita</p>
                             </div>
                         </button>
                     </div>
                 </div>
 
                 {error && (
-                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-start space-x-3">
+                    <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-3">
                         <ShieldAlert className="text-red-500 shrink-0 mt-0.5" size={18} />
-                        <p className="text-xs text-red-400 font-medium leading-relaxed">{error}</p>
+                        <p className="text-xs text-red-600 font-medium leading-relaxed">{error}</p>
                     </div>
                 )}
 
