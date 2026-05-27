@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube } from 'lucide-react';
+import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube, Settings, HelpCircle, LogOut } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
 
@@ -22,6 +22,18 @@ interface LightVideoFeedProps {
 export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
     const [subscribedChannels, setSubscribedChannels] = useState<Record<string, boolean>>({});
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setShowUserMenu(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const getChannelName = (source?: string) => source || 'Botafogo TV';
 
@@ -67,7 +79,7 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                 </div>
                 
                 {/* Right: Icons */}
-                <div className="flex items-center gap-2 md:gap-4">
+                <div className="flex items-center gap-2 md:gap-4 relative" ref={menuRef}>
                     <button onClick={() => alert('Procurando dispositivos (Chromecast, Smart TV)...')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Transmitir">
                         <Cast size={20} className="stroke-[1.5]" />
                     </button>
@@ -77,9 +89,44 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                     <button onClick={() => alert('Pesquisa de vídeos em breve.')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Pesquisar">
                         <Search size={20} className="stroke-[1.5]" />
                     </button>
-                    <button onClick={() => alert('Abrir menu da conta.')} className="w-7 h-7 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[12px] font-bold uppercase ml-1 hover:bg-zinc-700 transition-colors" title="Conta">
+                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="w-7 h-7 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[12px] font-bold uppercase ml-1 hover:bg-zinc-700 transition-colors" title="Conta">
                         B
                     </button>
+
+                    {/* User Dropdown Menu */}
+                    {showUserMenu && (
+                        <div className="absolute top-12 right-0 w-64 bg-white rounded-xl shadow-xl border border-zinc-100 py-2 z-50 animate-in slide-in-from-top-2 fade-in duration-200">
+                            <div className="px-4 py-3 border-b border-zinc-100 flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-zinc-800 text-white flex items-center justify-center text-lg font-bold">
+                                    B
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[14px] font-semibold text-zinc-900">Botafogo Fan</span>
+                                    <span className="text-[12px] text-zinc-500">@botafogofan123</span>
+                                </div>
+                            </div>
+                            <div className="py-2">
+                                <button onClick={() => { setShowUserMenu(false); alert('Seu canal'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                    <User size={18} />
+                                    <span className="text-[14px]">Seu canal</span>
+                                </button>
+                                <button onClick={() => { setShowUserMenu(false); alert('Configurações'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                    <Settings size={18} />
+                                    <span className="text-[14px]">Configurações</span>
+                                </button>
+                                <button onClick={() => { setShowUserMenu(false); alert('Ajuda e feedback'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                    <HelpCircle size={18} />
+                                    <span className="text-[14px]">Ajuda e feedback</span>
+                                </button>
+                            </div>
+                            <div className="py-2 border-t border-zinc-100">
+                                <button onClick={() => { setShowUserMenu(false); alert('Saindo da conta...'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                    <LogOut size={18} />
+                                    <span className="text-[14px]">Sair</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
