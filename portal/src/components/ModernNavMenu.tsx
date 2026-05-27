@@ -49,27 +49,15 @@ export default function ModernNavMenu({ className = '' }: ModernNavMenuProps) {
                     : "border-transparent bg-white/90"
             )}>
                 <div className="container mx-auto px-4 lg:px-12 max-w-[1600px]">
-                    <div className="flex items-center justify-between h-14 relative">
-                        {/* Profile Section (Left) */}
-                        <div className={cn("flex items-center transition-opacity duration-300", isSearchOpen ? "opacity-0 pointer-events-none" : "opacity-100")}>
-                            <Link href={user ? "/profile" : "/login"} className="flex-shrink-0">
-                                <div className="w-9 h-9 rounded-full bg-zinc-200 border border-zinc-200 flex items-center justify-center overflow-hidden">
-                                    {user?.photoURL ? (
-                                        <img src={user.photoURL} alt="Profile" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full bg-zinc-200 flex items-center justify-center">
-                                            <span className="text-zinc-500 text-[10px] font-black">{user ? 'MP' : '?'}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </Link>
-                        </div>
+                    <div className="flex items-center justify-between h-12 relative">
+                        {/* Spacer for centering (Left) */}
+                        <div className={cn("w-9 transition-opacity duration-300", isSearchOpen ? "opacity-0 pointer-events-none" : "opacity-100")} />
 
                         {/* Logo Section (Centered) */}
                         <div className={cn("absolute left-1/2 -translate-x-1/2 transition-all duration-300", isSearchOpen ? "scale-90 opacity-0 pointer-events-none" : "scale-100 opacity-100")}>
                             <Link href="/" className="flex items-center gap-1.5 no-underline">
-                                <span className="text-xl font-black text-zinc-900 tracking-tighter uppercase italic">Fogão</span>
-                                <span className="text-xl font-black text-premium-gold tracking-tighter uppercase italic">360</span>
+                                <span className="text-lg font-black text-zinc-900 tracking-tighter uppercase italic">Fogão</span>
+                                <span className="text-lg font-black text-premium-gold tracking-tighter uppercase italic">360</span>
                             </Link>
                         </div>
 
