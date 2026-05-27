@@ -55,13 +55,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
     const handleShare = async () => {
         if (typeof window === 'undefined') return;
-
-        const shareData = {
-            title: article.title,
-            text: "",
-            url: window.location.href,
-        };
-
+        const shareData = { title: article.title, text: "", url: window.location.href };
         if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
             if (navigator.canShare && !navigator.canShare(shareData)) {
                 setShowShare(true);
@@ -85,78 +79,93 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         }
     };
 
+    const timeAgoStr = (dateStr: string) => {
+        if (!dateStr) return '';
+        const diff = Math.floor((new Date().getTime() - new Date(dateStr).getTime()) / 1000);
+        if (diff < 3600) return `${Math.floor(diff / 60)} min atrás`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)} horas atrás`;
+        return `${Math.floor(diff / 86400)} dias atrás`;
+    };
+
     return (
         <div className="w-full min-h-screen bg-white font-sans">
-            {/* Top Navigation */}
-            <div className="flex items-center justify-between px-4 py-4 max-w-4xl mx-auto">
-                <button 
-                    onClick={() => router.back()} 
-                    className="flex items-center gap-2 text-zinc-900 font-bold text-[18px] tracking-tight hover:opacity-70 transition-opacity"
-                >
-                    <ChevronLeft size={22} strokeWidth={2.5} /> Notícia
-                </button>
-                <div className="flex items-center gap-4">
-                    {/* Theme toggle lookalike */}
-                    <div className="w-12 h-7 bg-orange-50 rounded-full flex items-center px-1 border border-orange-100 cursor-pointer">
-                        <Sun size={14} className="text-orange-400" />
-                    </div>
-                    <button onClick={handleShare} className="text-zinc-900 hover:opacity-70 transition-opacity">
-                        <Share2 size={20} strokeWidth={2} />
-                    </button>
-                </div>
-            </div>
+            
+            {/* HERO SECTION */}
+            <div className="relative w-full h-[55vh] md:h-[65vh] bg-zinc-900">
+                {article.image && (
+                    <Image
+                        src={getSafeImageSrc(article.image)}
+                        alt={article.title}
+                        fill
+                        priority
+                        className="object-cover"
+                        unoptimized
+                    />
+                )}
+                
+                {/* Gradient for bottom text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent h-32" />
 
-            <div className="max-w-4xl mx-auto">
-                {/* Grey Title Card */}
-                <div className="bg-[#F8F9FA] rounded-[1.5rem] p-6 mx-4 mb-6">
-                    <div className="flex items-center justify-between mb-5">
-                        <div className="flex flex-wrap gap-2">
-                            <span className="px-3 py-1 bg-pink-100 text-pink-800 text-[11px] font-bold rounded-full">
-                                {categoryKey || 'Futebol'}
-                            </span>
-                            <span className="px-3 py-1 bg-orange-100 text-orange-800 text-[11px] font-bold rounded-full">
-                                Botafogo
-                            </span>
-                        </div>
-                        <span className="text-xs text-zinc-500 font-medium whitespace-nowrap ml-2">
-                            {readTime} min de leitura
-                        </span>
-                    </div>
-                    
-                    <h1 className="text-[28px] md:text-[40px] font-bold text-zinc-900 leading-[1.15] mb-6 tracking-tight">
-                        {toSentenceCase(article.title)}
-                    </h1>
-                    
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-900 border border-zinc-200 flex-shrink-0 flex items-center justify-center">
-                                <span className="text-white font-bold text-[18px]">F</span>
-                            </div>
-                            <span className="text-[15px] font-semibold text-zinc-900">Fogão Premium</span>
-                        </div>
-                        <button className="bg-[#FF8A65] text-white px-5 py-2 rounded-xl text-[13px] font-bold shadow-sm hover:bg-[#FF7043] transition-colors active:scale-95">
-                            Seguir
+                {/* TOP NAVIGATION (Absolute over image) */}
+                <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-4 max-w-4xl mx-auto z-10 safe-pt">
+                    <button 
+                        onClick={() => router.back()} 
+                        className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition-colors"
+                    >
+                        <ChevronLeft size={24} strokeWidth={2.5} />
+                    </button>
+                    <div className="flex items-center gap-3">
+                        <button onClick={handleSave} className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition-colors">
+                            <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
+                        </button>
+                        <button onClick={handleShare} className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition-colors">
+                            <MoreHorizontal size={20} />
                         </button>
                     </div>
                 </div>
 
-                {/* Article Main Image */}
-                {article.image && (
-                    <div className="mx-4 mb-8 rounded-[1.5rem] overflow-hidden relative aspect-video bg-zinc-100">
-                        <Image
-                            src={getSafeImageSrc(article.image)}
-                            alt={article.title}
-                            fill
-                            priority
-                            className="object-cover"
-                            unoptimized
-                        />
+                {/* OVERLAID TITLE AREA */}
+                <div className="absolute bottom-10 md:bottom-16 inset-x-0 px-5 max-w-4xl mx-auto z-10 text-white">
+                    <span className="inline-block px-3 py-1 bg-[#1A73E8] text-white text-[12px] font-bold rounded-full mb-3 shadow-md">
+                        {categoryKey || 'Futebol'}
+                    </span>
+                    
+                    <h1 className="text-[26px] md:text-[40px] font-bold leading-[1.2] mb-3 tracking-tight drop-shadow-lg text-white">
+                        {toSentenceCase(article.title)}
+                    </h1>
+                    
+                    <div className="flex items-center gap-2 text-[13px] text-white/80 font-medium">
+                        <span>Trending</span>
+                        <span className="w-1 h-1 rounded-full bg-white/50" />
+                        <span>{timeAgoStr(article.created_at)}</span>
+                        <span className="w-1 h-1 rounded-full bg-white/50" />
+                        <span>{readTime} min read</span>
                     </div>
-                )}
+                </div>
+            </div>
 
-                {/* Content Layout */}
-                <div className="flex px-4 gap-6 pb-24 relative">
-                    {/* Left: Text Content */}
+            {/* WHITE OVERLAPPING CONTENT CARD */}
+            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] -mt-6 pt-8 px-5 pb-24 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] md:px-12">
+                
+                {/* AUTHOR INFO (CNN Style) */}
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="w-11 h-11 rounded-full overflow-hidden bg-black flex-shrink-0 flex items-center justify-center border border-zinc-100">
+                        {/* Faking the red CNN logo with an F */}
+                        <div className="w-8 h-8 bg-[#CC0000] rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold text-[18px]">F</span>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-[17px] font-bold text-zinc-900 tracking-tight">Fogão Premium</span>
+                        <div className="w-4 h-4 rounded-full bg-[#1A73E8] text-white flex items-center justify-center">
+                            <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 fill-current"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ARTICLE CONTENT */}
+                <div className="flex gap-8 relative">
                     <div className="flex-1 min-w-0">
                         <article className="prose prose-lg max-w-none text-zinc-800">
                             {article.is_premium ? (
@@ -189,16 +198,9 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         )}
                     </div>
 
-                    {/* Right: Floating Sidebar Actions */}
-                    <div className="w-12 flex-shrink-0 relative hidden sm:block">
+                    {/* DESKTOP SIDEBAR ACTIONS */}
+                    <div className="w-12 flex-shrink-0 relative hidden lg:block">
                         <div className="sticky top-6 flex flex-col gap-3">
-                            <button 
-                                onClick={handleSave} 
-                                className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${isSaved ? 'bg-zinc-800 text-white' : 'bg-zinc-50 border border-zinc-100 text-zinc-700 hover:bg-zinc-100'}`}
-                                title={isSaved ? "Salvo" : "Salvar"}
-                            >
-                                <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
-                            </button>
                             <button 
                                 onClick={() => setShowVoice(!showVoice)} 
                                 className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${showVoice ? 'bg-blue-50 border border-blue-200 text-blue-600' : 'bg-zinc-50 border border-zinc-100 text-zinc-700 hover:bg-zinc-100'}`}
@@ -218,8 +220,8 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 </div>
             </div>
             
-            {/* Mobile Action Bar (Fixed bottom when sidebar is hidden) */}
-            <div className="sm:hidden fixed bottom-16 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-zinc-100 p-3 flex justify-around items-center z-40">
+            {/* MOBILE FIXED ACTIONS */}
+            <div className="lg:hidden fixed bottom-16 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-zinc-100 p-3 flex justify-around items-center z-40">
                 <button onClick={handleSave} className={`p-2 rounded-xl flex items-center gap-2 ${isSaved ? 'text-zinc-900 font-bold' : 'text-zinc-600'}`}>
                     <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
                 </button>
@@ -227,11 +229,10 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     <Headphones size={20} />
                 </button>
                 <button onClick={handleShare} className="p-2 rounded-xl text-zinc-600">
-                    <MoreHorizontal size={20} />
+                    <Share2 size={20} />
                 </button>
             </div>
 
-            {/* Voice Player */}
             <AnimatePresence>
                 {showVoice && (
                     <VoicePlayer
@@ -251,5 +252,3 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         </div>
     );
 }
-
-
