@@ -93,7 +93,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     onClick={() => router.back()} 
                     className="flex items-center gap-2 text-zinc-900 font-bold text-[18px] tracking-tight hover:opacity-70 transition-opacity"
                 >
-                    <ChevronLeft size={22} strokeWidth={2.5} /> Article
+                    <ChevronLeft size={22} strokeWidth={2.5} /> Notícia
                 </button>
                 <div className="flex items-center gap-4">
                     {/* Theme toggle lookalike */}
@@ -119,7 +119,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                             </span>
                         </div>
                         <span className="text-xs text-zinc-500 font-medium whitespace-nowrap ml-2">
-                            {readTime} min read
+                            {readTime} min de leitura
                         </span>
                     </div>
                     
@@ -129,13 +129,13 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-200 border border-zinc-200 flex-shrink-0 relative">
-                                <Image src="/logo.png" alt="Author" fill className="object-cover" />
+                            <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-900 border border-zinc-200 flex-shrink-0 flex items-center justify-center">
+                                <span className="text-white font-bold text-[18px]">F</span>
                             </div>
                             <span className="text-[15px] font-semibold text-zinc-900">Fogão Premium</span>
                         </div>
                         <button className="bg-[#FF8A65] text-white px-5 py-2 rounded-xl text-[13px] font-bold shadow-sm hover:bg-[#FF7043] transition-colors active:scale-95">
-                            Follow
+                            Seguir
                         </button>
                     </div>
                 </div>
