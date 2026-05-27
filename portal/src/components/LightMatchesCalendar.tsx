@@ -12,6 +12,7 @@ interface LightMatchesCalendarProps {
 
 export default function LightMatchesCalendar({ matches }: LightMatchesCalendarProps) {
     const [currentDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     // Generate current week days
     const weekDays = useMemo(() => {
@@ -84,27 +85,35 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
 
                 {/* Week Selector */}
                 <div className="flex justify-between items-center mb-2">
-                    {weekDays.map((day, idx) => (
-                        <div key={idx} className="flex flex-col items-center gap-3 w-10">
-                            <span className={cn(
-                                "text-[10px] font-bold uppercase",
-                                day.isToday ? "text-red-500" : "text-zinc-400"
-                            )}>
-                                {day.dayName}
-                            </span>
-                            <div className={cn(
-                                "w-10 h-10 rounded-full flex items-center justify-center text-[15px] font-bold transition-all relative",
-                                day.isToday 
-                                    ? "bg-[#1f7a3f] text-white shadow-md" 
-                                    : "text-zinc-800"
-                            )}>
-                                {day.dayNumber}
-                                {day.isToday && (
-                                    <div className="absolute -bottom-2 w-4 h-0.5 bg-zinc-900 rounded-full"></div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                    {weekDays.map((day, idx) => {
+                        const isSelected = day.dateObj.getDate() === selectedDate.getDate() && day.dateObj.getMonth() === selectedDate.getMonth();
+                        
+                        return (
+                            <button 
+                                key={idx} 
+                                onClick={() => setSelectedDate(day.dateObj)}
+                                className="flex flex-col items-center gap-3 w-10 outline-none"
+                            >
+                                <span className={cn(
+                                    "text-[10px] font-bold uppercase",
+                                    day.isToday ? "text-red-500" : "text-zinc-400"
+                                )}>
+                                    {day.dayName}
+                                </span>
+                                <div className={cn(
+                                    "w-10 h-10 rounded-full flex items-center justify-center text-[15px] font-bold transition-all relative",
+                                    isSelected 
+                                        ? "bg-[#1f7a3f] text-white shadow-md" 
+                                        : "text-zinc-800 hover:bg-zinc-100"
+                                )}>
+                                    {day.dayNumber}
+                                    {isSelected && (
+                                        <div className="absolute -bottom-2 w-4 h-0.5 bg-zinc-900 rounded-full"></div>
+                                    )}
+                                </div>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
