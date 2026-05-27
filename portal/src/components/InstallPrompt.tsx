@@ -59,18 +59,18 @@ export default function InstallPrompt() {
 
     return (
         <div className="fixed inset-x-0 top-0 z-[99999] p-4 flex justify-center">
-            <div className="bg-zinc-950/95 backdrop-blur-xl border border-premium-gold/50 rounded-2xl shadow-2xl p-4 w-full max-w-md animate-in slide-in-from-top-full duration-700 shadow-premium-gold/20">
+            <div className="bg-white/95 backdrop-blur-xl border border-zinc-200 rounded-2xl shadow-2xl p-4 w-full max-w-md animate-in slide-in-from-top-full duration-700 shadow-black/10">
 
                 <div className="flex items-start justify-between">
                     <div className="flex gap-4">
-                        <div className="w-12 h-12 bg-black rounded-xl border border-premium-gold/20 flex items-center justify-center shrink-0">
+                        <div className="w-12 h-12 bg-zinc-100 rounded-xl border border-zinc-200 flex items-center justify-center shrink-0">
                             {/* Use the new icon we made */}
-                            <img src="/icon.png" alt="App Icon" className="w-10 h-10 object-contain" />
+                            <img src="/icon.png" alt="App Icon" className="w-10 h-10 object-contain drop-shadow-sm" />
                         </div>
 
                         <div className="space-y-1">
-                            <h3 className="font-bold text-white text-sm">Instalar Fogão Prêmio</h3>
-                            <p className="text-xs text-zinc-400 leading-relaxed max-w-[240px]">
+                            <h3 className="font-bold text-zinc-900 text-sm">Instalar Fogão Prêmio</h3>
+                            <p className="text-xs text-zinc-500 leading-relaxed max-w-[240px]">
                                 Tenha a melhor experiência! Veja as notícias do Botafogo direto pelo aplicativo, sem barra de navegação.
                             </p>
                         </div>
@@ -78,7 +78,7 @@ export default function InstallPrompt() {
 
                     <button
                         onClick={() => setShowPrompt(false)}
-                        className="text-zinc-500 hover:text-white transition-colors"
+                        className="text-zinc-400 hover:text-zinc-600 transition-colors"
                     >
                         <X size={20} />
                     </button>
@@ -86,18 +86,18 @@ export default function InstallPrompt() {
 
                 <div className="mt-4">
                     {isIOS ? (
-                        <div className="bg-zinc-800/50 rounded-lg p-3 text-xs text-zinc-300 space-y-2 border border-premium-gold/15">
+                        <div className="bg-zinc-50 rounded-lg p-3 text-xs text-zinc-600 space-y-2 border border-zinc-200">
                             <p className="flex items-center gap-2">
-                                1. Toque no botão <Share size={14} className="text-blue-400" /> <strong>Compartilhar</strong> abaixo.
+                                1. Toque no botão <Share size={14} className="text-blue-500" /> <strong>Compartilhar</strong> abaixo.
                             </p>
                             <p className="flex items-center gap-2">
-                                2. Selecione <span className="font-bold text-white">Adicionar à Tela de Início</span>.
+                                2. Selecione <span className="font-bold text-zinc-900">Adicionar à Tela de Início</span>.
                             </p>
                         </div>
                     ) : (
                         <button
                             onClick={handleInstallClick}
-                            className="w-full bg-premium-gold text-black font-bold text-sm py-2.5 rounded-lg hover:bg-yellow-500 transition-colors flex items-center justify-center gap-2"
+                            className="w-full bg-zinc-900 text-white font-bold text-sm py-2.5 rounded-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
                         >
                             <Download size={16} />
                             Instalar Aplicativo
