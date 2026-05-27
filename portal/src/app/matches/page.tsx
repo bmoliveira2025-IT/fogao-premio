@@ -5,6 +5,7 @@ import { botafogoSchedule, MatchData } from '@/data/schedule';
 import MatchesAccordion from '@/components/MatchesAccordion';
 import { Shield, Trophy, Calendar as CalendarIcon } from 'lucide-react';
 import Link from 'next/link';
+import LightMatchesCalendar from '@/components/LightMatchesCalendar';
 
 export default function MatchesPage() {
     const [matches, setMatches] = useState<MatchData[]>([]);
@@ -83,8 +84,14 @@ export default function MatchesPage() {
     });
 
     return (
-        <div className="w-full min-h-screen bg-[#0a0a0a] text-foreground pt-20 lg:pt-24">
-            <div className="container mx-auto px-4 max-w-4xl pb-32">
+        <div className="w-full min-h-screen bg-[#f8f9fa] lg:bg-[#0a0a0a] text-foreground">
+            {/* Mobile Light Theme Calendar */}
+            <div className="block lg:hidden">
+                <LightMatchesCalendar matches={matches} />
+            </div>
+
+            {/* Desktop Dark Theme Layout */}
+            <div className="hidden lg:block container mx-auto px-4 max-w-4xl pb-32 pt-20 lg:pt-24">
                 
                 {/* Header Section */}
                 <div className="flex flex-col items-center mb-10">
