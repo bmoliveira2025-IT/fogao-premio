@@ -93,8 +93,12 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                     <button onClick={() => alert('Pesquisa de vídeos em breve.')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Pesquisar">
                         <Search size={20} className="stroke-[1.5]" />
                     </button>
-                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="w-7 h-7 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[12px] font-bold uppercase ml-1 hover:bg-zinc-700 transition-colors" title="Conta">
-                        B
+                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 flex items-center justify-center ml-1 hover:bg-zinc-50 transition-colors overflow-hidden" title="Conta">
+                        {user?.photoURL ? (
+                            <Image src={user.photoURL} alt="Avatar" width={32} height={32} className="w-full h-full object-cover" />
+                        ) : (
+                            <User size={18} />
+                        )}
                     </button>
 
                     {/* User Dropdown Menu */}
@@ -106,8 +110,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                         <Image src={user.photoURL} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" />
                                     </div>
                                 ) : (
-                                    <div className="w-10 h-10 rounded-full bg-zinc-800 text-white flex items-center justify-center text-lg font-bold">
-                                        {(user?.displayName || 'B').charAt(0).toUpperCase()}
+                                    <div className="w-10 h-10 rounded-full bg-white border border-zinc-200 text-zinc-400 flex items-center justify-center">
+                                        <User size={24} />
                                     </div>
                                 )}
                                 <div className="flex flex-col">
