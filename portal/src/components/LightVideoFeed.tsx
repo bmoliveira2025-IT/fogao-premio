@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Search, MoreHorizontal } from 'lucide-react';
+import { Search, MoreHorizontal, User, Check, Bell } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
 
@@ -21,6 +21,7 @@ interface LightVideoFeedProps {
 
 export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     // Mock functions to generate realistic data based on the video ID/Date
     const getMockViews = (id: string) => {
@@ -53,8 +54,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                 <div className="flex items-center gap-1">
                     <Search size={22} className="text-zinc-800" />
                 </div>
-                <div className="w-8 h-8 rounded-full overflow-hidden bg-zinc-200 border border-zinc-300">
-                    <Image src="/images/avatar.png" alt="Avatar" width={32} height={32} className="object-cover" />
+                <div className="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-500 overflow-hidden">
+                    <User size={18} />
                 </div>
             </div>
 
@@ -80,8 +81,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                         <div className="px-4 flex gap-3">
                             {/* Channel Avatar */}
                             <div className="flex-shrink-0 pt-1">
-                                <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center overflow-hidden">
-                                    <Image src="/images/botafogo-logo.png" alt="Botafogo" width={40} height={40} className="object-cover p-1" />
+                                <div className="w-10 h-10 rounded-full bg-white border border-zinc-100 flex items-center justify-center overflow-hidden">
+                                    <Image src="/logos/botafogo.png" alt="Botafogo" width={40} height={40} className="object-cover p-1" />
                                 </div>
                             </div>
                             
@@ -97,9 +98,23 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                 </div>
                                 <div className="flex items-center gap-3 mt-1.5">
                                     <span className="text-[12px] font-medium text-zinc-600">Botafogo TV</span>
-                                    <button className="bg-red-600 text-white text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide" onClick={(e) => { e.stopPropagation(); }}>
-                                        Inscrever-se
-                                    </button>
+                                    {isSubscribed ? (
+                                        <button 
+                                            className="bg-zinc-100 text-zinc-700 hover:bg-zinc-200 transition-colors text-[11px] font-bold px-3 py-1.5 rounded-full uppercase flex items-center gap-1.5"
+                                            onClick={(e) => { e.stopPropagation(); setIsSubscribed(false); }}
+                                        >
+                                            <Bell size={12} className="fill-current" />
+                                            Inscrito
+                                            <ChevronDownIcon />
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            className="bg-red-600 text-white hover:bg-red-700 transition-colors text-[11px] font-bold px-3 py-1.5 rounded-full uppercase"
+                                            onClick={(e) => { e.stopPropagation(); setIsSubscribed(true); }}
+                                        >
+                                            Inscrever-se
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                             
@@ -117,9 +132,19 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                 <LightVideoPlayer 
                     video={selectedVideo} 
                     allVideos={videos.filter(v => v.id !== selectedVideo.id)}
-                    onClose={() => setSelectedVideo(null)} 
+                    onClose={() => setSelectedVideo(null)}
+                    isSubscribed={isSubscribed}
+                    onSubscribeChange={setIsSubscribed}
                 />
             )}
         </div>
     );
+}
+
+function ChevronDownIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m6 9 6 6 6-6"/>
+        </svg>
+    )
 }

@@ -17,9 +17,11 @@ interface LightVideoPlayerProps {
     video: VideoItem;
     allVideos: VideoItem[];
     onClose: () => void;
+    isSubscribed: boolean;
+    onSubscribeChange: (subscribed: boolean) => void;
 }
 
-export default function LightVideoPlayer({ video, allVideos, onClose }: LightVideoPlayerProps) {
+export default function LightVideoPlayer({ video, allVideos, onClose, isSubscribed, onSubscribeChange }: LightVideoPlayerProps) {
     
     // Prevent background scrolling when player is open
     useEffect(() => {
@@ -125,8 +127,8 @@ export default function LightVideoPlayer({ video, allVideos, onClose }: LightVid
                 {/* Channel Info */}
                 <div className="flex items-center justify-between p-4 border-b border-zinc-100">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center overflow-hidden">
-                            <Image src="/images/botafogo-logo.png" alt="Botafogo" width={40} height={40} className="object-cover p-1" />
+                        <div className="w-10 h-10 rounded-full bg-white border border-zinc-100 flex items-center justify-center overflow-hidden">
+                            <Image src="/logos/botafogo.png" alt="Botafogo" width={40} height={40} className="object-cover p-1" />
                         </div>
                         <div>
                             <h3 className="text-[14px] font-semibold text-zinc-900">Botafogo TV</h3>
@@ -134,12 +136,23 @@ export default function LightVideoPlayer({ video, allVideos, onClose }: LightVid
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
-                        <button className="text-zinc-500">
-                            <Bell size={20} />
-                        </button>
-                        <div className="w-6 h-6 rounded-full border border-red-500 flex items-center justify-center text-red-500">
-                            <Check size={14} strokeWidth={3} />
-                        </div>
+                        {isSubscribed ? (
+                            <button 
+                                className="flex items-center gap-2 text-zinc-700 bg-zinc-100 hover:bg-zinc-200 transition-colors text-[13px] font-medium px-4 py-2 rounded-full"
+                                onClick={() => onSubscribeChange(false)}
+                            >
+                                <Bell size={16} className="fill-current" />
+                                Inscrito
+                                <ChevronDown size={14} />
+                            </button>
+                        ) : (
+                            <button 
+                                className="bg-red-600 text-white hover:bg-red-700 transition-colors text-[13px] font-medium px-4 py-2 rounded-full"
+                                onClick={() => onSubscribeChange(true)}
+                            >
+                                Inscrever-se
+                            </button>
+                        )}
                     </div>
                 </div>
 
