@@ -1,5 +1,6 @@
 import { db } from '@/lib/firebase-admin';
 import VideoGrid from '@/components/VideoGrid';
+import LightVideoFeed from '@/components/LightVideoFeed';
 import { ArrowLeft, MonitorPlay } from 'lucide-react';
 import Link from 'next/link';
 
@@ -35,26 +36,33 @@ export default async function VideosPage() {
     const videos = await getVideos();
 
     return (
-        <div className="w-full pb-24 md:pb-0">
-            <div className="p-4 md:p-8 space-y-6 pt-6 md:pt-8 w-full max-w-7xl mx-auto">
-                <div className="flex items-center gap-4 mb-8">
+        <div className="w-full bg-[#f8f9fa] lg:bg-[#0a0a0a]">
+            {/* Mobile Light Theme Layout */}
+            <div className="block lg:hidden">
+                <LightVideoFeed videos={videos} />
+            </div>
 
-                    <div>
-                        <div className="flex items-center gap-3 mb-2">
-                            <div className="p-2 rounded-xl bg-gradient-to-br from-premium-gold/10 to-transparent border border-premium-gold/20 backdrop-blur-sm">
-                                <MonitorPlay size={24} className="text-premium-gold" />
+            {/* Desktop Dark Theme Layout */}
+            <div className="hidden lg:block pb-24 md:pb-0">
+                <div className="p-4 md:p-8 space-y-6 pt-6 md:pt-8 w-full max-w-7xl mx-auto">
+                    <div className="flex items-center gap-4 mb-8">
+                        <div>
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="p-2 rounded-xl bg-gradient-to-br from-premium-gold/10 to-transparent border border-premium-gold/20 backdrop-blur-sm">
+                                    <MonitorPlay size={24} className="text-premium-gold" />
+                                </div>
+                                <h1 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-wider">
+                                    Glorioso <span className="text-premium-gold">TV</span>
+                                </h1>
                             </div>
-                            <h1 className="text-2xl md:text-3xl font-black text-white uppercase italic tracking-wider">
-                                Glorioso <span className="text-premium-gold">TV</span>
-                            </h1>
+                            <p className="text-sm text-zinc-400 font-medium max-w-2xl">
+                                Acompanhe todos os vídeos, bastidores, entrevistas e melhores momentos do Fogão.
+                            </p>
                         </div>
-                        <p className="text-sm text-zinc-400 font-medium max-w-2xl">
-                            Acompanhe todos os vídeos, bastidores, entrevistas e melhores momentos do Fogão.
-                        </p>
                     </div>
-                </div>
 
-                <VideoGrid videos={videos} />
+                    <VideoGrid videos={videos} />
+                </div>
             </div>
         </div>
     );
