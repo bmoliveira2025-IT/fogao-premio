@@ -21,7 +21,16 @@ interface LightVideoFeedProps {
 
 export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
-    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [subscribedChannels, setSubscribedChannels] = useState<Record<string, boolean>>({});
+
+    const getChannelName = (source?: string) => source || 'Botafogo TV';
+
+    const toggleSubscribe = (channel: string) => {
+        setSubscribedChannels(prev => ({
+            ...prev,
+            [channel]: !prev[channel]
+        }));
+    };
 
     // Mock functions to generate realistic data based on the video ID/Date
     const getMockViews = (id: string) => {
@@ -81,8 +90,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                         <div className="px-4 flex gap-3">
                             {/* Channel Avatar */}
                             <div className="flex-shrink-0 pt-1">
-                                <div className="w-10 h-10 rounded-full bg-white border border-zinc-100 flex items-center justify-center overflow-hidden">
-                                    <Image src="/logos/botafogo.png" alt="Botafogo" width={40} height={40} className="object-cover p-1" />
+                                <div className="w-10 h-10 rounded-full bg-zinc-800 text-white font-bold text-lg flex items-center justify-center overflow-hidden uppercase">
+                                    {getChannelName(video.source).charAt(0)}
                                 </div>
                             </div>
                             
@@ -97,11 +106,11 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                     <span>{getMockTimeAgo(video.published_at)}</span>
                                 </div>
                                 <div className="flex items-center gap-3 mt-1.5">
-                                    <span className="text-[12px] font-medium text-zinc-600">Botafogo TV</span>
-                                    {isSubscribed ? (
+                                    <span className="text-[12px] font-medium text-zinc-600 truncate max-w-[120px]">{getChannelName(video.source)}</span>
+                                    {subscribedChannels[getChannelName(video.source)] ? (
                                         <button 
-                                            className="bg-zinc-100 text-zinc-700 hover:bg-zinc-200 transition-colors text-[11px] font-bold px-3 py-1.5 rounded-full uppercase flex items-center gap-1.5"
-                                            onClick={(e) => { e.stopPropagation(); setIsSubscribed(false); }}
+                                            className="bg-zinc-100 text-zinc-700 hover:bg-zinc-200 transition-colors text-[11px] font-bold px-3 py-1.5 rounded-full uppercase flex items-center gap-1.5 flex-shrink-0"
+                                            onClick={(e) => { e.stopPropagation(); toggleSubscribe(getChannelName(video.source)); }}
                                         >
                                             <Bell size={12} className="fill-current" />
                                             Inscrito
@@ -109,8 +118,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                         </button>
                                     ) : (
                                         <button 
-                                            className="bg-red-600 text-white hover:bg-red-700 transition-colors text-[11px] font-bold px-3 py-1.5 rounded-full uppercase"
-                                            onClick={(e) => { e.stopPropagation(); setIsSubscribed(true); }}
+                                            className="bg-red-600 text-white hover:bg-red-700 transition-colors text-[11px] font-bold px-3 py-1.5 rounded-full uppercase flex-shrink-0"
+                                            onClick={(e) => { e.stopPropagation(); toggleSubscribe(getChannelName(video.source)); }}
                                         >
                                             Inscrever-se
                                         </button>
@@ -133,8 +142,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                     video={selectedVideo} 
                     allVideos={videos.filter(v => v.id !== selectedVideo.id)}
                     onClose={() => setSelectedVideo(null)}
-                    isSubscribed={isSubscribed}
-                    onSubscribeChange={setIsSubscribed}
+                    isSubscribed={subscribedChannels[getChannelName(selectedVideo.source)] || false}
+                    onSubscribeChange={() => toggleSubscribe(getChannelName(selectedVideo.source))}
                 />
             )}
         </div>

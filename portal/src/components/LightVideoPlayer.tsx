@@ -127,11 +127,11 @@ export default function LightVideoPlayer({ video, allVideos, onClose, isSubscrib
                 {/* Channel Info */}
                 <div className="flex items-center justify-between p-4 border-b border-zinc-100">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white border border-zinc-100 flex items-center justify-center overflow-hidden">
-                            <Image src="/logos/botafogo.png" alt="Botafogo" width={40} height={40} className="object-cover p-1" />
+                        <div className="w-10 h-10 rounded-full bg-zinc-800 text-white font-bold text-lg flex items-center justify-center overflow-hidden uppercase">
+                            {(video.source || 'Botafogo TV').charAt(0)}
                         </div>
                         <div>
-                            <h3 className="text-[14px] font-semibold text-zinc-900">Botafogo TV</h3>
+                            <h3 className="text-[14px] font-semibold text-zinc-900 truncate max-w-[150px]">{video.source || 'Botafogo TV'}</h3>
                             <p className="text-[12px] text-zinc-500">3,020,172 inscritos</p>
                         </div>
                     </div>
@@ -185,7 +185,7 @@ export default function LightVideoPlayer({ video, allVideos, onClose, isSubscrib
                                 <h4 className="text-[12px] font-semibold text-zinc-900 line-clamp-2 leading-tight">
                                     {v.title}
                                 </h4>
-                                <p className="text-[11px] text-zinc-500">Botafogo TV</p>
+                                <p className="text-[11px] text-zinc-500 truncate">{v.source || 'Botafogo TV'}</p>
                             </div>
                         ))}
                     </div>
