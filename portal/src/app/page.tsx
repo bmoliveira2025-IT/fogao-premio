@@ -259,11 +259,7 @@ export default async function Home() {
       {/* MOBILE LIGHT THEME */}
       <div className="block lg:hidden min-h-screen px-5 pt-safe">
           <MobileUserHeader />
-          <div className="py-2">
-              <h1 className="text-zinc-900 text-[26px] font-[800] leading-[1.1] mb-6 pr-4" style={{ fontFamily: 'Outfit, sans-serif' }}>
-                  Notícias Inteligentes para um Fogão Mais Forte
-              </h1>
-          </div>
+          <div className="py-2"></div>
           
           <LightHeroCard article={heroNews} />
           
