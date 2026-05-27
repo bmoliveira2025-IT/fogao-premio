@@ -114,7 +114,7 @@ export default function VerticalNewsSlide({ article, index }: VerticalNewsSlideP
                             articleId={article.id} 
                             initialLikes={article.likes_count} 
                             initialDislikes={article.dislikes_count} 
-                            variant="icon-only" 
+                            variant="compact" 
                             className="text-white/80" 
                         />
                         
