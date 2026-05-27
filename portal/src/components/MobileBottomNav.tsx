@@ -17,7 +17,7 @@ export default function MobileBottomNav() {
     ];
 
     return (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-t border-white/5 pb-safe">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-zinc-200 pb-safe shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
             <div className="flex items-center justify-around h-16">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
@@ -31,19 +31,19 @@ export default function MobileBottomNav() {
                         >
                             <div className={cn(
                                 "p-1.5 rounded-full transition-all duration-300",
-                                isActive ? "bg-premium-gold/20" : "group-hover:bg-white/5"
+                                isActive ? "bg-premium-gold/10" : "group-hover:bg-zinc-100"
                             )}>
                                 <Icon 
                                     size={20} 
                                     className={cn(
                                         "transition-all",
-                                        isActive ? "text-premium-gold scale-110" : "text-zinc-500"
+                                        isActive ? "text-premium-gold scale-110" : "text-zinc-400"
                                     )} 
                                 />
                             </div>
                             <span className={cn(
                                 "text-[9px] font-bold tracking-wider uppercase transition-all",
-                                isActive ? "text-premium-gold" : "text-zinc-500"
+                                isActive ? "text-premium-gold" : "text-zinc-400"
                             )}>
                                 {item.label}
                             </span>

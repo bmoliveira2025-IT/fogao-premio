@@ -25,32 +25,32 @@
   --crystal-glow: rgba(0, 0, 0, 0.04);
 }
 
-/* Tema Glorioso (Dark Mode - Gold Accent) */
+/* Tema Glorioso (Light Mode - Gold Accent) */
 .glorioso,
 .dark {
-  --background: #09090b;
-  /* Matte Zinc Black */
-  --foreground: #FAFAFA;
+  --background: #FAFAFA;
+  /* Matte Zinc White */
+  --foreground: #09090b;
   --premium-gold: 212 175 55;
   /* #D4AF37 - Metallic Gold */
-  --card-bg: #121214;
-  --graphite: #18181b;
-  --border-color: rgba(255, 255, 255, 0.06);
+  --card-bg: #FFFFFF;
+  --graphite: #F4F4F5;
+  --border-color: rgba(0, 0, 0, 0.08);
 }
 
-/* Tema Gloriosa (Dark Mode - Pink Accent) */
+/* Tema Gloriosa (Light Mode - Pink Accent) */
 .gloriosa {
-  --background: #0a0a0a;
-  /* Matte Black (same as Glorioso) */
-  --foreground: #FFFFFF;
-  /* White Text */
+  --background: #FAFAFA;
+  /* Matte White */
+  --foreground: #09090b;
+  /* Dark Text */
   --premium-gold: 255 32 176;
   /* #FF20B0 - Neon Pink */
-  --card-bg: #121212;
-  /* Dark cards */
-  --graphite: #1A1A1A;
-  /* Dark graphite */
-  --border-color: rgba(255, 32, 176, 0.1);
+  --card-bg: #FFFFFF;
+  /* Light cards */
+  --graphite: #F4F4F5;
+  /* Light graphite */
+  --border-color: rgba(255, 32, 176, 0.15);
   /* Pink tinted borders */
 }
 

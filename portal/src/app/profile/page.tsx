@@ -31,7 +31,7 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="w-full text-zinc-900 font-sans selection:bg-premium-gold selection:text-white transition-colors duration-300 pb-32">
+        <div className="w-full min-h-screen bg-zinc-50 text-zinc-900 font-sans selection:bg-premium-gold selection:text-white transition-colors duration-300 pb-32">
             <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
 
                 {/* Header Area */}
