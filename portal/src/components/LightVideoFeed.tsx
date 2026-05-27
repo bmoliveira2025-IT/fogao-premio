@@ -7,6 +7,8 @@ import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube, Settings, Hel
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
 import { useAuth } from '@/context/AuthContext';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
 
 interface VideoItem {
     id: string;
@@ -23,7 +25,7 @@ interface LightVideoFeedProps {
 
 export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
     const router = useRouter();
-    const { user, logOut } = useAuth();
+    const { user } = useAuth();
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
     const [subscribedChannels, setSubscribedChannels] = useState<Record<string, boolean>>({});
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -138,10 +140,10 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                 </button>
                             </div>
                             <div className="py-2 border-t border-zinc-100">
-                                <button onClick={() => { 
+                                <button onClick={async () => { 
                                     setShowUserMenu(false); 
-                                    if(logOut) logOut(); 
-                                    else alert('Saindo...'); 
+                                    await signOut(auth); 
+                                    router.push('/login');
                                 }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <LogOut size={18} />
                                     <span className="text-[14px]">Sair</span>
