@@ -22,7 +22,7 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
         const startOfWeek = new Date(currentDate);
         startOfWeek.setDate(currentDate.getDate() - currentDay);
 
-        const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+        const dayNames = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
 
         for (let i = 0; i < 7; i++) {
             const date = new Date(startOfWeek);
@@ -37,8 +37,10 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
         return days;
     }, [currentDate]);
 
-    const currentMonthName = currentDate.toLocaleString('en-US', { month: 'long' });
+    const currentMonthName = currentDate.toLocaleString('pt-BR', { month: 'long' });
     const currentYear = currentDate.getFullYear();
+    // Capitalize first letter of month
+    const formattedCurrentMonth = currentMonthName.charAt(0).toUpperCase() + currentMonthName.slice(1);
 
     // Group matches by Month and Year
     const groupedMatches = useMemo(() => {
@@ -49,9 +51,10 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
 
         sorted.forEach(match => {
             const date = new Date(match.date);
-            const monthName = date.toLocaleString('en-US', { month: 'long' });
+            const monthName = date.toLocaleString('pt-BR', { month: 'long' });
+            const capitalizedMonth = monthName.charAt(0).toUpperCase() + monthName.slice(1);
             const year = date.getFullYear();
-            const groupKey = `${monthName} ${year}`;
+            const groupKey = `${capitalizedMonth} ${year}`;
             
             if (!groups[groupKey]) groups[groupKey] = [];
             groups[groupKey].push(match);
@@ -66,7 +69,7 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
             <div className="px-5 pt-12 pb-6 bg-[#f8f9fa] sticky top-0 z-30">
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-2">
-                        <h1 className="text-xl font-bold text-zinc-900">{currentYear} {currentMonthName}</h1>
+                        <h1 className="text-xl font-bold text-zinc-900">{formattedCurrentMonth} {currentYear}</h1>
                         <ChevronDown size={20} className="text-zinc-500" />
                     </div>
                     <div className="flex items-center gap-3">
@@ -133,8 +136,8 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
                                     <div key={match.id} className="bg-white rounded-[20px] p-4 flex items-center gap-4 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-zinc-100">
                                         {/* Date Circle */}
                                         <div className="flex-shrink-0 flex flex-col items-center justify-center w-[52px] h-[52px] rounded-full border border-zinc-200/60 bg-zinc-50/50">
-                                            <span className="text-[10px] text-zinc-500 font-medium">
-                                                {isToday ? 'Today' : matchDate.toLocaleString('en-US', { month: 'short' })}
+                                            <span className="text-[10px] text-zinc-500 font-medium uppercase tracking-widest">
+                                                {isToday ? 'HOJE' : matchDate.toLocaleString('pt-BR', { month: 'short' }).replace('.', '')}
                                             </span>
                                             <span className="text-[15px] font-bold text-zinc-900 leading-tight">
                                                 {matchDate.getDate().toString().padStart(2, '0')}
@@ -149,7 +152,7 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
                                             <div className="flex items-center gap-2 mt-1">
                                                 <span className="text-[12px] text-zinc-500 font-medium">{timeString}</span>
                                                 <span className="text-zinc-300 text-[10px]">•</span>
-                                                <span className="text-[11px] text-zinc-400 font-medium truncate">{match.championship}</span>
+                                                <span className="text-[11px] text-zinc-400 font-medium truncate uppercase">{match.championship}</span>
                                             </div>
                                             
                                             {(isFinished || isLive) && (
