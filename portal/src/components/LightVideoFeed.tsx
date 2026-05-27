@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Search, MoreHorizontal, User, Check, Bell } from 'lucide-react';
+import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
 
@@ -58,13 +58,22 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
 
     return (
         <div className="w-full min-h-screen bg-white font-sans pb-24">
-            {/* Top Header */}
-            <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-zinc-100">
-                <div className="flex items-center gap-1">
-                    <Search size={22} className="text-zinc-800" />
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 bg-white sticky top-0 z-10 border-b border-zinc-100">
+                {/* Left: Logo */}
+                <div className="flex items-center gap-1.5">
+                    <Youtube size={26} className="text-red-600" />
+                    <span className="text-[18px] font-semibold tracking-tight text-zinc-900" style={{ letterSpacing: '-0.5px' }}>Vídeos</span>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-500 overflow-hidden">
-                    <User size={18} />
+                
+                {/* Right: Icons */}
+                <div className="flex items-center gap-4">
+                    <Cast size={20} className="text-zinc-800 stroke-[1.5]" />
+                    <Bell size={20} className="text-zinc-800 stroke-[1.5]" />
+                    <Search size={20} className="text-zinc-800 stroke-[1.5]" />
+                    <div className="w-7 h-7 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[12px] font-bold uppercase ml-1">
+                        B
+                    </div>
                 </div>
             </div>
 
