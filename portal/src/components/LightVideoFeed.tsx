@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube, Settings, HelpCircle, LogOut, Crown, Bookmark } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
@@ -21,6 +22,7 @@ interface LightVideoFeedProps {
 }
 
 export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
+    const router = useRouter();
     const { user, logOut } = useAuth();
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
     const [subscribedChannels, setSubscribedChannels] = useState<Record<string, boolean>>({});
@@ -114,19 +116,19 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                 </div>
                             </div>
                             <div className="py-2">
-                                <button onClick={() => { setShowUserMenu(false); alert('Meu Perfil'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                <button onClick={() => { setShowUserMenu(false); router.push('/profile'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <User size={18} />
                                     <span className="text-[14px]">Meu Perfil</span>
                                 </button>
-                                <button onClick={() => { setShowUserMenu(false); alert('Assinatura Premium'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                <button onClick={() => { setShowUserMenu(false); router.push('/premium'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <Crown size={18} className="text-[#d4af37]" />
                                     <span className="text-[14px]">Plano Premium</span>
                                 </button>
-                                <button onClick={() => { setShowUserMenu(false); alert('Vídeos e Artigos Salvos'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                <button onClick={() => { setShowUserMenu(false); router.push('/profile'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <Bookmark size={18} />
                                     <span className="text-[14px]">Itens Salvos</span>
                                 </button>
-                                <button onClick={() => { setShowUserMenu(false); alert('Configurações'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
+                                <button onClick={() => { setShowUserMenu(false); router.push('/settings'); }} className="w-full text-left px-4 py-2 hover:bg-zinc-100 flex items-center gap-3 text-zinc-700">
                                     <Settings size={18} />
                                     <span className="text-[14px]">Configurações</span>
                                 </button>
