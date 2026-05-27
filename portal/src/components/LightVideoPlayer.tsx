@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ThumbsUp, ThumbsDown, Share2, PlusSquare, ChevronDown, Bell, Check, Maximize } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
@@ -22,6 +22,34 @@ interface LightVideoPlayerProps {
 }
 
 export default function LightVideoPlayer({ video, allVideos, onClose, isSubscribed, onSubscribeChange }: LightVideoPlayerProps) {
+    const [isLiked, setIsLiked] = useState(false);
+    const [isDisliked, setIsDisliked] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
+
+    const handleLike = () => {
+        setIsLiked(!isLiked);
+        if (!isLiked) setIsDisliked(false);
+    };
+
+    const handleDislike = () => {
+        setIsDisliked(!isDisliked);
+        if (!isDisliked) setIsLiked(false);
+    };
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: video.title,
+                    url: video.url || window.location.href,
+                });
+            } catch (err) {
+                console.error("Error sharing", err);
+            }
+        } else {
+            alert("Compartilhar: " + video.url);
+        }
+    };
     
     // Prevent background scrolling when player is open
     useEffect(() => {
@@ -97,29 +125,29 @@ export default function LightVideoPlayer({ video, allVideos, onClose, isSubscrib
 
                     {/* Actions Row */}
                     <div className="flex items-center justify-between mt-4">
-                        <button className="flex flex-col items-center gap-1.5 text-zinc-800">
-                            <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center">
-                                <ThumbsUp size={18} className="fill-current" />
+                        <button onClick={handleLike} className={`flex flex-col items-center gap-1.5 ${isLiked ? 'text-zinc-900' : 'text-zinc-700'}`}>
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isLiked ? 'bg-blue-500 text-white' : 'hover:bg-zinc-100 text-zinc-700'}`}>
+                                <ThumbsUp size={18} className={isLiked ? "fill-current" : ""} />
                             </div>
                             <span className="text-[11px] font-medium">67K</span>
                         </button>
-                        <button className="flex flex-col items-center gap-1.5 text-zinc-500">
-                            <div className="w-10 h-10 rounded-full hover:bg-zinc-100 flex items-center justify-center">
-                                <ThumbsDown size={18} />
+                        <button onClick={handleDislike} className={`flex flex-col items-center gap-1.5 ${isDisliked ? 'text-zinc-900' : 'text-zinc-700'}`}>
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isDisliked ? 'bg-zinc-800 text-white' : 'hover:bg-zinc-100 text-zinc-700'}`}>
+                                <ThumbsDown size={18} className={isDisliked ? "fill-current" : ""} />
                             </div>
                             <span className="text-[11px] font-medium">2.3K</span>
                         </button>
-                        <button className="flex flex-col items-center gap-1.5 text-zinc-500">
-                            <div className="w-10 h-10 rounded-full hover:bg-zinc-100 flex items-center justify-center">
+                        <button onClick={handleShare} className="flex flex-col items-center gap-1.5 text-zinc-700">
+                            <div className="w-10 h-10 rounded-full hover:bg-zinc-100 flex items-center justify-center transition-colors">
                                 <Share2 size={18} />
                             </div>
                             <span className="text-[11px] font-medium">Compartilhar</span>
                         </button>
-                        <button className="flex flex-col items-center gap-1.5 text-zinc-500">
-                            <div className="w-10 h-10 rounded-full hover:bg-zinc-100 flex items-center justify-center">
-                                <PlusSquare size={18} />
+                        <button onClick={() => setIsSaved(!isSaved)} className={`flex flex-col items-center gap-1.5 ${isSaved ? 'text-zinc-900' : 'text-zinc-700'}`}>
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isSaved ? 'bg-zinc-800 text-white' : 'hover:bg-zinc-100 text-zinc-700'}`}>
+                                {isSaved ? <Check size={18} /> : <PlusSquare size={18} />}
                             </div>
-                            <span className="text-[11px] font-medium">Salvar</span>
+                            <span className="text-[11px] font-medium">{isSaved ? 'Salvo' : 'Salvar'}</span>
                         </button>
                     </div>
                 </div>
