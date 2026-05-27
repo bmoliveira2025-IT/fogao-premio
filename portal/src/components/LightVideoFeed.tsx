@@ -95,11 +95,11 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                     <button onClick={() => alert('Pesquisa de vídeos em breve.')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Pesquisar">
                         <Search size={20} className="stroke-[1.5]" />
                     </button>
-                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="w-8 h-8 rounded-full bg-white border border-zinc-200 text-zinc-500 flex items-center justify-center ml-1 hover:bg-zinc-50 transition-colors overflow-hidden" title="Conta">
+                    <button onClick={() => setShowUserMenu(!showUserMenu)} className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-200 text-white font-bold flex items-center justify-center ml-1 hover:bg-zinc-700 transition-colors overflow-hidden" title="Conta">
                         {user?.photoURL ? (
                             <Image src={user.photoURL} alt="Avatar" width={32} height={32} className="w-full h-full object-cover" />
                         ) : (
-                            <User size={18} />
+                            <span className="text-[14px]">{(user?.displayName || user?.email || 'B').charAt(0).toUpperCase()}</span>
                         )}
                     </button>
 
@@ -108,12 +108,12 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                         <div className="absolute top-12 right-0 w-64 bg-white rounded-xl shadow-xl border border-zinc-100 py-2 z-50 animate-in slide-in-from-top-2 fade-in duration-200">
                             <div className="px-4 py-3 border-b border-zinc-100 flex items-center gap-3">
                                 {user?.photoURL ? (
-                                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                                    <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                                         <Image src={user.photoURL} alt="Avatar" width={40} height={40} className="w-full h-full object-cover" />
                                     </div>
                                 ) : (
-                                    <div className="w-10 h-10 rounded-full bg-white border border-zinc-200 text-zinc-400 flex items-center justify-center">
-                                        <User size={24} />
+                                    <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-200 text-white font-bold flex flex-shrink-0 items-center justify-center">
+                                        <span className="text-[18px]">{(user?.displayName || user?.email || 'B').charAt(0).toUpperCase()}</span>
                                     </div>
                                 )}
                                 <div className="flex flex-col">
