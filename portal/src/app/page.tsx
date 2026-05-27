@@ -17,6 +17,7 @@ import { botafogoSchedule } from '@/data/schedule';
 import MobileUserHeader from '@/components/MobileUserHeader';
 import LightHeroCard from '@/components/LightHeroCard';
 import LightNewsRow from '@/components/LightNewsRow';
+import LightNewsFilter from '@/components/LightNewsFilter';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -266,20 +267,8 @@ export default async function Home() {
           
           <LightHeroCard article={heroNews} />
           
-          {/* Filter Pills */}
-          <div className="flex gap-3 overflow-x-auto py-5 no-scrollbar -mx-5 px-5">
-              <button className="px-4 py-1.5 bg-green-700 text-white text-[13px] font-bold rounded-xl whitespace-nowrap shadow-sm">Para Você</button>
-              <button className="px-4 py-1.5 bg-transparent text-zinc-400 text-[13px] font-bold rounded-xl whitespace-nowrap">Mercado</button>
-              <button className="px-4 py-1.5 bg-transparent text-zinc-400 text-[13px] font-bold rounded-xl whitespace-nowrap">Jogos</button>
-              <button className="px-4 py-1.5 bg-transparent text-zinc-400 text-[13px] font-bold rounded-xl whitespace-nowrap">Clube</button>
-          </div>
-
-          {/* News List */}
-          <div className="space-y-1 pb-24">
-              {mainFeedNews.slice(0, 15).map(article => (
-                  <LightNewsRow key={article.id} article={article} />
-              ))}
-          </div>
+          {/* Interactive Filter and News List */}
+          <LightNewsFilter news={mainFeedNews} />
       </div>
 
       {/* DESKTOP DARK THEME */}
