@@ -137,11 +137,11 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     </h1>
                     
                     <div className="flex items-center gap-2 text-[13px] text-white/80 font-medium">
-                        <span>Trending</span>
+                        <span>Em alta</span>
                         <span className="w-1 h-1 rounded-full bg-white/50" />
                         <span>{timeAgoStr(article.created_at)}</span>
                         <span className="w-1 h-1 rounded-full bg-white/50" />
-                        <span>{readTime} min read</span>
+                        <span>{readTime} min de leitura</span>
                     </div>
                 </div>
             </div>

@@ -69,13 +69,7 @@ export default function VerticalNewsSlide({ article, index }: VerticalNewsSlideP
             <div className={`absolute inset-0 bg-gradient-to-t ${gradient} to-transparent opacity-90`} />
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#0a0a0a]/90" />
 
-            {/* Top Bar */}
-            <div className="absolute top-0 inset-x-0 p-5 flex justify-between items-center z-10">
-                <span className="font-black tracking-[0.2em] text-[10px] text-white/70 uppercase">FOGÃO NEWS</span>
-                <button className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center border border-white/10 text-white/80">
-                    <span className="mb-2">...</span>
-                </button>
-            </div>
+            {/* Top Bar removed as requested */}
 
             {/* Main Content (Bottom Left aligned like reference) */}
             <div className="absolute bottom-0 inset-x-0 p-5 md:p-8 z-20 pb-24 flex flex-col justify-end min-h-[50%]">
