@@ -44,9 +44,9 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                     <p
                         style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
                         className={`
-                            leading-[1.75] text-zinc-200 font-normal tracking-[0.01em] transition-all duration-300
+                            leading-[1.75] font-normal tracking-[0.01em] transition-all duration-300
                             ${i === 0 ? 'first-letter:text-[2.8em] first-letter:font-[900] first-letter:text-[#d4af37] first-letter:mr-2 first-letter:float-left first-letter:leading-[0.75] first-letter:mt-1' : ''}
-                            ${activeParagraphIndex === i ? 'bg-[#d4af37]/[0.06] text-white border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                            ${activeParagraphIndex === i ? 'bg-[#d4af37]/[0.06] border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
                         `}
                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                     />
@@ -68,7 +68,7 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                             <div key={`rem-${i}`}>
                                 {showPullQuote && (
                                     <blockquote className="my-8 py-4 px-5 border-l-[3px] border-[#d4af37]/40 bg-[#d4af37]/[0.03] rounded-r-lg">
-                                        <p className="text-[15px] md:text-[17px] font-medium text-zinc-300 italic leading-[1.6]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                        <p className="text-[15px] md:text-[17px] font-medium italic leading-[1.6] opacity-80" style={{ fontFamily: 'Outfit, sans-serif' }}>
                                             "{p.slice(0, Math.min(p.indexOf('.', 50) + 1 || 120, 150))}"
                                         </p>
                                     </blockquote>
@@ -78,8 +78,8 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                                     <p
                                         style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
                                         className={`
-                                            leading-[1.75] text-zinc-300 font-normal tracking-[0.01em] transition-all duration-300
-                                            ${activeParagraphIndex === actualIndex ? 'bg-[#d4af37]/[0.06] text-white border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                                            leading-[1.75] font-normal tracking-[0.01em] transition-all duration-300
+                                            ${activeParagraphIndex === actualIndex ? 'bg-[#d4af37]/[0.06] border-l-2 border-[#d4af37]/60 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
                                         `}
                                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                                     />

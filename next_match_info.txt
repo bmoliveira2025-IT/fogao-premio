@@ -1,12 +1,12 @@
 ============================================================
 CURRENT next_match DOCUMENT:
 ============================================================
-Home Team: Grêmio
+Home Team: Caracas
 Away Team: Botafogo
-Date: 2026-02-08T18:00:00-03:00
-Championship: Campeonato Carioca
-Stadium: São Januário
-Location: São Januário
-Transmission: Globo e Premier
-Status: ENCERRADA
+Date: 2026-05-27 22:00:00+00:00
+Championship: Copa Sul-Americana
+Stadium: Olimpico de la UCV
+Location: Olimpico de la UCV
+Transmission: Paramount+
+Status: upcoming
 ============================================================

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Trophy, Play, LayoutGrid } from 'lucide-react';
+import { Home, Trophy, Play, LayoutGrid, GalleryVerticalEnd } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function MobileBottomNav() {
@@ -10,6 +10,7 @@ export default function MobileBottomNav() {
 
     const navItems = [
         { icon: Home, label: 'Início', href: '/' },
+        { icon: GalleryVerticalEnd, label: 'Feed', href: '/feed' },
         { icon: Trophy, label: 'Jogos', href: '/matches' },
         { icon: Play, label: 'Vídeos', href: '/videos' },
         { icon: LayoutGrid, label: 'Tabela', href: '/tabela' },

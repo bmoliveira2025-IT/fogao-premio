@@ -131,10 +131,10 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         <section className={`mt-8 ${sidebar ? 'pt-0' : 'pt-6 mb-8'} px-0`}>
             <div className="flex items-center gap-3 mb-5">
                 <div className="w-1 h-4 bg-gradient-to-b from-[#d4af37] to-[#d4af37]/20 rounded-full" />
-                <h3 className="text-[12px] font-[800] text-white/70 uppercase tracking-[0.12em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <h3 className="text-[12px] font-[800] text-zinc-500 uppercase tracking-[0.12em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
                     {sidebar ? 'Mais Notícias' : 'Veja Também'}
                 </h3>
-                <div className="h-px flex-1 bg-gradient-to-r from-white/[0.06] to-transparent" />
+                <div className="h-px flex-1 bg-gradient-to-r from-zinc-200 to-transparent" />
             </div>
             <div className="space-y-3">
                 {relatedNews.map((item: any) => (
@@ -145,137 +145,66 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     ) : null;
 
     return (
-        <div className="w-full text-white font-sans selection:bg-[#d4af37]/30 selection:text-black">
+        <div className="w-full min-h-screen bg-[#111] font-sans selection:bg-[#d4af37]/30 selection:text-black">
+            {/* HERO IMAGE — Full-bleed */}
+            <div className="w-full h-[60vh] md:h-[70vh] min-h-[400px] max-h-[600px] relative overflow-hidden">
+                <Image
+                    src={getSafeImageSrc(article.image)}
+                    alt={article.title}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover"
+                    unoptimized
+                />
+                
+                {/* Gradient for text readability overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111]/90 via-[#111]/30 to-transparent" />
 
-            {/* Spacer */}
-            <div className="h-2 lg:h-8" />
+                {/* Back button */}
+                <Link
+                    href="/"
+                    className="absolute top-6 left-4 md:top-8 md:left-8 z-30 w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/90 hover:bg-black/60 transition-colors"
+                >
+                    <ArrowLeft size={20} strokeWidth={2.5} />
+                </Link>
 
-            <div className="lg:max-w-7xl lg:mx-auto lg:grid lg:grid-cols-12 lg:gap-12 lg:px-8">
-
-                {/* LEFT COLUMN (Main Content) */}
-                <div className="lg:col-span-8">
-
-                    {/* HERO IMAGE — Immersive, edge-to-edge on mobile */}
-                    <div className="w-full aspect-[16/10] md:aspect-[16/9] lg:aspect-auto lg:h-[480px] relative overflow-hidden lg:rounded-2xl">
-                        <Image
-                            src={getSafeImageSrc(article.image)}
-                            alt={article.title}
-                            fill
-                            priority
-                            sizes="(max-width: 768px) 100vw, 800px"
-                            className="object-cover"
-                            unoptimized
-                        />
-                        {/* Subtle gradient for visual closure */}
-                        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-
-                        {/* Back button (mobile) */}
-                        <Link
-                            href="/"
-                            className="absolute top-4 left-4 z-30 w-9 h-9 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white transition-colors lg:hidden"
+                {/* Overlay Title & Meta */}
+                <div className="absolute bottom-16 md:bottom-20 left-0 right-0 px-5 md:px-8 z-20">
+                    <div className="max-w-4xl mx-auto">
+                        <h1
+                            className="text-white text-[28px] md:text-[42px] lg:text-[48px] font-bold leading-[1.1] mb-4"
+                            style={{ fontFamily: 'Outfit, sans-serif' }}
                         >
-                            <ArrowLeft size={18} strokeWidth={2.5} />
-                        </Link>
-
-                        {/* Category badge on image */}
-                        {categoryKey && (
-                            <div className="absolute top-4 right-4 z-30">
-                                <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[9px] font-black tracking-[0.12em] px-2.5 py-1 rounded-[4px] shadow-lg`}>
+                            {toSentenceCase(article.title)}
+                        </h1>
+                        <p className="text-white/80 text-sm font-medium flex items-center gap-2">
+                            <span>Popular news: {timeAgo(article.created_at)}</span>
+                            {categoryKey && (
+                                <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[9px] font-black tracking-[0.12em] px-2 py-0.5 rounded-[4px] ml-2`}>
                                     {CATEGORY_LABELS[categoryKey]}
                                 </span>
-                            </div>
-                        )}
+                            )}
+                        </p>
+                    </div>
+                </div>
+            </div>
 
+            {/* WHITE CARD CONTENT */}
+            <div className="relative z-30 -mt-10 bg-white rounded-t-[32px] min-h-screen shadow-2xl">
+                <div className="max-w-4xl mx-auto px-6 md:px-10 pt-10 pb-24 text-zinc-900">
+                    
+                    {/* Header inside card */}
+                    <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3">
+                            <SourceIcon source={article.source || 'CNN'} className="w-10 h-10 text-[#CC0000] rounded-full bg-zinc-100 p-1.5" />
+                            <span className="text-zinc-900 font-bold text-lg md:text-xl">{article.source || 'CNN News'} <span className="text-blue-500 ml-1">✔</span></span>
+                        </div>
+                        <span className="text-zinc-500 font-medium text-sm md:text-base" suppressHydrationWarning>{timeAgoVerbose(article.created_at) || timeAgo(article.created_at)}</span>
                     </div>
 
-                    {/* ARTICLE CONTENT */}
-                    <article className="px-5 md:px-6 mt-4 relative z-10 max-w-[640px] mx-auto lg:mt-8 lg:px-0 lg:max-w-none">
-
-                        {/* Title */}
-                        <div className="mb-6">
-                            <h1
-                                className={`text-[22px] md:text-[28px] lg:text-[36px] font-[800] leading-[1.15] tracking-[-0.02em] mb-3 transition-colors duration-300
-                                ${activeParagraphIndex === -2 ? 'text-[#d4af37]' : 'text-white'}`}
-                                style={{ fontFamily: 'Outfit, sans-serif' }}
-                            >
-                                {toSentenceCase(article.title)}
-                            </h1>
-
-                            {/* Meta info */}
-                            <div className="flex flex-wrap items-center gap-2 text-[11px] text-zinc-500 font-medium">
-                                {article.source && (
-                                    <>
-                                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.06]">
-                                            <SourceIcon source={article.source} className="w-3 h-3 text-zinc-400" />
-                                            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">{article.source}</span>
-                                        </div>
-                                        <span className="w-[3px] h-[3px] bg-zinc-700 rounded-full" />
-                                    </>
-                                )}
-                                <span>Por Redação</span>
-                                <span className="w-[3px] h-[3px] bg-zinc-700 rounded-full" />
-                                <span suppressHydrationWarning>{timeAgo(article.created_at)}</span>
-                                <span className="w-[3px] h-[3px] bg-zinc-700 rounded-full" />
-                                <span>{readTime} min de leitura</span>
-                            </div>
-                        </div>
-
-                        {/* Action Bar — Compact and clean */}
-                        <div className="flex items-center gap-2 mb-6 py-3 border-y border-white/[0.04]">
-                            <LikeDislikeButtons
-                                articleId={article.id}
-                                initialLikes={article.likes_count}
-                                initialDislikes={article.dislikes_count}
-                                variant="full"
-                                onLike={handleLikePoints}
-                                showPoints={true}
-                                className="flex-shrink-0"
-                            />
-
-                            <div className="flex items-center gap-1.5 ml-auto">
-                                <button
-                                    onClick={() => setShowVoice(!showVoice)}
-                                    className={`flex items-center justify-center w-9 h-9 rounded-lg border transition-all ${showVoice
-                                        ? 'bg-[#d4af37]/10 border-[#d4af37]/30 text-[#d4af37]'
-                                        : 'bg-white/[0.03] border-white/[0.06] text-zinc-500 hover:text-white hover:border-white/[0.12]'
-                                        }`}
-                                    title="Ouvir"
-                                >
-                                    <Volume2 size={15} />
-                                </button>
-
-                                <button
-                                    onClick={handleShare}
-                                    className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] text-zinc-500 hover:text-white hover:border-white/[0.12] transition-all"
-                                    title="Compartilhar"
-                                >
-                                    <Share2 size={15} />
-                                </button>
-
-                                {/* Font size controls */}
-                                <div className="flex items-center bg-white/[0.03] border border-white/[0.06] rounded-lg overflow-hidden">
-                                    <button
-                                        onClick={() => adjustFont(-10)}
-                                        className="px-2.5 py-2 text-zinc-500 hover:text-white transition-colors"
-                                        title="Diminuir texto"
-                                    >
-                                        <Minus size={13} />
-                                    </button>
-                                    <div className="px-1.5 border-x border-white/[0.04]">
-                                        <span className="text-[9px] font-bold text-zinc-600">{fontSize}%</span>
-                                    </div>
-                                    <button
-                                        onClick={() => adjustFont(10)}
-                                        className="px-2.5 py-2 text-zinc-500 hover:text-white transition-colors"
-                                        title="Aumentar texto"
-                                    >
-                                        <Plus size={13} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Article Body */}
+                    {/* Article Body */}
+                    <article className="prose prose-lg max-w-none text-zinc-800">
                         {article.is_premium ? (
                             <PremiumGuard>
                                 <ArticleReader
@@ -295,28 +224,55 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                 <QuoteBanner />
                             </>
                         )}
-
-                        {/* Mobile Only Widgets */}
-                        <div className="lg:hidden">
-                            <NextMatchWidget />
-                        </div>
                     </article>
 
-                    {/* Related News Mobile Only */}
-                    <div className="lg:hidden px-5 max-w-[640px] mx-auto">
-                        <RelatedNewsWidget />
-                        <div className="h-28" />
-                    </div>
-                </div>
+                    {/* Action Bar at the bottom */}
+                    <div className="flex items-center justify-between mt-10 py-5 border-t border-zinc-200">
+                        <LikeDislikeButtons
+                            articleId={article.id}
+                            initialLikes={article.likes_count}
+                            initialDislikes={article.dislikes_count}
+                            variant="full"
+                            onLike={handleLikePoints}
+                            showPoints={true}
+                        />
 
-                {/* RIGHT COLUMN (Sidebar - Desktop Only) */}
-                <div className="hidden lg:block lg:col-span-4 space-y-8">
-                    <div className="sticky top-28 space-y-8">
-                        <NextMatchWidget />
-                        <RelatedNewsWidget sidebar />
-                    </div>
-                </div>
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => setShowVoice(!showVoice)}
+                                className={`flex items-center justify-center w-10 h-10 rounded-full border transition-all ${showVoice
+                                    ? 'bg-blue-50 border-blue-200 text-blue-600'
+                                    : 'bg-zinc-50 border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
+                                    }`}
+                                title="Ouvir"
+                            >
+                                <Volume2 size={18} />
+                            </button>
 
+                            <button
+                                onClick={handleShare}
+                                className="flex items-center justify-center w-10 h-10 rounded-full bg-zinc-50 border border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-all"
+                                title="Compartilhar"
+                            >
+                                <Share2 size={18} />
+                            </button>
+
+                            {/* Font size controls */}
+                            <div className="flex items-center bg-zinc-50 border border-zinc-200 rounded-full overflow-hidden ml-2">
+                                <button onClick={() => adjustFont(-10)} className="px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors">
+                                    <Minus size={14} />
+                                </button>
+                                <span className="text-[10px] font-bold text-zinc-600 px-1">{fontSize}%</span>
+                                <button onClick={() => adjustFont(10)} className="px-3 py-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors">
+                                    <Plus size={14} />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <NextMatchWidget />
+                    <RelatedNewsWidget />
+                </div>
             </div>
 
             {/* Voice Player */}
