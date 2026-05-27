@@ -67,13 +67,19 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                 </div>
                 
                 {/* Right: Icons */}
-                <div className="flex items-center gap-4">
-                    <Cast size={20} className="text-zinc-800 stroke-[1.5]" />
-                    <Bell size={20} className="text-zinc-800 stroke-[1.5]" />
-                    <Search size={20} className="text-zinc-800 stroke-[1.5]" />
-                    <div className="w-7 h-7 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[12px] font-bold uppercase ml-1">
+                <div className="flex items-center gap-2 md:gap-4">
+                    <button onClick={() => alert('Procurando dispositivos (Chromecast, Smart TV)...')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Transmitir">
+                        <Cast size={20} className="stroke-[1.5]" />
+                    </button>
+                    <button onClick={() => alert('Você não tem novas notificações.')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Notificações">
+                        <Bell size={20} className="stroke-[1.5]" />
+                    </button>
+                    <button onClick={() => alert('Pesquisa de vídeos em breve.')} className="p-1.5 rounded-full text-zinc-800 hover:bg-zinc-100 transition-colors" title="Pesquisar">
+                        <Search size={20} className="stroke-[1.5]" />
+                    </button>
+                    <button onClick={() => alert('Abrir menu da conta.')} className="w-7 h-7 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[12px] font-bold uppercase ml-1 hover:bg-zinc-700 transition-colors" title="Conta">
                         B
-                    </div>
+                    </button>
                 </div>
             </div>
 
