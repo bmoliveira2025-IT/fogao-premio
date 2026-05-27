@@ -9,7 +9,6 @@ import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
 import { AnimatePresence, motion } from 'framer-motion';
 import CompactNewsRow from './CompactNewsRow';
-import QuoteBanner from './QuoteBanner';
 import PremiumGuard from './PremiumGuard';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
@@ -227,7 +226,6 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                     isPremium={article.is_premium || article.title.includes('Análise')}
                                     activeParagraphIndex={activeParagraphIndex}
                                 />
-                                <QuoteBanner />
                             </PremiumGuard>
                         ) : (
                             <>
@@ -236,7 +234,6 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                                     isPremium={false}
                                     activeParagraphIndex={activeParagraphIndex}
                                 />
-                                <QuoteBanner />
                             </>
                         )}
                     </article>
