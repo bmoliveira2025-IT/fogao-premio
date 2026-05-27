@@ -13,6 +13,9 @@ interface LightMatchesCalendarProps {
 export default function LightMatchesCalendar({ matches }: LightMatchesCalendarProps) {
     const [currentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const [activeFilter, setActiveFilter] = useState('Todos');
 
     // Generate current week days
     const weekDays = useMemo(() => {
@@ -47,8 +50,14 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
     const groupedMatches = useMemo(() => {
         const groups: Record<string, MatchData[]> = {};
         
+        // Filter by championship if needed
+        let filteredMatches = matches;
+        if (activeFilter !== 'Todos') {
+            filteredMatches = matches.filter(m => m.championship === activeFilter);
+        }
+
         // Sort matches by date ascending
-        const sorted = [...matches].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        const sorted = [...filteredMatches].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
         sorted.forEach(match => {
             const date = new Date(match.date);
@@ -62,6 +71,17 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
         });
 
         return groups;
+    }, [matches, activeFilter]);
+
+    const availableMonths = Object.keys(groupedMatches);
+    
+    const availableFilters = useMemo(() => {
+        const filters = new Set<string>();
+        filters.add('Todos');
+        matches.forEach(m => {
+            if (m.championship) filters.add(m.championship);
+        });
+        return Array.from(filters);
     }, [matches]);
 
     return (
@@ -69,17 +89,71 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
             {/* Top Header */}
             <div className="px-5 pt-12 pb-6 bg-[#f8f9fa] sticky top-0 z-30">
                 <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-2">
-                        <h1 className="text-xl font-bold text-zinc-900">{formattedCurrentMonth} {currentYear}</h1>
-                        <ChevronDown size={20} className="text-zinc-500" />
+                    <div className="relative">
+                        <button 
+                            onClick={() => { setIsMonthDropdownOpen(!isMonthDropdownOpen); setIsFilterDropdownOpen(false); }}
+                            className="flex items-center gap-2"
+                        >
+                            <h1 className="text-xl font-bold text-zinc-900">{formattedCurrentMonth} {currentYear}</h1>
+                            <ChevronDown size={20} className={cn("text-zinc-500 transition-transform", isMonthDropdownOpen && "rotate-180")} />
+                        </button>
+
+                        {isMonthDropdownOpen && (
+                            <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-lg border border-zinc-100 py-2 min-w-[160px] z-50 max-h-[300px] overflow-y-auto">
+                                {availableMonths.map(month => (
+                                    <button 
+                                        key={month}
+                                        onClick={() => {
+                                            setIsMonthDropdownOpen(false);
+                                            document.getElementById(`month-${month}`)?.scrollIntoView({ behavior: 'smooth' });
+                                        }}
+                                        className="w-full text-left px-4 py-2 text-[14px] font-medium text-zinc-700 hover:bg-zinc-50 transition-colors"
+                                    >
+                                        {month}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                    <div className="flex items-center gap-3">
-                        <button className="w-10 h-10 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-green-600 shadow-sm">
+                    <div className="flex items-center gap-3 relative">
+                        <button 
+                            onClick={() => {
+                                setSelectedDate(new Date());
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="w-10 h-10 rounded-full border border-zinc-200 bg-white flex items-center justify-center text-green-600 shadow-sm transition-transform active:scale-95"
+                        >
                             <CalendarIcon size={18} />
                         </button>
-                        <button className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-700">
+                        <button 
+                            onClick={() => { setIsFilterDropdownOpen(!isFilterDropdownOpen); setIsMonthDropdownOpen(false); }}
+                            className={cn(
+                                "w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95",
+                                activeFilter !== 'Todos' || isFilterDropdownOpen ? "bg-[#1f7a3f] text-white shadow-md" : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
+                            )}
+                        >
                             <Filter size={18} />
                         </button>
+
+                        {isFilterDropdownOpen && (
+                            <div className="absolute top-full right-0 mt-2 bg-white rounded-xl shadow-lg border border-zinc-100 py-2 min-w-[200px] z-50">
+                                {availableFilters.map(filter => (
+                                    <button 
+                                        key={filter}
+                                        onClick={() => {
+                                            setActiveFilter(filter);
+                                            setIsFilterDropdownOpen(false);
+                                        }}
+                                        className={cn(
+                                            "w-full text-left px-4 py-2 text-[14px] font-medium hover:bg-zinc-50 flex items-center justify-between transition-colors",
+                                            activeFilter === filter ? "text-[#1f7a3f] bg-green-50/50" : "text-zinc-700"
+                                        )}
+                                    >
+                                        {filter}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -120,7 +194,7 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
             {/* Matches List */}
             <div className="px-5 space-y-8">
                 {Object.entries(groupedMatches).map(([monthYear, monthMatches]) => (
-                    <div key={monthYear} className="space-y-4">
+                    <div key={monthYear} id={`month-${monthYear}`} className="space-y-4 scroll-mt-[200px]">
                         <h2 className="text-[13px] font-bold text-zinc-800">{monthYear}</h2>
                         
                         <div className="space-y-3">
@@ -195,7 +269,10 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
             </div>
 
             {/* Floating Action Button (FAB) */}
-            <button className="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-[#1f7a3f] text-white flex items-center justify-center shadow-[0_8px_20px_rgba(31,122,63,0.3)] z-40 transition-transform active:scale-95">
+            <button 
+                onClick={() => { setIsFilterDropdownOpen(true); setIsMonthDropdownOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-[#1f7a3f] text-white flex items-center justify-center shadow-[0_8px_20px_rgba(31,122,63,0.3)] z-40 transition-transform active:scale-95"
+            >
                 <Filter size={24} />
             </button>
         </div>
