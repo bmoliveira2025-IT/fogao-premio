@@ -5,14 +5,14 @@ import Loading from '../loading';
 
 async function getNews() {
     try {
-        // Calculate the date 24 hours ago
+        // Calculate the date 48 hours ago
         const timeLimit = new Date();
-        timeLimit.setHours(timeLimit.getHours() - 24);
+        timeLimit.setHours(timeLimit.getHours() - 48);
 
         const snapshot = await db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
-            .limit(100) // Safety limit, but high enough to cover all reasonable 24h volume
+            .limit(500) // Increased limit to match the 48h volume
             .get();
 
         return snapshot.docs.map(doc => {

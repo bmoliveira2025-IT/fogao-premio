@@ -6,12 +6,12 @@ export const revalidate = 60; // ISR for 60 seconds
 async function getFeedNews() {
     try {
         const timeLimit = new Date();
-        timeLimit.setHours(timeLimit.getHours() - 72);
+        timeLimit.setHours(timeLimit.getHours() - 48);
 
         const newsRef = db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
-            .limit(100);
+            .limit(500);
 
         const newsSnap = await newsRef.get();
         const news = newsSnap.docs.map(doc => {
