@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 interface DailyBriefing {
+    id?: string;
     date: string;
     editorial_summary?: string;
     general_summary?: string;
@@ -50,8 +51,8 @@ export default function DailyBriefingWidget() {
 
     return (
         <Link
-            href="?briefing=true"
-            scroll={false}
+            href={`/news/${briefing.id}`}
+            scroll={true}
             className="block group"
         >
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-white/5 p-5 shadow-xl hover:shadow-premium-gold/10 transition-all duration-300">

@@ -96,8 +96,8 @@ export default function MorningBriefingPopup() {
         // Fallback for old format (simple string)
         if (!abertura && destaques.length === 0 && !radar) {
             return (
-                <div className="glass-panel p-6 rounded-[1.5rem] border border-white/[0.04] shadow-premium">
-                    <p className="text-lg text-white/90 leading-relaxed font-medium">{text}</p>
+                <div className="glass-panel p-6 rounded-[1.5rem] border border-zinc-200/50 shadow-premium">
+                    <p className="text-lg text-zinc-800 leading-relaxed font-medium">{text}</p>
                 </div>
             );
         }
@@ -105,26 +105,26 @@ export default function MorningBriefingPopup() {
         return (
             <div className="space-y-4">
                 {abertura && (
-                    <div className="glass-ultra border border-white/[0.04] p-5 md:p-6 rounded-[1.5rem] shadow-premium relative overflow-hidden group">
+                    <div className="glass-ultra border border-zinc-200/50 p-5 md:p-6 rounded-[1.5rem] shadow-premium relative overflow-hidden group">
                         <Quote className="absolute top-3 right-3 text-premium-gold/10 w-8 h-8 transition-transform duration-700 group-hover:scale-110" />
                         <h4 className="text-premium-gold font-athletic text-[12px] mb-2 flex items-center gap-2 tracking-widest">
                             Panorama
                         </h4>
-                        <p className="text-[16px] md:text-lg text-white font-medium leading-relaxed italic drop-shadow-sm">"{abertura}"</p>
+                        <p className="text-[16px] md:text-lg text-zinc-900 font-medium leading-relaxed italic">"{abertura}"</p>
                     </div>
                 )}
 
                 {destaques.length > 0 && (
                     <div className="space-y-2 mt-6">
-                        <h4 className="text-white/60 font-athletic text-[11px] ml-1 flex items-center gap-2 uppercase tracking-widest">
+                        <h4 className="text-white/90 font-athletic text-[11px] ml-1 flex items-center gap-2 uppercase tracking-widest drop-shadow-md">
                             <Star size={12} className="text-premium-gold fill-premium-gold" />
                             Destaques do Dia
                         </h4>
                         <div className="space-y-3">
                             {destaques.map((d, i) => (
-                                <div key={i} className="flex items-start gap-3 glass-panel p-4 rounded-xl border border-white/[0.04] hover:shadow-gold-glow hover:-translate-y-0.5 transition-all duration-500">
+                                <div key={i} className="flex items-start gap-3 glass-panel p-4 rounded-xl border border-zinc-200/50 hover:shadow-gold-glow hover:-translate-y-0.5 transition-all duration-500">
                                     <div className="min-w-2 h-2 rounded-full bg-premium-gold mt-1.5 shadow-[0_0_8px_rgba(255,215,0,0.5)]" />
-                                    <p className="text-white/90 text-[14px] md:text-[15px] font-medium leading-snug">{d}</p>
+                                    <p className="text-zinc-800 text-[14px] md:text-[15px] font-medium leading-snug">{d}</p>
                                 </div>
                             ))}
                         </div>
@@ -132,13 +132,13 @@ export default function MorningBriefingPopup() {
                 )}
 
                 {radar && (
-                    <div className="glass-panel border border-white/[0.04] border-l-4 border-l-blue-500 p-4 rounded-xl flex items-start gap-3 shadow-premium mt-6 group">
+                    <div className="glass-panel border border-zinc-200/50 border-l-4 border-l-blue-500 p-4 rounded-xl flex items-start gap-3 shadow-premium mt-6 group">
                         <div className="bg-blue-500/10 p-2.5 rounded-lg shrink-0 group-hover:bg-blue-500/20 transition-colors duration-500">
-                            <Activity size={20} className="text-blue-400" />
+                            <Activity size={20} className="text-blue-500" />
                         </div>
                         <div>
-                            <span className="text-blue-400 font-athletic text-[11px] block mb-1 uppercase tracking-wider">Radar Rápido</span>
-                            <p className="text-white/90 text-[14px] md:text-[15px] font-medium leading-relaxed">{radar}</p>
+                            <span className="text-blue-600 font-athletic text-[11px] block mb-1 uppercase tracking-wider">Radar Rápido</span>
+                            <p className="text-zinc-800 text-[14px] md:text-[15px] font-medium leading-relaxed">{radar}</p>
                         </div>
                     </div>
                 )}
@@ -220,10 +220,10 @@ export default function MorningBriefingPopup() {
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-                                className="group relative glass-ultra border border-white/[0.04] p-5 md:p-6 rounded-[1.5rem] hover:border-premium-gold/40 transition-all duration-500 hover:shadow-card-hover active:scale-[0.98] overflow-hidden"
+                                className="group relative glass-ultra border border-zinc-200/50 p-5 md:p-6 rounded-[1.5rem] hover:border-premium-gold/40 transition-all duration-500 hover:shadow-card-hover active:scale-[0.98] overflow-hidden"
                             >
                                 {/* Number Indicator - Modern & Subtle */}
-                                <div className="absolute -top-2 -right-2 text-white/[0.03] font-black text-8xl transition-colors duration-500 group-hover:text-premium-gold/10">
+                                <div className="absolute -top-2 -right-2 text-zinc-900/[0.03] font-black text-8xl transition-colors duration-500 group-hover:text-premium-gold/10">
                                     {i + 1}
                                 </div>
 
@@ -232,14 +232,14 @@ export default function MorningBriefingPopup() {
                                         <span className="px-2 py-0.5 rounded text-[9px] font-black bg-premium-gold text-black uppercase tracking-wider">
                                             {story.category || 'Notícia'}
                                         </span>
-                                        <div className="h-px flex-1 bg-white/5" />
+                                        <div className="h-px flex-1 bg-zinc-200" />
                                     </div>
 
-                                    <h4 className="text-[18px] md:text-[20px] font-bold text-white leading-tight group-hover:text-premium-gold transition-colors duration-300">
+                                    <h4 className="text-[18px] md:text-[20px] font-bold text-zinc-900 leading-tight group-hover:text-yellow-600 transition-colors duration-300">
                                         {story.title}
                                     </h4>
 
-                                    <div className="mt-4 flex items-center gap-1.5 text-white/30 text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                    <div className="mt-4 flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                                         <span>Ler Agora</span>
                                         <ArrowRight size={10} />
                                     </div>
@@ -267,7 +267,7 @@ export default function MorningBriefingPopup() {
 
                     <div className="grid grid-cols-1 gap-4">
                         {briefing.indicators.next_match && (
-                            <div className="glass-ultra border border-white/[0.04] p-5 rounded-[1.5rem] shadow-premium hover:shadow-gold-glow transition-all duration-500 relative overflow-hidden group">
+                            <div className="glass-ultra border border-zinc-200/50 p-5 rounded-[1.5rem] shadow-premium hover:shadow-gold-glow transition-all duration-500 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 p-4 opacity-[0.05] group-hover:opacity-20 transition-opacity duration-500">
                                     <Trophy size={48} className="text-premium-gold" />
                                 </div>
@@ -276,16 +276,16 @@ export default function MorningBriefingPopup() {
                                         <Trophy size={14} className="text-premium-gold" />
                                         <span className="text-[10px] font-black text-premium-gold uppercase tracking-widest">Próxima Partida</span>
                                     </div>
-                                    <p className="text-xl text-white font-black leading-tight mb-2">{briefing.indicators.next_match}</p>
+                                    <p className="text-xl text-zinc-900 font-black leading-tight mb-2">{briefing.indicators.next_match}</p>
                                     <div className="flex items-center gap-3">
-                                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
-                                            <MapPin size={10} className="text-white/40" />
-                                            <span className="text-[10px] font-bold text-white/60">{briefing.indicators.location}</span>
+                                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-100 border border-zinc-200">
+                                            <MapPin size={10} className="text-zinc-400" />
+                                            <span className="text-[10px] font-bold text-zinc-500">{briefing.indicators.location}</span>
                                         </div>
                                         {briefing.indicators.transmission && (
                                             <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-green-500/10 border border-green-500/20">
-                                                <Tv size={10} className="text-green-400" />
-                                                <span className="text-[10px] font-bold text-green-400 uppercase">{briefing.indicators.transmission}</span>
+                                                <Tv size={10} className="text-green-600" />
+                                                <span className="text-[10px] font-bold text-green-600 uppercase">{briefing.indicators.transmission}</span>
                                             </div>
                                         )}
                                     </div>
@@ -299,15 +299,15 @@ export default function MorningBriefingPopup() {
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.2, duration: 0.5 }}
-                                    className="glass-panel border border-white/[0.04] p-4 md:p-5 rounded-[1.5rem] shadow-premium group hover:border-blue-500/30 transition-all duration-500"
+                                    className="glass-panel border border-zinc-200/50 p-4 md:p-5 rounded-[1.5rem] shadow-premium group hover:border-blue-500/30 transition-all duration-500"
                                 >
                                     <div className="flex items-center gap-2 mb-2">
-                                        <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400">
+                                        <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-500">
                                             <ArrowRight size={14} />
                                         </div>
-                                        <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Mercado</span>
+                                        <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Mercado</span>
                                     </div>
-                                    <p className="text-[13px] text-white/90 font-bold leading-tight group-hover:text-blue-400 transition-colors">{briefing.indicators.market}</p>
+                                    <p className="text-[13px] text-zinc-800 font-bold leading-tight group-hover:text-blue-600 transition-colors">{briefing.indicators.market}</p>
                                 </motion.div>
                             )}
 
@@ -316,15 +316,15 @@ export default function MorningBriefingPopup() {
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.3, duration: 0.5 }}
-                                    className="glass-panel border border-white/[0.04] p-4 md:p-5 rounded-[1.5rem] shadow-premium group hover:border-red-500/30 transition-all duration-500"
+                                    className="glass-panel border border-zinc-200/50 p-4 md:p-5 rounded-[1.5rem] shadow-premium group hover:border-red-500/30 transition-all duration-500"
                                 >
                                     <div className="flex items-center gap-2 mb-2">
-                                        <div className="p-1.5 rounded-lg bg-red-500/10 text-red-400">
+                                        <div className="p-1.5 rounded-lg bg-red-500/10 text-red-500">
                                             <Activity size={14} />
                                         </div>
-                                        <span className="text-[10px] font-black text-red-400 uppercase tracking-widest">DM</span>
+                                        <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">DM</span>
                                     </div>
-                                    <p className="text-[13px] text-white/90 font-bold leading-tight group-hover:text-red-400 transition-colors">
+                                    <p className="text-[13px] text-zinc-800 font-bold leading-tight group-hover:text-red-600 transition-colors">
                                         {briefing.indicators.dm === "Sem novidades" ? "Elenco completo à disposição." : briefing.indicators.dm}
                                     </p>
                                 </motion.div>

@@ -156,9 +156,15 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                 {/* AUTHOR INFO (Source) */}
                 <div className="flex items-center justify-center gap-3 mb-10 pt-6 border-t border-zinc-100">
-                    <div className="w-11 h-11 rounded-full overflow-hidden bg-zinc-100 flex-shrink-0 flex items-center justify-center border border-zinc-200">
-                        <SourceIcon source={article.source} className="w-8 h-8" />
-                    </div>
+                    {article.category === "Resumo Diário" ? (
+                        <div className="flex-shrink-0 flex items-center justify-center text-premium-gold text-3xl pb-1">
+                            ★
+                        </div>
+                    ) : (
+                        <div className="w-11 h-11 rounded-full overflow-hidden bg-zinc-100 flex-shrink-0 flex items-center justify-center border border-zinc-200">
+                            <SourceIcon source={article.source} className="w-8 h-8" />
+                        </div>
+                    )}
                     <div className="flex items-center gap-1.5">
                         <span className="text-[17px] font-bold text-zinc-900 tracking-tight">{article.source || 'Redação'}</span>
                         <div className="w-4 h-4 rounded-full bg-[#1A73E8] text-white flex items-center justify-center">
@@ -171,7 +177,9 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 <div className="flex gap-8 relative">
                     <div className="flex-1 min-w-0">
                         <article className="prose prose-lg max-w-none text-zinc-800">
-                            {article.is_premium ? (
+                            {article.category === "Resumo Diário" ? (
+                                <div dangerouslySetInnerHTML={{ __html: article.content }} />
+                            ) : article.is_premium ? (
                                 <PremiumGuard>
                                     <ArticleReader
                                         paragraphs={paragraphs}

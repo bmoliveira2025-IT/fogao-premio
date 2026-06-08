@@ -13,7 +13,7 @@ export async function GET() {
         }
 
         const data = snapshot.docs[0].data();
-        return NextResponse.json(data);
+        return NextResponse.json({ id: snapshot.docs[0].id, ...data });
     } catch (error: any) {
         if (error?.message?.includes('Quota exceeded') || error?.code === 8) {
             console.warn("Firestore Quota Exceeded for daily-briefing. Returning empty fallback.");
