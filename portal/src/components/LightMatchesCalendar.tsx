@@ -211,6 +211,10 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
 
                                 const homeScore = match.home_score ?? 0;
                                 const awayScore = match.away_score ?? 0;
+                                
+                                const bfrScore = isHome ? homeScore : awayScore;
+                                const oppScore = isHome ? awayScore : homeScore;
+
                                 const status = match.status?.toUpperCase() || '';
                                 const isFinished = status.includes('FIM') || status.includes('ENCERRAD') || status.includes('FINALIZAD');
                                 const isLive = status.includes('VIVO') || status.includes('ANDAMENTO');
@@ -248,7 +252,7 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
                                                         ? "bg-red-50 text-red-600 border-red-100 shadow-[0_0_10px_rgba(220,38,38,0.2)] animate-pulse" 
                                                         : "bg-zinc-50 text-zinc-800 border-zinc-200/80 shadow-sm"
                                                 )}>
-                                                    {homeScore} <span className="text-zinc-400 font-medium mx-0.5">x</span> {awayScore}
+                                                    {bfrScore} <span className="text-zinc-400 font-medium mx-0.5">x</span> {oppScore}
                                                 </span>
                                             </div>
                                         )}
