@@ -2,7 +2,8 @@
 
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
-import { Bell } from 'lucide-react';
+import Link from 'next/link';
+import { Bell, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function MobileUserHeader() {
@@ -21,7 +22,7 @@ export default function MobileUserHeader() {
     return (
         <div className="flex items-center justify-between py-4">
             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-200">
+                <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-200 shadow-sm">
                     <Image 
                         src={user?.photoURL || 'https://placehold.co/100x100?text=BFR'}
                         alt="User Avatar"
@@ -37,10 +38,23 @@ export default function MobileUserHeader() {
                 </div>
             </div>
 
-            <button className="relative p-2 rounded-xl border border-zinc-200 text-zinc-600 hover:bg-zinc-50 transition-colors">
-                <Bell size={20} />
-                <span className="absolute top-2 right-2.5 w-1.5 h-1.5 bg-red-500 rounded-full border border-white" />
-            </button>
+            <div className="flex items-center gap-3">
+                <Link 
+                    href="/" 
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 rounded-lg border border-zinc-800 shadow-sm group no-underline hover:border-premium-gold/50 transition-all"
+                >
+                    <Star size={12} className="text-premium-gold fill-premium-gold" />
+                    <div className="flex items-center tracking-tighter uppercase italic">
+                        <span className="text-[13px] font-black text-white">Fogão</span>
+                        <span className="text-[13px] font-black text-premium-gold">360</span>
+                    </div>
+                </Link>
+
+                <button className="relative p-2 rounded-xl border border-zinc-200 text-zinc-600 hover:bg-zinc-50 hover:text-premium-gold hover:border-premium-gold/30 transition-all shadow-sm bg-white">
+                    <Bell size={18} />
+                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-[1.5px] border-white" />
+                </button>
+            </div>
         </div>
     );
 }

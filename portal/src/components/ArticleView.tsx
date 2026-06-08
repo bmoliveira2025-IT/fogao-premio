@@ -92,8 +92,8 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     return (
         <div className="w-full min-h-screen bg-white font-sans">
             
-            {/* HERO SECTION */}
-            <div className="relative w-full h-[55vh] md:h-[65vh] bg-zinc-900">
+            {/* HERO SECTION (Image Only) */}
+            <div className="relative w-full h-[40vh] md:h-[55vh] bg-zinc-900">
                 {article.image && (
                     <Image
                         src={getSafeImageSrc(article.image)}
@@ -105,53 +105,57 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     />
                 )}
                 
-                {/* Gradient for bottom text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent h-32" />
+                {/* Subtle gradient just for top buttons readability if image is light */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent h-32" />
 
                 {/* TOP NAVIGATION (Absolute over image) */}
                 <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-4 max-w-4xl mx-auto z-10 safe-pt">
                     <button 
                         onClick={() => router.back()} 
-                        className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition-colors"
+                        className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/50 transition-colors"
                     >
                         <ChevronLeft size={24} strokeWidth={2.5} />
                     </button>
                     <div className="flex items-center gap-3">
-                        <button onClick={handleSave} className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition-colors">
+                        <button onClick={handleSave} className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/50 transition-colors">
                             <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
                         </button>
-                        <button onClick={handleShare} className="w-10 h-10 rounded-full bg-black/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/50 transition-colors">
+                        <button onClick={handleShare} className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/50 transition-colors">
                             <MoreHorizontal size={20} />
                         </button>
-                    </div>
-                </div>
-
-                {/* OVERLAID TITLE AREA */}
-                <div className="absolute bottom-10 md:bottom-16 inset-x-0 px-5 max-w-4xl mx-auto z-10 text-white">
-                    <span className="inline-block px-3 py-1 bg-[#1A73E8] text-white text-[12px] font-bold rounded-full mb-3 shadow-md">
-                        {categoryKey || 'Futebol'}
-                    </span>
-                    
-                    <h1 className="text-[26px] md:text-[40px] font-bold leading-[1.2] mb-3 tracking-tight drop-shadow-lg text-white">
-                        {toSentenceCase(article.title)}
-                    </h1>
-                    
-                    <div className="flex items-center gap-2 text-[13px] text-white/80 font-medium">
-                        <span>Em alta</span>
-                        <span className="w-1 h-1 rounded-full bg-white/50" />
-                        <span>{timeAgoStr(article.created_at)}</span>
-                        <span className="w-1 h-1 rounded-full bg-white/50" />
-                        <span>{readTime} min de leitura</span>
                     </div>
                 </div>
             </div>
 
             {/* WHITE OVERLAPPING CONTENT CARD */}
-            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] -mt-6 pt-8 px-5 pb-40 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] md:px-12">
+            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[2rem] -mt-8 px-5 pb-40 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:px-12">
                 
+                {/* DRAG HANDLE */}
+                <div className="w-full flex justify-center py-4 mb-2">
+                    <div className="w-12 h-1.5 bg-zinc-200 rounded-full" />
+                </div>
+                
+                {/* HEADER CONTENT (Moved from image) */}
+                <div className="flex flex-col items-center text-center mb-8">
+                    <span className="inline-block px-3 py-1 bg-[#1A73E8]/10 text-[#1A73E8] text-[12px] font-bold rounded-full mb-4">
+                        {categoryKey || 'Futebol'}
+                    </span>
+                    
+                    <h1 className="text-[26px] md:text-[40px] font-bold leading-[1.2] mb-4 tracking-tight text-zinc-900">
+                        {toSentenceCase(article.title)}
+                    </h1>
+                    
+                    <div className="flex items-center gap-2 text-[13px] text-zinc-500 font-medium">
+                        <span>🔥 Trending No. 1</span>
+                        <span className="w-1 h-1 rounded-full bg-zinc-300" />
+                        <span>{timeAgoStr(article.created_at)}</span>
+                        <span className="w-1 h-1 rounded-full bg-zinc-300" />
+                        <span>{readTime} min de leitura</span>
+                    </div>
+                </div>
+
                 {/* AUTHOR INFO (Source) */}
-                <div className="flex items-center gap-3 mb-8">
+                <div className="flex items-center justify-center gap-3 mb-10 pt-6 border-t border-zinc-100">
                     <div className="w-11 h-11 rounded-full overflow-hidden bg-zinc-100 flex-shrink-0 flex items-center justify-center border border-zinc-200">
                         <SourceIcon source={article.source} className="w-8 h-8" />
                     </div>

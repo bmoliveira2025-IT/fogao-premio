@@ -44,8 +44,8 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                     <p
                         style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
                         className={`
-                            text-zinc-600 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
-                            ${i === 0 ? 'text-[18px] md:text-[20px] text-zinc-500 font-medium' : ''}
+                            text-zinc-700 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
+                            ${i === 0 ? 'text-[18px] md:text-[20px] text-zinc-600 font-medium' : ''}
                             ${activeParagraphIndex === i ? 'bg-blue-50 border-l-2 border-blue-500 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
                         `}
                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
@@ -78,7 +78,7 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                                     <p
                                         style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
                                         className={`
-                                            text-zinc-600 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
+                                            text-zinc-700 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
                                             ${activeParagraphIndex === actualIndex ? 'bg-blue-50 border-l-2 border-blue-500 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
                                         `}
                                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
