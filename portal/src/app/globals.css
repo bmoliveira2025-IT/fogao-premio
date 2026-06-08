@@ -11,8 +11,8 @@
   /* Off-white light background */
   --foreground: #09090b;
   /* Deep Zinc Black text */
-  --premium-gold: 212 175 55;
-  /* Champagne/Metallic Gold */
+  --premium-gold: 230 115 20;
+  /* Vibrant Orange/Amber */
   --card-bg: #FFFFFF;
   --graphite: #F4F4F5;
   --border-color: rgba(0, 0, 0, 0.08);
@@ -31,8 +31,8 @@
   --background: #FAFAFA;
   /* Matte Zinc White */
   --foreground: #09090b;
-  --premium-gold: 212 175 55;
-  /* #D4AF37 - Metallic Gold */
+  --premium-gold: 230 115 20;
+  /* Vibrant Orange/Amber */
   --card-bg: #FFFFFF;
   --graphite: #F4F4F5;
   --border-color: rgba(0, 0, 0, 0.08);

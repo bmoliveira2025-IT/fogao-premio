@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Bell, Star, CheckCheck, Loader2 } from 'lucide-react';
+import { Bell, Flame, CheckCheck, Loader2 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 
@@ -105,44 +105,51 @@ export default function MobileUserHeader() {
 
     return (
         <div className="flex items-center justify-between py-4 relative">
-            <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl overflow-hidden bg-zinc-200 shadow-sm">
+            {/* Logo on Left */}
+            <Link href="/" className="flex items-center group no-underline">
+                <div className="relative w-10 h-10 flex items-center justify-center">
                     <Image 
-                        src={user?.photoURL || 'https://placehold.co/100x100?text=BFR'}
-                        alt="User Avatar"
-                        width={40}
-                        height={40}
-                        className="object-cover w-full h-full"
+                        src="/logo-transparent.png"
+                        alt="Fogão 360 Premium Logo"
+                        fill
+                        className="object-contain scale-[1.45]"
                         unoptimized
                     />
                 </div>
-                <div className="flex flex-col">
-                    <span className="text-zinc-900 font-bold text-[14px] leading-tight">{displayName}</span>
-                    <span className="text-zinc-500 font-medium text-[12px]">{greeting}</span>
+                <div className="flex items-center font-display ml-1">
+                    <span className="text-[22px] font-black text-zinc-900 tracking-tight leading-none">Fogão</span>
+                    <span className="text-[22px] font-medium text-premium-gold tracking-tight leading-none">360</span>
                 </div>
-            </div>
+            </Link>
 
-            <div className="flex items-center gap-4" ref={notificationsRef}>
-                <Link 
-                    href="/" 
-                    className="flex items-center gap-1 group no-underline"
-                >
-                    <Star size={14} className="text-premium-gold fill-premium-gold drop-shadow-sm group-hover:scale-110 transition-transform" />
-                    <div className="flex items-center tracking-tighter uppercase italic">
-                        <span className="text-[16px] font-black text-zinc-900 drop-shadow-sm">Fogão</span>
-                        <span className="text-[16px] font-black text-premium-gold drop-shadow-sm">360</span>
-                    </div>
-                </Link>
-
+            {/* Notifications & User on Right */}
+            <div className="flex items-center gap-3" ref={notificationsRef}>
                 <button 
                     onClick={() => setShowNotifications(!showNotifications)}
-                    className="relative p-2 rounded-xl border border-zinc-200 text-zinc-600 hover:bg-zinc-50 hover:text-premium-gold hover:border-premium-gold/30 transition-all shadow-sm bg-white"
+                    className="relative p-2.5 rounded-full bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-premium-gold transition-all"
                 >
                     <Bell size={18} />
                     {unreadCount > 0 && (
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-[1.5px] border-white" />
+                        <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
                     )}
                 </button>
+
+                <Link href="/profile" className="flex items-center gap-2">
+                    <div className="flex flex-col items-end text-right hidden sm:flex">
+                        <span className="text-zinc-900 font-bold text-[13px] leading-none">{displayName}</span>
+                        <span className="text-zinc-500 font-medium text-[11px] mt-1">{greeting}</span>
+                    </div>
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-200 shadow-sm border border-zinc-200">
+                        <Image 
+                            src={user?.photoURL || 'https://placehold.co/100x100?text=BFR'}
+                            alt="User Avatar"
+                            width={40}
+                            height={40}
+                            className="object-cover w-full h-full"
+                            unoptimized
+                        />
+                    </div>
+                </Link>
 
                 {/* Notifications Dropdown */}
                 {showNotifications && (
