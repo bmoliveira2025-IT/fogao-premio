@@ -212,7 +212,7 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
                                 const homeScore = match.home_score ?? 0;
                                 const awayScore = match.away_score ?? 0;
                                 const status = match.status?.toUpperCase() || '';
-                                const isFinished = status.includes('FIM') || status.includes('ENCERRAD');
+                                const isFinished = status.includes('FIM') || status.includes('ENCERRAD') || status.includes('FINALIZAD');
                                 const isLive = status.includes('VIVO') || status.includes('ANDAMENTO');
 
                                 return (
@@ -237,18 +237,21 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
                                                 <span className="text-zinc-300 text-[10px]">•</span>
                                                 <span className="text-[11px] text-zinc-400 font-medium truncate uppercase">{match.championship}</span>
                                             </div>
-                                            
-                                            {(isFinished || isLive) && (
-                                                <div className="mt-1.5 flex items-center">
-                                                    <span className={cn(
-                                                        "text-[12px] font-bold px-2 py-0.5 rounded-md",
-                                                        isLive ? "bg-red-50 text-red-600" : "bg-zinc-100 text-zinc-600"
-                                                    )}>
-                                                        {homeScore} - {awayScore}
-                                                    </span>
-                                                </div>
-                                            )}
                                         </div>
+
+                                        {/* Match Score */}
+                                        {(isFinished || isLive) && (
+                                            <div className="flex-shrink-0 flex items-center justify-center">
+                                                <span className={cn(
+                                                    "text-[15px] font-black px-3 py-1.5 rounded-[10px] border tracking-wide",
+                                                    isLive 
+                                                        ? "bg-red-50 text-red-600 border-red-100 shadow-[0_0_10px_rgba(220,38,38,0.2)] animate-pulse" 
+                                                        : "bg-zinc-50 text-zinc-800 border-zinc-200/80 shadow-sm"
+                                                )}>
+                                                    {homeScore} <span className="text-zinc-400 font-medium mx-0.5">x</span> {awayScore}
+                                                </span>
+                                            </div>
+                                        )}
 
                                         {/* Right Icon / Logo */}
                                         <div className="flex-shrink-0 flex items-center justify-center w-10 h-10">
