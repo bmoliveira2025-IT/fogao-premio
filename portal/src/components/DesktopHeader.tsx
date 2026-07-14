@@ -38,11 +38,6 @@ export default function DesktopHeader() {
                         <span className="text-xl font-black text-white tracking-tight group-hover:text-premium-gold transition-colors">Fogão</span>
                         <span className="text-xl font-semibold text-premium-gold tracking-tight">360</span>
                     </span>
-                    {isPremium && (
-                        <span className="ml-1 rounded-full border border-premium-gold/40 bg-premium-gold/10 px-2 py-0.5 text-[10px] font-black tracking-[0.12em] text-premium-gold">
-                            VIP
-                        </span>
-                    )}
                 </Link>
 
                 {/* NAVIGATION - CENTERED */}
@@ -84,9 +79,15 @@ export default function DesktopHeader() {
                     {/* Sign In / Profile Button */}
                     <Link 
                         href={user ? "/profile" : "/login"}
-                        className="px-6 py-2 bg-[#22c55e] hover:bg-[#16a34a] text-white text-[11px] font-black uppercase tracking-widest rounded-md shadow-lg transition-all hover:scale-105 active:scale-95"
+                        className={cn(
+                            "flex items-center gap-2 px-6 py-2 text-[11px] font-black uppercase tracking-widest rounded-md shadow-lg transition-all hover:scale-105 active:scale-95",
+                            isPremium
+                                ? "border border-premium-gold/50 bg-premium-gold text-black hover:bg-[#e3c35c]"
+                                : "bg-[#22c55e] text-white hover:bg-[#16a34a]"
+                        )}
                     >
-                        {user ? "Perfil" : "Entrar"}
+                        {isPremium && <span aria-hidden="true">★</span>}
+                        {user ? (isPremium ? "Perfil VIP" : "Perfil") : "Entrar"}
                     </Link>
                 </div>
 

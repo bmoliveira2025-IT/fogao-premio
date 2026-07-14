@@ -107,24 +107,15 @@ export default function MobileUserHeader() {
         <div className="flex items-center justify-between py-4 relative">
             {/* Logo on Left */}
             <Link href="/" aria-label="Fogão 360 — Início" className="flex items-center group no-underline">
-                <div className="relative w-10 h-10 flex items-center justify-center">
-                    <Image 
-                        src="/logo-shield-360.png"
-                        alt=""
-                        fill
-                        className="object-contain"
-                        priority
-                    />
-                </div>
-                <div className="flex items-center font-display ml-1">
-                    <span className="text-[22px] font-black text-zinc-900 tracking-tight leading-none">Fogão</span>
-                    <span className="ml-1 text-[22px] font-semibold text-premium-gold tracking-tight leading-none">360</span>
-                    {isPremium && (
-                        <span className="ml-2 rounded-full border border-premium-gold/40 bg-premium-gold/10 px-1.5 py-0.5 text-[9px] font-black tracking-wider text-yellow-700">
-                            VIP
-                        </span>
-                    )}
-                </div>
+                <Image
+                    src="/logo-fogao-360-v2.png"
+                    alt="Fogão 360"
+                    width={190}
+                    height={64}
+                    className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    priority
+                    unoptimized
+                />
             </Link>
 
             {/* Notifications & User on Right */}
@@ -146,15 +137,22 @@ export default function MobileUserHeader() {
                         <span className="text-zinc-900 font-bold text-[13px] leading-none">{displayName}</span>
                         <span className="text-zinc-500 font-medium text-[11px] mt-1">{greeting}</span>
                     </div>
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-200 shadow-sm border border-zinc-200">
-                        <Image 
-                            src={user?.photoURL || 'https://placehold.co/100x100?text=BFR'}
-                            alt="User Avatar"
-                            width={40}
-                            height={40}
-                            className="object-cover w-full h-full"
-                            unoptimized
-                        />
+                    <div className="relative">
+                        <div className={`w-10 h-10 rounded-full overflow-hidden bg-zinc-200 shadow-sm border-2 ${isPremium ? 'border-premium-gold ring-2 ring-premium-gold/20' : 'border-zinc-200'}`}>
+                            <Image
+                                src={user?.photoURL || 'https://placehold.co/100x100?text=BFR'}
+                                alt={user ? `Foto de ${user.displayName || 'usuário'}` : 'Perfil de visitante'}
+                                width={40}
+                                height={40}
+                                className="object-cover w-full h-full"
+                                unoptimized
+                            />
+                        </div>
+                        {isPremium && (
+                            <span className="absolute -bottom-1 -right-2 rounded-full border-2 border-white bg-premium-gold px-1.5 py-0.5 text-[8px] font-black leading-none tracking-wide text-black shadow-md">
+                                VIP
+                            </span>
+                        )}
                     </div>
                 </Link>
 
