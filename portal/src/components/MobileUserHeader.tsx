@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Bell, Flame, CheckCheck, Loader2 } from 'lucide-react';
+import { Bell, CheckCheck, Loader2 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 
@@ -18,7 +18,7 @@ interface AppNotification {
 }
 
 export default function MobileUserHeader() {
-    const { user } = useAuth();
+    const { user, isPremium } = useAuth();
     const [greeting, setGreeting] = useState('Bom dia!');
     const [showNotifications, setShowNotifications] = useState(false);
     const notificationsRef = useRef<HTMLDivElement>(null);
@@ -106,19 +106,24 @@ export default function MobileUserHeader() {
     return (
         <div className="flex items-center justify-between py-4 relative">
             {/* Logo on Left */}
-            <Link href="/" className="flex items-center group no-underline">
+            <Link href="/" aria-label="Fogão 360 — Início" className="flex items-center group no-underline">
                 <div className="relative w-10 h-10 flex items-center justify-center">
                     <Image 
-                        src="/logo-transparent.png"
-                        alt="Fogão 360 Premium Logo"
+                        src="/logo-shield-360.png"
+                        alt=""
                         fill
-                        className="object-contain scale-[1.45]"
-                        unoptimized
+                        className="object-contain"
+                        priority
                     />
                 </div>
                 <div className="flex items-center font-display ml-1">
                     <span className="text-[22px] font-black text-zinc-900 tracking-tight leading-none">Fogão</span>
-                    <span className="text-[22px] font-medium text-premium-gold tracking-tight leading-none">360</span>
+                    <span className="ml-1 text-[22px] font-semibold text-premium-gold tracking-tight leading-none">360</span>
+                    {isPremium && (
+                        <span className="ml-2 rounded-full border border-premium-gold/40 bg-premium-gold/10 px-1.5 py-0.5 text-[9px] font-black tracking-wider text-yellow-700">
+                            VIP
+                        </span>
+                    )}
                 </div>
             </Link>
 
@@ -126,6 +131,8 @@ export default function MobileUserHeader() {
             <div className="flex items-center gap-3" ref={notificationsRef}>
                 <button 
                     onClick={() => setShowNotifications(!showNotifications)}
+                    aria-label={showNotifications ? 'Fechar notificações' : `Abrir notificações${unreadCount ? `, ${unreadCount} não lidas` : ''}`}
+                    aria-expanded={showNotifications}
                     className="relative p-2.5 rounded-full bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-premium-gold transition-all"
                 >
                     <Bell size={18} />

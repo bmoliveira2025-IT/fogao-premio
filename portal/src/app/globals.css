@@ -7,15 +7,16 @@
 
 :root {
   /* Default: Tema Claro (Light Mode) */
-  --background: #FAFAFA;
-  /* Off-white light background */
-  --foreground: #09090b;
-  /* Deep Zinc Black text */
-  --premium-gold: 230 115 20;
-  /* Vibrant Orange/Amber */
-  --card-bg: #FFFFFF;
-  --graphite: #F4F4F5;
-  --border-color: rgba(0, 0, 0, 0.08);
+  --background: #09090B;
+  --foreground: #FAFAFA;
+  --premium-gold: 212 175 55;
+  --card-bg: #151518;
+  --graphite: #1D1D21;
+  --border-color: #2A2A30;
+  --muted-foreground: #A1A1AA;
+  --success: #22C55E;
+  --danger: #EF4444;
+  --info: #3B82F6;
   /* Light borders */
 
   /* New Design Tokens */
@@ -28,14 +29,13 @@
 /* Tema Glorioso (Light Mode - Gold Accent) */
 .glorioso,
 .dark {
-  --background: #FAFAFA;
-  /* Matte Zinc White */
-  --foreground: #09090b;
-  --premium-gold: 230 115 20;
-  /* Vibrant Orange/Amber */
-  --card-bg: #FFFFFF;
-  --graphite: #F4F4F5;
-  --border-color: rgba(0, 0, 0, 0.08);
+  --background: #09090B;
+  --foreground: #FAFAFA;
+  --premium-gold: 212 175 55;
+  --card-bg: #151518;
+  --graphite: #1D1D21;
+  --border-color: #2A2A30;
+  --muted-foreground: #A1A1AA;
 }
 
 /* Tema Gloriosa (Light Mode - Pink Accent) */
@@ -58,9 +58,9 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'DM Sans', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.6;
-  font-weight: 450;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -78,8 +78,8 @@ h4,
 h5,
 h6 {
   font-family: 'Outfit', sans-serif;
-  letter-spacing: 0.01em;
-  line-height: 1.4;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
   font-style: normal;
 }
 
@@ -136,18 +136,33 @@ h6 {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
-/* App-Like: Hide Scrollbar Globally */
-::-webkit-scrollbar {
-  display: none;
-  width: 0px;
-  background: transparent;
+/* Visible, discreet scrollbars improve orientation on long editorial pages. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
 }
 
-* {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgb(var(--premium-gold) / 0.75);
+  outline-offset: 3px;
+}
+
+button, a, input, select, textarea {
+  -webkit-tap-highlight-color: rgb(var(--premium-gold) / 0.16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Static gradient border - subtle for home page */

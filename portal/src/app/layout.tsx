@@ -7,38 +7,34 @@ import NotificationManager from "@/components/NotificationManager";
 import InstallPrompt from "@/components/InstallPrompt";
 import MorningBriefingPopup from "@/components/MorningBriefingPopup";
 import { Suspense } from "react";
-import ModernNavMenu from "@/components/ModernNavMenu";
-import TabBar from "@/components/TabBar";
 import DesktopHeader from "@/components/DesktopHeader";
-import ModernNavTabs from "@/components/ModernNavTabs";
 import MobileBottomNav from "@/components/MobileBottomNav";
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
   viewportFit: 'cover',
-  themeColor: '#000000',
+  themeColor: '#09090B',
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://fogao-premio.vercel.app'),
   title: {
-    default: "Fogão Prêmio | Notícias Premium do Botafogo",
-    template: "%s | Fogão Prêmio"
+    default: "Fogão 360 | Tudo sobre o Botafogo",
+    template: "%s | Fogão 360"
   },
-  description: "Acompanhe as notícias do Botafogo com inteligência artificial e curadoria premium.",
+  description: "Notícias, jogos, tabela, vídeos e análises do Botafogo em um só lugar.",
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
     url: 'https://fogao-premio.vercel.app',
-    siteName: 'Fogão Prêmio',
+    siteName: 'Fogão 360',
     images: [
       {
         url: '/og-image.jpg', // We might need to ensure this exists or use a placeholder
         width: 1200,
         height: 630,
-        alt: 'Fogão Prêmio',
+        alt: 'Fogão 360',
       },
     ],
   },
@@ -55,7 +51,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Fogão Prêmio',
+    title: 'Fogão 360',
   },
 };
 
@@ -90,7 +86,7 @@ export default function RootLayout({
 
             {/* Global Top Tabs for Mobile - Removed as per user request to make it more compact */}
 
-            <main className="min-h-screen bg-[#0a0a0a] flex flex-col pt-0 lg:pt-16">
+            <main className="min-h-screen bg-background text-foreground flex flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] pt-0 lg:pb-0 lg:pt-16">
               <div className="flex-1">
                 {children}
               </div>

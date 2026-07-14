@@ -1,11 +1,11 @@
 {
-    "name": "Fogão Prêmio",
-    "short_name": "Fogão Prêmio",
-    "description": "Notícias Premium do Botafogo",
+    "name": "Fogão 360",
+    "short_name": "Fogão 360",
+    "description": "Tudo sobre o Botafogo em um só lugar",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#000000",
+    "background_color": "#09090B",
+    "theme_color": "#09090B",
     "icons": [
         {
             "src": "/icon.png",

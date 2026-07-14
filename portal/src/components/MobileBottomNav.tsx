@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Trophy, Play, LayoutGrid, GalleryVerticalEnd } from 'lucide-react';
+import { Home, Trophy, Play, UserRound, Newspaper } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function MobileBottomNav() {
@@ -10,15 +10,15 @@ export default function MobileBottomNav() {
 
     const navItems = [
         { icon: Home, label: 'Início', href: '/' },
-        { icon: GalleryVerticalEnd, label: 'Feed', href: '/feed' },
+        { icon: Newspaper, label: 'Notícias', href: '/news' },
         { icon: Trophy, label: 'Jogos', href: '/matches' },
         { icon: Play, label: 'Vídeos', href: '/videos' },
-        { icon: LayoutGrid, label: 'Tabela', href: '/tabela' },
+        { icon: UserRound, label: 'Perfil', href: '/profile' },
     ];
 
     return (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-t border-white/10 pb-safe">
-            <div className="flex items-center justify-around h-16">
+        <nav aria-label="Navegação principal" className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#09090b]/95 backdrop-blur-xl border-t border-[#2a2a30] pb-safe">
+            <div className="flex items-center justify-around min-h-16">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
                     const Icon = item.icon;
@@ -27,7 +27,8 @@ export default function MobileBottomNav() {
                         <Link 
                             key={item.label}
                             href={item.href}
-                            className="flex flex-col items-center justify-center gap-1 w-full h-full group"
+                            aria-current={isActive ? 'page' : undefined}
+                            className="flex min-h-16 flex-col items-center justify-center gap-1 w-full group"
                         >
                             <div className={cn(
                                 "p-1.5 rounded-full transition-all duration-300",
@@ -42,7 +43,7 @@ export default function MobileBottomNav() {
                                 />
                             </div>
                             <span className={cn(
-                                "text-[9px] font-bold tracking-wider uppercase transition-all",
+                                "text-[11px] font-semibold transition-all",
                                 isActive ? "text-premium-gold" : "text-zinc-500"
                             )}>
                                 {item.label}
@@ -51,6 +52,6 @@ export default function MobileBottomNav() {
                     );
                 })}
             </div>
-        </div>
+        </nav>
     );
 }
