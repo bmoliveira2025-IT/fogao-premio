@@ -2,12 +2,23 @@
 
 import { useState, useMemo } from 'react';
 import { MatchData } from '@/data/schedule';
-import { ChevronDown, Filter, Calendar as CalendarIcon, MapPin, MoreVertical } from 'lucide-react';
+import { ChevronDown, Filter, Calendar as CalendarIcon, MoreVertical } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import { cn } from '@/lib/utils';
 
 interface LightMatchesCalendarProps {
     matches: MatchData[];
+}
+
+function getChampionshipLabel(championship?: string) {
+    const normalized = championship?.trim().toLowerCase() || '';
+
+    if (normalized.includes('brasileiro') || normalized.includes('brasileirão')) return 'Brasileirão';
+    if (normalized.includes('libertadores')) return 'Libertadores';
+    if (normalized.includes('sudamericana') || normalized.includes('sul-americana')) return 'Sulamericana';
+    if (normalized.includes('copa do brasil')) return 'Copa do Brasil';
+
+    return championship || 'Campeonato';
 }
 
 export default function LightMatchesCalendar({ matches }: LightMatchesCalendarProps) {
@@ -239,7 +250,9 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
                                             <div className="flex items-center gap-2 mt-1">
                                                 <span className="text-[12px] text-zinc-500 font-medium">{timeString}</span>
                                                 <span className="text-zinc-300 text-[10px]">•</span>
-                                                <span className="text-[11px] text-zinc-400 font-medium truncate uppercase">{match.championship}</span>
+                                                <span className="whitespace-nowrap text-[11px] font-semibold text-zinc-500">
+                                                    {getChampionshipLabel(match.championship)}
+                                                </span>
                                             </div>
                                         </div>
 
