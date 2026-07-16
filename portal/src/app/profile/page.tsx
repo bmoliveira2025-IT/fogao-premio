@@ -31,16 +31,16 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-zinc-50 text-zinc-900 font-sans selection:bg-premium-gold selection:text-white transition-colors duration-300 pb-32">
+        <div className="w-full min-h-screen bg-zinc-50 text-zinc-900 font-sans selection:bg-premium-gold selection:text-white transition-colors duration-300 pb-8 lg:pb-32">
             <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
 
                 {/* Header Area */}
                 <div className="lg:col-span-4">
-                    <div className="mb-4 pt-4 pb-4 px-5 bg-white border-b border-zinc-200 lg:rounded-[2rem] lg:border lg:shadow-sm lg:mb-0">
-                        <h1 className="text-xl font-display font-black text-zinc-900 mb-3 text-center lg:hidden">Perfil</h1>
+                    <div className="mb-4 pt-5 pb-5 px-5 bg-white border-b border-zinc-200 lg:rounded-[2rem] lg:border lg:shadow-sm lg:mb-0">
+                        <h1 className="text-2xl font-display font-black text-zinc-900 mb-4 text-center lg:hidden">Perfil</h1>
 
                         <div className="flex items-center lg:flex-col lg:text-center space-x-3 lg:space-x-0 lg:space-y-4">
-                            <div className="w-14 h-14 lg:w-24 lg:h-24 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center relative overflow-hidden">
+                            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center relative overflow-hidden flex-shrink-0 shadow-sm">
                                 {user?.photoURL ? (
                                     <img src={user.photoURL} alt="Avatar" className="w-full h-full rounded-full object-cover" />
                                 ) : (
@@ -54,13 +54,13 @@ export default function ProfilePage() {
                             </div>
 
                             <div>
-                                <h2 className="text-lg lg:text-xl font-bold text-zinc-900">{user?.displayName || 'Torcedor Alvinegro'}</h2>
-                                <p className="text-xs text-zinc-500">{user?.email || 'Convidado'}</p>
+                                <h2 className="text-xl lg:text-2xl font-bold text-zinc-900 leading-tight">{user?.displayName || 'Torcedor Alvinegro'}</h2>
+                                <p className="text-sm text-zinc-500 mt-0.5 break-all">{user?.email || 'Convidado'}</p>
 
                                 {isPremium ? (
-                                    <div className="mt-2 inline-flex items-center space-x-1.5 px-2 py-0.5 rounded bg-premium-gold/10 border border-premium-gold/20">
-                                        <Crown size={10} className="text-premium-gold fill-premium-gold" />
-                                        <span className="text-[10px] font-bold text-premium-gold uppercase tracking-wider">
+                                    <div className="mt-2.5 inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-premium-gold/10 border border-premium-gold/25">
+                                        <Crown size={12} className="text-premium-gold fill-premium-gold" />
+                                        <span className="text-[11px] font-bold text-premium-gold uppercase tracking-wider">
                                             Membro Premium
                                         </span>
                                     </div>
@@ -87,14 +87,14 @@ export default function ProfilePage() {
                                 <Star size={24} className="text-premium-gold fill-premium-gold" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-black text-zinc-900 leading-none uppercase italic tracking-tighter">Fogão Points</h3>
-                                <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest mt-1">Sua Pontuação de Lealdade</p>
+                                <h3 className="text-xl font-black text-zinc-900 leading-none uppercase italic tracking-tighter">Fogão Points</h3>
+                                <p className="text-[11px] text-zinc-500 uppercase font-bold tracking-[0.12em] mt-1.5">Sua Pontuação de Lealdade</p>
                             </div>
                         </div>
                         <div className="text-right relative z-10">
-                            <div className="text-3xl font-black text-premium-gold leading-none tracking-tighter">{points}</div>
+                            <div className="text-[40px] font-black text-premium-gold leading-none tracking-tighter">{points}</div>
                             <div className={cn(
-                                "text-[9px] font-bold uppercase tracking-widest mt-1",
+                                "text-[10px] font-bold uppercase tracking-widest mt-1",
                                 rank === "Platina" ? "text-blue-500" :
                                     rank === "Ouro" ? "text-premium-gold" :
                                         rank === "Prata" ? "text-zinc-400" : "text-zinc-500"
@@ -109,10 +109,10 @@ export default function ProfilePage() {
                         <div className="relative z-10">
                             <div className="flex items-start justify-between mb-4">
                                 <div>
-                                    <h3 className="text-sm font-bold text-zinc-900 mb-1">
+                                    <h3 className="text-base font-bold text-zinc-900 mb-1.5">
                                         {isPremium ? 'Assinatura Premium Ativa' : 'Desbloqueie o Premium'}
                                     </h3>
-                                    <p className="text-[10px] text-zinc-500 max-w-[200px]">
+                                    <p className="text-sm leading-relaxed text-zinc-500 max-w-[260px]">
                                         {isPremium
                                             ? 'Sua próxima renovação será em 15 de Outubro.'
                                             : 'Acesse análises táticas, vídeos exclusivos e mais.'}
@@ -123,7 +123,7 @@ export default function ProfilePage() {
 
                             <button
                                 onClick={() => isPremium ? setShowSubscriptionModal(true) : null}
-                                className="w-full py-3 bg-white border border-zinc-200 rounded-xl text-premium-gold font-bold text-[10px] uppercase tracking-widest hover:border-premium-gold/50 hover:bg-premium-gold/5 transition-all duration-300 active:scale-[0.98]"
+                                className="w-full py-3.5 bg-white border border-zinc-200 rounded-xl text-premium-gold font-bold text-[12px] uppercase tracking-[0.14em] hover:border-premium-gold/50 hover:bg-premium-gold/5 transition-all duration-300 active:scale-[0.98]"
                             >
                                 {isPremium ? 'Gerenciar Assinatura' : 'Assinar Agora'}
                             </button>
@@ -135,12 +135,12 @@ export default function ProfilePage() {
 
                         {/* Audio Preferences */}
                         <div className="space-y-2 lg:col-span-2">
-                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Acessibilidade de Áudio</h4>
+                            <h4 className="text-xs font-black text-zinc-500 uppercase tracking-[0.14em] px-1 mb-2">Acessibilidade de Áudio</h4>
                             <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm p-5 space-y-4">
 
                                 {/* Speed Control */}
                                 <div className="space-y-2">
-                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Velocidade de Leitura</span>
+                                    <span className="text-xs text-zinc-600 uppercase font-bold tracking-[0.12em]">Velocidade de Leitura</span>
                                     <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
                                         {[0.5, 1, 1.5, 2].map((s) => (
                                             <AudioSpeedButton key={s} speed={s} />
@@ -150,7 +150,7 @@ export default function ProfilePage() {
 
                                 {/* Voice Control */}
                                 <div className="space-y-2">
-                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Voz (PT-BR)</span>
+                                    <span className="text-xs text-zinc-600 uppercase font-bold tracking-[0.12em]">Voz (PT-BR)</span>
                                     <VoiceSelector />
                                 </div>
 
@@ -159,21 +159,21 @@ export default function ProfilePage() {
 
                         {/* Appearances */}
                         <div className="space-y-2 lg:col-span-2">
-                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest px-1 mb-2">Aparência</h4>
+                            <h4 className="text-xs font-black text-zinc-500 uppercase tracking-[0.14em] px-1 mb-2">Aparência</h4>
                             <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm p-5 space-y-4">
                                 <div className="space-y-2">
-                                    <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-widest">Tema do Aplicativo</span>
+                                    <span className="text-xs text-zinc-600 uppercase font-bold tracking-[0.12em]">Tema do Aplicativo</span>
                                     <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
                                         <button
                                             onClick={() => setTheme('glorioso')}
-                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'glorioso' ? 'bg-white text-premium-gold shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
+                                            className={`flex-1 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${theme === 'glorioso' ? 'bg-white text-premium-gold shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
                                         >
                                             <Star size={14} className={theme === 'glorioso' ? 'fill-premium-gold' : ''} />
                                             Glorioso (Ouro)
                                         </button>
                                         <button
                                             onClick={() => setTheme('gloriosa')}
-                                            className={`flex-1 py-2 rounded-md text-xs font-bold transition-all flex items-center justify-center gap-2 ${theme === 'gloriosa' ? 'bg-white text-pink-500 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
+                                            className={`flex-1 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${theme === 'gloriosa' ? 'bg-white text-pink-500 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
                                         >
                                             <Crown size={14} className={theme === 'gloriosa' ? 'fill-pink-500' : ''} />
                                             Gloriosa (Rosa)
@@ -261,7 +261,7 @@ function AudioSpeedButton({ speed }: { speed: number }) {
     return (
         <button
             onClick={() => setSpeed(speed)}
-            className={`flex-1 py-1.5 rounded-md text-[10px] font-bold transition-all ${currentSpeed === speed ? 'bg-white border-zinc-200 text-zinc-900 shadow-sm border' : 'text-zinc-500 hover:text-zinc-900'}`}
+            className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${currentSpeed === speed ? 'bg-white border-zinc-200 text-zinc-900 shadow-sm border' : 'text-zinc-500 hover:text-zinc-900'}`}
         >
             {speed}x
         </button>
@@ -299,11 +299,11 @@ function VoiceSelector() {
                 <button
                     key={voice.name}
                     onClick={() => handleSelect(voice.name)}
-                    className={`text-left px-3 py-2 rounded-lg text-[10px] font-medium transition-colors border ${selectedVoice === voice.name ? 'bg-white text-premium-gold border-premium-gold/30 shadow-sm' : 'border-transparent text-zinc-500 hover:bg-zinc-50'}`}
+                    className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors border ${selectedVoice === voice.name ? 'bg-white text-premium-gold border-premium-gold/30 shadow-sm' : 'border-transparent text-zinc-600 hover:bg-zinc-50'}`}
                 >
                     {voice.name}
                 </button>
-            )) : <p className="text-[10px] text-zinc-400 italic">Carregando vozes...</p>}
+            )) : <p className="text-sm text-zinc-400 italic">Carregando vozes...</p>}
         </div>
     );
 }

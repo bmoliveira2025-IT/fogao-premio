@@ -252,7 +252,7 @@ export default function MatchStatsPage() {
     }
 
     return (
-        <main className="min-h-screen bg-black text-white pb-32 selection:bg-premium-gold selection:text-black font-sans">
+        <main className="min-h-screen bg-black text-white pb-8 lg:pb-32 selection:bg-premium-gold selection:text-black font-sans">
             {/* Ultra Compact Non-Sticky Header */}
             <header className="fixed top-0 left-0 right-0 z-[100] bg-black/95 backdrop-blur-3xl border-b border-white/10 h-11 flex items-center px-4 shadow-xl">
                 <button onClick={() => router.back()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 active:scale-90 transition-transform">

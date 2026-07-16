@@ -128,24 +128,24 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             </div>
 
             {/* WHITE OVERLAPPING CONTENT CARD */}
-            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[2rem] -mt-8 px-5 pb-40 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:px-12">
+            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.5rem] md:rounded-t-[2rem] -mt-6 md:-mt-8 px-4 sm:px-6 pb-40 md:px-12 md:pb-40 shadow-[0_-8px_32px_rgba(0,0,0,0.08)]">
                 
                 {/* DRAG HANDLE */}
-                <div className="w-full flex justify-center py-4 mb-2">
-                    <div className="w-12 h-1.5 bg-zinc-200 rounded-full" />
+                <div className="w-full flex justify-center py-3 md:py-4">
+                    <div className="w-10 md:w-12 h-1 bg-zinc-200 rounded-full" />
                 </div>
                 
                 {/* HEADER CONTENT (Moved from image) */}
-                <div className="flex flex-col items-center text-center mb-8">
-                    <span className="inline-block px-3 py-1 bg-[#1A73E8]/10 text-[#1A73E8] text-[12px] font-bold rounded-full mb-4">
+                <div className="flex flex-col items-center text-center mb-5 md:mb-8">
+                    <span className="inline-block px-3 py-1 bg-[#1A73E8]/10 text-[#1A73E8] text-[12px] font-bold rounded-full mb-3 md:mb-4">
                         {categoryKey || 'Futebol'}
                     </span>
                     
-                    <h1 className="text-[26px] md:text-[40px] font-bold leading-[1.2] mb-4 tracking-tight text-zinc-900">
+                    <h1 className="text-[25px] md:text-[40px] font-bold leading-[1.14] md:leading-[1.2] mb-3 md:mb-4 tracking-tight text-zinc-900 max-w-3xl">
                         {toSentenceCase(article.title)}
                     </h1>
                     
-                    <div className="flex items-center gap-2 text-[13px] text-zinc-500 font-medium">
+                    <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[12px] sm:text-[13px] text-zinc-500 font-medium">
                         <span>🔥 Trending No. 1</span>
                         <span className="w-1 h-1 rounded-full bg-zinc-300" />
                         <span>{timeAgoStr(article.created_at)}</span>
@@ -155,7 +155,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 </div>
 
                 {/* AUTHOR INFO (Source) */}
-                <div className="flex items-center justify-center gap-3 mb-10 pt-6 border-t border-zinc-100">
+                <div className="flex items-center justify-center gap-3 mb-7 md:mb-10 pt-4 md:pt-6 border-t border-zinc-100">
                     {article.category === "Resumo Diário" ? (
                         <div className="flex-shrink-0 flex items-center justify-center text-premium-gold text-3xl pb-1">
                             ★
@@ -198,9 +198,9 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                         {/* Related News directly below text */}
                         {(relatedNews && relatedNews.length > 0) && (
-                            <div className="mt-12 pt-8 border-t border-zinc-100">
-                                <h3 className="text-[18px] font-bold text-zinc-900 mb-4">Veja Também</h3>
-                                <div className="space-y-4">
+                            <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-zinc-100">
+                                <h3 className="text-[18px] font-bold text-zinc-900 mb-3 md:mb-4">Veja Também</h3>
+                                <div className="space-y-2 md:space-y-4">
                                     {relatedNews.slice(0, 3).map((item: any) => (
                                         <CompactNewsRow key={item.id} article={item} />
                                     ))}

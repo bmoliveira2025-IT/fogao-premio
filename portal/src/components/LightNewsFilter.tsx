@@ -53,11 +53,6 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   // If a filter is too strict and returns no results, show all (fallback)
   const displayNews = filteredNews.length > 0 ? filteredNews : news;
 
-  // Reset visible count when filter changes
-  useEffect(() => {
-    setVisibleCount(ITEMS_PER_PAGE);
-  }, [activeFilter]);
-
   // Intersection Observer for Infinite Scroll
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -80,7 +75,10 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
         {FILTERS.map((filter) => (
           <button
             key={filter}
-            onClick={() => setActiveFilter(filter)}
+            onClick={() => {
+              setActiveFilter(filter);
+              setVisibleCount(ITEMS_PER_PAGE);
+            }}
             className={cn(
               "px-4 py-1.5 text-[13px] font-bold rounded-xl whitespace-nowrap transition-all",
               activeFilter === filter
@@ -102,14 +100,14 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
 
       {/* Load More Observer Target */}
       {visibleCount < displayNews.length && (
-        <div ref={loadMoreRef} className="h-20 flex items-center justify-center pb-24">
+        <div ref={loadMoreRef} className="h-12 flex items-center justify-center">
           <div className="w-6 h-6 border-2 border-green-700 border-t-transparent rounded-full animate-spin opacity-50"></div>
         </div>
       )}
       
       {/* Fallback padding if no more items */}
       {visibleCount >= displayNews.length && (
-        <div className="h-24"></div>
+        <div className="h-8" aria-hidden="true" />
       )}
     </div>
   );

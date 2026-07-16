@@ -86,7 +86,7 @@ export default function PodcastsPage() {
     };
 
     return (
-        <div className="min-h-screen bg-background text-foreground pb-32">
+        <div className="min-h-screen bg-background text-foreground pb-8 lg:pb-32">
 
             {/* HERO SECTION - Featured Podcast */}
             {featuredPodcast && !loading && (

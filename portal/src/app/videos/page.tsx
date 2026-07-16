@@ -1,8 +1,7 @@
 import { db } from '@/lib/firebase-admin';
 import VideoGrid from '@/components/VideoGrid';
 import LightVideoFeed from '@/components/LightVideoFeed';
-import { ArrowLeft, MonitorPlay } from 'lucide-react';
-import Link from 'next/link';
+import { MonitorPlay } from 'lucide-react';
 
 export const revalidate = 60;
 
@@ -13,6 +12,16 @@ interface VideoItem {
     thumbnail: string;
     published_at: string;
     source?: string;
+}
+
+interface NewsItem {
+    id: string;
+    title: string;
+    image?: string;
+    source?: string;
+    created_at: string;
+    likes_count?: number;
+    dislikes_count?: number;
 }
 
 async function getVideos() {
@@ -32,14 +41,34 @@ async function getVideos() {
     });
 }
 
+async function getRecommendedNews() {
+    const newsRef = db.collection('news').orderBy('created_at', 'desc').limit(6);
+    const snap = await newsRef.get();
+
+    return snap.docs.map(doc => {
+        const data = doc.data();
+        return {
+            id: doc.id,
+            title: data.title || '',
+            image: data.image || data.image_url || '',
+            source: data.source || 'Fogão 360',
+            created_at: data.created_at?.toDate
+                ? data.created_at.toDate().toISOString()
+                : String(data.created_at || new Date().toISOString()),
+            likes_count: data.likes_count || 0,
+            dislikes_count: data.dislikes_count || 0,
+        } as NewsItem;
+    });
+}
+
 export default async function VideosPage() {
-    const videos = await getVideos();
+    const [videos, recommendedNews] = await Promise.all([getVideos(), getRecommendedNews()]);
 
     return (
         <div className="w-full bg-[#f8f9fa] lg:bg-[#0a0a0a]">
             {/* Mobile Light Theme Layout */}
             <div className="block lg:hidden">
-                <LightVideoFeed videos={videos} />
+                <LightVideoFeed videos={videos} recommendedNews={recommendedNews} />
             </div>
 
             {/* Desktop Dark Theme Layout */}

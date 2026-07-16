@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Bell, CheckCheck, Loader2 } from 'lucide-react';
+import { Bell, CheckCheck, Loader2, Trash2 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 
@@ -15,6 +15,52 @@ interface AppNotification {
     timestamp: number;
     type: string;
     read?: boolean;
+}
+
+const READ_RETENTION_MS = 24 * 60 * 60 * 1000;
+const NOTIFICATION_RETENTION_MS = 72 * 60 * 60 * 1000;
+const MAX_VISIBLE_NOTIFICATIONS = 10;
+
+function getStoredReadNotifications(): Record<string, number> {
+    try {
+        const stored = localStorage.getItem('read_notifications');
+        if (!stored) return {};
+
+        const parsed: unknown = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+            const migratedAt = Date.now();
+            return Object.fromEntries(parsed.filter(id => typeof id === 'string').map(id => [id, migratedAt]));
+        }
+
+        if (parsed && typeof parsed === 'object') {
+            return Object.fromEntries(
+                Object.entries(parsed).filter((entry): entry is [string, number] => typeof entry[1] === 'number')
+            );
+        }
+    } catch {
+        localStorage.removeItem('read_notifications');
+    }
+
+    return {};
+}
+
+function saveReadNotifications(readState: Record<string, number>) {
+    localStorage.setItem('read_notifications', JSON.stringify(readState));
+}
+
+function getDismissedNotifications(): Record<string, number> {
+    try {
+        const stored = localStorage.getItem('dismissed_notifications');
+        const parsed: unknown = stored ? JSON.parse(stored) : {};
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+            return Object.fromEntries(
+                Object.entries(parsed).filter((entry): entry is [string, number] => typeof entry[1] === 'number')
+            );
+        }
+    } catch {
+        localStorage.removeItem('dismissed_notifications');
+    }
+    return {};
 }
 
 export default function MobileUserHeader() {
@@ -40,15 +86,24 @@ export default function MobileUserHeader() {
                 if (res.ok) {
                     const data: AppNotification[] = await res.json();
                     
-                    // Check local storage for read status
-                    const readStr = localStorage.getItem('read_notifications');
-                    const readIds: string[] = readStr ? JSON.parse(readStr) : [];
-                    
-                    const withReadStatus = data.map(n => ({
-                        ...n,
-                        read: readIds.includes(n.id)
-                    }));
-                    
+                    const now = Date.now();
+                    const storedReadState = getStoredReadNotifications();
+                    const activeReadState = Object.fromEntries(
+                        Object.entries(storedReadState).filter(([, readAt]) => now - readAt < READ_RETENTION_MS)
+                    );
+                    const activeDismissedState = Object.fromEntries(
+                        Object.entries(getDismissedNotifications()).filter(([, dismissedAt]) => now - dismissedAt < NOTIFICATION_RETENTION_MS)
+                    );
+
+                    const withReadStatus = data
+                        .filter(n => now - (n.timestamp || new Date(n.dateStr).getTime()) < NOTIFICATION_RETENTION_MS)
+                        .filter(n => !activeDismissedState[n.id])
+                        .filter(n => !activeReadState[n.id] || now - activeReadState[n.id] < READ_RETENTION_MS)
+                        .slice(0, MAX_VISIBLE_NOTIFICATIONS)
+                        .map(n => ({ ...n, read: Boolean(activeReadState[n.id]) }));
+
+                    saveReadNotifications(activeReadState);
+                    localStorage.setItem('dismissed_notifications', JSON.stringify(activeDismissedState));
                     setNotifications(withReadStatus);
                 }
             } catch (err) {
@@ -73,8 +128,19 @@ export default function MobileUserHeader() {
     const markAllAsRead = () => {
         const updated = notifications.map(n => ({ ...n, read: true }));
         setNotifications(updated);
-        const readIds = updated.map(n => n.id);
-        localStorage.setItem('read_notifications', JSON.stringify(readIds));
+        const readAt = Date.now();
+        saveReadNotifications(Object.fromEntries(updated.map(n => [n.id, readAt])));
+    };
+
+    const clearReadNotifications = () => {
+        const readNotifications = notifications.filter(notification => notification.read);
+        const dismissedState = getDismissedNotifications();
+        const dismissedAt = Date.now();
+        readNotifications.forEach(notification => {
+            dismissedState[notification.id] = dismissedAt;
+        });
+        localStorage.setItem('dismissed_notifications', JSON.stringify(dismissedState));
+        setNotifications(current => current.filter(notification => !notification.read));
     };
 
     const router = useRouter();
@@ -84,8 +150,9 @@ export default function MobileUserHeader() {
         if (!notification.read) {
             const updated = notifications.map(n => n.id === notification.id ? { ...n, read: true } : n);
             setNotifications(updated);
-            const readIds = updated.filter(n => n.read).map(n => n.id);
-            localStorage.setItem('read_notifications', JSON.stringify(readIds));
+            const readState = getStoredReadNotifications();
+            readState[notification.id] = Date.now();
+            saveReadNotifications(readState);
         }
 
         setShowNotifications(false);
@@ -101,6 +168,7 @@ export default function MobileUserHeader() {
     };
 
     const unreadCount = notifications.filter(n => !n.read).length;
+    const hasReadNotifications = notifications.some(n => n.read);
     const displayName = user?.displayName?.split(' ')[0] || 'Botafoguense';
 
     return (
@@ -110,9 +178,9 @@ export default function MobileUserHeader() {
                 <Image
                     src="/logo-fogao-360-v2.png"
                     alt="Fogão 360"
-                    width={190}
-                    height={64}
-                    className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                    width={220}
+                    height={74}
+                    className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                     priority
                     unoptimized
                 />
@@ -161,15 +229,27 @@ export default function MobileUserHeader() {
                     <div className="absolute top-16 right-0 w-[300px] bg-white rounded-2xl shadow-2xl border border-zinc-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
                         <div className="p-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/50">
                             <span className="font-bold text-zinc-900 text-sm">Notificações</span>
+                            <div className="flex items-center gap-1.5">
+                            {hasReadNotifications && (
+                                <button
+                                    onClick={clearReadNotifications}
+                                    className="p-1.5 rounded-md text-zinc-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                    aria-label="Limpar notificações lidas"
+                                    title="Limpar lidas"
+                                >
+                                    <Trash2 size={14} />
+                                </button>
+                            )}
                             {unreadCount > 0 && (
                                 <button 
                                     onClick={markAllAsRead}
                                     className="text-[10px] text-premium-gold font-bold flex items-center gap-1 hover:text-yellow-600 transition-colors uppercase tracking-wider bg-premium-gold/10 px-2 py-1 rounded-md"
                                 >
                                     <CheckCheck size={12} />
-                                    Lidas
+                                    Marcar lidas
                                 </button>
                             )}
+                            </div>
                         </div>
                         <div className="max-h-[320px] overflow-y-auto">
                             {loading ? (

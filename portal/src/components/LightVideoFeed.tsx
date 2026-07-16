@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Search, MoreHorizontal, User, Check, Bell, Cast, Youtube, Settings, HelpCircle, LogOut, Crown, Bookmark } from 'lucide-react';
+import { Search, MoreHorizontal, User, Bell, Cast, Youtube, Settings, LogOut, Crown, Bookmark } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import LightVideoPlayer from './LightVideoPlayer';
 import { useAuth } from '@/context/AuthContext';
@@ -21,9 +21,25 @@ interface VideoItem {
 
 interface LightVideoFeedProps {
     videos: VideoItem[];
+    recommendedNews?: NewsItem[];
 }
 
-export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
+interface NewsItem {
+    id: string;
+    title: string;
+    image?: string;
+    source?: string;
+    created_at: string;
+    likes_count?: number;
+    dislikes_count?: number;
+}
+
+const getVideoDuration = (id: string) => {
+    const hash = Array.from(id).reduce((total, char) => total + char.charCodeAt(0), 0);
+    return `${(hash % 10) + 2}:${String((hash % 50) + 10).padStart(2, '0')}`;
+};
+
+export default function LightVideoFeed({ videos, recommendedNews = [] }: LightVideoFeedProps) {
     const router = useRouter();
     const { user } = useAuth();
     const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
@@ -75,7 +91,7 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
     };
 
     return (
-        <div className="w-full min-h-screen bg-white font-sans pb-24">
+        <div className="w-full min-h-screen bg-white font-sans pb-8">
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-white sticky top-0 z-10 border-b border-zinc-100">
                 {/* Left: Logo */}
@@ -168,7 +184,7 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                             />
                             {/* Mock Duration Badge */}
                             <div className="absolute bottom-2 left-2 bg-black/80 text-white text-[11px] font-bold px-1.5 py-0.5 rounded">
-                                {Math.floor(Math.random() * 10) + 2}:{Math.floor(Math.random() * 50) + 10}
+                                {getVideoDuration(video.id)}
                             </div>
                         </div>
 
@@ -227,7 +243,9 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                 <LightVideoPlayer 
                     video={selectedVideo} 
                     allVideos={videos.filter(v => v.id !== selectedVideo.id)}
+                    recommendedNews={recommendedNews}
                     onClose={() => setSelectedVideo(null)}
+                    onVideoSelect={setSelectedVideo}
                     isSubscribed={subscribedChannels[getChannelName(selectedVideo.source)] || false}
                     onSubscribeChange={() => toggleSubscribe(getChannelName(selectedVideo.source))}
                 />

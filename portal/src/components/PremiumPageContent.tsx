@@ -14,7 +14,7 @@ import BauGlorioso from '@/components/BauGlorioso';
 export default function PremiumPageContent({ premiumNews }: { premiumNews: any[] }) {
     const { user, isPremium } = useAuth();
     return (
-        <main className="min-h-screen bg-background text-white font-sans selection:bg-premium-gold selection:text-black pb-32">
+        <main className="min-h-screen bg-background text-white font-sans selection:bg-premium-gold selection:text-black pb-8 lg:pb-32">
 
             <div className="px-4 lg:max-w-5xl lg:mx-auto">
                 <div className="mb-12 text-center relative">

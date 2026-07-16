@@ -12,9 +12,27 @@ export interface MatchData {
     away_team_logo?: string;
     match_id?: string;
     display_time?: string;
+    date_tbd?: boolean;
+    round?: number;
+    city?: string;
+    source_url?: string;
 }
 
-const rawSchedule = [
+interface RawScheduleItem {
+    date: string;
+    homeTeam: string;
+    awayTeam: string;
+    competition: string;
+    result?: string;
+    time?: string;
+    dateTbd?: boolean;
+    round?: number;
+    location?: string;
+    city?: string;
+    sourceUrl?: string;
+}
+
+const rawSchedule: RawScheduleItem[] = [
   {"date": "29/01/2026", "homeTeam": "Botafogo", "awayTeam": "Cruzeiro", "competition": "Campeonato Brasileiro", "result": "4 - 0"},
   {"date": "04/02/2026", "homeTeam": "Grêmio", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "result": "5 - 3"},
   {"date": "12/02/2026", "homeTeam": "Fluminense", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "result": "1 - 0"},
@@ -40,12 +58,12 @@ const rawSchedule = [
   {"date": "23/05/2026", "homeTeam": "São Paulo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "result": "0 - 1"},
   {"date": "27/05/2026", "homeTeam": "Caracas FC", "awayTeam": "Botafogo", "competition": "CONMEBOL Sudamericana", "result": "1 - 2"},
   {"date": "30/05/2026", "homeTeam": "Bahia", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "result": "1 - 1"},
-  {"date": "22/07/2026", "homeTeam": "Botafogo", "awayTeam": "Santos", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "25/07/2026", "homeTeam": "Cruzeiro", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "29/07/2026", "homeTeam": "Botafogo", "awayTeam": "Grêmio", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "08/08/2026", "homeTeam": "Botafogo", "awayTeam": "Fluminense", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "15/08/2026", "homeTeam": "Vitória", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "22/08/2026", "homeTeam": "Botafogo", "awayTeam": "Athletico Paranaense", "competition": "Campeonato Brasileiro", "time": "A definir"},
+  {"date": "16/07/2026", "homeTeam": "Botafogo", "awayTeam": "Santos", "competition": "Campeonato Brasileiro", "time": "19:30", "round": 19, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/jogos/campeonato-brasileiro/serie-a/2026/botafogo-x-santos-fc/832071"},
+  {"date": "26/07/2026", "homeTeam": "Cruzeiro", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "16:00", "round": 20, "location": "Mineirão", "city": "Belo Horizonte - MG", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a"},
+  {"date": "29/07/2026", "homeTeam": "Botafogo", "awayTeam": "Grêmio", "competition": "Campeonato Brasileiro", "time": "A definir", "dateTbd": true, "round": 21, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a"},
+  {"date": "08/08/2026", "homeTeam": "Botafogo", "awayTeam": "Fluminense", "competition": "Campeonato Brasileiro", "time": "21:00", "round": 22, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a"},
+  {"date": "16/08/2026", "homeTeam": "Vitória", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "18:30", "round": 23, "location": "Barradão", "city": "Salvador - BA", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a"},
+  {"date": "24/08/2026", "homeTeam": "Botafogo", "awayTeam": "Athletico Paranaense", "competition": "Campeonato Brasileiro", "time": "20:00", "round": 24, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a"},
   {"date": "29/08/2026", "homeTeam": "Flamengo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
   {"date": "05/09/2026", "homeTeam": "Botafogo", "awayTeam": "Palmeiras", "competition": "Campeonato Brasileiro", "time": "A definir"},
   {"date": "12/09/2026", "homeTeam": "Botafogo", "awayTeam": "Red Bull Bragantino", "competition": "Campeonato Brasileiro", "time": "A definir"},
@@ -123,11 +141,15 @@ export const botafogoSchedule: MatchData[] = rawSchedule.map((m, index) => {
         away_team: m.awayTeam,
         home_score,
         away_score,
-        date: parseDate(m.date, (m as any).time),
-        location: m.homeTeam === 'Botafogo' ? 'Estádio Nilton Santos' : 'A definir',
+        date: parseDate(m.date, m.time),
+        location: m.location || (m.homeTeam === 'Botafogo' ? 'Estádio Nilton Santos' : 'A definir'),
         championship: m.competition,
         status: status,
-        display_time: (m as any).time || (m.result ? 'FIM' : ''),
+        display_time: m.time || (m.result ? 'FIM' : ''),
+        date_tbd: Boolean(m.dateTbd),
+        round: m.round,
+        city: m.city,
+        source_url: m.sourceUrl,
         home_team_logo: getLogo(m.homeTeam),
         away_team_logo: getLogo(m.awayTeam),
     };
