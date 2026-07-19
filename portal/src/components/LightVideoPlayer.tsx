@@ -118,7 +118,7 @@ export default function LightVideoPlayer({ video, allVideos, recommendedNews = [
     };
 
     return (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col font-sans animate-in slide-in-from-bottom-full duration-300">
+        <div className="fixed inset-0 z-[60] bg-white flex flex-col font-sans animate-in slide-in-from-bottom-full duration-300">
             {/* Video Player Area */}
             <div className="w-full aspect-video bg-black relative flex-shrink-0">
                 {youtubeId ? (
@@ -138,7 +138,7 @@ export default function LightVideoPlayer({ video, allVideos, recommendedNews = [
             </div>
 
             {/* Scrollable Content */}
-            <div ref={contentRef} className="flex-1 overflow-y-auto pb-4">
+            <div ref={contentRef} className="flex-1 overflow-y-auto overscroll-contain pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
                 {/* Header & Title */}
                 <div className="px-4 pt-3 pb-3 border-b border-zinc-100">
                     <div className="flex items-start justify-between gap-4">
@@ -263,7 +263,7 @@ export default function LightVideoPlayer({ video, allVideos, recommendedNews = [
                         </div>
                         <div className="space-y-1">
                             {recommendedNews.slice(0, 4).map(news => (
-                                <CompactNewsRow key={news.id} article={news} />
+                                <CompactNewsRow key={news.id} article={news} dense />
                             ))}
                         </div>
                     </section>
