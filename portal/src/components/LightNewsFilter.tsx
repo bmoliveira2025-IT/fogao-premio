@@ -71,7 +71,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   return (
     <div>
       {/* Filter Pills */}
-      <div className="flex gap-3 overflow-x-auto py-5 no-scrollbar -mx-5 px-5">
+      <div className="flex gap-2 overflow-x-auto py-4 no-scrollbar -mx-4 px-4">
         {FILTERS.map((filter) => (
           <button
             key={filter}
@@ -80,10 +80,10 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
               setVisibleCount(ITEMS_PER_PAGE);
             }}
             className={cn(
-              "px-4 py-1.5 text-[13px] font-bold rounded-xl whitespace-nowrap transition-all",
+              "px-4 py-2 text-[12px] font-bold rounded-full whitespace-nowrap transition-colors border",
               activeFilter === filter
-                ? "bg-green-700 text-white shadow-sm"
-                : "bg-transparent text-zinc-400 hover:text-zinc-600"
+                ? "bg-zinc-900 border-zinc-900 text-white shadow-sm"
+                : "bg-zinc-100/80 border-zinc-100 text-zinc-500 hover:text-zinc-800"
             )}
           >
             {filter}
@@ -92,7 +92,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
       </div>
 
       {/* News List */}
-      <div className="space-y-1 pb-4">
+      <div className="space-y-2 pb-4">
         {displayNews.slice(0, visibleCount).map((article) => (
           <LightNewsRow key={article.id} article={article} />
         ))}

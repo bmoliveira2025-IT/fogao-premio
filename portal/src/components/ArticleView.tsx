@@ -93,7 +93,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
         <div className="w-full min-h-screen bg-white font-sans">
             
             {/* HERO SECTION (Image Only) */}
-            <div className="relative w-full h-[40vh] md:h-[55vh] bg-zinc-900">
+            <div className="relative w-full h-[46vh] min-h-[390px] md:h-[58vh] bg-zinc-900">
                 {article.image && (
                     <Image
                         src={getSafeImageSrc(article.image)}
@@ -105,8 +105,8 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     />
                 )}
                 
-                {/* Subtle gradient just for top buttons readability if image is light */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent h-32" />
+                {/* Gradients preserve contrast for navigation and the headline. */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/80" />
 
                 {/* TOP NAVIGATION (Absolute over image) */}
                 <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-4 max-w-4xl mx-auto z-10 safe-pt">
@@ -125,59 +125,58 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         </button>
                     </div>
                 </div>
-            </div>
 
-            {/* WHITE OVERLAPPING CONTENT CARD */}
-            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.5rem] md:rounded-t-[2rem] -mt-6 md:-mt-8 px-4 sm:px-6 pb-40 md:px-12 md:pb-40 shadow-[0_-8px_32px_rgba(0,0,0,0.08)]">
-                
-                {/* DRAG HANDLE */}
-                <div className="w-full flex justify-center py-3 md:py-4">
-                    <div className="w-10 md:w-12 h-1 bg-zinc-200 rounded-full" />
-                </div>
-                
-                {/* HEADER CONTENT (Moved from image) */}
-                <div className="flex flex-col items-center text-center mb-5 md:mb-8">
-                    <span className="inline-block px-3 py-1 bg-[#1A73E8]/10 text-[#1A73E8] text-[12px] font-bold rounded-full mb-3 md:mb-4">
+                {/* Headline over the cover image, editorial reader style. */}
+                <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-9 sm:px-6 md:px-12 md:pb-12">
+                    <span className="mb-2 inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm border border-white/20">
                         {categoryKey || 'Futebol'}
                     </span>
-                    
-                    <h1 className="text-[25px] md:text-[40px] font-bold leading-[1.14] md:leading-[1.2] mb-3 md:mb-4 tracking-tight text-zinc-900 max-w-3xl">
+                    <h1 className="max-w-3xl text-[27px] font-bold leading-[1.08] tracking-tight text-white drop-shadow-md sm:text-[32px] md:text-[44px]">
                         {toSentenceCase(article.title)}
                     </h1>
-                    
-                    <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[12px] sm:text-[13px] text-zinc-500 font-medium">
-                        <span>🔥 Trending No. 1</span>
-                        <span className="w-1 h-1 rounded-full bg-zinc-300" />
+                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-medium text-white/85 sm:text-[13px]">
+                        <span>Em destaque</span>
+                        <span className="h-1 w-1 rounded-full bg-white/55" />
                         <span>{timeAgoStr(article.created_at)}</span>
-                        <span className="w-1 h-1 rounded-full bg-zinc-300" />
+                        <span className="h-1 w-1 rounded-full bg-white/55" />
                         <span>{readTime} min de leitura</span>
                     </div>
                 </div>
+            </div>
+
+            {/* WHITE OVERLAPPING CONTENT CARD */}
+            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] md:rounded-t-[2rem] -mt-5 md:-mt-7 px-5 sm:px-7 pb-24 md:px-12 md:pb-12 shadow-[0_-10px_34px_rgba(0,0,0,0.1)]">
 
                 {/* AUTHOR INFO (Source) */}
-                <div className="flex items-center justify-center gap-3 mb-7 md:mb-10 pt-4 md:pt-6 border-t border-zinc-100">
-                    {article.category === "Resumo Diário" ? (
-                        <div className="flex-shrink-0 flex items-center justify-center text-premium-gold text-3xl pb-1">
-                            ★
-                        </div>
-                    ) : (
-                        <div className="w-11 h-11 rounded-full overflow-hidden bg-zinc-100 flex-shrink-0 flex items-center justify-center border border-zinc-200">
-                            <SourceIcon source={article.source} className="w-8 h-8" />
-                        </div>
-                    )}
-                    <div className="flex items-center gap-1.5">
-                        <span className="text-[17px] font-bold text-zinc-900 tracking-tight">{article.source || 'Redação'}</span>
-                        <div className="w-4 h-4 rounded-full bg-[#1A73E8] text-white flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 fill-current"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                <div className="flex items-center justify-between mb-6 md:mb-8 pt-5 md:pt-6 pb-4 border-b border-zinc-100">
+                    <div className="inline-flex items-center gap-2.5">
+                        {article.category === "Resumo Diário" || article.category === "Giro do Fogão" ? (
+                            <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-zinc-900 text-premium-gold text-sm">
+                                ★
+                            </div>
+                        ) : (
+                            <div className="w-9 h-9 rounded-full overflow-hidden bg-zinc-50 flex-shrink-0 flex items-center justify-center border border-zinc-200">
+                                <SourceIcon source={article.source} className="w-6 h-6" />
+                            </div>
+                        )}
+                        <div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-sm sm:text-[15px] font-bold text-zinc-900 tracking-tight leading-none">{article.source || 'Redação'}</span>
+                                <div className="w-3.5 h-3.5 rounded-full bg-[#16b84e] text-white flex items-center justify-center" aria-label="Fonte verificada">
+                                    <svg viewBox="0 0 24 24" className="w-2 h-2 fill-current" aria-hidden="true"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                                </div>
+                            </div>
+                            <span className="mt-1 block text-[10px] font-medium text-zinc-400">Fonte da notícia</span>
                         </div>
                     </div>
+                    <span className="text-[11px] font-medium text-zinc-500">{timeAgoStr(article.created_at)}</span>
                 </div>
 
                 {/* ARTICLE CONTENT */}
                 <div className="flex gap-8 relative">
                     <div className="flex-1 min-w-0">
                         <article className="prose prose-lg max-w-none text-zinc-800">
-                            {article.category === "Resumo Diário" ? (
+                            {article.category === "Resumo Diário" || article.category === "Giro do Fogão" ? (
                                 <div dangerouslySetInnerHTML={{ __html: article.content }} />
                             ) : article.is_premium ? (
                                 <PremiumGuard>
@@ -198,11 +197,14 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                         {/* Related News directly below text */}
                         {(relatedNews && relatedNews.length > 0) && (
-                            <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-zinc-100">
-                                <h3 className="text-[18px] font-bold text-zinc-900 mb-3 md:mb-4">Veja Também</h3>
-                                <div className="space-y-2 md:space-y-4">
+                            <div className="mt-6 md:mt-8 pt-4 md:pt-5 border-t border-zinc-100">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="h-4 w-1 rounded-full bg-zinc-900" />
+                                    <h3 className="text-[14px] font-extrabold uppercase tracking-[0.08em] text-zinc-900">Veja também</h3>
+                                </div>
+                                <div className="divide-y divide-zinc-100">
                                     {relatedNews.slice(0, 3).map((item: any) => (
-                                        <CompactNewsRow key={item.id} article={item} />
+                                        <CompactNewsRow key={item.id} article={item} dense />
                                     ))}
                                 </div>
                             </div>

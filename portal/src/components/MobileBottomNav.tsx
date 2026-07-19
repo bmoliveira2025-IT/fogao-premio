@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Trophy, Play, UserRound, Newspaper } from 'lucide-react';
+import { CalendarDays, Home, Play, Trophy, UserRound } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function MobileBottomNav() {
@@ -10,8 +10,8 @@ export default function MobileBottomNav() {
 
     const navItems = [
         { icon: Home, label: 'Início', href: '/' },
-        { icon: Newspaper, label: 'Notícias', href: '/news' },
-        { icon: Trophy, label: 'Jogos', href: '/matches' },
+        { icon: Trophy, label: 'Tabela', href: '/tabela' },
+        { icon: CalendarDays, label: 'Jogos', href: '/matches' },
         { icon: Play, label: 'Vídeos', href: '/videos' },
         { icon: UserRound, label: 'Perfil', href: '/profile' },
     ];

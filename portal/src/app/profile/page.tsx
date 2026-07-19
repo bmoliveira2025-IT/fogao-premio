@@ -12,6 +12,7 @@ import { useTheme } from '@/components/ThemeProvider';
 import { cn } from '@/lib/utils';
 import SubscriptionModal from '@/components/SubscriptionModal';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ProfilePage() {
     const router = useRouter();
@@ -31,18 +32,23 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-zinc-50 text-zinc-900 font-sans selection:bg-premium-gold selection:text-white transition-colors duration-300 pb-8 lg:pb-32">
-            <div className="lg:max-w-4xl lg:mx-auto lg:p-8 lg:grid lg:grid-cols-12 lg:gap-8">
+        <div className="w-full min-h-screen bg-[#f7f7f8] text-zinc-900 font-sans selection:bg-premium-gold selection:text-white pb-24 lg:pb-16">
+            <div className="mx-auto max-w-3xl lg:p-7 lg:grid lg:grid-cols-12 lg:gap-5">
 
                 {/* Header Area */}
                 <div className="lg:col-span-4">
-                    <div className="mb-4 pt-5 pb-5 px-5 bg-white border-b border-zinc-200 lg:rounded-[2rem] lg:border lg:shadow-sm lg:mb-0">
-                        <h1 className="text-2xl font-display font-black text-zinc-900 mb-4 text-center lg:hidden">Perfil</h1>
+                    <div className="mb-3 px-4 pb-4 pt-4 bg-white border-b border-zinc-200 lg:rounded-[1.5rem] lg:border lg:shadow-sm lg:mb-0">
+                        <div className="mb-3 flex items-center justify-between lg:hidden">
+                            <h1 className="text-xl font-black tracking-tight text-zinc-900">Meu perfil</h1>
+                            <Link href="/settings" aria-label="Configurações" className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-100 text-zinc-600">
+                                <Settings size={17} />
+                            </Link>
+                        </div>
 
                         <div className="flex items-center lg:flex-col lg:text-center space-x-3 lg:space-x-0 lg:space-y-4">
-                            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center relative overflow-hidden flex-shrink-0 shadow-sm">
+                            <div className="w-14 h-14 lg:w-20 lg:h-20 rounded-full bg-zinc-50 border border-zinc-200 flex items-center justify-center relative overflow-hidden flex-shrink-0 shadow-sm">
                                 {user?.photoURL ? (
-                                    <img src={user.photoURL} alt="Avatar" className="w-full h-full rounded-full object-cover" />
+                                    <Image src={user.photoURL} alt="Avatar" fill sizes="80px" className="rounded-full object-cover" />
                                 ) : (
                                     <User size={28} className="text-zinc-400" />
                                 )}
@@ -54,8 +60,8 @@ export default function ProfilePage() {
                             </div>
 
                             <div>
-                                <h2 className="text-xl lg:text-2xl font-bold text-zinc-900 leading-tight">{user?.displayName || 'Torcedor Alvinegro'}</h2>
-                                <p className="text-sm text-zinc-500 mt-0.5 break-all">{user?.email || 'Convidado'}</p>
+                                <h2 className="text-base lg:text-xl font-bold text-zinc-900 leading-tight">{user?.displayName || 'Torcedor Alvinegro'}</h2>
+                                <p className="text-xs text-zinc-500 mt-0.5 break-all">{user?.email || 'Convidado'}</p>
 
                                 {isPremium ? (
                                     <div className="mt-2.5 inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-premium-gold/10 border border-premium-gold/25">
@@ -77,22 +83,22 @@ export default function ProfilePage() {
                     </div>
                 </div>
 
-                <div className="px-5 space-y-4 lg:col-span-8 lg:px-0 lg:space-y-4">
+                <div className="px-3 space-y-3 lg:col-span-8 lg:px-0 lg:space-y-3">
 
                     {/* Points Card */}
-                    <div className="flex items-center justify-between p-5 bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden relative group shadow-sm hover:shadow-md transition-all duration-500">
+                    <div className="flex items-center justify-between p-4 bg-zinc-900 text-white border border-zinc-800 rounded-[1.25rem] overflow-hidden relative shadow-sm">
                         <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="flex items-center space-x-4 relative z-10">
-                            <div className="w-12 h-12 rounded-full bg-premium-gold/10 flex items-center justify-center border border-premium-gold/30 group-hover:bg-premium-gold/20 transition-colors">
-                                <Star size={24} className="text-premium-gold fill-premium-gold" />
+                            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
+                                <Star size={20} className="text-premium-gold fill-premium-gold" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-zinc-900 leading-none uppercase italic tracking-tighter">Fogão Points</h3>
-                                <p className="text-[11px] text-zinc-500 uppercase font-bold tracking-[0.12em] mt-1.5">Sua Pontuação de Lealdade</p>
+                                <h3 className="text-base font-black text-white leading-none uppercase italic tracking-tight">Fogão Points</h3>
+                                <p className="text-[9px] text-zinc-400 uppercase font-bold tracking-[0.12em] mt-1.5">Sua pontuação</p>
                             </div>
                         </div>
                         <div className="text-right relative z-10">
-                            <div className="text-[40px] font-black text-premium-gold leading-none tracking-tighter">{points}</div>
+                            <div className="text-[32px] font-black text-premium-gold leading-none tracking-tighter">{points}</div>
                             <div className={cn(
                                 "text-[10px] font-bold uppercase tracking-widest mt-1",
                                 rank === "Platina" ? "text-blue-500" :
@@ -103,16 +109,16 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Subscription Card */}
-                    <div className="relative group overflow-hidden rounded-[1.5rem] bg-white border border-zinc-200 p-5 shadow-sm hover:border-premium-gold/40 transition-all duration-500">
+                    <div className="relative overflow-hidden rounded-[1.25rem] bg-white border border-zinc-200 p-4 shadow-sm">
                         <div className="absolute top-0 right-0 w-40 h-40 bg-premium-gold/10 blur-[60px] rounded-full pointer-events-none group-hover:bg-premium-gold/20 transition-colors" />
 
                         <div className="relative z-10">
-                            <div className="flex items-start justify-between mb-4">
+                            <div className="flex items-start justify-between mb-3">
                                 <div>
                                     <h3 className="text-base font-bold text-zinc-900 mb-1.5">
                                         {isPremium ? 'Assinatura Premium Ativa' : 'Desbloqueie o Premium'}
                                     </h3>
-                                    <p className="text-sm leading-relaxed text-zinc-500 max-w-[260px]">
+                                    <p className="text-xs leading-relaxed text-zinc-500 max-w-[300px]">
                                         {isPremium
                                             ? 'Sua próxima renovação será em 15 de Outubro.'
                                             : 'Acesse análises táticas, vídeos exclusivos e mais.'}
@@ -123,7 +129,7 @@ export default function ProfilePage() {
 
                             <button
                                 onClick={() => isPremium ? setShowSubscriptionModal(true) : null}
-                                className="w-full py-3.5 bg-white border border-zinc-200 rounded-xl text-premium-gold font-bold text-[12px] uppercase tracking-[0.14em] hover:border-premium-gold/50 hover:bg-premium-gold/5 transition-all duration-300 active:scale-[0.98]"
+                                className="w-full py-2.5 bg-zinc-50 border border-zinc-200 rounded-xl text-premium-gold font-bold text-[10px] uppercase tracking-[0.12em] hover:border-premium-gold/50 transition-colors"
                             >
                                 {isPremium ? 'Gerenciar Assinatura' : 'Assinar Agora'}
                             </button>
@@ -136,16 +142,12 @@ export default function ProfilePage() {
                         {/* Audio Preferences */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-xs font-black text-zinc-500 uppercase tracking-[0.14em] px-1 mb-2">Acessibilidade de Áudio</h4>
-                            <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm p-5 space-y-4">
+                            <div className="bg-white border border-zinc-200 rounded-[1.25rem] overflow-hidden shadow-sm p-4 space-y-4">
 
                                 {/* Speed Control */}
                                 <div className="space-y-2">
                                     <span className="text-xs text-zinc-600 uppercase font-bold tracking-[0.12em]">Velocidade de Leitura</span>
-                                    <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
-                                        {[0.5, 1, 1.5, 2].map((s) => (
-                                            <AudioSpeedButton key={s} speed={s} />
-                                        ))}
-                                    </div>
+                                    <AudioSpeedControl />
                                 </div>
 
                                 {/* Voice Control */}
@@ -160,7 +162,7 @@ export default function ProfilePage() {
                         {/* Appearances */}
                         <div className="space-y-2 lg:col-span-2">
                             <h4 className="text-xs font-black text-zinc-500 uppercase tracking-[0.14em] px-1 mb-2">Aparência</h4>
-                            <div className="bg-white border border-zinc-200 rounded-[1.5rem] overflow-hidden shadow-sm p-5 space-y-4">
+                            <div className="bg-white border border-zinc-200 rounded-[1.25rem] overflow-hidden shadow-sm p-4 space-y-4">
                                 <div className="space-y-2">
                                     <span className="text-xs text-zinc-600 uppercase font-bold tracking-[0.12em]">Tema do Aplicativo</span>
                                     <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
@@ -199,7 +201,7 @@ export default function ProfilePage() {
                                 <div className="flex items-center justify-between p-4 border-b border-zinc-100 last:border-0 hover:bg-zinc-50 transition-colors duration-300">
                                     <div className="flex items-center space-x-3">
                                         <Shield size={18} className="text-zinc-600" />
-                                        <span className="text-sm font-medium text-zinc-900">Dia de Jogo</span>
+                                        <span className="text-sm font-medium text-zinc-900">Giro do Fogão</span>
                                     </div>
                                     <div className="w-10 h-6 rounded-full p-1 transition-colors duration-300 bg-premium-gold">
                                         <div className="w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-300 translate-x-4" />
@@ -244,7 +246,7 @@ export default function ProfilePage() {
 }
 
 
-function AudioSpeedButton({ speed }: { speed: number }) {
+function AudioSpeedControl() {
     const [currentSpeed, setCurrentSpeed] = useState(1);
 
     useEffect(() => {
@@ -258,14 +260,13 @@ function AudioSpeedButton({ speed }: { speed: number }) {
         setCurrentSpeed(s);
     };
 
-    return (
-        <button
-            onClick={() => setSpeed(speed)}
-            className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${currentSpeed === speed ? 'bg-white border-zinc-200 text-zinc-900 shadow-sm border' : 'text-zinc-500 hover:text-zinc-900'}`}
-        >
-            {speed}x
-        </button>
-    );
+    return <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
+        {[0.5, 1, 1.5, 2].map(speed => (
+            <button key={speed} onClick={() => setSpeed(speed)} className={`flex-1 py-2 rounded-md text-xs font-bold transition-colors ${currentSpeed === speed ? 'bg-white border-zinc-200 text-zinc-900 shadow-sm border' : 'text-zinc-500 hover:text-zinc-900'}`}>
+                {speed}x
+            </button>
+        ))}
+    </div>;
 }
 
 function VoiceSelector() {
@@ -276,11 +277,9 @@ function VoiceSelector() {
         const loadVoices = () => {
             const available = window.speechSynthesis.getVoices();
             const ptVoices = available.filter(v => v.lang.includes('pt') || v.lang.includes('PT'));
-            // eslint-disable-next-line
             setVoices(ptVoices.length > 0 ? ptVoices : available);
 
             const saved = localStorage.getItem('voiceName');
-            // eslint-disable-next-line
             if (saved) setSelectedVoice(saved);
         };
 
@@ -293,17 +292,15 @@ function VoiceSelector() {
         setSelectedVoice(voiceName);
     };
 
-    return (
-        <div className="flex flex-col space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
-            {voices.length > 0 ? voices.map((voice: SpeechSynthesisVoice) => (
-                <button
-                    key={voice.name}
-                    onClick={() => handleSelect(voice.name)}
-                    className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors border ${selectedVoice === voice.name ? 'bg-white text-premium-gold border-premium-gold/30 shadow-sm' : 'border-transparent text-zinc-600 hover:bg-zinc-50'}`}
-                >
-                    {voice.name}
-                </button>
-            )) : <p className="text-sm text-zinc-400 italic">Carregando vozes...</p>}
-        </div>
-    );
+    return voices.length > 0 ? (
+        <select
+            value={selectedVoice}
+            onChange={(event) => handleSelect(event.target.value)}
+            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2.5 text-xs font-medium text-zinc-700 outline-none focus:border-premium-gold"
+            aria-label="Selecionar voz em português"
+        >
+            <option value="">Voz padrão do aparelho</option>
+            {voices.map(voice => <option key={voice.name} value={voice.name}>{voice.name}</option>)}
+        </select>
+    ) : <p className="text-xs text-zinc-400 italic">Carregando vozes...</p>;
 }

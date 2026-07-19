@@ -2,13 +2,11 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
-import AutoRefresh from "@/components/AutoRefresh";
-import NotificationManager from "@/components/NotificationManager";
-import InstallPrompt from "@/components/InstallPrompt";
-import MorningBriefingPopup from "@/components/MorningBriefingPopup";
 import { Suspense } from "react";
 import DesktopHeader from "@/components/DesktopHeader";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import DeferredEnhancements from "@/components/DeferredEnhancements";
+import InitialSplash from "@/components/InitialSplash";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -63,20 +61,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning className="overflow-x-hidden">
       <body className="antialiased overflow-x-hidden selection:bg-premium-gold/30">
+        <InitialSplash />
         <ThemeProvider>
           <AuthProvider>
-            <Suspense fallback={null}>
-              <AutoRefresh />
-            </Suspense>
-            <Suspense fallback={null}>
-              <NotificationManager />
-            </Suspense>
-            <Suspense fallback={null}>
-              <InstallPrompt />
-            </Suspense>
-            <Suspense fallback={null}>
-              <MorningBriefingPopup />
-            </Suspense>
+            <DeferredEnhancements />
 
             <Suspense fallback={null}>
               <DesktopHeader />

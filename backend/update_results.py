@@ -7,6 +7,7 @@ Runs every 22 minutes via the scraper GitHub Actions workflow.
 
 import re
 import os
+import json
 import requests
 import unicodedata
 from datetime import datetime, timezone, timedelta
@@ -157,21 +158,28 @@ def update_schedule_results() -> bool:
     now_brt = datetime.now(BRT)
     changed = False
 
-    # Match every rawSchedule entry that has a "time" field but NO "result" field
-    pattern = re.compile(
-        r'\{"date": "(\d{2}/\d{2}/\d{4})", '
-        r'"homeTeam": "([^"]+)", '
-        r'"awayTeam": "([^"]+)", '
-        r'"competition": "([^"]+)", '
-        r'"time": "([^"]+)"\}'
-    )
+    # Parse complete one-line schedule objects. Extra fields such as round,
+    # stadium and source URL must not prevent a result from being detected.
+    pattern = re.compile(r'^\s*(\{[^\r\n]+\})\s*,?\s*$', re.MULTILINE)
 
-    for m in pattern.finditer(content):
-        date_str   = m.group(1)
-        home       = m.group(2)
-        away       = m.group(3)
-        competition = m.group(4)
-        time_str   = m.group(5)
+    for m in list(pattern.finditer(content)):
+        raw_entry = m.group(1)
+        try:
+            match_data = json.loads(raw_entry)
+        except json.JSONDecodeError:
+            continue
+
+        if 'result' in match_data or 'time' not in match_data:
+            continue
+
+        date_str = match_data.get('date', '')
+        home = match_data.get('homeTeam', '')
+        away = match_data.get('awayTeam', '')
+        competition = match_data.get('competition', '')
+        time_str = match_data.get('time', '')
+
+        if not all((date_str, home, away, competition, time_str)):
+            continue
 
         # Parse game kick-off in Brasília time
         try:
@@ -201,12 +209,9 @@ def update_schedule_results() -> bool:
                 break
 
         if result:
-            old_entry = m.group(0)
-            new_entry = (
-                f'{{"date": "{date_str}", "homeTeam": "{home}", "awayTeam": "{away}", '
-                f'"competition": "{competition}", "result": "{result["home"]} - {result["away"]}"}}'
-            )
-            content = content.replace(old_entry, new_entry, 1)
+            match_data['result'] = f'{result["home"]} - {result["away"]}'
+            new_entry = json.dumps(match_data, ensure_ascii=False)
+            content = content.replace(raw_entry, new_entry, 1)
             changed = True
             print(f"  >> schedule.ts updated: {home} {result['home']}-{result['away']} {away}")
         else:

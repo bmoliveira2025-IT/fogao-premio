@@ -4,6 +4,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400,
+    qualities: [45, 60, 65, 75, 85],
     remotePatterns: [
       { protocol: 'https', hostname: 's2-ge.glbimg.com' },
       { protocol: 'https', hostname: 'thumbor.globoi.com' },

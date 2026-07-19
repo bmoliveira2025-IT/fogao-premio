@@ -10,13 +10,11 @@ import LeagueTable from '@/components/LeagueTable';
 import ModernInfiniteNews from '@/components/ModernInfiniteNews';
 import BreakingNewsTicker from '@/components/BreakingNewsTicker';
 import PersonalizeBanner from '@/components/PersonalizeBanner';
-import MobileLiveMatches from '@/components/MobileLiveMatches';
 import { botafogoSchedule } from '@/data/schedule';
 
 // Light Theme Components
 import MobileUserHeader from '@/components/MobileUserHeader';
 import LightHeroCard from '@/components/LightHeroCard';
-import LightNewsRow from '@/components/LightNewsRow';
 import LightNewsFilter from '@/components/LightNewsFilter';
 
 import Image from 'next/image';
@@ -32,7 +30,6 @@ interface NewsItem {
   created_at: string;
   is_premium?: boolean;
   summary?: string;
-  content?: string;
   likes_count?: number;
   dislikes_count?: number;
 }
@@ -65,22 +62,7 @@ interface VideoItem {
   published_at: string;
 }
 
-interface NotificationItem {
-  id: string;
-  type: 'MATCH' | 'PREMIUM' | 'BRIEFING';
-  title: string;
-  message: string;
-  timestamp: string;
-  link?: string;
-}
-
-interface Briefing {
-  id: string;
-  created_at: string;
-  [key: string]: any; // Allow for other fields from Firestore
-}
-
-async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copaMatch: MatchData | null; sulaMatch: MatchData | null; videos: VideoItem[]; premiumNews: NewsItem[]; briefing: Briefing | null }> {
+async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copaMatch: MatchData | null; sulaMatch: MatchData | null; videos: VideoItem[] }> {
   try {
     const timeLimit = new Date();
     timeLimit.setHours(timeLimit.getHours() - 48);
@@ -88,7 +70,8 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
       .orderBy('created_at', 'desc')
-      .limit(500);
+      // Enough for every home section without sending hundreds of documents to 3G users.
+      .limit(80);
 
     const matchThreshold = new Date();
     matchThreshold.setHours(matchThreshold.getHours() - 3);
@@ -97,16 +80,12 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
       .orderBy('date', 'asc')
       .limit(50); // Increased limit to find specific championships
 
-    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(12);
-    const premiumRef = db.collection('news').where('is_premium', '==', true).orderBy('created_at', 'desc').limit(3);
-    const briefingRef = db.collection('daily_briefings').orderBy('created_at', 'desc').limit(1);
+    const videosRef = db.collection('videos').orderBy('published_at', 'desc').limit(3);
 
-    const [newsSnap, upcomingMatchesSnap, videosSnap, premiumSnap, briefingSnap] = await Promise.all([
+    const [newsSnap, upcomingMatchesSnap, videosSnap] = await Promise.all([
       newsRef.get(),
       upcomingMatchesRef.get(),
-      videosRef.get(),
-      premiumRef.get(),
-      briefingRef.get()
+      videosRef.get()
     ]);
 
     const news = newsSnap.docs.map(doc => {
@@ -118,25 +97,11 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
         source: data.source,
         is_premium: data.is_premium,
         summary: data.summary,
-        content: data.content,
         likes_count: data.likes_count || 0,
         dislikes_count: data.dislikes_count || 0,
         created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
       } as NewsItem;
     }).filter(item => !item.is_premium);
-
-    const premiumNews = premiumSnap.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data.title || '',
-        image: data.image,
-        source: data.source,
-        is_premium: data.is_premium,
-        summary: data.summary,
-        created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
-      } as NewsItem;
-    });
 
     // Build set of matches already finished according to Firestore
     const finishedMatchKeys = new Set<string>();
@@ -223,17 +188,11 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
       } as VideoItem;
     });
 
-    const briefing = !briefingSnap.empty ? {
-      id: briefingSnap.docs[0].id,
-      created_at: briefingSnap.docs[0].data().created_at?.toDate().toISOString() || new Date().toISOString(),
-      ...briefingSnap.docs[0].data()
-    } as Briefing : null;
+    return { news, matches, copaMatch, sulaMatch, videos };
 
-    return { news, matches, copaMatch, sulaMatch, videos, premiumNews, briefing };
-
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("DATA FETCH ERROR DETAILS:", error);
-    return { news: [], matches: [], copaMatch: null, sulaMatch: null, videos: [], premiumNews: [], briefing: null };
+    return { news: [], matches: [], copaMatch: null, sulaMatch: null, videos: [] };
   }
 }
 
@@ -257,9 +216,9 @@ export default async function Home() {
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#f4f4f5] lg:bg-[#0a0a0a]">
       
       {/* MOBILE LIGHT THEME */}
-      <div className="block lg:hidden min-h-screen px-5 pt-safe">
+      <div className="block lg:hidden min-h-screen px-4 pt-safe bg-white">
           <MobileUserHeader />
-          <div className="py-2"></div>
+          <div className="py-1"></div>
           
           <LightHeroCard article={heroNews} />
           
@@ -351,7 +310,7 @@ export default async function Home() {
                 <div className="grid grid-cols-1 gap-4">
                   {videos.slice(0, 3).map(video => (
                     <div key={video.id} className="group relative rounded-xl overflow-hidden aspect-video bg-zinc-900 border border-white/5">
-                      <Image src={video.thumbnail} alt={video.title} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" unoptimized />
+                      <Image src={video.thumbnail} alt={video.title} fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" loading="lazy" quality={65} />
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-10 h-10 rounded-full bg-premium-gold/90 flex items-center justify-center text-black shadow-lg">
                           <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>

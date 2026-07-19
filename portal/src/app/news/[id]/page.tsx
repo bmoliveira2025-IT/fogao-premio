@@ -70,8 +70,23 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 export default async function NewsArticle({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
 
-    // Fetch Article
-    let articleDoc = await db.collection('news').doc(id).get();
+    // These reads are independent, so start them together to reduce route latency.
+    const articlePromise = db.collection('news').doc(id).get();
+    const matchPromise = db.collection('matches')
+        .orderBy('date', 'asc')
+        .where('date', '>=', new Date().toISOString())
+        .limit(1)
+        .get();
+    const relatedPromise = db.collection('news')
+        .orderBy('created_at', 'desc')
+        .limit(10)
+        .get();
+
+    const [articleDoc, matchSnap, relatedSnap] = await Promise.all([
+        articlePromise,
+        matchPromise,
+        relatedPromise
+    ]);
     let isBriefing = false;
     let briefingData = null;
 
@@ -85,13 +100,6 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
             return <div className="min-h-screen flex items-center justify-center text-foreground">Notícia não encontrada</div>;
         }
     }
-
-    // Fetch Next Match
-    const matchSnap = await db.collection('matches')
-        .orderBy('date', 'asc')
-        .where('date', '>=', new Date().toISOString())
-        .limit(1)
-        .get();
 
     let article: any = {};
 
@@ -185,12 +193,12 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
 
         article = {
             id,
-            title: `Resumo Diário: Edição ${briefingData.edition || 'Atual'}`,
+            title: `Giro do Fogão: Edição ${briefingData.edition || 'Atual'}`,
             content: contentHtml,
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Botafogo_de_Futebol_e_Regatas_logo.svg/1920px-Botafogo_de_Futebol_e_Regatas_logo.svg.png",
             created_at: briefingData.created_at?.toDate ? briefingData.created_at.toDate().toISOString() : new Date().toISOString(),
             author: "Redação Fogão 360",
-            category: "Resumo Diário"
+            category: "Giro do Fogão"
         };
     } else {
         const articleData = articleDoc.data();
@@ -225,12 +233,6 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
             date: matchData.date instanceof Date ? matchData.date.toISOString() : matchData.date,
         };
     }
-
-    // Fetch Related News (Random/Recent)
-    const relatedSnap = await db.collection('news')
-        .orderBy('created_at', 'desc')
-        .limit(10)
-        .get();
 
     let relatedNews = relatedSnap.docs
         .map(doc => {

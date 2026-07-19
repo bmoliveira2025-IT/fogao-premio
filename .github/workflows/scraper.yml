@@ -48,6 +48,10 @@ jobs:
           date > last_scraper_run.txt
           git add last_scraper_run.txt
           git add portal/src/data/schedule.ts
-          git commit -m "Scraper Run: $(date)"
-          git pull --rebase -X theirs
-          git push
+          if git diff --cached --quiet; then
+            echo "No schedule or run marker changes to publish."
+          else
+            git commit -m "Scraper Run: $(date)"
+            git pull --rebase -X theirs
+            git push
+          fi

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { messaging } from '@/lib/firebase-admin';
 
-export async function POST(req: Request) {
+export async function POST() {
     try {
         // Optional: security check
         // const authHeader = req.headers.get('authorization');
         // if (authHeader !== 'Bearer YOUR_SECRET_KEY') { ... }
 
-        const title = "Resumo do Dia - Fogão Prêmio";
+        const title = "Giro do Fogão - Sua edição diária";
         const body = "Confira as principais notícias e destaques de hoje no mundo do Botafogo. 🌟";
 
         // Topic to send to (must match what users subscribe to in NotificationManager)
