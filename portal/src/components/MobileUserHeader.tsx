@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { timeAgo } from '@/lib/news-utils';
+import GloriosoLogo from './GloriosoLogo';
 
 interface AppNotification {
     id: string;
@@ -176,15 +177,7 @@ export default function MobileUserHeader() {
         <div className="flex items-center justify-between py-3 relative">
             {/* Logo on Left */}
             <Link href="/" aria-label="Fogão 360 — Início" className="flex items-center group no-underline">
-                <Image
-                    src="/logo-fogao-360-v2.png"
-                    alt="Fogão 360"
-                    width={220}
-                    height={74}
-                    className="h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
-                    priority
-                    unoptimized
-                />
+                <GloriosoLogo size={42} withText={true} />
             </Link>
 
             {/* Notifications & User on Right */}
