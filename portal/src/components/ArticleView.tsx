@@ -149,27 +149,27 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
                 {/* AUTHOR INFO (Source) */}
                 <div className="flex items-center justify-between mb-6 md:mb-8 pt-5 md:pt-6 pb-4 border-b border-zinc-100">
-                    <div className="inline-flex items-center gap-2.5">
+                    <div className="inline-flex items-center gap-3">
                         {article.category === "Resumo Diário" || article.category === "Giro do Fogão" ? (
-                            <div className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-zinc-900 text-premium-gold text-sm">
+                            <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full bg-zinc-950 text-amber-400 text-sm font-bold shadow-sm ring-2 ring-amber-400/20">
                                 ★
                             </div>
                         ) : (
-                            <div className="w-9 h-9 rounded-full overflow-hidden bg-zinc-50 flex-shrink-0 flex items-center justify-center border border-zinc-200">
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-zinc-100 flex-shrink-0 flex items-center justify-center border border-zinc-200 shadow-sm">
                                 <SourceIcon source={article.source} className="w-6 h-6" />
                             </div>
                         )}
                         <div>
                             <div className="flex items-center gap-1.5">
-                                <span className="text-sm sm:text-[15px] font-bold text-zinc-900 tracking-tight leading-none">{article.source || 'Redação'}</span>
-                                <div className="w-3.5 h-3.5 rounded-full bg-[#16b84e] text-white flex items-center justify-center" aria-label="Fonte verificada">
-                                    <svg viewBox="0 0 24 24" className="w-2 h-2 fill-current" aria-hidden="true"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+                                <span className="text-sm sm:text-[16px] font-extrabold text-zinc-900 tracking-tight leading-none">{article.source || 'Redação Fogão 360'}</span>
+                                <div className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xs" title="Fonte de notícia verificada">
+                                    <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 fill-current"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
                                 </div>
                             </div>
-                            <span className="mt-1 block text-[10px] font-medium text-zinc-400">Fonte da notícia</span>
+                            <span className="mt-1 block text-[11px] font-semibold text-zinc-400">Fonte jornalística verificada</span>
                         </div>
                     </div>
-                    <span className="text-[11px] font-medium text-zinc-500">{timeAgoStr(article.created_at)}</span>
+                    <span className="text-[12px] font-semibold text-zinc-500 bg-zinc-100 px-3 py-1 rounded-full">{timeAgoStr(article.created_at)}</span>
                 </div>
 
                 {/* ARTICLE CONTENT */}

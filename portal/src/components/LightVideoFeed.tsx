@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Search, MoreHorizontal, User, Bell, Cast, Youtube, Settings, LogOut, Crown, Bookmark } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
-import LightVideoPlayer from './LightVideoPlayer';
 import { useAuth } from '@/context/AuthContext';
+import { useVideoPlayer } from '@/context/VideoPlayerContext';
 import { auth } from '@/lib/firebase';
 import { signOut } from 'firebase/auth';
 
@@ -39,10 +39,10 @@ const getVideoDuration = (id: string) => {
     return `${(hash % 10) + 2}:${String((hash % 50) + 10).padStart(2, '0')}`;
 };
 
-export default function LightVideoFeed({ videos, recommendedNews = [] }: LightVideoFeedProps) {
+export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
     const router = useRouter();
     const { user } = useAuth();
-    const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+    const { playVideo } = useVideoPlayer();
     const [subscribedChannels, setSubscribedChannels] = useState<Record<string, boolean>>({});
     const [showUserMenu, setShowUserMenu] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -173,7 +173,7 @@ export default function LightVideoFeed({ videos, recommendedNews = [] }: LightVi
             {/* Video List */}
             <div className="flex flex-col gap-6 pt-4">
                 {videos.map(video => (
-                    <div key={video.id} className="flex flex-col cursor-pointer" onClick={() => setSelectedVideo(video)}>
+                    <div key={video.id} className="flex flex-col cursor-pointer" onClick={() => playVideo(video, videos)}>
                         {/* Thumbnail */}
                         <div className="relative w-full aspect-video bg-zinc-200 overflow-hidden mb-3">
                             <Image 
@@ -237,19 +237,6 @@ export default function LightVideoFeed({ videos, recommendedNews = [] }: LightVi
                     </div>
                 ))}
             </div>
-
-            {/* Video Player Modal/Screen */}
-            {selectedVideo && (
-                <LightVideoPlayer 
-                    video={selectedVideo} 
-                    allVideos={videos.filter(v => v.id !== selectedVideo.id)}
-                    recommendedNews={recommendedNews}
-                    onClose={() => setSelectedVideo(null)}
-                    onVideoSelect={setSelectedVideo}
-                    isSubscribed={subscribedChannels[getChannelName(selectedVideo.source)] || false}
-                    onSubscribeChange={() => toggleSubscribe(getChannelName(selectedVideo.source))}
-                />
-            )}
         </div>
     );
 }
@@ -259,5 +246,5 @@ function ChevronDownIcon() {
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="m6 9 6 6 6-6"/>
         </svg>
-    )
+    );
 }

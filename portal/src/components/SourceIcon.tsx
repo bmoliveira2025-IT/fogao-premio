@@ -12,20 +12,20 @@ const SOURCE_ICONS: Record<string, string> = {
 
 const getSourceColor = (source?: string) => {
     const s = source?.toLowerCase() || '';
-    if (s.includes('globo')) return 'bg-green-600';
-    if (s.includes('botafogo')) return 'bg-black';
-    if (s.includes('cnn')) return 'bg-red-600';
-    if (s.includes('lance')) return 'bg-green-600';
-    if (s.includes('terra')) return 'bg-orange-600';
-    if (s.includes('odia') || s.includes('o dia')) return 'bg-blue-600';
-    if (s.includes('fogo na rede')) return 'bg-red-700';
-    return 'bg-[#333]';
+    if (s.includes('globo') || s.includes('ge')) return 'from-emerald-600 to-green-500 text-white';
+    if (s.includes('botafogo')) return 'from-zinc-950 to-zinc-800 text-amber-400 border border-amber-400/30';
+    if (s.includes('cnn')) return 'from-red-600 to-rose-700 text-white';
+    if (s.includes('lance')) return 'from-emerald-500 to-teal-600 text-white';
+    if (s.includes('terra')) return 'from-orange-500 to-amber-600 text-white';
+    if (s.includes('odia') || s.includes('o dia')) return 'from-blue-600 to-indigo-700 text-white';
+    if (s.includes('fogo na rede') || s.includes('fogao.net') || s.includes('fogaonet')) return 'from-red-700 to-zinc-900 text-white';
+    return 'from-zinc-800 to-zinc-900 text-amber-300';
 };
 
 interface SourceIconProps {
     source?: string;
-    size?: number; // Tailwind class size equivalent or pixel logic if needed, but here using purely for container
-    className?: string; // For explicit width/height classes
+    size?: number;
+    className?: string;
 }
 
 export default function SourceIcon({ source, className = "w-4 h-4" }: SourceIconProps) {
@@ -35,10 +35,10 @@ export default function SourceIcon({ source, className = "w-4 h-4" }: SourceIcon
 
     if (iconUrl) {
         return (
-            <div className={`${className} relative flex-shrink-0 rounded overflow-hidden`}>
+            <div className={`${className} relative flex-shrink-0 rounded-full overflow-hidden shadow-sm border border-black/10 dark:border-white/15 bg-white`}>
                 <Image
                     src={iconUrl}
-                    alt={source || 'Source'}
+                    alt={source || 'Fonte'}
                     fill
                     className="object-cover"
                 />
@@ -47,8 +47,9 @@ export default function SourceIcon({ source, className = "w-4 h-4" }: SourceIcon
     }
 
     return (
-        <div className={`${className} rounded flex items-center justify-center text-[6px] font-bold text-white ${getSourceColor(source)}`}>
-            {source?.charAt(0) || 'F'}
+        <div className={`${className} rounded-full flex items-center justify-center text-[7px] font-black tracking-tighter bg-gradient-to-br shadow-sm ${getSourceColor(source)}`}>
+            {source?.charAt(0).toUpperCase() || 'F'}
         </div>
     );
 }
+

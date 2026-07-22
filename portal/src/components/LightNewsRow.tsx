@@ -5,14 +5,19 @@ import Link from 'next/link';
 import { getSafeImageSrc } from '@/lib/images';
 import { Bookmark, Check, Copy, MoreVertical, Share2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import SourceIcon from './SourceIcon';
+import LikeDislikeButtons from './LikeDislikeButtons';
 
 interface LightNewsRowProps {
     article: {
         id: string;
         title: string;
         image?: string;
+        source?: string;
         created_at: string;
         content?: string;
+        likes_count?: number;
+        dislikes_count?: number;
     } | null;
 }
 
@@ -71,9 +76,10 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} Minutos Atrás`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} Horas Atrás`;
-        return `${Math.floor(diffInSeconds / 86400)} Dias Atrás`;
+        if (diffInSeconds < 60) return 'agora';
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min atrás`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
+        return `${Math.floor(diffInSeconds / 86400)}d atrás`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -82,58 +88,68 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
         return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
     };
 
-    const readTime = Math.max(2, Math.floor((article.content?.length || 2000) / 1000));
-
     return (
-        <div className="flex gap-3 items-center bg-zinc-50 rounded-[20px] p-2.5 border border-zinc-100 hover:bg-zinc-100 transition-colors">
-            {/* Thumbnail */}
-            <Link href={`/news/${article.id}`} className="block relative w-[92px] h-[92px] flex-shrink-0 rounded-[15px] overflow-hidden bg-zinc-200">
+        <div className="group flex items-center gap-3 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-zinc-300 transition-all duration-200">
+            {/* Standard Mobile Thumbnail (72x72) */}
+            <Link href={`/news/${article.id}`} className="relative w-[72px] h-[72px] flex-shrink-0 overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
                 <Image
                     src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
                     alt={article.title}
                     fill
-                    sizes="92px"
-                    className="object-cover"
+                    sizes="72px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     unoptimized
                 />
             </Link>
 
             {/* Content */}
-            <div className="flex flex-col flex-grow min-w-0 justify-between h-[92px] py-0.5">
+            <div className="flex flex-col flex-grow min-w-0 justify-between h-[72px] py-0.5">
                 <Link href={`/news/${article.id}`}>
-                    <h3 className="text-zinc-900 font-bold text-[14px] leading-[1.28] line-clamp-3 pr-4">
+                    <h3 className="text-zinc-900 font-bold text-[14px] leading-[1.3] line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
                         {toSentenceCase(article.title)}
                     </h3>
                 </Link>
 
                 <div className="flex items-center justify-between w-full">
-                    <span className="text-zinc-500 text-[9px] font-semibold uppercase tracking-wide flex items-center gap-1">
-                        {timeAgo(article.created_at)}
-                        <span className="w-0.5 h-0.5 bg-zinc-400 rounded-full mx-0.5" />
-                        {readTime} Min de leitura
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-100 border border-zinc-200/80">
+                            <SourceIcon source={article.source} className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-bold text-zinc-700 truncate max-w-[90px]">
+                                {article.source || 'Botafogo'}
+                            </span>
+                        </div>
 
-                    <div className="relative" ref={menuRef}>
+                        <span className="text-[11px] text-zinc-400 font-medium whitespace-nowrap">
+                            • {timeAgo(article.created_at)}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-1" ref={menuRef}>
+                        <LikeDislikeButtons
+                            articleId={article.id}
+                            initialLikes={article.likes_count}
+                            initialDislikes={article.dislikes_count}
+                        />
+
                         <button
                             type="button"
                             onClick={() => setMenuOpen(current => !current)}
-                            className="flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 hover:bg-white hover:text-zinc-800"
+                            className="flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800"
                             aria-label="Mais opções"
-                            aria-expanded={menuOpen}
                         >
-                            {feedback ? <Check size={15} className="text-green-600" /> : <MoreVertical size={16} />}
+                            {feedback ? <Check size={14} className="text-emerald-600" /> : <MoreVertical size={15} />}
                         </button>
 
                         {menuOpen && (
-                            <div className="absolute bottom-8 right-0 z-30 w-44 overflow-hidden rounded-xl border border-zinc-200 bg-white p-1.5 shadow-[0_12px_35px_rgba(0,0,0,0.16)]">
+                            <div className="absolute bottom-8 right-0 z-30 w-44 overflow-hidden rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl">
                                 <button onClick={handleShare} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-xs font-semibold text-zinc-700 hover:bg-zinc-100">
-                                    <Share2 size={15} /> Compartilhar
+                                    <Share2 size={14} /> Compartilhar
                                 </button>
                                 <button onClick={handleSave} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-xs font-semibold text-zinc-700 hover:bg-zinc-100">
-                                    <Bookmark size={15} /> Salvar notícia
+                                    <Bookmark size={14} /> Salvar notícia
                                 </button>
                                 <button onClick={handleCopy} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-xs font-semibold text-zinc-700 hover:bg-zinc-100">
-                                    <Copy size={15} /> Copiar link
+                                    <Copy size={14} /> Copiar link
                                 </button>
                             </div>
                         )}
@@ -143,3 +159,5 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
         </div>
     );
 }
+
+

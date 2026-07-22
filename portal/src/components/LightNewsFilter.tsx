@@ -29,7 +29,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  // Simple keyword-based filtering since we don't have explicit categories
+  // Simple keyword-based filtering
   const filteredNews = news.filter((article) => {
     if (activeFilter === 'Para Você') return true;
     
@@ -50,7 +50,6 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
     return true;
   });
 
-  // If a filter is too strict and returns no results, show all (fallback)
   const displayNews = filteredNews.length > 0 ? filteredNews : news;
 
   // Intersection Observer for Infinite Scroll
@@ -71,7 +70,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   return (
     <div>
       {/* Filter Pills */}
-      <div className="flex gap-2 overflow-x-auto py-4 no-scrollbar -mx-4 px-4">
+      <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide -mx-4 px-4 items-center">
         {FILTERS.map((filter) => (
           <button
             key={filter}
@@ -80,10 +79,10 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
               setVisibleCount(ITEMS_PER_PAGE);
             }}
             className={cn(
-              "px-4 py-2 text-[12px] font-bold rounded-full whitespace-nowrap transition-colors border",
+              "px-4 py-2 text-[12px] font-bold rounded-full whitespace-nowrap transition-all duration-200 border active:scale-95",
               activeFilter === filter
                 ? "bg-zinc-900 border-zinc-900 text-white shadow-sm"
-                : "bg-zinc-100/80 border-zinc-100 text-zinc-500 hover:text-zinc-800"
+                : "bg-white border-zinc-200 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 shadow-xs"
             )}
           >
             {filter}
@@ -92,7 +91,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
       </div>
 
       {/* News List */}
-      <div className="space-y-2 pb-4">
+      <div className="space-y-3 pb-4">
         {displayNews.slice(0, visibleCount).map((article) => (
           <LightNewsRow key={article.id} article={article} />
         ))}
@@ -100,8 +99,8 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
 
       {/* Load More Observer Target */}
       {visibleCount < displayNews.length && (
-        <div ref={loadMoreRef} className="h-12 flex items-center justify-center">
-          <div className="w-6 h-6 border-2 border-green-700 border-t-transparent rounded-full animate-spin opacity-50"></div>
+        <div ref={loadMoreRef} className="h-14 flex items-center justify-center">
+          <div className="w-6 h-6 border-2 border-amber-500 border-t-transparent rounded-full animate-spin opacity-80"></div>
         </div>
       )}
       
@@ -112,3 +111,4 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
     </div>
   );
 }
+

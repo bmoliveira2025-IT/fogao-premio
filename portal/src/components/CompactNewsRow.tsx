@@ -1,11 +1,9 @@
 "use client";
 import Link from 'next/link';
 import Image from 'next/image';
-import { Clock } from 'lucide-react';
 import SourceIcon from './SourceIcon';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
-import { useState } from 'react';
 import LikeDislikeButtons from './LikeDislikeButtons';
 
 export default function CompactNewsRow({ article, dense = false }: any) {
@@ -38,33 +36,38 @@ export default function CompactNewsRow({ article, dense = false }: any) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className={`group flex items-center rounded-xl hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-colors ${dense ? 'gap-3 px-1 py-2' : 'gap-4 p-3 md:p-6 md:rounded-2xl'}`}
+            className={`group flex items-center rounded-2xl bg-white border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-zinc-300 transition-all duration-200 ${dense ? 'gap-3 px-2 py-2' : 'gap-3.5 p-3'}`}
         >
-            {/* Thumbnail */}
-            <div className={`relative flex-shrink-0 overflow-hidden bg-zinc-100 border border-zinc-200 shadow-sm ${dense ? 'w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-lg' : 'w-20 h-20 md:w-32 md:h-32 rounded-xl md:rounded-2xl'}`}>
+            {/* Standard Mobile Thumbnail (72x72) */}
+            <div className="relative w-[72px] h-[72px] sm:w-20 sm:h-20 flex-shrink-0 overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
                 <Image
                     src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
                     alt={article.title}
                     fill
-                    sizes={dense ? "72px" : "(max-width: 768px) 80px, 128px"}
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="72px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     unoptimized={true}
                 />
             </div>
 
             {/* Info */}
-            <div className={`flex flex-col flex-grow min-w-0 justify-center ${dense ? 'gap-1.5' : 'gap-2 md:gap-3'}`}>
-                <h4 className={`${dense ? 'text-[13px] sm:text-sm line-clamp-2' : 'text-[15px] md:text-[21px] line-clamp-2 md:line-clamp-3'} leading-tight font-semibold text-zinc-800 group-hover:text-premium-gold transition-colors`}>
+            <div className="flex flex-col flex-grow min-w-0 justify-between h-[72px] sm:h-20 py-0.5">
+                <h4 className="text-[14px] sm:text-[15px] font-bold leading-[1.3] text-zinc-900 line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
                     {toSentenceCase(article.title)}
                 </h4>
 
-                {/* Metadata Pill */}
+                {/* Metadata Row with Glass Badge */}
                 <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-1.5 md:gap-2">
-                        <SourceIcon source={article.source} className="w-3.5 h-3.5 md:w-4 md:h-4 text-premium-gold" />
+                    <div className="flex items-center gap-1.5">
+                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-100 border border-zinc-200/80">
+                            <SourceIcon source={article.source} className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-bold text-zinc-700 truncate max-w-[90px]">
+                                {article.source || 'Botafogo'}
+                            </span>
+                        </div>
 
-                        <span className={`${dense ? 'text-[9px]' : 'text-[10px] md:text-[12px]'} text-zinc-500 font-black tracking-wider md:tracking-widest uppercase whitespace-nowrap`}>
-                            {timeAgo(article.created_at)}
+                        <span className="text-[11px] text-zinc-400 font-medium whitespace-nowrap">
+                            • {timeAgo(article.created_at)}
                         </span>
                     </div>
 
@@ -78,3 +81,6 @@ export default function CompactNewsRow({ article, dense = false }: any) {
         </Link>
     );
 }
+
+
+

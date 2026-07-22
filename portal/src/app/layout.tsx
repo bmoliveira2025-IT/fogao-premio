@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import { VideoPlayerProvider } from "@/context/VideoPlayerContext";
 import { Suspense } from "react";
 import DesktopHeader from "@/components/DesktopHeader";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     siteName: 'Fogão 360',
     images: [
       {
-        url: '/og-image.jpg', // We might need to ensure this exists or use a placeholder
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Fogão 360',
@@ -64,30 +65,27 @@ export default function RootLayout({
         <InitialSplash />
         <ThemeProvider>
           <AuthProvider>
-            <DeferredEnhancements />
+            <VideoPlayerProvider>
+              <DeferredEnhancements />
 
-            <Suspense fallback={null}>
-              <DesktopHeader />
-            </Suspense>
+              <Suspense fallback={null}>
+                <DesktopHeader />
+              </Suspense>
 
-            {/* Mobile Header - Removed as per user request */}
+              <main className="min-h-screen bg-background text-foreground flex flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] pt-0 lg:pb-0 lg:pt-16">
+                <div className="flex-1">
+                  {children}
+                </div>
+              </main>
 
-            {/* Global Top Tabs for Mobile - Removed as per user request to make it more compact */}
+              {/* Mobile Bottom Navigation (Native App Style) */}
+              <MobileBottomNav />
 
-            <main className="min-h-screen bg-background text-foreground flex flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] pt-0 lg:pb-0 lg:pt-16">
-              <div className="flex-1">
-                {children}
+              {/* Footer - Desktop/General */}
+              <div className="hidden lg:block">
+                {/* Optional footer content for PC */}
               </div>
-            </main>
-
-            {/* Mobile Bottom Navigation (Native App Style) */}
-            <MobileBottomNav />
-
-            {/* Footer - Desktop/General */}
-            <div className="hidden lg:block">
-              {/* Optional footer content for PC */}
-            </div>
-
+            </VideoPlayerProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

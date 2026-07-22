@@ -31,22 +31,22 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
 
     const formatParagraph = (text: string) => {
         return text
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-zinc-900 font-semibold">$1</strong>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="text-zinc-900 font-bold">$1</strong>')
             .replace(/__(.*?)__/g, '<u>$1</u>')
-            .replace(/Botafogo/g, '<strong class="text-zinc-900 font-semibold">Botafogo</strong>');
+            .replace(/\b(Botafogo|Glorioso|Fogão)\b/g, '<strong class="text-zinc-900 font-bold">$1</strong>');
     };
 
     return (
         <div className="article-body relative">
             {/* Intro paragraphs */}
             {introParams.map((p, i) => (
-                <div key={i} className="mb-4 md:mb-5">
+                <div key={i} className="mb-5 md:mb-6">
                     <p
-                        style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
+                        style={{ fontSize: 'calc(17px * var(--font-scale, 1))' }}
                         className={`
-                            text-zinc-700 leading-[1.7] md:leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
-                            ${i === 0 ? 'text-[17px] md:text-[20px] text-zinc-600 font-medium' : ''}
-                            ${activeParagraphIndex === i ? 'bg-blue-50 border-l-2 border-blue-500 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                            text-zinc-800 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
+                            ${i === 0 ? 'text-[18px] md:text-[21px] text-zinc-900 font-medium leading-[1.75]' : ''}
+                            ${activeParagraphIndex === i ? 'bg-amber-500/10 border-l-4 border-amber-500 pl-4 py-2 -ml-4 rounded-r-xl' : ''}
                         `}
                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                     />
@@ -67,19 +67,19 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                         return (
                             <div key={`rem-${i}`}>
                                 {showPullQuote && (
-                                    <blockquote className="my-8 py-2 px-5 border-l-[3px] border-[#4285F4]">
-                                        <p className="text-[15px] md:text-[17px] font-medium italic leading-[1.6] text-zinc-800" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                    <blockquote className="my-8 py-3 px-6 border-l-[4px] border-amber-500 bg-amber-500/5 rounded-r-2xl">
+                                        <p className="text-[16px] md:text-[18px] font-semibold italic leading-[1.6] text-zinc-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
                                             "{p.slice(0, Math.min(p.indexOf('.', 50) + 1 || 120, 150))}"
                                         </p>
                                     </blockquote>
                                 )}
 
-                                <div className="mb-4 md:mb-5">
+                                <div className="mb-5 md:mb-6">
                                     <p
-                                        style={{ fontSize: 'calc(16px * var(--font-scale, 1))' }}
+                                        style={{ fontSize: 'calc(17px * var(--font-scale, 1))' }}
                                         className={`
-                                            text-zinc-700 leading-[1.7] md:leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
-                                            ${activeParagraphIndex === actualIndex ? 'bg-blue-50 border-l-2 border-blue-500 pl-4 py-2 -ml-4 rounded-r-lg' : ''}
+                                            text-zinc-800 leading-[1.8] font-normal tracking-[0.01em] transition-all duration-300
+                                            ${activeParagraphIndex === actualIndex ? 'bg-amber-500/10 border-l-4 border-amber-500 pl-4 py-2 -ml-4 rounded-r-xl' : ''}
                                         `}
                                         dangerouslySetInnerHTML={{ __html: formatParagraph(p) }}
                                     />
@@ -92,3 +92,4 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
         </div>
     );
 }
+

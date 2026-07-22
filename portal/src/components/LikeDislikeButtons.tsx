@@ -152,23 +152,23 @@ export default function LikeDislikeButtons({
 
     return (
         <div className={`flex items-center gap-2 ${className}`}>
-            <div className={`flex items-center ${isHero ? 'bg-black/40' : (isFull ? 'bg-black/5 dark:bg-white/5 h-11' : 'bg-white/5')} backdrop-blur-sm border border-white/10 rounded-full overflow-hidden`}>
+            <div className={`flex items-center ${isHero ? 'bg-black/40 border border-white/20' : (isFull ? 'bg-zinc-100 border border-zinc-200 h-11' : 'bg-zinc-100 border border-zinc-200/80')} backdrop-blur-sm rounded-full overflow-hidden shadow-xs`}>
                 <button
                     onClick={(e) => handleAction('like', e)}
-                    className={`flex items-center justify-center gap-1.5 min-w-[44px] sm:min-w-auto ${buttonPadding} transition-all duration-300 active:scale-90 border-r border-white/10 h-full ${liked ? 'bg-white/10 text-premium-gold' : 'text-zinc-400 hover:text-white'}`}
+                    className={`flex items-center justify-center gap-1 ${buttonPadding} transition-all duration-200 active:scale-90 border-r border-zinc-200/80 h-full ${liked ? 'bg-amber-100 text-amber-700 font-bold' : 'text-zinc-500 hover:text-zinc-900'}`}
                 >
-                    <ThumbsUp size={iconSize} className={liked ? 'fill-current' : ''} />
-                    <span className={`${textSize} font-athletic font-bold`}>{likesCount}</span>
+                    <ThumbsUp size={iconSize} className={liked ? 'fill-current text-amber-600' : ''} />
+                    <span className={`${textSize} font-bold`}>{likesCount}</span>
                     {showPoints && !liked && !pointsAwarded && (
-                        <span className="text-[10px] bg-premium-gold/20 text-premium-gold px-1.5 py-0.5 rounded-full font-black animate-pulse">+5</span>
+                        <span className="text-[9px] bg-amber-500/20 text-amber-600 px-1 py-0.2 rounded-full font-black animate-pulse">+5</span>
                     )}
                 </button>
                 <button
                     onClick={(e) => handleAction('dislike', e)}
-                    className={`flex items-center justify-center gap-1.5 min-w-[44px] sm:min-w-auto ${buttonPadding} transition-all duration-300 active:scale-90 h-full ${disliked ? 'bg-red-600 text-white' : 'text-zinc-400 hover:text-white'}`}
+                    className={`flex items-center justify-center gap-1 ${buttonPadding} transition-all duration-200 active:scale-90 h-full ${disliked ? 'bg-red-100 text-red-700 font-bold' : 'text-zinc-500 hover:text-zinc-900'}`}
                 >
-                    <ThumbsDown size={iconSize} className={disliked ? 'fill-current' : ''} />
-                    <span className={`${textSize} font-athletic font-bold`}>{dislikesCount}</span>
+                    <ThumbsDown size={iconSize} className={disliked ? 'fill-current text-red-600' : ''} />
+                    <span className={`${textSize} font-bold`}>{dislikesCount}</span>
                 </button>
             </div>
         </div>

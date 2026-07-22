@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
+import SourceIcon from './SourceIcon';
 import { getSafeImageSrc } from '@/lib/images';
 import { timeAgo, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
 
@@ -23,7 +24,7 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative block w-full aspect-video md:aspect-[4/5] lg:aspect-video overflow-hidden rounded-2xl bg-[#111]"
+            className="group relative block w-full aspect-video md:aspect-[4/5] lg:aspect-video overflow-hidden rounded-2xl bg-zinc-900 border border-white/10 shadow-lg active:scale-[0.98] transition-all duration-300"
         >
             {/* Background Image */}
             <Image
@@ -31,45 +32,45 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
                 alt={article.title}
                 fill
                 sizes="(max-width: 768px) 50vw, 25vw"
-                className="object-cover transition-transform duration-[3s] ease-out group-hover:scale-110"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 unoptimized
             />
 
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
 
             {/* Content overlay */}
-            <div className="absolute inset-0 p-4 flex flex-col justify-end z-20">
-                {/* Category Label */}
-                {categoryKey && (
-                    <div className="mb-2">
-                        <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[8px] font-black tracking-[0.15em] px-2 py-1 rounded-[2px] uppercase shadow-lg`}>
+            <div className="absolute inset-0 p-3.5 sm:p-4 flex flex-col justify-end z-20">
+                {/* Source & Category Row */}
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
+                        <SourceIcon source={article.source} className="w-3 h-3" />
+                        <span className="text-[9px] font-bold text-white tracking-tight">{article.source || 'Botafogo'}</span>
+                    </div>
+
+                    {categoryKey && (
+                        <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[8px] font-black tracking-[0.12em] px-2 py-0.5 rounded-full uppercase shadow-sm`}>
                             {CATEGORY_LABELS[categoryKey]}
                         </span>
-                    </div>
-                )}
+                    )}
+                </div>
 
-                <h3 className="text-[14px] md:text-[18px] lg:text-[22px] font-[900] text-white leading-[1.2] tracking-tight line-clamp-2 group-hover:text-premium-gold transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <h3 className="text-[14px] md:text-[16px] lg:text-[18px] font-extrabold text-white leading-[1.25] tracking-tight line-clamp-2 group-hover:text-amber-300 transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
                     {article.title?.replace(/\*\*/g, '')}
                 </h3>
 
-                {article.summary && (
-                    <p className="mt-2 text-[12px] md:text-[13px] text-zinc-400 line-clamp-2 leading-relaxed hidden md:block">
-                        {article.summary}
-                    </p>
-                )}
-
                 {/* Meta row */}
-                <div className="flex items-center gap-2 mt-3 opacity-60">
-                    <span className="text-[9px] font-bold text-white flex items-center gap-1" suppressHydrationWarning>
-                        <Clock size={8} className="text-premium-gold" />
+                <div className="flex items-center gap-2 mt-2 text-white/70">
+                    <span className="text-[10px] font-medium flex items-center gap-1" suppressHydrationWarning>
+                        <Clock size={10} className="text-amber-400" />
                         {timeAgo(article.created_at)}
                     </span>
                 </div>
             </div>
 
             {/* Subtle inner border */}
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/[0.05] rounded-2xl" />
+            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl pointer-events-none" />
         </Link>
     );
 }
+

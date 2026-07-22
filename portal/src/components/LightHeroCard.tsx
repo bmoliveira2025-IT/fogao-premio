@@ -26,9 +26,9 @@ export default function LightHeroCard({ article }: LightHeroCardProps) {
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
-        return `${Math.floor(diffInSeconds / 86400)}d`;
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min atrás`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
+        return `${Math.floor(diffInSeconds / 86400)}d atrás`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -38,37 +38,45 @@ export default function LightHeroCard({ article }: LightHeroCardProps) {
     };
 
     return (
-        <Link href={`/news/${article.id}`} className="block relative w-full aspect-[4/3] rounded-[26px] overflow-hidden bg-zinc-200 shadow-[0_12px_30px_rgba(0,0,0,0.12)] active:scale-[0.99] transition-transform">
+        <Link
+            href={`/news/${article.id}`}
+            className="group block relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-zinc-900 shadow-[0_8px_24px_rgba(0,0,0,0.12)] active:scale-[0.99] transition-all duration-300 border border-zinc-200/40 dark:border-white/10"
+        >
             <Image
                 src={getSafeImageSrc(article.image, 'https://placehold.co/800x600')}
                 alt={article.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 600px"
-                className="object-cover"
+                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 priority
                 unoptimized
             />
             
-            {/* Gradient Overlay for bottom text */}
-            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+            {/* Soft Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
 
-            {/* Badge on Top Left */}
-            <div className="absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1.5 bg-white/92 backdrop-blur-sm rounded-full shadow-sm">
-                <SourceIcon source={article.source} className="w-4 h-4 rounded-full" />
-                <span className="text-[10px] font-bold text-zinc-800">{article.source || 'Destaque'}</span>
+            {/* Source Badge on Top Left */}
+            <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-black/50 dark:bg-white/15 backdrop-blur-md rounded-full border border-white/20 shadow-sm">
+                <SourceIcon source={article.source} className="w-3.5 h-3.5 rounded-full" />
+                <span className="text-[11px] font-bold text-white tracking-tight">{article.source || 'Destaque'}</span>
             </div>
 
             {/* Content Bottom */}
-            <div className="absolute bottom-0 inset-x-0 p-5 flex flex-col gap-2">
-                <h2 className="text-white text-[21px] font-bold leading-[1.16] line-clamp-3 drop-shadow-sm">
+            <div className="absolute bottom-0 inset-x-0 p-4 flex flex-col gap-1.5">
+                <div className="flex items-center gap-1.5 text-amber-400 font-bold text-[10px] tracking-wider uppercase">
+                    <span className="px-2 py-0.5 rounded-full bg-amber-400/20 backdrop-blur-sm border border-amber-400/30">
+                        DESTAQUE
+                    </span>
+                    <span className="text-white/50">•</span>
+                    <span className="text-white/80 font-medium normal-case">{timeAgo(article.created_at)}</span>
+                </div>
+
+                <h2 className="text-white text-[17px] sm:text-[20px] font-extrabold leading-[1.25] tracking-tight line-clamp-2 drop-shadow-sm group-hover:text-amber-300 transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
                     {toSentenceCase(article.title)}
                 </h2>
-                <div className="flex items-center gap-2 text-white/80">
-                    <span className="text-[11px] font-medium">Em destaque</span>
-                    <span className="w-1 h-1 rounded-full bg-white/50" />
-                    <span className="text-[11px]">{timeAgo(article.created_at)} atrás</span>
-                </div>
             </div>
         </Link>
     );
 }
+
+
