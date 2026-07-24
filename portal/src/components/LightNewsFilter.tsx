@@ -70,7 +70,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
   return (
     <div>
       {/* Filter Pills */}
-      <div className="flex gap-2 overflow-x-auto py-4 scrollbar-hide -mx-4 px-4 items-center">
+      <div className="mx-auto grid w-full max-w-md grid-cols-4 items-center gap-2 py-4">
         {FILTERS.map((filter) => (
           <button
             key={filter}
@@ -79,7 +79,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
               setVisibleCount(ITEMS_PER_PAGE);
             }}
             className={cn(
-              "px-4 py-2 text-[12px] font-bold rounded-full whitespace-nowrap transition-all duration-200 border active:scale-95",
+              "min-w-0 px-2 py-2 text-[13px] font-bold rounded-full whitespace-nowrap transition-all duration-200 border active:scale-95",
               activeFilter === filter
                 ? "bg-zinc-900 border-zinc-900 text-white shadow-sm"
                 : "bg-white border-zinc-200 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 shadow-xs"

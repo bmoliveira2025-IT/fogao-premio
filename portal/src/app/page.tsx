@@ -216,7 +216,7 @@ export default async function Home() {
     <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#f4f4f5] lg:bg-[#0a0a0a]">
       
       {/* MOBILE LIGHT THEME */}
-      <div className="block lg:hidden min-h-screen px-4 pt-safe bg-white">
+      <div className="mobile-app-edge block lg:hidden min-h-screen px-4 pt-safe bg-white">
           <MobileUserHeader />
           <div className="py-1"></div>
           

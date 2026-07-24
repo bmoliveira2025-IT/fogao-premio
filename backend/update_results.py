@@ -191,9 +191,12 @@ def update_schedule_results() -> bool:
         except Exception:
             continue
 
-        # Only try to fetch result if game ended at least 3 hours ago
-        if game_dt + timedelta(hours=3) > now_brt:
-            print(f"[update_results] Game not over yet — skipping: {home} x {away} ({date_str} {time_str})")
+        # Start checking at kick-off. fetch_result only returns a score when
+        # the source explicitly marks the match as finished, so waiting three
+        # hours unnecessarily delays shorter matches and games without much
+        # added time.
+        if game_dt > now_brt:
+            print(f"[update_results] Game has not started yet — skipping: {home} x {away} ({date_str} {time_str})")
             continue
 
         print(f"[update_results] Fetching result: {home} x {away} ({date_str}  {competition})")

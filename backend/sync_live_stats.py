@@ -5,7 +5,56 @@ import re
 import requests
 import firebase_admin
 from firebase_admin import credentials, firestore
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+try:
+    from update_results import get_urls_for_match
+except ModuleNotFoundError:
+    from backend.update_results import get_urls_for_match
+
+BRT = timezone(timedelta(hours=-3))
+
+
+def get_current_schedule_candidates():
+    """Return scheduled matches inside the live-sync window and their GE URLs."""
+    schedule_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "portal", "src", "data", "schedule.ts"
+    )
+    if not os.path.exists(schedule_path):
+        return []
+
+    with open(schedule_path, "r", encoding="utf-8") as schedule_file:
+        content = schedule_file.read()
+
+    now_brt = datetime.now(BRT)
+    candidates = []
+
+    for raw_entry in re.findall(r"^\s*(\{[^\r\n]+\})\s*,?\s*$", content, re.MULTILINE):
+        try:
+            match = json.loads(raw_entry)
+            date_str = match.get("date", "")
+            time_str = match.get("time", "")
+            if not date_str or ":" not in time_str:
+                continue
+
+            kickoff = datetime.strptime(
+                f"{date_str} {time_str}", "%d/%m/%Y %H:%M"
+            ).replace(tzinfo=BRT)
+
+            if kickoff - timedelta(hours=1) <= now_brt <= kickoff + timedelta(hours=5):
+                match["kickoff"] = kickoff
+                match["urls"] = get_urls_for_match(
+                    date_str,
+                    match.get("homeTeam", ""),
+                    match.get("awayTeam", ""),
+                    match.get("competition", ""),
+                )
+                candidates.append(match)
+        except (json.JSONDecodeError, ValueError):
+            continue
+
+    return candidates
 
 # Initialize Firebase
 def init_firebase():
@@ -43,11 +92,16 @@ def get_ge_match_stats(match_url):
         text = response.text
         
         # 1. Look for match ID
-        id_match = re.search(r'"match":{"id":(\d+)', text)
+        id_match = re.search(r'"match":\s*\{"id":(\d+)', text)
         m_id = id_match.group(1) if id_match else None
-        
         if not m_id:
-            return None, None
+            url_match = re.search(
+                r"/jogo/(\d{2}-\d{2}-\d{4})/([^/.]+)", match_url
+            )
+            if url_match:
+                m_id = f"{url_match.group(2)}-{url_match.group(1)}"
+            else:
+                m_id = f"botafogo-match-{datetime.now(timezone.utc):%Y%m%d}"
 
         # 2. Extract stats
         stats = {}
@@ -99,13 +153,13 @@ def get_ge_match_stats(match_url):
         
         # Try to extract date from script blocks
         # "startDate":"2026-01-24T21:00"
-        date_match = re.search(r'"startDate":"([^"]+)"', text)
+        date_match = re.search(r'"startDate"\s*:\s*"([^"]+)"', text)
         if date_match:
             m_info["date"] = date_match.group(1)
 
         ht_match = re.search(r'"homeTeam":{[^}]*"name":"([^"]+)"[^}]*"score":(\d+)', text)
         at_match = re.search(r'"awayTeam":{[^}]*"name":"([^"]+)"[^}]*"score":(\d+)', text)
-        st_match = re.search(r'"status":"([^"]+)"', text)
+        statuses = re.findall(r'"status"\s*:\s*"([^"]+)"', text)
         
         if ht_match:
             m_info["home_team"] = ht_match.group(1)
@@ -113,11 +167,34 @@ def get_ge_match_stats(match_url):
         if at_match:
             m_info["away_team"] = at_match.group(1)
             m_info["away_score"] = int(at_match.group(2))
+
+        # Current GE pages may expose the final score only in the document
+        # title/structured metadata and no longer include the legacy match id.
+        title_match = re.search(r"<title>([^<]+)</title>", text)
+        if title_match:
+            title_score = re.search(
+                r"(.+?)\s+(\d+)\s+[xX×]\s+(\d+)\s+(.+?)\s*\|",
+                title_match.group(1),
+            )
+            if title_score:
+                m_info["home_team"] = title_score.group(1).strip()
+                m_info["home_score"] = int(title_score.group(2))
+                m_info["away_score"] = int(title_score.group(3))
+                m_info["away_team"] = title_score.group(4).strip()
         
         m_info["score"] = f"{m_info['home_score']} - {m_info['away_score']}"
         
-        if st_match:
-            m_info["status"] = st_match.group(1)
+        page_title = title_match.group(1).lower() if title_match else ""
+        if (
+            "melhores momentos" in page_title
+            or "encerrado" in page_title
+            or any(status in {"ENCERRADA", "FINALIZADO", "FINISHED"} for status in statuses)
+        ):
+            m_info["status"] = "ENCERRADA"
+        elif any(status in {"AO_VIVO", "EM_ANDAMENTO", "LIVE"} for status in statuses):
+            m_info["status"] = "AO_VIVO"
+        elif statuses:
+            m_info["status"] = statuses[0]
             
         return m_info, stats
     except Exception as e:
@@ -180,6 +257,14 @@ def sync_botafogo_live():
     
     found_live = False
     game_urls = []
+    scheduled_matches = get_current_schedule_candidates()
+
+    for scheduled_match in scheduled_matches:
+        print(
+            "Scheduled match in live window: "
+            f"{scheduled_match.get('homeTeam')} x {scheduled_match.get('awayTeam')}"
+        )
+        game_urls.extend(scheduled_match.get("urls", []))
     
     for url in urls:
         print(f"Checking {url} for live Botafogo matches...")
@@ -202,13 +287,22 @@ def sync_botafogo_live():
         try:
             with open(manual_path, "r", encoding="utf-8") as f:
                 manual_conf = json.load(f)
-            if manual_conf.get("ge_url"):
+            manual_date = datetime.fromisoformat(
+                manual_conf["date"].replace("Z", "+00:00")
+            )
+            now_utc = datetime.now(timezone.utc)
+            manual_is_current = (
+                manual_date - timedelta(hours=1)
+                <= now_utc
+                <= manual_date + timedelta(hours=6)
+            )
+
+            if manual_is_current and manual_conf.get("ge_url"):
                 print(f"Adding Manual GE URL: {manual_conf['ge_url']}")
                 game_urls.append(manual_conf['ge_url'])
             
             # AUTOMATIC FALLBACK: Construct URL from manual data
             try:
-                from datetime import timedelta
                 m_date = datetime.fromisoformat(manual_conf["date"].replace("Z", "+00:00"))
                 now_utc = datetime.now(timezone.utc)
                 
@@ -271,6 +365,29 @@ def sync_botafogo_live():
             }
             db.collection("matches").document(m_id).set(matches_update, merge=True)
             print(f"Updated matches/{m_id} with score {m_info['home_score']}-{m_info['away_score']} status={m_info['status']}")
+
+            current_scheduled_match = next(
+                (
+                    scheduled
+                    for scheduled in scheduled_matches
+                    if scheduled.get("homeTeam") == m_info["home_team"]
+                    and scheduled.get("awayTeam") == m_info["away_team"]
+                ),
+                None,
+            )
+            if current_scheduled_match:
+                next_match_update = {
+                    **matches_update,
+                    "championship": current_scheduled_match.get("competition", ""),
+                    "location": current_scheduled_match.get("location", ""),
+                    "display_time": (
+                        "FIM"
+                        if m_info["status"] == "ENCERRADA"
+                        else current_scheduled_match.get("time", "")
+                    ),
+                }
+                db.collection("matches").document("next_match").set(next_match_update)
+                print("Updated matches/next_match from the current scheduled match.")
             
             if m_info["status"] in ["AO_VIVO", "EM_ANDAMENTO"]:
                 found_live = True
@@ -319,7 +436,8 @@ def sync_botafogo_live():
                     # If match was more than 6 hours ago, ignore manual active flag
                     if (now_utc - m_date).total_seconds() > 6 * 3600:
                         print(f"Manual match data is stale (Date: {m_date_str}). Ignoring.")
-                        found_live = False # Ensure we don't treat it as found
+                        found_live = False
+                        manual_data["active"] = False
                     else:
                         print("USING MANUAL LIVE GAME DATA") # Upsert detailed stats
             except Exception as e:
@@ -327,6 +445,10 @@ def sync_botafogo_live():
                 
             # Define match ID from manual data early
             m_id = manual_data.get("match_id", "manual_match")
+
+            if not manual_data.get("active"):
+                print("Skipping stale/inactive manual match without writing to Firestore.")
+                return
             
             if found_live: # Only proceed if we decided it's live
                 pass # m_id is already set above

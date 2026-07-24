@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { timeAgo } from '@/lib/news-utils';
-import GloriosoLogo from './GloriosoLogo';
 
 interface AppNotification {
     id: string;
@@ -21,6 +20,26 @@ interface AppNotification {
 const READ_RETENTION_MS = 24 * 60 * 60 * 1000;
 const NOTIFICATION_RETENTION_MS = 72 * 60 * 60 * 1000;
 const MAX_VISIBLE_NOTIFICATIONS = 10;
+
+function HeaderBrand() {
+    return (
+        <div className="flex items-center gap-2">
+            <svg
+                aria-hidden="true"
+                viewBox="0 0 44 52"
+                className="h-10 w-[34px] shrink-0 drop-shadow-[0_3px_6px_rgba(0,0,0,0.16)]"
+            >
+                <path d="M22 1.5 41 7v16.2C41 36.4 32.7 46 22 50.5 11.3 46 3 36.4 3 23.2V7L22 1.5Z" fill="rgb(var(--premium-gold))" />
+                <path d="M22 4.6 38 9.2v14C38 34.3 31.3 42.7 22 46.9 12.7 42.7 6 34.3 6 23.2v-14l16-4.6Z" fill="#111114" />
+                <path d="m22 11.5 3.4 7 7.7 1.1-5.5 5.4 1.3 7.6-6.9-3.7-6.9 3.7 1.3-7.6-5.5-5.4 7.7-1.1 3.4-7Z" fill="#fff" />
+            </svg>
+            <div className="flex items-baseline gap-1 whitespace-nowrap leading-none">
+                <span className="text-[21px] font-black tracking-[-0.055em] text-zinc-950">Fogão</span>
+                <span className="text-[21px] font-black tracking-[-0.045em] text-premium-gold">360</span>
+            </div>
+        </div>
+    );
+}
 
 function getStoredReadNotifications(): Record<string, number> {
     try {
@@ -177,7 +196,7 @@ export default function MobileUserHeader() {
         <div className="flex items-center justify-between py-3 relative">
             {/* Logo on Left */}
             <Link href="/" aria-label="Fogão 360 — Início" className="flex items-center group no-underline">
-                <GloriosoLogo size={42} withText={true} />
+                <HeaderBrand />
             </Link>
 
             {/* Notifications & User on Right */}

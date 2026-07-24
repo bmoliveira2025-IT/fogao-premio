@@ -287,6 +287,8 @@ export default function LightVideoPlayer({ video, allVideos, recommendedNews = [
                                             src={getSafeImageSrc(v.thumbnail)} 
                                             alt={v.title}
                                             fill
+                                            unoptimized
+                                            sizes="160px"
                                             className="object-cover"
                                         />
                                         <div className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] font-bold px-1.5 rounded">

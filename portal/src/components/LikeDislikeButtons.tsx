@@ -147,7 +147,7 @@ export default function LikeDislikeButtons({
 
     // Size settings
     const iconSize = isHero ? 18 : 14;
-    const buttonPadding = isHero ? "px-6 py-2.5" : (isFull ? "px-3 md:px-5 py-2.5" : "px-2.5 py-1.5");
+    const buttonPadding = isHero ? "px-6 py-2.5" : (isFull ? "px-3 md:px-5 py-2.5" : "px-2 py-1.5");
     const textSize = isHero ? "text-sm" : "text-[11px]";
 
     return (

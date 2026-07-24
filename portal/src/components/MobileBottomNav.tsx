@@ -17,10 +17,15 @@ export default function MobileBottomNav() {
     ];
 
     return (
-        <nav aria-label="Navegação principal" className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-t border-zinc-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe">
-            <div className="flex items-center justify-around min-h-16">
+        <nav
+            aria-label="Navegação principal"
+            className="lg:hidden fixed bottom-2 left-3 right-3 z-50 overflow-hidden rounded-[24px] border border-zinc-200/80 bg-white/95 shadow-[0_12px_36px_rgba(0,0,0,0.14)] backdrop-blur-xl"
+        >
+            <div className="grid min-h-[68px] grid-cols-5 pb-[env(safe-area-inset-bottom)]">
                 {navItems.map((item) => {
-                    const isActive = pathname === item.href;
+                    const isActive = item.href === '/'
+                        ? pathname === '/'
+                        : pathname.startsWith(item.href);
                     const Icon = item.icon;
 
                     return (
@@ -28,24 +33,17 @@ export default function MobileBottomNav() {
                             key={item.label}
                             href={item.href}
                             aria-current={isActive ? 'page' : undefined}
-                            className="flex min-h-16 flex-col items-center justify-center gap-0.5 w-full group"
+                            className="mobile-bottom-nav-link group relative flex min-h-[68px] w-full flex-col items-center justify-center gap-1"
                         >
-                            <div className={cn(
-                                "p-1.5 rounded-full transition-all duration-300",
-                                isActive ? "bg-amber-400/15" : "group-hover:bg-zinc-100"
-                            )}>
-                                <Icon 
-                                    size={20} 
-                                    className={cn(
-                                        "transition-all",
-                                        isActive ? "text-amber-600 font-bold scale-110" : "text-zinc-500"
-                                    )} 
-                                />
-                            </div>
-                            <span className={cn(
-                                "text-[11px] transition-all",
-                                isActive ? "text-amber-700 font-bold" : "text-zinc-500 font-medium"
-                            )}>
+                            <Icon
+                                size={22}
+                                strokeWidth={2}
+                                className={cn(
+                                    "transition-colors duration-200",
+                                    isActive ? "text-premium-gold" : "text-zinc-500 group-hover:text-zinc-800"
+                                )}
+                            />
+                            <span className="text-[10px] font-semibold leading-none text-zinc-500">
                                 {item.label}
                             </span>
                         </Link>

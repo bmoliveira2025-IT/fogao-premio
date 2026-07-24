@@ -77,9 +77,9 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
         if (diffInSeconds < 60) return 'agora';
-        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min atrás`;
-        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
-        return `${Math.floor(diffInSeconds / 86400)}d atrás`;
+        if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} min`;
+        if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h`;
+        return `${Math.floor(diffInSeconds / 86400)}d`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -105,26 +105,26 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
             {/* Content */}
             <div className="flex flex-col flex-grow min-w-0 justify-between h-[72px] py-0.5">
                 <Link href={`/news/${article.id}`}>
-                    <h3 className="text-zinc-900 font-bold text-[14px] leading-[1.3] line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
+                    <h3 className="text-zinc-900 font-bold text-[15px] leading-[1.3] line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
                         {toSentenceCase(article.title)}
                     </h3>
                 </Link>
 
-                <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-1.5">
+                <div className="flex w-full min-w-0 items-center justify-between gap-2">
+                    <div className="flex min-w-0 shrink items-center gap-1.5">
                         <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-100 border border-zinc-200/80">
                             <SourceIcon source={article.source} className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-bold text-zinc-700 truncate max-w-[90px]">
+                            <span className="max-w-[62px] truncate text-[10px] font-bold text-zinc-700 sm:max-w-[82px]">
                                 {article.source || 'Botafogo'}
                             </span>
                         </div>
 
                         <span className="text-[11px] text-zinc-400 font-medium whitespace-nowrap">
-                            • {timeAgo(article.created_at)}
+                            <span className="mr-1 text-zinc-300">•</span>{timeAgo(article.created_at)}
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-1" ref={menuRef}>
+                    <div className="flex shrink-0 items-center gap-0.5" ref={menuRef}>
                         <LikeDislikeButtons
                             articleId={article.id}
                             initialLikes={article.likes_count}

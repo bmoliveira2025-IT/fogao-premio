@@ -3,11 +3,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SourceIcon from './SourceIcon';
 import { getSafeImageSrc } from '@/lib/images';
-import { useAuth } from '@/context/AuthContext';
 import LikeDislikeButtons from './LikeDislikeButtons';
 
-export default function CompactNewsRow({ article, dense = false }: any) {
-    const { user } = useAuth();
+interface CompactNewsArticle {
+    id: string;
+    title: string;
+    image?: string;
+    source?: string;
+    created_at: string;
+    likes_count?: number;
+    dislikes_count?: number;
+}
+
+interface CompactNewsRowProps {
+    article: CompactNewsArticle;
+    dense?: boolean;
+}
+
+export default function CompactNewsRow({ article, dense = false }: CompactNewsRowProps) {
     const timeAgo = (dateStr: string) => {
         if (!dateStr) return '';
         const date = new Date(dateStr);
@@ -21,10 +34,10 @@ export default function CompactNewsRow({ article, dense = false }: any) {
         }
         if (diffInSeconds < 86400) {
             const hours = Math.floor(diffInSeconds / 3600);
-            return `${hours}h atrás`;
+            return `${hours}h`;
         }
         const days = Math.floor(diffInSeconds / 86400);
-        return `${days}d atrás`;
+        return `${days}d`;
     };
 
     const toSentenceCase = (str: string) => {
@@ -52,26 +65,27 @@ export default function CompactNewsRow({ article, dense = false }: any) {
 
             {/* Info */}
             <div className="flex flex-col flex-grow min-w-0 justify-between h-[72px] sm:h-20 py-0.5">
-                <h4 className="text-[14px] sm:text-[15px] font-bold leading-[1.3] text-zinc-900 line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
+                <h4 className="text-[15px] sm:text-[16px] font-bold leading-[1.3] text-zinc-900 line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
                     {toSentenceCase(article.title)}
                 </h4>
 
                 {/* Metadata Row with Glass Badge */}
-                <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-1.5">
+                <div className="flex w-full min-w-0 items-center justify-between gap-2">
+                    <div className="flex min-w-0 shrink items-center gap-1.5">
                         <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-100 border border-zinc-200/80">
                             <SourceIcon source={article.source} className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-bold text-zinc-700 truncate max-w-[90px]">
+                            <span className="max-w-[62px] truncate text-[10px] font-bold text-zinc-700 sm:max-w-[82px]">
                                 {article.source || 'Botafogo'}
                             </span>
                         </div>
 
                         <span className="text-[11px] text-zinc-400 font-medium whitespace-nowrap">
-                            • {timeAgo(article.created_at)}
+                            <span className="mr-1 text-zinc-300">•</span>{timeAgo(article.created_at)}
                         </span>
                     </div>
 
                     <LikeDislikeButtons
+                        className="shrink-0"
                         articleId={article.id}
                         initialLikes={article.likes_count}
                         initialDislikes={article.dislikes_count}

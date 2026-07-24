@@ -180,6 +180,8 @@ export default function LightVideoFeed({ videos }: LightVideoFeedProps) {
                                 src={getSafeImageSrc(video.thumbnail)} 
                                 alt={video.title}
                                 fill
+                                unoptimized
+                                sizes="100vw"
                                 className="object-cover"
                             />
                             {/* Mock Duration Badge */}

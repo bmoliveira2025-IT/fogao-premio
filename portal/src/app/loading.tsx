@@ -1,4 +1,10 @@
+import { SplashBrand } from "@/components/InitialSplash";
+import styles from "@/components/InitialSplash.module.css";
+
 export default function Loading() {
-    // Route transitions stay instant; the branded splash is owned by RootLayout.
-    return null;
+    return (
+        <div className={styles.screen} role="status" aria-label="Carregando conteúdo">
+            <SplashBrand />
+        </div>
+    );
 }

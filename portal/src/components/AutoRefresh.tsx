@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, limit, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase'; // Ensure we have a client-side firebase init
@@ -9,37 +9,46 @@ import { RefreshCw } from 'lucide-react';
 export default function AutoRefresh() {
     const router = useRouter();
     const [hasUpdate, setHasUpdate] = useState(false);
+    const baselineRef = useRef<string | null>(null);
 
     useEffect(() => {
         // Listen for the absolute latest news item
         const q = query(collection(db, 'news'), orderBy('created_at', 'desc'), limit(1));
-
-        let initialLoad = true;
+        let hideIndicatorTimeout: ReturnType<typeof setTimeout> | undefined;
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            // Skip the first event which is the current state
-            if (initialLoad) {
-                initialLoad = false;
+            if (snapshot.empty) return;
+
+            // A abertura do app pode emitir primeiro o cache e depois o servidor.
+            // O cache não deve ser tratado como uma atualização nova.
+            if (snapshot.metadata.fromCache) {
                 return;
             }
 
-            if (!snapshot.empty) {
-                const changes = snapshot.docChanges();
-                // If there is a new addition or modification
-                if (changes.some(change => change.type === 'added' || change.type === 'modified')) {
-                    console.log("New content detected, refreshing...");
-                    setHasUpdate(true);
+            const latestDocument = snapshot.docs[0];
+            const currentVersion = `${latestDocument.id}:${JSON.stringify(latestDocument.data())}`;
 
-                    // Trigger a server component refresh
-                    router.refresh();
-
-                    // Reset the indicator after a moment
-                    setTimeout(() => setHasUpdate(false), 3000);
-                }
+            // The first server-confirmed result establishes the baseline.
+            if (baselineRef.current === null) {
+                baselineRef.current = currentVersion;
+                return;
             }
+
+            if (baselineRef.current === currentVersion) return;
+
+            baselineRef.current = currentVersion;
+            console.log("New content detected, refreshing...");
+            setHasUpdate(true);
+            router.refresh();
+
+            clearTimeout(hideIndicatorTimeout);
+            hideIndicatorTimeout = setTimeout(() => setHasUpdate(false), 3000);
         });
 
-        return () => unsubscribe();
+        return () => {
+            unsubscribe();
+            clearTimeout(hideIndicatorTimeout);
+        };
     }, [router]);
 
     if (!hasUpdate) return null;

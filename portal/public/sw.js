@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fogao-premio-cache-v1';
+const CACHE_NAME = 'fogao-premio-cache-v2';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -30,11 +30,27 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    const isNavigation = event.request.mode === 'navigate';
+    const isNextAsset = new URL(event.request.url).pathname.startsWith('/_next/');
+
+    // App pages and versioned Next assets must prefer the current deployment.
+    if (isNavigation || isNextAsset) {
+        event.respondWith(
+            fetch(event.request)
+                .then((networkResponse) => {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+                    return networkResponse;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request).then((response) => {
-            if (response) {
-                return response;
-            }
+            if (response) return response;
+
             return fetch(event.request).then((networkResponse) => {
                 // Check if we received a valid response
                 if (
