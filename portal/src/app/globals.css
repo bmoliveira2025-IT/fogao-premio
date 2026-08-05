@@ -1,5 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:wght@600;700&display=swap');
 @import './premium.css';
+
+/* Responsive fluid typography to ensure ideal text size on all devices */
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 640px) {
+  html { font-size: 15px; }
+}
+
+@media (min-width: 1024px) {
+  html { font-size: 16px; }
+}
+
+@media (min-width: 1536px) {
+  html { font-size: 18px; }
+}
 
 @tailwind base;
 @tailwind components;
@@ -66,8 +82,8 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Plus Jakarta Sans', 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 16px;
+  font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Font size controlled by html responsive root for comfortable reading on all devices */
   line-height: 1.75;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -123,7 +139,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   letter-spacing: -0.015em;
   line-height: 1.2;
   font-style: normal;

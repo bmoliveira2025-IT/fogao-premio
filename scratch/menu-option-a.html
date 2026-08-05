@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fogão 360 — Menu Mobile A</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --ink: #111216;
+      --accent: #e6b72e;
+      --accent-soft: rgba(230,183,46,.18);
+      --paper: #fff;
+      --muted: #858992;
+      --canvas: #e7e8eb;
+    }
+    .phone[data-theme="gloriosa"] {
+      --accent: #ec6f9f;
+      --accent-soft: rgba(236,111,159,.18);
+      --ink: #24171d;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: var(--canvas);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+    }
+    .phone {
+      position: relative;
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+      background: #f7f7f8;
+      box-shadow: 0 24px 70px rgba(17, 18, 22, .18);
+    }
+    .status {
+      height: 36px;
+      padding: 11px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    header {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      background: var(--paper);
+      border-bottom: 1px solid #ededee;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 850;
+      letter-spacing: -.5px;
+    }
+    .mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      font-size: 19px;
+      box-shadow: 0 3px 10px rgba(17,18,22,.12);
+    }
+    .brand small {
+      display: block;
+      color: #9699a0;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.3px;
+      margin-top: 2px;
+    }
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #ededee;
+      border: 1px solid #dedfe2;
+    }
+    .theme-switch {
+      border: 0;
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .25px;
+      cursor: pointer;
+    }
+    main { padding: 18px 18px 126px; }
+    .hero {
+      height: 226px;
+      border-radius: 22px;
+      padding: 20px;
+      display: flex;
+      align-items: flex-end;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.08), transparent 45%),
+        linear-gradient(145deg, #1d1f25 0%, #090a0c 76%);
+      box-shadow: 0 12px 25px rgba(18,18,20,.1);
+    }
+    .hero p {
+      width: 84%;
+      margin: 0;
+      color: white;
+      font-size: 21px;
+      line-height: 1.16;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+    .hero span {
+      display: block;
+      width: max-content;
+      margin-bottom: 10px;
+      padding: 6px 9px;
+      color: #171717;
+      background: var(--accent);
+      border-radius: 999px;
+      font-size: 10px;
+      letter-spacing: .5px;
+      font-weight: 900;
+    }
+    .chips { display: flex; gap: 8px; padding: 16px 0; }
+    .chip {
+      height: 34px;
+      padding: 0 15px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #e8e9eb;
+      color: #70737a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .chip.on { background: var(--ink); color: white; }
+    .story {
+      height: 92px;
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      padding: 13px;
+      margin-bottom: 11px;
+      background: var(--paper);
+      border: 1px solid #ebebed;
+      border-radius: 18px;
+      box-shadow: 0 4px 14px rgba(17,18,22,.035);
+    }
+    .thumb {
+      width: 68px;
+      height: 64px;
+      flex: none;
+      border-radius: 13px;
+      background: linear-gradient(140deg, #d9dade, #aeb1b7);
+    }
+    .lines { flex: 1; }
+    .line { height: 9px; border-radius: 9px; background: #d7d8dc; margin: 8px 0; }
+    .line:nth-child(2) { width: 78%; }
+    .line:nth-child(3) { width: 44%; background: var(--accent); opacity: .62; }
+    nav {
+      position: absolute;
+      z-index: 5;
+      left: 14px;
+      right: 14px;
+      bottom: 14px;
+      height: 80px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      padding: 8px;
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(17,18,22,.07);
+      border-radius: 25px;
+      box-shadow:
+        0 16px 38px rgba(17,18,22,.18),
+        0 2px 8px rgba(17,18,22,.06);
+      backdrop-filter: blur(18px);
+    }
+    .nav-item {
+      height: 62px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      border-radius: 19px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 750;
+      text-decoration: none;
+    }
+    .nav-item.active {
+      position: relative;
+      color: white;
+      background: var(--ink);
+      box-shadow: 0 7px 16px rgba(17,18,22,.22);
+    }
+    .nav-item.active::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      right: 12px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .icon {
+      position: relative;
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      font-size: 21px;
+      font-family: Arial, sans-serif;
+      line-height: 1;
+    }
+    .home::before { content: "⌂"; font-size: 28px; transform: translateY(-1px); }
+    .table::before { content: "♜"; font-size: 22px; }
+    .games::before { content: "□"; border: 2px solid currentColor; border-radius: 5px; width: 18px; height: 17px; font-size: 0; }
+    .games::after { content: "··"; position: absolute; top: 3px; font-weight: 900; letter-spacing: 2px; }
+    .video::before { content: "▷"; font-size: 25px; transform: translateX(1px); }
+    .profile::before { content: "♙"; font-size: 25px; }
+    .safe-area {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 32px;
+      background: linear-gradient(transparent, rgba(247,247,248,.92));
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <section class="phone" data-theme="glorioso" aria-label="Mockup mobile Fogão 360">
+    <div class="status"><span>9:41</span><span>● ● ▰</span></div>
+    <header>
+      <div class="brand"><div class="mark">★</div><div>FOGÃO <span style="color:var(--accent)">360</span><small>O PORTAL DO BOTAFOGO</small></div></div>
+      <button class="theme-switch" type="button" onclick="toggleTheme()">GLORIOSO</button>
+    </header>
+    <main>
+      <div class="hero"><p><span>DESTAQUE</span>As principais notícias do Glorioso em um só lugar</p></div>
+      <div class="chips"><div class="chip on">Para Você</div><div class="chip">Mercado</div><div class="chip">Jogos</div></div>
+      <div class="story"><div class="thumb"></div><div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+      <div class="story"><div class="thumb"></div><div class="lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+    </main>
+    <nav aria-label="Navegação principal">
+      <a class="nav-item active" href="#"><i class="icon home"></i><span>Início</span></a>
+      <a class="nav-item" href="#"><i class="icon table"></i><span>Tabela</span></a>
+      <a class="nav-item" href="#"><i class="icon games"></i><span>Jogos</span></a>
+      <a class="nav-item" href="#"><i class="icon video"></i><span>Vídeos</span></a>
+      <a class="nav-item" href="#"><i class="icon profile"></i><span>Perfil</span></a>
+    </nav>
+    <div class="safe-area"></div>
+  </section>
+  <script>
+    function toggleTheme() {
+      const phone = document.querySelector(".phone");
+      const button = document.querySelector(".theme-switch");
+      const isGlorioso = phone.dataset.theme === "glorioso";
+      phone.dataset.theme = isGlorioso ? "gloriosa" : "glorioso";
+      button.textContent = isGlorioso ? "GLORIOSA" : "GLORIOSO";
+    }
+  </script>
+</body>
+</html>

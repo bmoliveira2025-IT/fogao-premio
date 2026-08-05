@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Roboto } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
@@ -8,6 +9,13 @@ import DesktopHeader from "@/components/DesktopHeader";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import DeferredEnhancements from "@/components/DeferredEnhancements";
 import InitialSplash from "@/components/InitialSplash";
+
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700', '900'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+  display: 'swap',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -60,8 +68,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning className="overflow-x-hidden">
-      <body className="antialiased overflow-x-hidden selection:bg-premium-gold/30">
+    <html lang="pt-BR" suppressHydrationWarning className={`${roboto.variable} overflow-x-hidden`}>
+      <body className="font-sans antialiased overflow-x-hidden selection:bg-premium-gold/30">
         <InitialSplash />
         <ThemeProvider>
           <AuthProvider>

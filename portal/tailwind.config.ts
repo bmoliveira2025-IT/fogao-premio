@@ -27,9 +27,9 @@ const config: Config = {
                 "social-facebook": "#2563eb", // blue-600
             },
             fontFamily: {
-                sans: ["DM Sans", "sans-serif"],
-                display: ["Outfit", "sans-serif"],
-                serif: ["Playfair Display", "serif"],
+                sans: ["var(--font-roboto)", "sans-serif"],
+                display: ["var(--font-roboto)", "sans-serif"],
+                serif: ["var(--font-roboto)", "sans-serif"],
             },
             keyframes: {
                 fadeIn: {
