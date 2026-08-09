@@ -11,28 +11,34 @@ interface SplashBrandProps {
 export function SplashBrand({ onLogoReady }: SplashBrandProps = {}) {
     return (
         <div className={styles.brand}>
-            <div className={styles.logoHalo} aria-hidden="true" />
-            <div className={styles.logoWrap}>
-                <Image
-                    src="/splash-logo.png"
-                    alt=""
-                    width={150}
-                    height={150}
-                    priority
-                    unoptimized
-                    className={styles.logo}
-                    onLoad={onLogoReady}
-                    onError={onLogoReady}
-                />
+            <Image
+                src="/loading-player.png"
+                alt=""
+                fill
+                sizes="100vw"
+                priority
+                unoptimized
+                className={styles.heroImage}
+                onLoad={onLogoReady}
+                onError={onLogoReady}
+            />
+            <div className={styles.vignette} aria-hidden="true" />
+            <div className={styles.goldAura} aria-hidden="true" />
+            <div className={styles.lightSweep} aria-hidden="true" />
+            <div className={styles.particles} aria-hidden="true">
+                <i /><i /><i /><i /><i /><i />
             </div>
 
-            <div className={styles.wordmark} aria-hidden="true">
-                <span>FOGÃO</span><strong>360</strong>
-            </div>
-            <p className={styles.tagline}>O BOTAFOGO EM TODOS OS ÂNGULOS</p>
+            <div className={styles.content}>
+                <div className={styles.wordmark} aria-hidden="true">
+                    <span>FOGÃO</span><strong>360</strong>
+                </div>
+                <p className={styles.tagline}>O BOTAFOGO EM TODOS OS ÂNGULOS</p>
 
-            <div className={styles.progress} aria-hidden="true">
-                <span />
+                <div className={styles.progress} aria-hidden="true">
+                    <span />
+                </div>
+                <p className={styles.loadingLabel}>CARREGANDO</p>
             </div>
         </div>
     );
