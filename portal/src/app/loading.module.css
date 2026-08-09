@@ -43,13 +43,13 @@
 
 .eyebrow {
     color: #151515;
-    font-size: .78rem;
+    font-size: calc(.78rem + 1px);
     font-weight: 800;
 }
 
 .loadingText {
     color: #8a8a8a;
-    font-size: .63rem;
+    font-size: calc(.63rem + 1px);
     font-weight: 600;
 }
 
