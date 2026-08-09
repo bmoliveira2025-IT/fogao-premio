@@ -22,6 +22,11 @@ HEADERS = {
     )
 }
 
+GE_TEAM_AGENDA_URL = (
+    'https://ge.globo.com/futebol/times/botafogo/'
+    'agenda-de-jogos-do-botafogo/'
+)
+
 # ─── helpers ────────────────────────────────────────────────────────────────
 
 def slugify(name: str) -> str:
@@ -70,6 +75,61 @@ def get_urls_for_match(date_str: str, home: str, away: str, competition: str) ->
 
 
 FINISHED_STATUSES = ('ENCERRADA', 'FINALIZADO', 'FINISHED', 'FIM', 'REAL_TIME')
+
+
+def fetch_agenda_results() -> dict:
+    """Return finished Botafogo results embedded in GE's team agenda page."""
+    results = {}
+    try:
+        response = requests.get(GE_TEAM_AGENDA_URL, headers=HEADERS, timeout=20)
+        response.raise_for_status()
+        text = response.text
+        decoder = json.JSONDecoder()
+
+        # The main object uses JavaScript keys, but the scheduleTeam value is
+        # valid JSON. Current matches live in a separate JSON variable.
+        sports_start = text.find('window.dataSportsSchedule =')
+        markers = (
+            ('scheduleTeam:', sports_start),
+            ('window.byTeamScheduleTeamData =', 0),
+        )
+        for marker, search_from in markers:
+            start = text.find(marker, max(search_from, 0))
+            if start < 0:
+                continue
+            start += len(marker)
+            payload, _ = decoder.raw_decode(text[start:].lstrip())
+
+            matches = payload.get('matches', [])
+            team_agenda = payload.get('teamAgenda', {})
+            if team_agenda:
+                matches += team_agenda.get('past', [])
+                matches += team_agenda.get('now', [])
+
+            for item in matches:
+                match = item.get('match', item)
+                transmission = match.get('transmission') or {}
+                status_data = transmission.get('broadcastStatus') or {}
+                status = status_data.get('id', '')
+                scoreboard = match.get('scoreboard') or {}
+                home = (match.get('firstContestant') or {}).get('popularName', '')
+                away = (match.get('secondContestant') or {}).get('popularName', '')
+                date_iso = match.get('startDate', '')
+
+                if status not in FINISHED_STATUSES or not date_iso:
+                    continue
+                if scoreboard.get('home') is None or scoreboard.get('away') is None:
+                    continue
+
+                date_key = datetime.strptime(date_iso, '%Y-%m-%d').strftime('%d/%m/%Y')
+                results[(date_key, slugify(home), slugify(away))] = {
+                    'home': int(scoreboard['home']),
+                    'away': int(scoreboard['away']),
+                }
+    except Exception as e:
+        print(f'[update_results] Could not read GE team agenda: {e}')
+
+    return results
 
 
 def fetch_result(url: str, home_team: str = '', away_team: str = '') -> dict | None:
@@ -157,6 +217,8 @@ def update_schedule_results() -> bool:
 
     now_brt = datetime.now(BRT)
     changed = False
+    agenda_results = fetch_agenda_results()
+    print(f'[update_results] Loaded {len(agenda_results)} finished matches from GE agenda.')
 
     # Parse complete one-line schedule objects. Extra fields such as round,
     # stadium and source URL must not prevent a result from being detected.
@@ -201,10 +263,13 @@ def update_schedule_results() -> bool:
 
         print(f"[update_results] Fetching result: {home} x {away} ({date_str}  {competition})")
 
+        result = agenda_results.get((date_str, slugify(home), slugify(away)))
         urls = get_urls_for_match(date_str, home, away, competition)
-        result = None
 
-        for url in urls:
+        if result:
+            print(f"  OK Found in team agenda: {result['home']} x {result['away']}")
+
+        for url in urls if not result else []:
             print(f"  Trying: {url}")
             result = fetch_result(url, home_team=home, away_team=away)
             if result:

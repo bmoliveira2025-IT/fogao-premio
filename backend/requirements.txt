@@ -1,11 +1,19 @@
 fastapi
 uvicorn
-firebase-admin
+firebase-admin==7.5.0
 newspaper3k
-google-generativeai
+google-generativeai==0.8.6
 beautifulsoup4
 python-dotenv
 requests
 lxml<5.2.0
 lxml_html_clean
 pytz
+
+# Keep the Firebase/Gemini dependency graph on the last combination validated
+# by the scheduled scraper. Unconstrained releases trigger pip backtracking and
+# eventually fail with "resolution-too-deep" before the scraper can start.
+google-api-core==2.33.0
+grpcio==1.83.0
+grpcio-status==1.71.2
+protobuf==5.29.6
