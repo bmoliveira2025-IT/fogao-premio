@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2 } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 
 interface AppNotification {
@@ -20,26 +20,6 @@ interface AppNotification {
 const READ_RETENTION_MS = 24 * 60 * 60 * 1000;
 const NOTIFICATION_RETENTION_MS = 72 * 60 * 60 * 1000;
 const MAX_VISIBLE_NOTIFICATIONS = 10;
-
-function HeaderBrand() {
-    return (
-        <div className="flex items-center gap-2">
-            <svg
-                aria-hidden="true"
-                viewBox="0 0 44 52"
-                className="h-10 w-[34px] shrink-0 drop-shadow-[0_3px_6px_rgba(0,0,0,0.16)]"
-            >
-                <path d="M22 1.5 41 7v16.2C41 36.4 32.7 46 22 50.5 11.3 46 3 36.4 3 23.2V7L22 1.5Z" fill="rgb(var(--premium-gold))" />
-                <path d="M22 4.6 38 9.2v14C38 34.3 31.3 42.7 22 46.9 12.7 42.7 6 34.3 6 23.2v-14l16-4.6Z" fill="#111114" />
-                <path d="m22 11.5 3.4 7 7.7 1.1-5.5 5.4 1.3 7.6-6.9-3.7-6.9 3.7 1.3-7.6-5.5-5.4 7.7-1.1 3.4-7Z" fill="#fff" />
-            </svg>
-            <div className="flex items-baseline gap-1 whitespace-nowrap leading-none">
-                <span className="text-[21px] font-black tracking-[-0.055em] text-zinc-950">Fogão</span>
-                <span className="text-[21px] font-black tracking-[-0.045em] text-premium-gold">360</span>
-            </div>
-        </div>
-    );
-}
 
 function getStoredReadNotifications(): Record<string, number> {
     try {
@@ -87,6 +67,7 @@ export default function MobileUserHeader() {
     const { user, isPremium } = useAuth();
     const [greeting, setGreeting] = useState('Bom dia!');
     const [showNotifications, setShowNotifications] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const notificationsRef = useRef<HTMLDivElement>(null);
 
     const [notifications, setNotifications] = useState<AppNotification[]>([]);
@@ -192,61 +173,55 @@ export default function MobileUserHeader() {
     const hasReadNotifications = notifications.some(n => n.read);
     const displayName = user?.displayName?.split(' ')[0] || 'Botafoguense';
 
+    const handleSearch = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const query = searchQuery.trim();
+        router.push(query ? `/search?q=${encodeURIComponent(query)}` : '/search');
+    };
+
     return (
-        <div className="flex items-center justify-between py-3 relative">
-            {/* Logo on Left */}
-            <Link href="/" aria-label="Fogão 360 — Início" className="flex items-center group no-underline">
-                <HeaderBrand />
-            </Link>
-
-            {/* Notifications & User on Right */}
-            <div className="flex items-center gap-2" ref={notificationsRef}>
-                <Link
-                    href="/search"
-                    aria-label="Pesquisar notícias"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100/80 text-zinc-700 transition-colors hover:bg-zinc-200"
-                >
-                    <Search size={19} strokeWidth={2.2} />
-                </Link>
-                <button 
-                    onClick={() => setShowNotifications(!showNotifications)}
-                    aria-label={showNotifications ? 'Fechar notificações' : `Abrir notificações${unreadCount ? `, ${unreadCount} não lidas` : ''}`}
-                    aria-expanded={showNotifications}
-                    className="relative flex h-10 w-10 items-center justify-center rounded-full bg-zinc-100/80 text-zinc-700 hover:bg-zinc-200 hover:text-premium-gold transition-colors"
-                >
-                    <Bell size={18} />
-                    {unreadCount > 0 && (
-                        <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white" />
-                    )}
-                </button>
-
-                <Link href="/profile" className="flex items-center gap-2">
-                    <div className="flex flex-col items-end text-right hidden md:flex">
-                        <span className="text-zinc-900 font-bold text-[13px] leading-none">{displayName}</span>
-                        <span className="text-zinc-500 font-medium text-[11px] mt-1">{greeting}</span>
-                    </div>
-                    <div className="relative">
-                        <div className={`w-9 h-9 rounded-full overflow-hidden bg-zinc-200 shadow-sm border ${isPremium ? 'border-premium-gold ring-2 ring-premium-gold/20' : 'border-zinc-200'}`}>
+        <header className="relative flex flex-col gap-4 pb-4 pt-4">
+            <div className="flex items-center justify-between">
+                <Link href="/profile" className="flex min-w-0 items-center gap-3 no-underline">
+                    <div className="relative shrink-0">
+                        <div className={`h-12 w-12 overflow-hidden rounded-full bg-zinc-200 shadow-sm ring-2 ${isPremium ? 'ring-premium-gold/60' : 'ring-zinc-100'}`}>
                             <Image
                                 src={user?.photoURL || 'https://placehold.co/100x100?text=BFR'}
                                 alt={user ? `Foto de ${user.displayName || 'usuário'}` : 'Perfil de visitante'}
-                                width={40}
-                                height={40}
-                                className="object-cover w-full h-full"
+                                width={48}
+                                height={48}
+                                className="h-full w-full object-cover"
                                 unoptimized
                             />
                         </div>
                         {isPremium && (
-                            <span className="absolute -bottom-1 -right-2 rounded-full border-2 border-white bg-premium-gold px-1.5 py-0.5 text-[8px] font-black leading-none tracking-wide text-black shadow-md">
+                            <span className="absolute -bottom-1 -right-1 rounded-full border-2 border-white bg-premium-gold px-1.5 py-0.5 text-[8px] font-black leading-none text-black">
                                 VIP
                             </span>
                         )}
                     </div>
+                    <div className="min-w-0 leading-tight">
+                        <p className="truncate text-[12px] font-medium text-zinc-500">Olá, {displayName}</p>
+                        <p className="mt-0.5 truncate text-[17px] font-extrabold tracking-tight text-zinc-950">{greeting}</p>
+                    </div>
                 </Link>
+
+                <div ref={notificationsRef}>
+                <button
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    aria-label={showNotifications ? 'Fechar notificações' : `Abrir notificações${unreadCount ? `, ${unreadCount} não lidas` : ''}`}
+                    aria-expanded={showNotifications}
+                    className="relative flex h-11 w-11 items-center justify-center rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 hover:text-premium-gold"
+                >
+                    <Bell size={24} strokeWidth={2} />
+                    {unreadCount > 0 && (
+                        <span className="absolute right-2 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500" />
+                    )}
+                </button>
 
                 {/* Notifications Dropdown */}
                 {showNotifications && (
-                    <div className="absolute top-14 right-0 w-[min(330px,calc(100vw-24px))] bg-white rounded-[22px] shadow-[0_18px_55px_rgba(0,0,0,0.16)] border border-zinc-200/80 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
+                    <div className="absolute right-0 top-[70px] z-50 w-[min(330px,calc(100vw-24px))] overflow-hidden rounded-[22px] border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-2">
                         <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-white">
                             <div className="flex items-center gap-2">
                                 <span className="font-extrabold text-zinc-900 text-[14px]">Notificações</span>
@@ -312,7 +287,20 @@ export default function MobileUserHeader() {
                         </div>
                     </div>
                 )}
+                </div>
             </div>
-        </div>
+
+            <form onSubmit={handleSearch} role="search" className="relative">
+                <Search aria-hidden="true" size={22} strokeWidth={1.8} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" />
+                <input
+                    type="search"
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    placeholder="Pesquisar notícias..."
+                    aria-label="Pesquisar notícias"
+                    className="h-14 w-full rounded-2xl border border-zinc-100 bg-zinc-50/90 pl-12 pr-4 text-[14px] font-medium text-zinc-900 outline-none transition focus:border-premium-gold/50 focus:bg-white focus:ring-4 focus:ring-premium-gold/10 placeholder:text-zinc-400"
+                />
+            </form>
+        </header>
     );
 }
