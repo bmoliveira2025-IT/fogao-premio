@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2 } from 'lucide-react';
+import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2, X } from 'lucide-react';
 import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 
@@ -68,7 +68,9 @@ export default function MobileUserHeader() {
     const [greeting, setGreeting] = useState('Bom dia!');
     const [showNotifications, setShowNotifications] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isSearchExpanded, setIsSearchExpanded] = useState(false);
     const notificationsRef = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     const [notifications, setNotifications] = useState<AppNotification[]>([]);
     const [loading, setLoading] = useState(true);
@@ -79,6 +81,10 @@ export default function MobileUserHeader() {
         else if (hour < 18) setGreeting('Boa tarde!');
         else setGreeting('Boa noite!');
     }, []);
+
+    useEffect(() => {
+        if (isSearchExpanded) searchInputRef.current?.focus();
+    }, [isSearchExpanded]);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -206,6 +212,17 @@ export default function MobileUserHeader() {
                     </div>
                 </Link>
 
+                <div className="flex items-center gap-1">
+                <button
+                    type="button"
+                    onClick={() => setIsSearchExpanded(current => !current)}
+                    aria-label={isSearchExpanded ? 'Recolher pesquisa' : 'Ampliar pesquisa'}
+                    aria-expanded={isSearchExpanded}
+                    className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${isSearchExpanded ? 'bg-zinc-100 text-zinc-950' : 'text-zinc-900 hover:bg-zinc-100 hover:text-premium-gold'}`}
+                >
+                    <Search size={23} strokeWidth={2} />
+                </button>
+
                 <div ref={notificationsRef}>
                 <button
                     onClick={() => setShowNotifications(!showNotifications)}
@@ -288,19 +305,34 @@ export default function MobileUserHeader() {
                     </div>
                 )}
                 </div>
+                </div>
             </div>
 
-            <form onSubmit={handleSearch} role="search" className="relative">
-                <Search aria-hidden="true" size={22} strokeWidth={1.8} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" />
-                <input
-                    type="search"
-                    value={searchQuery}
-                    onChange={(event) => setSearchQuery(event.target.value)}
-                    placeholder="Pesquisar notícias..."
-                    aria-label="Pesquisar notícias"
-                    className="h-14 w-full rounded-2xl border border-zinc-100 bg-zinc-50/90 pl-12 pr-4 text-[14px] font-medium text-zinc-900 outline-none transition focus:border-premium-gold/50 focus:bg-white focus:ring-4 focus:ring-premium-gold/10 placeholder:text-zinc-400"
-                />
-            </form>
+            {isSearchExpanded && (
+                <form onSubmit={handleSearch} role="search" className="relative animate-in fade-in slide-in-from-top-2 duration-200">
+                    <Search aria-hidden="true" size={22} strokeWidth={1.8} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" />
+                    <input
+                        ref={searchInputRef}
+                        type="search"
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Escape') setIsSearchExpanded(false);
+                        }}
+                        placeholder="Pesquisar notícias..."
+                        aria-label="Pesquisar notícias"
+                        className="h-14 w-full rounded-2xl border border-zinc-100 bg-zinc-50/90 pl-12 pr-12 text-[14px] font-medium text-zinc-900 outline-none transition focus:border-premium-gold/50 focus:bg-white focus:ring-4 focus:ring-premium-gold/10 placeholder:text-zinc-400"
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setIsSearchExpanded(false)}
+                        aria-label="Recolher pesquisa"
+                        className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-800"
+                    >
+                        <X size={19} />
+                    </button>
+                </form>
+            )}
         </header>
     );
 }
