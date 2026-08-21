@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, Share2, Headphones, Bookmark, MoreHorizontal, Sun } from 'lucide-react';
+import { ChevronLeft, Share2, Headphones, Bookmark, MoreHorizontal, Sun, X, ZoomIn } from 'lucide-react';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
@@ -30,6 +30,24 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     const [showVoice, setShowVoice] = useState(false);
     const [showShare, setShowShare] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [isImageOpen, setIsImageOpen] = useState(false);
+
+    useEffect(() => {
+        if (!isImageOpen) return;
+
+        const previousOverflow = document.body.style.overflow;
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setIsImageOpen(false);
+        };
+
+        document.body.style.overflow = 'hidden';
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isImageOpen]);
 
     const paragraphs = article.content?.split('\n') || [article.summary || "Conteúdo não disponível."];
     const safeTitle = article.title || '';
@@ -95,14 +113,21 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             {/* HERO SECTION (Image Only) */}
             <div className="relative w-full h-[46vh] min-h-[390px] md:h-[58vh] bg-zinc-900">
                 {article.image && (
-                    <Image
-                        src={getSafeImageSrc(article.image)}
-                        alt={article.title}
-                        fill
-                        priority
-                        className="object-cover"
-                        unoptimized
-                    />
+                    <button
+                        type="button"
+                        onClick={() => setIsImageOpen(true)}
+                        aria-label="Ampliar imagem da notícia"
+                        className="absolute inset-0 cursor-zoom-in"
+                    >
+                        <Image
+                            src={getSafeImageSrc(article.image)}
+                            alt={article.title}
+                            fill
+                            priority
+                            className="object-cover"
+                            unoptimized
+                        />
+                    </button>
                 )}
                 
                 {/* Gradients preserve contrast for navigation and the headline. */}
@@ -142,6 +167,17 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                         <span>{readTime} min de leitura</span>
                     </div>
                 </div>
+
+                {article.image && (
+                    <button
+                        type="button"
+                        onClick={() => setIsImageOpen(true)}
+                        aria-label="Ampliar imagem da notícia"
+                        className="absolute bottom-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-black/45 text-white shadow-lg backdrop-blur-md transition-colors hover:bg-black/65 md:bottom-6 md:right-6"
+                    >
+                        <ZoomIn size={18} />
+                    </button>
+                )}
             </div>
 
             {/* WHITE OVERLAPPING CONTENT CARD */}
@@ -255,6 +291,36 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                     />
                 )}
             </AnimatePresence>
+
+            {isImageOpen && article.image && (
+                <div
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Imagem ampliada da notícia"
+                    onClick={() => setIsImageOpen(false)}
+                    className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/95 p-3 safe-pt safe-pb sm:p-6"
+                >
+                    <button
+                        type="button"
+                        onClick={() => setIsImageOpen(false)}
+                        aria-label="Fechar imagem ampliada"
+                        className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                    >
+                        <X size={24} />
+                    </button>
+                    <div className="relative h-full w-full max-w-6xl" onClick={(event) => event.stopPropagation()}>
+                        <Image
+                            src={getSafeImageSrc(article.image)}
+                            alt={article.title}
+                            fill
+                            sizes="100vw"
+                            className="object-contain"
+                            unoptimized
+                            priority
+                        />
+                    </div>
+                </div>
+            )}
 
             <ShareModal
                 isOpen={showShare}
