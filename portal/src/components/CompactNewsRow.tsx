@@ -49,22 +49,22 @@ export default function CompactNewsRow({ article, dense = false }: CompactNewsRo
     return (
         <Link
             href={`/news/${article.id}`}
-            className={`group flex items-center rounded-2xl bg-white border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-zinc-300 transition-all duration-200 ${dense ? 'gap-3 px-2 py-2' : 'gap-3.5 p-3'}`}
+            className={`group flex items-stretch rounded-2xl bg-white border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-zinc-300 transition-all duration-200 ${dense ? 'min-h-[96px] gap-3 px-2 py-2' : 'min-h-[104px] gap-3.5 p-3'}`}
         >
             {/* Standard Mobile Thumbnail (72x72) */}
-            <div className="relative w-[72px] h-[72px] sm:w-20 sm:h-20 flex-shrink-0 overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
+            <div className="relative w-20 min-h-20 sm:w-[88px] flex-shrink-0 self-stretch overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
                 <Image
                     src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
                     alt={article.title}
                     fill
-                    sizes="72px"
+                    sizes="(min-width: 640px) 88px, 80px"
                     className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     unoptimized={true}
                 />
             </div>
 
             {/* Info */}
-            <div className="flex flex-col flex-grow min-w-0 justify-between h-[72px] sm:h-20 py-0.5">
+            <div className="flex min-w-0 flex-grow flex-col justify-between gap-2 py-0.5">
                 <h4 className="text-[15px] sm:text-[16px] font-bold leading-[1.3] text-zinc-900 line-clamp-2 group-hover:text-amber-600 transition-colors tracking-tight">
                     {toSentenceCase(article.title)}
                 </h4>

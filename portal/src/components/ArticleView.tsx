@@ -90,7 +90,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     };
 
     return (
-        <div className="w-full min-h-screen bg-white font-sans">
+        <div className="mb-[calc(-4rem-env(safe-area-inset-bottom))] min-h-screen w-full bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] font-sans lg:mb-0 lg:pb-0">
             
             {/* HERO SECTION (Image Only) */}
             <div className="relative w-full h-[46vh] min-h-[390px] md:h-[58vh] bg-zinc-900">
