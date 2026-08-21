@@ -1169,12 +1169,16 @@ def generate_daily_briefing(force=False):
        (Mantenha tudo isso concatenado no campo 'editorial_summary', use quebras de linha \\n).
        (Se houver informações sobre jogos da Libertadores ou Brasileirão nas notícias, inclua-as no Radar ou Destaques).
 
-    2. "indicators": Preencha com os dados do próximo jogo e mercado.
+    2. "indicators": Preencha com os dados do próximo jogo e os indicadores rápidos.
         - next_match: "{next_match_str}"
         - location: "{stadium}"
         - transmission: "{transmission}" 
-       - dm: Situação médica breve ou "Sem novidades"
+       - dm: APENAS lesões, tratamentos, cirurgias e recuperações médicas; use "Sem novidades" quando não houver informação médica
+       - discipline: Suspensões, cartões amarelos/vermelhos, expulsões e disponibilidade após cumprir suspensão; use "Sem novidades" quando não houver
        - market: Status rápido de transferências
+       - additional_info: Outra informação objetiva relevante que não pertença aos campos anteriores; use "Sem novidades" quando não houver
+
+       REGRA DE CLASSIFICAÇÃO: nunca coloque cartões, suspensões ou expulsões em "dm". Esses assuntos pertencem exclusivamente a "discipline".
 
     3. "top_stories": Selecione as 3 manchetes mais essenciais (Manchetes Essenciais).
        - rank, source_id (baseado na lista abaixo), title (curto e objetivo), category.
@@ -1194,7 +1198,7 @@ def generate_daily_briefing(force=False):
         "edition": "{briefing_slot}",
         "editorial_summary": "🎯 [Abertura]\\n\\n⭐ [Destaque 1]\\n⭐ [Destaque 2]\\n\\n📊 [Radar]",
         "reading_time": "~1 min",
-        "indicators": {{ "next_match": "...", "location": "...", "transmission": "...", "dm": "...", "market": "..." }},
+        "indicators": {{ "next_match": "...", "location": "...", "transmission": "...", "dm": "...", "discipline": "...", "market": "...", "additional_info": "..." }},
         "top_stories": [
              {{ "rank": 1, "source_id": 0, "title": "...", "category": "..." }},
              {{ "rank": 2, "source_id": 1, "title": "...", "category": "..." }},

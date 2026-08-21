@@ -131,7 +131,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 )}
                 
                 {/* Gradients preserve contrast for navigation and the headline. */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/80" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/80" />
 
                 {/* TOP NAVIGATION (Absolute over image) */}
                 <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-4 max-w-4xl mx-auto z-10 safe-pt">
@@ -152,7 +152,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 </div>
 
                 {/* Headline over the cover image, editorial reader style. */}
-                <div className="absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-9 sm:px-6 md:px-12 md:pb-12">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-9 sm:px-6 md:px-12 md:pb-12">
                     <span className="mb-2 inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm border border-white/20">
                         {categoryKey || 'Futebol'}
                     </span>
@@ -318,18 +318,25 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.97 }}
                             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                            className="relative h-full w-full max-w-6xl"
+                            className="flex h-full w-full max-w-6xl flex-col gap-3"
                             onClick={(event) => event.stopPropagation()}
                         >
-                            <Image
-                                src={getSafeImageSrc(article.image)}
-                                alt={article.title}
-                                fill
-                                sizes="100vw"
-                                className="object-contain"
-                                unoptimized
-                                priority
-                            />
+                            <div className="relative min-h-0 flex-1">
+                                <Image
+                                    src={getSafeImageSrc(article.image)}
+                                    alt={article.title}
+                                    fill
+                                    sizes="100vw"
+                                    className="object-contain"
+                                    unoptimized
+                                    priority
+                                />
+                            </div>
+                            <div className="mx-auto flex shrink-0 items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-white/90 shadow-lg backdrop-blur-md">
+                                <SourceIcon source={article.source} className="h-5 w-5" />
+                                <span className="text-xs font-medium text-white/60">Fonte</span>
+                                <span className="text-sm font-bold text-white">{article.source || 'Redação Fogão 360'}</span>
+                            </div>
                         </motion.div>
                     </motion.div>
                 )}

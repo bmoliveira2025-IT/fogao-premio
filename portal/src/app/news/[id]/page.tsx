@@ -152,6 +152,23 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
         }
 
         if (briefingData.indicators) {
+            const indicators = briefingData.indicators;
+            const isEmptyIndicator = (value?: string) => !value || value.trim().toLowerCase() === 'sem novidades';
+            const isDisciplineInfo = (value: string) => /cart(?:ão|ões)|amarelo|vermelho|suspens|expuls|gancho/i.test(value);
+
+            // Older briefings could mix medical and disciplinary updates in `dm`.
+            // Split semicolon-separated notes so they render under the correct label.
+            const dmParts = typeof indicators.dm === 'string'
+                ? indicators.dm.split(/;\s*/).map((part: string) => part.trim()).filter(Boolean)
+                : [];
+            const medicalParts = dmParts.filter((part: string) => !isDisciplineInfo(part));
+            const legacyDisciplineParts = dmParts.filter(isDisciplineInfo);
+            const medicalInfo = medicalParts.join('; ');
+            const disciplineInfo = [
+                !isEmptyIndicator(indicators.discipline) ? indicators.discipline : '',
+                ...legacyDisciplineParts,
+            ].filter(Boolean).join('; ');
+
             contentHtml += `
                 <div class="mb-6">
                     <h3 class="text-xl font-bold text-zinc-900 mb-3 border-b border-zinc-100 pb-2">
@@ -160,28 +177,44 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
                     <ul class="list-disc pl-5 space-y-3">
             `;
             
-            if (briefingData.indicators?.next_match) {
+            if (indicators.next_match) {
                 contentHtml += `
                     <li class="text-zinc-800 leading-relaxed">
-                        <strong class="text-zinc-900">Próxima Partida:</strong> ${briefingData.indicators.next_match}
-                        ${briefingData.indicators.location ? `<br/><strong class="text-zinc-900">Local:</strong> ${briefingData.indicators.location}` : ''}
-                        ${briefingData.indicators.transmission ? `<br/><strong class="text-zinc-900">Transmissão:</strong> ${briefingData.indicators.transmission}` : ''}
+                        <strong class="text-zinc-900">Próxima Partida:</strong> ${indicators.next_match}
+                        ${indicators.location ? `<br/><strong class="text-zinc-900">Local:</strong> ${indicators.location}` : ''}
+                        ${indicators.transmission ? `<br/><strong class="text-zinc-900">Transmissão:</strong> ${indicators.transmission}` : ''}
                     </li>
                 `;
             }
             
-            if (briefingData.indicators?.market) {
+            if (!isEmptyIndicator(indicators.market)) {
                 contentHtml += `
                     <li class="text-zinc-800 leading-relaxed">
-                        <strong class="text-zinc-900">Mercado:</strong> ${briefingData.indicators.market}
+                        <strong class="text-zinc-900">Mercado:</strong> ${indicators.market}
                     </li>
                 `;
             }
             
-            if (briefingData.indicators?.dm) {
+            if (!isEmptyIndicator(medicalInfo)) {
                 contentHtml += `
                     <li class="text-zinc-800 leading-relaxed">
-                        <strong class="text-zinc-900">Depto. Médico:</strong> ${briefingData.indicators.dm === "Sem novidades" ? "Elenco completo à disposição." : briefingData.indicators.dm}
+                        <strong class="text-zinc-900">Depto. Médico:</strong> ${medicalInfo}
+                    </li>
+                `;
+            }
+
+            if (!isEmptyIndicator(disciplineInfo)) {
+                contentHtml += `
+                    <li class="text-zinc-800 leading-relaxed">
+                        <strong class="text-zinc-900">Suspensões e cartões:</strong> ${disciplineInfo}
+                    </li>
+                `;
+            }
+
+            if (!isEmptyIndicator(indicators.additional_info)) {
+                contentHtml += `
+                    <li class="text-zinc-800 leading-relaxed">
+                        <strong class="text-zinc-900">Informação adicional:</strong> ${indicators.additional_info}
                     </li>
                 `;
             }
