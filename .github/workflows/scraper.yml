@@ -3,7 +3,13 @@ name: Scraper
 on:
   schedule:
     - cron: "*/22 * * * *" # Executa a cada 22 minutos
-  workflow_dispatch: # Permite execução manual
+  workflow_dispatch:
+    inputs:
+      force_briefing:
+        description: "Regenerar o Giro Rápido do horário atual"
+        required: false
+        default: false
+        type: boolean
   push:
     branches:
       - main # Executa ao dar push na main
@@ -42,7 +48,12 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FIREBASE_CREDENTIALS_JSON: ${{ secrets.FIREBASE_CREDENTIALS_JSON }}
           GITHUB_ACTIONS: "true"
-        run: python backend/scraper.py
+        run: |
+          if [ "${{ inputs.force_briefing }}" = "true" ]; then
+            python backend/force_briefing.py
+          else
+            python backend/scraper.py
+          fi
 
       - name: Commit and Push Run
         run: |
