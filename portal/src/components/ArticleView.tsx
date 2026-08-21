@@ -8,7 +8,7 @@ import { ChevronLeft, Share2, Headphones, Bookmark, MoreHorizontal, Sun, X, Zoom
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import CompactNewsRow from './CompactNewsRow';
 import SourceIcon from './SourceIcon';
 import PremiumGuard from './PremiumGuard';
@@ -292,35 +292,48 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 )}
             </AnimatePresence>
 
-            {isImageOpen && article.image && (
-                <div
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label="Imagem ampliada da notícia"
-                    onClick={() => setIsImageOpen(false)}
-                    className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/95 p-3 safe-pt safe-pb sm:p-6"
-                >
-                    <button
-                        type="button"
+            <AnimatePresence>
+                {isImageOpen && article.image && (
+                    <motion.div
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Imagem ampliada da notícia"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
                         onClick={() => setIsImageOpen(false)}
-                        aria-label="Fechar imagem ampliada"
-                        className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                        className="fixed inset-0 z-[100] flex cursor-zoom-out items-center justify-center bg-black/95 p-3 safe-pt safe-pb sm:p-6"
                     >
-                        <X size={24} />
-                    </button>
-                    <div className="relative h-full w-full max-w-6xl" onClick={(event) => event.stopPropagation()}>
-                        <Image
-                            src={getSafeImageSrc(article.image)}
-                            alt={article.title}
-                            fill
-                            sizes="100vw"
-                            className="object-contain"
-                            unoptimized
-                            priority
-                        />
-                    </div>
-                </div>
-            )}
+                        <button
+                            type="button"
+                            onClick={() => setIsImageOpen(false)}
+                            aria-label="Fechar imagem ampliada"
+                            className="absolute right-4 top-[max(1rem,env(safe-area-inset-top))] z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-colors hover:bg-white/20"
+                        >
+                            <X size={24} />
+                        </button>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.96 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.97 }}
+                            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative h-full w-full max-w-6xl"
+                            onClick={(event) => event.stopPropagation()}
+                        >
+                            <Image
+                                src={getSafeImageSrc(article.image)}
+                                alt={article.title}
+                                fill
+                                sizes="100vw"
+                                className="object-contain"
+                                unoptimized
+                                priority
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <ShareModal
                 isOpen={showShare}
