@@ -40,7 +40,7 @@ export default function ModernNewsCard({ article }: any) {
     };
 
     return (
-        <div className="group flex flex-col mb-3 glass-puro crystal-border crystal-shine rounded-xl overflow-hidden transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+        <div className="group flex flex-col mb-3 editorial-card glass-puro crystal-border crystal-shine rounded-xl overflow-hidden transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             {/* Top Image Container - Independent Rounded Block */}
             <Link href={`/news/${article.id}`} className="block p-5">
                 <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg">

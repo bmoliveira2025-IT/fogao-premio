@@ -64,7 +64,7 @@ export default function HomeNewsCard({ article, index, isWide = false }: HomeNew
         >
             <Link
                 href={`/news/${article.id}`}
-                className="group flex flex-col h-full rounded-2xl overflow-hidden bg-zinc-950/50 backdrop-blur-sm border border-white/[0.06] home-news-card-hover"
+                className="editorial-card group flex flex-col h-full rounded-2xl overflow-hidden bg-zinc-950/50 backdrop-blur-sm border border-white/[0.06] home-news-card-hover"
             >
                 {/* Image container */}
                 <div className={`relative w-full overflow-hidden bg-zinc-900 shrink-0 ${isWide ? 'aspect-[21/9]' : 'aspect-[16/9]'}`}>

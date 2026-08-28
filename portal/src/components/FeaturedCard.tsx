@@ -24,7 +24,7 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative block w-full aspect-video md:aspect-[4/5] lg:aspect-video overflow-hidden rounded-2xl bg-zinc-900 border border-white/10 shadow-lg active:scale-[0.98] transition-all duration-300"
+            className="editorial-card editorial-featured group relative block w-full aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/10 shadow-lg active:scale-[0.98] transition-all duration-300"
         >
             {/* Background Image */}
             <Image
@@ -45,23 +45,23 @@ export default function FeaturedCard({ article }: { article: NewsItem }) {
                 <div className="flex items-center gap-2 mb-2 flex-wrap">
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
                         <SourceIcon source={article.source} className="w-3 h-3" />
-                        <span className="text-[9px] font-bold text-white tracking-tight">{article.source || 'Botafogo'}</span>
+                        <span className="text-xs font-bold text-white tracking-tight">{article.source || 'Botafogo'}</span>
                     </div>
 
                     {categoryKey && (
-                        <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[8px] font-black tracking-[0.12em] px-2 py-0.5 rounded-full uppercase shadow-sm`}>
+                        <span className={`category-badge ${CATEGORY_COLORS_SOLID[categoryKey]} text-xs font-black tracking-[0.12em] px-2 py-0.5 rounded-full uppercase shadow-sm`}>
                             {CATEGORY_LABELS[categoryKey]}
                         </span>
                     )}
                 </div>
 
-                <h3 className="text-[14px] md:text-[16px] lg:text-[18px] font-extrabold text-white leading-[1.25] tracking-tight line-clamp-2 group-hover:text-amber-300 transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <h3 className="text-base font-extrabold text-white leading-[1.25] tracking-tight line-clamp-3 group-hover:text-amber-300 transition-colors">
                     {article.title?.replace(/\*\*/g, '')}
                 </h3>
 
                 {/* Meta row */}
                 <div className="flex items-center gap-2 mt-2 text-white/70">
-                    <span className="text-[10px] font-medium flex items-center gap-1" suppressHydrationWarning>
+                    <span className="text-xs font-medium flex items-center gap-1" suppressHydrationWarning>
                         <Clock size={10} className="text-amber-400" />
                         {timeAgo(article.created_at)}
                     </span>

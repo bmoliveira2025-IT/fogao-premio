@@ -19,7 +19,7 @@ export default function MobileBottomNav() {
     return (
         <nav
             aria-label="Navegação principal"
-            className="lg:hidden fixed bottom-2 left-3 right-3 z-50 overflow-hidden rounded-[24px] border border-zinc-200/80 bg-white/95 shadow-[0_12px_36px_rgba(0,0,0,0.14)] backdrop-blur-xl"
+            className="editorial-bottom-nav lg:hidden fixed bottom-2 left-3 right-3 z-50 overflow-hidden rounded-[24px] border border-zinc-200/80 bg-white/95 shadow-[0_12px_36px_rgba(0,0,0,0.14)] backdrop-blur-sm"
         >
             <div className="grid min-h-[68px] grid-cols-5 pb-[env(safe-area-inset-bottom)]">
                 {navItems.map((item) => {
@@ -43,7 +43,7 @@ export default function MobileBottomNav() {
                                     isActive ? "text-premium-gold" : "text-zinc-500 group-hover:text-zinc-800"
                                 )}
                             />
-                            <span className="text-[10px] font-semibold leading-none text-zinc-500">
+                            <span className="text-xs font-semibold leading-none text-zinc-500">
                                 {item.label}
                             </span>
                         </Link>

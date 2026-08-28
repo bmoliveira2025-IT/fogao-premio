@@ -77,13 +77,13 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                     {/* Badges - Inside flex flow to prevent overlap */}
                     <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                         {news.is_live && (
-                            <div className="px-5 py-2 bg-red-600 rounded-full shadow-lg animate-pulse flex items-center gap-2 border border-white/20">
+                            <div className="status-badge status-badge-live px-5 py-2 bg-red-600 rounded-full shadow-lg flex items-center gap-2 border border-white/20">
                                 <div className="w-2.5 h-2.5 bg-white rounded-full" />
                                 <span className="text-[12px] font-athletic text-white">AO VIVO</span>
                             </div>
                         )}
                         {news.is_breaking && (
-                            <div className="px-5 py-2 bg-premium-gold rounded-full shadow-lg flex items-center gap-2 border border-black/10">
+                            <div className="status-badge status-badge-urgent px-5 py-2 bg-premium-gold rounded-full shadow-lg flex items-center gap-2 border border-black/10">
                                 <div className="flex items-center gap-2">
                                     <Flame size={16} className="text-black fill-current" />
                                     <span className="text-[12px] font-athletic text-black">URGENTE</span>

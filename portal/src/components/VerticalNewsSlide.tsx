@@ -46,7 +46,7 @@ export default function VerticalNewsSlide({ article, index }: VerticalNewsSlideP
         "from-emerald-900/80 via-[#111]/60",
         "from-[#111]/90 via-[#111]/50", // Default dark
     ];
-    
+
     // Choose gradient based on index or default to black
     const gradient = gradients[index % gradients.length];
 
@@ -73,18 +73,18 @@ export default function VerticalNewsSlide({ article, index }: VerticalNewsSlideP
 
             {/* Main Content (Bottom Left aligned like reference) */}
             <div className="absolute bottom-0 inset-x-0 p-5 md:p-8 z-20 pb-24 flex flex-col justify-end min-h-[50%]">
-                
+
                 {/* Date / Metadata */}
                 <div className="mb-3">
-                    <span className="text-[12px] font-bold tracking-widest text-white/80 uppercase" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <span className="text-[12px] font-bold tracking-widest text-white/80 uppercase">
                         {timeAgo(article.created_at)}
                     </span>
                 </div>
 
                 {/* Title */}
-                <h1 
+                <h1
                     className="text-[32px] md:text-[48px] font-[800] leading-[1.1] mb-6 tracking-tight drop-shadow-lg"
-                    style={{ fontFamily: 'Outfit, sans-serif' }}
+
                 >
                     {toSentenceCase(article.title)}
                 </h1>
@@ -104,15 +104,15 @@ export default function VerticalNewsSlide({ article, index }: VerticalNewsSlideP
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <LikeDislikeButtons 
-                            articleId={article.id} 
-                            initialLikes={article.likes_count} 
-                            initialDislikes={article.dislikes_count} 
-                            variant="compact" 
-                            className="text-white/80" 
+                        <LikeDislikeButtons
+                            articleId={article.id}
+                            initialLikes={article.likes_count}
+                            initialDislikes={article.dislikes_count}
+                            variant="compact"
+                            className="text-white/80"
                         />
-                        
-                        <Link 
+
+                        <Link
                             href={`/news/${article.id}`}
                             className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform shadow-lg"
                         >

@@ -27,7 +27,7 @@ export default function ModernNavTabs() {
                 key={tab.name}
                 href={tab.href}
                 className="relative px-4 py-4 text-[12px] font-black tracking-widest uppercase transition-all whitespace-nowrap"
-                style={{ fontFamily: 'Outfit, sans-serif' }}
+
               >
                 <span className={cn(
                   "transition-colors duration-300",

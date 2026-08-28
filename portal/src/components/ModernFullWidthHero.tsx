@@ -25,7 +25,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
         <div className="relative">
             <Link
                 href={`/news/${article.id}`}
-                className="group relative block w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2.2/1] bg-[#0a0a0a] overflow-hidden"
+                className="editorial-card editorial-hero group relative block w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[2.2/1] bg-[#0a0a0a] overflow-hidden"
             >
                 {/* Full Background Image with Ken Burns effect */}
                 <Image
@@ -49,32 +49,32 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                 <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
 
                 {/* Content Container */}
-                <div className="absolute inset-0 p-6 md:p-12 lg:p-16 flex flex-col justify-end z-20 pt-24 md:pt-32">
+                <div className="relative p-5 md:p-8 flex flex-col justify-end z-20 min-h-[inherit] pt-24 md:pt-28">
                     <div className="max-w-4xl">
                         {/* Category Label */}
                         {categoryKey && (
-                            <div className="mb-6">
-                                <span className={`${CATEGORY_COLORS_SOLID[categoryKey]} text-[10px] md:text-[11px] font-black tracking-[0.2em] px-3 py-1.5 rounded-sm shadow-xl uppercase`}>
+                            <div className="mb-3">
+                                <span className={`category-badge ${CATEGORY_COLORS_SOLID[categoryKey]} text-[10px] md:text-[11px] font-black tracking-[0.2em] px-3 py-1.5 rounded-sm shadow-xl uppercase`}>
                                     {CATEGORY_LABELS[categoryKey]}
                                 </span>
                             </div>
                         )}
 
                         {/* Huge Editorial Title */}
-                        <h1 className="text-[22px] md:text-[32px] lg:text-[42px] font-[900] text-white leading-[1.1] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <h1 className="text-2xl md:text-3xl lg:text-4xl font-[900] text-white leading-[1.18] tracking-[-0.03em] drop-shadow-[0_8px_24px_rgba(0,0,0,0.8)]">
                             {article.title?.replace(/\*\*/g, '')}
                         </h1>
 
                         {/* Summary for Desktop */}
                         {article.summary && (
-                            <p className="mt-6 text-[15px] md:text-[18px] text-white/80 font-medium leading-[1.6] line-clamp-2 hidden md:block drop-shadow-md max-w-2xl">
+                            <p className="mt-4 text-[15px] md:text-[18px] text-white/80 font-medium leading-[1.6] line-clamp-2 hidden md:block drop-shadow-md max-w-2xl">
                                 {article.summary}
                             </p>
                         )}
 
                         {/* Meta info row */}
-                        <div className="mt-8 flex items-center gap-6">
-                            <span className="text-[11px] md:text-[12px] font-black text-white/60 flex items-center gap-2 uppercase tracking-widest" suppressHydrationWarning>
+                        <div className="mt-5 flex flex-wrap items-center gap-3">
+                            <span className="text-[11px] md:text-[12px] font-black text-white/80 flex items-center gap-2 uppercase tracking-widest" suppressHydrationWarning>
                                 <Clock size={14} className="text-[#d4af37]" />
                                 {timeAgoVerbose(article.created_at)}
                             </span>
@@ -83,7 +83,7 @@ export default function HeroNewsCard({ article }: { article: NewsItem }) {
                                 <div className="flex items-center gap-2">
                                     <div className="w-1 h-4 bg-[#d4af37]/30" />
                                     <SourceIcon source={article.source} className="w-4 h-4 text-[#d4af37]" />
-                                    <span className="text-[11px] md:text-[12px] font-black text-white/60 uppercase tracking-widest">{article.source}</span>
+                                    <span className="text-[11px] md:text-[12px] font-black text-white/80 uppercase tracking-widest">{article.source}</span>
                                 </div>
                             )}
 

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Roboto } from 'next/font/google';
+import localFont from 'next/font/local';
 import "./globals.css";
+import "./editorial.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import { VideoPlayerProvider } from "@/context/VideoPlayerContext";
@@ -10,9 +11,10 @@ import MobileBottomNav from "@/components/MobileBottomNav";
 import DeferredEnhancements from "@/components/DeferredEnhancements";
 import InitialSplash from "@/components/InitialSplash";
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700', '900'],
-  subsets: ['latin'],
+const roboto = localFont({
+  src: '../../public/fonts/roboto-latin-variable.woff2',
+  weight: '100 900',
+  style: 'normal',
   variable: '--font-roboto',
   display: 'swap',
 });

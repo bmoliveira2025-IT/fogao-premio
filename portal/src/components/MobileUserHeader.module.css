@@ -1,0 +1,40 @@
+.identity {
+    display: grid;
+    align-items: center;
+    width: 8.75rem;
+    min-width: 0;
+    height: 3rem;
+    line-height: 1.25;
+}
+
+.greeting,
+.logo {
+    grid-area: 1 / 1;
+    min-width: 0;
+    animation-duration: 12s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.greeting { animation-name: greetingCycle; }
+.logo { opacity: 0; animation-name: logoCycle; }
+
+/* Six seconds per view, with a short crossfade and no layout shift. */
+@keyframes greetingCycle {
+    0%, 45%, 100% { opacity: 1; }
+    50%, 95% { opacity: 0; }
+}
+
+@keyframes logoCycle {
+    0%, 45%, 100% { opacity: 0; }
+    50%, 95% { opacity: 1; }
+}
+
+.identity:hover > *,
+a:focus-visible .identity > * { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+    .greeting, .logo { animation: none; }
+    .greeting { opacity: 1; }
+    .logo { opacity: 0; }
+}

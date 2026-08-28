@@ -16,7 +16,7 @@ export default function ModernVideoCard({ video, overrideTitle }: { video?: any,
                 
                 {/* Header Title Block - Matches Screenshot (black bar integrated into card) */}
                 <div className="bg-[#111] px-4 md:px-5 py-3 md:py-4 border-b border-white/5 relative z-20 shadow-md">
-                    <h2 className="text-[13px] md:text-base font-bold text-white tracking-wide leading-snug line-clamp-2" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <h2 className="text-[13px] md:text-base font-bold text-white tracking-wide leading-snug line-clamp-2">
                         <span className="font-black text-white">Vídeo:</span> {title.replace(/^Vídeo:\s*/i, '')}
                     </h2>
                 </div>

@@ -38,7 +38,7 @@ export default function CupMatchCard({ copaMatch, sulaMatch }: CupMatchCardProps
                     {/* Header */}
                     <div className="mb-4">
                         <div className="flex items-center mb-3">
-                            <h2 className="text-[18px] md:text-[22px] font-black text-white tracking-wide leading-none" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            <h2 className="text-[18px] md:text-[22px] font-black text-white tracking-wide leading-none">
                                 Próximo Jogo
                             </h2>
                             {matches.length > 1 && (
@@ -79,7 +79,7 @@ export default function CupMatchCard({ copaMatch, sulaMatch }: CupMatchCardProps
                                     <Image src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} fill className="object-contain p-2" unoptimized />
                                 )}
                             </div>
-                            <span className="text-[16px] md:text-[18px] font-bold text-white tracking-tight leading-none truncate" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            <span className="text-[16px] md:text-[18px] font-bold text-white tracking-tight leading-none truncate">
                                 {match.home_team}
                             </span>
                         </div>
@@ -98,7 +98,7 @@ export default function CupMatchCard({ copaMatch, sulaMatch }: CupMatchCardProps
                                     <Image src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} fill className="object-contain p-2" unoptimized />
                                 )}
                             </div>
-                            <span className="text-[16px] md:text-[18px] font-bold text-white tracking-tight leading-none truncate" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                            <span className="text-[16px] md:text-[18px] font-bold text-white tracking-tight leading-none truncate">
                                 {match.away_team}
                             </span>
                         </div>

@@ -241,13 +241,13 @@ export default async function Home() {
             <div className="lg:col-span-8 space-y-8">
               
               {/* HERO SECTION */}
-              <div className="rounded-3xl overflow-hidden shadow-2xl">
+              <div className="rounded-2xl overflow-hidden shadow-sm">
                 {heroNews && <ModernFullWidthHero article={heroNews} />}
               </div>
 
               {/* TOP FEATURED GRID (Desktop Only - Matching reference density) */}
               {topFeatured.length > 0 && (
-                <div className="hidden md:grid grid-cols-4 gap-4">
+                <div className="hidden md:grid grid-cols-2 xl:grid-cols-4 gap-4">
                   {topFeatured.map((article) => (
                     <FeaturedCard key={article.id} article={article} />
                   ))}

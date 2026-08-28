@@ -95,7 +95,7 @@ export default function NotificationManager() {
     return (
         <button
             onClick={requestPermission}
-            className="fixed bottom-20 right-4 z-40 bg-zinc-900 border border-premium-gold/30 text-premium-gold p-3 rounded-full shadow-lg flex items-center gap-2 animate-bounce hover:bg-zinc-800 transition-colors"
+            className="notification-trigger fixed bottom-20 right-4 z-40 bg-zinc-900 border border-premium-gold/30 text-premium-gold p-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-zinc-800 transition-colors"
             title="Ativar Notificações"
         >
             <Bell className="w-5 h-5" />

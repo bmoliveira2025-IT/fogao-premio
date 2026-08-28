@@ -12,7 +12,7 @@ export function SplashBrand({ onLogoReady }: SplashBrandProps = {}) {
     return (
         <div className={styles.brand}>
             <Image
-                src="/loading-player.png"
+                src="/loading-mascot.png"
                 alt=""
                 fill
                 sizes="100vw"

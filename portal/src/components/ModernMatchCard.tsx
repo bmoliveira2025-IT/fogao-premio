@@ -11,7 +11,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
 
     return (
         <div className={compact ? "px-1 mb-2" : "px-3 md:px-0 mb-4 mt-2"}>
-            <div className={`relative block w-full bg-[#030303] border border-white/5 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.8)] overflow-hidden ${compact ? 'py-6 md:py-8' : 'py-8 md:py-10'}`}>
+            <div className={`editorial-card editorial-match relative block w-full bg-[#030303] border border-white/5 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.8)] overflow-hidden ${compact ? 'py-6 md:py-8' : 'py-8 md:py-10'}`}>
                 {/* Background Stadium/Player Image */}
                 <div className="absolute inset-0 z-0">
                     <Image
@@ -28,7 +28,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
                     
                     {/* Header: "Próximo Jogo" and Match Details */}
                     <div className={compact ? 'mb-4' : 'mb-8'}>
-                        <h2 className={`${compact ? 'text-[18px] md:text-[22px]' : 'text-[28px] md:text-[36px]'} font-black text-white tracking-wide leading-none drop-shadow-md mb-3`} style={{ fontFamily: 'Outfit, sans-serif' }}>
+                        <h2 className={`${compact ? 'text-[18px] md:text-[22px]' : 'text-[28px] md:text-[36px]'} font-black text-white tracking-wide leading-none drop-shadow-md mb-3`}>
                             Próximo Jogo
                         </h2>
                         
@@ -56,7 +56,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
                                         <Image src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} fill className="object-contain p-2" unoptimized />
                                     )}
                                 </div>
-                                <span className={`${compact ? 'text-[16px] md:text-[18px]' : 'text-[22px] md:text-[28px]'} font-bold text-white tracking-tight leading-none truncate`} style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                <span className={`${compact ? 'text-[16px] md:text-[18px]' : 'text-[22px] md:text-[28px]'} font-bold text-white tracking-tight leading-none truncate`}>
                                     {match.home_team}
                                 </span>
                             </div>
@@ -78,7 +78,7 @@ export default function ModernMatchCard({ match, compact = false }: { match: any
                                         <Image src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} fill className="object-contain p-2" unoptimized />
                                     )}
                                 </div>
-                                <span className={`${compact ? 'text-[16px] md:text-[18px]' : 'text-[22px] md:text-[28px]'} font-bold text-white tracking-tight leading-none truncate`} style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                <span className={`${compact ? 'text-[16px] md:text-[18px]' : 'text-[22px] md:text-[28px]'} font-bold text-white tracking-tight leading-none truncate`}>
                                     {match.away_team}
                                 </span>
                             </div>

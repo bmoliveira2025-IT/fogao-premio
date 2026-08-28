@@ -1,20 +1,8 @@
 @import './premium.css';
 
-/* Responsive fluid typography to ensure ideal text size on all devices */
+/* Keep rem spacing stable; editorial headings scale independently. */
 html {
-  font-size: 18px;
-}
-
-@media (min-width: 640px) {
-  html { font-size: 19px; }
-}
-
-@media (min-width: 1024px) {
-  html { font-size: 20px; }
-}
-
-@media (min-width: 1536px) {
-  html { font-size: 22px; }
+  font-size: 100%;
 }
 
 @tailwind base;
@@ -84,7 +72,7 @@ body {
   background: var(--background);
   font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   /* Font size controlled by html responsive root for comfortable reading on all devices */
-  line-height: 1.75;
+  line-height: 1.5;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -129,7 +117,7 @@ html[data-constrained='true'] .stagger-in {
 
 /* Scalable Font Classes */
 .prose p {
-  font-size: calc(1.125rem * var(--font-scale)) !important;
+  font-size: calc(1.125rem * var(--font-scale, 1)) !important;
   line-height: 1.8;
 }
 
@@ -911,20 +899,4 @@ button, a, input, select, textarea {
     content: "";
     pointer-events: none;
   }
-}
-
-/* Tailwind arbitrary pixel sizes do not inherit the responsive root font.
-   Raise compact UI copy on phones while preserving tablet/desktop layouts. */
-@media (max-width: 639px) {
-  [class~="text-[7px]"]  { font-size: 8px !important; }
-  [class~="text-[8px]"]  { font-size: 9px !important; }
-  [class~="text-[9px]"]  { font-size: 10px !important; }
-  [class~="text-[10px]"] { font-size: 11px !important; }
-  [class~="text-[11px]"] { font-size: 12px !important; }
-  [class~="text-[12px]"] { font-size: 13px !important; }
-  [class~="text-[13px]"] { font-size: 14px !important; }
-  [class~="text-[14px]"] { font-size: 15px !important; }
-  [class~="text-[15px]"] { font-size: 16px !important; }
-  [class~="text-[16px]"] { font-size: 17px !important; }
-  [class~="text-[17px]"] { font-size: 18px !important; }
 }

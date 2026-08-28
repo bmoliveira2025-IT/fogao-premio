@@ -26,7 +26,7 @@ export default function NewsCard({ article }: any) {
 
     return (
         <div
-            className="group relative w-full h-[350px] md:h-[450px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
+            className="editorial-card group relative w-full h-[350px] md:h-[450px] overflow-hidden rounded-3xl border border-white/10 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-premium-gold/10 hover:border-premium-gold/30"
             style={{ minHeight: '350px' }}
         >
             <Link

@@ -40,7 +40,7 @@ export default function ModernInfiniteNews({ initialNews }: ModernInfiniteNewsPr
             <div className="px-4 md:px-0 mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <div className="w-1 h-5 bg-gradient-to-b from-[#d4af37] to-[#d4af37]/30 rounded-full" />
-                    <h2 className="text-[14px] md:text-[16px] font-[800] text-white/90 uppercase tracking-[0.08em]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <h2 className="text-[14px] md:text-[16px] font-[800] text-white/90 uppercase tracking-[0.08em]">
                         Mais Notícias
                     </h2>
                 </div>

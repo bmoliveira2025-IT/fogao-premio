@@ -52,7 +52,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group relative overflow-hidden rounded-xl glass-puro crystal-border crystal-shine transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-3 ${className}`}
+                className={`group relative overflow-hidden rounded-xl editorial-card glass-puro crystal-border crystal-shine transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-3 ${className}`}
             >
                 {/* Video Thumbnail */}
                 <div className="relative aspect-video overflow-hidden rounded-lg md:rounded-xl m-5 shadow-2xl">
@@ -105,7 +105,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
         return (
             <Link
                 href={`/news/${item.id}`}
-                className={`group relative overflow-hidden rounded-xl glass-puro crystal-border crystal-shine p-6 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-3 ${className}`}
+                className={`group relative overflow-hidden rounded-xl editorial-card glass-puro crystal-border crystal-shine p-6 transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40 mb-3 ${className}`}
             >
                 {/* Content */}
                 <div className="relative">
@@ -150,7 +150,7 @@ export default function MixedMediaCard({ item, index = 0, className = '' }: Mixe
 
     // Standard News Card with Image
     return (
-        <div className="group flex flex-col mb-3 glass-puro crystal-border crystal-shine rounded-xl transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
+        <div className="group flex flex-col mb-3 editorial-card glass-puro crystal-border crystal-shine rounded-xl transition-all duration-500 soft-shadow-cinematic hover:border-premium-gold/40">
             <Link href={`/news/${item.id}`} className="block p-5">
                 <div className="relative aspect-video w-full overflow-hidden rounded-lg md:rounded-xl shadow-2xl">
                     <img

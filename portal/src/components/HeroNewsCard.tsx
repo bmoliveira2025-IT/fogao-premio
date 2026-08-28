@@ -22,7 +22,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group relative w-full aspect-[16/12] md:aspect-[21/7.5] overflow-hidden rounded-none md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] block premium-card glass-card-hover gradient-border-animated"
+            className="editorial-card group relative w-full aspect-[16/12] md:aspect-[21/7.5] overflow-hidden rounded-none md:rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.4)] block premium-card glass-card-hover gradient-border-animated"
         >    {/* Background Image - Position Top to Keep Faces */}
             <Image
                 src={getSafeImageSrc(article.image)}
@@ -38,7 +38,7 @@ export default function HeroNewsCard({ article }: { article: any }) {
 
             {/* Content Container */}
             <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-12">
-                <h2 className="text-lg md:text-4xl lg:text-5xl font-black text-white leading-[0.95] md:leading-[1] font-sans uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors mb-2 md:mb-4">
+                <h2 className="text-lg md:text-4xl lg:text-5xl font-black text-white leading-[1.2] font-sans uppercase drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)] group-hover:text-premium-gold transition-colors mb-2 md:mb-4">
                     {article.title?.replace(/\*\*/g, '')}
                 </h2>
 

@@ -126,7 +126,7 @@ export default function LoginPage() {
                     {/* Email Form */}
                     <form onSubmit={handleAuth} className="space-y-4">
                         {error && (
-                            <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold p-3 rounded-lg text-center">
+                            <div role="alert" className="ui-alert ui-alert-error bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold p-3 rounded-lg text-center">
                                 {error}
                             </div>
                         )}

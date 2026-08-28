@@ -133,7 +133,7 @@ export default function SettingsPage() {
                 </div>
 
                 {error && (
-                    <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-3">
+                    <div role="alert" className="ui-alert ui-alert-error ui-alert-light p-4 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-3">
                         <ShieldAlert className="text-red-500 shrink-0 mt-0.5" size={18} />
                         <p className="text-xs text-red-600 font-medium leading-relaxed">{error}</p>
                     </div>

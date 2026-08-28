@@ -33,7 +33,7 @@ export default function ModernFullWidthRow({ article }: { article: NewsItem }) {
         <div className="px-3 md:px-0 mb-3 mt-1">
             <Link
                 href={`/news/${article.id}`}
-                className="group relative block w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-2xl bg-[#111] shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
+                className="editorial-card editorial-image-row group relative block w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-2xl bg-[#111] shadow-[0_4px_20px_rgba(0,0,0,0.6)]"
             >
                 {/* Full Background Image */}
                 <Image
@@ -50,7 +50,7 @@ export default function ModernFullWidthRow({ article }: { article: NewsItem }) {
 
                 {/* Content */}
                 <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 flex flex-col justify-end z-20">
-                    <h3 className="text-lg md:text-2xl font-[900] text-white leading-[1.15] tracking-tight group-hover:text-zinc-100 transition-colors drop-shadow-lg line-clamp-3" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                    <h3 className="text-lg md:text-2xl font-[900] text-white leading-[1.3] tracking-tight group-hover:text-zinc-100 transition-colors drop-shadow-lg line-clamp-3">
                         {article.title?.replace(/\*\*/g, '')}
                     </h3>
                     

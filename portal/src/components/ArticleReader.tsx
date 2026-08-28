@@ -68,7 +68,7 @@ export default function ArticleReader({ paragraphs, isPremium, activeParagraphIn
                             <div key={`rem-${i}`}>
                                 {showPullQuote && (
                                     <blockquote className="my-8 py-3 px-6 border-l-[4px] border-amber-500 bg-amber-500/5 rounded-r-2xl">
-                                        <p className="text-[16px] md:text-[18px] font-semibold italic leading-[1.6] text-zinc-900" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                                        <p className="text-[16px] md:text-[18px] font-semibold italic leading-[1.6] text-zinc-900">
                                             "{p.slice(0, Math.min(p.indexOf('.', 50) + 1 || 120, 150))}"
                                         </p>
                                     </blockquote>

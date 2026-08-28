@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2, X } from 'lucide-react';
 import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { timeAgo } from '@/lib/news-utils';
+import styles from './MobileUserHeader.module.css';
 
 interface AppNotification {
     id: string;
@@ -206,9 +207,17 @@ export default function MobileUserHeader() {
                             </span>
                         )}
                     </div>
-                    <div className="min-w-0 leading-tight">
-                        <p className="truncate text-[12px] font-medium text-zinc-500">Olá, {displayName}</p>
-                        <p className="mt-0.5 truncate text-[17px] font-extrabold tracking-tight text-zinc-950">{greeting}</p>
+                    <div className={styles.identity}>
+                        <div className={styles.greeting}>
+                            <p className="truncate text-[12px] font-medium text-zinc-500">Olá, {displayName}</p>
+                            <p className="mt-0.5 truncate text-[17px] font-extrabold tracking-tight text-zinc-950">{greeting}</p>
+                        </div>
+                        <div className={styles.logo} aria-hidden="true">
+                            <p className="truncate text-[17px] font-extrabold tracking-tight text-zinc-950">
+                                Fogão <span className="text-premium-gold">360º</span>
+                            </p>
+                            <p className="mt-0.5 truncate text-[12px] font-medium text-zinc-500">Tudo sobre o Botafogo</p>
+                        </div>
                     </div>
                 </Link>
 
@@ -238,19 +247,19 @@ export default function MobileUserHeader() {
 
                 {/* Notifications Dropdown */}
                 {showNotifications && (
-                    <div className="absolute right-0 top-[70px] z-50 w-[min(330px,calc(100vw-24px))] overflow-hidden rounded-[22px] border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-2">
-                        <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-white">
+                    <div className="notification-panel absolute right-0 top-[70px] z-50 w-[min(330px,calc(100vw-24px))] overflow-hidden rounded-[22px] border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-2">
+                        <div className="px-4 py-3 border-b border-zinc-100 flex flex-wrap gap-3 items-center justify-between bg-white">
                             <div className="flex items-center gap-2">
                                 <span className="font-extrabold text-zinc-900 text-[14px]">Notificações</span>
                                 {unreadCount > 0 && (
-                                    <span className="rounded-full bg-zinc-900 px-2 py-0.5 text-[9px] font-bold text-white">{unreadCount} novas</span>
+                                    <span className="rounded-full bg-zinc-900 px-2 py-0.5 text-xs font-bold text-white">{unreadCount} novas</span>
                                 )}
                             </div>
                             <div className="flex items-center gap-1.5">
                             {hasReadNotifications && (
                                 <button
                                     onClick={clearReadNotifications}
-                                    className="p-1.5 rounded-full text-zinc-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                    className="p-1.5 rounded-full text-zinc-500 hover:text-red-500 hover:bg-red-50 transition-colors"
                                     aria-label="Limpar notificações lidas"
                                     title="Limpar lidas"
                                 >
@@ -260,7 +269,7 @@ export default function MobileUserHeader() {
                             {unreadCount > 0 && (
                                 <button 
                                     onClick={markAllAsRead}
-                                    className="text-[9px] text-zinc-600 font-bold flex items-center gap-1 hover:text-zinc-900 transition-colors uppercase tracking-wide bg-zinc-100 px-2 py-1.5 rounded-full"
+                                    className="text-xs text-zinc-600 font-bold flex items-center gap-1 hover:text-zinc-900 transition-colors uppercase tracking-wide bg-zinc-100 px-2 py-1.5 rounded-full"
                                 >
                                     <CheckCheck size={12} />
                                     Marcar lidas
@@ -268,9 +277,9 @@ export default function MobileUserHeader() {
                             )}
                             </div>
                         </div>
-                        <div className="max-h-[360px] overflow-y-auto overscroll-contain">
+                        <div className="notification-list max-h-[360px] overflow-y-auto overscroll-contain">
                             {loading ? (
-                                <div className="p-8 text-center flex flex-col items-center justify-center text-zinc-400">
+                                <div className="p-8 text-center flex flex-col items-center justify-center text-zinc-500">
                                     <Loader2 className="animate-spin mb-2" size={20} />
                                     <span className="text-xs">Carregando...</span>
                                 </div>
@@ -278,19 +287,20 @@ export default function MobileUserHeader() {
                                 <button
                                     key={notification.id} 
                                     onClick={() => handleNotificationClick(notification)}
-                                    className={`w-full text-left px-3 py-2.5 border-b border-zinc-100/80 last:border-0 hover:bg-zinc-50 transition-colors ${!notification.read ? 'bg-zinc-50/70' : 'bg-white'}`}
+                                    data-notification-type={notification.type} data-read={notification.read ? "true" : "false"}
+                                    className={`notification-item w-full text-left px-4 py-3 border-b border-zinc-100/80 last:border-0 hover:bg-zinc-50 transition-colors ${!notification.read ? 'bg-zinc-50/70' : 'bg-white'}`}
                                 >
                                     <div className="flex items-center gap-2.5">
                                         <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl ${notification.type === 'DAILY_BRIEFING' ? 'bg-amber-50 text-amber-600' : 'bg-zinc-100 text-zinc-700'}`}>
                                             {notification.type === 'DAILY_BRIEFING' ? <Sparkles size={15} /> : <Newspaper size={15} />}
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <p className={`line-clamp-2 text-[12px] leading-[1.3] ${!notification.read ? 'font-bold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
+                                            <p className={`line-clamp-3 text-sm leading-[1.45] ${!notification.read ? 'font-bold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
                                                 {notification.title}
                                             </p>
                                             <div className="mt-1 flex items-center gap-1.5">
-                                                {!notification.read && <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />}
-                                                <span className="text-[9px] font-semibold uppercase tracking-wide text-zinc-400">{timeAgo(notification.dateStr)}</span>
+                                                {!notification.read && <span className="h-1.5 w-1.5 rounded-full bg-amber-600" />}
+                                                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">{timeAgo(notification.dateStr)}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -310,7 +320,7 @@ export default function MobileUserHeader() {
 
             {isSearchExpanded && (
                 <form onSubmit={handleSearch} role="search" className="relative animate-in fade-in slide-in-from-top-2 duration-200">
-                    <Search aria-hidden="true" size={22} strokeWidth={1.8} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" />
+                    <Search aria-hidden="true" size={22} strokeWidth={1.8} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
                     <input
                         ref={searchInputRef}
                         type="search"
@@ -321,13 +331,13 @@ export default function MobileUserHeader() {
                         }}
                         placeholder="Pesquisar notícias..."
                         aria-label="Pesquisar notícias"
-                        className="h-14 w-full rounded-2xl border border-zinc-100 bg-zinc-50/90 pl-12 pr-12 text-[14px] font-medium text-zinc-900 outline-none transition focus:border-premium-gold/50 focus:bg-white focus:ring-4 focus:ring-premium-gold/10 placeholder:text-zinc-400"
+                        className="h-14 w-full rounded-2xl border border-zinc-100 bg-zinc-50/90 pl-12 pr-12 text-[14px] font-medium text-zinc-900 outline-none transition focus:border-premium-gold/50 focus:bg-white focus:ring-4 focus:ring-premium-gold/10 placeholder:text-zinc-500"
                     />
                     <button
                         type="button"
                         onClick={() => setIsSearchExpanded(false)}
                         aria-label="Recolher pesquisa"
-                        className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-800"
+                        className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800"
                     >
                         <X size={19} />
                     </button>

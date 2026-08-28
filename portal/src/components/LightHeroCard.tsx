@@ -40,7 +40,7 @@ export default function LightHeroCard({ article }: LightHeroCardProps) {
     return (
         <Link
             href={`/news/${article.id}`}
-            className="group block relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-zinc-900 shadow-[0_8px_24px_rgba(0,0,0,0.12)] active:scale-[0.99] transition-all duration-300 border border-zinc-200/40 dark:border-white/10"
+            className="editorial-card editorial-hero-light group block relative w-full aspect-[4/3] sm:aspect-[16/9] rounded-2xl overflow-hidden bg-zinc-900 shadow-[0_8px_24px_rgba(0,0,0,0.12)] active:scale-[0.99] transition-all duration-300 border border-zinc-200/40 dark:border-white/10"
         >
             <Image
                 src={getSafeImageSrc(article.image, 'https://placehold.co/800x600')}
@@ -71,7 +71,7 @@ export default function LightHeroCard({ article }: LightHeroCardProps) {
                     <span className="text-white/80 font-medium normal-case">{timeAgo(article.created_at)}</span>
                 </div>
 
-                <h2 className="text-white text-[17px] sm:text-[20px] font-extrabold leading-[1.25] tracking-tight line-clamp-2 drop-shadow-sm group-hover:text-amber-300 transition-colors" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <h2 className="text-white text-xl sm:text-2xl font-extrabold leading-[1.25] tracking-tight line-clamp-3 drop-shadow-sm group-hover:text-amber-300 transition-colors">
                     {toSentenceCase(article.title)}
                 </h2>
             </div>
