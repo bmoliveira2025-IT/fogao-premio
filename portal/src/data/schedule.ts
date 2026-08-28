@@ -20,6 +20,8 @@ export interface MatchData {
 
 interface RawScheduleItem {
     date: string;
+    // Optional explicit instant for confirmed kickoff times across server time zones.
+    dateIso?: string;
     homeTeam: string;
     awayTeam: string;
     competition: string;
@@ -65,7 +67,7 @@ const rawSchedule: RawScheduleItem[] = [
   {"date": "08/08/2026", "homeTeam": "Botafogo", "awayTeam": "Fluminense", "competition": "Campeonato Brasileiro", "time": "21:00", "round": 22, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a", "result": "1 - 1"},
   {"date": "16/08/2026", "homeTeam": "Vitória", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "18:30", "round": 23, "location": "Barradão", "city": "Salvador - BA", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a", "result": "1 - 0"},
   {"date": "24/08/2026", "homeTeam": "Botafogo", "awayTeam": "Athletico Paranaense", "competition": "Campeonato Brasileiro", "time": "20:00", "round": 24, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a"},
-  {"date": "29/08/2026", "homeTeam": "Flamengo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
+  {"date": "30/08/2026", "dateIso": "2026-08-30T16:00:00-03:00", "homeTeam": "Flamengo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "16:00"},
   {"date": "05/09/2026", "homeTeam": "Botafogo", "awayTeam": "Palmeiras", "competition": "Campeonato Brasileiro", "time": "A definir"},
   {"date": "12/09/2026", "homeTeam": "Botafogo", "awayTeam": "Red Bull Bragantino", "competition": "Campeonato Brasileiro", "time": "A definir"},
   {"date": "19/09/2026", "homeTeam": "Mirassol", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
@@ -142,7 +144,7 @@ export const botafogoSchedule: MatchData[] = rawSchedule.map((m, index) => {
         away_team: m.awayTeam,
         home_score,
         away_score,
-        date: parseDate(m.date, m.time),
+        date: m.dateIso ? new Date(m.dateIso).toISOString() : parseDate(m.date, m.time),
         location: m.location || (m.homeTeam === 'Botafogo' ? 'Estádio Nilton Santos' : 'A definir'),
         championship: m.competition,
         status: status,
