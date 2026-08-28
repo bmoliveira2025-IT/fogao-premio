@@ -34,13 +34,22 @@ def slugify(name: str) -> str:
     # Decompose unicode (remove accents)
     nfkd = unicodedata.normalize('NFKD', name)
     ascii_str = nfkd.encode('ascii', 'ignore').decode('ascii')
-    return (
+    slug = (
         ascii_str.lower()
         .replace(' ', '-')
         .replace("'", '')
         .replace('.', '')
         .replace('/', '-')
     )
+    # The local schedule uses the full name, while GE uses Athletico-PR.
+    # Normalize both agenda keys and fallback URLs; never alias Atletico-MG.
+    aliases = {
+        'athletico-paranaense': 'athletico-pr',
+        'atletico-paranaense': 'athletico-pr',
+        'athletico': 'athletico-pr',
+        'atletico-pr': 'athletico-pr',
+    }
+    return aliases.get(slug, slug)
 
 def get_urls_for_match(date_str: str, home: str, away: str, competition: str) -> list:
     """
