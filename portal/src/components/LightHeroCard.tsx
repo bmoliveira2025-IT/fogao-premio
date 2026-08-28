@@ -56,7 +56,7 @@ export default function LightHeroCard({ article }: LightHeroCardProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
 
             {/* Source Badge on Top Left */}
-            <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-black/50 dark:bg-white/15 backdrop-blur-md rounded-full border border-white/20 shadow-sm">
+            <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-zinc-950/85 rounded-full border border-white/20 shadow-sm">
                 <SourceIcon source={article.source} className="w-3.5 h-3.5 rounded-full" />
                 <span className="text-[11px] font-bold text-white tracking-tight">{article.source || 'Destaque'}</span>
             </div>
@@ -71,7 +71,7 @@ export default function LightHeroCard({ article }: LightHeroCardProps) {
                     <span className="text-white/80 font-medium normal-case">{timeAgo(article.created_at)}</span>
                 </div>
 
-                <h2 className="text-white text-xl sm:text-2xl font-extrabold leading-[1.25] tracking-tight line-clamp-3 drop-shadow-sm group-hover:text-amber-300 transition-colors">
+                <h2 className="text-white text-[21px] sm:text-2xl font-extrabold leading-[1.25] tracking-tight line-clamp-3 drop-shadow-sm group-hover:text-amber-300 transition-colors">
                     {toSentenceCase(article.title)}
                 </h2>
             </div>
