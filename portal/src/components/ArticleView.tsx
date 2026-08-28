@@ -108,7 +108,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     };
 
     return (
-        <div className="mb-[calc(-4rem-env(safe-area-inset-bottom))] min-h-screen w-full bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] font-sans lg:mb-0 lg:pb-0">
+        <div className="article-page mb-[calc(-4rem-env(safe-area-inset-bottom))] min-h-screen w-full bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] font-sans lg:mb-0 lg:pb-0">
             
             {/* HERO SECTION (Image Only) */}
             <div className="relative w-full h-[46vh] min-h-[390px] md:h-[58vh] bg-zinc-900">
@@ -152,32 +152,34 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 </div>
 
                 {/* Headline over the cover image, editorial reader style. */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-9 sm:px-6 md:px-12 md:pb-12">
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-12 sm:px-6 md:px-12 md:pb-14">
                     <span className="mb-2 inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm border border-white/20">
                         {categoryKey || 'Futebol'}
                     </span>
                     <h1 className="max-w-3xl text-[27px] font-bold leading-[1.08] tracking-tight text-white drop-shadow-md sm:text-[32px] md:text-[44px]">
                         {toSentenceCase(article.title)}
                     </h1>
-                    <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-medium text-white/85 sm:text-[13px]">
+                    <div className="mt-3 flex items-center gap-4">
+                    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-medium text-white/85 sm:text-[13px]">
                         <span>Em destaque</span>
                         <span className="h-1 w-1 rounded-full bg-white/55" />
                         <span>{timeAgoStr(article.created_at)}</span>
                         <span className="h-1 w-1 rounded-full bg-white/55" />
                         <span>{readTime} min de leitura</span>
                     </div>
-                </div>
 
                 {article.image && (
                     <button
                         type="button"
                         onClick={() => setIsImageOpen(true)}
                         aria-label="Ampliar imagem da notícia"
-                        className="absolute bottom-4 right-4 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-black/45 text-white shadow-lg backdrop-blur-md transition-colors hover:bg-black/65 md:bottom-6 md:right-6"
+                        className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/45 text-white shadow-lg backdrop-blur-md transition-colors hover:bg-black/65"
                     >
                         <ZoomIn size={18} />
                     </button>
                 )}
+                    </div>
+                </div>
             </div>
 
             {/* WHITE OVERLAPPING CONTENT CARD */}
@@ -270,7 +272,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             </div>
             
             {/* MOBILE FIXED ACTIONS */}
-            <div className="lg:hidden fixed bottom-16 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-zinc-100 p-3 flex justify-around items-center z-40">
+            <div className="lg:hidden fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-0 right-0 bg-white/90 backdrop-blur-md border-t border-zinc-100 p-3 flex justify-around items-center z-40">
                 <button onClick={handleSave} className={`p-2 rounded-xl flex items-center gap-2 ${isSaved ? 'text-zinc-900 font-bold' : 'text-zinc-600'}`}>
                     <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
                 </button>

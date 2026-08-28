@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Bell, CheckCheck, Loader2, Newspaper, Search, Sparkles, Trash2, X } from 'lucide-react';
+import { ArrowLeftRight, Bell, BellRing, CheckCheck, HeartPulse, Loader2, Newspaper, Radio, Search, Trophy, Trash2, X } from 'lucide-react';
 import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 import styles from './MobileUserHeader.module.css';
@@ -21,6 +21,16 @@ interface AppNotification {
 const READ_RETENTION_MS = 24 * 60 * 60 * 1000;
 const NOTIFICATION_RETENTION_MS = 72 * 60 * 60 * 1000;
 const MAX_VISIBLE_NOTIFICATIONS = 10;
+
+function NotificationIcon({ type }: { type: string }) {
+    const Icon = type === 'NEWS_MERCADO' ? ArrowLeftRight
+        : type === 'NEWS_MEDICO' ? HeartPulse
+        : type === 'NEWS_URGENT' ? Radio
+        : type === 'MATCH_RESULT' ? Trophy
+        : type === 'DAILY_BRIEFING' ? BellRing
+        : Newspaper;
+    return <Icon size={20} strokeWidth={1.75} aria-hidden="true" />;
+}
 
 function getStoredReadNotifications(): Record<string, number> {
     try {
@@ -237,7 +247,7 @@ export default function MobileUserHeader() {
                     onClick={() => setShowNotifications(!showNotifications)}
                     aria-label={showNotifications ? 'Fechar notificações' : `Abrir notificações${unreadCount ? `, ${unreadCount} não lidas` : ''}`}
                     aria-expanded={showNotifications}
-                    className="relative flex h-11 w-11 items-center justify-center rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 hover:text-premium-gold"
+                    className="relative flex h-11 w-11 items-center justify-center rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 hover:text-zinc-950"
                 >
                     <Bell size={24} strokeWidth={2} />
                     {unreadCount > 0 && (
@@ -250,28 +260,29 @@ export default function MobileUserHeader() {
                     <div className="notification-panel absolute right-0 top-[70px] z-50 w-[min(330px,calc(100vw-24px))] overflow-hidden rounded-[22px] border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-2">
                         <div className="px-4 py-3 border-b border-zinc-100 flex flex-wrap gap-3 items-center justify-between bg-white">
                             <div className="flex items-center gap-2">
-                                <span className="font-extrabold text-zinc-900 text-[14px]">Notificações</span>
+                                <BellRing size={18} strokeWidth={1.75} className="text-zinc-600" aria-hidden="true" />
+                                <span className="font-bold text-zinc-900 text-sm">Notificações</span>
                                 {unreadCount > 0 && (
-                                    <span className="rounded-full bg-zinc-900 px-2 py-0.5 text-xs font-bold text-white">{unreadCount} novas</span>
+                                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600">{unreadCount} novas</span>
                                 )}
                             </div>
                             <div className="flex items-center gap-1.5">
                             {hasReadNotifications && (
                                 <button
                                     onClick={clearReadNotifications}
-                                    className="p-1.5 rounded-full text-zinc-500 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                    className="min-w-11 p-2 rounded-xl text-zinc-500 hover:text-red-600 hover:bg-red-50 transition-colors"
                                     aria-label="Limpar notificações lidas"
                                     title="Limpar lidas"
                                 >
-                                    <Trash2 size={14} />
+                                    <Trash2 size={18} strokeWidth={1.75} />
                                 </button>
                             )}
                             {unreadCount > 0 && (
                                 <button 
                                     onClick={markAllAsRead}
-                                    className="text-xs text-zinc-600 font-bold flex items-center gap-1 hover:text-zinc-900 transition-colors uppercase tracking-wide bg-zinc-100 px-2 py-1.5 rounded-full"
+                                    className="text-xs text-zinc-600 font-medium flex items-center gap-1.5 hover:text-zinc-950 hover:bg-zinc-100 transition-colors px-2 py-1.5 rounded-lg"
                                 >
-                                    <CheckCheck size={12} />
+                                    <CheckCheck size={17} strokeWidth={1.75} />
                                     Marcar lidas
                                 </button>
                             )}
@@ -288,19 +299,19 @@ export default function MobileUserHeader() {
                                     key={notification.id} 
                                     onClick={() => handleNotificationClick(notification)}
                                     data-notification-type={notification.type} data-read={notification.read ? "true" : "false"}
-                                    className={`notification-item w-full text-left px-4 py-3 border-b border-zinc-100/80 last:border-0 hover:bg-zinc-50 transition-colors ${!notification.read ? 'bg-zinc-50/70' : 'bg-white'}`}
+                                    className="notification-item w-full text-left p-3 transition-colors"
                                 >
-                                    <div className="flex items-center gap-2.5">
-                                        <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl ${notification.type === 'DAILY_BRIEFING' ? 'bg-amber-50 text-amber-600' : 'bg-zinc-100 text-zinc-700'}`}>
-                                            {notification.type === 'DAILY_BRIEFING' ? <Sparkles size={15} /> : <Newspaper size={15} />}
+                                    <div className="flex items-start gap-3">
+                                        <div className="notification-icon flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl">
+                                            <NotificationIcon type={notification.type} />
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <p className={`line-clamp-3 text-sm leading-[1.45] ${!notification.read ? 'font-bold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
+                                            <p className={`line-clamp-3 text-sm leading-[1.5] ${!notification.read ? 'font-semibold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
                                                 {notification.title}
                                             </p>
-                                            <div className="mt-1 flex items-center gap-1.5">
-                                                {!notification.read && <span className="h-1.5 w-1.5 rounded-full bg-amber-600" />}
-                                                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">{timeAgo(notification.dateStr)}</span>
+                                            <div className="mt-2 flex items-center gap-1.5">
+                                                {!notification.read && <span className="h-1.5 w-1.5 rounded-full bg-slate-500" aria-label="Não lida" />}
+                                                <span className="text-xs font-medium text-zinc-500">{timeAgo(notification.dateStr)}</span>
                                             </div>
                                         </div>
                                     </div>
