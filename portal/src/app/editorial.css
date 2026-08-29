@@ -154,13 +154,57 @@ html .status-badge-urgent { background: #fef2f2; color: #991b1b; }
 html :is(.status-badge-live, .status-badge-urgent) span { color: inherit; }
 html .animate-ticker:focus-within { animation-play-state: paused; }
 
+html.dark .notification-panel { background: #18181b !important; border-color: #3f3f46 !important; }
+html.dark .notification-panel > div:first-child { background: #202023 !important; }
+html.dark .notification-list { scrollbar-color: #52525b transparent; }
+html.dark .notification-item { background: #232326; border-color: #34343a; }
+html.dark .notification-item[data-read="false"] { background: #303034; border-color: #4b4b52; }
+html.dark .notification-item:hover { background: #3f3f46; }
+html.dark .notification-item .notification-title { color: #d4d4d8 !important; }
+html.dark .notification-item[data-read="false"] .notification-title { color: #fafafa !important; }
+html.dark .notification-item .notification-time { color: #a1a1aa !important; }
+html.dark .notification-icon { color: #d4d4d8; background: #3f3f46; }
+html.dark .notification-item[data-notification-type="DAILY_BRIEFING"] .notification-icon,
+html.dark .notification-item[data-notification-type="MATCH_RESULT"] .notification-icon {
+  color: #bfdbfe; background: #29364a;
+}
+html.dark .notification-item[data-notification-type="NEWS_URGENT"] .notification-icon {
+  color: #fecaca; background: #4a2528;
+}
+
+html.dark .theme-toggle {
+  background: linear-gradient(145deg, #38383f 0%, #222226 72%) !important;
+  border-color: #3d3d43 !important;
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.11), inset -8px 0 14px rgb(var(--premium-gold) / 0.07), inset 0 -1px 2px rgb(0 0 0 / 0.28), 0 2px 7px rgb(0 0 0 / 0.25);
+}
+html.dark .theme-toggle:hover {
+  background: linear-gradient(145deg, #3e3e45 0%, #27272c 72%) !important;
+  border-color: #424248 !important;
+}
+html.dark .theme-toggle:focus-visible {
+  outline: 2px solid rgb(var(--premium-gold) / 0.75);
+  outline-offset: 2px;
+}
+html.dark .theme-toggle-thumb {
+  background: radial-gradient(circle at 35% 28%, #3a3a40 0%, #19191c 68%) !important;
+  border-color: #3d3d43 !important;
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.1), 0 2px 7px rgb(0 0 0 / 0.44);
+}
+html.dark .theme-toggle-hint,
+html.dark .theme-toggle-hint-arrow {
+  color: #e4e4e7 !important;
+  background: #29292e !important;
+  border-color: #4a4a51 !important;
+}
+
 @media (max-width: 1023px) {
   /* Light home and article canvases also cover the navigation reserve. */
   body:has(.mobile-app-edge),
+  html:has(.mobile-app-edge),
   body > main:has(.mobile-app-edge),
   body:has(.article-page),
   body > main:has(.article-page) {
-    background-color: #fff;
+    background-color: var(--background);
   }
   body > main, body main.min-h-screen {
     padding-bottom: calc(6rem + env(safe-area-inset-bottom));

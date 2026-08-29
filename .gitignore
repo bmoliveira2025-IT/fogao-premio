@@ -16,3 +16,5 @@ test-creds.json
 backend/.env
 portal/service-account-new.json
 backend/service-account-*.json
+.vercel
+.env*.local

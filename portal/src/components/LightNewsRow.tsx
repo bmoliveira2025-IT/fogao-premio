@@ -144,22 +144,26 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
                         <button
                             type="button"
                             onClick={() => setMenuOpen(current => !current)}
-                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800"
+                            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${menuOpen
+                                ? 'bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-white'
+                                : 'bg-transparent text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800 dark:hover:bg-zinc-700 dark:hover:text-white'
+                            }`}
                             aria-label="Mais opções"
+                            aria-expanded={menuOpen}
                         >
                             {feedback ? <Check size={14} className="text-emerald-600" /> : <MoreVertical size={15} />}
                         </button>
 
                         {menuOpen && (
-                            <div className="absolute bottom-10 right-0 z-30 w-44 overflow-hidden rounded-xl border border-zinc-200 bg-white p-1.5 shadow-xl">
-                                <button onClick={handleShare} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-xs font-semibold text-zinc-700 hover:bg-zinc-100">
-                                    <Share2 size={14} /> Compartilhar
+                            <div className="absolute bottom-11 right-0 z-30 w-52 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-xl">
+                                <button onClick={handleShare} className="flex min-h-12 w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-zinc-700 hover:bg-zinc-100">
+                                    <Share2 size={18} /> Compartilhar
                                 </button>
-                                <button onClick={handleSave} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-xs font-semibold text-zinc-700 hover:bg-zinc-100">
-                                    <Bookmark size={14} /> Salvar notícia
+                                <button onClick={handleSave} className="flex min-h-12 w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-zinc-700 hover:bg-zinc-100">
+                                    <Bookmark size={18} /> Salvar notícia
                                 </button>
-                                <button onClick={handleCopy} className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-xs font-semibold text-zinc-700 hover:bg-zinc-100">
-                                    <Copy size={14} /> Copiar link
+                                <button onClick={handleCopy} className="flex min-h-12 w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold text-zinc-700 hover:bg-zinc-100">
+                                    <Copy size={18} /> Copiar link
                                 </button>
                             </div>
                         )}

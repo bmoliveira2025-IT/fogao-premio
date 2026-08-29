@@ -3,6 +3,8 @@
 /* Keep rem spacing stable; editorial headings scale independently. */
 html {
   font-size: 100%;
+  min-height: 100%;
+  background: var(--background);
 }
 
 @tailwind base;
@@ -46,7 +48,7 @@ html {
   --premium-gold: 212 175 55;
   --card-bg: #27272A;
   --graphite: #3F3F46;
-  --border-color: #52525B;
+  --border-color: #3F3F46;
   --muted-foreground: #A1A1AA;
 }
 
@@ -66,13 +68,27 @@ html {
   color: #FAFAFA !important;
 }
 
-.dark .bg-white,
-.dark .bg-white\/95,
-.dark .bg-white\/90,
-.dark .bg-zinc-50,
-.dark .bg-zinc-50\/90,
-.dark .bg-zinc-100,
-.dark .bg-zinc-200 {
+.dark [class~="bg-white"],
+.dark [class*="bg-white/"],
+.dark [class~="bg-zinc-50"],
+.dark [class*="bg-zinc-50/"],
+.dark [class~="bg-zinc-100"],
+.dark [class*="bg-zinc-100/"],
+.dark [class~="bg-zinc-200"],
+.dark [class*="bg-zinc-200/"],
+.dark [class*="bg-slate-50"],
+.dark [class*="bg-slate-100"],
+.dark [class*="bg-slate-200"],
+.dark [class*="bg-gray-50"],
+.dark [class*="bg-gray-100"],
+.dark [class*="bg-gray-200"],
+.dark [class*="bg-neutral-50"],
+.dark [class*="bg-neutral-100"],
+.dark [class*="bg-neutral-200"],
+.dark [class*="bg-red-50"],
+.dark [class*="bg-green-50"],
+.dark [class*="bg-blue-50"],
+.dark [class*="bg-amber-50"] {
   background-color: #27272A !important;
 }
 
@@ -80,28 +96,23 @@ html {
 .dark .border-zinc-200,
 .dark .border-zinc-200\/70,
 .dark .border-zinc-200\/80 {
-  border-color: #52525B !important;
+  border-color: #3F3F46 !important;
 }
 
 /* Borders and separators stay soft gray in dark mode, never pure white. */
 .dark [class*="border-white"],
 .dark [class*="border-zinc"] {
-  border-color: #52525B !important;
+  border-color: #3F3F46 !important;
 }
 
 .dark [class*="divide-white"] > :not([hidden]) ~ :not([hidden]),
 .dark [class*="divide-zinc"] > :not([hidden]) ~ :not([hidden]) {
-  border-color: #52525B !important;
+  border-color: #3F3F46 !important;
 }
 
-.dark .bg-white\/5,
-.dark .bg-white\/10,
-.dark .bg-white\/\[0\.02\],
-.dark .bg-white\/\[0\.03\],
-.dark .bg-white\/\[0\.04\],
-.dark .bg-white\/\[0\.05\],
-.dark .bg-white\/\[0\.08\] {
-  background-color: rgba(161, 161, 170, 0.18) !important;
+.dark .glass-panel,
+.dark .glass-ultra {
+  background: #27272A !important;
 }
 
 /* Tema Gloriosa (Light Mode - Pink Accent) */
@@ -121,6 +132,7 @@ html {
 }
 
 body {
+  min-height: 100%;
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

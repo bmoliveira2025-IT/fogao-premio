@@ -249,11 +249,11 @@ export default function MobileUserHeader() {
                     onClick={() => setShowNotifications(!showNotifications)}
                     aria-label={showNotifications ? 'Fechar notificações' : `Abrir notificações${unreadCount ? `, ${unreadCount} não lidas` : ''}`}
                     aria-expanded={showNotifications}
-                    className="relative flex h-11 w-11 items-center justify-center rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 hover:text-zinc-950"
+                    className="relative flex h-11 w-11 items-center justify-center rounded-full bg-transparent text-zinc-900 transition-colors hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
                 >
                     <Bell size={24} strokeWidth={2} />
                     {unreadCount > 0 && (
-                        <span className="absolute right-2 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500" />
+                        <span className="absolute right-2 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500 dark:border-zinc-900" />
                     )}
                 </button>
 
@@ -308,12 +308,12 @@ export default function MobileUserHeader() {
                                             <NotificationIcon type={notification.type} />
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <p className={`line-clamp-3 text-sm leading-[1.5] ${!notification.read ? 'font-semibold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
+                                            <p className={`notification-title line-clamp-3 text-sm leading-[1.5] ${!notification.read ? 'font-semibold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
                                                 {notification.title}
                                             </p>
                                             <div className="mt-2 flex items-center gap-1.5">
                                                 {!notification.read && <span className="h-1.5 w-1.5 rounded-full bg-slate-500" aria-label="Não lida" />}
-                                                <span className="text-xs font-medium text-zinc-500">{timeAgo(notification.dateStr)}</span>
+                                                <span className="notification-time text-xs font-medium text-zinc-500">{timeAgo(notification.dateStr)}</span>
                                             </div>
                                         </div>
                                     </div>
