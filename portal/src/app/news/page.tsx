@@ -1,18 +1,16 @@
 import NewsContent from '@/components/NewsContent';
 import { db } from '@/lib/firebase-admin';
-import { Suspense } from 'react';
-import Loading from '../loading';
 
 async function getNews() {
     try {
-        // Calculate the date 48 hours ago
+        // Keep the four-day news archive available in the app.
         const timeLimit = new Date();
-        timeLimit.setHours(timeLimit.getHours() - 48);
+        timeLimit.setHours(timeLimit.getHours() - 96);
 
         const snapshot = await db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
-            .limit(500) // Increased limit to match the 48h volume
+            .limit(500) // Cap the four-day window to protect mobile payloads.
             .get();
 
         return snapshot.docs.map(doc => {

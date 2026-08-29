@@ -79,7 +79,7 @@ export default function LightNewsFilter({ news }: LightNewsFilterProps) {
               setVisibleCount(ITEMS_PER_PAGE);
             }}
             className={cn(
-              "min-h-11 min-w-0 px-1 py-2 text-xs sm:text-sm font-bold rounded-full whitespace-nowrap transition-all duration-200 border active:scale-95",
+              "min-h-11 min-w-0 px-1 py-2 text-[13px] sm:text-[15px] font-bold rounded-full whitespace-nowrap transition-all duration-200 border active:scale-95",
               activeFilter === filter
                 ? "bg-zinc-900 border-zinc-900 text-white shadow-sm"
                 : "bg-white border-zinc-200 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 shadow-xs"

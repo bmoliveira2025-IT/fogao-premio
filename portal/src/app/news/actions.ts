@@ -4,12 +4,12 @@ import { db } from '@/lib/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
 
 export async function fetchMoreNews(lastCreatedAt: string) {
-    // 36 hours window to match the homepage policy
+    // Four-day window, matching the homepage and news archive policy.
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 36);
+    timeLimit.setHours(timeLimit.getHours() - 96);
 
     try {
-        let query = db.collection('news')
+        const query = db.collection('news')
             .where('created_at', '>=', timeLimit)
             .orderBy('created_at', 'desc')
             .startAfter(Timestamp.fromDate(new Date(lastCreatedAt)))

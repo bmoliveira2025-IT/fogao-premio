@@ -34,7 +34,7 @@ export default function VerticalNewsFeed({ initialNews }: VerticalNewsFeedProps)
     }, []);
 
     return (
-        <div className="w-full h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-black scrollbar-hide">
+        <div className="w-full h-[100dvh] overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-background scrollbar-hide">
             {visibleNews.map((article, idx) => {
                 const isLast = idx === visibleNews.length - 1;
                 return (

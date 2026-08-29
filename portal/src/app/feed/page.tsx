@@ -6,7 +6,7 @@ export const revalidate = 60; // ISR for 60 seconds
 async function getFeedNews() {
     try {
         const timeLimit = new Date();
-        timeLimit.setHours(timeLimit.getHours() - 48);
+        timeLimit.setHours(timeLimit.getHours() - 96);
 
         const newsRef = db.collection('news')
             .where('created_at', '>=', timeLimit)
@@ -40,7 +40,7 @@ export default async function FeedPage() {
     const news = await getFeedNews();
 
     return (
-        <main className="w-full h-[100dvh] bg-black overflow-hidden relative">
+        <main className="w-full h-[100dvh] bg-background overflow-hidden relative">
             <VerticalNewsFeed initialNews={news} />
         </main>
     );

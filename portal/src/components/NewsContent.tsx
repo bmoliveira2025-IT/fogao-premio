@@ -69,7 +69,7 @@ export default function NewsContent({ initialNews }: { initialNews: NewsItem[] }
                     </div>
                     <h3 className="text-xl font-bold text-white mb-2">Nenhuma notícia encontrada</h3>
                     <p className="text-zinc-500">
-                        Não encontramos notícias recentes nas últimas 24 horas.
+                        Não encontramos notícias recentes nos últimos quatro dias.
                     </p>
                 </div>
             )}

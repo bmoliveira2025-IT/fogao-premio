@@ -8,6 +8,7 @@ import { ArrowLeftRight, Bell, BellRing, CheckCheck, HeartPulse, Loader2, Newspa
 import { useState, useEffect, useRef, type FormEvent } from 'react';
 import { timeAgo } from '@/lib/news-utils';
 import styles from './MobileUserHeader.module.css';
+import ThemeToggle from './ThemeToggle';
 
 interface AppNotification {
     id: string;
@@ -232,6 +233,7 @@ export default function MobileUserHeader() {
                 </Link>
 
                 <div className="flex items-center gap-1">
+                <ThemeToggle compact />
                 <button
                     type="button"
                     onClick={() => setIsSearchExpanded(current => !current)}

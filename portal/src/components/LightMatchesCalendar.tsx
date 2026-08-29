@@ -112,9 +112,9 @@ export default function LightMatchesCalendar({ matches }: LightMatchesCalendarPr
     }, [matches]);
 
     return (
-        <div className="w-full min-h-screen bg-[#f8f9fa] font-sans pb-8">
+        <div className="w-full min-h-screen bg-background text-foreground font-sans pb-8">
             {/* Top Header */}
-            <div className="px-5 pt-12 pb-6 bg-[#f8f9fa] sticky top-0 z-30">
+            <div className="px-5 pt-12 pb-6 bg-background sticky top-0 z-30">
                 <div className="flex items-center justify-between mb-8">
                     <div className="relative">
                         <button 

@@ -39,10 +39,10 @@ def cleanup_old_news(db_instance=None):
         if not db_instance:
             return
 
-    print("Starting 24h cleanup...")
+    print("Starting four-day cleanup...")
     try:
-        # Calculate 24h cutoff
-        cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+        # Keep four complete days of news available to the app.
+        cutoff = datetime.now(timezone.utc) - timedelta(days=4)
         
         # Query for older items
         docs = db_instance.collection('news').where('created_at', '<', cutoff).stream()
@@ -61,7 +61,7 @@ def cleanup_old_news(db_instance=None):
         if count % 400 != 0:
             batch.commit()
             
-        print(f"Cleanup finished. Removed {count} items older than 24h.")
+        print(f"Cleanup finished. Removed {count} items older than four days.")
     except Exception as e:
         print(f"Error during cleanup: {e}")
 

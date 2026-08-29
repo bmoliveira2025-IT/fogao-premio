@@ -51,7 +51,7 @@ export default function VerticalNewsSlide({ article, index }: VerticalNewsSlideP
     const gradient = gradients[index % gradients.length];
 
     return (
-        <div className="relative w-full h-[100dvh] overflow-hidden bg-black text-white">
+        <div className="relative w-full h-[100dvh] overflow-hidden bg-zinc-200 text-white">
             {/* Background Image */}
             <div className="absolute inset-0 w-full h-full">
                 <Image

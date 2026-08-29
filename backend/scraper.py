@@ -355,8 +355,8 @@ def scrape_news(url):
                     pub_date = pub_date.replace(tzinfo=timezone.utc)
                 
                 now = datetime.now(timezone.utc)
-                # Allow up to 48 hours to be safe, but generally we want "recent"
-                if (now - pub_date).total_seconds() > 172800: # 48 hours
+                # Accept articles from the full four-day archive shown in the app.
+                if (now - pub_date).total_seconds() > 345600: # 96 hours
                     print(f"Skipping old article ({pub_date}): {article.title}")
                     return None
             except Exception as e:

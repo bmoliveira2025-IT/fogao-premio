@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from 'react';
-import { Shield, ChevronDown, Calendar, MapPin } from 'lucide-react';
+import { Shield, ChevronDown, MapPin } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+import Image from 'next/image';
 
 interface MatchData {
     id: string;
@@ -65,7 +65,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                 return (
                     <div
                         key={match.id}
-                        className={`rounded-[1.5rem] border transition-all duration-500 overflow-hidden ${isOpen ? 'glass-panel border-premium-gold/40 shadow-gold-glow scale-[1.02]' : 'glass-ultra border-white/[0.04] hover:border-premium-gold/20 hover:shadow-premium hover:-translate-y-0.5'}`}
+                        className={`rounded-[1.5rem] border bg-white transition-all duration-500 overflow-hidden ${isOpen ? 'border-premium-gold/40 shadow-gold-glow scale-[1.02]' : 'border-zinc-200 hover:border-premium-gold/20 hover:shadow-premium hover:-translate-y-0.5'}`}
                     >
                         {/* Header (Always Visible) */}
                         <button
@@ -74,19 +74,19 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                         >
                             <div className="flex items-center space-x-3">
                                 {/* Date Badge */}
-                                <div className={`flex flex-col items-center justify-center w-10 h-10 rounded-lg border ${isOpen ? 'bg-premium-gold text-black border-premium-gold' : 'bg-white/5 border-premium-gold/15 text-white/50'}`}>
+                                <div className={`flex flex-col items-center justify-center w-10 h-10 rounded-lg border ${isOpen ? 'bg-premium-gold text-black border-premium-gold' : 'bg-zinc-100 border-zinc-200 text-zinc-600'}`}>
                                     <span className="text-[9px] font-black uppercase leading-none">{dateString.split(' ')[0]}</span>
                                     <span className="text-[12px] font-black leading-none">{dateString.split(' ')[2]?.replace('.', '') || matchDate.getDate()}</span>
                                 </div>
 
                                 {/* Teams Text */}
                                 <div className="flex flex-col items-start">
-                                    <span className={`text-sm md:text-base font-black uppercase tracking-wider ${isOpen ? 'text-white' : 'text-white/80'}`}>
+                                    <span className="text-sm md:text-base font-black uppercase tracking-wider text-foreground">
                                         {match.home_team} <span className="text-premium-gold mx-1">
                                             {isLiveOrFinished ? `${homeScore} x ${awayScore}` : 'x'}
                                         </span> {match.away_team}
                                     </span>
-                                    <span className="text-[11px] md:text-[12px] font-bold text-white/50 capitalize mt-1">
+                                    <span className="text-[11px] md:text-[12px] font-bold text-zinc-500 capitalize mt-1">
                                         {match.championship} • {status === 'AO_VIVO' || status === 'AO VIVO' ? 'AO VIVO' : isFinished ? 'Finalizado' : timeString}
                                     </span>
                                 </div>
@@ -113,7 +113,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                             <div className="flex flex-col items-center w-1/3">
                                                 <div className="w-12 h-12 md:w-16 md:h-16 relative mb-2 drop-shadow-md">
                                                     {match.home_team_logo ? (
-                                                        <img src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} className="w-full h-full object-contain" />
+                                                        <Image src={getSafeImageSrc(match.home_team_logo)} alt={match.home_team} fill sizes="64px" className="object-contain" unoptimized />
                                                     ) : (
                                                         <Shield size={32} className="text-white/20" />
                                                     )}
@@ -132,7 +132,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
 
                                                 <div className="w-12 h-12 md:w-16 md:h-16 relative mb-2 drop-shadow-md">
                                                     {match.away_team_logo ? (
-                                                        <img src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} className="w-full h-full object-contain" />
+                                                        <Image src={getSafeImageSrc(match.away_team_logo)} alt={match.away_team} fill sizes="64px" className="object-contain" unoptimized />
                                                     ) : (
                                                         <Shield size={32} className="text-white/20" />
                                                     )}
@@ -141,7 +141,7 @@ export default function MatchesAccordion({ matches, title = "Próximos Jogos" }:
                                         </div>
 
                                         <div className="text-center">
-                                            <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold text-zinc-400 bg-white/5 px-4 py-2 rounded-full mb-4 border border-white/5">
+                                            <div className="inline-flex items-center space-x-2 text-[12px] md:text-[14px] font-bold text-zinc-600 bg-zinc-100 px-4 py-2 rounded-full mb-4 border border-zinc-200">
                                                 <MapPin size={12} className="text-premium-gold" />
                                                 <span>{match.location}</span>
                                             </div>

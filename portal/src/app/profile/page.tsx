@@ -32,7 +32,7 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="w-full min-h-screen bg-[#f7f7f8] text-zinc-900 font-sans selection:bg-premium-gold selection:text-white pb-24 lg:pb-16">
+        <div className="w-full min-h-screen bg-background text-foreground font-sans selection:bg-premium-gold selection:text-white pb-24 lg:pb-16">
             <div className="mx-auto max-w-3xl lg:p-7 lg:grid lg:grid-cols-12 lg:gap-5">
 
                 {/* Header Area */}
@@ -86,14 +86,14 @@ export default function ProfilePage() {
                 <div className="px-3 space-y-3 lg:col-span-8 lg:px-0 lg:space-y-3">
 
                     {/* Points Card */}
-                    <div className="flex items-center justify-between p-4 bg-zinc-900 text-white border border-zinc-800 rounded-[1.25rem] overflow-hidden relative shadow-sm">
+                    <div className="flex items-center justify-between p-4 bg-white text-zinc-900 border border-zinc-200 rounded-[1.25rem] overflow-hidden relative shadow-sm">
                         <div className="absolute inset-0 bg-gradient-to-r from-premium-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="flex items-center space-x-4 relative z-10">
-                            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10">
+                            <div className="w-10 h-10 rounded-xl bg-premium-gold/10 flex items-center justify-center border border-premium-gold/20">
                                 <Star size={20} className="text-premium-gold fill-premium-gold" />
                             </div>
                             <div>
-                                <h3 className="text-base font-black text-white leading-none uppercase italic tracking-tight">Fogão Points</h3>
+                                <h3 className="text-base font-black text-zinc-900 leading-none uppercase italic tracking-tight">Fogão Points</h3>
                                 <p className="text-[9px] text-zinc-400 uppercase font-bold tracking-[0.12em] mt-1.5">Sua pontuação</p>
                             </div>
                         </div>
@@ -167,18 +167,18 @@ export default function ProfilePage() {
                                     <span className="text-xs text-zinc-600 uppercase font-bold tracking-[0.12em]">Tema do Aplicativo</span>
                                     <div className="flex bg-zinc-50 rounded-lg p-1 border border-zinc-200">
                                         <button
-                                            onClick={() => setTheme('glorioso')}
-                                            className={`flex-1 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${theme === 'glorioso' ? 'bg-white text-premium-gold shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
+                                            onClick={() => setTheme('light')}
+                                            className={`flex-1 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${theme === 'light' ? 'bg-white text-premium-gold shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
                                         >
-                                            <Star size={14} className={theme === 'glorioso' ? 'fill-premium-gold' : ''} />
-                                            Glorioso (Ouro)
+                                            <Star size={14} className={theme === 'light' ? 'fill-premium-gold' : ''} />
+                                            Tema claro
                                         </button>
                                         <button
-                                            onClick={() => setTheme('gloriosa')}
-                                            className={`flex-1 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${theme === 'gloriosa' ? 'bg-white text-pink-500 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:text-zinc-900'}`}
+                                            onClick={() => setTheme('dark')}
+                                            className={`flex-1 py-2.5 rounded-md text-sm font-bold transition-all flex items-center justify-center gap-2 ${theme === 'dark' ? 'bg-zinc-900 text-premium-gold shadow-sm border border-zinc-700' : 'text-zinc-500 hover:text-zinc-900'}`}
                                         >
-                                            <Crown size={14} className={theme === 'gloriosa' ? 'fill-pink-500' : ''} />
-                                            Gloriosa (Rosa)
+                                            <Crown size={14} className={theme === 'dark' ? 'fill-premium-gold' : ''} />
+                                            Tema escuro
                                         </button>
                                     </div>
                                 </div>

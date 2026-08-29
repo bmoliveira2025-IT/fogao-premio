@@ -15,7 +15,7 @@ export async function GET(request: Request) {
         }
 
         const now = new Date();
-        const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
+        const cutoff = new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000); // Four days ago
 
         console.log(`Starting cleanup. Deleting news created before ${cutoff.toISOString()}`);
 

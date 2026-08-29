@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
+import ThemeToggle from './ThemeToggle';
 
 export default function DesktopHeader() {
     const pathname = usePathname();
@@ -21,7 +22,7 @@ export default function DesktopHeader() {
     ];
 
     return (
-        <header className="hidden lg:flex fixed top-0 left-0 right-0 z-50 bg-[#09090b]/95 backdrop-blur-md h-16 items-center border-b border-[#2a2a30]">
+        <header className="hidden lg:flex fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md h-16 items-center border-b border-zinc-200 dark:border-zinc-700">
             <div className="container mx-auto max-w-[1400px] flex items-center justify-between px-6">
                 
                 {/* LOGO */}
@@ -35,7 +36,7 @@ export default function DesktopHeader() {
                         priority
                     />
                     <span className="flex items-baseline gap-1">
-                        <span className="text-xl font-black text-white tracking-tight group-hover:text-premium-gold transition-colors">Fogão</span>
+                        <span className="text-xl font-black text-zinc-900 dark:text-white tracking-tight group-hover:text-premium-gold transition-colors">Fogão</span>
                         <span className="text-xl font-semibold text-premium-gold tracking-tight">360</span>
                     </span>
                 </Link>
@@ -47,7 +48,7 @@ export default function DesktopHeader() {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "text-sm font-bold transition-all hover:text-white focus-visible:rounded-sm",
+                                "text-sm font-bold transition-all hover:text-zinc-900 dark:hover:text-white focus-visible:rounded-sm",
                                 isActive(link.href) ? "text-premium-gold" : "text-zinc-500"
                             )}
                         >
@@ -58,8 +59,9 @@ export default function DesktopHeader() {
 
                 {/* ACTIONS - RIGHT */}
                 <div className="flex items-center gap-6">
+                    <ThemeToggle compact />
                     {/* Search Bar */}
-                    <div className="relative flex items-center h-10 px-3 bg-zinc-900/50 border border-white/5 rounded-full group focus-within:border-premium-gold/30 transition-all">
+                    <div className="relative flex items-center h-10 px-3 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-full group focus-within:border-premium-gold/30 transition-all">
                         <Search size={18} className="text-zinc-500 group-focus-within:text-premium-gold transition-colors" />
                         <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                             e.preventDefault();
@@ -71,7 +73,7 @@ export default function DesktopHeader() {
                                 type="text" 
                                 placeholder="Buscar notícias..."
                                 aria-label="Buscar notícias"
-                                className="bg-transparent border-none outline-none text-sm font-medium text-white px-2 w-36 focus:w-52 transition-all placeholder:text-zinc-500"
+                                className="bg-transparent border-none outline-none text-sm font-medium text-zinc-900 dark:text-white px-2 w-36 focus:w-52 transition-all placeholder:text-zinc-500"
                             />
                         </form>
                     </div>

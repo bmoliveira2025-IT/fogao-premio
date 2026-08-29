@@ -236,7 +236,7 @@ export default function MatchStatsPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-black flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <Activity className="text-premium-gold animate-pulse" size={40} />
             </div>
         );
@@ -244,18 +244,18 @@ export default function MatchStatsPage() {
 
     if (!match) {
         return (
-            <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-center">
-                <h1 className="text-white text-xl font-bold mb-4">Análise não encontrada</h1>
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
+                <h1 className="text-zinc-900 text-xl font-bold mb-4">Análise não encontrada</h1>
                 <Link href="/" className="text-premium-gold border border-premium-gold/30 px-6 py-2 rounded-full">Voltar</Link>
             </div>
         );
     }
 
     return (
-        <main className="min-h-screen bg-black text-white pb-8 lg:pb-32 selection:bg-premium-gold selection:text-black font-sans">
+        <main className="min-h-screen bg-background text-foreground dark:text-white pb-8 lg:pb-32 selection:bg-premium-gold selection:text-black font-sans">
             {/* Ultra Compact Non-Sticky Header */}
-            <header className="fixed top-0 left-0 right-0 z-[100] bg-black/95 backdrop-blur-3xl border-b border-white/10 h-11 flex items-center px-4 shadow-xl">
-                <button onClick={() => router.back()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 text-white/70 active:scale-90 transition-transform">
+            <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-3xl border-b border-zinc-200 h-11 flex items-center px-4 shadow-sm">
+                <button onClick={() => router.back()} className="w-8 h-8 flex items-center justify-center rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-700 active:scale-90 transition-transform">
                     <ChevronLeft size={18} />
                 </button>
                 <div className="flex-1 text-center px-2">

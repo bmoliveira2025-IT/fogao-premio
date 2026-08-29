@@ -14,7 +14,7 @@ import { botafogoSchedule } from '@/data/schedule';
 
 // Light Theme Components
 import MobileUserHeader from '@/components/MobileUserHeader';
-import LightHeroCard from '@/components/LightHeroCard';
+import HighlightNewsCarousel from '@/components/HighlightNewsCarousel';
 import LightNewsFilter from '@/components/LightNewsFilter';
 
 import Image from 'next/image';
@@ -65,7 +65,7 @@ interface VideoItem {
 async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copaMatch: MatchData | null; sulaMatch: MatchData | null; videos: VideoItem[] }> {
   try {
     const timeLimit = new Date();
-    timeLimit.setHours(timeLimit.getHours() - 48);
+    timeLimit.setHours(timeLimit.getHours() - 96);
 
     const newsRef = db.collection('news')
       .where('created_at', '>=', timeLimit)
@@ -213,17 +213,17 @@ export default async function Home() {
   const tickerItems = news.slice(0, 6).map(n => ({ id: n.id, title: n.title }));
 
   return (
-    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-[#f4f4f5] lg:bg-[#0a0a0a]">
+    <div className="w-full font-sans selection:bg-premium-gold selection:text-black transition-colors duration-300 bg-background">
       
       {/* MOBILE LIGHT THEME */}
-      <div className="mobile-app-edge block lg:hidden min-h-screen px-4 pt-safe bg-white">
+      <div className="mobile-app-edge block lg:hidden min-h-screen px-4 pt-safe bg-background">
           <MobileUserHeader />
           <div className="py-1"></div>
           
-          <LightHeroCard article={heroNews} />
+          <HighlightNewsCarousel news={news.slice(0, 5)} />
           
           {/* Interactive Filter and News List */}
-          <LightNewsFilter news={news.slice(1)} />
+          <LightNewsFilter news={news.slice(5)} />
       </div>
 
       {/* DESKTOP DARK THEME */}

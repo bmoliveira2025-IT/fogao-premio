@@ -16,9 +16,9 @@ export async function GET() {
     try {
         const notifications: NotificationItem[] = [];
         
-        // 1. Fetch recent news (last 72 hours)
+        // 1. Fetch recent news from the app's four-day archive.
         const timeLimit = new Date();
-        timeLimit.setHours(timeLimit.getHours() - 72);
+        timeLimit.setHours(timeLimit.getHours() - 96);
 
         const newsRef = db.collection('news')
             .where('created_at', '>=', timeLimit)

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "glorioso" | "gloriosa"; // glorioso = dark/gold, gloriosa = pink
+type Theme = "light" | "dark";
 
 interface ThemeContextType {
     theme: Theme;
@@ -12,30 +12,26 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>("glorioso"); // Default: Glorioso (dark)
+    const [theme, setTheme] = useState<Theme>("light");
+
+    const applyTheme = (newTheme: Theme) => {
+        document.documentElement.classList.remove("glorioso", "gloriosa", "biriba", "dark", "light");
+        document.documentElement.classList.add(newTheme);
+        document.documentElement.style.colorScheme = newTheme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute(
+            'content',
+            newTheme === 'dark' ? '#18181B' : '#F8F9FA'
+        );
+    };
 
     useEffect(() => {
         // Check local storage on mount
-        const savedTheme = localStorage.getItem("theme") as Theme;
-        if (savedTheme && ["glorioso", "gloriosa"].includes(savedTheme)) {
-            setTheme(savedTheme);
-            applyTheme(savedTheme);
-        } else {
-            // Default to Glorioso (dark)
-            applyTheme("glorioso");
-        }
+        const savedTheme = localStorage.getItem("theme");
+        const initialTheme: Theme = savedTheme === "dark" || savedTheme === "glorioso" ? "dark" : "light";
+        applyTheme(initialTheme);
+        const frame = requestAnimationFrame(() => setTheme(initialTheme));
+        return () => cancelAnimationFrame(frame);
     }, []);
-
-    const applyTheme = (newTheme: Theme) => {
-        // Remove all theme classes
-        document.documentElement.classList.remove("glorioso", "gloriosa", "biriba", "dark", "light");
-
-        // Add new theme class
-        document.documentElement.classList.add(newTheme);
-
-        // Always add dark for compatibility with existing components since both remaining themes are dark
-        document.documentElement.classList.add("dark");
-    };
 
     const changeTheme = (newTheme: Theme) => {
         setTheme(newTheme);

@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { botafogoSchedule, MatchData } from '@/data/schedule';
 import MatchesAccordion from '@/components/MatchesAccordion';
-import { Shield, Trophy, Calendar as CalendarIcon } from 'lucide-react';
+import { Shield, Trophy } from 'lucide-react';
 import Link from 'next/link';
 import LightMatchesCalendar from '@/components/LightMatchesCalendar';
 
 export default function MatchesPage() {
-    const [matches, setMatches] = useState<MatchData[]>([]);
-    const [loading, setLoading] = useState(true);
+    const matches: MatchData[] = botafogoSchedule;
+    const loading = false;
     const [filter, setFilter] = useState<'ALL' | 'BRASILEIRAO' | 'COPA_DO_BRASIL' | 'SULAMERICANA'>('ALL');
 
     const championships = [
@@ -18,37 +18,6 @@ export default function MatchesPage() {
         { id: 'COPA_DO_BRASIL', name: 'Copa do Brasil' },
         { id: 'SULAMERICANA', name: 'Sulamericana' },
     ] as const;
-
-    useEffect(() => {
-        setLoading(true);
-        
-        // We use the static schedule data provided
-        // In a real app, you might still want to sync this with Firebase
-        // but for this request, we'll use the complete 2026 schedule data.
-        setMatches(botafogoSchedule);
-        setLoading(false);
-
-        // Keeping the Firebase subscription logic commented out in case it's needed later
-        /*
-        const threshold = new Date();
-        threshold.setHours(threshold.getHours() - 3);
-        let q = query(
-            collection(db, 'matches'),
-            where('date', '>=', threshold.toISOString()),
-            orderBy('date', 'asc'),
-            limit(20)
-        );
-        const unsub = onSnapshot(q, (snapshot) => {
-            const matchesData = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            })) as any[];
-            // ... serialization ...
-            setMatches(serialized);
-        });
-        return () => unsub();
-        */
-    }, []);
 
     const filteredMatches = matches.filter(m => {
         if (filter === 'ALL') return true;
@@ -84,7 +53,7 @@ export default function MatchesPage() {
     });
 
     return (
-        <div className="w-full min-h-screen bg-[#f8f9fa] lg:bg-[#0a0a0a] text-foreground">
+        <div className="w-full min-h-screen bg-background text-foreground">
             {/* Mobile Light Theme Calendar */}
             <div className="block lg:hidden">
                 <LightMatchesCalendar matches={matches} />
@@ -95,7 +64,7 @@ export default function MatchesPage() {
                 
                 {/* Header Section */}
                 <div className="flex flex-col items-center mb-10">
-                    <h1 className="text-2xl md:text-4xl font-black text-white uppercase tracking-[0.2em] mb-4 text-center">
+                    <h1 className="text-2xl md:text-4xl font-black text-zinc-900 uppercase tracking-[0.2em] mb-4 text-center">
                         Calendário <span className="text-premium-gold">2026</span>
                     </h1>
                     <div className="h-1 w-20 bg-premium-gold rounded-full" />
@@ -110,7 +79,7 @@ export default function MatchesPage() {
                             className={`px-6 py-3 rounded-full text-[12px] font-black uppercase tracking-widest transition-all whitespace-nowrap border
                             ${filter === champ.id 
                                 ? 'bg-premium-gold text-black border-premium-gold shadow-[0_0_20px_rgba(212,175,55,0.3)]' 
-                                : 'bg-white/5 text-zinc-500 border-white/5 hover:border-white/20'}`}
+                                : 'bg-white text-zinc-600 border-zinc-200 hover:border-premium-gold/40'}`}
                         >
                             {champ.name}
                         </button>
@@ -131,7 +100,7 @@ export default function MatchesPage() {
                                         <div className="p-2 rounded-xl bg-premium-gold/10 border border-premium-gold/20">
                                             <Trophy size={20} className="text-premium-gold" />
                                         </div>
-                                        <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider">
+                                        <h2 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-wider">
                                             {champName}
                                         </h2>
                                         <div className="flex-1 h-[1px] bg-gradient-to-r from-premium-gold/20 to-transparent" />
@@ -143,7 +112,7 @@ export default function MatchesPage() {
                                 </div>
                             ))
                         ) : (
-                            <div className="text-center py-20 glass-ultra rounded-3xl border border-white/5">
+                            <div className="text-center py-20 bg-white rounded-3xl border border-zinc-200 shadow-sm">
                                 <Shield className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
                                 <p className="text-[11px] font-black text-zinc-500 uppercase tracking-widest">Nenhum jogo encontrado para este filtro</p>
                             </div>
@@ -155,7 +124,7 @@ export default function MatchesPage() {
                 <div className="mt-16 flex justify-center">
                     <Link 
                         href="/tabela" 
-                        className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white text-[11px] font-black uppercase tracking-[0.2em] hover:bg-premium-gold hover:text-black hover:border-premium-gold transition-all group"
+                        className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white border border-zinc-200 text-zinc-900 text-[11px] font-black uppercase tracking-[0.2em] hover:bg-premium-gold hover:text-black hover:border-premium-gold transition-all group shadow-sm"
                     >
                         Ver Classificação Completa
                         <Shield size={16} className="group-hover:scale-110 transition-transform" />
