@@ -48,6 +48,7 @@ def slugify(name: str) -> str:
         'atletico-paranaense': 'athletico-pr',
         'athletico': 'athletico-pr',
         'atletico-pr': 'athletico-pr',
+        'red-bull-bragantino': 'bragantino',
     }
     return aliases.get(slug, slug)
 

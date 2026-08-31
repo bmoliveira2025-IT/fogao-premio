@@ -20,6 +20,10 @@ class ScheduleResultsTests(unittest.TestCase):
                 self.assertEqual(update_results.slugify(name), 'athletico-pr')
         self.assertEqual(update_results.slugify('Atlético-MG'), 'atletico-mg')
 
+    def test_red_bull_bragantino_matches_ge_popular_name(self):
+        self.assertEqual(update_results.slugify('Red Bull Bragantino'), 'bragantino')
+        self.assertEqual(update_results.slugify('Bragantino'), 'bragantino')
+
     def test_fallback_urls_use_ge_team_name(self):
         urls = update_results.get_urls_for_match(
             '24/08/2026', 'Botafogo', 'Athletico Paranaense', 'Campeonato Brasileiro'
