@@ -68,19 +68,19 @@ const rawSchedule: RawScheduleItem[] = [
   {"date": "16/08/2026", "homeTeam": "Vitória", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "18:30", "round": 23, "location": "Barradão", "city": "Salvador - BA", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a", "result": "1 - 0"},
   {"date": "24/08/2026", "homeTeam": "Botafogo", "awayTeam": "Athletico Paranaense", "competition": "Campeonato Brasileiro", "time": "20:00", "round": 24, "location": "Estádio Nilton Santos", "city": "Rio de Janeiro - RJ", "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/noticias/campeonato-brasileiro/campeonato-brasileiro-serie-a/cbf-divulga-tabela-detalhada-das-rodadas-19-a-24-do-brasileirao-serie-a", "result": "2 - 3"},
   {"date": "30/08/2026", "dateIso": "2026-08-30T16:00:00-03:00", "homeTeam": "Flamengo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "16:00", "result": "3 - 0"},
-  {"date": "05/09/2026", "homeTeam": "Botafogo", "awayTeam": "Palmeiras", "competition": "Campeonato Brasileiro", "time": "A definir"},
+  {"date": "06/09/2026", "homeTeam": "Botafogo", "awayTeam": "Palmeiras", "competition": "Campeonato Brasileiro", "time": "18:30", "dateIso": "2026-09-06T18:30:00-03:00", "location": "Nilton Santos (Engenhão)", "round": 26},
   {"date": "12/09/2026", "homeTeam": "Botafogo", "awayTeam": "Red Bull Bragantino", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "19/09/2026", "homeTeam": "Mirassol", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
+  {"date": "20/09/2026", "homeTeam": "Mirassol", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 28},
   {"date": "07/10/2026", "homeTeam": "Botafogo", "awayTeam": "Vasco da Gama", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "10/10/2026", "homeTeam": "Coritiba", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "17/10/2026", "homeTeam": "Botafogo", "awayTeam": "Chapecoense", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "24/10/2026", "homeTeam": "Internacional", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "28/10/2026", "homeTeam": "Remo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "04/11/2026", "homeTeam": "Botafogo", "awayTeam": "Atlético-MG", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "18/11/2026", "homeTeam": "Corinthians", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "21/11/2026", "homeTeam": "Botafogo", "awayTeam": "São Paulo", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "28/11/2026", "homeTeam": "Botafogo", "awayTeam": "Bahia", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "02/12/2026", "homeTeam": "Santos", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir"}
+  {"date": "11/10/2026", "homeTeam": "Coritiba", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 30},
+  {"date": "18/10/2026", "homeTeam": "Botafogo", "awayTeam": "Chapecoense", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 31},
+  {"date": "25/10/2026", "homeTeam": "Internacional", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 32},
+  {"date": "28/10/2026", "homeTeam": "Remo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 33},
+  {"date": "04/11/2026", "homeTeam": "Botafogo", "awayTeam": "Atlético-MG", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 34},
+  {"date": "18/11/2026", "homeTeam": "Corinthians", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 35},
+  {"date": "22/11/2026", "homeTeam": "Botafogo", "awayTeam": "São Paulo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 36},
+  {"date": "29/11/2026", "homeTeam": "Botafogo", "awayTeam": "Bahia", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 37},
+  {"date": "02/12/2026", "homeTeam": "Santos", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 38}
 ];
 
 function parseDate(dateStr: string, timeStr?: string): string {
