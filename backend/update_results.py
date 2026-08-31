@@ -86,9 +86,9 @@ def get_urls_for_match(date_str: str, home: str, away: str, competition: str) ->
 FINISHED_STATUSES = ('ENCERRADA', 'FINALIZADO', 'FINISHED', 'FIM', 'REAL_TIME')
 
 
-def fetch_agenda_results() -> dict:
-    """Return finished Botafogo results embedded in GE's team agenda page."""
-    results = {}
+def fetch_agenda_matches() -> list:
+    """Return every Botafogo match embedded in GE's team agenda page."""
+    matches = []
     try:
         response = requests.get(GE_TEAM_AGENDA_URL, headers=HEADERS, timeout=20)
         response.raise_for_status()
@@ -109,36 +109,126 @@ def fetch_agenda_results() -> dict:
             start += len(marker)
             payload, _ = decoder.raw_decode(text[start:].lstrip())
 
-            matches = payload.get('matches', [])
+            payload_matches = payload.get('matches', [])
             team_agenda = payload.get('teamAgenda', {})
             if team_agenda:
-                matches += team_agenda.get('past', [])
-                matches += team_agenda.get('now', [])
+                payload_matches += team_agenda.get('past', [])
+                payload_matches += team_agenda.get('now', [])
+                payload_matches += team_agenda.get('future', [])
 
-            for item in matches:
+            for item in payload_matches:
                 match = item.get('match', item)
-                transmission = match.get('transmission') or {}
-                status_data = transmission.get('broadcastStatus') or {}
-                status = status_data.get('id', '')
-                scoreboard = match.get('scoreboard') or {}
-                home = (match.get('firstContestant') or {}).get('popularName', '')
-                away = (match.get('secondContestant') or {}).get('popularName', '')
-                date_iso = match.get('startDate', '')
-
-                if status not in FINISHED_STATUSES or not date_iso:
-                    continue
-                if scoreboard.get('home') is None or scoreboard.get('away') is None:
-                    continue
-
-                date_key = datetime.strptime(date_iso, '%Y-%m-%d').strftime('%d/%m/%Y')
-                results[(date_key, slugify(home), slugify(away))] = {
-                    'home': int(scoreboard['home']),
-                    'away': int(scoreboard['away']),
-                }
+                if match and match not in matches:
+                    matches.append(match)
     except Exception as e:
         print(f'[update_results] Could not read GE team agenda: {e}')
 
+    return matches
+
+
+def get_finished_results(agenda_matches: list) -> dict:
+    """Index finished results from parsed GE agenda matches."""
+    results = {}
+    for match in agenda_matches:
+        transmission = match.get('transmission') or {}
+        status_data = transmission.get('broadcastStatus') or {}
+        status = status_data.get('id', '')
+        scoreboard = match.get('scoreboard') or {}
+        home = (match.get('firstContestant') or {}).get('popularName', '')
+        away = (match.get('secondContestant') or {}).get('popularName', '')
+        date_iso = match.get('startDate', '')
+
+        if status not in FINISHED_STATUSES or not date_iso:
+            continue
+        if scoreboard.get('home') is None or scoreboard.get('away') is None:
+            continue
+
+        date_key = datetime.strptime(date_iso, '%Y-%m-%d').strftime('%d/%m/%Y')
+        results[(date_key, slugify(home), slugify(away))] = {
+            'home': int(scoreboard['home']),
+            'away': int(scoreboard['away']),
+        }
     return results
+
+
+def fetch_agenda_results() -> dict:
+    """Backward-compatible helper used by diagnostics and older callers."""
+    return get_finished_results(fetch_agenda_matches())
+
+
+def find_agenda_match(schedule_match: dict, agenda_matches: list) -> dict | None:
+    """Find the same fixture even when its official date has changed."""
+    home_slug = slugify(schedule_match.get('homeTeam', ''))
+    away_slug = slugify(schedule_match.get('awayTeam', ''))
+    candidates = []
+    for match in agenda_matches:
+        agenda_home = slugify(
+            (match.get('firstContestant') or {}).get('popularName', '')
+        )
+        agenda_away = slugify(
+            (match.get('secondContestant') or {}).get('popularName', '')
+        )
+        if agenda_home == home_slug and agenda_away == away_slug:
+            candidates.append(match)
+
+    if not candidates:
+        return None
+
+    schedule_date = schedule_match.get('date', '')
+    try:
+        expected = datetime.strptime(schedule_date, '%d/%m/%Y')
+        return min(
+            candidates,
+            key=lambda match: abs(
+                (datetime.strptime(match['startDate'], '%Y-%m-%d') - expected).days
+            ),
+        )
+    except (KeyError, TypeError, ValueError):
+        return candidates[0]
+
+
+def enrich_future_match(schedule_match: dict, agenda_match: dict) -> bool:
+    """Copy confirmed kickoff and venue details into a schedule.ts row."""
+    start_date = agenda_match.get('startDate', '')
+    start_hour = agenda_match.get('startHour', '')
+    if not start_date:
+        return False
+
+    try:
+        date_br = datetime.strptime(start_date, '%Y-%m-%d').strftime('%d/%m/%Y')
+    except ValueError:
+        return False
+
+    updates = {'date': date_br}
+    if start_hour:
+        time_br = start_hour[:5]
+        updates['time'] = time_br
+        updates['dateIso'] = f'{start_date}T{time_br}:00-03:00'
+        updates['dateTbd'] = None
+
+    location = (agenda_match.get('location') or {}).get('popularName')
+    if location:
+        updates['location'] = location
+
+    round_number = agenda_match.get('round')
+    if round_number is not None:
+        updates['round'] = round_number
+
+    transmission = agenda_match.get('transmission') or {}
+    source_url = transmission.get('url')
+    if source_url:
+        updates['sourceUrl'] = source_url
+
+    changed = False
+    for key, value in updates.items():
+        if value is None:
+            if key in schedule_match:
+                del schedule_match[key]
+                changed = True
+        elif schedule_match.get(key) != value:
+            schedule_match[key] = value
+            changed = True
+    return changed
 
 
 def fetch_result(url: str, home_team: str = '', away_team: str = '') -> dict | None:
@@ -226,7 +316,8 @@ def update_schedule_results() -> bool:
 
     now_brt = datetime.now(BRT)
     changed = False
-    agenda_results = fetch_agenda_results()
+    agenda_matches = fetch_agenda_matches()
+    agenda_results = get_finished_results(agenda_matches)
     print(f'[update_results] Loaded {len(agenda_results)} finished matches from GE agenda.')
 
     # Parse complete one-line schedule objects. Extra fields such as round,
@@ -240,7 +331,29 @@ def update_schedule_results() -> bool:
         except json.JSONDecodeError:
             continue
 
-        if 'result' in match_data or 'time' not in match_data:
+        if 'time' not in match_data:
+            continue
+
+        agenda_match = find_agenda_match(match_data, agenda_matches)
+        if 'result' not in match_data and agenda_match:
+            agenda_status = (
+                ((agenda_match.get('transmission') or {}).get('broadcastStatus') or {})
+                .get('id', '')
+            )
+            if agenda_status not in FINISHED_STATUSES:
+                if enrich_future_match(match_data, agenda_match):
+                    new_entry = json.dumps(match_data, ensure_ascii=False)
+                    content = content.replace(raw_entry, new_entry, 1)
+                    raw_entry = new_entry
+                    changed = True
+                    print(
+                        '[update_results] Updated fixture details: '
+                        f"{match_data.get('homeTeam')} x {match_data.get('awayTeam')} "
+                        f"({match_data.get('date')} {match_data.get('time')}, "
+                        f"{match_data.get('location', 'A definir')})"
+                    )
+
+        if 'result' in match_data:
             continue
 
         date_str = match_data.get('date', '')

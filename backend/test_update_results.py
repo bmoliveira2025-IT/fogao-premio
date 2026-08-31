@@ -60,6 +60,44 @@ class ScheduleResultsTests(unittest.TestCase):
         self.assertEqual(rows[0], {**finished, 'result': '2 - 3'})
         self.assertEqual(rows[1], upcoming)
 
+    def test_future_agenda_match_updates_date_time_and_location(self):
+        scheduled = {
+            'date': '05/09/2026', 'homeTeam': 'Botafogo',
+            'awayTeam': 'Palmeiras', 'competition': 'Campeonato Brasileiro',
+            'time': 'A definir', 'dateTbd': True,
+        }
+        source = json.dumps(scheduled) + ','
+        payload = {'matches': [{'match': {
+            'startDate': '2026-09-06',
+            'startHour': '18:30:00',
+            'firstContestant': {'popularName': 'Botafogo'},
+            'secondContestant': {'popularName': 'Palmeiras'},
+            'location': {'popularName': 'Nilton Santos (Engenhão)'},
+            'round': 26,
+            'scoreboard': {'home': None, 'away': None},
+            'transmission': {
+                'broadcastStatus': {'id': 'PRE_DIA'},
+                'url': 'https://ge.globo.com/jogo/botafogo-palmeiras.ghtml',
+            },
+        }}]}
+        response = Mock(text='window.byTeamScheduleTeamData = ' + json.dumps(payload))
+        file = mock_open(read_data=source)
+        with patch.object(update_results, 'datetime', FixedDateTime), \
+             patch.object(update_results.os.path, 'exists', return_value=True), \
+             patch('builtins.open', file), \
+             patch.object(update_results.requests, 'get', return_value=response), \
+             patch.object(update_results, 'fetch_result') as fallback:
+            self.assertTrue(update_results.update_schedule_results())
+
+        fallback.assert_not_called()
+        row = json.loads(file().write.call_args.args[0].rstrip(','))
+        self.assertEqual(row['date'], '06/09/2026')
+        self.assertEqual(row['time'], '18:30')
+        self.assertEqual(row['dateIso'], '2026-09-06T18:30:00-03:00')
+        self.assertEqual(row['location'], 'Nilton Santos (Engenhão)')
+        self.assertEqual(row['round'], 26)
+        self.assertNotIn('dateTbd', row)
+
 
 if __name__ == '__main__':
     unittest.main()
