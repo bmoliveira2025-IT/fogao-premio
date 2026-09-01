@@ -13,6 +13,7 @@ interface NewsItem {
     source?: string;
     summary?: string;
     created_at?: string;
+    imported_at?: string;
     is_premium?: boolean;
 }
 
@@ -81,7 +82,8 @@ export default function InfiniteNewsGrid({
         if (allNews.length > 0) {
             setIsFetching(true);
             setLoading(true);
-            const lastDate = allNews[allNews.length - 1].created_at;
+            const lastNews = allNews[allNews.length - 1];
+            const lastDate = lastNews.imported_at || lastNews.created_at;
 
             try {
                 const { fetchMoreNews } = await import('@/app/news/actions');

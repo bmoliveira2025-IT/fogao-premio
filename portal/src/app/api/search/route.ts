@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase-admin';
+import { getNewsDisplayDate } from '@/lib/news-utils';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -19,7 +20,7 @@ export async function GET(request: Request) {
                 image: data.image,
                 source: data.source,
                 summary: data.summary,
-                created_at: data.created_at?.toDate ? data.created_at.toDate().toISOString() : (data.created_at || new Date().toISOString()),
+                created_at: getNewsDisplayDate(data.published_at, data.created_at),
                 likes_count: data.likes_count || 0,
                 dislikes_count: data.dislikes_count || 0,
             };

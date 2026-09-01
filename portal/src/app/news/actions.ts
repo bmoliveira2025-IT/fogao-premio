@@ -2,6 +2,7 @@
 
 import { db } from '@/lib/firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore';
+import { getNewsDisplayDate, getNewsImportedDate } from '@/lib/news-utils';
 
 export async function fetchMoreNews(lastCreatedAt: string) {
     // Four-day window, matching the homepage and news archive policy.
@@ -32,7 +33,8 @@ export async function fetchMoreNews(lastCreatedAt: string) {
                 source: data.source,
                 is_premium: data.is_premium,
                 summary: data.summary,
-                created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+                created_at: getNewsDisplayDate(data.published_at, data.created_at),
+                imported_at: getNewsImportedDate(data.created_at),
             };
         }).filter(item => !item.is_premium);
 

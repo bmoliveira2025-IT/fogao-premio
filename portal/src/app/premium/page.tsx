@@ -1,4 +1,5 @@
 import { db } from '@/lib/firebase-admin';
+import { getNewsDisplayDate } from '@/lib/news-utils';
 import PremiumPageContent from '@/components/PremiumPageContent';
 
 export const revalidate = 60;
@@ -15,7 +16,7 @@ export default async function PremiumPage() {
         const premiumNews = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
-            created_at: doc.data().created_at?.toDate().toISOString() || new Date().toISOString()
+            created_at: getNewsDisplayDate(doc.data().published_at, doc.data().created_at)
         }));
 
         return <PremiumPageContent premiumNews={premiumNews} />;

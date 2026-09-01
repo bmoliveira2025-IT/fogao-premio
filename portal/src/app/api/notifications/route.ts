@@ -36,7 +36,10 @@ export async function GET() {
             const isUrgent = title.toLowerCase().includes('urgente') || title.toLowerCase().includes('plantão');
             
             if (category === 'mercado' || category === 'medico' || isUrgent) {
-                const createdAt = data.created_at?.toDate() || new Date();
+                const createdAt = data.published_at?.toDate?.()
+                    || (data.published_at ? new Date(data.published_at) : null)
+                    || data.created_at?.toDate?.()
+                    || new Date();
                 
                 notifications.push({
                     id: doc.id,

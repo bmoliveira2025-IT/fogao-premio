@@ -1,5 +1,6 @@
 import NewsContent from '@/components/NewsContent';
 import { db } from '@/lib/firebase-admin';
+import { getNewsDisplayDate } from '@/lib/news-utils';
 
 async function getNews() {
     try {
@@ -23,7 +24,7 @@ async function getNews() {
                 is_premium: data.is_premium,
                 summary: data.summary,
                 content: data.content,
-                created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+                created_at: getNewsDisplayDate(data.published_at, data.created_at),
             };
         }).filter(item => !item.is_premium);
     } catch (error) {

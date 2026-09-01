@@ -292,6 +292,59 @@ def is_relevant(title, content):
     text = (title + " " + content).lower()
     return any(k in text for k in keywords)
 
+def extract_publish_date(soup, newspaper_date=None):
+    """Return the original article publication date from common news metadata."""
+    candidates = [newspaper_date]
+
+    meta_selectors = [
+        ('property', 'article:published_time'),
+        ('property', 'og:published_time'),
+        ('name', 'date'),
+        ('name', 'pubdate'),
+        ('name', 'publish-date'),
+        ('itemprop', 'datePublished'),
+    ]
+    for attribute, value in meta_selectors:
+        tag = soup.find('meta', attrs={attribute: value})
+        if tag and tag.get('content'):
+            candidates.append(tag['content'])
+
+    time_tag = soup.find('time', attrs={'datetime': True})
+    if time_tag:
+        candidates.append(time_tag.get('datetime'))
+
+    for script in soup.find_all('script', attrs={'type': 'application/ld+json'}):
+        try:
+            payload = json.loads(script.string or script.get_text() or '{}')
+            stack = payload if isinstance(payload, list) else [payload]
+            while stack:
+                item = stack.pop()
+                if isinstance(item, dict):
+                    if item.get('datePublished'):
+                        candidates.append(item['datePublished'])
+                    stack.extend(item.values())
+                elif isinstance(item, list):
+                    stack.extend(item)
+        except (json.JSONDecodeError, TypeError):
+            continue
+
+    for value in candidates:
+        if isinstance(value, datetime):
+            parsed = value
+        elif isinstance(value, str) and value.strip():
+            try:
+                parsed = datetime.fromisoformat(value.strip().replace('Z', '+00:00'))
+            except ValueError:
+                continue
+        else:
+            continue
+
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+
+    return None
+
 def scrape_news(url):
 
     try:
@@ -307,6 +360,7 @@ def scrape_news(url):
         
         # Custom extraction for better image accuracy (prioritize og:image, then twitter:image)
         soup = BeautifulSoup(article.html, 'html.parser')
+        publish_date = extract_publish_date(soup, article.publish_date)
         og_image = soup.find('meta', attrs={'property': 'og:image'}) or soup.find('meta', attrs={'name': 'og:image'})
         twitter_image = soup.find('meta', attrs={'name': 'twitter:image'}) or soup.find('meta', attrs={'property': 'twitter:image'})
         
@@ -347,17 +401,18 @@ def scrape_news(url):
             return None
 
         # Date Check (Recency Filter)
-        if article.publish_date:
+        if publish_date:
             try:
                 # Ensure timezone awareness for comparison
-                pub_date = article.publish_date
-                if pub_date.tzinfo is None:
-                    pub_date = pub_date.replace(tzinfo=timezone.utc)
+                pub_date = publish_date
                 
                 now = datetime.now(timezone.utc)
                 # Accept articles from the full four-day archive shown in the app.
                 if (now - pub_date).total_seconds() > 345600: # 96 hours
                     print(f"Skipping old article ({pub_date}): {article.title}")
+                    return None
+                if (pub_date - now).total_seconds() > 3600:
+                    print(f"Skipping article with future publication date ({pub_date}): {article.title}")
                     return None
             except Exception as e:
                 print(f"Date comparison warning: {e}")
@@ -367,7 +422,7 @@ def scrape_news(url):
             "content": content,
             "image": image,
             "url": url,
-            "publish_date": article.publish_date.isoformat() if article.publish_date else None
+            "publish_date": publish_date.isoformat() if publish_date else None
         }
     except Exception as e:
         print(f"Error scraping {url}: {e}")
@@ -377,6 +432,14 @@ def scrape_news(url):
             response = requests.get(url, headers=headers, timeout=10)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.content, 'html.parser')
+                publish_date = extract_publish_date(soup)
+
+                if publish_date:
+                    now = datetime.now(timezone.utc)
+                    age_seconds = (now - publish_date).total_seconds()
+                    if age_seconds > 345600 or age_seconds < -3600:
+                        print(f"Skipping article outside publication window ({publish_date}): {url}")
+                        return None
                 
                 # Title fallback
                 title = soup.find('h1').text.strip() if soup.find('h1') else None
@@ -411,7 +474,7 @@ def scrape_news(url):
                         "content": clean_text(text),
                         "image": image,
                         "url": url,
-                        "publish_date": None
+                        "publish_date": publish_date.isoformat() if publish_date else None
                     }
         except Exception as ex:
              print(f"Fallback failed: {ex}")
@@ -559,6 +622,9 @@ def monitor_sources():
                     "image": raw_data['image'],
                     "original_url": raw_data['url'],
                     "source": source_name,
+                    # Original publication time. Keep created_at as the ingestion
+                    # time so operational queries and pagination remain stable.
+                    "published_at": raw_data.get('publish_date'),
                     "created_at": firestore.SERVER_TIMESTAMP
                 }
                 

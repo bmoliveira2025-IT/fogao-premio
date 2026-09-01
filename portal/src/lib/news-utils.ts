@@ -2,7 +2,9 @@
 
 export function timeAgo(dateStr: string | undefined): string {
     if (!dateStr) return '';
-    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    const timestamp = new Date(dateStr).getTime();
+    if (!Number.isFinite(timestamp)) return '';
+    const diff = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
     if (diff < 60) return 'agora';
     if (diff < 3600) return `${Math.floor(diff / 60)}min`;
     if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
@@ -12,11 +14,34 @@ export function timeAgo(dateStr: string | undefined): string {
 // Verbose form for hero and article views
 export function timeAgoVerbose(dateStr: string | undefined): string {
     if (!dateStr) return '';
-    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    const timestamp = new Date(dateStr).getTime();
+    if (!Number.isFinite(timestamp)) return '';
+    const diff = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
     if (diff < 60) return 'agora mesmo';
     if (diff < 3600) return `há ${Math.floor(diff / 60)} min`;
     if (diff < 86400) return `há ${Math.floor(diff / 3600)}h`;
     return `há ${Math.floor(diff / 86400)}d`;
+}
+
+type FirestoreDateLike = string | Date | { toDate?: () => Date } | null | undefined;
+
+function toISOString(value: FirestoreDateLike): string | null {
+    if (!value) return null;
+    const candidate = typeof value === 'object' && 'toDate' in value && value.toDate
+        ? value.toDate()
+        : value;
+    const date = candidate instanceof Date ? candidate : new Date(candidate as string);
+    return Number.isFinite(date.getTime()) ? date.toISOString() : null;
+}
+
+/** Publication time for display, with compatibility for legacy news records. */
+export function getNewsDisplayDate(publishedAt: FirestoreDateLike, createdAt: FirestoreDateLike): string {
+    return toISOString(publishedAt) || toISOString(createdAt) || new Date().toISOString();
+}
+
+/** Ingestion time used only by Firestore cursors. */
+export function getNewsImportedDate(createdAt: FirestoreDateLike): string {
+    return toISOString(createdAt) || new Date().toISOString();
 }
 
 export type NewsCategory = 'mercado' | 'analise' | 'medico' | 'resultado' | 'treino' | 'bastidores';

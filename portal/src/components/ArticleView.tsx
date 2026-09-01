@@ -101,7 +101,9 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
 
     const timeAgoStr = (dateStr: string) => {
         if (!dateStr) return '';
-        const diff = Math.floor((new Date().getTime() - new Date(dateStr).getTime()) / 1000);
+        const timestamp = new Date(dateStr).getTime();
+        if (!Number.isFinite(timestamp)) return '';
+        const diff = Math.max(0, Math.floor((Date.now() - timestamp) / 1000));
         if (diff < 3600) return `${Math.floor(diff / 60)} min atrás`;
         if (diff < 86400) return `${Math.floor(diff / 3600)} horas atrás`;
         return `${Math.floor(diff / 86400)} dias atrás`;

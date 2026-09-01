@@ -1,4 +1,5 @@
 import { db } from '@/lib/firebase-admin';
+import { getNewsDisplayDate } from '@/lib/news-utils';
 import ArticleView from '@/components/ArticleView';
 
 export const revalidate = 60;
@@ -240,7 +241,7 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
             ...articleData,
             title: articleData?.title?.replace(/\*\*/g, ''), // Clean title
             // Serialize Date objects to strings for Client Component
-            created_at: articleData?.created_at?.toDate ? articleData.created_at.toDate().toISOString() : new Date().toISOString()
+            created_at: getNewsDisplayDate(articleData?.published_at, articleData?.created_at)
         };
     }
 
@@ -273,7 +274,7 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
             return {
                 id: doc.id,
                 ...data,
-                created_at: data.created_at?.toDate ? data.created_at.toDate().toISOString() : new Date().toISOString()
+                created_at: getNewsDisplayDate(data.published_at, data.created_at)
             };
         })
         .filter(item => item.id !== id);

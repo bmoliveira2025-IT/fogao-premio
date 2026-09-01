@@ -2,6 +2,7 @@ import { db } from '@/lib/firebase-admin';
 import VideoGrid from '@/components/VideoGrid';
 import LightVideoFeed from '@/components/LightVideoFeed';
 import { MonitorPlay } from 'lucide-react';
+import { getNewsDisplayDate } from '@/lib/news-utils';
 
 export const revalidate = 60;
 
@@ -52,9 +53,7 @@ async function getRecommendedNews() {
             title: data.title || '',
             image: data.image || data.image_url || '',
             source: data.source || 'Fogão 360',
-            created_at: data.created_at?.toDate
-                ? data.created_at.toDate().toISOString()
-                : String(data.created_at || new Date().toISOString()),
+            created_at: getNewsDisplayDate(data.published_at, data.created_at),
             likes_count: data.likes_count || 0,
             dislikes_count: data.dislikes_count || 0,
         } as NewsItem;

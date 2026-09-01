@@ -19,6 +19,7 @@ import LightNewsFilter from '@/components/LightNewsFilter';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { getNewsDisplayDate } from '@/lib/news-utils';
 
 export const revalidate = 60; // Enable ISR (60s) for better TTFB
 
@@ -99,7 +100,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
         summary: data.summary,
         likes_count: data.likes_count || 0,
         dislikes_count: data.dislikes_count || 0,
-        created_at: data.created_at?.toDate().toISOString() || new Date().toISOString(),
+        created_at: getNewsDisplayDate(data.published_at, data.created_at),
       } as NewsItem;
     }).filter(item => !item.is_premium);
 
