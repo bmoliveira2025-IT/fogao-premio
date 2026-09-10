@@ -12,6 +12,57 @@ export default function AutoRefresh() {
     const baselineRef = useRef<string | null>(null);
 
     useEffect(() => {
+        const storageKey = 'fogao-deploy-version';
+        let checking = false;
+
+        const checkDeployVersion = async () => {
+            if (checking || document.visibilityState === 'hidden') return;
+            checking = true;
+
+            try {
+                const response = await fetch(`/api/version?t=${Date.now()}`, {
+                    cache: 'no-store',
+                    headers: { 'Cache-Control': 'no-cache' },
+                });
+                if (!response.ok) return;
+
+                const { version } = await response.json() as { version?: string };
+                if (!version || version === 'development') return;
+
+                const currentVersion = sessionStorage.getItem(storageKey);
+                if (!currentVersion) {
+                    sessionStorage.setItem(storageKey, version);
+                    return;
+                }
+
+                if (currentVersion !== version) {
+                    sessionStorage.setItem(storageKey, version);
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.warn('Unable to check the deployed app version:', error);
+            } finally {
+                checking = false;
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') void checkDeployVersion();
+        };
+
+        void checkDeployVersion();
+        const interval = window.setInterval(checkDeployVersion, 5 * 60 * 1000);
+        window.addEventListener('focus', checkDeployVersion);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            window.clearInterval(interval);
+            window.removeEventListener('focus', checkDeployVersion);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, []);
+
+    useEffect(() => {
         // Listen for the absolute latest news item
         const q = query(collection(db, 'news'), orderBy('created_at', 'desc'), limit(1));
         let hideIndicatorTimeout: ReturnType<typeof setTimeout> | undefined;
