@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { CalendarDays, Home, Play, Trophy, UserRound } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AppIcon } from '@/components/ui/AppIcon';
 
 export default function MobileBottomNav() {
     const pathname = usePathname();
@@ -35,17 +36,19 @@ export default function MobileBottomNav() {
                             aria-current={isActive ? 'page' : undefined}
                             className="mobile-bottom-nav-link group relative flex min-h-[68px] w-full flex-col items-center justify-center gap-1"
                         >
-                            <Icon
-                                size={22}
-                                strokeWidth={2}
+                            <AppIcon
+                                icon={Icon}
+                                size="nav"
+                                active={isActive}
                                 className={cn(
                                     "transition-colors duration-200",
                                     isActive ? "text-premium-gold" : "text-zinc-500 group-hover:text-zinc-800"
                                 )}
                             />
-                            <span className="text-xs font-semibold leading-none text-zinc-500">
+                            <span className={cn("text-xs font-semibold leading-none transition-colors duration-200", isActive ? "text-premium-gold" : "text-zinc-500")}>
                                 {item.label}
                             </span>
+                            {isActive && <span aria-hidden="true" className="absolute bottom-1 h-0.5 w-5 rounded-full bg-premium-gold" />}
                         </Link>
                     );
                 })}

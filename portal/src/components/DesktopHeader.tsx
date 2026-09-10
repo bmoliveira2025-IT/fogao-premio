@@ -3,10 +3,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Search } from 'lucide-react';
+import { Search, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 import ThemeToggle from './ThemeToggle';
+import { AppIcon } from '@/components/ui/AppIcon';
 
 export default function DesktopHeader() {
     const pathname = usePathname();
@@ -62,7 +63,7 @@ export default function DesktopHeader() {
                     <ThemeToggle compact />
                     {/* Search Bar */}
                     <div className="relative flex items-center h-10 px-3 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-full group focus-within:border-premium-gold/30 transition-all">
-                        <Search size={18} className="text-zinc-500 group-focus-within:text-premium-gold transition-colors" />
+                        <AppIcon icon={Search} size="sm" className="text-zinc-500 group-focus-within:text-premium-gold" />
                         <form onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                             e.preventDefault();
                             const q = new FormData(e.currentTarget).get('search')?.toString().trim();
@@ -88,7 +89,7 @@ export default function DesktopHeader() {
                                 : "bg-[#22c55e] text-white hover:bg-[#16a34a]"
                         )}
                     >
-                        {isPremium && <span aria-hidden="true">★</span>}
+                        {isPremium && <AppIcon icon={Star} size="xs" className="fill-current" />}
                         {user ? (isPremium ? "Perfil VIP" : "Perfil") : "Entrar"}
                     </Link>
                 </div>

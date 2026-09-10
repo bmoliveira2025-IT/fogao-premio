@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { X, Download, Share } from 'lucide-react';
+import { AppIcon } from '@/components/ui/AppIcon';
+import { IconButton } from '@/components/ui/IconButton';
 
 export default function InstallPrompt() {
     const [showPrompt, setShowPrompt] = useState(false);
@@ -76,19 +78,21 @@ export default function InstallPrompt() {
                         </div>
                     </div>
 
-                    <button
+                    <IconButton
                         onClick={() => setShowPrompt(false)}
-                        className="text-zinc-400 hover:text-zinc-600 transition-colors"
+                        label="Fechar aviso de instalação"
+                        compact
+                        className="-mr-2 -mt-2"
                     >
-                        <X size={20} />
-                    </button>
+                        <AppIcon icon={X} size="md" />
+                    </IconButton>
                 </div>
 
                 <div className="mt-4">
                     {isIOS ? (
                         <div className="bg-zinc-50 rounded-lg p-3 text-xs text-zinc-600 space-y-2 border border-zinc-200">
                             <p className="flex items-center gap-2">
-                                1. Toque no botão <Share size={14} className="text-blue-500" /> <strong>Compartilhar</strong> abaixo.
+                                1. Toque no botão <AppIcon icon={Share} size="xs" className="text-blue-500" /> <strong>Compartilhar</strong> abaixo.
                             </p>
                             <p className="flex items-center gap-2">
                                 2. Selecione <span className="font-bold text-zinc-900">Adicionar à Tela de Início</span>.
@@ -99,7 +103,7 @@ export default function InstallPrompt() {
                             onClick={handleInstallClick}
                             className="w-full bg-zinc-900 text-white font-bold text-sm py-2.5 rounded-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2"
                         >
-                            <Download size={16} />
+                            <AppIcon icon={Download} size="xs" />
                             Instalar Aplicativo
                         </button>
                     )}

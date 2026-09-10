@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { Bell, BellOff } from 'lucide-react';
+import { Bell } from 'lucide-react';
+import { AppIcon } from '@/components/ui/AppIcon';
 
 // Firebase Client Config (Public)
 // We need to re-initialize explicitly here because we need the messaging instance on the client
@@ -97,8 +98,9 @@ export default function NotificationManager() {
             onClick={requestPermission}
             className="notification-trigger fixed bottom-20 right-4 z-40 bg-zinc-900 border border-premium-gold/30 text-premium-gold p-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-zinc-800 transition-colors"
             title="Ativar Notificações"
+            aria-label="Ativar notificações"
         >
-            <Bell className="w-5 h-5" />
+            <AppIcon icon={Bell} size="md" />
             <span className="text-xs font-bold uppercase hidden md:inline">Alertas</span>
         </button>
     );

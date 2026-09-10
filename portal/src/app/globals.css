@@ -39,6 +39,19 @@ html {
   --glass-blur: 32px;
   --glass-opacity: 0.1;
   --crystal-glow: rgba(0, 0, 0, 0.04);
+  /* Icon system: Lucide outline, with color rather than stroke weight for state. */
+  --icon-xs: 16px;
+  --icon-sm: 18px;
+  --icon-md: 20px;
+  --icon-nav: 22px;
+  --icon-lg: 24px;
+  --icon-xl: 28px;
+  --icon-primary: #27272A;
+  --icon-secondary: #71717A;
+  --icon-muted: #A1A1AA;
+  --icon-active: rgb(var(--premium-gold));
+  --icon-disabled: #D4D4D8;
+  --icon-transition: 160ms ease;
 }
 
 /* Tema Glorioso (Light Mode - Gold Accent) */
@@ -50,7 +63,43 @@ html {
   --graphite: #3F3F46;
   --border-color: #3F3F46;
   --muted-foreground: #A1A1AA;
+  --icon-primary: #E4E4E7;
+  --icon-secondary: #A1A1AA;
+  --icon-muted: #71717A;
+  --icon-disabled: #52525B;
 }
+
+.app-icon {
+  display: block;
+  flex: 0 0 auto;
+  color: currentColor;
+  transition: color var(--icon-transition), opacity var(--icon-transition), transform var(--icon-transition);
+}
+
+/* Normalize legacy Lucide usages too, so every screen shares one visual weight. */
+.lucide {
+  stroke-width: 1.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.app-icon--active { color: var(--icon-active); }
+
+.icon-button {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--icon-secondary);
+  transition: color var(--icon-transition), background-color var(--icon-transition), transform var(--icon-transition);
+}
+
+.icon-button:hover { color: var(--icon-primary); background: rgb(113 113 122 / 0.1); }
+.icon-button:active { transform: scale(0.96); background: rgb(113 113 122 / 0.16); }
+.icon-button:disabled { color: var(--icon-disabled); cursor: not-allowed; }
+.icon-button--compact { width: 36px; height: 36px; flex-basis: 36px; }
 
 .dark .mobile-app-edge {
   background: var(--background);

@@ -1,16 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Newspaper, Calendar, Star, ShoppingBag, Settings, LogOut, Shield, Users, Trophy } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { Home, Newspaper, CalendarDays, Star, LogOut, Users, Trophy } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import GloriosoLogo from '@/components/GloriosoLogo';
 import { useAuth } from '@/context/AuthContext';
+import { AppIcon } from '@/components/ui/AppIcon';
 
 const menuItems = [
     { icon: Home, label: 'Início', href: '/' },
     { icon: Newspaper, label: 'Notícias', href: '/news' },
-    { icon: Calendar, label: 'Jogos', href: '/matches' },
+    { icon: CalendarDays, label: 'Jogos', href: '/matches' },
     { icon: Trophy, label: 'Tabela', href: '/tabela' },
     { icon: Users, label: 'Elenco', href: '/elenco' },
     { icon: Star, label: 'Premium', href: '/premium', isPremium: true },
@@ -18,7 +19,6 @@ const menuItems = [
 
 export default function DesktopSidebar() {
     const { user, isPremium, points, logout } = useAuth();
-    const router = useRouter();
     const pathname = usePathname();
 
     return (
@@ -52,8 +52,10 @@ export default function DesktopSidebar() {
                                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-premium-gold rounded-r-full shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
                             )}
 
-                            <Icon
-                                size={20}
+                            <AppIcon
+                                icon={Icon}
+                                size="md"
+                                active={isActive}
                                 className={cn(
                                     "transition-colors",
                                     isActive ? "text-premium-gold" : "text-zinc-500 group-hover:text-white",
@@ -124,13 +126,13 @@ export default function DesktopSidebar() {
                                 className="p-2 -mr-1 rounded-full text-zinc-500 hover:text-red-500 hover:bg-red-500/10 transition-colors"
                                 title="Sair"
                             >
-                                <LogOut size={16} />
+                                <AppIcon icon={LogOut} size="xs" />
                             </button>
                         </div>
                     </div>
                 ) : (
                     <Link href="/login" className="flex items-center justify-center w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all text-[13px] font-bold text-white uppercase tracking-widest gap-2 group">
-                        <LogOut size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                        <AppIcon icon={LogOut} size="xs" className="group-hover:translate-x-0.5 transition-transform" />
                         <span>Entrar</span>
                     </Link>
                 )}

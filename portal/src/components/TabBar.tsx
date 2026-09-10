@@ -1,84 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, FileText, Calendar, Play, Star, Crown, Zap } from "lucide-react";
+import { CalendarDays, Home, Play, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 import { motion } from "framer-motion";
-
-// 1. Home - Lucide Home
-const IconHome = ({ active, className }: { active: boolean, className?: string }) => (
-    <Home
-        className={className}
-        strokeWidth={active ? 2.5 : 1.5}
-        absoluteStrokeWidth // Ensures consistent stroke width across sizes
-    />
-);
-
-// 2. News - Lucide FileText
-const IconNews = ({ active, className }: { active: boolean, className?: string }) => (
-    <FileText
-        className={className}
-        strokeWidth={active ? 2.5 : 1.5}
-        absoluteStrokeWidth
-    />
-);
-
-// 3. Games - Lucide Calendar
-const IconGames = ({ active, className }: { active: boolean, className?: string }) => (
-    <Calendar
-        className={className}
-        strokeWidth={active ? 2.5 : 1.5}
-        absoluteStrokeWidth
-    />
-);
-
-// 4. Profile (User) - Keep existing Custom SVG but with Photo support
-const IconProfile = ({ active, className }: { active: boolean, className?: string }) => (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-        <path
-            className="transition-all"
-            d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
-            stroke="currentColor"
-            strokeWidth={active ? 2.5 : 1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-        />
-        <circle
-            cx="12" cy="7" r="4"
-            stroke="currentColor"
-            strokeWidth={active ? 2.5 : 1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-        />
-    </svg>
-);
-
-
+import { AppIcon } from '@/components/ui/AppIcon';
 
 const navTabs = [
-    { icon: IconHome, label: "INÍCIO", href: "/" },
-    { icon: ({ active, className }: any) => <Play className={className} strokeWidth={active ? 2.5 : 1.5} />, label: "VÍDEOS", href: "/videos" },
-    { icon: IconGames, label: "JOGOS", href: "/matches" },
-    { icon: IconProfile, label: "PERFIL", href: "/profile" },
+    { icon: Home, label: "INÍCIO", href: "/" },
+    { icon: Play, label: "VÍDEOS", href: "/videos" },
+    { icon: CalendarDays, label: "JOGOS", href: "/matches" },
+    { icon: UserRound, label: "PERFIL", href: "/profile" },
 ];
 
 export default function TabBar() {
     const pathname = usePathname();
-    const { user, isPremium, points } = useAuth();
-    const searchParams = useSearchParams();
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background h-16 md:hidden border-t border-foreground/[0.08]" />;
-    }
+    const { points } = useAuth();
 
     const tabs = [...navTabs];
 
@@ -102,6 +40,7 @@ export default function TabBar() {
                             >
                                 <Link
                                     href={tab.href}
+                                    aria-current={isActive ? 'page' : undefined}
                                     className="relative flex flex-col items-center justify-center w-20 h-full group outline-none"
                                 >
                                     {/* Active Indicator - Enhanced Glow */}
@@ -130,11 +69,12 @@ export default function TabBar() {
                                         )}
                                         whileTap={{ scale: 0.9 }}
                                     >
-                                        <Icon
+                                        <AppIcon
+                                            icon={Icon}
+                                            size="nav"
                                             active={isActive}
                                             className={cn(
-                                                "w-[28px] h-[28px]",
-                                                isActive && "drop-shadow-[0_0_12px_rgba(255,215,0,0.6)] animate-float"
+                                                isActive ? "text-premium-gold" : "text-zinc-400 group-hover:text-white"
                                             )}
                                         />
 
