@@ -20,9 +20,9 @@ export default function MobileBottomNav() {
     return (
         <nav
             aria-label="Navegação principal"
-            className="editorial-bottom-nav lg:hidden fixed bottom-2 left-3 right-3 z-50 overflow-hidden rounded-[24px] border border-zinc-200/80 bg-white/95 shadow-[0_12px_36px_rgba(0,0,0,0.14)] backdrop-blur-sm"
+            className="editorial-bottom-nav fixed inset-x-0 bottom-0 z-50 overflow-hidden border-t border-zinc-200/80 bg-white/95 shadow-[0_-8px_28px_rgba(0,0,0,0.09)] backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-950/95 lg:hidden"
         >
-            <div className="grid min-h-[68px] grid-cols-5 pb-[env(safe-area-inset-bottom)]">
+            <div className="grid min-h-[68px] w-full grid-cols-5 pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
                 {navItems.map((item) => {
                     const isActive = item.href === '/'
                         ? pathname === '/'

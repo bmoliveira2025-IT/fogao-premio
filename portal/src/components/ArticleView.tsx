@@ -274,14 +274,14 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
             </div>
             
             {/* MOBILE FIXED ACTIONS */}
-            <div className="lg:hidden fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-0 right-0 bg-white/90 backdrop-blur-md border-t border-zinc-100 p-3 flex justify-around items-center z-40">
-                <button onClick={handleSave} className={`p-2 rounded-xl flex items-center gap-2 ${isSaved ? 'text-zinc-900 font-bold' : 'text-zinc-600'}`}>
+            <div className="fixed bottom-[calc(68px+env(safe-area-inset-bottom))] left-0 right-0 z-40 flex min-h-14 items-center justify-around border-t border-zinc-100 bg-white/90 px-3 py-1.5 backdrop-blur-md lg:hidden">
+                <button onClick={handleSave} aria-label={isSaved ? 'Remover notícia dos salvos' : 'Salvar notícia'} className={`flex h-11 w-11 items-center justify-center rounded-xl ${isSaved ? 'text-zinc-900 font-bold' : 'text-zinc-600'}`}>
                     <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
                 </button>
-                <button onClick={() => setShowVoice(!showVoice)} className={`p-2 rounded-xl flex items-center gap-2 ${showVoice ? 'text-blue-600 font-bold bg-blue-50' : 'text-zinc-600'}`}>
+                <button onClick={() => setShowVoice(!showVoice)} aria-label={showVoice ? 'Fechar leitor de áudio' : 'Ouvir notícia'} className={`flex h-11 w-11 items-center justify-center rounded-xl ${showVoice ? 'text-blue-600 font-bold bg-blue-50' : 'text-zinc-600'}`}>
                     <Headphones size={20} />
                 </button>
-                <button onClick={handleShare} className="p-2 rounded-xl text-zinc-600">
+                <button onClick={handleShare} aria-label="Compartilhar notícia" className="flex h-11 w-11 items-center justify-center rounded-xl text-zinc-600">
                     <Share2 size={20} />
                 </button>
             </div>

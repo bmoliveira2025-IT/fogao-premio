@@ -12,7 +12,7 @@ export function SplashBrand({ onLogoReady }: SplashBrandProps = {}) {
     return (
         <div className={styles.brand}>
             <Image
-                src="/loading-mascot.png"
+                src="/loading-botafogo-shirt.png"
                 alt=""
                 fill
                 sizes="100vw"
@@ -23,18 +23,13 @@ export function SplashBrand({ onLogoReady }: SplashBrandProps = {}) {
                 onError={onLogoReady}
             />
             <div className={styles.vignette} aria-hidden="true" />
-            <div className={styles.goldAura} aria-hidden="true" />
-            <div className={styles.lightSweep} aria-hidden="true" />
-            <div className={styles.particles} aria-hidden="true">
-                <i /><i /><i /><i /><i /><i />
-            </div>
+            <div className={styles.lightBeam} aria-hidden="true" />
+            <div className={styles.focusRing} aria-hidden="true" />
 
             <div className={styles.content}>
-                <div className={styles.wordmark} aria-hidden="true">
+                <div className={styles.brandLine} aria-hidden="true">
                     <span>FOGÃO</span><strong>360</strong>
                 </div>
-                <p className={styles.tagline}>O BOTAFOGO EM TODOS OS ÂNGULOS</p>
-
                 <div className={styles.progress} aria-hidden="true">
                     <span />
                 </div>

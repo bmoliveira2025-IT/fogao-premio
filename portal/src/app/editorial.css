@@ -115,15 +115,15 @@
   .ui-alert-light.ui-alert-error { color: #991b1b; background: #fef2f2; border-color: #dc2626; }
   .ui-alert-light p { color: inherit; font-size: inherit; }
   .editorial-bottom-nav {
-    left: max(0.75rem, env(safe-area-inset-left));
-    right: max(0.75rem, env(safe-area-inset-right));
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
   }
-  .editorial-bottom-nav [aria-current="page"] { color: #18181b; }
-  .editorial-bottom-nav [aria-current="page"] span { color: #18181b; font-weight: 700; }
-  .editorial-bottom-nav [aria-current="page"]::before {
-    content: ''; position: absolute; top: 0; width: 1.5rem; height: 3px;
-    background: rgb(var(--premium-gold)); border-radius: 999px;
-  }
+  .editorial-bottom-nav [aria-current="page"] { color: rgb(var(--premium-gold)); }
+  .editorial-bottom-nav [aria-current="page"] span { color: rgb(var(--premium-gold)); font-weight: 700; }
 /* Existing utility overrides: deliberately after Tailwind via unlayered rules.
    Disable only decorative effects, preserving carousels and loading indicators. */
 html .editorial-card:hover { transform: none; }
@@ -207,7 +207,7 @@ html.dark .theme-toggle-hint-arrow {
     background-color: var(--background);
   }
   body > main, body main.min-h-screen {
-    padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(68px + env(safe-area-inset-bottom));
   }
   .mobile-app-edge {
     padding-top: env(safe-area-inset-top);

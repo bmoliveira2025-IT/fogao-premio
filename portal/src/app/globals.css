@@ -68,7 +68,6 @@ html {
   --icon-muted: #71717A;
   --icon-disabled: #52525B;
 }
-
 .app-icon {
   display: block;
   flex: 0 0 auto;
@@ -191,26 +190,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-}
-
-/* Subtle edge frame shared by every screen, including slow-loading states. */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 2147483000;
-  pointer-events: none;
-  border: 1px solid rgba(105, 105, 105, 0.14);
-  box-shadow: inset 0 0 16px rgba(90, 90, 90, 0.055);
-}
-
-@supports (padding: max(0px)) {
-  body::after {
-    top: env(safe-area-inset-top, 0);
-    right: env(safe-area-inset-right, 0);
-    bottom: env(safe-area-inset-bottom, 0);
-    left: env(safe-area-inset-left, 0);
-  }
 }
 
 /* Save CPU/GPU and battery when the browser reports Data Saver or a very slow link. */
@@ -998,19 +977,3 @@ button, a, input, select, textarea {
   pointer-events: none;
 }
 
-@media (max-width: 1023px) {
-  body::after {
-    position: fixed;
-    inset: 0;
-    z-index: 99998;
-    border-right: 1px solid rgba(212, 175, 55, 0.48);
-    border-left: 1px solid rgba(212, 175, 55, 0.48);
-    box-shadow:
-      inset 5px 0 12px -8px rgba(231, 180, 22, 0.58),
-      inset -5px 0 12px -8px rgba(231, 180, 22, 0.58),
-      inset 14px 0 24px -22px rgba(24, 24, 27, 0.28),
-      inset -14px 0 24px -22px rgba(24, 24, 27, 0.28);
-    content: "";
-    pointer-events: none;
-  }
-}

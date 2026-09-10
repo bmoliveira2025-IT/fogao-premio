@@ -23,7 +23,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#F8F9FA',
+  themeColor: '#18181B',
+  colorScheme: 'dark light',
 };
 
 export const metadata: Metadata = {
@@ -59,7 +60,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
     title: 'Fogão 360',
   },
 };
@@ -82,7 +83,7 @@ export default function RootLayout({
                 <DesktopHeader />
               </Suspense>
 
-              <main className="min-h-screen bg-background text-foreground flex flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] pt-0 lg:pb-0 lg:pt-16">
+              <main className="min-h-screen bg-background text-foreground flex flex-col pb-[calc(68px+env(safe-area-inset-bottom))] pt-0 lg:pb-0 lg:pt-16">
                 <div className="flex-1">
                   {children}
                 </div>

@@ -6,7 +6,7 @@
     min-height: 100dvh;
     place-items: center;
     overflow: hidden;
-    background: #050708;
+    background: #030303;
     opacity: 1;
     transition: opacity .32s ease;
 }
@@ -28,10 +28,10 @@
 .heroImage {
     position: absolute;
     object-fit: cover;
-    object-position: 50% 43%;
-    filter: contrast(1.08) saturate(.85) brightness(.8);
-    transform: scale(1.04);
-    animation: cinematicZoom 4.5s ease-out both;
+    object-position: 50% 48%;
+    filter: contrast(1.08) brightness(.78);
+    transform: scale(1.055);
+    animation: cinematicReveal 2.4s cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .vignette {
@@ -39,146 +39,106 @@
     inset: 0;
     z-index: 1;
     background:
-        linear-gradient(180deg, rgba(0,0,0,.2) 0%, transparent 34%, rgba(0,0,0,.3) 62%, #050708 100%),
-        radial-gradient(circle at 50% 38%, transparent 20%, rgba(0,0,0,.64) 100%);
+        linear-gradient(180deg, rgba(0,0,0,.22) 0%, transparent 26%, transparent 62%, rgba(0,0,0,.84) 100%),
+        radial-gradient(ellipse at 50% 42%, transparent 25%, rgba(0,0,0,.5) 100%);
 }
 
-.goldAura {
+.lightBeam {
     position: absolute;
     z-index: 2;
-    left: 50%;
-    bottom: 9%;
-    width: min(72vw, 560px);
-    height: 34vh;
-    border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(231,180,22,.2), transparent 68%);
-    filter: blur(24px);
-    transform: translateX(-50%);
-    animation: auraPulse 1.8s ease-in-out infinite;
-}
-
-.lightSweep {
-    position: absolute;
-    z-index: 3;
-    top: -35%;
-    left: -55%;
-    width: 32%;
-    height: 175%;
-    background: linear-gradient(90deg, transparent, rgba(255,230,153,.2), transparent);
-    filter: blur(12px);
-    transform: rotate(18deg);
-    animation: sweep 2.4s ease-in-out infinite;
-}
-
-.particles {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
+    inset: -30% -70%;
     pointer-events: none;
+    background: linear-gradient(104deg, transparent 42%, rgba(255,255,255,.14) 49%, rgba(255,255,255,.035) 54%, transparent 61%);
+    transform: translateX(-34%);
+    mix-blend-mode: screen;
+    animation: lightPass 2.1s cubic-bezier(.45, 0, .2, 1) .2s both;
 }
 
-.particles i {
+.focusRing {
     position: absolute;
-    bottom: 18%;
-    width: 4px;
-    height: 4px;
+    z-index: 2;
+    top: 25%;
+    left: 50%;
+    width: min(74vw, 430px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(255,255,255,.12);
     border-radius: 50%;
-    background: #f6cc4c;
-    box-shadow: 0 0 12px #e7b416;
     opacity: 0;
-    animation: particleRise 2.8s ease-in infinite;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(.72);
+    animation: focusPulse 1.4s cubic-bezier(.22, 1, .36, 1) .25s both;
 }
-
-.particles i:nth-child(1) { left: 14%; animation-delay: .1s; }
-.particles i:nth-child(2) { left: 29%; animation-delay: 1.2s; transform: scale(.6); }
-.particles i:nth-child(3) { left: 43%; animation-delay: .6s; }
-.particles i:nth-child(4) { left: 58%; animation-delay: 1.8s; transform: scale(.7); }
-.particles i:nth-child(5) { left: 73%; animation-delay: .35s; }
-.particles i:nth-child(6) { left: 88%; animation-delay: 1.45s; transform: scale(.55); }
 
 .content {
     position: absolute;
-    z-index: 4;
+    z-index: 2;
     right: 0;
-    bottom: max(48px, env(safe-area-inset-bottom));
+    bottom: max(42px, env(safe-area-inset-bottom));
     left: 0;
     display: flex;
     align-items: center;
     flex-direction: column;
     padding: 0 24px;
-    text-shadow: 0 2px 18px rgba(0,0,0,.8);
+    text-shadow: 0 2px 14px rgba(0,0,0,.75);
 }
 
-.wordmark {
+.brandLine {
     display: flex;
     align-items: baseline;
     gap: 5px;
-    color: #fff;
-    font-size: 28px;
+    margin-bottom: 18px;
+    color: rgba(255,255,255,.95);
+    font-size: 20px;
     font-weight: 900;
-    letter-spacing: -.055em;
+    letter-spacing: -.045em;
     line-height: 1;
 }
 
-.wordmark strong {
-    color: #e7b416;
+.brandLine strong {
+    color: rgba(255,255,255,.55);
     font: inherit;
 }
 
-.tagline {
-    margin: 9px 0 0;
-    color: rgba(255,255,255,.72);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .22em;
-}
-
 .progress {
-    width: min(240px, 62vw);
-    height: 3px;
-    margin-top: 26px;
+    width: min(210px, 56vw);
+    height: 2px;
     overflow: hidden;
     border-radius: 999px;
-    background: rgba(255,255,255,.16);
+    background: rgba(255,255,255,.18);
 }
 
 .progress span {
     display: block;
-    width: 45%;
+    width: 38%;
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, transparent, #e7b416, #ffe078, transparent);
-    animation: progressMove 1.05s ease-in-out infinite;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+    animation: progressMove 1.15s ease-in-out infinite;
 }
 
 .loadingLabel {
     margin: 9px 0 0;
-    color: rgba(255,255,255,.5);
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .28em;
+    color: rgba(255,255,255,.48);
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: .34em;
 }
 
-@keyframes cinematicZoom {
-    from { transform: scale(1.04); }
-    to { transform: scale(1.12); }
+@keyframes cinematicReveal {
+    from { opacity: .35; filter: contrast(1.25) brightness(.42) blur(5px); transform: scale(1.12); }
+    to { opacity: 1; filter: contrast(1.08) brightness(.78) blur(0); transform: scale(1.055); }
 }
 
-@keyframes auraPulse {
-    0%, 100% { opacity: .55; transform: translateX(-50%) scale(.9); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+@keyframes lightPass {
+    0% { opacity: 0; transform: translateX(-34%); }
+    25% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(34%); }
 }
 
-@keyframes sweep {
-    0%, 18% { left: -55%; opacity: 0; }
-    42% { opacity: 1; }
-    72%, 100% { left: 125%; opacity: 0; }
-}
-
-@keyframes particleRise {
-    0% { opacity: 0; translate: 0 12px; }
-    20% { opacity: .85; }
-    100% { opacity: 0; translate: 10px -34vh; }
+@keyframes focusPulse {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+    35% { opacity: .7; }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.25); }
 }
 
 @keyframes progressMove {
@@ -188,8 +148,15 @@
 
 @media (prefers-reduced-motion: reduce) {
     .heroImage,
-    .goldAura,
-    .lightSweep,
-    .particles i,
+    .lightBeam,
+    .focusRing,
     .progress span { animation: none; }
+}
+
+@media (min-width: 768px) {
+    .heroImage {
+        object-fit: contain;
+        object-position: center;
+        background: #030303;
+    }
 }
