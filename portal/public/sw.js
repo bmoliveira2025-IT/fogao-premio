@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fogao-premio-cache-v2';
+const CACHE_NAME = 'fogao-premio-cache-v3';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -30,11 +30,14 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    const requestUrl = new URL(event.request.url);
     const isNavigation = event.request.mode === 'navigate';
-    const isNextAsset = new URL(event.request.url).pathname.startsWith('/_next/');
+    const isNextAsset = requestUrl.pathname.startsWith('/_next/');
+    const isManifest = requestUrl.pathname === '/manifest.json';
 
-    // App pages and versioned Next assets must prefer the current deployment.
-    if (isNavigation || isNextAsset) {
+    // App pages, the PWA manifest, and versioned Next assets must prefer the
+    // current deployment so Android receives theme-color updates immediately.
+    if (isNavigation || isNextAsset || isManifest) {
         event.respondWith(
             fetch(event.request)
                 .then((networkResponse) => {
