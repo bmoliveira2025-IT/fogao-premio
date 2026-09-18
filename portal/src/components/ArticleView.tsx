@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, Share2, Headphones, Bookmark, MoreHorizontal, Sun, X, ZoomIn } from 'lucide-react';
+import { ChevronLeft, Share2, Headphones, Bookmark, MoreHorizontal, X, ZoomIn } from 'lucide-react';
 import ArticleReader from '@/components/ArticleReader';
 import VoicePlayer from '@/components/VoicePlayer';
 import ShareModal from '@/components/ShareModal';
@@ -112,80 +111,42 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
     return (
         <div className="article-page mb-[calc(-4rem-env(safe-area-inset-bottom))] min-h-screen w-full bg-white pb-[calc(4rem+env(safe-area-inset-bottom))] font-sans lg:mb-0 lg:pb-0">
             
-            {/* HERO SECTION (Image Only) */}
-            <div className="relative w-full h-[46vh] min-h-[390px] md:h-[58vh] bg-zinc-900">
-                {article.image && (
-                    <button
-                        type="button"
-                        onClick={() => setIsImageOpen(true)}
-                        aria-label="Ampliar imagem da notícia"
-                        className="absolute inset-0 cursor-zoom-in"
-                    >
-                        <Image
-                            src={getSafeImageSrc(article.image)}
-                            alt={article.title}
-                            fill
-                            priority
-                            className="object-cover"
-                            unoptimized
-                        />
-                    </button>
-                )}
-                
-                {/* Gradients preserve contrast for navigation and the headline. */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/80" />
-
-                {/* TOP NAVIGATION (Absolute over image) */}
-                <div className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-4 max-w-4xl mx-auto z-10 safe-pt">
+            <div className="mx-auto max-w-4xl px-5 pb-8 pt-4 sm:px-7 md:px-12 md:pt-7">
+                <div className="mb-8 flex items-center justify-between safe-pt">
                     <button 
                         onClick={() => router.back()} 
-                        className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/50 transition-colors"
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-900 shadow-sm transition-colors hover:bg-zinc-100"
+                        aria-label="Voltar"
                     >
                         <ChevronLeft size={24} strokeWidth={2.5} />
                     </button>
                     <div className="flex items-center gap-3">
-                        <button onClick={handleSave} className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/50 transition-colors">
+                        <button onClick={handleSave} aria-label="Salvar notícia" className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm hover:bg-zinc-100">
                             <Bookmark size={20} className={isSaved ? "fill-current" : ""} />
                         </button>
-                        <button onClick={handleShare} className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/50 transition-colors">
+                        <button onClick={handleShare} aria-label="Compartilhar notícia" className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm hover:bg-zinc-100">
                             <MoreHorizontal size={20} />
                         </button>
                     </div>
                 </div>
-
-                {/* Headline over the cover image, editorial reader style. */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 mx-auto max-w-4xl px-5 pb-12 sm:px-6 md:px-12 md:pb-14">
-                    <span className="mb-2 inline-flex rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-sm border border-white/20">
-                        {categoryKey || 'Futebol'}
-                    </span>
-                    <h1 className="max-w-3xl text-[27px] font-bold leading-[1.08] tracking-tight text-white drop-shadow-md sm:text-[32px] md:text-[44px]">
-                        {toSentenceCase(article.title)}
-                    </h1>
-                    <div className="mt-3 flex items-center gap-4">
-                    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1 text-[12px] font-medium text-white/85 sm:text-[13px]">
-                        <span>Em destaque</span>
-                        <span className="h-1 w-1 rounded-full bg-white/55" />
-                        <span>{timeAgoStr(article.created_at)}</span>
-                        <span className="h-1 w-1 rounded-full bg-white/55" />
-                        <span>{readTime} min de leitura</span>
-                    </div>
-
-                {article.image && (
-                    <button
-                        type="button"
-                        onClick={() => setIsImageOpen(true)}
-                        aria-label="Ampliar imagem da notícia"
-                        className="pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/45 text-white shadow-lg backdrop-blur-md transition-colors hover:bg-black/65"
-                    >
-                        <ZoomIn size={18} />
-                    </button>
-                )}
-                    </div>
+                <span className="mb-3 inline-flex text-[11px] font-extrabold uppercase tracking-[0.14em] text-amber-700">{categoryKey || 'Futebol'}</span>
+                <h1 className="max-w-3xl text-[30px] font-black leading-[1.08] tracking-[-0.03em] text-zinc-950 sm:text-[38px] md:text-[48px]">{toSentenceCase(article.title)}</h1>
+                {article.summary && <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600 sm:text-lg">{article.summary}</p>}
+                <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-zinc-500 sm:text-sm">
+                    <span>{article.source || 'Redação Fogão 360°'}</span><span>·</span><span>{timeAgoStr(article.created_at)}</span><span>·</span><span>{readTime} min de leitura</span>
                 </div>
+                {article.image && (
+                    <figure className="mt-7">
+                        <button type="button" onClick={() => setIsImageOpen(true)} aria-label="Ampliar imagem da notícia" className="relative block aspect-video w-full cursor-zoom-in overflow-hidden rounded-2xl bg-zinc-100">
+                            <Image src={getSafeImageSrc(article.image)} alt={article.title} fill priority sizes="(min-width: 896px) 800px, 100vw" className="object-cover" style={{ objectPosition: article.image_position || 'center 35%' }} quality={80} />
+                            <span className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur"><ZoomIn size={18} /></span>
+                        </button>
+                        {(article.image_caption || article.caption || article.image_credit) && <figcaption className="mt-2 text-xs leading-5 text-zinc-500">{article.image_caption || article.caption}{article.image_credit ? ` — ${article.image_credit}` : ''}</figcaption>}
+                    </figure>
+                )}
             </div>
 
-            {/* WHITE OVERLAPPING CONTENT CARD */}
-            <div className="relative bg-white z-20 max-w-4xl mx-auto rounded-t-[1.75rem] md:rounded-t-[2rem] -mt-5 md:-mt-7 px-5 sm:px-7 pb-24 md:px-12 md:pb-12 shadow-[0_-10px_34px_rgba(0,0,0,0.1)]">
+            <div className="relative z-20 mx-auto max-w-4xl bg-white px-5 pb-24 sm:px-7 md:px-12 md:pb-12">
 
                 {/* AUTHOR INFO (Source) */}
                 <div className="flex items-center justify-between mb-6 md:mb-8 pt-5 md:pt-6 pb-4 border-b border-zinc-100">

@@ -52,16 +52,16 @@ export default function CompactNewsRow({ article, dense = false }: CompactNewsRo
             className={`group flex items-stretch rounded-2xl bg-white border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-zinc-300 transition-all duration-200 ${dense ? 'min-h-[96px] gap-3 px-2 py-2' : 'min-h-[104px] gap-3.5 p-3'}`}
         >
             {/* Standard Mobile Thumbnail (72x72) */}
-            <div className="relative w-20 min-h-20 sm:w-[88px] flex-shrink-0 self-stretch overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
+            {article.image && <div className="relative h-20 w-20 sm:h-[88px] sm:w-[88px] flex-shrink-0 overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
                 <Image
-                    src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
+                    src={getSafeImageSrc(article.image)}
                     alt={article.title}
                     fill
                     sizes="(min-width: 640px) 88px, 80px"
                     className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     unoptimized={true}
                 />
-            </div>
+            </div>}
 
             {/* Info */}
             <div className="flex min-w-0 flex-grow flex-col justify-between gap-2 py-0.5">

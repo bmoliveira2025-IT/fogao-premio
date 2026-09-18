@@ -2,75 +2,20 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Clock } from 'lucide-react';
-import SourceIcon from './SourceIcon';
 import { getSafeImageSrc } from '@/lib/images';
-import { timeAgo, detectCategoryKey, CATEGORY_LABELS, CATEGORY_COLORS_SOLID } from '@/lib/news-utils';
+import { timeAgo } from '@/lib/news-utils';
 
-interface NewsItem {
-    id: string;
-    title: string;
-    image?: string;
-    source?: string;
-    summary?: string;
-    created_at?: string;
-}
+interface NewsItem { id: string; title: string; image?: string; source?: string; created_at?: string; image_position?: string; }
 
 export default function FeaturedCard({ article }: { article: NewsItem }) {
     if (!article) return null;
-
-    const categoryKey = detectCategoryKey(article.title || '');
-
-    return (
-        <Link
-            href={`/news/${article.id}`}
-            className="editorial-card editorial-featured group relative block w-full aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-900 border border-white/10 shadow-lg active:scale-[0.98] transition-all duration-300"
-        >
-            {/* Background Image */}
-            <Image
-                src={getSafeImageSrc(article.image)}
-                alt={article.title}
-                fill
-                sizes="(max-width: 768px) 50vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                unoptimized
-            />
-
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-
-            {/* Content overlay */}
-            <div className="absolute inset-0 p-3.5 sm:p-4 flex flex-col justify-end z-20">
-                {/* Source & Category Row */}
-                <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
-                        <SourceIcon source={article.source} className="w-3 h-3" />
-                        <span className="text-xs font-bold text-white tracking-tight">{article.source || 'Botafogo'}</span>
-                    </div>
-
-                    {categoryKey && (
-                        <span className={`category-badge ${CATEGORY_COLORS_SOLID[categoryKey]} text-xs font-black tracking-[0.12em] px-2 py-0.5 rounded-full uppercase shadow-sm`}>
-                            {CATEGORY_LABELS[categoryKey]}
-                        </span>
-                    )}
-                </div>
-
-                <h3 className="text-base font-extrabold text-white leading-[1.25] tracking-tight line-clamp-3 group-hover:text-amber-300 transition-colors">
-                    {article.title?.replace(/\*\*/g, '')}
-                </h3>
-
-                {/* Meta row */}
-                <div className="flex items-center gap-2 mt-2 text-white/70">
-                    <span className="text-xs font-medium flex items-center gap-1" suppressHydrationWarning>
-                        <Clock size={10} className="text-amber-400" />
-                        {timeAgo(article.created_at)}
-                    </span>
-                </div>
-            </div>
-
-            {/* Subtle inner border */}
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl pointer-events-none" />
-        </Link>
-    );
+    return <Link href={`/news/${article.id}`} className="group block overflow-hidden rounded-2xl border border-white/10 bg-[#111] transition-colors hover:border-white/20">
+        {article.image && <div className="relative aspect-video w-full overflow-hidden bg-zinc-900 xl:aspect-[3/2]">
+            <Image src={getSafeImageSrc(article.image)} alt={article.title} fill sizes="(min-width: 1280px) 220px, (min-width: 768px) 40vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: article.image_position || 'center 35%' }} loading="lazy" quality={65} />
+        </div>}
+        <div className="p-4">
+            <h3 className="line-clamp-3 text-[15px] font-extrabold leading-[1.3] text-white transition-colors group-hover:text-amber-300">{article.title?.replace(/\*\*/g, '')}</h3>
+            <p className="mt-2 text-[11px] font-semibold text-zinc-500">{article.source || 'Fogão 360°'} · {timeAgo(article.created_at)}</p>
+        </div>
+    </Link>;
 }
-

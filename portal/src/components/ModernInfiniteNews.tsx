@@ -2,15 +2,21 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import FeaturedCard from '@/components/FeaturedCard';
-import CompactNewsCard from '@/components/CompactNewsCard';
+import StandardNewsCard from '@/components/StandardNewsCard';
 
 interface ModernInfiniteNewsProps {
-    initialNews: any[];
+    initialNews: Array<{
+        id: string;
+        title: string;
+        image?: string;
+        source?: string;
+        created_at?: string;
+        summary?: string;
+        image_position?: string;
+    }>;
 }
 
 export default function ModernInfiniteNews({ initialNews }: ModernInfiniteNewsProps) {
-    if (!initialNews || initialNews.length === 0) return null;
-
     const [page, setPage] = useState(1);
     const observer = useRef<IntersectionObserver | null>(null);
     const NEWS_PER_PAGE = 4; // Load 4 items at a time
@@ -33,6 +39,8 @@ export default function ModernInfiniteNews({ initialNews }: ModernInfiniteNewsPr
             if (observer.current) observer.current.disconnect();
         };
     }, []);
+
+    if (!initialNews || initialNews.length === 0) return null;
 
     return (
         <div className="flex flex-col w-full">
@@ -72,7 +80,7 @@ export default function ModernInfiniteNews({ initialNews }: ModernInfiniteNewsPr
                         className="relative animate-fade-in-up"
                         style={{ animationDelay: `${(idx % NEWS_PER_PAGE) * 0.05}s` }}
                     >
-                        <CompactNewsCard article={article} />
+                        <StandardNewsCard article={article} />
                     </div>
                 );
             })}
