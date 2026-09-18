@@ -33,7 +33,7 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-4"
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] flex items-center justify-center p-4"
                     >
                         {/* Modal Container */}
                         <motion.div
