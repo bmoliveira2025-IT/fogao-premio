@@ -33,6 +33,7 @@ interface NewsItem {
   summary?: string;
   likes_count?: number;
   dislikes_count?: number;
+  image_position?: string;
 }
 
 export interface MatchData {
@@ -100,6 +101,7 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
         summary: data.summary,
         likes_count: data.likes_count || 0,
         dislikes_count: data.dislikes_count || 0,
+        image_position: data.image_position,
         created_at: getNewsDisplayDate(data.published_at, data.created_at),
       } as NewsItem;
     }).filter(item => !item.is_premium);
@@ -221,10 +223,10 @@ export default async function Home() {
           <MobileUserHeader />
           <div className="py-1"></div>
           
-          <HighlightNewsCarousel news={news.slice(0, 5)} />
+          <HighlightNewsCarousel news={news.slice(0, 3)} />
           
           {/* Interactive Filter and News List */}
-          <LightNewsFilter news={news.slice(5)} />
+          <LightNewsFilter news={news.slice(3)} />
       </div>
 
       {/* DESKTOP DARK THEME */}

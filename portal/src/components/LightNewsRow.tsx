@@ -99,17 +99,16 @@ export default function LightNewsRow({ article }: LightNewsRowProps) {
 
     return (
         <div className="editorial-card editorial-row group flex items-start gap-3 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md hover:border-zinc-300 transition-all duration-200">
-            {/* Thumbnail fills the shared row height. */}
-            <Link href={`/news/${article.id}`} className="relative w-[80px] h-[88px] flex-shrink-0 overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
+            {article.image && <Link href={`/news/${article.id}`} className="relative aspect-[4/3] w-[34%] max-w-[132px] flex-shrink-0 overflow-hidden bg-zinc-100 rounded-xl border border-zinc-200/60">
                 <Image
-                    src={getSafeImageSrc(article.image, 'https://placehold.co/150')}
+                    src={getSafeImageSrc(article.image)}
                     alt={article.title}
                     fill
-                    sizes="80px"
+                    sizes="34vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
                     unoptimized
                 />
-            </Link>
+            </Link>}
 
             {/* Content */}
             <div className="editorial-row-content flex flex-col flex-grow min-w-0">

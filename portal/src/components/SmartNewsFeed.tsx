@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import FeaturedCard from './FeaturedCard';
-import CompactNewsCard from './CompactNewsCard';
+import StandardNewsCard from './StandardNewsCard';
 import { cn } from '@/lib/utils';
 
 interface NewsItem {
@@ -25,7 +25,7 @@ export default function SmartNewsFeed({ news }: SmartNewsFeedProps) {
     // Simple simulation of trending/for you for now
     const getNewsForTab = () => {
         if (activeTab === 'TRENDING') {
-            return [...news].sort((a, b) => (Math.random() > 0.5 ? 1 : -1));
+            return [...news].sort((a, b) => a.title.localeCompare(b.title));
         }
         if (activeTab === 'FOR_YOU') {
             return [...news].reverse();
@@ -79,7 +79,7 @@ export default function SmartNewsFeed({ news }: SmartNewsFeedProps) {
             {/* Remaining Compact List */}
             <div className="bg-[#111]/40 rounded-3xl overflow-hidden border border-white/5 shadow-xl divide-y divide-white/[0.03]">
                 {displayNews.slice(1).map(article => (
-                    <CompactNewsCard key={article.id} article={article} />
+                    <StandardNewsCard key={article.id} article={article} />
                 ))}
             </div>
         </div>

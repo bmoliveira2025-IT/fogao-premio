@@ -27,7 +27,7 @@ export default function CompactNewsCard({ article }: { article: NewsItem }) {
             className="editorial-card editorial-compact group relative flex items-start gap-4 p-4 bg-[#111]/80 hover:bg-[#1a1a1a] border-b border-white/[0.04] transition-all duration-300 active:scale-[0.99]"
         >
             {/* Thumbnail */}
-            <div className="relative w-[88px] h-[88px] md:w-[100px] md:h-[100px] flex-shrink-0 rounded-xl overflow-hidden bg-[#1a1a1a]">
+            {article.image && <div className="relative w-[80px] h-[80px] md:w-[88px] md:h-[88px] flex-shrink-0 rounded-xl overflow-hidden bg-[#1a1a1a]">
                 <Image
                     src={getSafeImageSrc(article.image)}
                     alt={article.title}
@@ -38,7 +38,7 @@ export default function CompactNewsCard({ article }: { article: NewsItem }) {
                 />
                 {/* Subtle border overlay */}
                 <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-white/[0.15] transition-all" />
-            </div>
+            </div>}
 
             {/* Text Content */}
             <div className="flex-1 min-w-0 py-0.5 flex flex-col justify-between min-h-[88px] md:min-h-[100px] gap-3">
