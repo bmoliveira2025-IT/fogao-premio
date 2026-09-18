@@ -63,6 +63,8 @@ export function VideoPlayerProvider({ children }: { children: React.ReactNode })
                 <LightVideoPlayer
                     video={activeVideo}
                     allVideos={playlist.filter(v => v.id !== activeVideo.id)}
+                    isMinimized={isMinimized}
+                    onToggleMinimized={setIsMinimized}
                     onClose={closeVideo}
                     onVideoSelect={(nextVideo) => setActiveVideo(nextVideo)}
                     isSubscribed={subscribedChannels[activeVideo.source || 'Botafogo TV'] || false}

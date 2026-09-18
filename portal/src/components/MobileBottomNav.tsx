@@ -5,9 +5,17 @@ import { usePathname } from 'next/navigation';
 import { CalendarDays, Home, Play, Trophy, UserRound } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AppIcon } from '@/components/ui/AppIcon';
+import { useVideoPlayer } from '@/context/VideoPlayerContext';
 
 export default function MobileBottomNav() {
     const pathname = usePathname();
+    const { activeVideo, isMinimized, setMinimized } = useVideoPlayer();
+
+    const handleNavClick = () => {
+        if (activeVideo && !isMinimized) {
+            setMinimized(true);
+        }
+    };
 
     const navItems = [
         { icon: Home, label: 'Início', href: '/' },
@@ -20,7 +28,7 @@ export default function MobileBottomNav() {
     return (
         <nav
             aria-label="Navegação principal"
-            className="editorial-bottom-nav fixed inset-x-0 bottom-0 z-50 overflow-hidden border-t border-zinc-200/80 bg-white/95 shadow-[0_-8px_28px_rgba(0,0,0,0.09)] backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-950/95 lg:hidden"
+            className="editorial-bottom-nav fixed inset-x-0 bottom-0 z-[70] overflow-hidden border-t border-zinc-200/80 bg-white/95 shadow-[0_-8px_28px_rgba(0,0,0,0.09)] backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-950/95 lg:hidden"
         >
             <div className="grid min-h-[68px] w-full grid-cols-5 pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
                 {navItems.map((item) => {
@@ -33,6 +41,7 @@ export default function MobileBottomNav() {
                         <Link 
                             key={item.label}
                             href={item.href}
+                            onClick={handleNavClick}
                             aria-current={isActive ? 'page' : undefined}
                             className="mobile-bottom-nav-link group relative flex min-h-[68px] w-full flex-col items-center justify-center gap-1"
                         >
