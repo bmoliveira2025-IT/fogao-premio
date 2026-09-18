@@ -3,7 +3,7 @@
 import { X, CreditCard, Shield, Star, Check, Smartphone, QrCode, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GloriosoLogo from '@/components/GloriosoLogo';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface SubscriptionModalProps {
     isOpen: boolean;
@@ -18,10 +18,14 @@ export default function SubscriptionModal({ isOpen, onClose, user }: Subscriptio
     const renewalDate = "15/10/2026";
 
     // Prevent scrolling when modal is open
-    if (typeof window !== 'undefined') {
-        if (isOpen) document.body.style.overflow = 'hidden';
-        else document.body.style.overflow = 'unset';
-    }
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = 'unset';
+            };
+        }
+    }, [isOpen]);
 
     return (
         <AnimatePresence>

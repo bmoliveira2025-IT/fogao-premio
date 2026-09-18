@@ -553,32 +553,53 @@ function AudioSpeedControl() {
     );
 }
 
+interface VoiceOption {
+    name: string;
+    lang: string;
+}
+
 function VoiceSelector() {
-    const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+    const [voices, setVoices] = useState<VoiceOption[]>([]);
     const [selectedVoice, setSelectedVoice] = useState<string>('');
 
     useEffect(() => {
-        let isMounted = true;
+        if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
 
-        const loadVoices = () => {
-            if (!isMounted || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-            const available = window.speechSynthesis.getVoices();
-            const ptVoices = available.filter(v => v.lang.includes('pt') || v.lang.includes('PT'));
-            const targetList = ptVoices.length > 0 ? ptVoices : available;
-            
-            setVoices(prev => (prev.length === targetList.length ? prev : targetList));
+        let hasLoaded = false;
 
-            const saved = localStorage.getItem('voiceName');
-            if (saved) setSelectedVoice(saved);
+        const populateVoices = () => {
+            if (hasLoaded) return;
+            try {
+                const available = window.speechSynthesis.getVoices();
+                if (!available || available.length === 0) return;
+
+                hasLoaded = true;
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.onvoiceschanged = null;
+                }
+
+                const ptVoices = available.filter(
+                    v => v.lang && (v.lang.toLowerCase().includes('pt') || v.lang.toLowerCase().includes('br'))
+                );
+                const list = ptVoices.length > 0 ? ptVoices : available.slice(0, 10);
+                
+                setVoices(list.map(v => ({ name: v.name, lang: v.lang })));
+
+                const saved = localStorage.getItem('voiceName');
+                if (saved) setSelectedVoice(saved);
+            } catch (err) {
+                console.warn('Unable to load speech voices:', err);
+            }
         };
 
-        loadVoices();
-        if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = loadVoices;
+        populateVoices();
+
+        if (!hasLoaded && 'speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = populateVoices;
         }
 
         return () => {
-            isMounted = false;
+            hasLoaded = true;
             if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
                 window.speechSynthesis.onvoiceschanged = null;
             }
@@ -586,7 +607,11 @@ function VoiceSelector() {
     }, []);
 
     const handleSelect = (voiceName: string) => {
-        localStorage.setItem('voiceName', voiceName);
+        try {
+            localStorage.setItem('voiceName', voiceName);
+        } catch {
+            // ignore
+        }
         setSelectedVoice(voiceName);
     };
 
