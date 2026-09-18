@@ -558,11 +558,15 @@ function VoiceSelector() {
     const [selectedVoice, setSelectedVoice] = useState<string>('');
 
     useEffect(() => {
+        let isMounted = true;
+
         const loadVoices = () => {
-            if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+            if (!isMounted || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
             const available = window.speechSynthesis.getVoices();
             const ptVoices = available.filter(v => v.lang.includes('pt') || v.lang.includes('PT'));
-            setVoices(ptVoices.length > 0 ? ptVoices : available);
+            const targetList = ptVoices.length > 0 ? ptVoices : available;
+            
+            setVoices(prev => (prev.length === targetList.length ? prev : targetList));
 
             const saved = localStorage.getItem('voiceName');
             if (saved) setSelectedVoice(saved);
@@ -572,6 +576,13 @@ function VoiceSelector() {
         if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = loadVoices;
         }
+
+        return () => {
+            isMounted = false;
+            if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = null;
+            }
+        };
     }, []);
 
     const handleSelect = (voiceName: string) => {
