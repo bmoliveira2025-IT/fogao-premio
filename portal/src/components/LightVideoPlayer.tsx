@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { ThumbsUp, ThumbsDown, Share2, PlusSquare, ChevronDown, Bell, Check, Maximize2, X } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import CompactNewsRow from './CompactNewsRow';
@@ -19,6 +20,8 @@ interface LightVideoPlayerProps {
     video: VideoItem;
     allVideos: VideoItem[];
     recommendedNews?: NewsItem[];
+    isMinimized?: boolean;
+    onToggleMinimized?: (minimized: boolean) => void;
     onClose: () => void;
     onVideoSelect: (video: VideoItem) => void;
     isSubscribed: boolean;
@@ -40,12 +43,43 @@ const getVideoDuration = (id: string) => {
     return `${(hash % 10) + 2}:${String((hash % 50) + 10).padStart(2, '0')}`;
 };
 
-export default function LightVideoPlayer({ video, allVideos, recommendedNews = [], onClose, onVideoSelect, isSubscribed, onSubscribeChange }: LightVideoPlayerProps) {
+export default function LightVideoPlayer({
+    video,
+    allVideos,
+    recommendedNews = [],
+    isMinimized: propMinimized,
+    onToggleMinimized,
+    onClose,
+    onVideoSelect,
+    isSubscribed,
+    onSubscribeChange,
+}: LightVideoPlayerProps) {
+    const pathname = usePathname();
+    const prevPathname = useRef(pathname);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
-    const [isMinimized, setIsMinimized] = useState(false);
+    const [internalMinimized, setInternalMinimized] = useState(false);
+
+    const isMinimized = propMinimized !== undefined ? propMinimized : internalMinimized;
+    const setIsMinimized = (minimized: boolean) => {
+        if (onToggleMinimized) {
+            onToggleMinimized(minimized);
+        } else {
+            setInternalMinimized(minimized);
+        }
+    };
     const contentRef = useRef<HTMLDivElement>(null);
+
+    // Minimize if route changes while video is expanded
+    useEffect(() => {
+        if (prevPathname.current !== pathname) {
+            prevPathname.current = pathname;
+            if (!isMinimized) {
+                setIsMinimized(true);
+            }
+        }
+    }, [pathname, isMinimized]);
 
     const selectVideo = (nextVideo: VideoItem) => {
         setIsLiked(false);
@@ -121,12 +155,14 @@ export default function LightVideoPlayer({ video, allVideos, recommendedNews = [
         }
 
         return `${views},000 visualizações • ${dateFormatted}`;
-    };    return (
+    };
+
+    return (
         <div
             className={
                 isMinimized
                     ? "fixed bottom-20 right-3.5 z-[55] w-72 sm:w-80 bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl border border-zinc-200/80 dark:border-white/20 animate-in slide-in-from-bottom-5 duration-300"
-                    : "fixed inset-0 z-[60] bg-white flex flex-col font-sans animate-in slide-in-from-bottom-full duration-300"
+                    : "fixed inset-x-0 top-0 bottom-[calc(68px+env(safe-area-inset-bottom))] lg:bottom-0 z-[60] bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 flex flex-col font-sans animate-in slide-in-from-bottom-full duration-300"
             }
         >
             {/* Header Bar for Minimized View */}
@@ -172,7 +208,7 @@ export default function LightVideoPlayer({ video, allVideos, recommendedNews = [
 
             {/* Scrollable Content (Only rendered when player is full screen) */}
             {!isMinimized && (
-                <div ref={contentRef} className="flex-1 overflow-y-auto overscroll-contain pb-[calc(4rem+env(safe-area-inset-bottom))]">
+                <div ref={contentRef} className="flex-1 overflow-y-auto overscroll-contain pb-8 lg:pb-12">
                     {/* Header & Title */}
                     <div className="px-4 pt-3 pb-3 border-b border-zinc-100">
                         <div className="flex items-start justify-between gap-4">
