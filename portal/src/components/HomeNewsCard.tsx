@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, BookOpen, Tag } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
+import { cleanMarkdown } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -96,13 +97,13 @@ export default function HomeNewsCard({ article, index, isWide = false }: HomeNew
 
                     {/* Title */}
                     <h3 className={`font-bold text-white/95 leading-[1.3] tracking-tight group-hover:text-premium-gold transition-colors duration-400 ${isWide ? 'text-lg md:text-xl lg:text-2xl line-clamp-2' : 'text-[15px] md:text-base line-clamp-3'}`}>
-                        {article.title?.replace(/\*\*/g, '')}
+                        {cleanMarkdown(article.title)}
                     </h3>
 
                     {/* Summary for wide cards */}
                     {isWide && article.summary && (
                         <p className="hidden md:block mt-2 text-sm text-zinc-400/80 font-medium line-clamp-2 leading-relaxed">
-                            {article.summary}
+                            {cleanMarkdown(article.summary)}
                         </p>
                     )}
 

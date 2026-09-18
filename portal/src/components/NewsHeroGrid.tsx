@@ -4,6 +4,7 @@ import { Clock, TrendingUp } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
 import SourceIcon from './SourceIcon';
 import { cn } from '@/lib/utils';
+import { cleanMarkdown } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -43,20 +44,21 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
     };
 
     return (
-        <section className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-6 mb-8 lg:mb-12">
-            {/* Main Story (Takes 3/4 width on desktop) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 lg:mb-12 items-stretch">
+            {/* Main Featured Hero Card (Span 8) */}
             <Link
                 href={`/news/${mainStory.id}`}
-                className="lg:col-span-3 flex flex-col rounded-2xl md:rounded-[2.5rem] overflow-hidden group bg-zinc-950/40 backdrop-blur-xl border border-white/5 transition-all duration-700 shadow-2xl hover:-translate-y-1 hover:border-white/10"
+                className="lg:col-span-8 group relative rounded-3xl overflow-hidden bg-card-bg border border-white/5 flex flex-col justify-between hover:border-premium-gold/30 transition-all duration-500 shadow-2xl"
             >
-                {/* Cinematic Image Top */}
-                <div className="relative w-full aspect-[4/3] md:aspect-[21/10] overflow-hidden bg-zinc-900 shrink-0">
+                {/* Image Container - Aspect Video on mobile, taller on desktop */}
+                <div className="relative w-full aspect-video lg:aspect-[16/9] overflow-hidden bg-zinc-900">
                     <Image
                         src={getSafeImageSrc(mainStory.image)}
                         alt={mainStory.title}
                         fill
-                        className="object-cover object-top transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
                         priority
+                        sizes="(max-width: 1024px) 100vw, 66vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         unoptimized={true}
                     />
                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/5 transition-colors duration-700" />
@@ -73,12 +75,12 @@ export default function NewsHeroGrid({ news }: NewsHeroGridProps) {
 
                     <div className="max-w-4xl space-y-3 md:space-y-4">
                         <h2 className="text-2xl md:text-4xl lg:text-5xl font-display font-black text-white leading-[1.15] tracking-tight group-hover:text-premium-gold transition-colors duration-500">
-                            {mainStory.title}
+                            {cleanMarkdown(mainStory.title)}
                         </h2>
 
                         {mainStory.summary && (
                             <p className="text-sm md:text-lg text-zinc-400 font-medium line-clamp-3 leading-relaxed hidden md:block opacity-90">
-                                {mainStory.summary}
+                                {cleanMarkdown(mainStory.summary)}
                             </p>
                         )}
 

@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase-admin';
-import { getNewsDisplayDate } from '@/lib/news-utils';
+import { getNewsDisplayDate, cleanMarkdown } from '@/lib/news-utils';
 import ArticleView from '@/components/ArticleView';
 
 export const revalidate = 60;
@@ -20,16 +20,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     // Handle summary (it's an array in DB)
     let description = 'Acompanhe as últimas notícias do Botafogo.';
     if (data?.summary) {
-        if (Array.isArray(data.summary)) {
-            description = data.summary.join('. ');
-        } else {
-            description = data.summary;
-        }
+        description = cleanMarkdown(data.summary);
     }
 
     // Fallback if summary is an error message
     if (description.includes("Erro no processamento") && data?.content) {
-        description = data.content;
+        description = cleanMarkdown(data.content);
     }
 
     // Truncate to avoid cut-off (WhatsApp limit ~150-200)
@@ -38,7 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         description = description.substring(0, 157) + '...';
     }
 
-    const cleanTitle = data?.title?.replace(/\*\*/g, '');
+    const cleanTitle = cleanMarkdown(data?.title);
 
     return {
         title: cleanTitle,
@@ -239,7 +235,8 @@ export default async function NewsArticle({ params }: { params: Promise<{ id: st
         article = {
             id: articleDoc.id,
             ...articleData,
-            title: articleData?.title?.replace(/\*\*/g, ''), // Clean title
+            title: cleanMarkdown(articleData?.title),
+            summary: cleanMarkdown(articleData?.summary),
             // Serialize Date objects to strings for Client Component
             created_at: getNewsDisplayDate(articleData?.published_at, articleData?.created_at)
         };

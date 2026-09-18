@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Clock, BookOpen, Tag } from 'lucide-react';
 import { getSafeImageSrc } from '@/lib/images';
+import { cleanMarkdown } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -18,55 +19,46 @@ interface NewsItem {
 
 function estimateReadTime(content?: string, summary?: string): number {
     const text = content || summary || '';
-    const words = text.split(/\s+/).length;
+    const words = text.trim().split(/\s+/).length;
     return Math.max(1, Math.ceil(words / 200));
 }
 
-function getRelativeTime(dateString: string): string {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-
-    if (diffInSeconds < 60) return 'agora';
-    if (diffInSeconds < 3600) {
-        const minutes = Math.floor(diffInSeconds / 60);
-        return `${minutes} ${minutes === 1 ? 'minuto' : 'minutos'} atrás`;
+function getRelativeTime(dateStr: string): string {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    if (hours < 1) {
+        const minutes = Math.max(1, Math.floor(diff / (1000 * 60)));
+        return `${minutes}m atrás`;
     }
-    if (diffInSeconds < 86400) {
-        const hours = Math.floor(diffInSeconds / 3600);
-        return `${hours} ${hours === 1 ? 'hora' : 'horas'} atrás`;
-    }
-    const days = Math.floor(diffInSeconds / 86400);
-    return `${days} ${days === 1 ? 'dia' : 'dias'} atrás`;
+    if (hours < 24) return `${hours}h atrás`;
+    const days = Math.floor(hours / 24);
+    return `${days}d atrás`;
 }
 
-export default function HomeHeroCard({ article }: { article: NewsItem }) {
-    if (!article) return null;
-
+export default function HomeHeroCard({ article, category = 'Destaque' }: { article: NewsItem; category?: string }) {
     const readTime = estimateReadTime(article.content, article.summary);
-    const category = article.source || 'Botafogo';
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="group relative w-full rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
         >
-            <Link
-                href={`/news/${article.id}`}
-                className="group relative block w-full aspect-[4/3] md:aspect-[16/8] overflow-hidden rounded-2xl md:rounded-3xl"
-            >
-                {/* Image */}
-                <Image
-                    src={getSafeImageSrc(article.image)}
-                    alt={article.title}
-                    fill
-                    priority
-                    className="object-cover object-top transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
-                    unoptimized
-                />
+            <Link href={`/news/${article.id}`} className="block relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden">
+                {/* Background Image */}
+                {article.image && (
+                    <Image
+                        src={getSafeImageSrc(article.image)}
+                        alt={article.title}
+                        fill
+                        priority
+                        sizes="100vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                )}
 
-                {/* Dark gradient overlay for text readability */}
+                {/* Dark Gradient Overlay */}
                 <div className="absolute inset-0 home-hero-gradient" />
 
                 {/* Content overlay */}
@@ -85,13 +77,13 @@ export default function HomeHeroCard({ article }: { article: NewsItem }) {
 
                     {/* Title */}
                     <h1 className="text-lg md:text-2xl lg:text-3xl font-black text-white leading-[1.15] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.6)] group-hover:text-premium-gold transition-colors duration-500">
-                        {article.title?.replace(/\*\*/g, '')}
+                        {cleanMarkdown(article.title)}
                     </h1>
 
                     {/* Summary - desktop only */}
                     {article.summary && (
                         <p className="hidden md:block mt-3 text-sm md:text-base text-white/70 font-medium line-clamp-2 max-w-3xl leading-relaxed">
-                            {article.summary}
+                            {cleanMarkdown(article.summary)}
                         </p>
                     )}
 

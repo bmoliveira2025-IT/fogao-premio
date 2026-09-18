@@ -172,6 +172,18 @@ html.dark .notification-item[data-notification-type="NEWS_URGENT"] .notification
   color: #fecaca; background: #4a2528;
 }
 
+.notification-badge-dot {
+  background-color: #ef4444 !important;
+  border: 2px solid #ffffff !important;
+}
+
+html.dark .notification-badge-dot,
+.dark .notification-badge-dot {
+  background-color: #fbbf24 !important;
+  border-color: #18181b !important;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.9) !important;
+}
+
 html.dark .theme-toggle {
   background: linear-gradient(145deg, #38383f 0%, #222226 72%) !important;
   border-color: #3d3d43 !important;

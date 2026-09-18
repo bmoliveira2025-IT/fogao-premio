@@ -191,9 +191,16 @@ def run_scraper_cycle():
                     elif "bolavip.com" in link: source_name = "Bolavip"
                     elif "odia.ig.com.br" in link: source_name = "O Dia"
 
+                    def strip_stars(val):
+                        if isinstance(val, list):
+                            return [strip_stars(v) for v in val if v]
+                        if isinstance(val, str):
+                            return val.replace('**', '').replace('__', '').strip()
+                        return val
+
                     news_doc = {
-                        "title": ai_data['title'],
-                        "summary": ai_data['summary'],
+                        "title": strip_stars(ai_data.get('title', '')),
+                        "summary": strip_stars(ai_data.get('summary', [])),
                         "content": ai_data['content'],
                         "tags": ai_data['tags'],
                         "sentiment": ai_data['sentiment'],

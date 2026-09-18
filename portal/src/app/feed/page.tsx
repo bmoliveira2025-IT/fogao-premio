@@ -1,6 +1,6 @@
 import { db } from '@/lib/firebase-admin';
 import VerticalNewsFeed from '@/components/VerticalNewsFeed';
-import { getNewsDisplayDate } from '@/lib/news-utils';
+import { getNewsDisplayDate, cleanMarkdown } from '@/lib/news-utils';
 
 export const revalidate = 60; // ISR for 60 seconds
 
@@ -19,11 +19,11 @@ async function getFeedNews() {
             const data = doc.data();
             return {
                 id: doc.id,
-                title: data.title || '',
+                title: cleanMarkdown(data.title),
                 image: data.image,
                 source: data.source,
                 is_premium: data.is_premium,
-                summary: data.summary,
+                summary: cleanMarkdown(data.summary),
                 likes_count: data.likes_count || 0,
                 dislikes_count: data.dislikes_count || 0,
                 created_at: getNewsDisplayDate(data.published_at, data.created_at),

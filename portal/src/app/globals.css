@@ -133,10 +133,14 @@ html {
 .dark [class*="bg-neutral-50"],
 .dark [class*="bg-neutral-100"],
 .dark [class*="bg-neutral-200"],
-.dark [class*="bg-red-50"],
-.dark [class*="bg-green-50"],
-.dark [class*="bg-blue-50"],
-.dark [class*="bg-amber-50"] {
+.dark [class~="bg-red-50"],
+.dark [class*="bg-red-50/"],
+.dark [class~="bg-green-50"],
+.dark [class*="bg-green-50/"],
+.dark [class~="bg-blue-50"],
+.dark [class*="bg-blue-50/"],
+.dark [class~="bg-amber-50"],
+.dark [class*="bg-amber-50/"] {
   background-color: #27272A !important;
 }
 
