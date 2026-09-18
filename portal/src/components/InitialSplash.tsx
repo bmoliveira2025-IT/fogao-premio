@@ -40,25 +40,32 @@ export function SplashBrand({ onLogoReady }: SplashBrandProps = {}) {
 }
 
 export default function InitialSplash() {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     const [fadeOut, setFadeOut] = useState(false);
     const [logoReady, setLogoReady] = useState(false);
 
     useEffect(() => {
-        if (!logoReady) return;
+        // Show only once per browser session
+        if (sessionStorage.getItem('fogao_splash_seen')) {
+            return;
+        }
+        setVisible(true);
 
-        const startFade = window.setTimeout(() => setFadeOut(true), 1050);
-        const removeSplash = window.setTimeout(() => setVisible(false), 1500);
+        const safetyTimer = window.setTimeout(() => setLogoReady(true), 1200);
+        return () => window.clearTimeout(safetyTimer);
+    }, []);
+
+    useEffect(() => {
+        if (!logoReady || !visible) return;
+
+        sessionStorage.setItem('fogao_splash_seen', '1');
+        const startFade = window.setTimeout(() => setFadeOut(true), 400);
+        const removeSplash = window.setTimeout(() => setVisible(false), 700);
         return () => {
             window.clearTimeout(startFade);
             window.clearTimeout(removeSplash);
         };
-    }, [logoReady]);
-
-    useEffect(() => {
-        const safetyTimer = window.setTimeout(() => setLogoReady(true), 4000);
-        return () => window.clearTimeout(safetyTimer);
-    }, []);
+    }, [logoReady, visible]);
 
     if (!visible) return null;
 

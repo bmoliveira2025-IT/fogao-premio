@@ -19,37 +19,54 @@ export default function VoicePlayer({ text, onClose, onProgress }: VoicePlayerPr
 
     // Load Settings from LocalStorage on Mount
     useEffect(() => {
+        let hasLoaded = false;
         const loadSettings = () => {
-            const savedSpeed = localStorage.getItem('voiceSpeed');
-            if (savedSpeed) setSpeed(parseFloat(savedSpeed));
+            if (hasLoaded) return;
+            try {
+                const savedSpeed = localStorage.getItem('voiceSpeed');
+                if (savedSpeed) setSpeed(parseFloat(savedSpeed));
 
-            const savedVoiceName = localStorage.getItem('voiceName');
-            const available = window.speechSynthesis.getVoices();
+                const savedVoiceName = localStorage.getItem('voiceName');
+                if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+                const available = window.speechSynthesis.getVoices();
 
-            if (available.length > 0) {
-                // Try to find saved voice
-                let voiceToUse = available.find(v => v.name === savedVoiceName);
+                if (available && available.length > 0) {
+                    hasLoaded = true;
+                    if ('speechSynthesis' in window) {
+                        window.speechSynthesis.onvoiceschanged = null;
+                    }
 
-                // Fallback to first PT-BR
-                if (!voiceToUse) {
-                    voiceToUse = available.find(v => v.lang.includes('pt') || v.lang.includes('PT'));
+                    // Try to find saved voice
+                    let voiceToUse = available.find(v => v.name === savedVoiceName);
+
+                    // Fallback to first PT-BR
+                    if (!voiceToUse) {
+                        voiceToUse = available.find(v => v.lang.toLowerCase().includes('pt') || v.lang.toLowerCase().includes('br'));
+                    }
+
+                    // Fallback to default
+                    if (!voiceToUse) {
+                        voiceToUse = available[0];
+                    }
+
+                    setSelectedVoice(voiceToUse || null);
                 }
-
-                // Fallback to default
-                if (!voiceToUse) {
-                    voiceToUse = available[0];
-                }
-
-                setSelectedVoice(voiceToUse || null);
+            } catch (err) {
+                console.warn('VoicePlayer speech init error:', err);
             }
         };
 
         loadSettings();
-        // Voices load asynchronously
-        window.speechSynthesis.onvoiceschanged = loadSettings;
+        if (!hasLoaded && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = loadSettings;
+        }
 
         return () => {
-            window.speechSynthesis.cancel();
+            hasLoaded = true;
+            if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = null;
+                window.speechSynthesis.cancel();
+            }
         };
     }, []);
 
