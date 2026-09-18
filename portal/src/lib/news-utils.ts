@@ -91,3 +91,14 @@ export const CATEGORY_COLORS_SUBTLE: Record<NewsCategory, string> = {
     treino:     'bg-purple-500/20 text-purple-400 border-purple-500/30',
     bastidores: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
 };
+
+/** Strips markdown bold (**) and formatting artifacts from news titles, summaries, and snippets. */
+export function cleanMarkdown(text: unknown): string {
+    if (!text) return '';
+    if (Array.isArray(text)) {
+        return text.map(item => cleanMarkdown(item)).filter(Boolean).join('. ');
+    }
+    if (typeof text !== 'string') return String(text);
+    return text.replace(/\*\*/g, '').replace(/__/g, '').trim();
+}
+

@@ -13,11 +13,11 @@ import SourceIcon from './SourceIcon';
 import PremiumGuard from './PremiumGuard';
 import { getSafeImageSrc } from '@/lib/images';
 import { useAuth } from '@/context/AuthContext';
-import { detectCategoryKey } from '@/lib/news-utils';
+import { detectCategoryKey, cleanMarkdown } from '@/lib/news-utils';
 
 const toSentenceCase = (str: string) => {
     if (!str) return '';
-    const cleanStr = str.replace(/\*\*/g, '').trim();
+    const cleanStr = cleanMarkdown(str);
     return cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1).toLowerCase();
 };
 
@@ -131,7 +131,7 @@ export default function ArticleView({ article, nextMatch, relatedNews = [] }: { 
                 </div>
                 <span className="mb-3 inline-flex text-[11px] font-extrabold uppercase tracking-[0.14em] text-amber-700">{categoryKey || 'Futebol'}</span>
                 <h1 className="max-w-3xl text-[30px] font-black leading-[1.08] tracking-[-0.03em] text-zinc-950 sm:text-[38px] md:text-[48px]">{toSentenceCase(article.title)}</h1>
-                {article.summary && <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600 sm:text-lg">{article.summary}</p>}
+                {article.summary && <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600 sm:text-lg">{cleanMarkdown(article.summary)}</p>}
                 <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold text-zinc-500 sm:text-sm">
                     <span>{article.source || 'Redação Fogão 360°'}</span><span>·</span><span>{timeAgoStr(article.created_at)}</span><span>·</span><span>{readTime} min de leitura</span>
                 </div>

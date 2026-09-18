@@ -3,14 +3,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getSafeImageSrc } from '@/lib/images';
-import { timeAgo, detectCategoryKey, CATEGORY_LABELS } from '@/lib/news-utils';
+import { timeAgo, detectCategoryKey, CATEGORY_LABELS, cleanMarkdown } from '@/lib/news-utils';
 
-interface HighlightArticle { id: string; title: string; image?: string; source?: string; created_at: string; summary?: string; image_position?: string; }
+interface NewsItem { id: string; title: string; image?: string; source?: string; summary?: string; created_at?: string; image_position?: string; }
 
-export default function HighlightNewsCarousel({ news }: { news: HighlightArticle[] }) {
-    const [lead, ...secondary] = news.slice(0, 3);
-    if (!lead) return null;
-    const leadCategory = detectCategoryKey(lead.title || '');
+export default function HighlightNewsCarousel({ news }: { news: NewsItem[] }) {
+    if (!news || news.length === 0) return null;
+    const [lead, ...secondary] = news.slice(0, 5);
+    const leadCategory = detectCategoryKey(lead.title);
 
     return <section aria-label="Notícias em destaque" className="mb-7 space-y-5">
         <Link href={`/news/${lead.id}`} className="group block overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
@@ -19,8 +19,8 @@ export default function HighlightNewsCarousel({ news }: { news: HighlightArticle
             </div>}
             <div className="p-4 pb-5">
                 <p className="mb-2 text-[10px] font-extrabold uppercase tracking-[0.14em] text-amber-700">{leadCategory ? CATEGORY_LABELS[leadCategory] : 'Destaque'} <span className="text-zinc-300">/</span> <span className="text-zinc-500">{lead.source || 'Fogão 360°'} · {timeAgo(lead.created_at)}</span></p>
-                <h1 className="text-[25px] font-black leading-[1.12] tracking-[-0.025em] text-zinc-950">{lead.title.replace(/\*\*/g, '').trim()}</h1>
-                {lead.summary && <p className="mt-3 line-clamp-2 text-sm leading-5 text-zinc-600">{lead.summary}</p>}
+                <h1 className="text-[25px] font-black leading-[1.12] tracking-[-0.025em] text-zinc-950">{cleanMarkdown(lead.title)}</h1>
+                {lead.summary && <p className="mt-3 line-clamp-2 text-sm leading-5 text-zinc-600">{cleanMarkdown(lead.summary)}</p>}
             </div>
         </Link>
 

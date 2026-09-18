@@ -1,6 +1,6 @@
 import NewsContent from '@/components/NewsContent';
 import { db } from '@/lib/firebase-admin';
-import { getNewsDisplayDate } from '@/lib/news-utils';
+import { getNewsDisplayDate, cleanMarkdown } from '@/lib/news-utils';
 
 async function getNews() {
     try {
@@ -18,11 +18,11 @@ async function getNews() {
             const data = doc.data();
             return {
                 id: doc.id,
-                title: data.title || '',
+                title: cleanMarkdown(data.title),
                 image: data.image,
                 source: data.source,
                 is_premium: data.is_premium,
-                summary: data.summary,
+                summary: cleanMarkdown(data.summary),
                 content: data.content,
                 created_at: getNewsDisplayDate(data.published_at, data.created_at),
             };

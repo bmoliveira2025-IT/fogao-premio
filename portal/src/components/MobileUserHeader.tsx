@@ -220,14 +220,14 @@ export default function MobileUserHeader() {
                     </div>
                     <div className={styles.identity}>
                         <div className={styles.greeting}>
-                            <p className="truncate text-[12px] font-medium text-zinc-500">Olá, {displayName}</p>
-                            <p className="mt-0.5 truncate text-[17px] font-extrabold tracking-tight text-zinc-950">{greeting}</p>
+                            <p className="truncate text-[12px] font-medium text-zinc-500 dark:text-zinc-400">Olá, {displayName}</p>
+                            <p className="mt-0.5 truncate text-[17px] font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">{greeting}</p>
                         </div>
                         <div className={styles.logo} aria-hidden="true">
-                            <p className="truncate text-[17px] font-extrabold tracking-tight text-zinc-950">
+                            <p className="truncate text-[17px] font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">
                                 Fogão <span className="text-premium-gold">360º</span>
                             </p>
-                            <p className="mt-0.5 truncate text-[12px] font-medium text-zinc-500">Tudo sobre o Botafogo</p>
+                            <p className="mt-0.5 truncate text-[12px] font-medium text-zinc-500 dark:text-zinc-400">Tudo sobre o Botafogo</p>
                         </div>
                     </div>
                 </Link>
@@ -239,7 +239,7 @@ export default function MobileUserHeader() {
                     onClick={() => setIsSearchExpanded(current => !current)}
                     aria-label={isSearchExpanded ? 'Recolher pesquisa' : 'Ampliar pesquisa'}
                     aria-expanded={isSearchExpanded}
-                    className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${isSearchExpanded ? 'bg-zinc-100 text-zinc-950' : 'text-zinc-900 hover:bg-zinc-100 hover:text-premium-gold'}`}
+                    className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors ${isSearchExpanded ? 'bg-zinc-100 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-100' : 'text-zinc-900 hover:bg-zinc-100 hover:text-premium-gold dark:text-zinc-100 dark:hover:bg-zinc-800'}`}
                 >
                     <Search size={23} strokeWidth={2} />
                 </button>
@@ -253,26 +253,26 @@ export default function MobileUserHeader() {
                 >
                     <Bell size={24} strokeWidth={2} />
                     {unreadCount > 0 && (
-                        <span className="absolute right-2 top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500 dark:border-zinc-900" />
+                        <span className="notification-badge-dot absolute right-1.5 top-1 h-3 w-3 rounded-full" />
                     )}
                 </button>
 
                 {/* Notifications Dropdown */}
                 {showNotifications && (
-                    <div className="notification-panel absolute right-0 top-[70px] z-50 w-[min(330px,calc(100vw-24px))] overflow-hidden rounded-[22px] border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-2">
-                        <div className="px-4 py-3 border-b border-zinc-100 flex flex-wrap gap-3 items-center justify-between bg-white">
+                    <div className="notification-panel absolute right-0 top-[70px] z-50 w-[min(330px,calc(100vw-24px))] overflow-hidden rounded-[22px] border border-zinc-200/80 bg-white shadow-[0_18px_55px_rgba(0,0,0,0.16)] animate-in fade-in slide-in-from-top-2 dark:border-zinc-700 dark:bg-zinc-900">
+                        <div className="px-4 py-3 border-b border-zinc-100 flex flex-wrap gap-3 items-center justify-between bg-white dark:border-zinc-700 dark:bg-zinc-800/80">
                             <div className="flex items-center gap-2">
-                                <BellRing size={18} strokeWidth={1.75} className="text-zinc-600" aria-hidden="true" />
-                                <span className="font-bold text-zinc-900 text-sm">Notificações</span>
+                                <BellRing size={18} strokeWidth={1.75} className="text-zinc-600 dark:text-zinc-300" aria-hidden="true" />
+                                <span className="font-bold text-zinc-900 text-sm dark:text-zinc-100">Notificações</span>
                                 {unreadCount > 0 && (
-                                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600">{unreadCount} novas</span>
+                                    <span className="rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200">{unreadCount} novas</span>
                                 )}
                             </div>
                             <div className="flex items-center gap-1.5">
                             {hasReadNotifications && (
                                 <button
                                     onClick={clearReadNotifications}
-                                    className="min-w-11 p-2 rounded-xl text-zinc-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                                    className="min-w-11 p-2 rounded-xl text-zinc-500 hover:text-red-600 hover:bg-red-50 transition-colors dark:text-zinc-400 dark:hover:text-red-400 dark:hover:bg-red-950"
                                     aria-label="Limpar notificações lidas"
                                     title="Limpar lidas"
                                 >
@@ -282,7 +282,7 @@ export default function MobileUserHeader() {
                             {unreadCount > 0 && (
                                 <button 
                                     onClick={markAllAsRead}
-                                    className="text-xs text-zinc-600 font-medium flex items-center gap-1.5 hover:text-zinc-950 hover:bg-zinc-100 transition-colors px-2 py-1.5 rounded-lg"
+                                    className="text-xs text-zinc-600 font-medium flex items-center gap-1.5 hover:text-zinc-950 hover:bg-zinc-100 transition-colors px-2 py-1.5 rounded-lg dark:text-zinc-400 dark:hover:text-zinc-100 dark:hover:bg-zinc-700"
                                 >
                                     <CheckCheck size={17} strokeWidth={1.75} />
                                     Marcar lidas
@@ -308,19 +308,19 @@ export default function MobileUserHeader() {
                                             <NotificationIcon type={notification.type} />
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <p className={`notification-title line-clamp-3 text-sm leading-[1.5] ${!notification.read ? 'font-semibold text-zinc-900' : 'text-zinc-600 font-medium'}`}>
+                                            <p className={`notification-title line-clamp-3 text-sm leading-[1.5] ${!notification.read ? 'font-semibold text-zinc-900 dark:text-zinc-50' : 'text-zinc-600 font-medium dark:text-zinc-300'}`}>
                                                 {notification.title}
                                             </p>
                                             <div className="mt-2 flex items-center gap-1.5">
                                                 {!notification.read && <span className="h-1.5 w-1.5 rounded-full bg-slate-500" aria-label="Não lida" />}
-                                                <span className="notification-time text-xs font-medium text-zinc-500">{timeAgo(notification.dateStr)}</span>
+                                                <span className="notification-time text-xs font-medium text-zinc-500 dark:text-zinc-400">{timeAgo(notification.dateStr)}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </button>
                             )) : (
-                                <div className="p-8 text-center text-zinc-500 text-sm font-medium flex flex-col items-center gap-2">
-                                    <Bell size={24} className="text-zinc-300" />
+                                <div className="p-8 text-center text-zinc-500 text-sm font-medium flex flex-col items-center gap-2 dark:text-zinc-400">
+                                    <Bell size={24} className="text-zinc-300 dark:text-zinc-600" />
                                     Nenhuma notificação recente.
                                 </div>
                             )}

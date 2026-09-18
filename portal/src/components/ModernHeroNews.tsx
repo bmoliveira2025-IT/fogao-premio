@@ -7,6 +7,7 @@ import SourceIcon from './SourceIcon';
 import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
 import LikeDislikeButtons from './LikeDislikeButtons';
+import { cleanMarkdown } from '@/lib/news-utils';
 
 interface NewsItem {
     id: string;
@@ -104,7 +105,7 @@ export default function ModernHeroNews({ news, className = "" }: ModernHeroNewsP
                         {/* Summary - Desktop Only */}
                         {news.summary && (
                             <p className="hidden md:block text-base lg:text-lg text-zinc-200 line-clamp-2 max-w-4xl font-medium leading-relaxed">
-                                {news.summary}
+                                {cleanMarkdown(news.summary)}
                             </p>
                         )}
 

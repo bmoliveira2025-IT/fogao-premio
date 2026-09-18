@@ -19,7 +19,7 @@ import LightNewsFilter from '@/components/LightNewsFilter';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { getNewsDisplayDate } from '@/lib/news-utils';
+import { getNewsDisplayDate, cleanMarkdown } from '@/lib/news-utils';
 
 export const revalidate = 60; // Enable ISR (60s) for better TTFB
 
@@ -94,11 +94,11 @@ async function getData(): Promise<{ news: NewsItem[]; matches: MatchData[]; copa
       const data = doc.data();
       return {
         id: doc.id,
-        title: data.title || '',
+        title: cleanMarkdown(data.title),
         image: data.image,
         source: data.source,
         is_premium: data.is_premium,
-        summary: data.summary,
+        summary: cleanMarkdown(data.summary),
         likes_count: data.likes_count || 0,
         dislikes_count: data.dislikes_count || 0,
         image_position: data.image_position,

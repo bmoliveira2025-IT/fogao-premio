@@ -195,6 +195,7 @@ def process_with_ai(original_title, original_content):
     - Não adicionar opinião.
     - Não inventar informações.
     - Não remover fatos relevantes.
+    - NUNCA use asteriscos (**) nem negrito nos campos "title" e "summary". O título e o resumo devem ser sempre texto puro, sem qualquer marcação de asterisco.
 
     Notícia Original para processar:
     {original_content}
@@ -203,9 +204,9 @@ def process_with_ai(original_title, original_content):
 
     Retorne APENAS um JSON válido seguindo esta estrutura exata:
     {{
-        "title": "Seu Título Jornalístico Objetivo",
-        "summary": ["Ponto chave 1 do resumo", "Ponto chave 2 do resumo", "Ponto chave 3 do resumo"],
-        "content": "Seu texto completo formatado. Use quebras de linha duplas para parágrafos. Use **asteriscos duplos** para negrito. NÃO use # Markdown Headers, use **negrito** para intertítulos.",
+        "title": "Seu Título Jornalístico Objetivo (sem asteriscos)",
+        "summary": ["Ponto chave 1 do resumo (sem asteriscos)", "Ponto chave 2 do resumo (sem asteriscos)"],
+        "content": "Seu texto completo formatado. Use quebras de linha duplas para parágrafos. Use **asteriscos duplos** para negrito apenas no corpo do texto. NÃO use # Markdown Headers.",
         "tags": ["Tag1", "Tag2"],
         "sentiment": "Positivo/Neutro/Negativo"
     }}
@@ -613,9 +614,19 @@ def monitor_sources():
 
                 elif "espn.com.br" in link: source_name = "ESPN"
 
+                def strip_stars(val):
+                    if isinstance(val, list):
+                        return [strip_stars(v) for v in val if v]
+                    if isinstance(val, str):
+                        return val.replace('**', '').replace('__', '').strip()
+                    return val
+
+                clean_title = strip_stars(ai_data.get('title', ''))
+                clean_summary = strip_stars(ai_data.get('summary', []))
+
                 news_doc = {
-                    "title": ai_data['title'],
-                    "summary": ai_data['summary'],
+                    "title": clean_title,
+                    "summary": clean_summary,
                     "content": ai_data['content'],
                     "tags": ai_data['tags'],
                     "sentiment": ai_data['sentiment'],
