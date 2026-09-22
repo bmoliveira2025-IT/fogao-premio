@@ -72,7 +72,7 @@ const rawSchedule: RawScheduleItem[] = [
   {"date": "12/09/2026", "homeTeam": "Botafogo", "awayTeam": "Red Bull Bragantino", "competition": "Campeonato Brasileiro", "time": "20:30", "round": 27, "dateIso": "2026-09-12T20:30:00-03:00", "location": "Nilton Santos (Engenhão)", "sourceUrl": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/12-09-2026/botafogo-bragantino.ghtml", "result": "1 - 1"},
   {"date": "19/09/2026", "homeTeam": "Mirassol", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "17:00", "round": 28, "dateIso": "2026-09-19T17:00:00-03:00", "location": "Maião", "sourceUrl": "https://ge.globo.com/sp/tem-esporte/futebol/brasileirao-serie-a/jogo/19-09-2026/mirassol-botafogo.ghtml", "result": "2 - 0"},
   {"date": "07/10/2026", "homeTeam": "Botafogo", "awayTeam": "Vasco da Gama", "competition": "Campeonato Brasileiro", "time": "A definir"},
-  {"date": "11/10/2026", "homeTeam": "Coritiba", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "19:30", "round": 30, "dateIso": "2026-10-11T19:30:00-03:00", "location": "Couto Pereira"},
+  {"date": "12/10/2026", "homeTeam": "Coritiba", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "16:00", "round": 30, "dateIso": "2026-10-12T16:00:00-03:00", "location": "Couto Pereira"},
   {"date": "18/10/2026", "homeTeam": "Botafogo", "awayTeam": "Chapecoense", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 31},
   {"date": "25/10/2026", "homeTeam": "Internacional", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 32},
   {"date": "28/10/2026", "homeTeam": "Remo", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 33},
