@@ -79,8 +79,8 @@ const rawSchedule: RawScheduleItem[] = [
   {"date": "04/11/2026", "homeTeam": "Botafogo", "awayTeam": "Atlético-MG", "competition": "Campeonato Brasileiro", "time": "21:30", "round": 34, "dateIso": "2026-11-04T21:30:00-03:00", "location": "Nilton Santos (Engenhão)", "sourceUrl": "https://ge.globo.com/rj/futebol/brasileirao-serie-a/jogo/04-11-2026/botafogo-atletico-mg.ghtml", "result": "1 - 0"},
   {"date": "18/11/2026", "homeTeam": "Corinthians", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "21:30", "round": 35, "dateIso": "2026-11-18T21:30:00-03:00", "location": "Neo Química Arena"},
   {"date": "23/11/2026", "homeTeam": "Botafogo", "awayTeam": "São Paulo", "competition": "Campeonato Brasileiro", "time": "20:00", "round": 36, "dateIso": "2026-11-23T20:00:00-03:00", "location": "Nilton Santos (Engenhão)"},
-  {"date": "29/11/2026", "homeTeam": "Botafogo", "awayTeam": "Bahia", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 37},
-  {"date": "02/12/2026", "homeTeam": "Santos", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "A definir", "round": 38}
+  {"date": "28/11/2026", "homeTeam": "Botafogo", "awayTeam": "Bahia", "competition": "Campeonato Brasileiro", "time": "21:00", "round": 37, "dateIso": "2026-11-28T21:00:00-03:00", "location": "Nilton Santos (Engenhão)"},
+  {"date": "02/12/2026", "homeTeam": "Santos", "awayTeam": "Botafogo", "competition": "Campeonato Brasileiro", "time": "21:30", "round": 38, "dateIso": "2026-12-02T21:30:00-03:00", "location": "Vila Belmiro"}
 ];
 
 function parseDate(dateStr: string, timeStr?: string): string {
